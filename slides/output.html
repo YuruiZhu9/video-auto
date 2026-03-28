@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>养猫人如何调整心态</title>
+<style>
+:root {
+  --bg: #0a0a1a;
+  --card: #12122a;
+  --accent: #f4a261;
+  --accent2: #e76f51;
+  --text: #f0ece3;
+  --muted: #9a8c7a;
+  --glow: rgba(244,162,97,0.3);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* ── Slide container ── */
+.slides { position: relative; width: 100%; height: 100vh; }
+
+.slide {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 60px 80px;
+  opacity: 0;
+  transform: translateX(60px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  pointer-events: none;
+}
+.slide.active {
+  opacity: 1; transform: translateX(0);
+  pointer-events: all;
+}
+.slide.exit-left { transform: translateX(-60px); }
+
+/* ── Background decorations ── */
+.bg-orb {
+  position: absolute; border-radius: 50%;
+  filter: blur(80px); opacity: 0.15;
+  pointer-events: none;
+}
+.orb1 { width: 500px; height: 500px; background: var(--accent); top: -100px; right: -100px; }
+.orb2 { width: 400px; height: 400px; background: var(--accent2); bottom: -80px; left: -80px; }
+
+/* ── Typography ── */
+.slide-num {
+  position: absolute; top: 30px; right: 40px;
+  font-size: 0.85rem; color: var(--muted);
+  letter-spacing: 2px;
+}
+.badge {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #fff; font-size: 0.75rem; font-weight: 700;
+  padding: 6px 18px; border-radius: 20px;
+  letter-spacing: 3px; text-transform: uppercase;
+  margin-bottom: 28px;
+}
+h1 { font-size: 3.2rem; font-weight: 800; line-height: 1.2; text-align: center; margin-bottom: 20px; }
+h2 { font-size: 2.4rem; font-weight: 700; margin-bottom: 32px; color: var(--accent); }
+p { font-size: 1.35rem; line-height: 2; color: var(--muted); max-width: 780px; }
+.highlight { color: var(--text); font-weight: 600; }
+.quote {
+  font-size: 1.5rem; font-style: italic;
+  border-left: 4px solid var(--accent);
+  padding-left: 28px; margin: 16px 0;
+  color: var(--text); max-width: 700px;
+}
+.tag {
+  display: inline-block;
+  background: rgba(244,162,97,0.12);
+  border: 1px solid rgba(244,162,97,0.3);
+  color: var(--accent); font-size: 0.9rem;
+  padding: 6px 16px; border-radius: 12px;
+  margin: 8px 8px 8px 0;
+}
+
+/* ── Cover ── */
+.cover-icon { font-size: 5rem; margin-bottom: 30px; }
+.cover h1 { font-size: 3.6rem; background: linear-gradient(135deg, var(--accent), #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.cover .subtitle { color: var(--muted); font-size: 1.1rem; margin-top: 16px; letter-spacing: 4px; }
+.cover .author { margin-top: 50px; color: var(--muted); font-size: 0.9rem; }
+
+/* ── List items ── */
+.points { list-style: none; width: 100%; max-width: 720px; }
+.points li {
+  font-size: 1.2rem; line-height: 1.8; margin-bottom: 18px;
+  padding: 14px 24px; background: rgba(255,255,255,0.04);
+  border-radius: 12px; border-left: 3px solid var(--accent);
+  color: var(--text);
+  transform: translateX(30px); opacity: 0;
+  transition: all 0.4s ease;
+}
+.slide.active .points li:nth-child(1) { transform: translateX(0); opacity: 1; transition-delay: 0.2s; }
+.slide.active .points li:nth-child(2) { transform: translateX(0); opacity: 1; transition-delay: 0.4s; }
+.slide.active .points li:nth-child(3) { transform: translateX(0); opacity: 1; transition-delay: 0.6s; }
+.slide.active .points li:nth-child(4) { transform: translateX(0); opacity: 1; transition-delay: 0.8s; }
+
+/* ── Divider slide ── */
+.divider { text-align: center; }
+.divider h2 { font-size: 2.8rem; color: var(--accent); }
+
+/* ── End slide ── */
+.end-icon { font-size: 6rem; margin-bottom: 30px; }
+.end h1 { font-size: 2.8rem; }
+
+/* ── Progress bar ── */
+#progress {
+  position: fixed; bottom: 0; left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  transition: width 0.4s ease;
+  z-index: 100;
+}
+
+/* ── Nav dots ── */
+#dots {
+  position: fixed; bottom: 24px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; gap: 8px; z-index: 100;
+}
+.dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  cursor: pointer; transition: all 0.3s;
+}
+.dot.active { background: var(--accent); width: 24px; border-radius: 4px; }
+
+/* ── Arrows ── */
+.arrow {
+  position: fixed; top: 50%; transform: translateY(-50%);
+  font-size: 1.6rem; color: rgba(255,255,255,0.3);
+  cursor: pointer; padding: 16px; border-radius: 12px;
+  transition: all 0.3s; user-select: none; z-index: 100;
+  background: rgba(255,255,255,0.05);
+}
+.arrow:hover { background: rgba(244,162,97,0.2); color: var(--accent); }
+#prev { left: 20px; }
+#next { right: 20px; }
+
+/* ── Fullscreen hint ── */
+#hint {
+  position: fixed; bottom: 60px; right: 30px;
+  font-size: 0.75rem; color: var(--muted);
+  z-index: 100; opacity: 0.5;
+}
+
+/* ── Animations ── */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+@keyframes pulse { 0%, 100% { opacity: 0.8; } 50% { opacity: 1; } }
+.float { animation: float 3s ease-in-out infinite; }
+.pulse { animation: pulse 2s ease-in-out infinite; }
+
+/* ── Two-column ── */
+.cols { display: flex; gap: 40px; width: 100%; max-width: 900px; }
+.col { flex: 1; }
+.col h3 { color: var(--accent); font-size: 1.1rem; margin-bottom: 16px; letter-spacing: 2px; }
+.col p { font-size: 1.1rem; }
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  .slide { padding: 40px 30px; }
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.6rem; }
+  p { font-size: 1.05rem; }
+  .cover h1 { font-size: 2.2rem; }
+  .cols { flex-direction: column; gap: 20px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<div id="dots"></div>
+<div class="arrow" id="prev">◀</div>
+<div class="arrow" id="next">▶</div>
+<div id="hint">按 F 全屏 &nbsp;|&nbsp; ← → 翻页</div>
+
+<div class="slides">
+
+  <!-- Slide 1: Cover -->
+  <div class="slide active cover">
+    <div class="bg-orb orb1"></div>
+    <div class="bg-orb orb2"></div>
+    <div class="cover-icon float">🐱</div>
+    <h1>养猫人<br>如何调整心态</h1>
+    <p class="subtitle">一位铲屎官的治愈自白</p>
+    <p class="author">video-auto · 2026</p>
+  </div>
+
+  <!-- Slide 2: Why keep cats -->
+  <div class="slide">
+    <div class="bg-orb orb1"></div>
+    <div class="slide-num">01 / 08</div>
+    <span class="badge">Part 1</span>
+    <h2>为什么选择养猫？</h2>
+    <ul class="points">
+      <li>养猫，是一件<strong class="highlight">特别美好、特别快乐</strong>的事情</li>
+      <li>猫咪与主人，是<strong class="highlight">互相治愈</strong>的关系</li>
+      <li>金吉拉刚到家时只有<strong class="highlight">四斤重</strong>，如今已是健康的家人</li>
+      <li>子虚乌有的养猫文章，<strong class="highlight">从来不信，只信科学</strong></li>
+    </ul>
+  </div>
+
+  <!-- Slide 3: Science + companionship -->
+  <div class="slide">
+    <div class="bg-orb orb2"></div>
+    <div class="slide-num">02 / 08</div>
+    <span class="badge">Part 1</span>
+    <h2>科学喂养 + 足够陪伴</h2>
+    <p>养猫的关键只有两件事——</p>
+    <p style="margin-top:20px"><strong class="highlight">一，科学喂养。</strong>了解成分，看清配料表，而不是被短视频带节奏。</p>
+    <p style="margin-top:14px"><strong class="highlight">二，给予陪伴。</strong>猫咪能感受到铲屎官的付出，你的心意它们都懂。</p>
+    <div style="margin-top:28px">
+      <span class="tag">🏥 科学喂养</span>
+      <span class="tag">🤝 足够陪伴</span>
+      <span class="tag">💡 独立判断</span>
+    </div>
+  </div>
+
+  <!-- Slide 4: Don't be anxious -->
+  <div class="slide">
+    <div class="bg-orb orb1"></div>
+    <div class="slide-num">03 / 08</div>
+    <span class="badge">Part 2</span>
+    <h2>别让焦虑绑架你</h2>
+    <p>每当我感到焦虑的时候——</p>
+    <p style="margin-top:20px">
+      <strong class="highlight">哪怕是强迫自己也好</strong>，也会让自己放松下来。<br>
+      不会再看那些不必要看的文章。
+    </p>
+    <p class="quote">"猫粮问题，看完成分，做自己的判断，就够了。"</p>
+    <p style="margin-top:16px">不要想得太多、太复杂，<strong class="highlight">专注于自己能做的</strong>。</p>
+  </div>
+
+  <!-- Slide 5: Cats are resilient -->
+  <div class="slide">
+    <div class="bg-orb orb2"></div>
+    <div class="slide-num">04 / 08</div>
+    <span class="badge">Part 2</span>
+    <h2>猫咪没有你想象中脆弱</h2>
+    <p>一个真实的例子：</p>
+    <div style="margin-top:24px; background: rgba(255,255,255,0.05); border-radius: 16px; padding: 28px; max-width: 680px;">
+      <p style="font-size:1.15rem; line-height:1.9">
+        "关于猫粮，我从来<strong class="highlight">不会只通过看短视频</strong>就做选择。
+        看完了，我会有<strong class="highlight">自己的判断</strong>：
+        多看看成分表，
+        考察一下自家猫的肠胃适不适合这些成分——
+        仅此而已。"
+      </p>
+    </div>
+  </div>
+
+  <!-- Slide 6: Emotions are contagious -->
+  <div class="slide">
+    <div class="bg-orb orb1"></div>
+    <div class="slide-num">05 / 08</div>
+    <span class="badge">Part 3</span>
+    <h2>情绪，是会传染的</h2>
+    <div class="cols">
+      <div class="col">
+        <h3>🐱 猫咪</h3>
+        <p>对人类的情绪<strong class="highlight">非常敏感</strong><br>它们能感受到你的焦虑<br>也能感受到你的平静</p>
+      </div>
+      <div class="col">
+        <h3>💛 主人</h3>
+        <p>焦虑的情绪<strong class="highlight">会传递给猫咪</strong><br>自身放松下来<br>猫咪也会跟着放松</p>
+      </div>
+    </div>
+    <p style="margin-top:28px; font-size:1.1rem; text-align:center">
+      猫咪的身心健康，与它们的心情<strong class="highlight">息息相关</strong>——这也是我一直重点关注的问题。
+    </p>
+  </div>
+
+  <!-- Slide 7: Life is for enjoying -->
+  <div class="slide">
+    <div class="bg-orb orb2"></div>
+    <div class="slide-num">06 / 08</div>
+    <span class="badge">Part 4</span>
+    <h2>养猫，只是生活的一部分</h2>
+    <ul class="points">
+      <li>它们已经是我们的<strong class="highlight">家人</strong></li>
+      <li>当上了铲屎官，就成了<strong class="highlight">【家长】</strong></li>
+      <li>做家长的路上，<strong class="highlight">我们也应该不断成长</strong></li>
+      <li>生活应该是去<strong class="highlight">享受</strong>的，而不是拿来焦虑的</li>
+    </ul>
+  </div>
+
+  <!-- Slide 8: Summary -->
+  <div class="slide">
+    <div class="bg-orb orb1"></div>
+    <div class="slide-num">07 / 08</div>
+    <span class="badge">总结</span>
+    <h2>记住这三句话</h2>
+    <div style="text-align:center; margin-top:20px">
+      <div class="tag pulse" style="font-size:1rem; padding:10px 24px; margin-bottom:16px">
+        🐾 科学喂养 + 真心陪伴
+      </div>
+      <div class="tag pulse" style="font-size:1rem; padding:10px 24px; margin-bottom:16px; animation-delay:0.3s">
+        🌿 与其焦虑，不如放松
+      </div>
+      <div class="tag pulse" style="font-size:1rem; padding:10px 24px; animation-delay:0.6s">
+        💛 你开心，猫开心
+      </div>
+    </div>
+    <p style="margin-top:32px; text-align:center; font-size:1.2rem">
+      养猫的意义，不是完美，<br>而是一起<strong class="highlight">变得更好</strong>。
+    </p>
+  </div>
+
+  <!-- Slide 9: End -->
+  <div class="slide end">
+    <div class="bg-orb orb1"></div>
+    <div class="bg-orb orb2"></div>
+    <div class="end-icon float">🏠</div>
+    <h1>感谢观看</h1>
+    <p style="margin-top:20px; text-align:center">
+      愿每一位铲屎官，都能<strong class="highlight">轻松快乐</strong>地陪伴自己的猫咪
+    </p>
+    <p style="margin-top:30px; color:var(--muted); font-size:0.85rem">
+      video-auto · AI生成 · 2026
+    </p>
+  </div>
+
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const dotsContainer = document.getElementById('dots');
+const progress = document.getElementById('progress');
+let current = 0;
+
+slides.forEach((_, i) => {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.onclick = () => goTo(i);
+  dotsContainer.appendChild(d);
+});
+
+function goTo(i) {
+  slides[current].classList.remove('active');
+  slides[current].classList.add('exit-left');
+  setTimeout(() => slides[current < i ? current : i].classList.remove('exit-left'), 600);
+  slides[i].classList.add('active');
+  dotsContainer.children[current].classList.remove('active');
+  dotsContainer.children[i].classList.add('active');
+  current = i;
+  progress.style.width = ((current + 1) / slides.length * 100) + '%';
+}
+
+document.getElementById('next').onclick = () => { if (current < slides.length - 1) goTo(current + 1); };
+document.getElementById('prev').onclick = () => { if (current > 0) goTo(current - 1); };
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { if (current < slides.length - 1) goTo(current + 1); }
+  if (e.key === 'ArrowLeft') { if (current > 0) goTo(current - 1); }
+  if (e.key === 'f' || e.key === 'F') {
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+    else document.exitFullscreen();
+  }
+});
+
+// Touch/swipe support
+let touchStartX = 0;
+document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+document.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(dx) > 50) { dx < 0 && current < slides.length - 1 ? goTo(current + 1) : dx > 0 && current > 0 ? goTo(current - 1) : null; }
+});
+
+progress.style.width = (1 / slides.length * 100) + '%';
+</script>
+</body>
+</html>
