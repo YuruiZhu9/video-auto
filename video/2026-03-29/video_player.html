@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>视频自动播放列表 - 2026-03-29</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #1a1a2e;
+    color: #eee;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  h1 { margin-bottom: 8px; font-size: 1.4rem; color: #7ec8e3; }
+  .subtitle { color: #888; margin-bottom: 20px; font-size: 0.9rem; }
+  #player {
+    width: 100%;
+    max-width: 900px;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    background: #000;
+  }
+  .controls {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-primary { background: #4a90d9; color: white; }
+  .btn-primary:hover { background: #3a7fc9; }
+  .btn-secondary { background: #2d2d44; color: #ccc; }
+  .btn-secondary:hover { background: #3d3d5a; }
+  .progress-bar {
+    width: 100%;
+    max-width: 900px;
+    height: 6px;
+    background: #2d2d44;
+    border-radius: 3px;
+    margin-top: 10px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4a90d9, #7ec8e3);
+    width: 0%;
+    transition: width 0.5s;
+    border-radius: 3px;
+  }
+  .status {
+    width: 100%;
+    max-width: 900px;
+    margin-top: 12px;
+    font-size: 0.85rem;
+    color: #888;
+    display: flex;
+    justify-content: space-between;
+  }
+  .clip-list {
+    width: 100%;
+    max-width: 900px;
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+  }
+  .clip-card {
+    background: #2d2d44;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 2px solid transparent;
+  }
+  .clip-card:hover { background: #3d3d5a; }
+  .clip-card.active { border-color: #4a90d9; background: #1e3a5f; }
+  .clip-card.played { opacity: 0.6; }
+  .tts-section {
+    width: 100%;
+    max-width: 900px;
+    margin-top: 20px;
+    padding: 14px;
+    background: #2d2d44;
+    border-radius: 8px;
+  }
+  .tts-section h3 { font-size: 0.95rem; margin-bottom: 8px; color: #7ec8e3; }
+  audio { width: 100%; margin-top: 6px; }
+</style>
+</head>
+<body>
+
+<h1>🎬 视频自动播放列表</h1>
+<p class="subtitle">2026-03-29 · 共 9 个片段 · 自动连续播放</p>
+
+<video id="player" controls>
+  <source id="videoSource" src="">
+  您的浏览器不支持 video 标签
+</video>
+
+<div class="progress-bar">
+  <div class="progress-fill" id="progressFill"></div>
+</div>
+
+<div class="status">
+  <span id="statusText">准备就绪</span>
+  <span id="clipCounter">0 / 9</span>
+</div>
+
+<div class="controls">
+  <button class="btn btn-primary" onclick="playAll()">▶ 播放全部</button>
+  <button class="btn btn-secondary" onclick="prevClip()">◀ 上一段</button>
+  <button class="btn btn-secondary" onclick="nextClip()">下一段 ▶</button>
+  <button class="btn btn-secondary" onclick="toggleLoop()">🔁 循环</button>
+</div>
+
+<div class="clip-list" id="clipList"></div>
+
+<div class="tts-section">
+  <h3>🔊 TTS 配音音频</h3>
+  <audio id="ttsPlayer" controls>
+    <source src="audio/tts.mp3" type="audio/mpeg">
+  </audio>
+  <p style="font-size:0.78rem; color:#666; margin-top:6px;">
+    可同时播放（需手动同步）或在视频合并后作为配音轨道嵌入
+  </p>
+</div>
+
+<script>
+const clips = [
+  { index: 1, name: '第1张幻灯片', file: 'slides/slide01.mp4' },
+  { index: 2, name: '第2张幻灯片', file: 'slides/slide02.mp4' },
+  { index: 3, name: '第3张幻灯片', file: 'slides/slide03.mp4' },
+  { index: 4, name: '第4张幻灯片', file: 'slides/slide04.mp4' },
+  { index: 5, name: '第5张幻灯片', file: 'slides/slide05.mp4' },
+  { index: 6, name: '第6张幻灯片', file: 'slides/slide06.mp4' },
+  { index: 7, name: '第7张幻灯片', file: 'slides/slide07.mp4' },
+  { index: 8, name: '第8张幻灯片', file: 'slides/slide08.mp4' },
+  { index: 9, name: '第9张幻灯片', file: 'slides/slide09.mp4' }
+];
+
+let currentIndex = 0;
+let loopEnabled = false;
+
+const player = document.getElementById('player');
+const videoSource = document.getElementById('videoSource');
+const statusText = document.getElementById('statusText');
+const clipCounter = document.getElementById('clipCounter');
+const progressFill = document.getElementById('progressFill');
+const clipListEl = document.getElementById('clipList');
+
+// Build clip cards
+clips.forEach((clip, i) => {
+  const card = document.createElement('div');
+  card.className = 'clip-card';
+  card.textContent = `${clip.index}. ${clip.name}`;
+  card.onclick = () => jumpTo(i);
+  clipListEl.appendChild(card);
+});
+
+function updateUI() {
+  const clip = clips[currentIndex];
+  videoSource.src = clip.file;
+  player.load();
+  statusText.textContent = `正在播放：${clip.index}. ${clip.name}`;
+  clipCounter.textContent = `${currentIndex + 1} / ${clips.length}`;
+
+  // Update cards
+  document.querySelectorAll('.clip-card').forEach((card, i) => {
+    card.classList.remove('active', 'played');
+    if (i === currentIndex) card.classList.add('active');
+    else if (i < currentIndex) card.classList.add('played');
+  });
+
+  // Progress bar
+  const pct = ((currentIndex) / clips.length) * 100;
+  progressFill.style.width = pct + '%';
+}
+
+function jumpTo(index) {
+  currentIndex = Math.max(0, Math.min(index, clips.length - 1));
+  updateUI();
+  player.play();
+}
+
+function playAll() {
+  currentIndex = 0;
+  updateUI();
+  player.play();
+}
+
+function nextClip() {
+  if (currentIndex < clips.length - 1) {
+    currentIndex++;
+    updateUI();
+    player.play();
+  } else if (loopEnabled) {
+    currentIndex = 0;
+    updateUI();
+    player.play();
+  }
+}
+
+function prevClip() {
+  if (currentIndex > 0) {
+    currentIndex--;
+    updateUI();
+    player.play();
+  }
+}
+
+function toggleLoop() {
+  loopEnabled = !loopEnabled;
+  player.loop = loopEnabled;
+  document.querySelector('.btn:last-child').textContent = loopEnabled ? '🔁 已循环' : '🔁 循环';
+}
+
+// Auto-advance to next clip
+player.addEventListener('ended', () => {
+  if (currentIndex < clips.length - 1) {
+    nextClip();
+  } else if (loopEnabled) {
+    currentIndex = 0;
+    updateUI();
+    player.play();
+  } else {
+    statusText.textContent = '✅ 播放完毕';
+    progressFill.style.width = '100%';
+  }
+});
+
+// Init
+updateUI();
+</script>
+
+</body>
+</html>
