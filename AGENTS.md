@@ -67,12 +67,16 @@
 
 **输入：** `text_material`（用户提供原始文本）+ `topic`（主题）
 
-**方法：** 调用智谱 GLM-4-Flash API（免费，中文强）
+**方法：** 调用智谱 GLM-4.7-Flash API（永久免费，中文最强，200万Tokens/天）
 
 ```python
-# 提示词模板
-prompt = f"""你是一位专业的内容策划师。请根据以下【原始素材】，
-围绕【主题】进行深度扩展，生成一段完整的演讲稿。
+import urllib.request, json
+
+url = "https://open.bigmodel.cn/api/paas/v4/chat/completions"
+headers = {"Authorization": "Bearer 你的智谱API_KEY", "Content-Type": "application/json"}
+payload = {
+    "model": "glm-4-7-flash",
+    "messages": [{"role": "user", "content": f"""你是一位专业的内容策划师。请根据以下【原始素材】，围绕【主题】进行深度扩展，生成一段完整的视频演讲稿。
 
 要求：
 - 总时长：约3-5分钟朗读量（约800-1200字）
@@ -82,8 +86,12 @@ prompt = f"""你是一位专业的内容策划师。请根据以下【原始素�
 
 【主题】：{topic}
 【原始素材】：
-{text_material}
-"""
+{text_material}"""}]
+}
+req = urllib.request.Request(url, data=json.dumps(payload).encode(), headers=headers, method="POST")
+with urllib.request.urlopen(req) as resp:
+    result = json.loads(resp.read())
+    return result["choices"][0]["message"]["content"]
 ```
 
 **输出：** `/workspace/agents/video-auto/content/script.md`（含朗读时间戳）
@@ -111,26 +119,38 @@ prompt = f"""你是一位专业的内容策划师。请根据以下【原始素�
 
 ### Step 4：视频合成
 
-**方案A（推荐）：截图 + ffmpeg + TTS**
+**✅ 首选方案：batch_image_to_video（MCP 工具，无 ffmpeg 依赖）**
 
-```bash
-# 1. 使用 Playwright/浏览器截图每张Slide
-# 2. ffmpeg 合成视频 + 嵌入TTS音频
-ffmpeg -framerate 1 -i slide_%03d.png -i audio.wav \
-  -c:v libx264 -pix_fmt yuv420p -shortest output.mp4
+```python
+# 使用 batch_image_to_video 工具，将每张 Slide 图转为 6秒 MP4 片段
+# 每张 Slide：slide_cover.png → slide01.mp4（1080P/768P）
+# 9张幻灯片共54秒视频
+batch_image_to_video(
+    image_file_list=[
+        "slide_cover.png", "slide_02.png", ..., "slide_09.png"
+    ],
+    output_file_list=[
+        "slide01.mp4", "slide02.mp4", ..., "slide09.mp4"
+    ],
+    prompt_list=[
+        "warm cinematic slide, gentle camera pan, cozy atmosphere",
+        ...
+    ],
+    duration_list=[6]*9,
+    resolution_list=["1080P"]*9   # 根据图片尺寸选择
+)
 ```
 
-**方案B：Hypereal AI 视频生成**
-- 如果有预算或免费积分，可直接用 Kling/WAN 模型生成视频
+**备选：Hypereal AI Kling API**（有 Key 时使用）
 
-**输出：** `/workspace/agents/video-auto/video/output.mp4`
+**输出：** `/workspace/agents/video-auto/video/slide01.mp4` ~ `slide09.mp4`
 
 ---
 
 ### Step 5：GitHub 推送
 
 **仓库：** `github.com/YuruiZhu9/video-auto`  
-**Token：** `ghp_xxx`
+**Token：** `ghp_xxxx`（在环境变量或 secrets 中配置）
 
 ```python
 import github
