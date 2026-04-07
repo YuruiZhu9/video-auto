@@ -1,0 +1,1245 @@
+# Source URL: https://blog.csdn.net/qingfengxd1/article/details/145147237
+# Content Length: 25212 characters
+# Extracted at: 2026-03-23 23:29:59
+#============================================================
+
+ 
+
+
+
+
+
+算法工程师-推荐系统类岗位面试题目\_智能推荐算法工程师面试题-CSDN博客
+
+
+
+
+
+
+
+
+算法工程师-推荐系统类岗位面试题目
+=================
+
+
+最新推荐文章于 2025-08-25 10:49:42 发布
+原创
+最新推荐文章于 2025-08-25 10:49:42 发布
+·
+532 阅读
+·
+![]()
+![]()
+3
+
+
+·
+![]()
+![]()
+11
+·
+CC 4.0 BY-SA版权
+版权声明：本文为博主原创文章，遵循 [CC 4.0 BY-SA](http://creativecommons.org/licenses/by-sa/4.0/) 版权协议，转载请附上原文出处链接和本声明。
+
+
+
+
+
+文章标签：
+
+[#算法](https://so.csdn.net/so/search/s.do?q=%E7%AE%97%E6%B3%95&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#人工智能](https://so.csdn.net/so/search/s.do?q=%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#机器学习](https://so.csdn.net/so/search/s.do?q=%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+
+
+
+
+
+
+
+[![]()
+神经网络
+专栏收录该内容](https://blog.csdn.net/qingfengxd1/category_9990404.html)
+
+29 篇文章
+
+订阅专栏
+
+
+
+
+![]()
+
+1.DNN 与 DeepFM 之间的区别
+
+DNN 是 DeepFM 中的一个部分，DeepFM 多一次特征，多一个 FM 层的二次交叉特征
+
+2.在使用 deepFM 的时候是如何处理欠拟合和过拟合问题的
+
+l 欠拟合：增加 deep 部分的层数，增加 epoch 的轮数，增加 learning rate，减少正则化力度
+
+l 过拟合：在 deep 层直接增加 dropout 的率，减少 epoch 轮数，增加更多的数据，增 加正则化力度，shuffle 数据
+
+3.deepfm 的 embedding 初始化有什么值得注意的地方吗
+
+l 常规的是 Xavier，输出和输出可以保持正态分布且方差相近：np.random.rand(layer[n-1],layer[n])\*np.sqrt(1/layer[n-1])
+
+l relu 的情况下通常是 HE，保证半数神经元失活的情况下对输出方差影响最小:：np.random.rand(layer[n-1],layer[n])\*np.sqrt(2/layer[n-1])
+
+l 文本项目上也可以用预训练好的特征
+
+4.YoutubeNet 变长数据如何处理的
+
+input 数据中只拿了近 20 次的点击，部分用户是没有 20 次的历史行为的，所以我们记录了每一个用户实际点击的次数，在做 embedding 的时候，我们除以的是真实的 historylength
+
+20 次点击过去一周内的行为，曾经尝试扩大历史点击次数到 40，60 没有很明显的效果提升
+
+ü 点击行为是处理过的，停留时间过短的 click 不要
+
+ü 点击行为是处理过的，连续多次的重复点击会去重
+
+ü 点击行为是处理过的，session 内的点击次数需要在约定范围内
+
+5.YouTubeNet 如何避免百万量级的 softmax 问题的
+
+使用负采样方法
+
+6.推荐系统有哪些常见的评测指标？
+
+按照推荐任务的不同，最常用的推荐质量度量方法可以划分为三类：
+
+i. 对预测的评分进行评估，适用于评分预测任务。
+
+ii. 对预测的 item 集合进行评估，适用于 Top-N 推荐任务。
+
+iii. 按排名列表对推荐效果加权进行评估，既可以适用于评分预测任务也可以用于 Top-N 推荐任务。
+
+1) 评分预测指标：如准确度指标：平均绝对误差（MAE）、均方误差根（RMSE）、标准化平均误差（NMAE）；以及覆盖率（Coverage）
+
+2) 集合推荐指标：如精密度(Precision)、召回(Recall)、 ROC 和 AUC
+
+3) 排名推荐指标：如 half-life 和 discounted cumulative gain 等
+
+7.MLR 的原理是什么？做了哪些优化？
+
+MLR 可以看做是对 LR 的一个自然推广，它采用分而治之的思路，用分片线性的模式来拟合高维空间的非线性分类面，其形式化表达如下：
+
+这里面超参数分片数 m 可以较好地平衡模型的拟合与推广能力。
+
+MLR 算法适合于工业级的大规模稀疏数据场景问题，如广告 CTR 预估。
+
+优势体现在两个方面：
+
+1）端到端的非线性学习：从模型端自动挖掘数据中蕴藏的非线性模式，省去了大量的人 工特征设计，这 使得 MLR 算法可以端到端地完成训练，在不同场景中的迁移和应用非常轻松。
+
+2）稀疏性：MLR 在建模时引入了 L1 和 L2,1 范数正则，可以使得最终训练出来的模型具 有较高的稀疏度， 模型的学习和在线预测性能更好。
+
+2.3 MLR 算法高级特性
+
+1）结构先验。基于领域知识先验，灵活地设定空间划分与线性拟合使用的不同特征结 构。例如精准定向 广告中验证有效的先验为：以 user 特征空间划分、以 ad 特征为线性拟合。
+
+2）线性偏置。这个特性提供了一个较好的方法解决 CTR 预估问题中的 bias 特征，如位 置、资源位等。
+
+3）模型级联。MLR 支持与 LR 模型的级联式联合训练，这有点类似于 wide&deeplearning。在我们的实践经验中，一些强 feature 配置成级联模式有助于提高模型的收敛性。
+
+4）增量训练。实践证明，MLR 通过结构先验进行 pretrain，然后再增量进行全空间参数寻优训练，会获得进一步的效果提升。同时增量训练模式下模型达到收敛的步数更小，收敛更为稳定。
+
+MLR 中使用的优化算法是从 OWLQN 改进过来的，主要有三个地方的变化：
+
+MLR 使用方向导数来优化目标函数，而不是 OWLQN 的次梯度MLR
+
+对更新方向 p 进行了象限约束：非正定时直接用方向导数作为搜索方向，否则要进行象限约束在方向导数所在象限内。
+
+线性搜索的象限约束不同，当 MLR 参数不在零点时，line search 保持在参数所在象限内搜索，在零点时，参数在方向导数约束的象限内进行 line search，给定更新方向，MLR使用了 backtracking line search 方法找到合适的步长α
+
+
+
+
+
+
+![]()
+确定要放弃本次机会？
+
+福利倒计时
+
+*:*
+
+*:*
+
+
+![]()
+立减 ¥
+
+
+普通VIP年卡可用
+
+[立即使用](https://mall.csdn.net/vip)
+
+
+[![]()
+studyer\_爱啃鸡爪的小米](https://blog.csdn.net/qingfengxd1)
+
+[关注](javascript:;)
+关注
+
+
+* ![]()
+  ![]()
+  ![]()
+  3
+  点赞
+* ![]()
+  ![]()
+  踩
+* [![]()
+  ![]()
+  ![]()
+  11](javascript:;)
+  收藏
+  
+  
+  
+  觉得还不错?
+  一键收藏
+  
+  ![]()
+* ![]()
+  知道了
+  
+  [![]()
+  0](#commentBox)
+  评论
+* [![]()
+  分享](javascript:;)
+  复制链接
+  
+  分享到 QQ
+  
+  分享到新浪微博
+  
+  ![]()扫一扫
+* ![]()
+  ![]()
+  举报
+  
+  ![]()
+  举报
+
+专栏目录
+
+
+
+
+![]()
+
+[2025年携程社交酒店推荐*算法**工程师**面试题*汇总](https://dreamit.blog.csdn.net/article/details/143172631)
+
+
+10-23
+![]()
+910
+
+
+
+
+[本文旨在为有意向成为携程社交酒店推荐*算法**工程师*的候选人提供一套全面的*面试题*汇总。文章深入探讨了*推荐系统*的理论基础，详细介绍了携程社交酒店*推荐系统*的架构和实现，并针对*面试*过程中可能涉及的具体问题和技巧进行了梳理。此外，文章还提供了实用的*面试*准备和简历优化建议，以帮助候选人更好地应对*面试*挑战。通过本文的阅读，读者将对携程社交酒店推荐*算法*有更加全面和深入的了解。1.1 *推荐系统*定义与分*类*
+1.2 *推荐系统*工作流程
+1.3 社交网络与*推荐系统*2.1 数据预处理
+2.2 线性模型
+2.3 决策树与随机森林
+2.4 支](https://dreamit.blog.csdn.net/article/details/143172631)
+
+
+
+
+
+参与评论
+您还未登录，请先
+登录
+后发表或查看评论
+
+
+[AIGC*算法**工程师*常用*面试*问题及答案：如何更好地通过*面试*](https://siamfantasy.blog.csdn.net/article/details/148554239)
+
+[专注AI大模型,软件混淆,授权](https://blog.csdn.net/a1ccwt)
+
+06-10
+![]()
+401
+
+
+
+
+[*面试*后我查阅了ACL2023的相关研究，发现结合语义相似度约束的采样方法在保持连贯性方面有12%的提升，这是我们的项目未来可以考虑的方向..."：结合最新论文或行业动态展示知识更新，如"最近Google的Switch Transformer展示了MoE架构在大模型中的潜力，可以在不显著增加计算成本的情况下扩大模型容量。记住，技术深度、解决问题的思维和持续学习的态度是*面试*官最看重的素质。："在最近的项目中，我们采用了知识蒸馏技术，用一个大模型指导多个小模型集成，既降低了过拟合风险，又保持了模型性能。](https://siamfantasy.blog.csdn.net/article/details/148554239)
+
+
+
+[控制*算法**工程师**面试题*目分享【持续更新】](https://blog.csdn.net/weixin_48386130/article/details/143268057)
+
+[weixin\_48386130的博客](https://blog.csdn.net/weixin_48386130)
+
+11-06
+![]()
+4137
+
+
+
+
+[最近在*面试*，记录一下自己遇到的问题还有整理的答案，希望能够找到份不错的工作。所有的问题都是看着简历来的，所以简历中的内容一定要十分熟悉且了解。主要*面试*方向是自动驾驶控制*算法**工程师*和机器人控制*算法**工程师*。当你简历能过关的时候，就需要结合简历，把有可能问道的答案写下来，否则*面试*的时候容易磕磕绊绊，观感很不好。纵向正负5mm，横向正负2cm，这个基本符合大部分市面上室内定位的仓储物流机器人的最高精度。主要是记录和更新问题，答案先不要看我的。](https://blog.csdn.net/weixin_48386130/article/details/143268057)
+
+
+
+
+[网易*算法**岗位**-**-**面试*真题分析](https://devpress.csdn.net/v1/article/detail/150762221)
+
+[KanS1的博客](https://blog.csdn.net/KanS1)
+
+08-25
+![]()
+1435
+
+
+
+
+[网易*算法**工程师**面试*核心考点覆盖7大领域，*算法*与数据结构（31.4%）、*机器学习*（25.4%）、项目经验（16.9%）占比超七成。高频考点包括：局部最小值求解（二分法）、Transformer结构、精排业务优化等。特色考察点注重*算法*实现（如手写K*-*means）和业务结合能力。建议重点掌握排序*算法*、Self*-*Attention原理及*推荐系统*全链路，并准备大模型优化等前沿技术案例。网易尤其关注游戏AI、大模型部署等业务场景经验。](https://devpress.csdn.net/v1/article/detail/150762221)
+
+
+
+[*算法**工程师**面试*基础*题目*及答案](https://blog.csdn.net/qq_36523203/article/details/107839960)
+
+[qq\_36523203的博客](https://blog.csdn.net/qq_36523203)
+
+10-13
+![]()
+6568
+
+
+
+
+[深度学习
+卷积*类*
+卷积神经网络的特点
+有哪些卷积
+深度可分离卷积
+1\*1卷积的作用
+深度学习基础
+BN的原理，作用和实现细节
+优点：
+1）加快训练速度，这样我们就可以使用较大的学习率来训练网络。
+2）提高网络的泛化能力。解决过拟合
+3）BN层本质上是一个归一化网络层，可以替代局部响应归一化层（LRN层）。
+4）可以打乱样本训练顺序（这样就不可能出现同一张照片被多次选择用来训练）论文中提到可以提高1%的精度。
+BN层的输出Y与输入X之间的关系是：Y = (X *-* running\_mean) / sqr](https://blog.csdn.net/qq_36523203/article/details/107839960)
+
+
+
+[*算法**工程师*春招通关秘籍：从笔试到*面试*全攻略](https://dayuxixi.blog.csdn.net/article/details/148388209)
+
+[大雨的博客](https://blog.csdn.net/xiaoyingxixi1989)
+
+06-03
+![]()
+1375
+
+
+
+
+[在*面试*过程中，小杨也遇到了一些棘手的问题。有一次*面试*，*面试*官要求他在短时间内解决一道复杂的*算法*编程题，*题目*涉及到动态规划和图论的知识。小杨一开始有些紧张，但他迅速调整心态，按照之前总结的解题步骤，先仔细分析*题目*，明确问题的本质和要求；然后思考相关的*算法*和数据结构，确定使用动态规划来解决问题，并设计了相应的状态转移方程；最后，他用简洁明了的代码实现了*算法*，并对代码进行了优化和调试。虽然在解题过程中遇到了一些小问题，但他通过与*面试*官的沟通和交流，及时找到了问题所在并加以解决。](https://dayuxixi.blog.csdn.net/article/details/148388209)
+
+
+
+[*算法**工程师**-*笔（面）试题汇总](https://blog.csdn.net/Trisyp/article/details/113653458)
+
+[Trisyp的博客](https://blog.csdn.net/Trisyp)
+
+02-04
+![]()
+1万+
+
+
+
+
+[*算法*常用概念
+训练集(train set)、验证集(validation set)、测试集(test set)
+一般需要将样本分成独立的三部分训练集(train set)，验证集(validation set)和测试集(test set)。其中训练集用来估计模型，验证集用来确定网络结构或者控制模型复杂程度的参数，而测试集则检验最终选择最优的模型的性能如何。一个典型的划分是训练集占总样本的50％，而其它各占25％，三部分都是从样本中随机抽取。
+样本少的时候，上面的划分就不合适了。常用的是留少部分做测试集。然](https://blog.csdn.net/Trisyp/article/details/113653458)
+
+
+
+[*机器学习*/*推荐系统*/*推荐系统**算法**工程师**面试*指导](https://vicky.blog.csdn.net/article/details/104793376)
+
+[汪雯琦的博客](https://blog.csdn.net/qq_35456045)
+
+03-11
+![]()
+2110
+
+
+
+
+[*面试*指导
+文章目录*面试*指导1、*机器学习*/*推荐系统*/*推荐系统**算法**工程师**面试*技能图2.1 *推荐系统**算法*相关*面试*笔试题2.2 *机器学习*相关问题重点：2.3 框架方面2.4 业务流程3、简历指导项目编写4、书籍资料网站推荐
+1、*机器学习*/*推荐系统*/*推荐系统**算法**工程师**面试*技能图
+2、知识、工具、逻辑、业务*面试题*
+3、简历编写与招聘需求
+4、书籍资料网站推荐
+1、*机器学习*/*推荐系统*/*推荐系统**算法**工程师**面试*...](https://vicky.blog.csdn.net/article/details/104793376)
+
+
+
+[*算法**工程师* *-*常见*面试题*](https://blog.csdn.net/wuxiaosi808/article/details/100514990)
+
+[wuxiaosi808的博客](https://blog.csdn.net/wuxiaosi808)
+
+09-03
+![]()
+1万+
+
+
+
+
+[▌1. LDA(线性判别分析) 和 PCA 的区别与联系
+首先将LDA 扩展到多*类*高维的情况，以和问题1 中PCA 的求解对应。假设有N 个*类*别，并需要最终将特征降维至d 维。因此，我们要找到一个d 维投影超平面，使得投影后的样本点满足LDA 的目标—最大化*类*间距离和最小化*类*内距离。
+回顾两个散度矩阵， *类*内散度矩阵在*类*别增加至 N 时仍满足定义， 而之前两*类*问题的*类*间散度矩阵在...](https://blog.csdn.net/wuxiaosi808/article/details/100514990)
+
+
+
+[推荐*算法**岗位**面试题*目搜集与整理项目\_该项目是一个专门针对推荐*算法**工程师**岗位*的*面试题*目集合库通过系统化整理来自互联网的*面试*经验包括百度蚂蚁金服拼多多美团阿里今日头条网.zip
+最新发布](https://download.csdn.net/download/2501_92227435/92069905)
+
+10-04
+
+
+
+[推荐*算法**工程师*是一个高度专业化的技术职位，主要负责设计、开发和优化*推荐系统*，以提升用户体验和企业价值。该项目针对这一*岗位*的*面试题*目进行了搜集与整理，形成了一个系统的*面试题*集合库。这些*题目*来源于多个知名...](https://download.csdn.net/download/2501_92227435/92069905)
+
+
+
+[车道线识别 tusimple 数据集介绍
+热门推荐](https://devpress.csdn.net/v1/article/detail/108738651)
+
+[qingfengxd1的博客](https://blog.csdn.net/qingfengxd1)
+
+09-22
+![]()
+2万+
+
+
+
+
+[1、tusimple 数据集介绍
+标注json文件中每一行包括三个字段 ：
+raw\_file :每一个数据段的第20帧图像的的path 路径
+lanes和h\_samples是数据具体的标注内容，为了压缩，h\_sample是纵坐标（等分确定），lanes是每个车道的横坐标，是个二维数组。*-*2表示这个点是无效的点。
+标注的过程应该是，将图片的下半部分如70%\*height等分成N份。然后取车道线（如论虚实）与该标注线交叉的点
+上面的数据就有4条车道线，第一条车道线的第一...](https://devpress.csdn.net/v1/article/detail/108738651)
+
+
+
+[深度学习 卷积层与全连接层权重参数个数的计算](https://devpress.csdn.net/v1/article/detail/107838451)
+
+[qingfengxd1的博客](https://blog.csdn.net/qingfengxd1)
+
+08-06
+![]()
+1万+
+
+
+
+
+[1、卷积网络实例分析
+构建卷积网络如下:
+from tensorflow.python.keras import datasets, models, layers
+class CNN(object):
+def \_\_init\_\_(self):
+model = models.Sequential()
+# 第1层卷积，卷积核大小为3\*3，32个卷积核，28\*28为待训练图片的大小
+model.add(layers.Conv2D(32, (3, 3),](https://devpress.csdn.net/v1/article/detail/107838451)
+
+
+
+[Matlab 训练深度学习模型函数 trainingOptions](https://devpress.csdn.net/v1/article/detail/107831946)
+
+[qingfengxd1的博客](https://blog.csdn.net/qingfengxd1)
+
+08-06
+![]()
+9682
+
+
+
+
+[functionopts = trainingOptions(solverName, varargin)
+solverName：
+'sgdm' *-*带动量的随机梯度下降
+'adam' *-*自适应力矩估计
+'rmsprop' *-*均方根传播
+'Momentum'
+仅当求解器为“ sgdm”时，此参数才适用。 动量确定了从上次迭代到当前训练迭代的梯度步长的贡献。 它必须是介于0和1之间的值，其中0将不提供上一步的贡献，而1将提供上一步的最大贡献。 默认值为0.9。
+'Gr...](https://devpress.csdn.net/v1/article/detail/107831946)
+
+
+
+[python tensorflow pytorch 深度学习 车牌识别](https://devpress.csdn.net/v1/article/detail/110878574)
+
+[qingfengxd1的博客](https://blog.csdn.net/qingfengxd1)
+
+12-08
+![]()
+8512
+
+
+
+
+[车牌识别相关资料收集整理
+1、License Plate Detection with RetinaFace
+链接：https://github.com/zeusees/License*-*Plate*-*Detector
+利用单物体检测*算法*Retinaface进行了车牌检测模型的训练，通过测试，检测效果和适用性都更突出，支持的模型也更为丰富。
+开源版本的检测*算法*经过了多个版本迭代，考虑到检测的效率跟准确率，原始版本逐步淘汰，从最初的基于LBP和Harr特征的车牌检测，感兴趣的小伙伴可以参考 train*-*d](https://devpress.csdn.net/v1/article/detail/110878574)
+
+
+
+[2021*-*03*-*09 Matlab RBF神经网络及其实例](https://blog.csdn.net/qingfengxd1/article/details/114598126)
+
+[qingfengxd1的博客](https://blog.csdn.net/qingfengxd1)
+
+03-09
+![]()
+6509
+
+
+
+
+[Matlab RBF神经网络及其实例
+RBF神经网络和BP神经网络的区别就在于训练方法上面：RBF的隐含层与输入层之间的连接权值不是随机确定的，是有一种固定算式的。下面以精确型RBF为例。
+假设每个样本有R维的特征。有S1个训练集样本。IW1表示训练集，即S1XR的一个矩阵。
+此时，输入一个R维的测试集样本p，首先将p和IW1计算欧氏距离。
+RBF径向基函数的效果是：
+所谓径向基函数 (Radial Basis Function 简称 RBF), 就是某种沿径向对称的标量函数。通常..](https://blog.csdn.net/qingfengxd1/article/details/114598126)
+
+
+
+[CNN 卷积神经网络（卷积、池化）长度、宽度、深度计算](https://blog.csdn.net/qingfengxd1/article/details/107517219)
+
+[qingfengxd1的博客](https://blog.csdn.net/qingfengxd1)
+
+07-22
+![]()
+6248
+
+
+
+
+[卷积神经网络说白了就是拿一堆小的矩阵去点乘（注意我说的是点乘，不是矩阵乘，这个很重要）一个大矩阵，最后得到局部信息。看图(来源于网络，只做说明用)：
+给出一个matlab求解代码：
+A1 = [0 0 0 0 0 0 0;
+0 0 1 1 0 2 0;
+0 2 2 2 2 1 0;
+0 1 0 0 2 0 0;
+0 0 1 1 0 0 0;
+0 1 2 0 0 2 0;
+0 0 0 0 0 0 0];
+A2 =[0 0 0 0 0 0](https://blog.csdn.net/qingfengxd1/article/details/107517219)
+
+
+
+[MATLAB 使用CNN拟合回归模型预测手写数字的旋转角度（卷积神经网络）](https://blog.csdn.net/qingfengxd1/article/details/106028078)
+
+[qingfengxd1的博客](https://blog.csdn.net/qingfengxd1)
+
+05-09
+![]()
+6114
+
+
+
+
+[学习来源自mathworks的官方范例，个人学习使用，在个人项目上可以按照需求变化数据集来实现CNN回归计算
+数据集生成方法可以参考：https://blog.csdn.net/qingfengxd1/article/details/105931988
+%% 加载数据
+%% 数据集包含手写数字的合成图像，以及每幅图像旋转的对应角度(以角度为单位)。
+%% 使用digitTrain4DArrayData和digitTest4DArrayData将训练和验证图像加载为4D数组。
+%% 输出YTrain和Y](https://blog.csdn.net/qingfengxd1/article/details/106028078)
+
+
+
+[matlab RBF 神经网络拟合](https://devpress.csdn.net/v1/article/detail/108057162)
+
+[qingfengxd1的博客](https://blog.csdn.net/qingfengxd1)
+
+08-17
+![]()
+4667
+
+
+
+
+[(1)newrb()
+https://www.mathworks.com/help/deeplearning/ref/newrb.html
+该函数可以用来设计一个近似径向基网络(approximate RBF)。调用格式为：
+[net,tr]=newrb(P,T,GOAL,SPREAD,MN,DF)
+其中P为Q组输入向量组成的R\*Q位矩阵，T为Q组目标分*类*向量组成的S\*Q维矩阵。GOAL为均方误差目标(Mean Squard Error Goal)，默认为0.0；SPREAD为径向基函数的扩展速度，](https://devpress.csdn.net/v1/article/detail/108057162)
+
+
+
+[2020*-*12*-*09 深度学习 卷积核/过滤器、特征图（featue map）、卷积层](https://blog.csdn.net/qingfengxd1/article/details/110928299)
+
+[qingfengxd1的博客](https://blog.csdn.net/qingfengxd1)
+
+12-09
+![]()
+3385
+
+
+
+
+[概念学习：卷积核/过滤器、特征图（featue map）、卷积层
+作为基础学习，建议先看一看电子版的：
+[美] Michael Nielsen著，Xiaohu Zhu/Freeman Zhang译：《神经⽹络与深度学习》（Neural Networks and Deep Learning）
+这本书深入浅出，把神经网络的基本原理讲得比较清楚。
+人们把feature map翻译成特征图，把channel翻译为通道。有时这二者说的是同一件事；但有时强调输入输出时就叫通道，强调图片经过神经网络运算后发.](https://blog.csdn.net/qingfengxd1/article/details/110928299)
+
+
+
+
+
+
+
+
+
+
+[![]()](https://blog.csdn.net/qingfengxd1)
+
+[studyer\_爱啃鸡爪的小米](https://blog.csdn.net/qingfengxd1)
+
+
+博客等级
+
+![]()
+
+码龄10年
+
+
+
+[1163
+原创](https://blog.csdn.net/qingfengxd1)
+
+4248
+点赞
+
+2万+
+收藏
+
+6605
+粉丝
+
+
+关注
+
+[私信](https://im.csdn.net/chat/qingfengxd1)
+
+
+
+[![]()](https://ai.csdn.net/workbench/wallet?utm_source=xtai_slb_bloglb)
+
+![]()
+
+
+### 热门文章
+
+* [linux查看操作系统版本、内存信息
+  ![]()
+  186807](https://blog.csdn.net/qingfengxd1/article/details/92806428)
+* [详解Python中pyautogui库的最全使用方法
+  ![]()
+  119813](https://blog.csdn.net/qingfengxd1/article/details/108270159)
+* [matlab模糊控制工具箱使用和模糊控制pid实例参考
+  ![]()
+  109175](https://blog.csdn.net/qingfengxd1/article/details/88023414)
+* [matlab找出二维矩阵中最大值的位置或者最小值的位置
+  ![]()
+  72152](https://blog.csdn.net/qingfengxd1/article/details/88382889)
+* [Matlab中结构体struct创建和使用
+  ![]()
+  60480](https://blog.csdn.net/qingfengxd1/article/details/105610692)
+
+
+### 分类专栏
+
+* [![]()
+  Matlab系列案例](https://blog.csdn.net/qingfengxd1/category_11683637.html)
+  635篇
+* [![]()
+  神经网络](https://blog.csdn.net/qingfengxd1/category_9990404.html)
+  29篇
+* [![]()
+  数学建模](https://blog.csdn.net/qingfengxd1/category_11859510.html)
+  25篇
+* [![]()
+  电机](https://blog.csdn.net/qingfengxd1/category_11885204.html)
+  22篇
+* [![]()
+  模糊控制](https://blog.csdn.net/qingfengxd1/category_11859528.html)
+  30篇
+* [![]()
+  优化算法](https://blog.csdn.net/qingfengxd1/category_12062177.html)
+  3篇
+* [![]()
+  C++](https://blog.csdn.net/qingfengxd1/category_12115259.html)
+  1篇
+* [![]()
+  深度学习](https://blog.csdn.net/qingfengxd1/category_10176754.html)
+  32篇
+* [![]()
+  算法](https://blog.csdn.net/qingfengxd1/category_10773664.html)
+  36篇
+* [![]()
+  图像处理](https://blog.csdn.net/qingfengxd1/category_10303648.html)
+  42篇
+* [![]()
+  服务器](https://blog.csdn.net/qingfengxd1/category_9771748.html)
+  12篇
+* [![]()
+  FMI](https://blog.csdn.net/qingfengxd1/category_11887369.html)
+  1篇
+* [![]()
+  杂乱](https://blog.csdn.net/qingfengxd1/category_9780254.html)
+  7篇
+* [![]()
+  centos](https://blog.csdn.net/qingfengxd1/category_9649034.html)
+  8篇
+* [![]()
+  tensorflow](https://blog.csdn.net/qingfengxd1/category_10275281.html)
+  12篇
+* [![]()
+  工程](https://blog.csdn.net/qingfengxd1/category_9762342.html)
+  27篇
+* [![]()
+  pytorch](https://blog.csdn.net/qingfengxd1/category_10653871.html)
+  4篇
+* [![]()
+  if](https://blog.csdn.net/qingfengxd1/category_9547796.html)
+  3篇
+* [![]()
+  自动化办公](https://blog.csdn.net/qingfengxd1/category_10771614.html)
+  3篇
+* [![]()
+  excel](https://blog.csdn.net/qingfengxd1/category_9547751.html)
+  4篇
+* [![]()
+  find](https://blog.csdn.net/qingfengxd1/category_9477867.html)
+  2篇
+* [![]()
+  opencv](https://blog.csdn.net/qingfengxd1/category_10380342.html)
+  20篇
+* [![]()
+  数据分析](https://blog.csdn.net/qingfengxd1/category_10461207.html)
+  5篇
+* [![]()
+  数据集](https://blog.csdn.net/qingfengxd1/category_10504494.html)
+  3篇
+* [![]()
+  爬虫](https://blog.csdn.net/qingfengxd1/category_10523180.html)
+  2篇
+* [![]()
+  Pycharm](https://blog.csdn.net/qingfengxd1/category_10659971.html)
+  3篇
+* [![]()
+  计算机](https://blog.csdn.net/qingfengxd1/category_10776021.html)
+  4篇
+* [![]()
+  shell](https://blog.csdn.net/qingfengxd1/category_9537544.html)
+  5篇
+* [![]()
+  lua](https://blog.csdn.net/qingfengxd1/category_10735283.html)
+* [![]()
+  数值分析](https://blog.csdn.net/qingfengxd1/category_10719987.html)
+  7篇
+* [![]()
+  HSV](https://blog.csdn.net/qingfengxd1/category_10719247.html)
+  1篇
+* [![]()
+  车牌识别](https://blog.csdn.net/qingfengxd1/category_10719170.html)
+  1篇
+* [![]()
+  自动控制](https://blog.csdn.net/qingfengxd1/category_10695333.html)
+  2篇
+* [![]()
+  keras](https://blog.csdn.net/qingfengxd1/category_10653291.html)
+  1篇
+* [![]()
+  模型](https://blog.csdn.net/qingfengxd1/category_10645669.html)
+  2篇
+* [![]()
+  conda](https://blog.csdn.net/qingfengxd1/category_10521757.html)
+  4篇
+* [![]()
+  anaconda](https://blog.csdn.net/qingfengxd1/category_10521756.html)
+  2篇
+* [![]()
+  数据库](https://blog.csdn.net/qingfengxd1/category_10498214.html)
+  2篇
+* [![]()
+  yolo](https://blog.csdn.net/qingfengxd1/category_10176753.html)
+  2篇
+* [![]()
+  GPS](https://blog.csdn.net/qingfengxd1/category_9976931.html)
+  4篇
+* [![]()
+  leetcode](https://blog.csdn.net/qingfengxd1/category_9932174.html)
+  5篇
+* [![]()
+  树莓派](https://blog.csdn.net/qingfengxd1/category_9835797.html)
+  2篇
+* [![]()
+  蓝牙](https://blog.csdn.net/qingfengxd1/category_9846126.html)
+  1篇
+* [![]()
+  nginx](https://blog.csdn.net/qingfengxd1/category_9649035.html)
+  1篇
+* [![]()
+  VC](https://blog.csdn.net/qingfengxd1/category_9632396.html)
+  1篇
+* [![]()
+  正则匹配](https://blog.csdn.net/qingfengxd1/category_9629682.html)
+  1篇
+* [![]()
+  vi](https://blog.csdn.net/qingfengxd1/category_9622563.html)
+  1篇
+* [![]()
+  python](https://blog.csdn.net/qingfengxd1/category_8589452.html)
+  126篇
+* [![]()
+  linux](https://blog.csdn.net/qingfengxd1/category_8658457.html)
+  59篇
+* [![]()
+  grep](https://blog.csdn.net/qingfengxd1/category_8658458.html)
+  7篇
+* [![]()
+  matlab](https://blog.csdn.net/qingfengxd1/category_8708258.html)
+  198篇
+* [![]()
+  汽车](https://blog.csdn.net/qingfengxd1/category_8708333.html)
+  78篇
+* [![]()
+  simulink](https://blog.csdn.net/qingfengxd1/category_8709762.html)
+  36篇
+* [![]()
+  gui](https://blog.csdn.net/qingfengxd1/category_8741879.html)
+  6篇
+* [![]()
+  java](https://blog.csdn.net/qingfengxd1/category_8876623.html)
+  5篇
+* [![]()
+  win10](https://blog.csdn.net/qingfengxd1/category_8938366.html)
+  6篇
+* [![]()
+  docker](https://blog.csdn.net/qingfengxd1/category_9233148.html)
+  13篇
+
+展开全部 ![]()
+收起 ![]()
+
+
+上一篇：
+
+[matlab GUI 打包成exe可执行文件](https://blog.csdn.net/qingfengxd1/article/details/145147230)
+
+
+下一篇：
+
+[matlab simulink 模糊PID控制的光伏系统最大功率点跟踪](https://blog.csdn.net/qingfengxd1/article/details/145502833)
+
+
+
+### 最新评论
+
+* [Matlab 汽车ABS实现模糊pid和pid控制](https://blog.csdn.net/qingfengxd1/article/details/146325339#comments_39282943)
+  
+  [2501\_92702885:](https://blog.csdn.net/2501_92702885) 
+  有仿真分析吗
+
+
+### 大家在看
+
+* [FAST-LIVO2相机内参标定](https://blog.csdn.net/2301_80142311/article/details/159397280)
+* [Java GUI事件监听机制
+  ![]()
+  104](https://blog.csdn.net/2601_95495418/article/details/159286841)
+* [设计模式原理及应用
+  ![]()
+  1](https://blog.csdn.net/Accrue_/article/details/159388599)
+* [椒盐音乐 v11.1.0 丨安卓无广本地音乐播放器
+  ![]()
+  15](https://blog.csdn.net/qq_42045028/article/details/159393018)
+* [jsontop.cn 介绍 - 一站式开发者工具集，JSON 格式化之外的全能助手](https://blog.csdn.net/u010598792/article/details/159397470)
+
+
+### 最新文章
+
+* [全国大学生数学建模E题分析-AI 辅助智能体测](https://blog.csdn.net/qingfengxd1/article/details/151252440)
+* [全国大学生数学建模D题分析-矿井突水水流漫延模型与逃生方案](https://blog.csdn.net/qingfengxd1/article/details/151252417)
+* [全国大学生数学建模C题分析-NIPT 的时点选择与胎儿的异常判定](https://blog.csdn.net/qingfengxd1/article/details/151252289)
+
+
+[2025年164篇](https://blog.csdn.net/qingfengxd1?type=blog&year=2025&month=09)
+[2024年85篇](https://blog.csdn.net/qingfengxd1?type=blog&year=2024&month=12)
+[2023年65篇](https://blog.csdn.net/qingfengxd1?type=blog&year=2023&month=12)
+[2022年410篇](https://blog.csdn.net/qingfengxd1?type=blog&year=2022&month=12)
+[2021年199篇](https://blog.csdn.net/qingfengxd1?type=blog&year=2021&month=12)
+[2020年165篇](https://blog.csdn.net/qingfengxd1?type=blog&year=2020&month=12)
+[2019年71篇](https://blog.csdn.net/qingfengxd1?type=blog&year=2019&month=12)
+[2018年5篇](https://blog.csdn.net/qingfengxd1?type=blog&year=2018&month=11)
+
+
+
+![]()
+
+
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+
+
+![]()
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+![]()
+
+上一篇：
+
+[matlab GUI 打包成exe可执行文件](https://blog.csdn.net/qingfengxd1/article/details/145147230)
+
+
+下一篇：
+
+[matlab simulink 模糊PID控制的光伏系统最大功率点跟踪](https://blog.csdn.net/qingfengxd1/article/details/145502833)
+
+
+
+### 分类专栏
+
+* [![]()
+  Matlab系列案例](https://blog.csdn.net/qingfengxd1/category_11683637.html)
+  635篇
+* [![]()
+  神经网络](https://blog.csdn.net/qingfengxd1/category_9990404.html)
+  29篇
+* [![]()
+  数学建模](https://blog.csdn.net/qingfengxd1/category_11859510.html)
+  25篇
+* [![]()
+  电机](https://blog.csdn.net/qingfengxd1/category_11885204.html)
+  22篇
+* [![]()
+  模糊控制](https://blog.csdn.net/qingfengxd1/category_11859528.html)
+  30篇
+* [![]()
+  优化算法](https://blog.csdn.net/qingfengxd1/category_12062177.html)
+  3篇
+* [![]()
+  C++](https://blog.csdn.net/qingfengxd1/category_12115259.html)
+  1篇
+* [![]()
+  深度学习](https://blog.csdn.net/qingfengxd1/category_10176754.html)
+  32篇
+* [![]()
+  算法](https://blog.csdn.net/qingfengxd1/category_10773664.html)
+  36篇
+* [![]()
+  图像处理](https://blog.csdn.net/qingfengxd1/category_10303648.html)
+  42篇
+* [![]()
+  服务器](https://blog.csdn.net/qingfengxd1/category_9771748.html)
+  12篇
+* [![]()
+  FMI](https://blog.csdn.net/qingfengxd1/category_11887369.html)
+  1篇
+* [![]()
+  杂乱](https://blog.csdn.net/qingfengxd1/category_9780254.html)
+  7篇
+* [![]()
+  centos](https://blog.csdn.net/qingfengxd1/category_9649034.html)
+  8篇
+* [![]()
+  tensorflow](https://blog.csdn.net/qingfengxd1/category_10275281.html)
+  12篇
+* [![]()
+  工程](https://blog.csdn.net/qingfengxd1/category_9762342.html)
+  27篇
+* [![]()
+  pytorch](https://blog.csdn.net/qingfengxd1/category_10653871.html)
+  4篇
+* [![]()
+  if](https://blog.csdn.net/qingfengxd1/category_9547796.html)
+  3篇
+* [![]()
+  自动化办公](https://blog.csdn.net/qingfengxd1/category_10771614.html)
+  3篇
+* [![]()
+  excel](https://blog.csdn.net/qingfengxd1/category_9547751.html)
+  4篇
+* [![]()
+  find](https://blog.csdn.net/qingfengxd1/category_9477867.html)
+  2篇
+* [![]()
+  opencv](https://blog.csdn.net/qingfengxd1/category_10380342.html)
+  20篇
+* [![]()
+  数据分析](https://blog.csdn.net/qingfengxd1/category_10461207.html)
+  5篇
+* [![]()
+  数据集](https://blog.csdn.net/qingfengxd1/category_10504494.html)
+  3篇
+* [![]()
+  爬虫](https://blog.csdn.net/qingfengxd1/category_10523180.html)
+  2篇
+* [![]()
+  Pycharm](https://blog.csdn.net/qingfengxd1/category_10659971.html)
+  3篇
+* [![]()
+  计算机](https://blog.csdn.net/qingfengxd1/category_10776021.html)
+  4篇
+* [![]()
+  shell](https://blog.csdn.net/qingfengxd1/category_9537544.html)
+  5篇
+* [![]()
+  lua](https://blog.csdn.net/qingfengxd1/category_10735283.html)
+* [![]()
+  数值分析](https://blog.csdn.net/qingfengxd1/category_10719987.html)
+  7篇
+* [![]()
+  HSV](https://blog.csdn.net/qingfengxd1/category_10719247.html)
+  1篇
+* [![]()
+  车牌识别](https://blog.csdn.net/qingfengxd1/category_10719170.html)
+  1篇
+* [![]()
+  自动控制](https://blog.csdn.net/qingfengxd1/category_10695333.html)
+  2篇
+* [![]()
+  keras](https://blog.csdn.net/qingfengxd1/category_10653291.html)
+  1篇
+* [![]()
+  模型](https://blog.csdn.net/qingfengxd1/category_10645669.html)
+  2篇
+* [![]()
+  conda](https://blog.csdn.net/qingfengxd1/category_10521757.html)
+  4篇
+* [![]()
+  anaconda](https://blog.csdn.net/qingfengxd1/category_10521756.html)
+  2篇
+* [![]()
+  数据库](https://blog.csdn.net/qingfengxd1/category_10498214.html)
+  2篇
+* [![]()
+  yolo](https://blog.csdn.net/qingfengxd1/category_10176753.html)
+  2篇
+* [![]()
+  GPS](https://blog.csdn.net/qingfengxd1/category_9976931.html)
+  4篇
+* [![]()
+  leetcode](https://blog.csdn.net/qingfengxd1/category_9932174.html)
+  5篇
+* [![]()
+  树莓派](https://blog.csdn.net/qingfengxd1/category_9835797.html)
+  2篇
+* [![]()
+  蓝牙](https://blog.csdn.net/qingfengxd1/category_9846126.html)
+  1篇
+* [![]()
+  nginx](https://blog.csdn.net/qingfengxd1/category_9649035.html)
+  1篇
+* [![]()
+  VC](https://blog.csdn.net/qingfengxd1/category_9632396.html)
+  1篇
+* [![]()
+  正则匹配](https://blog.csdn.net/qingfengxd1/category_9629682.html)
+  1篇
+* [![]()
+  vi](https://blog.csdn.net/qingfengxd1/category_9622563.html)
+  1篇
+* [![]()
+  python](https://blog.csdn.net/qingfengxd1/category_8589452.html)
+  126篇
+* [![]()
+  linux](https://blog.csdn.net/qingfengxd1/category_8658457.html)
+  59篇
+* [![]()
+  grep](https://blog.csdn.net/qingfengxd1/category_8658458.html)
+  7篇
+* [![]()
+  matlab](https://blog.csdn.net/qingfengxd1/category_8708258.html)
+  198篇
+* [![]()
+  汽车](https://blog.csdn.net/qingfengxd1/category_8708333.html)
+  78篇
+* [![]()
+  simulink](https://blog.csdn.net/qingfengxd1/category_8709762.html)
+  36篇
+* [![]()
+  gui](https://blog.csdn.net/qingfengxd1/category_8741879.html)
+  6篇
+* [![]()
+  java](https://blog.csdn.net/qingfengxd1/category_8876623.html)
+  5篇
+* [![]()
+  win10](https://blog.csdn.net/qingfengxd1/category_8938366.html)
+  6篇
+* [![]()
+  docker](https://blog.csdn.net/qingfengxd1/category_9233148.html)
+  13篇
+
+展开全部 ![]()
+收起 ![]()
+
+
+
+
+
+
+### 目录
+
+
+
+
+
+
+
+
+
+
+
+
+
+评论
+![]()
+
+![]()被折叠的  条评论
+[为什么被折叠?](https://blogdev.blog.csdn.net/article/details/122245662)
+[![]()到【灌水乐园】发言](https://bbs.csdn.net/forums/FreeZone)
+
+
+查看更多评论![]()
+
+
+
+添加红包
+
+
+祝福语
+
+
+请填写红包祝福语或标题
+
+
+红包数量
+
+个
+
+红包个数最小为10个
+
+
+红包总金额
+
+元
+
+红包金额最低5元
+
+
+余额支付
+当前余额3.43元
+[前往充值 >](https://i.csdn.net/#/wallet/balance/recharge)
+
+
+需支付：10.00元
+
+取消
+确定
+
+
+
+
+![]()
+下一步
+
+![]()
+知道了
+
+
+
+![]()
+成就一亿技术人!
+
+
+
+领取后你会自动成为博主和红包主的粉丝
+规则
+
+
+
+![]()
+hope\_wisdom 发出的红包
+
+
+
+
+
+
+
+
+
+实付元
+[使用余额支付](javascript:;)
+![]()
+点击重新获取
+
+
+![]()![]()![]()扫码支付
+
+
+
+
+钱包余额
+0
+![]()
+
+抵扣说明：
+
+1.余额是钱包充值的虚拟货币，按照1:1的比例进行支付金额的抵扣。  
+ 2.余额无法直接购买下载，可以购买VIP、付费专栏及课程。
+
+
+
+
+
+[![]()余额充值](https://i.csdn.net/#/wallet/balance/recharge)
+
+![]()
+
+
+
+
+
+

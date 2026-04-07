@@ -1,0 +1,257 @@
+# Source URL: https://zhuanlan.zhihu.com/p/29717800643
+# Content Length: 14308 characters
+# Extracted at: 2026-04-02 10:16:30
+#============================================================
+
+![](https://zhuanlan.zhihu.com/p/29717800643)
+![Kokoro-82M-v1.1-zh 支持中英双语+数字的轻量级TTS（文本转语音）模型](https://picx.zhimg.com/v2-1395acb5356047463f49546867262f07\_720w.jpg?source=172ae18b)
+Kokoro TTS 是一个轻量级的TTS模型，具有速度快及相对不错的[音质](https://zhida.zhihu.com/search?content\_id=254966026&content\_type=Article&match\_order=1&q=%E9%9F%B3%E8%B4%A8&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUyMzMxNTAsInEiOiLpn7PotKgiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTQ5NjYwMjYsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.vZFdS3KX0wWm8xY6k1m5rNm6CpH2dWSvtTq5dMdBE0k&zhida\_source=entity)的特点。作为一个仅有82M参数的文本转语音（TTS）模型，Kokoro 在 [TTS Arena](https://link.zhihu.com/?target=https%3A//huggingface.co/spaces/TTS-AGI/TTS-Arena) 中击败了许多参数规模更大的竞争对手，成为语音合成领域的一颗新星。
+![](https://pic1.zhimg.com/v2-e4c4237423b54710f4c0b3630b231b84\_1440w.jpg)
+我前一段时间测试过Kokoro ( [北方的郎：Kokoro TTS：支持多语言的轻量级TTS（文本转语音）模型](https://zhuanlan.zhihu.com/p/18450040389)), 哪个时候我发现“Kokoro TTS生成中英文、数字混合内容，发现英文和数字都不能很好的生成。”
+前几天Kokoro分别发布了Kokoro-82M（1.0）和Kokoro-82M-v1.1-zh模型，对音质和能力进行了大幅提升。尤其是Kokoro-82M-v1.1-zh针对中文进行了优化。具体如下：
+模型地址： [https://huggingface.co/hexgrad/Kokoro-82M-v1.1-zh](https://link.zhihu.com/?target=https%3A//huggingface.co/hexgrad/Kokoro-82M-v1.1-zh)
+![](https://pic4.zhimg.com/v2-dfe3d18e72cd4f54e92e919d06de6ceb\_1440w.jpg)
+官方介绍：
+> \_Kokoro 是一系列体积虽小但功能强大的 [TTS 模型](https://zhida.zhihu.com/search?content\_id=254966026&content\_type=Article&match\_order=1&q=TTS+%E6%A8%A1%E5%9E%8B&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUyMzMxNTAsInEiOiJUVFMg5qih5Z6LIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjU0OTY2MDI2LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.W-QG54fnjcAcyuk37xgo0drjSmXUyiKyDr75xWWzqIM&zhida\_source=entity)。\_
+>
+> \_该模型是经过短期训练的结果，从专业数据集中添加了100名中文使用者。中文数据由专业数据集公司「[龙猫数据](https://link.zhihu.com/?target=https%3A//www.longmaosoft.com/)」免费且无偿地提供给我们。感谢你们让这个模型成为可能。\_
+>
+> \_另外，一些[众包合成英语数据](https://zhida.zhihu.com/search?content\_id=254966026&content\_type=Article&match\_order=1&q=%E4%BC%97%E5%8C%85%E5%90%88%E6%88%90%E8%8B%B1%E8%AF%AD%E6%95%B0%E6%8D%AE&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUyMzMxNTAsInEiOiLkvJfljIXlkIjmiJDoi7Hor63mlbDmja4iLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTQ5NjYwMjYsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.poPOa8Yq3OXjAfZfARVug2MFxC3X1KEXFouS6gA2Qb4&zhida\_source=entity)也进入了训练组合：\_
+>
+> \_1小时的 Maple，美国女性。\_
+>
+> \_1小时的 Sol，另一位美国女性。\_
+>
+> \_和1小时的 Vale，一位年长的英国女性。\_
+>
+> \_由于该模型删除了许多声音，因此它并不是对其前身的严格升级，但它提前发布以收集有关新声音和标记化的反馈。除了中文数据集和3小时的英语之外，其余数据都留在本次训练中。目标是推动模型系列的发展，并最终恢复一些被遗留的声音。\_
+>
+> \_美国版权局目前的指导表明，合成数据通常不符合版权保护的资格。由于这些合成数据是众包的，因此模型训练师不受任何服务条款的约束。该 Apache 许可模式也符合 [OpenAI](https://zhida.zhihu.com/search?content\_id=254966026&content\_type=Article&match\_order=1&q=OpenAI&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUyMzMxNTAsInEiOiJPcGVuQUkiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTQ5NjYwMjYsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.rkh3fnk7FEQTcwkQrdCZxXFOWuzO4A1tnSzvdoIo1rg&zhida\_source=entity) 所宣称的广泛传播 AI 优势的使命。如果您愿意帮助进一步完成这一使命，请考虑为此贡献许可的音频数据。\_
+我根据官方提供的方法进行了安装和测试
+```text
+pip install -q kokoro>=0.8.2 "misaki[zh]>=0.8.2" soundfile
+apt-get -qq -y install espeak-ng > /dev/null 2>&1
+wget https://huggingface.co/hexgrad/Kokoro-82M-v1.1-zh/resolve/main/samples/make\_zh.py
+python make\_zh.py
+```
+因为第一次使用的时候会下载模型，所以用以下命令运行代码：
+```text
+HF\_ENDPOINT=https://hf-mirror.com python make\_zh.py
+```
+make\\_zh.py代码如下：
+```text
+# This file is hardcoded to transparently reproduce HEARME\_zh.wav
+# Therefore it may NOT generalize gracefully to other texts
+# Refer to Usage in README.md for more general usage patterns
+# pip install kokoro>=0.8.1 "misaki[zh]>=0.8.1"
+from kokoro import KModel, KPipeline
+from pathlib import Path
+import numpy as np
+import soundfile as sf
+import torch
+import tqdm
+REPO\_ID = 'hexgrad/Kokoro-82M-v1.1-zh'
+SAMPLE\_RATE = 24000
+# How much silence to insert between paragraphs: 5000 is about 0.2 seconds
+N\_ZEROS = 5000
+# Whether to join sentences in paragraphs 1 and 3
+JOIN\_SENTENCES = True
+VOICE = 'zf\_002' if True else 'zm\_010'
+device = 'cuda' if torch.cuda.is\_available() else 'cpu'
+texts = [(\
+"Kokoro 是一系列体积虽小但功能强大的 TTS 模型。",\
+), (\
+"该模型是经过短期训练的结果，从专业数据集中添加了100名中文使用者。",\
+"中文数据由专业数据集公司「龙猫数据」免费且无偿地提供给我们。感谢你们让这个模型成为可能。",\
+), (\
+"另外，一些众包合成英语数据也进入了训练组合：",\
+"1小时的 Maple，美国女性。",\
+"1小时的 Sol，另一位美国女性。",\
+"和1小时的 Vale，一位年长的英国女性。",\
+), (\
+"由于该模型删除了许多声音，因此它并不是对其前身的严格升级，但它提前发布以收集有关新声音和标记化的反馈。",\
+"除了中文数据集和3小时的英语之外，其余数据都留在本次训练中。",\
+"目标是推动模型系列的发展，并最终恢复一些被遗留的声音。",\
+), (\
+"美国版权局目前的指导表明，合成数据通常不符合版权保护的资格。",\
+"由于这些合成数据是众包的，因此模型训练师不受任何服务条款的约束。",\
+"该 Apache 许可模式也符合 OpenAI 所宣称的广泛传播 AI 优势的使命。",\
+"如果您愿意帮助进一步完成这一使命，请考虑为此贡献许可的音频数据。",\
+)]
+if JOIN\_SENTENCES:
+for i in (1, 3):
+texts[i] = [''.join(texts[i])]
+en\_pipeline = KPipeline(lang\_code='a', repo\_id=REPO\_ID, model=False)
+def en\_callable(text):
+if text == 'Kokoro':
+return 'kˈOkəɹO'
+elif text == 'Sol':
+return 'sˈOl'
+return next(en\_pipeline(text)).phonemes
+# HACK: Mitigate rushing caused by lack of training data beyond ~100 tokens
+# Simple piecewise linear fn that decreases speed as len\_ps increases
+def speed\_callable(len\_ps):
+speed = 0.8
+if len\_ps <= 83:
+speed = 1
+elif len\_ps < 183:
+speed = 1 - (len\_ps - 83) / 500
+return speed \* 1.1
+model = KModel(repo\_id=REPO\_ID).to(device).eval()
+zh\_pipeline = KPipeline(lang\_code='z', repo\_id=REPO\_ID, model=model, en\_callable=en\_callable)
+#path = Path(\_\_file\_\_).parent
+path = Path('.').parent
+wavs = []
+for paragraph in tqdm.tqdm(texts):
+for i, sentence in enumerate(paragraph):
+generator = zh\_pipeline(sentence, voice=VOICE, speed=speed\_callable)
+f = path / f'zh{len(wavs):02}.wav'
+result = next(generator)
+wav = result.audio
+sf.write(f, wav, SAMPLE\_RATE)
+if i == 0 and wavs and N\_ZEROS > 0:
+wav = np.concatenate([np.zeros(N\_ZEROS), wav])
+wavs.append(wav)
+sf.write(path / f'HEARME\_{VOICE}.wav', np.concatenate(wavs), SAMPLE\_RATE)
+```
+Kokoro-82M-v1.1-zh最大的特点就是预设了多大100个中文的voice，使用的时候直接修改上文代码中的：
+VOICE = 'zf\\_002' 为对应的voice文件名（不加.pt）即可。
+![](https://pic1.zhimg.com/v2-736b0f16de02a3442007eae76a104eae\_1440w.jpg)
+其实Kokoro-82M-v1.1-zh应该就是Kokoro-82M在中文数据上又训练一下的结果。所以上文中的代码
+```text
+REPO\_ID = 'hexgrad/Kokoro-82M-v1.1-zh'
+VOICE = 'zf\_002'
+```
+修改为：
+```text
+REPO\_ID = 'hexgrad/Kokoro-82M'
+VOICE = 'zf\_xiaobei'
+```
+支持的声音，参考每个模型的模型卡下面的VOICE目录下面的文件。开头z表示中文，f表示female, m表示male。
+对比测试后发现Kokoro-82M-v1.1-zh有了很大的提升，尤其是对中英文+数字的混合内容。
+后续准备用xinference或者[fastapi](https://zhida.zhihu.com/search?content\_id=254966026&content\_type=Article&match\_order=1&q=fastapi&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUyMzMxNTAsInEiOiJmYXN0YXBpIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjU0OTY2MDI2LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.GZ-yP2n-munNGpYK7OjBPTi5bjeV4\_DfVV2fHbpOmiI&zhida\_source=entity)对它进行服务化，再试用一下。
+——完——
+[@北方的郎](https://www.zhihu.com/people/7af62e4119791a452e88718cb5ccc0be) · 专注模型与代码
+喜欢的朋友，欢迎赞同、关注、分享三连 ^O^
+发布于 2025-03-12 04:28・黑龙江
+[TTS](https://www.zhihu.com/topic/26788351)
+[AI技术](https://www.zhihu.com/topic/20106982)
+[智能体](https://www.zhihu.com/topic/20687238)
+​赞同 17​​8 条评论​31 ​3
+​分享
+​申请转载​
+​
+![](https://pic1.zhimg.com/v2-d41c2ceaed8f51999522f903672a521f\_l.jpeg)
+未登录用户
+8 条评论
+默认
+最新
+[![cowboy](https://pic1.zhimg.com/v2-abed1a8c04700ba7d72b45195223e0ff\_l.jpg?source=06d4cd63)](https://www.zhihu.com/people/60a318b1a7b037b84a66d7d08bf5c164)
+[cowboy](https://www.zhihu.com/people/60a318b1a7b037b84a66d7d08bf5c164)
+我已经完成了kokoro tts 的C++移植，有需要的可以找我，当前已经完成了windows平台上面的 SDK，接下来会移植到（android/openharmony）+瑞芯微芯片上面，然后基于rknpu推理
+2025-09-25 · 山东
+​回复​2
+[![小哥哥](https://pic1.zhimg.com/v2-abed1a8c04700ba7d72b45195223e0ff\_l.jpg?source=06d4cd63)](https://www.zhihu.com/people/927b5e1dbe8f9b991f79020b0cf4ea38)
+[小哥哥](https://www.zhihu.com/people/927b5e1dbe8f9b991f79020b0cf4ea38)
+你那个openharmony可以运行了吗？
+02-10 · 广东
+​回复​喜欢
+[![晨雾](https://picx.zhimg.com/v2-61dd1dc92a388f131e57fb25282c62b6\_l.jpg?source=06d4cd63)](https://www.zhihu.com/people/f532e5e71f981a769bda1960e1cb8a48)
+[晨雾](https://www.zhihu.com/people/f532e5e71f981a769bda1960e1cb8a48)
+试了下，纯中文确实还可以，如果是中英混合的效果，英文部分都没法听清。
+2025-04-15 · 湖北
+​回复​1
+[![nice](https://picx.zhimg.com/v2-6ea6c6de671732d21460427c4ad13682\_l.jpg?source=06d4cd63)](https://www.zhihu.com/people/fcfaf5e33d51fdca8b13a82e9016e86c)
+[nice](https://www.zhihu.com/people/fcfaf5e33d51fdca8b13a82e9016e86c)
+尝试了下的确如此
+2025-10-14 · 河南
+​回复​喜欢
+[![nature-lang](https://picx.zhimg.com/v2-cbaeaef1d80fb9cc36f0ef5be99b9d8d\_l.jpg?source=06d4cd63)](https://www.zhihu.com/people/fa58b70c143a7f1f6a694fef663859bf)
+[nature-lang](https://www.zhihu.com/people/fa58b70c143a7f1f6a694fef663859bf)
+想问一下，量化后的 webgpu 运行没法用，是因为音素没用 ipa 的原因么。
+03-05 · 广东
+​回复​喜欢
+[![知乎用户](https://pic1.zhimg.com/v2-345a31907595139bf4c5861d3a93aedd\_l.jpg?source=06d4cd63)](https://www.zhihu.com/people/e15af00287e4c7447c4fd28f17c38766)
+[知乎用户](https://www.zhihu.com/people/e15af00287e4c7447c4fd28f17c38766)
+如何控制生成语音时， 让他在中间加停顿
+2025-11-15 · 北京
+​回复​喜欢
+[![nice](https://picx.zhimg.com/v2-6ea6c6de671732d21460427c4ad13682\_l.jpg?source=06d4cd63)](https://www.zhihu.com/people/fcfaf5e33d51fdca8b13a82e9016e86c)
+[nice](https://www.zhihu.com/people/fcfaf5e33d51fdca8b13a82e9016e86c)
+为什么生成的音频文件只有30秒
+2025-10-14 · 河南
+​回复​喜欢
+[![梦想三旬](https://pica.zhimg.com/v2-ec43a03e22d655994cb181d0ccfd0db3\_l.jpg?source=06d4cd63)](https://www.zhihu.com/people/04f3ff8aea7fdea0454ca818586c759c)
+[梦想三旬](https://www.zhihu.com/people/04f3ff8aea7fdea0454ca818586c759c)
+大佬 本地怎么运行 huggingface\\_hub下载失败 怎么办
+2025-09-21 · 江西
+​回复​喜欢
+关于作者
+[![北方的郎](https://picx.zhimg.com/v2-9bc49daad69ac6fd88a9d354c9932677\_l.jpg?source=32738c0c&needBackground=1)](https://www.zhihu.com/people/albert-chen-4)
+[北方的郎](https://www.zhihu.com/people/albert-chen-4)
+专注模型与代码，公众号：AI方法与实践
+[回答\\
+\\
+\*\*1,260\*\*](https://www.zhihu.com/people/albert-chen-4/answers) [文章\\
+\\
+\*\*2,027\*\*](https://www.zhihu.com/people/albert-chen-4/posts) [关注者\\
+\\
+\*\*17,754\*\*](https://www.zhihu.com/people/albert-chen-4/followers)
+​关注他​发私信
+大家都在搜
+换一换
+[伊朗局势591 万](https://www.zhihu.com/search?q=%E4%BC%8A%E6%9C%97%E5%B1%80%E5%8A%BF&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[李荣浩喊话单依纯称其强行侵权《李白》350 万](https://www.zhihu.com/search?q=%E6%9D%8E%E8%8D%A3%E6%B5%A9%E5%96%8A%E8%AF%9D%E5%8D%95%E4%BE%9D%E7%BA%AF%E7%A7%B0%E5%85%B6%E5%BC%BA%E8%A1%8C%E4%BE%B5%E6%9D%83%E3%80%8A%E6%9D%8E%E7%99%BD%E3%80%8B&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[鞠婧祎被实名举报偷税漏税343 万](https://www.zhihu.com/search?q=%E9%9E%A0%E5%A9%A7%E7%A5%8E%E8%A2%AB%E5%AE%9E%E5%90%8D%E4%B8%BE%E6%8A%A5%E5%81%B7%E7%A8%8E%E6%BC%8F%E7%A8%8E&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[TES 369 发文确认休息338 万](https://www.zhihu.com/search?q=TES+369+%E5%8F%91%E6%96%87%E7%A1%AE%E8%AE%A4%E4%BC%91%E6%81%AF&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 新
+[为什么突然开始人均养猫了333 万](https://www.zhihu.com/search?q=%E4%B8%BA%E4%BB%80%E4%B9%88%E7%AA%81%E7%84%B6%E5%BC%80%E5%A7%8B%E4%BA%BA%E5%9D%87%E5%85%BB%E7%8C%AB%E4%BA%86&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[兰州大学考研初试401分被刷323 万](https://www.zhihu.com/search?q=%E5%85%B0%E5%B7%9E%E5%A4%A7%E5%AD%A6%E8%80%83%E7%A0%94%E5%88%9D%E8%AF%95401%E5%88%86%E8%A2%AB%E5%88%B7&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[Claude Code 源码泄露317 万](https://www.zhihu.com/search?q=Claude+Code+%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[张雪机车 WSBK葡萄牙站夺冠302 万](https://www.zhihu.com/search?q=%E5%BC%A0%E9%9B%AA%E6%9C%BA%E8%BD%A6+WSBK%E8%91%A1%E8%90%84%E7%89%99%E7%AB%99%E5%A4%BA%E5%86%A0&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[灭火毯为什么会「扎人」299 万](https://www.zhihu.com/search?q=%E7%81%AD%E7%81%AB%E6%AF%AF%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E3%80%8C%E6%89%8E%E4%BA%BA%E3%80%8D&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[韩国向中国 14 城发十年签296 万](https://www.zhihu.com/search?q=%E9%9F%A9%E5%9B%BD%E5%90%91%E4%B8%AD%E5%9B%BD+14+%E5%9F%8E%E5%8F%91%E5%8D%81%E5%B9%B4%E7%AD%BE&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+### 推荐阅读
+[![Kokoro TTS：支持多语言的轻量级TTS（文本转语音）模型](https://picx.zhimg.com/v2-8c1b91691dcb327454fdd50a22c16045\_250x0.jpg?source=172ae18b)\*\*Kokoro TTS：支持多语言的轻量级TTS（文本转语音）模型\*\* \\
+\\
+北方的郎发表于北方的郎](https://zhuanlan.zhihu.com/p/18450040389) [![6K star！这款TTS效果太炸裂，网上的声音真不能乱信了](https://pic1.zhimg.com/v2-d70b38630490e6727afba051a4c71cba\_250x0.jpg?source=172ae18b)\*\*6K star！这款TTS效果太炸裂，网上的声音真不能乱信了\*\* \\
+\\
+IT咖啡馆发表于优质开源项...](https://zhuanlan.zhihu.com/p/709620180) [![太给力了！刚刚开源的TTS模型，1:1零样本声音克隆，连呼吸节奏都能控制！](https://picx.zhimg.com/v2-090bd3d659179c2d615635a7a4a80135\_250x0.jpg?source=172ae18b)\*\*太给力了！刚刚开源的TTS模型，1:1零样本声音克隆，连呼吸节奏都能控制！\*\* \\
+\\
+梓羽文谲](https://zhuanlan.zhihu.com/p/28815422279) [![这可能是目前最强的TTS，10秒复刻你的声音](https://pic1.zhimg.com/v2-e1bfdbab90b74d983cfe1e413bd1bb8d\_250x0.jpg?source=172ae18b)\*\*这可能是目前最强的TTS，10秒复刻你的声音\*\* \\
+\\
+沃垠AI](https://zhuanlan.zhihu.com/p/1893409601363374345)
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_
+打开知乎App
+在「我的页」右上角打开扫一扫
+![](https://picx.zhimg.com/v2-9e41ea16bdfbe9cf4896617ecad5b4ca.png)
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+中国 +86
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+打开知乎App
+在「我的页」右上角打开扫一扫
+![](https://picx.zhimg.com/v2-9e41ea16bdfbe9cf4896617ecad5b4ca.png)
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+中国 +86
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码

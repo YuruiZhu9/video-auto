@@ -1,0 +1,247 @@
+# Source URL: https://llm-stats.com/blog/research/post-training-techniques-2026
+# Content Length: 16303 characters
+# Extracted at: 2026-04-06 12:02:50
+#============================================================
+
+
+Post-Training in 2026: GRPO, DAPO, RLVR & Beyond[![]()LLM Stats](/)[Leaderboards](/)[Benchmarks](/benchmarks)[Compare](/models/compare)[Playground](/playground)[Arenas](/arenas)[Services](/services)Search`⌘K`Toggle theme[Back](/blog)Research·Technical Deep Dive
+
+Post-Training in 2026: GRPO, DAPO, RLVR & Beyond
+================================================
+
+How GRPO, DAPO, RLVR, and synthetic self-play replaced RLHF as the dominant post-training stack. A technical survey of what changed and why.
+
+![]()Jonathan Chavez·Mar 11, 2026·12 min read![]()
+
+* The Pipeline
+* GRPO & DAPO
+* Preference Optimization
+* Reasoning RL (RLVR)
+* Synthetic Self-Play
+* Agentic Training
+* What's Next
+
+Twelve months ago, the standard recipe was clear: pretrain on trillions of tokens, then run RLHF with human preference labels. That recipe is dead. Every major model released in the past year, from [DeepSeek-R1](https://arxiv.org/abs/2501.12948) to [Nemotron 3 Super](https://llm-stats.com/models/nemotron-3-super-120b-a12b) to [GPT-5.3 Codex](https://llm-stats.com/models/gpt-5.3-codex), uses a different post-training stack. The methods changed, the data sources changed, and the results changed with them.
+
+This post maps what happened. Not a survey of every paper, but a practitioner's guide to the techniques that actually shipped in production models during 2025 and early 2026.
+
+---
+
+The Modern Post-Training Pipeline
+---------------------------------
+
+Post-training now has three distinct stages after pretraining, each solving a different problem. The order matters.
+
+The Modern Post-Training Pipeline
+
+Post-training (SFT, Preference Optimization, RL) now accounts for the majority of a model's usable capability. Pretraining provides the foundation; post-training shapes behavior.
+
+**SFT (Supervised Fine-Tuning)** teaches the model the format: how to follow instructions, produce structured outputs, and respond in a conversational style. This stage uses 1-10M curated examples. Nemotron 3 Super used 7M samples from a broader corpus of [40M](https://huggingface.co/collections/nvidia/nemotron-post-training-v3).
+
+**Preference Optimization** aligns the model with human values and preferences. This is where DPO and its variants operate. The model learns which responses humans prefer over alternatives.
+
+**Reinforcement Learning** pushes the model beyond its training data. Using verifiable rewards (math, code) or environment-based feedback (tool use, multi-step tasks), the model discovers new strategies through trial and error. This is the stage that produces reasoning capabilities.
+
+---
+
+GRPO & DAPO: RL Without the Baggage
+-----------------------------------
+
+PPO ([Schulman et al., 2017](https://arxiv.org/abs/1707.06347)) dominated RL-based LLM training for years. It works, but it requires a separate critic model that doubles memory usage and produces noisy value estimates. For large models, this cost is prohibitive.
+
+### GRPO: Group-Relative Advantages
+
+[GRPO](https://arxiv.org/abs/2402.03300) (introduced in DeepSeekMath, then used in DeepSeek-R1) eliminates the critic entirely. For each prompt, it samples a group of responses (typically 8-64) and computes advantages by normalizing each response's reward against the group mean and standard deviation. The advantage for response *i* is simply **(reward\_i - mean) / std**.
+
+A [recent theoretical analysis](https://arxiv.org/abs/2603.01162) shows that GRPO's policy gradient is a U-statistic, making it asymptotically equivalent to an oracle algorithm with access to an ideal value function. This isn't just a hack that happens to work. It's provably optimal within a broad class of policy gradient methods.
+
+How GRPO Computes Advantages1. Sample2. Score3. Normalize
+
+GRPO samples multiple responses per prompt, scores them, then normalizes rewards within the group. No critic model needed.
+
+### DAPO: Stabilizing Long-Horizon RL
+
+[DAPO](https://dapo-sia.github.io/) (ByteDance/Tsinghua, 2025) tackles the specific instabilities that arise when training reasoning models with long chain-of-thought outputs. It introduces four techniques:
+
+* **Clip-Higher**: increases the upper clip range in the policy ratio to prevent entropy collapse, keeping the model exploratory
+* **Dynamic Sampling**: filters batches to maintain consistent gradient signals, avoiding wasted compute on uninformative samples
+* **Token-level Policy Gradient Loss**: critical for long CoT sequences where sequence-level loss creates vanishing gradients
+* **Overlong Reward Shaping**: reduces reward noise from responses that exceed length limits
+
+On AIME 2024, DAPO trained Qwen2.5-32B to 50 points, outperforming DeepSeek-R1-Zero with 50% fewer training steps. The full system is [open-sourced](https://github.com/BytedanceSEA/DAPO).
+
+Evolution of RL Alignment Methods
+
+Filled circles indicate a requirement. GRPO and DAPO remove the need for critic models, reference models, and preference pair curation.
+
+---
+
+Preference Optimization: Beyond DPO
+-----------------------------------
+
+DPO ([Rafailov et al., 2023](https://arxiv.org/abs/2305.18290)) showed you could skip RL entirely for preference alignment. But production use exposed its limitations: length bias, reference model dependency, and the cost of curating preference pairs. Three successors address these gaps.
+
+### SimPO: No Reference Model
+
+[SimPO](https://arxiv.org/abs/2405.14734) uses the average log probability of a response as an implicit reward, removing the reference model entirely. This is a meaningful simplification: no need to keep a frozen copy of the model in memory during training. SimPO outperforms DPO by 6.4 points on AlpacaEval 2 and 7.5 points on Arena-Hard.
+
+### KTO: Binary Feedback
+
+[KTO](https://arxiv.org/abs/2402.01306) (Kahneman-Tversky Optimization) works with simple thumbs-up/thumbs-down feedback instead of pairwise comparisons. This matters for production systems where collecting paired preferences is expensive, but binary feedback is cheap and abundant (like/dislike buttons, regeneration signals).
+
+### ORPO: Merging SFT and Alignment
+
+[ORPO](https://arxiv.org/abs/2403.07691) combines the SFT and preference optimization stages into a single training objective using odds ratios. One stage instead of two. This reduces training time and eliminates the distribution shift that occurs between SFT and preference tuning.
+
+Progressive Simplification of Alignment Methods
+
+Each generation removes a requirement. ORPO has zero external dependencies: no reward model, no reference model, no paired data, no separate SFT stage.
+
+---
+
+Reasoning RL: Verifiable Rewards
+--------------------------------
+
+The most consequential shift in 2025 was the move from human preference labels to verifiable rewards for reasoning tasks. [DeepSeek-R1](https://arxiv.org/abs/2501.12948) demonstrated that pure RL with verifiable rewards (RLVR) can produce emergent reasoning capabilities, including self-reflection and dynamic strategy adaptation, without any human-labeled reasoning traces.
+
+The key insight: for math, code, and structured reasoning, you do not need humans to judge quality. A unit test, a proof checker, or a mathematical verifier provides a binary signal that's faster, cheaper, and more consistent than any human annotator.
+
+RLVR: The Verifiable Rewards Loop
+
+No human annotators in the loop. The verifier (unit test, proof checker, math evaluator) provides the reward signal directly.
+
+### Self-Verification (RISE)
+
+[RISE](https://arxiv.org/abs/2505.13445) addresses a subtle problem: models trained with RLVR learn to generate correct answers but not to verify their own reasoning. RISE trains both problem-solving and self-verification within a single RL process, using the verifiable reward signal for both. The result is models that can catch their own mistakes during inference.
+
+### Handling Noisy Verifiers
+
+Real verifiers are not perfect. Math checkers have edge cases. Code tests can be incomplete. [Recent work](https://arxiv.org/abs/2505.13445) develops correction algorithms that de-bias observed rewards under verifier noise, preventing the model from exploiting false positives in the verification signal.
+
+---
+
+Synthetic Self-Play
+-------------------
+
+The bottleneck in post-training has always been data. Human annotation is slow and expensive. Synthetic data generation flips this: the model generates its own training data, then learns from it.
+
+### SPIN: Self-Play Fine-Tuning
+
+[SPIN](https://uclaml.github.io/SPIN/) (UCLA, 2024) trains models by having them distinguish their own outputs from human-written ones. The model progressively improves by learning to generate responses that are indistinguishable from human references, without additional human annotation. Performance matches or exceeds DPO-trained models.
+
+### SPICE: Grounded Self-Play
+
+[SPICE](https://arxiv.org/abs/2510.24684) extends self-play by grounding it in external documents. A Challenger model mines documents to generate reasoning tasks. A Reasoner model solves them. This document grounding prevents the hallucination amplification and model collapse that ungrounded self-play methods face. Results: +8.9% on mathematical reasoning, +9.8% on general reasoning.
+
+### Synthetic Data for Reasoning
+
+[Recent work](https://arxiv.org/abs/2603.02091) shows that rule-generated synthetic data teaches LLMs to compose knowledge, a fundamental generalizable skill. Models fine-tuned on synthetic multi-hop reasoning tasks transfer to real-world benchmarks, offering a scalable alternative to human annotation.
+
+---
+
+Agentic Post-Training
+---------------------
+
+The newest frontier is training models for multi-step tool use and autonomous workflows. This requires RL environments, not static datasets.
+
+### NeMo Gym
+
+NVIDIA's [NeMo Gym](https://github.com/NVIDIA-NeMo/Gym) provides interactive RL environments for training LLM agents. It supports multi-turn rollouts, tool-calling verification, and decoupled agent/environment architectures. Nemotron 3 Super was trained across 21 environment configurations generating 1.2 million rollouts, spanning math, code, tool use, and multi-turn conversations.
+
+### RLFactory
+
+[RLFactory](https://arxiv.org/abs/2509.06980) is a plug-and-play framework for multi-round tool-use RL. It addresses stability through asynchronous calling and supports diverse reward signals (rule-based, model-judgment, tool-verification). Qwen3-4B trained with RLFactory on Search-R1 surpassed larger models on Natural Questions, with 6.8x throughput improvement.
+
+### Safety in Agentic Training
+
+[MOSAIC](https://arxiv.org/abs/2603.03205) (March 2026) addresses a critical gap: how to train agents that know when to refuse. It structures inference as "plan, check, then act or refuse" and uses trajectory-level preference learning. Testing on Qwen and Phi models showed up to 50% reduction in harmful behavior while preserving task performance.
+
+---
+
+What's Next
+-----------
+
+Three directions are likely to define the next year of post-training research.
+
+**Unified pipelines.** ORPO already merges SFT and preference optimization. The logical next step is merging all three stages into a single training objective that handles instruction following, preference alignment, and reasoning improvement simultaneously. Early work on this exists but nothing has shipped at scale.
+
+**Environment-native training.** The shift from static datasets to interactive environments (NeMo Gym, RLFactory) is just beginning. As these environments become richer, covering browser use, file systems, databases, and APIs, the gap between "chat model" and "agent model" will widen. Models trained purely on text pairs will increasingly fall behind on agentic tasks.
+
+**Automatic curriculum generation.** SPICE hints at this: models that generate their own training tasks, calibrated to their current ability level. Combined with RLVR for verification, this creates a closed loop where the model identifies its weaknesses, generates training data targeting those weaknesses, trains on it, and repeats. No human in the loop.
+
+Frequently Asked Questions
+--------------------------
+
+What is GRPO in LLM training?**GRPO (Group Relative Policy Optimization)** is an RL algorithm that samples multiple responses per prompt and computes advantages by comparing them within the group. It eliminates the need for a separate critic model, reducing memory and compute costs while matching or exceeding PPO performance. It was introduced by DeepSeek and is now used in models like Nemotron 3 Super.What replaced RLHF in 2026?**RLHF hasn't been fully replaced**, but the field has moved toward a modular stack: SFT for instruction following, preference optimization (DPO/SimPO/KTO) for alignment, and RL with verifiable rewards (GRPO/DAPO) for reasoning. The key shift is from human-labeled rewards to automated verification and self-play.What is RLVR?**RLVR (Reinforcement Learning with Verifiable Rewards)** trains models on tasks where correctness can be automatically checked, like math problems and code execution. Instead of human preference labels, the reward signal comes from programmatic verification. DeepSeek-R1 demonstrated that pure RLVR can produce emergent reasoning capabilities.What is the difference between DPO and GRPO?**DPO** learns from static preference pairs without any RL. **GRPO** is an online RL method that generates new responses during training and computes advantages by comparing them within groups. GRPO can improve beyond the training data, while DPO is bounded by the quality of its preference pairs.
+
+More articles
+-------------
+
+[How to Calculate Hardware Requirements for Running LLMs LocallyApr 2026](/blog/research/hardware-requirements-running-llms-locally)[Nemotron 3 Super: Pricing, Benchmarks, Architecture & APIMar 2026](/blog/research/nemotron-3-super-launch)[Gemini 3.1 Pro: Pricing, Context Window, Benchmarks, API & MoreFeb 2026](/blog/research/gemini-3.1-pro-launch)[GLM-5: Zhipu AI's Agentic Engineering BreakthroughFeb 2026](/blog/research/glm-5-launch)[Claude Opus 4.6 vs GPT-5.3 Codex: The Definitive Frontier BattleFeb 2026](/blog/research/claude-opus-4-6-vs-gpt-5-3-codex)
+### Join our newsletter and stay up to date with everything AI
+
+There's too much noise in AI, let's filter it for you. Get a curated digest of models, benchmarks, and the analysis that matters, right in your inbox once a week.
+
+Subscribe
+
+No spam, unsubscribe anytime
+
+[![]()llm-stats.com](/)
+
+The AI Benchmarking Hub.
+
+### Leaderboards
+
+* [AI Leaderboards](/)
+* [LLM Leaderboard](/leaderboards/llm-leaderboard)
+* [Open LLM Leaderboard](/leaderboards/open-llm-leaderboard)
+* [Best AI for Coding](/leaderboards/best-ai-for-coding)
+* [Best AI for Math](/leaderboards/best-ai-for-math)
+* [Best AI for Image Generation](/leaderboards/best-ai-for-image-generation)
+* [Best AI for Writing](/leaderboards/best-ai-for-writing)
+### Arenas
+
+* [All Arenas](/arenas)
+* [Chat Arena](/arenas/llm-arena)
+* [Coding Arena](/arenas/coding-arena)
+* [Image Arena](/arenas/image-arena)
+* [Video Arena](/arenas/video-arena)
+* [Audio Arena](/arenas/audio-arena)
+* [Trading Arena](/arenas/trading-arena)
+* [AI Image Generator](/generator/ai-image-generator)
+* [AI Photo Editor](/generator/ai-photo-editor)
+### Benchmarks
+
+* [GPQA](/benchmarks/gpqa)
+* [MMLU](/benchmarks/mmlu)
+* [MMLU-Pro](/benchmarks/mmlu-pro)
+* [AIME 2025](/benchmarks/aime-2025)
+* [MATH](/benchmarks/math)
+* [HumanEval](/benchmarks/humaneval)
+* [MMMU](/benchmarks/mmmu)
+* [LiveCodeBench](/benchmarks/livecodebench)
+* [IFEval](/benchmarks/ifeval)
+* [GSM8K](/benchmarks/gsm8k)
+* [SWE-Bench Verified](/benchmarks/swe-bench-verified)
+### Models
+
+* [Gemini 3 Pro](/models/gemini-3-pro-preview)
+* [Grok-4 Heavy](/models/grok-4-heavy)
+* [GPT-5.1](/models/gpt-5.1-2025-11-13)
+* [Grok-4](/models/grok-4)
+* [Qwen3-235B-A22B-Thinking](/models/qwen3-235b-a22b-thinking-2507)
+* [DeepSeek-R1-0528](/models/deepseek-r1-0528)
+* [GLM-4.6](/models/glm-4.6)
+* [GPT OSS 120B](/models/gpt-oss-120b)
+### Resources
+
+* [Playground](/playground)
+* [Blog](/blog)
+* [News](/ai-news)
+* [Community](/posts)
+* [API](https://docs.zeroeval.com/llm-gateway/introduction)
+* [Infrastructure](https://zeroeval.com)
+
+© 2026 llm-stats
+
+[About us](/about-us)[Privacy policy](/legal/privacy-policy)[Terms of service](/legal/terms-of-service)Feedback

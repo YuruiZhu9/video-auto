@@ -1,0 +1,687 @@
+# Source URL: https://zhuanlan.zhihu.com/p/1989972800342095350
+# Content Length: 69372 characters
+# Extracted at: 2026-04-01 19:33:38
+#============================================================
+
+![](https://zhuanlan.zhihu.com/p/1989972800342095350)
+![超全&超细的生成式推荐业界落地实践梳理](https://pic1.zhimg.com/v2-33098014b9f6499f3da5aca1e950a7dc\_720w.jpg?source=172ae18b)
+​
+目录
+大家好, 我是州懂, 和大家聊一聊[生成式推荐](https://zhida.zhihu.com/search?content\_id=268442850&content\_type=Article&match\_order=1&q=%E7%94%9F%E6%88%90%E5%BC%8F%E6%8E%A8%E8%8D%90&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUyMTYwMTEsInEiOiLnlJ\_miJDlvI\_mjqjojZAiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNjg0NDI4NTAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.B2GRykciUsIC\_9TjM4yRtTYAKxd-VLAC1IWpHmceMTM&zhida\_source=entity)在过去一年的一些前沿进展。
+> 导语: "生成式推荐"无疑是近年来推荐领域最热的研究议题, 没有之一。各大互联网公司井喷式地提出各种落地生成式推荐的方案, 本文希望能从更全面的视角&更细致的维度梳理这些技术方案, 以期对生成式推荐形成更加系统性的认识, 当然, 笔者学识有限, 其中必然也包含了一些不成熟的看法, 敬请大家批评指正, 也非常希望&欢迎大家能在评论区多多留言讨论或者私信我, 一起学习总结并完善这里的内容知识。
+## 1、前言
+### 1.1 从The Bitter Lesson说起
+“The Bitter Lesson”是由AI领域的先驱Rich Sutton在2019年提出的一个重要观点。
+> “The biggest lesson that can be read from 70 years of AI research is that general methods that leverage computation are ultimately the most effective, and by a large margin.”
+>
+> — Rich Sutton, The Bitter Lesson (2019)
+他指出，过去几十年里，人工智能领域的最大进步并不是来自于专家们精心设计的复杂规则或结构，而是来自于那些能够自动从大量数据中学习的通用方法。换句话说，随着计算能力的提升，简单但可扩展的学习算法最终会超越人类专家的手工设计。
+LLM的成功也再一次验证了这一观点, 只有算法设计与硬件特性相适配, 模型能承载更大算力时, 计算才能真正奔涌。
+### 1.2 什么是生成式推荐?
+在推荐系统领域，前面《苦涩的教训》的观点同样适用。过去的十多年时间里, 推荐系统的发展进步很大程度上归功于计算算力的快速增长。推荐系统的算力投入每一代增长几个数量级, 效果也对应大幅提升。当前传统DLRMs(Deep Learning Recommendation Models)的发展逐渐见顶, 而"生成式推荐"被普遍认为是下一代推荐系统的重要发展方向。
+![](https://pic3.zhimg.com/v2-fb3f5390e534bdfc3e44c0cb1f402b3a\_1440w.jpg)
+图源:周国睿AICon技术分享
+不过, 现阶段，“生成式推荐”并没有一个统一且严格的定义。在注重实践落地&效果的工业界, 大家对Scaling Law的关注更多。因此, 本文对生成式推荐使用一个很宽泛的定义, \*\*凡是相比传统DLRMs能承载更大规模算力, 并一定程度上实现Scaling Law的方法\*\*, 本文均称之为生成式推荐(Generative Recommenders）。
+### 1.3 生成式推荐的发展路线
+现阶段推荐系统还处于传统判别式DLRMs和新兴生成式GRs同步发展阶段, 传统判别式DLRMs和生成式GRs的差异如下:
+![](https://pic3.zhimg.com/v2-30efb2508fff5f324375b6c5898b2cdc\_1440w.jpg)
+随着LLM的各种里程碑式的进展, 为了实现推荐系统的Scaling Law, 业界借鉴LLM的有效实践经验, 关于生成式推荐也主要分成两条路线:
+- \*\*LLM4DLRMs:\*\* 以传统的DLRMs为主, 借鉴LLM在训练和推理的有效经验, 偏稳妥的改进传统DLRMs, 常见于推荐精排模型, 如特征增强,长序列建模等, 一定程度上实现Scaling Law, 典型案例代表有美团的MTGR, 字节的RankMixer/OneTrans等
+- \*\*[LLM4GRs](https://zhida.zhihu.com/search?content\_id=268442850&content\_type=Article&match\_order=1&q=LLM4GRs&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUyMTYwMTEsInEiOiJMTE00R1JzIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjY4NDQyODUwLCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.7ASHQ4RAttgEzFce5c1\_77U81ypwIA\_EkhIiXz7Cx8U&zhida\_source=entity):\*\* 全面拥抱LLM, 从LLM的视角来重新定义推荐问题, 偏激进的探索推荐系统的新范式, 特别是推荐召回阶段, 如直接生成候选Item、用户意图理解等，充分发挥LLM的各种优势能力, 典型代表有Google的Tiger, 快手的OneRec/OneRec-Think等。
+## 2、LLM4DLRMs路线
+随着LLM的各种突破式进展, 传统DLRMs与LLM存在明显的技术代差, 也暴露出传统DLRMs存在的各种不足以及潜在的改进方向。
+### 2.1 传统DLRMs的不足
+传统DLRMs面临增长见顶困境, 各种新模块的引入带来的边际收益收窄, 在生成式LLM的浪潮下, 笔者将传统DLRMs的不足概括成2类:
+### 1) 稀疏[ID Embedding](https://zhida.zhihu.com/search?content\_id=268442850&content\_type=Article&match\_order=1&q=ID+Embedding&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUyMTYwMTEsInEiOiJJRCBFbWJlZGRpbmciLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNjg0NDI4NTAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.FD94lWdX-3Yh-1KGsAf1tUkRq9JlAIFu-mKJ8ApU8Vw&zhida\_source=entity)问题
+传统DLRMs为每个ItemID分配一个HashID来得到ID Embed, 由于HashID基本无冲突&易学习等优点, 是传统DLRMs的当之无愧的基石, 但它的局限性也很明显:
+- \*\*缺乏多模态语义信息,冷启动问题突出:\*\* HashID是随机的,本身并没有携带任何Item的多模态语义信息, 导致了严重的“语义孤岛”问题，同时新冷内容由于交互数据不足, ID Embed无法充分学习, 加剧了冷启动挑战
+- \*\*参数庞大, 难以学习更泛化的共现知识:\*\* 现代推荐系统动辄数亿内容, ID Embed没有语义共享, 巨大的Embedding Tabel占据了模型超过90%的参数, 带来了庞大的计算和存储开销, 大量时间都花在查表上。同时, 由于ItemID的稀疏性, 能学习到的更高阶的(如二阶/三阶)的Item共现知识显得更加稀疏。
+### 2) 建模范式相对低效
+传统DLRMs普遍采用"Embedding Layer + 序列建模 + 特征交叉"的建模范式, 其通常依赖多种专用、异构的计算算子, 与硬件发展趋势的系统性错配, 通信开销大, 硬件利用率(Model FLOPS Utilization, MFU)极低。
+- \*\*缺乏统一的Token化处理:\*\* LLM可以用统一的方式处理各种类型的数据, 无论是文本、代码还是图像，都能通过 token 化变成统一的输入格式，从而给到同一个模型进行处理。但传统的DLRMs对于不同的特征类型（ID、数值、文本Embedding、图像Embedding）有各自独立的编码器或处理方式, 这些处理后的特征（各种大小不一的Embedding向量）再给到子模块去做处理。
+- \*\*计算算力碎片化:\*\* 传统DLRMs以稀疏查表为主，访存密集、计算稀疏, 同时也存在很多精心设计的子模块, 如特征交叉, 序列建模, 多任务学习等, 这些子模块输入和计算方式不一, 其设计虽然提升了整体的表达能力, 但也使得GPU算力非常碎片化, 频繁的kernel启动和非连续内存访问成为主要开销，调度开销远超有效计算, 并行计算潜力难以有效利用。
+- \*\*缺乏可预测的Scaling Law:\*\* 推荐系统具有非常严格的时延和资源约束, 传统DLRMs因为其输入特征异质、数据分布极度稀疏、模型结构简单且依赖人工特征工程，导致参数量和数据量的增加无法稳定、可控地提升模型性能。
+基于上述两个不足, 如何优化&改造传统的DLRMs, 使其在时延约束下能一定程度上实现Scaling Law也是一个巨大的挑战。
+### 2.2 如何缓解ID Embedding的问题?
+前面提到, ID Embedding主要存在几个缺点: 缺乏语义信息, 参数庞大&孤立, 可学习的共现知识稀疏等。
+### 2.2.1 ID Embedding融合[多模态Embedding](https://zhida.zhihu.com/search?content\_id=268442850&content\_type=Article&match\_order=1&q=%E5%A4%9A%E6%A8%A1%E6%80%81Embedding&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUyMTYwMTEsInEiOiLlpJrmqKHmgIFFbWJlZGRpbmciLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNjg0NDI4NTAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.7U74S3HY0gujEw6y6-4d9D2AbNTsMDutLBVO21gE3pY&zhida\_source=entity)(阿里25'MUSE)
+针对ID Embedding缺乏语义信息的缺点, 近年来很多工作都提出使用多模态Embedding与ID Embedding做融合的思路, 包括24年闲鱼MetaSplit, 蚂蚁的ASIF,以及前阵子阿里刚提出的MUSE方法, 其中MUSE方法成功将多模态用于10W级别的长序列建模中。
+MUSE的思路比较直接, 首先基于构造的I2I共现数据, 使用对比学习微调得到多模态Embedding。然后GSU直接使用多模态Embedding去做Lifelong的TopK检索, 接着在ESU中基于提出的SA-TA注意力机制来融合多模态信息。ESU这里的细节点是基于多模态相似度来改进DIN的注意力得分, 如下图所示:
+![](https://pic4.zhimg.com/v2-d97bfdd250fab788be146386eebb3787\_1440w.jpg)
+其中, \\boldsymbol{\\alpha}^{\\text{ID}} = \\frac{(\\mathbf{E}\\_u W^k)(e\\_a W^q)^\\top}{\\sqrt{D}}表示常规的DIN的注意力分数, \\mathbf{R}表示Target Item与GSU检索出来的TopK Item的多模态余弦相似度得分, 再将两者以多个可学习参数\\gamma\\_1、\\gamma\\_2、\\gamma\\_3来融合起来作为最后的注意力得分:
+\\boldsymbol{\\alpha}^{\\text{Fusion}} = \\gamma\\_1 \\boldsymbol{\\alpha}^{\\text{ID}} + \\gamma\\_2 \\mathbf{R} + \\gamma\\_3 (\\boldsymbol{\\alpha}^{\\text{ID}} \\odot \\mathbf{R}) \\\
+进而再与V计算: u\\_l^{\\text{ID}} = \\text{Softmax}(\\boldsymbol{\\alpha}^{\\text{Fusion}})^\\top (\\mathbf{E}\\_u W^v)
+在落地部署上, 阿里通过在召回阶段并发提前拉取十万级的长序列的多模态Embedding并缓存到GPU, 并在精排阶段的特征抽取环节使用GPU并发计算TopK。可以看出, 线上Serving这里其实还是做了很多工程优化的。
+不过, 线上直接拉取&使用多模态Embedding相对而言还是偏重一些, 使用量化后的多模态[语义ID](https://zhida.zhihu.com/search?content\_id=268442850&content\_type=Article&match\_order=1&q=%E8%AF%AD%E4%B9%89ID&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUyMTYwMTEsInEiOiLor63kuYlJRCIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI2ODQ0Mjg1MCwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.sDXXyMcuS1t3aeH2sscGn43SG-bQHIP2b4\_hz2thPyk&zhida\_source=entity)可以减少线上Serving的难度, 因此, 关于多模态这里, 务实的工业界最近一年的研究很多在往多模态语义ID靠拢。这里的多模态语义ID是将多模态Embedding量化成稀疏的语义ID, 比如3层8192的语义ID可以是(1234, 2345, 5678), 也是后面LLM4GRs的基础, 下文会单独使用一个章节来详细介绍。
+### 2.2.2 赋予[Sparse Table](https://zhida.zhihu.com/search?content\_id=268442850&content\_type=Article&match\_order=1&q=Sparse+Table&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUyMTYwMTEsInEiOiJTcGFyc2UgVGFibGUiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNjg0NDI4NTAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.UpKDDY4d9wyKrv46GJJLORH8jdkiUsmmk5Xbf9SS18g&zhida\_source=entity)语义结构
+语义ID的一种很轻量级用法是用语义先验来改进常规的HashID问题。由于推荐系统的内容非常庞大, 业界普遍会使用 \*\*Random Hash\*\* 来完成内容ID到Embed Tabel具体哪一行的映射过程, 以控制模型Sparse Table的大小。但这种方式对新冷内容是不友好的, 并且可能两个完全语义不相似的ID都映射到了Embed Table的同一行, 导致embed的权重更新矛盾。
+谷歌和Meta先后提出使用语义ID来缓解推荐系统ID Embed泛化性的问题, 其思想都是将Embedding Table划分成多块区域, 或者说使用多个带有语义先验的Embedding Table来共同表示ID Embedding。
+### 1) Google的N-gram-based和SPM-based方法(RecSys'24)
+记语义ID为(c\\_1^v, c\\_2^v, ..., c\\_{L-1}^v, c\\_{L}^v), 论文这里提出了两种方式:
+- \*\*N-gram-based方法\*\*
+当N=2时, 如果不能重叠, 这样就有(c\\_1^v, c\\_2^v),(c\\_3^v, c\\_4^v), ..., (c\\_{L-1}^v, c\\_{L}^v)共\\frac{L}{2}个子词。这里每个子词都会对应到一个embedding table的某一行。假设L层的残差量化的codebook的大小都是K, 那(c\\_1^v, c\\_2^v)可以映射到第K \\times c\\_1 + c\\_2行, (c\\_3^v, c\\_4^v)可以映射到第K^2 + K \\times c\\_3+c\\_4行, 以此类推。然后, 再将这\\frac{L}{2}个子词对应行的embedding都加起来, 就得到这个内容真正在用的ID Embeding.
+- \*\*SPM-based方法\*\*
+虽然基于N-gram是一种比较直接的方式, 但效率其实是比较低的, 一方面是预设的N不能自动适配语义ID语料的不同分布,另一方面是它所需要的词表大小是O(K^N)。
+现阶段很多LLM使用了谷歌18年提出的SentencePiece去做分词, 这里谷歌也提出将SentencePiece用于处理语义ID的语料, 作者将之简称为SPM-based方法。这种方法允许动态长度子词，使得流行的共现语义ID自动组合为单个子组，而很少同时出现的code可能会回退到unigram, 一定程度上起到泛化性和记忆性的平衡。
+Google是第一个提出来使用语义ID提升ID Embed泛化性的, 但相比之下, 笔者更推崇Meta今年提出的共享前缀语义ID的方法。
+### 2) \*\*Meta的前缀语义ID方法\*\*
+笔者以一个例子来说明Meta的方案。以三层512的多模态语义ID为例, 那么ItemID的Sparse Tabel Size就为512 + 512^2 + 512^3, 前面512的位置保存为第1层语义ID所对应的Embedding, 中间512^2的位置保存前2层语义ID所对应的Embedding, 最后512^3的位置保存前3层语义ID所对应的Embedding:
+假设一个Item的语义ID为(123, 234, 345), 它的ID Embed等于: SparseEmbed(123) \+ SparseEmbed(123 \\times 512 + 234) \+ SparseEmbed(123 \\times 512^2 + 234 \\times 512 + 345)
+也就是说, 用1-gram/2-gram/3-gram前缀语义ID的Embedding加起来共同表示一个Item的ID Embed, 其中, 1-gram/2-gram起到前缀共享的作用, 对新冷内容更加友好。
+### 2.2.3 语义ID特征增强(CIKM'25\|快手广告DAS)
+快手DAS这里非常系统地介绍了语义ID可以为传统判别式推荐系统提供特征增强的具体用法
+- \*\*ID-based 特征\*\*
+使用Item的SID生成可学习的前缀-ngram稀疏ID特征。示例:如果一个Item的SID是 \[2, 31, 142\]，则对应的特征为 ad\\_l1=2, ad\\_l2=2\\_31, ad\\_l3=2\\_31\\_142
+- \*\*List-wise ID-based特征\*\*
+基于用户的历史行为Item序列和候选Item的SID，生成可学习的SID列表特征。示例：如果用户点击了广告 \[ad1, ad2\]，对应的SID分别为 \[76, 12, 67\] 和 \[76, 22, 242\]，则生成的列表特征为 user\\_l1\\_sids=\[76, 76\], user\\_l2\\_sids=\[76\\_12, 76\\_22\], user\\_l3\\_sids=\[76\\_12\\_67, 76\\_22\\_242\]。
+- \*\*Cross ID-based特征\*\*
+基于用户历史行为序列Item的SID与候选Item的SID之间的匹配计数，生成可学习的稀疏ID特征。示例：如果用户的历史列表是 \[76\\_12\\_67, 76\\_22\\_242\]，候选Item的SID是 \[76, 22, 131\]，则生成的匹配计数特征为 cross\\_cnt\\_l1=2, cross\\_cnt\\_l2=1, cross\\_cnt\\_l3=0
+### 2.2.4 基于用户行为LLM的特征增强
+传统DLRMs模型引入语义信息还有一个思路是使用基于推荐场景数据预训练好的的LLM来处理用户行为序列和Target Item, 提取用户行为序列的User Embed以及Target Item Embed, 用于传统DLRMs精排模型做特征增强。比如24年字节提出的HLLM和阿里妈妈最近提出的LUM(Large User Model)都是沿用这一思路。
+LUM是一种"三步走"的范式, 其整体框架如下图所示:
+![](https://picx.zhimg.com/v2-86409fb95058555b29f1729855006221\_1440w.jpg)
+- \*\*Step1: 知识构建(Knowledge Construction)\*\*
+论文提出了一种比"Next Token Prediction"更灵活的"Next Condition Item Prediction"的生成式训练范式, 通过增加一个"Condition Token" 来引入一些上下文, 比如是在哪个场景, 哪个品类下, 用户当前的搜索词是什么等。通过这种方式预训练一个用户行为的LLM(称为LUM）,学习用户行为的联合概率分布:
+p\\left(c\\_1, i\\_1, c\\_2, i\\_2, \\ldots, c\\_L, i\\_L\\right)=\\prod\\_{l=1}^L p\\left(i\\_l \\mid c\\_1, i\\_1, c\\_2, i\\_2, \\ldots, i\\_{l-1}, c\\_l\\right) \\\
+- \*\*Step2: 知识查询(Knowledge Querying)\*\*
+在推理时, 可以通过构造不同的"Condition Token"去查询特定场景(如搜索/推荐/分类页)下当前用户可能感兴趣的Item。这种Condition Token就有点类似LLM里的Prompt, 触发去让LUM产生一些受到Condition约束的推荐内容。
+- \*\*Step3: 知识利用（Knowledge Utilization)\*\*
+基于前面LUM查询到的结果(包含当前预测的Item的Embedding以及输入用户行为序列后得到多个User Embedding), 用于传统DLRMs精排模型做特征增强。在使用上, 有两种方式, 一是直接与传统DLRMs的特征做Concat, 另一种方式是使用将它们处理成相似度特征去使用, 阿里很多文章都是使用相似度的方式, 比如SimTier/MUSE。
+### 2.3 传统DLRMs如何实现Scaling Law?
+不同于Meta的[HSTU](https://zhida.zhihu.com/search?content\_id=268442850&content\_type=Article&match\_order=1&q=HSTU&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUyMTYwMTEsInEiOiJIU1RVIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjY4NDQyODUwLCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.zmv-\_YHj\_d5D\_7eYfTdZ9XvV46Bolny1BFslxl4XYzU&zhida\_source=entity)完全摒弃了交叉特征&将特征完全序列化, 传统的DLRMs推荐系统存在各种非常有用&异质的特征, LLM4DLRMs希望能利用好传统DLRMs已有的信息, 通过"样本优化\\rightarrow特征处理\\rightarrow序列建模\\rightarrow模型Scaling\\rightarrow训练&推理加速"等各个环节上去做合理的改造, 一定程度上实现Scaling Law。
+![](https://pic4.zhimg.com/v2-62b868115e6ddec92527e4ff259f23f7\_1440w.jpg)
+那么首先, 从模型的输入(样本&特征)层面, 要怎么改造呢。
+### 2.3.1 样本组织: 如何在样本层面上提效
+传统DLRMs在样本问题上, 存在两个弊端:
+- \*\*PointWise样本格式效率低:\*\* 传统DLRMs是按的PointWise方式来组织样本的, 对于同一个请求的m个Item, 会处理成m条样本, 其中这些样本的用户侧特征和Context特征完全相同, 相当于存了m次, 此外, 对同一个用户的m行样本存在大量重复编码，导致计算效率较低。
+- \*\*不同长度序列Padding处理:\*\* 在处理不同长度的序列数据时，往往使用padding进行补全。在超长行为序列建模时, 这些Padding的Token数量占比会非常多, 拉低了模型的有效训练样本密度。
+### 1) 样本组织形式上
+在样本组织形式上, 大家都很默契的放弃了传统Pointwise样本方案:
+- \*\*User-Centric方式:\*\* 将每个用户组织成一条样本, 会存在时序数据泄漏问题, 这倒是其次, 笔者认为这种方式最麻烦的点是, 很难适配传统DRLMs的增量/流式更新。
+- \*\*Request-wise/List-wise方式:\*\* 基于请求维度来组织样本, 这种方式是现在的主流方式, 比如网易云Climber将每次请求下发(or曝光)的最多5个交互Item处理一条样本, 将多个Item特征和Label拼成一个List,共用User特征, 起到一定的样本压缩的作用。同时, 这些Target Item之间的注意力是互相Mask的, 没有任何交互。
+![](https://picx.zhimg.com/v2-eae07e48bbaa81175e03bb8a7250ac6d\_1440w.jpg)
+- \*\*Set-wise方法:\*\* 美团HoMer将同一请求中的粗排给精排的多个候选Item(美团是300)打包为一条样本，在单次模型调用中预测所有Item的CTR, 它和Request-wise的样本方案很像, 但又不一样。Set-wise一方面增加了候选Item间交互的能力(配合候选的建模方案), 另一方面也增加了未曝光的样本。
+### 2) 行为序列采样
+在推荐系统中，用户历史行为序列长度呈现幂律分布: 约大多数用户的序列长度较短, 少部分用户行为序列极长(如>10K), Transformer处理长序列时的时间复杂度是\\mathcal{O}(L^2d)。对用户行为序列采样的初衷是: 在保持模型精度的同时降低训练开销, 关于训练里行为序列采样这里, 业界普遍有几个共识:
+1. 不要直接按固定的长度来一刀切, 尽量保留一定随机长度的能力
+2. 近期行为的重要性 \> 早期行为的重要性, 尽量保留近期行为
+不过, 工业界在具体实现细节上会有一些差异, 下面以Meta HSTU和字节[STCA](https://zhida.zhihu.com/search?content\_id=268442850&content\_type=Article&match\_order=1&q=STCA&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUyMTYwMTEsInEiOiJTVENBIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjY4NDQyODUwLCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.DyGOXUiyxkv6RQ-z8IiqlkRt7qcR\_Ay2tnnODo6F4Xk&zhida\_source=entity)为例:
+### \*\*Meta HSTU方案\*\*
+- 使用随机长度方法, 当行为序列长度>N\\_c^{\\alpha/2}(\\alpha \\in (1,2\])时, 以一定概率N\\_c^\\alpha / n\\_{c,j}^2保留全部长度, 否则, 采样N\\_c^{\\alpha/2}条
+\\begin{split} (x\\_i)\\_{i=0}^{n\\_{c,j}} & \\text{ if } n\\_{c,j} \\leq N\\_c^{\\alpha/2} \\\ (x\\_{i\\_k})\\_{k=0}^{N\\_c^{\\alpha/2}} & \\text{ if } n\\_{c,j} > N\\_c^{\\alpha/2}, \\text{w/ probability } 1 - N\\_c^\\alpha / n\\_{c,j}^2 \\\ (x\\_i)\\_{i=0}^{n\\_{c,j}} & \\text{ if } n\\_{c,j} > N\\_c^{\\alpha/2}, \\text{w/ probability } N\\_c^\\alpha / n\\_{c,j}^2 \\end{split} \\\
+- 在采样策略的效果上, 按时间衰减加权采样 > 均匀随机采样 \> 保留最近行为
+### \*\*字节STCA采样方案\*\*
+- 每条用户序列在训练时基于给定的分布采样来随机截断为长度L\\_{\\text{train}} \\in \[L\\_{\\text{train}}^{\\min}, L\\_{\\text{train}}^{\\max}\]
+- 具体地,使用Beta分布s \\sim \\text{Beta}\\!\\left(\\alpha,\\; \\alpha \\cdot \\frac{L\\_{\\text{train}}^{\\max} - L\\_{\\text{train}}^{\\text{avg}}}{L\\_{\\text{train}}^{\\text{avg}} - L\\_{\\text{train}}^{\\min}}\\right), \\quad s \\in (0, 1)来控制采样比例, L\\_{\\text{train}}^{\\text{raw}} = L\\_{\\text{train}}^{\\min} + s \\cdot (L\\_{\\text{train}}^{\\max} - L\\_{\\text{train}}^{\\min})
+- L\\_{\\text{train}}^{\\text{raw}}会四舍五入成8的倍数, 以对齐硬件加速
+- 后面实验表示,通过调整参数\\alpha使beta分布越接近U型越好
+- 训练时, 在确定截断长度后，保留最近的行为(temporal suffix)
+- 推理时, 则截断到最近的L\\_{infer}长度,如10K
+- 从效果来看：保留最近行为 > 随机采样 \> 保留最早行为, 这个和HSTU有点出入
+### 3) 变长序列的打包策略
+用户行为序列长短不一, 为解决效率问题，业界普遍借鉴了LLM的思路, 将不同用户的序列拼接打包(Sequence Packing), 并通过Mask机制在计算注意力时将不同用户隔离开,从而来处理变长序列实现零冗余零Padding算法。
+![](https://pic3.zhimg.com/v2-ba8bcf01813c45c86c31f606b49e9084\_1440w.jpg)
+这种方式显著提升了GPU利用率，可以说是业界落地生成式推荐的标配了。比如Meta的HSTU使用JaggedTensor消除Padding，显存占用减少30%-50%。
+此外, 针对固定BatchSize下部分Batch的用户行为序列可能过长,导致计算量过大出现拖慢整个训练流程的情况, 美团的MTGR还使用了动态BatchSize技术, 让每张卡的BatchSize根据实际数据的序列长度动态调整，保证计算量(total\\_tokens)基本相同。
+![](https://pic2.zhimg.com/v2-c88df2fc92d1e630379dc99d59de5f5d\_1440w.jpg)
+### 2.3.2 特征处理:特征Token化
+### 2.3.2.1 为什么要做Token化
+在介绍如何Token化之前, 先回答下为什么传统DLRMs实现Scaling Law必须要特征Token化, 这是因为它是连接传统DLRMs推荐特征与模型高效计算的关键环节:
+- \*\*推荐特征的异质性突出:\*\* 特征Token化是通过拆分或合并等方式, 将异质的特征处理成统一维度的Token表示。推荐系统动辄数百上千个特征(如用户画像,行为序列,Cross特征等), 这些不同特征的Embed维度不一, 比如值域范围大的特征(如ItemID)分配较大的EmbeddingSize(如128维), 而对于值域范围小的特征(如一些统计类特征)会分配较小的EmbeddingSize(如8)
+- \*\*衔接模型高效计算的桥梁:\*\* Transformer的主要计算(比如Attention、FFN）本质上都是大规模的矩阵乘法(GEMM)。GEMM在硬件（如GPU/TPU）上高度优化，要求输入矩阵的形状对齐，才能高效并行计算。将推荐系统的异质特征做统一Token化, 才能更好释放GPU高效并行计算的能力, 提升模型的MFU.
+### 2.3.2.2 如何Token化
+关于特征Token化这里, 业界整体思路还是围绕以下2步展开
+- \*\*语义分组:\*\* 将同一类型语义的特征分组进行处理, 比如为不个分组使用不同的Projection去做去维度对齐。
+- \*\*Token拆分:\*\* 按照固定的维度(如768)来拆分成统一维度的Token
+不过, 在具体实现上,各家在细节实现上可能有所差异:
+### 1) 美团MTGR
+美团MTGR在特征Token上做的会简单粗爆一些, 分别对各种分组的特征单独Token化后, 再让每个分组单独过Group LayerNorm以使不同的分组的分布不会相差太大
+- User Profile: 每一个特征都表示为一个Token
+- 用户行为序列: 将每一个具体行为对应的item ID以及多个side info的Embedding表征拼接在一起再通过非线形映射组装成一个Token。
+- Target Item: 则将item ID、对应的side info、交叉特征、时空等Context信息拼接在一起组成一Token
+### 2) 字节OneTrans
+OneTrans把特征分成两类, 一类是用户行为序列特征, 另一类是非序列特征, 包括用户画像, Context特征, 以及像SIM和笛卡尔积类的特征。
+对于非序列特征, 有两种方法(其中Auto-Split后面实验下来会更直接高效些):
+- \*\*Group-wise Tokenizer:\*\* 先将特征按语义分成若干组, 同组的特征会Concat起来再单独过MLP:
+\\small \\text{NS-tokens} = \\big\[\\,\\text{MLP}\\_1(\\text{concat}(\\mathbf{g}\\_1)),\\dots, \\text{MLP}\\_{L\\_{NS}}(\\text{concat}(\\mathbf{g}\\_{L\\_{NS}}))\\,\\big\] \\\
+- \*\*Auto-Split Tokenizer:\*\* 所有特征被连接起来，并通过一个单一的MLP，然后被分割:
+\\text{NS-tokens} = \\text{split}\\Big(\\text{MLP}(\\text{concat}(\\mathcal{NS})),\\,L\\_{NS}\\Big) \\\
+对于序列特征, 假设总共有n种行为序列, 对于第i种行为序列(记长度为L\\_i)的所有Item, 会使用一个相同的\\mathrm{MLP\\_i}来处理concat后的Item信息(记住\\mathbf{e}\\_{i\\cdot}):
+\\tilde{\\mathbf{S}}\\_i = \\big\[\\, \\mathrm{MLP}\\_i(\\mathbf{e}\\_{i1}), \\dots, \\mathrm{MLP}\\_i(\\mathbf{e}\\_{iL\\_i}) \\,\\big\] \\in \\mathbb{R}^{L\\_i \\times d} \\\
+然后融合不同序列 \\text{S-Tokens} = \\mathrm{Merge}\\big(\\tilde{\\mathbf{S}}\\_1, \\dots, \\tilde{\\mathbf{S}}\\_n\\big) \\in \\mathbb{R}^{L\\_S \\times d} , 也有两种方案:
+- \*\*Timestamp-aware:\*\* 按时间顺序交错所有事件，并添加序列类型指示符。如click-A, purchase-A, add-to-cart-B, purchase-B, click-C
+- \*\*Timestamp-agnostic:\*\* 按事件重要性对序列排序(如购买→加购→点击），并在序列间插入可学习的\[SEP\] Token, 如purchase-A, purchase-B, \[SEP\], add-to-cart-B, \[SEP\], click-A, click-C
+OneTrans实验结果表明，当时间戳可用时，时间戳感知策略会优于时间戳不可知策略。
+### 3) 字节STCA
+字节STCA比较特别的点是, 对Target Item和历史行为序列, 除了常规的LayerNorm(或RMSNorm)处理外, 还额外过SwiGLUFFN(即SwiGLU + linear projection)做预处理, 论文在后面的实验中消融验证了加SwiGLU的好处(FFN \\rightarrow SwiGLU使\\DeltaAUC涨了+0.11%)
+\\mathrm{SwiGLUFFN}(\\mathbf{x}) \\;=\\; \\Big((\\mathbf{x}W\\_u)\\odot\\big(\\mathbf{x}W\\_v\\odot\\mathrm{sigmoid}(\\mathbf{x}W\\_v)\\big)\\Big)\\,W\\_o \\\
+- 行为序列
+\\widetilde{X}^{(i)} = \\mathrm{LN}\\!\\big(\\mathrm{SwiGLUFFN}^{(i)}(X)\\big)\ \\in\ \\mathbb{R}^{L\\times d}\\\
+- Target Item
+\\mathbf{q}^{(1)} = \\mathrm{LN}\\!\\big(\\mathrm{SwiGLUFFN}^{(1)}(\\mathbf{x}\\_t)\\big)\ \\in\ \\mathbb{R}^{d} \\\
+其中, W\\_u,W\\_v\\!\\in\\mathbb{R}^{d\\times rd}, W\\_o\\!\\in\\mathbb{R}^{rd\\times d}, 这里的r\\!\\ge\\!1为缩放系数。
+### 2.3.2.3 关于位置编码
+对于用户行为序列建模, 位置编码一定是个绕不开的一个技术点, 对于用户行为序列, 为了更好的捕获时序信息, 传统DLRMs中的位置编码主要是使用时间戳信息, 比如下面两种常规的位置编码:
+- \*\*绝对时间差:\*\* 用户历史行为交互时间戳与候选Item请求时间戳的Diff作为Side Info \*\*拼接\*\* 到Item Embed中
+- \*\*绝对位置编码:\*\* 基于Item在用户行为序列中的下标得到绝对位置编码, 并直接 \*\*加\*\* 到Item Embed上
+Meta的HSTU除了使用上面的时序信息做位置编码外, 还使用了相对位置编码, 比如对于位置i和位置j, 使用p\\_{i-j}向量作为相对位置编码。
+而在LLM的技术浪潮下, 业界也在不断借鉴吸纳LLM的不少优秀成果。
+### 1) RoPE旋转位置编码
+苏剑林提出的RoPE由于具有良好的性能(如外推能力)以及长期衰减的特性, 已经被各种LLM广泛使用。亚马逊SynerGen就使用了RoPE, 直接使用Unix timestamps作为时间戳信息输入。具体地, 给定task token embed x\\_m和时间戳m, query和key定义为:
+q\\_m = R\\_{\\Theta,m} W\\_q x\\_m, \\quad k\\_n = R\\_{\\Theta,n} W\\_k x\\_n\\\
+其中, R\\_{\\Theta,t}为旋转矩阵, 然后基于相对时间gap注意力计算时
+\\langle q\\_m, k\\_n \\rangle = x\\_m^T W\\_q^T R\\_{\\Theta,m-n} W\\_k x\\_n \\\
+在推荐场景使用RoPE有几个优点:
+- \*\*细粒度的时间建模:\*\* 细粒度建模绝对时间&相对时间
+- \*\*时间平移不变性:\*\* RoPE对于时间的起始点具有平移不变性，即模型对时间的绝对起点不敏感
+- \*\*外推能力:\*\* RoPE能有效处理未见过的时间间隔，具有良好的外推能力
+不过为了平衡模型的计算效率以及上下文建模的长度, 这里RoPE的时间戳使用分钟, 并且缩短了行为序列的时间窗口期。
+### 2) ALiBi位置编码
+ALiBi是一种比较特殊的相对位置编码，没有引入任何可训练的参数, 它通过在键和查询之间的距离上施加相对距离相关的惩罚(预先设定的)来调整注意力分数。其计算公式如下：
+A\\_{i j}=\\boldsymbol{x}\\_i \\boldsymbol{W}^Q \\boldsymbol{W}^{K \\top} \\boldsymbol{x}\\_j^{\\top}-m(i-j), \\\
+主要用于增强Transformer 模型的外推能力。具体来说，ALiBi 其中， − 是查询和键之间的位置偏移量， 是每个注意力头独有的惩罚系数。
+ALiBi也表现出了优秀的外推性能，能够对于超过上下文窗口更远距离的词元进行有效建模, 小红书的RankGPT就使用了ALiBi位置编码, 在注意力计算时, 引入一个bias项, 如下图所示:
+![](https://pic2.zhimg.com/v2-444821ded2395d5efb4f906d505563d1\_1440w.jpg)
+### 2.4 序列建模
+推荐系统有着严格的时延约束, 用户行为序列的长度动辄几百上千甚至数万。序列建模的注意力机制上,大家都在有往Self-Attention上靠的趋势, 但传统Transformer的Self Attention的时间复杂度是\\mathcal{O}(L^2d), 在时延约束下直接使用难以覆盖更长的行为序列，最近一年来, 业界在这方面也做不少探索:
+### 2.4.1 Sparse Self-Attention(稀疏自注意力)
+自注意力机制的时间复杂度是序列长度的二次方，这在处理长序列时会导致显著的计算开销。为了缓解这一问题，一种方式是使用Sparse Self-Attention, 直接降低用于计算注意力的Tokens数。
+美团SUAN提出通过结合局部自注意力和扩张自注意力，让模型能够有效地捕捉近期和长期的关系，同时显著降低计算复杂度。
+![](https://pic2.zhimg.com/v2-0693e2c895d3a65bcbfd8a0fd689ac1b\_1440w.jpg)
+- \*\*局部自注意力(Local Self-Attention):\*\* 每个元素只关注其局部窗口大小k内的元素。
+- \*\*扩张自注意力(Dilated Self-Attention):\*\* 每个元素只关注每隔r个元素的元素, 扩张率r决定了跳跃的步长。
+不过, 这种Sparse Self-Attention貌似业界真正使用的不多。
+### 2.4.2 分而治之的Attention机制
+如果说一条Lifecycle序列因为太长导致Self-Attention开销大的话, 那把这条序列拆分成多条子序列就可以降低开销了, 网易云的Climber就是这样的思路。它将用户完整的长度为n\\_s的Lifecycle序列按不同的策略(如点击,完播,收藏等)去抽取不同维度的行为子序列, 从而拆分得到N\\_b条相同长度的子序列, 如下图所示:
+![](https://pica.zhimg.com/v2-b90a48f3eb69a51e4a87b9e30ea5d9ca\_1440w.jpg)
+这里,不同的抽取策略可能覆盖不同的时间窗口期, 如30d/90d等, 而对于比较重要的子序列,会直接覆盖lifecycle, 也就是论文所提到的多尺度。基于这样的序列拆分后, 再进行self-attention计算时, 时间复杂度就从原来的O(n^2 \\* d) \\rightarrow O(n^2d/N\\_b)。
+网易云的Climber子序列建模方案是Self-Attention+Target Attention方案(论文中的Adaptive Transformer Layer), 如下图所示:
+![](https://pica.zhimg.com/v2-d2b2cc9913d5b21aa89c6d0933bd9bd0\_1440w.jpg)
+分而治之后, 再对前面N\\_b个子序列的输出Y(S\\_k)增加一个Bit-Wise的门控融合机制进行融合, 让各条子序列之间去做交叉, 如下图所示:
+![](https://picx.zhimg.com/v2-5469e842f1fe0e66a0c086cdd6a5d155\_1440w.jpg)
+这里所提的Bit-Wise门控是使用SENet的SE模块(记为f\\_{gate}(G(S)), 引入更多的个性化Y(S) = G(S) \\odot \\sigma\\big(f\\_{gate}(G(S))\\big) \\in \\mathbb{R}^{N\\_b \\times d}。
+不过, 随着用户lifecycle行为序列越来越长, 抽取到的子序列也越来越长, 这种分而治之的策略还是会绕不开计算开销过大的问题, 所以他们对子序列使用了KV Cache来加速推理。
+### 2.4.3 多层Target Attention机制
+为了减少多层Self-Attention的时间复杂度, 一个很自然的思路是使用时间复杂度更低的Target Attention来做替代, 比如快手的MARM和抖音的STCA都是沿用这个思路。
+### 2.4.3.1 基于缓存增强的快手MARM
+MARM的思路是用空间换时间, 在将常规的Mask Self Attention 替换成复杂度低的Target Attention(如DIN)后, 再将中间结果都直接缓存起来，那么可以大大减少模型的推理复杂度&时延。
+![](https://pic2.zhimg.com/v2-54d759c49897ddd3f963e440a77e56b1\_1440w.jpg)
+作者所提MARM方法的流程如下图所示, 主要的一些细节点有:
+![](https://pica.zhimg.com/v2-5fb4e0c2f3e8470a1c1377d609e80ff8\_1440w.jpg)
+- 按时间顺序取最近n条的曝光样本(如上图的示例是最近的5条)作为曝光序列
+- 最底层的IidX的Item Embed是可学习的, 中间的Embed(橙色和绿色)是提前缓存起来的
+- 每次只需缓存每一层Target Attention计算后的Embed, 其中HashKey会结合用户ID, 内容ID, 以及第i层等信息来生成\[\\texttt{Iid1}^i\\_{\\texttt{UidX}},\\dots\] = \\texttt{UserItemDepthHash}(\\texttt{UidX}, \[\\texttt{Iid1},\\dots\], i)
+- 每次使用的缓存Embed都是历史缓存起来, 其实和完全不使用缓存计算的结果是会有差异的, 缓存的Embed只是充当着近似代理的作用。
+### 2.4.3.2 计算机制性能优化
+抖音的STCA是使用Multi-Head版本的多层Target Attention, 以单层的多头Target Attention为例:
+- 拆分成h个head, d\\_h{=}d/h:
+W\\_Q^{(i,r)},W\\_K^{(i,r)},W\\_V^{(i,r)}\\in\\mathbb{R}^{d\\times d\\_h},\\quad W\\_O^{(i)}\\in\\mathbb{R}^{d\\times d} \\\
+- 计算注意力得分:
+\\alpha^{(i,r)} \\;=\\; softmax\\!\\left(\\frac{\\mathbf{q}^{(i)}W\\_Q^{(i,r)}\\big(\\widetilde{X}^{(i)}W\\_K^{(i,r)}\\big)^\\top}{\\sqrt{d\\_h}}\\right)\\in\\mathbb{R}^{1\\times L} \\\
+- 计算Target Attention结果
+\\mathbf{o}^{(i,r)} \\;=\\; \\alpha^{(i,r)} \\big(\\widetilde{X}^{(i)}W\\_V^{(i,r)}\\big)\\in\\mathbb{R}^{1\\times d\\_h} \\\\\mathbf{o}^{(i)} \\;=\\; \\Big\[\\mathbf{o}^{(i,1)}\\parallel\\cdots\\parallel\\mathbf{o}^{(i,h)}\\Big\]\\,W\\_O^{(i)} \\in \\mathbb{R}^{d} \\\
+为了进一步提升序列建模能力, 这里的多头Target Attention还堆叠了多层(记为M层), 将刚才第i层的输出, 作为构造第i+1的query的一个输入(或者直接作为第i+1层的query)。
+虽然多层的多头Target Attention就时间复杂度而言是小于Self Attention的, 但要支持更长的用户行为序列建模, 还需要做一些优化:
+标准形式的多头Target Attention注意力机制(X\\!\\in\\!\\mathbb{R}^{L\\times d}, q\\!\\in\\!\\mathbb{R}^{1\\times d}, d\\_h{=}\\frac{d}{h}) 计算如下:
+\\mathrm{Attn}(q,X) \\;=\\; softmax\\!\\Big(\\tfrac{(qW\\_Q)(XW\\_K)^\\top}{\\sqrt{d\\_h}}\\Big)\\cdot(XW\\_V) \\\
+其中, W\\_Q,W\\_K,W\\_V\\!\\in\\!\\mathbb{R}^{d\\times d\\_h}。 整体计算的时间复杂度为O(Ldd\\_h), 空间复杂度为O(Ld\\_h), 计算开销上, 主要就是Project过程。由于矩阵乘法在计算Flops时同时需要一次乘法和一次加法, 2次Project总共需要2 \\times 2Ldd\\_h FLOPs
+而字节这里是将上述Target Attention的公式改写成:
+\\mathrm{Attn}(q,X) \\;=\\; \\Big(\\underbrace{softmax\\!\\big(\\tfrac{((qW\\_Q)W\\_K^\\top)X^\\top}{\\sqrt{d\\_h}}\\big)}\\_{\\alpha\\in\\mathbb{R}^{1\\times L}}\\,X\\Big)W\\_V \\\
+就单次的cross attention计算上, 通过上面计算顺序的改写, 时间复杂度从O(Ldd\\_h) \\rightarrow O(Ld)+O(dd\\_h), 以d{=}256,h{=}8 (d\\_h{=}32)为例, FLOPs降低为原来的\\frac{1}{64}
+### 2.4.4 Cross-Attention + Self-Attention机制
+考虑到Self-Attention的时间复杂度是\\mathcal{O}(L^2d), 如何缩短L的长度也是一个思路, 比如字节的Longer长序列建模就是沿用这一思路。
+LONGER长序列建模方法的整体框架如下图所示, 其中Longer的输入分成3部分, 一部分是常规的用户行为长序列Tokens, 另一部分作者称之为"Global Tokens"指那些用户画像等"非行为序列"特征放在长序列的最前面, 最后一部分是中间的Candidate Item Feature, Longer的核心在于用户行为长序列建模时的多种降低训练&推理开销的序列压缩方法, 不过它还是建立在point-wise的样本上的。
+![](https://pica.zhimg.com/v2-c271a8256f8655acc15a752b0e3a73b0\_1440w.jpg)
+- \*\*Step1: Token融合,减少序列建模长度\*\*
+Longer将用户行为长序列按时间顺序每K个Item合并成一组, 这样合并后的序列长度则减少为\\frac{L}{K}, 维度变成Kd。
+- \*\*Step2: InnerTrans模块融合\*\*
+对于组内的K个Item, 直接concat起来会导致token间缺乏交互, 为了弥补这一不足, 对组内的K个Item, 作者增加一个轻量级(K很小所以计算开销不大)的Transformer模块。
+\\mathbf{M}\\_i = \\text{TransformerBlock}\\left(\[\\mathbf{e}\\_{i}^1,...,\\mathbf{e}\\_{i}^K\]\\right) \\\
+如果仔细分析Token融合前后的FLOPs和参数量时, 其实会发现, 通过Token融合, 模型的参数规模进一步提升了, 但计算开销反而降低了。
+- \*\*Step3: Cross Attention\*\*
+Cross Attention是通过计算一个序列(称为查询序列，Query Sequence)与另一个序列(称为键值序列，Key-Value Sequence)之间的注意力分数，动态地从键值序列中提取相关信息，以增强查询序列的表示。
+Cross Causal Attention的具体计算如下:
+\\mathbf{Q} = \\mathbf{O} \\mathbf{W}\\_\\mathbf{Q}, \\quad \\mathbf{K} = \\mathbf{R} \\mathbf{W}\\_\\mathbf{K}, \\quad \\mathbf{V} = \\mathbf{R} \\mathbf{W}\\_\\mathbf{V} \\\\\text{Attention}(\\mathbf{Q}, \\mathbf{K}, \\mathbf{V}) = \\text{Softmax}\\left(\\frac{\\mathbf{Q} \\mathbf{K}^T}{\\sqrt{d}} + \\mathbf{M}\\right)\\mathbf{V} \\\
+其中, \\mathbf{W}\\_\\mathbf{Q}, \\mathbf{W}\\_\\mathbf{K}, \\mathbf{W}\\_\\mathbf{V}\\in \\mathbb{R}^{d \\times d}, \\mathbf{R} \\in \\mathbb{R}^{(m+L) \\times d}, \\mathbf{M}为因果掩码矩阵, 而注意力计算结果会再经过FFN做后续处理。
+使用Cross Attention是为了尽量无损地压缩长序列, 降低计算开销。作者从原始的长序列\\mathbf{H}中采样出\\mathbf{H}\\_\\mathbf{S}子序列作为部分Query序列。具体地, 作者尝试了几种采样的策略, 实验发现直接使用最近的k个交互Item作为Query序列(再加上Global Tokens)的策略效果最好。论文发现, 仅采样完整序列的40%就保留了超过95%的性能改进，同时减少了大约50%的FLOPs.
+- \*\*Step4: Self Causal Attention\*\*
+前面使用Cross Attention压缩序列长度之后, 后续层就可以较低计算开销的使用了Self Causal Attention了。这些层旨在学习采样Tokens序列内的内部关系, 学习捕获行为token序列自身中的依赖关系和模式。关于Self Causal Attention这个应该很熟悉了, 就不介绍了。同样的, 后面也会有个FFN，这有助于进一步处理注意力机制学习到的信息。
+### 2.4.5 逐层递减的Self-Attention(金字塔结构)
+在减少计算复杂度问题上, 字节的OneTrans走了另一种思路, 它通过逐层递减用于做Self-Attention的序列来做算力缩减, 从而支撑更大的深度, 也就是一种金字塔式堆叠结构, 如下图所示:
+![](https://picx.zhimg.com/v2-d53c01fc06a7931261860bbc8a934919\_1440w.jpg)
+OneTrans是Decoder-Only的结构, 和LLM是对齐的, 方便复用LLM的有效实践。具体做法上:
+- 在每一层，只有最近的序列Token作为Query，而Key和Value仍然在整个序列上计算。
+- Query Token的数量随层数增加而减少，形成一个金字塔结构。这里逐层减少而不是直接启发式地保留最近的token, 是担心可能导致每次层都被最近的同质化行为主导。
+这种方式有两个好处:
+- \*\*信息蒸馏(Progressive Distillation):\*\* 通过逐步减少Query Token的数量，迫使模型将长序列历史中的信息逐步浓缩到非序列Token中, 提高模型对重要信息的捕捉能力。
+- \*\*计算效率(Compute Efficiency):\*\* Pyramid Stack 通过减少查询标记的数量，显著降低了计算成本。这一优化不仅提高了训练和推理的速度，还减少了内存使用。
+除了上面的金字塔结构特点之外, OneTrans与标准的MHA因果注意力机制也有一些细节上的差异:
+- \*\*序列特征(Sequential Tokens):\*\* 所有序列特征共享一组 Q/K/V和FFN权重, 这种共享机制提高了计算效率，并促进了跨时间步的泛化能力。
+- \*\*非序列特征(Non-Sequential Tokens):\*\* 每个非序列特征都有其特定的 Q/K/V 和 FFN 权重。这种特定保留了非序列特征的独特语义含义，使模型能更好地处理静态特征。
+- \*\*序列特征:\*\* 每个序列Token只能关注其前面的序列Token,这确保了序列的自回归性质。
+- \*\*非序列特征:\*\* 每个非序列Token可以关注整个序列历史以及非序列Token。
+### 2.5 模型如何实现Scaling?
+Scaling Law（扩展定律）是指随着模型规模（参数量、数据量、计算量）的增加，模型的性能（如损失、准确率）会以某种规律提升。探索推荐领域的Scale Law是当前最热门的方向, 但要如何做大推荐系统的Scale呢
+- \*\*从训练样本角度:\*\* 在推荐业务场景中, 样本这里我们一般考虑的是, 当前阶段我们能有多少数据, 以及现有计算资源下能训得动多少数据, 另外, 推荐场景的token数量远多于常规LLM, 因此, data scale通常是比较现实的问题, 也不是说想Scaling就能Scaling的, 这里不太过多讨论。
+- \*\*从计算量角度:\*\* 当前DLRMs推荐模型的MFU(Model Flops Utilization, 算力利用率)极低, 很多模型都不到1%, 与LLM动辄40%+有着非常大的差距, 因此在计算资源约束下, 提升推荐模型的MFU实现compute scale的有效果方法
+- \*\*从模型参数角度:\*\* 与LLM不同, 传统DLRMs模型的Embedding + DNN是一个“头重脚轻"的方式, 基本集中在Sparse参数上。从LLM的有效经验来看, 要实现parameter scale, 突破点还是在Dense参数上。
+![](https://pic3.zhimg.com/v2-413f98d2268195a7d111edeebb060638\_1440w.jpg)
+### 2.5.1 Compute Scaling方法
+前面提到的特征Token化以及后面各种行为序列建模, 其实也都是围绕Compute Scaling来做的, 除此之外, 特征交叉也是推荐系统的非常核心的组成部分, 字节提出的RankMixer就是在特征交叉上大幅提升模型MFU。
+RankMixer的整体框架如下图所示:
+![](https://pic4.zhimg.com/v2-cf22b132c1cc847002c0cef4df8b33a9\_1440w.jpg)
+其由L层RankMixer Blocks组成, 每层Block包含两个子模块: Token Mixing和Per-token FFN模块, 形式化描述如下:
+\\mathbf{S}\\_{n-1} = {\\rm LN}\\left({\\rm TokenMixing} \\left( \\mathbf{X}\\_{n-1} \\right) + \\mathbf{X}\\_{n-1}\\right) \\\ \\mathbf{X}\\_{n} = {\\rm LN} \\left({\\rm PFFN} \\left( \\mathbf{S}\\_{n-1} \\right) +\\mathbf{S}\\_{n-1} \\right) \\\
+其中, \\mathbf{X}\\_{0} \\in \\mathbb{R}^{T \\times D}是基于原始推荐系统异构特征来处理得到\\mathbf{x}\\_1, \\mathbf{x}\\_2, ..., \\mathbf{x}\\_T, 这个过程称为Feature Tokenization。
+### 2.5.1.1 Multi-head Token Mixing
+下图很直观地表述了多头Token Mixing的处理流程。这里论文设置T=H以维持相同的Token数量, 并加了残差连接和LayerNorm:
+\\mathbf{s}\\_1, \\mathbf{s}\\_2, ..., \\mathbf{s}\\_T = {\\rm LN}\\left({\\rm TokenMixing} \\left( \\mathbf{x}\\_1, \\mathbf{x}\\_2, ..., \\mathbf{x}\\_T \\right) + \\left( \\mathbf{x}\\_1, \\mathbf{x}\\_2, ..., \\mathbf{x}\\_T \\right)\\right) \\\
+![](https://pic4.zhimg.com/v2-02416155d2139cc69ede940d12b88053\_1440w.jpg)
+作者这里并没有使用Self-Attention, 只是做了显式的特征交叉, 它是parameter-free的。作者提到, self-attention通过计算Token之间的内积来衡量它们的相似性，这在自然语言处理（NLP）中是有效的，因为所有Token共享一个统一的embed空间, 然而，在推荐系统中，User侧和Item侧可能都有数百个异质特征, 这些特征的语义差异可能还很大, 在这种情况下, 简单内积去衡量不同特征空间的embed向量之间的相似度效果就没那么好了。
+### 2.5.1.2 Per-token FFN
+Per-token FFN是让每个Token(对应\\mathbf{s}\\_t)都各自独立经过一个参数隔离不共享的FFN（即两层的MLP):
+\\mathbf{v}\\_t = f\\_{\\text{pffn}}^{t,2} \\left({\\rm Gelu} \\left(f\\_{\\text{pffn}}^{t,1} \\left(\\mathbf{s}\\_t \\right) \\right) \\right) \\\
+其中
+f\\_{\\text{pffn}}^{t,i}(\\mathbf{x})=\\mathbf{x}\\mathbf{W}\\_{\\text{pffn}}^{t, i} + \\mathbf{b}\\_{\\text{pffn}}^{t, i} \\\
+这种方式的好处有:
+- 可以防止高频特征主导模型并淹没低频或长尾信号
+- 可以极大程度地提高模型参数规模, 同时计算复杂度保持不变。
+此外, 在Multi-head Token Mixing后，如果使用参数共享的FFN，Token往往会坍缩成相同的表示。
+### 2.5.2 Parameter Scaling方法
+参数Scaling其实LLM已经给出了比较好的解法, 就是Sparse MoE框架, 与之对应的一个概念是Dense models, 这里给出这两类模型的定义
+- \*\*Dense models:\*\* apply all parameter to every input.
+- \*\*Sparse models:\*\* activating a subset of parameter for each input.
+Sparse模型的优势有:
+- \*\*拓展模型参数, 延伸Scaling Law:\*\* 模型规模是提升模型性能的关键因素之一, 这点可以参考近几年LLM的Scaling Law。一般而言, 在有限的计算资源预算下，用更少的训练步数训练一个更大的模型，往往比用更多的步数训练一个较小的模型效果更佳。
+- \*\*同等参数量下, 更高的推理效率:\*\* 对于输入的推理样本, FFN中只有部分参数被激活。此外, 一些文献还提到, 稀疏性还可以使LLM更好地对齐指令微调数据。
+回到MoE这里, 谷歌在17年提出的Sparsely-Gated MoE论文中, 首次提出使用稀疏激活专家处理输入样本, 对于一次输入只激活部分Expert。具体地, 当使用Top-k门控网络选择k个样本时, 门控网络的输出如下:
+G(x)=\\operatorname{softmax}\\left(\\operatorname{Top} k\\left(x W\\_{\\text {gate }}, k\\right)\\right) \\\
+其中, W\\_{\\text {gate}}为门控网络参数, \\operatorname{Top}k表示保留门控输出的前k个值，并设置其余Expert输出为-\\infty，从而通过Softmax只评估前k个专家。
+关于稀疏MoE这里, LLM有着非常多优秀的解决方案, 比如DeepSeekMoE, 大家肯定听的比较多了, 这里不做过多展开介绍了。
+### 2.6 训练&推理加速
+在训练加速上, 一些普遍比较有效的做法有:
+- \*\*混合精度计算:\*\* 训练时将模型的dense部分从FP32转成BP16进行训练, 这里主要对GEMM密集的结构收益会比较显著。
+- \*\*Flash Attention:\*\* 通过优化GPU内存访问模式来加速Self-Attention和减少显存占用。
+- \*\*算子融合:\*\* 通过将多个小算子合并为一个大算子，直接减少了Kernel的启动总数，从而显著降低了这部分开销。这是因为, 合并成一个大算法子后, 中间的结果可以在高速的寄存器或共享内存中传递, 极大减少对显存的访问, 缓解"内存墙"(计算性能的增长速度远超内存带宽的增长速度)问题。
+- \*\*变长序列:\*\* 这个前面也有提到, 通过支持变长序列的输入无需做padding，大幅提升了Attention的计算效率
+在推理加速上: 一些普遍比较有效的做法有:
+- \*\*混合精度推理:\*\* 模型的权重仍然是以FP32保存, 但推理时支持了FP16, 可以大大提升吞吐量, 很多实践表明, 精度几乎无损。
+- \*\*KV-Cache:\*\* 如果注意力使用单向因果注意力，那历史序列的 Key(K)和Value(V)向量(KV)具有无后效性, 可以被预先(比如在召回阶段)就提前计算并缓存下来, 然后在精排阶段, 针对所有候选Item共享KV-cache, 大大减少冗余计算。
+## 3、LLM4GRs路线
+LLM4DLRMs虽然引入了非常多的LLM的理念和技术, 但最上层还是基于传统判别式的思路来做的, LLM4GRs则是更往LLM的技术靠拢了, 改革更加彻底。特别是随着快手OneRec以及其它OneModel的相继提出, 推倒传统DLRMs的"召回-粗排-精排"级联模式这种非常大胆的想法, 看起来也是能直接落地的。
+![](https://pic3.zhimg.com/v2-ce2638940c72f42ff6e18bdc8053d730\_1440w.jpg)
+LLM4GRs的整体路径是, 语义ID的构造 \\rightarrow 生成式预训练 \\rightarrow 强化学习偏好对齐 \\rightarrow 推理解码策略。可以发现, 这条路线和现在LLM的路线是非常相似的。
+### 3.1 语义ID的构造
+语义ID是谷歌在TIGER的生成式召回论文中提到的, 它是通过将多模态Embedding量化得到的, 现在已经是生成式推荐的基石了, 最近一年也是有不少研究提出各种语义ID的构造方法。值得一提的是, 语义ID的构造是为业务服务的, 在构造语义ID时, 需要紧密结合业务的特性, 比如最简单的一个问题就是"你的语义ID的层数以及每一层的codebook size是多大", 这些都是与后续的解码策略是一一对应的。
+### 3.1.1 语义Embedding增加协同信号
+推荐系统想要的语义相似, 并不完全是要内容上的语义相似, 还有内容在推荐系统中的协同行为上的相似, 在协同信号驱动的推荐系统里, 后者可能还更重要一些。关于推荐系统的语义Embedding的构造, 业界的一个共识是要引入推荐系统协同信号的先验知识。
+这一方面, 业界的方案整体上相差不大, 主要是通过在真实业务场景中筛选构造出Item Pairs对样本, 使用Item-to-Item的对比学习损失函数实现表征对齐。
+以OneRec-V1技术报告中提到的为例:
+![](https://picx.zhimg.com/v2-0349f4130c049b2f0e8c372cc9520e1f\_1440w.jpg)
+- \*\*Item Paris构造:\*\* 两种方式, 一种是将用户有点击的Target Item与最近的正向行为Item组成Pairs, 另一种是使用Swing之类的I2I且大于一定分数的Item组成Pairs
+- \*\*多模态表征:\*\* 将封面以及5个均匀采样帧,标题,Tag,ASR,OCR输入miniCPM-V-8B, 得到\\mathbf{M}\\in\\mathbb{R}^{N\\_M\\times d\\_{t}} (N\\_M=1280, d\\_{t}=512)。然后再使用QFormer去做压缩(N\\_{\\tilde{M}}=4)
+\\mathbf{Q}^{(i+1)} = \\text{CrossAttn}\\left(\\mathbf{Q}^{(i)}, \\mathbf{M},\\mathbf{M}\\right), \\mathbf{Q}^{(1)}\\in\\mathbb{R}^{N\\_{\\tilde{M}}\\times d\\_{t}} \\\ \\mathbf{Q}^{(i+1)} = \\text{FFN}(\\text{RMSNorm}(\\mathbf{Q}^{(i+1)}), \\quad \\text{for } i \\in \\{1, 2,\\ldots, N\\_{c}\\} \\\
+- \*\*损失函数:\*\* Item Pairs使用对比学习损失训练, 同时, 对于标题额外增加一个损失\\mathcal{L}\\_{caption\\\\_gen} = -\\sum^{}\\_{k} \\log P\\left(t^{k+1}\|\\left\[t^1, t^2, \\cdots, t^k\\right\]\\right)
+### 3.1.2 单模态向量的语义ID构造
+单一模态的语义ID只需要考虑如何量化编码就行, 不需要过多考虑多模态的问题。语义ID可以分成两类:
+- \*\*串行(残差量化)语义ID:\*\* 主要是使用残差来量化成多层的语义ID, 除了第一层, 每一层语义ID的构造都需要依赖前面几层的构造结果, 是有序的, 存在先后串行依赖关系。
+- \*\*并行语义ID:\*\* 基于多个codebook来构造并行化的语义ID, 这些语义ID之间是无先后依赖关序的
+### 3.1.2.1 串行(残差量化)语义ID
+现在业界主流使用都是基于残差量化的语义ID, 比如RQ-VAE, RQ-KMeans。一般来说, 笔者建议直接使用RQ-KMeans就可以了, 基本上效果不会太差。RQ-KMeans的示意图如下图所示。
+![](https://pic4.zhimg.com/v2-2576f131638af24bec4b8949df2399bd\_1440w.jpg)
+### Step1: 残差量化编码表的构造
+L层的编码表通过递归方式得到。具体地, 每一层使用Kmeans算法对Item表征集合\\mathbf{M}^{k-1}做聚类, 得到N个聚类中心, 然后每个Item都减去最近邻的聚类中心后得到新的Item表征集合\\mathbf{M}^{k}。
+### Step2: 获取残差量化编码
+在得到L个codebook \[\\mathbf{R}^1, \\mathbf{R}^2, \\dots, \\mathbf{R}^L\]之后, 每个Item的多模态表征都可以做量化。逐层地基于当前的残差表征从对应的codebook中查找最近邻的聚类中心的下标作为code id, 如上图的示例中, 依次的code id为(3, 4, 1, ...)即为语义ID了。
+为了提高码本利用率, KMeans可以使用平衡的KMeans算法(OneRec Paper)来实现, 另外, 原向量和残差向量都可以做归一化处理。
+### 3.1.2.2 并行语义ID
+Meta的RPG就使用了并行的语义ID, 具体地, 这篇论文使用Kaiming的OPQ(Optimized Product Quantization)量化来构造Item的长语义ID。
+OPQ 的核心思想是:在PQ量化(Product Quantization)之前，先通过一个正交矩阵R对原始向量进行旋转，使得旋转后的子向量之间尽可能独立、方差均衡，从而降低整体量化误差。
+具体步骤如下：
+- 学习一个正交旋转矩阵R^{D×D}，使得旋转后的数据更适合 PQ；
+- 对旋转后的向量进行标准PQ操作(划分为子向量 + 独立量化）；
+- 在查询时也使用相同的R对查询向量进行旋转，再进行距离计算。
+假设预训练的多模态表征维度是1024维, 使用OPQ方法可以将旋转后的1024维表征中的每32维子向量都做独立量化(如KMeans处理成256个codebook)。
+这样每个Item就有长度为\\frac{1024}{32}=32的语义ID(32个token), 词表大小是256 \\times 32, 语义ID的编码空间是256^{32}, 这是一个极其庞大的数, 远大于常规串行语义ID的编码空间。
+### 3.1.3 多模态向量的语义ID构造
+如果Item的语义涉及多种模态信息, 如文本模态Embed, 图片模态Embed, 直接Concat起来去做量化是一种方法, 但也可以做的更细致一些, 比如阿里WWW'25\|ESANS这里。
+### Step1: 多模态表征对齐
+多个模态涉及到表征对齐, 比如阿里的ESANS会对各个模态拼接一个Encoder实现映射后的维度对齐。
+\\begin{split} \\mathcal{M\\_I} &= H\\_\\mathcal{I}(\\mathcal{R\\_I}) \\in \\mathbb{R}^{N\\times d\\_m}, \\\ \\mathcal{M\\_T}&=H\\_\\mathcal{T}(\\mathcal{R\\_T}) \\in \\mathbb{R}^{N\\times d\\_m},\\\ \\mathcal{M\\_G}&=H\\_\\mathcal{G}(\\mathcal{R\\_G}) \\in \\mathbb{R}^{N\\times d\\_m}, \\end{split} \\\
+另外, 作者参考CLIP对齐思路(上图a), 实现3种模态两两之间的表征对齐:
+\\begin{split} \\mathcal{ L}\\_{align}^{\\mathcal{I}-\\mathcal{T}}&=-\\mathop{\\mathbb{E}}\\limits\\_{\\mathcal{S}}\[ \\log \\frac {h(\\mathbf{x}\\_{\\mathcal{ I}- \\mathcal{ T}})} {h(\\mathbf{x}\\_{\\mathcal{ I}- \\mathcal{ T}})+\\sum\\_{i=1}^{N-1}{h(\\mathbf{y}\\_{\\mathcal{ I}- \\mathcal{ T}}^i)}}\], \\\ \\mathcal{ L}\\_{align}^{\\mathcal{I}-\\mathcal{G}}&=-\\mathop{\\mathbb{E}}\\limits\\_{\\mathcal{S}}\[ \\log \\frac {h(\\mathbf{x}\\_{\\mathcal{ I}- \\mathcal{ G}})} {h(\\mathbf{x}\\_{\\mathcal{ I}- \\mathcal{ G}})+\\sum\\_{i=1}^{N-1}{h(\\mathbf{y}\\_{\\mathcal{ I}- \\mathcal{ G}}^i)}}\], \\\ \\mathcal{ L}\\_{align}^{\\mathcal{G}-\\mathcal{T}}&=-\\mathop{\\mathbb{E}}\\limits\\_{\\mathcal{S}}\[ \\log \\frac {h(\\mathbf{x}\\_{\\mathcal{ G}- \\mathcal{ T}})} {h(\\mathbf{x}\\_{\\mathcal{ G}- \\mathcal{ T}})+\\sum\\_{i=1}^{N-1}{h(\\mathbf{y}\\_{\\mathcal{ G}- \\mathcal{ T}}^i)}}\], \\end{split} \\\
+### Step2: 两层的残差量化聚类方法
+这里, 作者基于多模态表征残差量化的方法与常规方法(如将多模态表征pooling或concat起来再做量化)有所区别, 具体的:
+- \*\*primary codebook:\*\* 第1层的codebook是基于对齐后3种模态表征的均值\\mathcal {R}\\_p^i=\\frac {1} {3}(\\mathcal{M}^i\\_\\mathcal{I}+\\mathcal{M}^i\\_\\mathcal{T}+\\mathcal{M}^i\\_\\mathcal{G})再做聚类得到的, 记第i个内容最近邻的第1层codebook的向量为z\\_p^{C\\_p^i}, 这一层codebook刻画的其实是相对"粗粒度"的模态信息。
+- \*\*secondary codebook:\*\* 第2层的codebook是基于3种模态的残差结果拼接后的表征\\mathcal{ R}\\_s^i=\[\\mathcal{M}^i\\_\\mathcal{I}-z\\_p^{C\\_p^i};\\mathcal{M}^i\\_\\mathcal{T}-z\\_p^{C\\_p^i};\\mathcal{M}^i\\_\\mathcal{G}-z\\_p^{C\\_p^i}\] , 再做聚类构造的, 记第i个内容最近邻的第2层codebook的向量为z\\_s^{C\\_s^i}, 这一层codebook刻画的就是相对"细粒度"的模态信息。
+下图给出了作者使用这种"粗-细粒度"结合方式好处的一个示例:
+![](https://pic2.zhimg.com/v2-1d203739907a6fd01034292e200931f3\_1440w.jpg)
+作者基于k-means算法的结果来初始化这两层codebook, 然后, 再使用下面的loss进行训练的:
+\\mathcal{L}\\_{\\text{SQ}} = \\sum\\_{i=1}^N \\\|\\mathcal{ R}\\_p^i-z\\_p^{C\\_p^i} \\\|^2+ \\sum\\_{i=1}^N \\\|\\mathcal{ R}\\_s^i-z\\_s^{C\\_s^i} \\\|^2 \\\
+这样, 多模态对齐聚类过程的整体Loss为:
+\\mathcal{ L}=\\beta\\_1\\mathcal{ L}\\_{align}^{\\mathcal{I}-\\mathcal{T}}+\\beta\\_2\\mathcal{ L}\\_{align}^{\\mathcal{I}-\\mathcal{G}}+\\beta\\_3\\mathcal{ L}\\_{align}^{\\mathcal{G}-\\mathcal{T}}+\\mathcal{L}\\_{\\text{SQ}} \\\
+### 3.2 生成式预训练
+生成式GRs的预训练涉及样本构造、模型框架、损失函数等多方面细节。
+### 3.2.1 样本如何构造
+### 3.2.1.1 怎样定义样本序列
+样本序列的构造主要有两种方式, 这两种方式各有优劣:
+- \*\*基于弱反馈正向行为样本构造:\*\* 比如有效播放50%就是偏弱一些的反馈信号, 再按曝光的时间戳顺序组织样本, 比较贴近用户的真实使用场景, 且能更大范围使用数据, 比如快手的OneRec就是基于曝光样本, 但由于预测的是"Next Impression Item", 并没有完全对齐用户兴趣, 还需要强大的Reward模型做强化学习实现用户偏好对齐。
+- \*\*基于强反馈正向行为样本构造:\*\* 将用户有产生强正向行为的样本按时间顺序组织成序列样本, 不过可能会出现时序乱序问题, 比如看了视频A比较有趣, 就搜索了相似的视频B并点赞了, 接着又回过来点赞视频A, 从正向交互行为的时间顺序来看, 是B\\rightarrow A, 但实际上是A \\rightarrow B。不过这个可能也不是大问题, 也能做优化, 这种方式的好处是, 它是直接预测用户的"Next Interest Item", 可以理解为贴近用户偏好了, 输入更纯粹, 不需要那么依赖强化学习去做对齐, 但样本量会少很多。
+### 3.2.1.2 怎样组织样本
+一般来说, 生成式推荐有3种样本组织形式:
+![](https://pic1.zhimg.com/v2-a4dd904d0b8400eb3dd6a2e20c8e4ac8\_1440w.jpg)
+图源:周国睿AiCon技术分享
+- \*\*User-Centric方式:\*\* 每个用户组织成一条样本, 会存在时序数据泄漏和流行度偏差问题, 这倒是其次, 笔者认为最麻烦的是, 这种方式很难适配推荐场景的增量/流式更新。
+- \*\*Naive Impression方式:\*\* 按时序曝光预测, 但存在重复计算问题(如图中a总共计算了3次, B总共计算了2次)。
+- \*\*New Impression Only方式:\*\* 按曝光组织样本, 只在Target Item上做next token prediction, 没有信息泄漏问题, 且支持增量/流式更新。这种方式, 只对序列中没见过的新曝光样本计算Loss, 既减少了存储开销, 也节省了计算资源, 也是主流的样本组织方式了。
+### 3.2.2 预训练架构选择
+从训练框架上, 主要分成Encoder-Decoder框架、以及Decoder-Only框架, 另外, 也特别提下OneRec-V2的Lazy Decoder-Only架构。
+### 3.2.2.1 Decoder-Only架构
+现在LLM基本都是Decoder-Only架构了, 如下图所示, 它还可以细分成以下3种, 不过, 学术界所提到Decoder-Only架构时，通常指的都是Causal Decoder-Only架构。
+![](https://pic2.zhimg.com/v2-cb32a79388f8eb0a33cb4e2d1af92c89\_1440w.jpg)
+图源: AI Box 《大语言模型》一书
+Decoder-Only已经被广泛验证了其高效性, 不过, GRs这里现阶段大家还没有普遍采用这种框架, 比如快手的OneRec-V1还是Encoder-Decoder的。虽然大家都想要往Causal Decoder-Only架构上靠, 但确实是还存在一些困难:
+- \*\*特征异质性问题:\*\* LLM对于文本、代码等异质信息会做统一的Token化处理的。但在推荐场景, 不同特征域的特征异质性问题十分突出, 比如用户画像特征, 序列特征, 上下文特征。这些特征虽然可以被Token化, 但这些异质的Token使用Causal Decoder-Only的NTP去建模显然不那么合适了, 除非输入信息只是单一的用户行为序列或者像HSTU一样完全处理成序列。
+- \*\*效率相对较低:\*\* LLM里Decoder-Only架构的效率是更高的, 但基于语义ID的推荐系统, 效率可能要大打折扣。以OneRec为例, 它的语义ID为3\\times8192, 推理时, 需要使用3次解码才能预测得到完整的语义ID。虽然因果Decoder-Only完全可以建模处理这种情形, 但输入的Token序列长度扩大成了3倍, 效率上还是要差些。
+不过, 如果我们做一些取舍或简化, 倒是可以直接使用Causal Decoder-Only架构的。比如百度提出的COBRA方法就是这种架构, 下图对比了COBRA方法与TIGER方法的差异, 主要有两点:
+- \*\*同时预测语义ID和Dense表征:\*\* 相比TIGER只依赖Sparse的语义ID特征, COBRA会同时使用粗粒度的语义信息, 以及细粒度的Dense表征, 会同时预测语义ID和Dense表征。
+- \*\*使用因果Decoder-Only架构:\*\* 只使用Transformer Decoder去做粗粒度语义ID的预测。
+![](https://pic3.zhimg.com/v2-e9c8854b4b4b6b250145bd8c07e81b6c\_1440w.jpg)
+为什么百度COBRA可以使用Decoder-Only架构呢, 主要也是两点:
+- \*\*只输入用户交互序列:\*\* COBRA把问题看成是序列建模问题, 模型的输入足够纯粹, 基本上只有用户行为序列。
+- \*\*语义ID编码空间足够小:\*\* 论文实验中有提到, 百度这里语义ID是非常粗粒度的, 大小也就只是3层codebook Size=32, 语义ID的编码空间才32^3=32768。因此, 百度这里可以不需要做多步解码, 直接使用词表大小为32768来表示全编码空间的语义ID, 完全可以一步到位实现Next语义ID的预测, 虽然论文里没有披露出这点细节, 但笔者相信应该就是这样实现的。也因为这里的语义ID非常粗粒度, COBRA这里才需要额外再基于语义ID来进一步预测对应的Dense Embedding去做线上检索。
+### 3.2.2.2 Encoder-Decoder框架
+快手的OneRec-V1使用的是Encoder-Decoder架构, Encoder负责用户兴趣刻画, 将很多异质特征都输入到Encoder中, 而Decoder则自回归预测生成语义ID, 技术报告详细披露了模型的信息输入.
+![](https://picx.zhimg.com/v2-2d089a912efaf9d7d7c70e9bb1508f3f\_1440w.jpg)
+1) Encoder多尺度刻画用户兴趣
+在Encoder对用户行为刻画上, 同时考虑用户静态特征、短期行为序列、正反馈(有效观看)序列和终身行为序列.
+- \*\*用户静态特征 & 短期行为序列 & 正反馈序列\*\*
+用户静态特征主要包括用户ID, 年龄, 性别等, 短期行为序列使用用户最近的L\\_{s}=20条行为序列, 正反馈(有效观看)序列取L\\_p = 256条。这三类特征的处理逻辑是类似的
+\\mathbf{f}\\_u = \[\\mathbf{e}\\_{\\text{uid}}; \\mathbf{e}\\_{\\text{gender}}; \\mathbf{e}\\_{\\text{age}};\\cdots\] \\\\\mathbf{f}\\_s = \[\\mathbf{e}\\_{\\text{vid}}^s; \\mathbf{e}\\_{\\text{aid}}^s; \\mathbf{e}\\_{\\text{tag}}^s; \\mathbf{e}\\_{\\text{ts}}^s; \\mathbf{e}\\_{\\text{playtime}}^s;\\mathbf{e}\\_{\\text{dur}}^s; \\mathbf{e}\\_{\\text{label}}^s\] \\\\\mathbf{f}\\_p = \[\\mathbf{e}\\_{\\text{vid}}^p; \\mathbf{e}\\_{\\text{aid}}^p; \\mathbf{e}\\_{\\text{tag}}^p; \\mathbf{e}\\_{\\text{ts}}^p; \\mathbf{e}\\_{\\text{playtime}}^p;\\mathbf{e}\\_{\\text{dur}}^p; \\mathbf{e}\\_{\\text{label}}^p\] \\\
+其中, \\mathbf{e}\\_{\\text{uid}},\\mathbf{e}\\_{\\text{gender}}, \\mathbf{e}\\_{\\text{age}} \\in \\mathbb{R}^{64} , \\mathbf{e}\\_{\\text{vid}}^s维度与d\\_{\\text{model}}一致, 作者embed \\mathbf{e}\\_{\\text{aid}}^s=512维, 其余为128维。然后, 各自再做类似的映射
+\\mathbf{h}\\_u = \\text{Dense}(\\text{LeakyReLU}(\\text{Dense}(\\mathbf{f}\\_u))). \\\\\mathbf{h}\\_s = \\text{Dense}(\\text{LeakyReLU}(\\text{Dense}(\\mathbf{f}\\_s))) \\\\\mathbf{h}\\_p = \\text{Dense}(\\text{LeakyReLU}(\\text{Dense}(\\mathbf{f}\\_p))). \\\
+其中, \\mathbf{h}\\_{u} \\in \\mathbb{R}^{1 \\times d\\_{\\text{model}}}, \\mathbf{h}\\_{s} \\in \\mathbb{R}^{L\\_s \\times d\\_{\\text{model}}}, \\mathbf{h}\\_{p} \\in \\mathbb{R}^{L\\_p \\times d\\_{\\text{model}}}
+- \*\*终身行为序列\*\*
+为了建模用户的超长行为序列, 作者使用TWIN-V2中聚类的思路, 对用户超长行为序列进行层次聚类做聚合处理。
+对于用户长行为序列L\\_l = 2000, 使用聚类中心的表征来做替换。
+\\mathbf{f}\\_l = \[\\mathbf{e}\\_{\\text{vid}}^l; \\mathbf{e}\\_{\\text{aid}}^l; \\mathbf{e}\\_{\\text{tag}}^l; \\mathbf{e}\\_{\\text{ts}}^l; \\mathbf{e}\\_{\\text{playtime}}^l;\\mathbf{e}\\_{\\text{dur}}^l; \\mathbf{e}\\_{\\text{label}}^l\] \\\\\mathbf{v}\\_l = \\text{Dense}(\\text{LeakyReLU}(\\text{Dense}(\\mathbf{f}\\_l))) \\\
+然后, 再过一个N\\_q=128,N\\_l = 2的QFormer进一步处理长序列, 得到\\mathbf{h}\\_l = \\mathbf{h}\\_l^{(N\\_l)} \\in \\mathbb{R}^{N\\_q \\times d\\_{\\text{model}}}
+\\mathbf{h}\\_l^{(i+1)} = \\text{CrossAttn}(\\mathbf{h}\\_l^{(i)}, \\mathbf{v}\\_l, \\mathbf{v}\\_l) \\\\\mathbf{h}\\_l^{(i+1)} = \\text{FFN}(\\text{RMSNorm}(\\mathbf{h}\\_l^{(i+1)})) \\\
+- \*\*Encoder部分\*\*
+Encoder的特征输入就是前面的几类特征和位置编码:
+\\mathbf{z}^{(1)} = \[\\mathbf{h}\\_{u}; \\mathbf{h}\\_s; \\mathbf{h}\\_p; \\mathbf{h}\\_l\] + \\mathbf{e}\\_{\\text{pos}} \\\
+其中, \\mathbf{e}\\_{\\text{pos}} \\in \\mathbb{R}^{(1 + L\\_s + L\\_p + N\\_q) \\times d\\_{\\text{model}}}, 后面就是常规的SelfAttn和FFN处理, 最后得到的表征\\mathbf{z}\\_{\\text{enc}}=\\mathbf{z}^{(L\\_{enc}+1)} \\in \\mathbb{R}^{(1 + L\\_s + L\\_p + N\\_q) \\times d\\_{\\text{model}}}作为Encoder的输出。
+2) Decoder:Next Token Prediction
+Decoder这里是Pointwise的预测, 只预测一个Item所对应的3层语义ID。经过CausalSelfAttn和CrossAttn后, 再使用稀疏MoE替换FFN来提升模型容量, 同时这里会使用DeepSeek-V3提到的Loss-free的负载均衡策略来提高专家的能力。最后, 再做基于语义ID的Next Token Prediction, 这里不再赘述:
+\\mathcal{L}\\_{\\mathrm{NTP}}=- \\sum\\_{j=1}^{L\\_t-1} \\log P\\left(s\\_m^{j+1} \\mid\\left\[s\\_{\[\\mathrm{BOS}\]}, s^1\\_m, s^2\\_m, \\cdots, s^j\\_m \\right\] \\right) \\\
+### 3.2.2.3 Lazy Decoder-Only架构
+快手OneRec-V2提出的Lazy Decoder-Only架构虽然也是Decoder-Only的, 但其实和前面所提的因果Decoder-Only架构还是有区别的, 直观来说就是, OneRec-V2只是针对Target Items的语义ID预测部分, 但平常我们所说的因果Decoder-Only是对输入的完整用户行为序列。
+### 1) 出发点
+OneRec的训练开销整体上可以分成两类:
+- \*\*Context Encoding:\*\* 指处理和转换用户上下文特征的计算操作, 具体包括：(a) Encoder中执行的上下文转换操作 (b)Decoder交叉注意力中的上下文投影操作
+- \*\*Target Decoding:\*\* 指处理和转换Target Item语义tokens的计算操作，具体包括：(a) 捕捉语义token间依赖关系的自注意力机制 (b) 应用非线性变换的FFN (c) 交叉注意力中的查询和输出转换
+OneRec-V1采用的Encoder-Decoder框架, 存在一些训练瓶颈。
+![](https://pic2.zhimg.com/v2-b9acc7507ead17dd97fc7d02fee6b99b\_1440w.jpg)
+它的训练开销集中在没有直接参与Loss计算的Context Encoding部分, 而直接参与Loss计算部分的开销占比非常低, Naive Decoder-Only框架也是存在类似的问题。
+![](https://pica.zhimg.com/v2-4cb1a3ca69692f51fe1d577a773d089a\_1440w.jpg)
+作者提出的Lazy Decoder-Only框架如下图所示, 主要包含 \*\*Context Processor模块\*\* 和 \*\*Lazy Decoder Block\*\* 两部分
+![](https://pic1.zhimg.com/v2-c9f41ab9c41916d499a0a1f3108d6854\_1440w.jpg)
+### 2) Context Processor
+Context Processor模块旨在高效处理异构用户特征并将其转化为Decoder可用的统一表示, 具体地:
+与OneRec-V1类似, 特征输入可以简单分成3类: 用户静态特征、短期行为序列、长期行为序列, 这些上下文特征会使用小FC去做特征对齐。
+记这里处理后的token序列长度为N\\_s + T\\_{\\text{short}} + T\\_{\\text{long}}, 其维度可以定义为:
+d\\_{\\text{context}} = S\\_{\\text{kv}}\\cdot L\\_{\\text{kv}} \\cdot G\\_{\\text{kv}} \\cdot d\\_{\\text{head}} \\\
+这里看上去稍微有一丢丢复杂, 但后面作者在实验时发现S\\_{\\text{kv}}、L\\_{\\text{kv}}、G\\_{\\text{kv}}的影响不大,可以都设置为1, 所以d\\_{\\text{context}} = d\\_{\\text{head}}。出于描述的完整性, 笔者这里也详细解释下各参数的意义:
+- S\\_{\\text{kv}}: 这些上下文信息在下面的Decoder中是会作为K/V去参与计算的, 那么可以自行设定K/V要不要共享, 如果共享那S\\_{\\text{kv}}=1, 不共享则S\\_{\\text{kv}}=2。作者这里是直接做了共享, 以提高参数效率。
+- L\\_{\\text{kv}}: 接下来的Decoder中会有N\\_{layer}个模块, 如果希望 N\\_{layer}中的每一层的K/V都是独立的, 那L\\_{\\text{kv}}=N\\_{layer}。实际上, 作者会做一些分组共享, 假设N\\_{layer}=6, 比如希望第1~3层用一套KV, 第4~6层用另一套KV, 这时可以设置L\\_{\\text{kv}}=2, 对应下标 l\\_{\\text{kv}} = \\left\\lfloor \\frac{l \\cdot L\\_{\\text{kv}}}{N\\_{\\text{layer}}} \\right\\rfloor
+- d\\_{\\text{head}}: Multi-head里每个head对应的维度大小
+- G\\_{\\text{kv}}: 它是人为设定的参数, 将Multi-head人为划分成若干个分组, 它和H\\_q = d\\_{\\text{model}} / d\\_{\\text{head}}没什么关系, 且G\\_{\\text{kv}} < H\\_q
+这样, 对于Context token序列中每个token, 会对应着S\\_{\\text{kv}} \\times L\\_{\\text{kv}}个维度为G\\_{\\text{kv}} \\times d\\_{\\text{head}}的表示:
+\\text{Context} = \[\\mathbf{C}\\_0, \\mathbf{C}\\_1, \\ldots, \\mathbf{C}\\_{S\\_{\\text{kv}} \\cdot L\\_{\\text{kv}} - 1}\] \\\
+而l \\in \\{0, 1, \\ldots, L\\_{\\text{kv}}-1\\}所对应的KV则取对应的下标:
+\\mathbf{k}\\_l = \\text{RMSNorm}\\_{k,l}(\\mathbf{C}\\_{l \\cdot S\\_{\\text{kv}}}) \\\\\mathbf{v}\\_l = \\begin{cases} \\text{RMSNorm}\\_{v,l}(\\mathbf{C}\\_{l \\cdot S\\_{\\text{kv}} + 1}), & \\text{if } S\\_{\\text{kv}} = 2 \\text{ (separated key-value)} \\\ \\mathbf{k}\\_l, & \\text{if } S\\_{\\text{kv}} = 1 \\text{ (shared representation)} \\end{cases} \\\
+### 3) Lazy Decoder Block
+和OneRec-V1一样, Decoder的输入会额外增加一个【BOS】Token:
+\\mathbf{h}^{(0)} = \\text{Embed}(\[\\text{BOS}, s^1, s^2\]) \\in \\mathbb{R}^{3 \\times d\\_{\\text{model}}} \\\
+其中, s^1, s^2, s^3表示Target Item对应的语义ID所对应的embedding.
+然后, 经过N\\_{\\text{layer}}层Lazy Decoder模块:
+- \*\*cross-attention\*\*
+\\mathbf{h}\\_{\\text{cross}}^{(l)} = \\mathbf{h}^{(l-1)} + \\text{CrossAttn}\\left(\\text{RMSNorm}(\\mathbf{h}^{(l-1)}), \\mathbf{k}\\_{l\\_{\\text{kv}}}, \\mathbf{v}\\_{l\\_{\\text{kv}}}\\right) \\\
+这里, \\mathbf{k}\\_{l\\_{\\text{kv}}}, \\mathbf{v}\\_{l\\_{\\text{kv}}} \\in \\mathbb{R}^{(N\\_s + T\\_{\\text{short}} + T\\_{\\text{long}}) \\times G\\_{\\text{kv}} \\times d\\_{\\text{head}}}, 这是对Cross Attention做了简化, 去掉了K/V的FC。另外, 不同层的kv会做了些共享以提高参数效率, 对于第l层使用第xx套KV的下标计算则是前面介绍的l\\_{\\text{kv}} = \\left\\lfloor \\frac{l \\cdot L\\_{\\text{kv}}}{N\\_{\\text{layer}}} \\right\\rfloor。作者这里直接设置\\mathbf{v}\\_{l} = \\mathbf{k}\\_{l}, 相当于直接做了Target Attention。
+- \*\*self-attention\*\*
+\\mathbf{h}\\_{\\text{self}}^{(l)} = \\mathbf{h}\\_{\\text{cross}}^{(l)} + \\text{SelfAttn}\\left(\\text{RMSNorm}(\\mathbf{h}\\_{\\text{cross}}^{(l)})\\right) \\\
+这里倒没特别不一样的
+- \*\*feed-forward\*\*
+\\mathbf{h}^{(l)} = \\mathbf{h}\\_{\\text{self}}^{(l)} + \\text{FFN}^{(l)}\\left(\\text{RMSNorm}(\\mathbf{h}\\_{\\text{self}}^{(l)})\\right) \\\
+其中, 深层的FFN会使用DeepSeekMoE替换, 以大幅提升模型参数规模, 并维持计算效率。
+最后, Output Layer对应训练损失为:
+\\mathcal{L}\\_{\\text{Gen}} = -\\frac{1}{3} \\sum\\_{i=1}^{3} \\log p(s^i \| \\text{BOS}, s^{\\text{<}i}, \\text{Context}) \\\
+### 3.2.3 训练损失函数
+NTP是基于语义ID的GRs预训练阶段的标准损失函数(交叉熵), 在每一步预测时, 都可以基于全语义ID空间去计算损失。
+在这个基础上, 其它常见的一些优化包括:
+- \*\*对比学习NCE:\*\* 对于基于大词表语义ID的GRs, 可以使用采样负例近似full softmax, 降低计算成本。而对于不使用语义ID(如使用ItemID)的GRs, 那这个几乎是必选了。
+- \*\*Ranking-aware的NTP:\*\* 比如LETTER引入了排序引导的生成损失，通过在计算概率p时增加一个温度系数\\tau, 来增强模型的排序能力。
+- \*\*负反馈感知的NTP:\*\* 比如快手DualGR将曝光未点击的样本也计算了Loss和NTP做加权融合
+- \*\*MTP损失:\*\* 受LLM的MTP启发, 业界很多工作都使用了Multi Token Preidiction的预测机制。
+前3种优化是比较常规的调整, 就不过多介绍了, 重点提下MTP这里, 以SIGIR'25\|阿里HeterRec为例, 虽然这里的工作不是基于语义ID的, 损失函数是在in-batch计算InfoNCE损失, 不过论文这里关于MTP的计算倒都是通用的 如下图所示:
+![](https://picx.zhimg.com/v2-4cefa1085fdd1ddb0f513234cade58b3\_1440w.jpg)
+第j个in-batch样本在第t个位置进行第i步预测所对应的正负样本logit计算为:
+Lgt^{{j},t}\\_{{i},pos} = {{MLP}\\_i(U\\_{t}^{j})}^\\top V\\_{t+i}^{j} \\\Lgt^{j,k,t}\\_{i,neg} = {{MLP}\\_i(U\\_{t}^{j})}^\\top V\\_{t+i}^{k}, j \\neq k \\\
+其中, U\\_{t}表示第t个位置上面Transformer的输出, V\\_{t+i}表示第t+i位置对应的Item经过一个Item Cross Tower(如MLP实现)后的表征。
+第1步计算InfoNCE损失如下(分母额外加了个1):
+L\\_{step\\_1}^{item}=\\sum\\limits\\_{j \\in B, t \\in T} \\frac{e^{Lgt^{{j},t}\\_{1,pos}/{\\tau}}}{1+e^{Lgt^{{j},t}\\_{1,pos}/{\\tau}}+\\sum\\limits\\_{k \\in B,k \\neq j} e^{Lgt^{j,k,t}\\_{1,neg}/{\\tau}}} \\\
+而在第i步计算InfoNCE时, 作者还额外引入了一个指示函数\\mathbb{I}(\\cdot), 确保在多步预测任务中，当前步的预测结果比前一步的预测结果更有信心(即预测得分更高):
+\\small L\\_{step\\_i}^{item}=\\sum\\limits\\_{j \\in B, t \\in T} \\frac{\\mathbb{I}(e^{Lgt^{{j},t}\\_{i-1,pos}/{\\tau}}>e^{Lgt^{{j},t}\\_{i,pos}/{\\tau}}+\\lambda\\_{m})\\*e^{Lgt^{{j},t}\\_{i,pos}/{\\tau}}}{1+e^{Lgt^{{j},t}\\_{i,pos}/{\\tau}}+\\sum\\limits\\_{k \\in B,k \\neq j} e^{Lgt^{j,k,t}\\_{i,neg}/{\\tau}}}, i > 1 \\\
+其中, \\lambda\\_m是人为设定的margin超参.
+最后的损失函数为:
+L\\_{total}=\\sum\\limits\\_{i} ({L\\_{step\\_i}^{item}}+\\sum\\limits\\_{s} {L\\_{step\\_i}^{token\\_s}}) \\\
+### 3.3 后训练:强化学习实现用户偏好对齐
+前面的预训练过程仅是模仿用户的历史行为数据, 并没有和用户偏好以及平台的业务目标对齐。强化学习方法是直接面向这些复杂目标进行优化, 有效实现用户偏好对齐的方法。业界主要落地了两类方法: 基于DPO的方法和基于GRPO的方法。
+### 3.3.1 基于DPO的方法
+基于DPO(Direct Preference Optimization)强化学习的方法, 存在几个优点:
+- 无需单独训练 reward model，实现更简单，训练流程更直接。
+- 偏好数据利用率高，直接用用户偏好对比进行优化，减少奖励误差。
+- 更容易训练&易于部署，整体流程更简洁，工程实现更容易。
+推荐系统并不缺乏偏好数据, 由于DPO方法的上面几个优点, 很多GRs都是使用DPO方法来做偏好对齐的, 比如OneRec-V1一开始也是基于DPO的, 以及后面快手很多其它业务场景里的OneModel(包括搜索词推荐OneSug,本地生活OneLoc,搜索OneSearch)也都选择了这类方法。
+不过, 基于DPO的方法, 非常依赖高质量的偏好数据, 如果构造的偏好数据稀缺或噪声比较大, 效果会比较受限。
+### 3.3.1.1 如何构造高质量偏好数据
+一般来说DPO算法是一种Off-policy的方法, 不需要reward模型, 偏好数据可以来自任意模型(旧模型、人工、第三方)，不要求必须由当前Policy生成。但是, 和其它强化学习方法一样, 如果要想DPO算法的效果更好, 最好还是用当前模型(同分布)去采样数据(也就是On-Policy), 这时就可以额外再训一个Reward模型了。
+### 1) Off-Policy方法
+快手的OneSug就是这种Off-policy方式, 它基于用户的真实行为反馈来定义Reward(简称RWR)
+r(x\\_u, q) ={\\lambda\\cdot e^{pi}} \\\
+这里, 作者总共定义了6种Level分层用户行为, pi表示该等级中交互查询所占的比例, \\lambda表示不同用户行为的Reward权重, 如下图所示:
+![](https://pica.zhimg.com/v2-53eca6b13840712dcda816fb380818aa\_1440w.jpg)
+或者也可以OneSearch的这个图, 它们Reward定义是一样的:
+![](https://pic3.zhimg.com/v2-c3b47b57b1f9afff9d0deda5568dc43c\_1440w.jpg)
+然后, 基于这些行为Reward, 作者构造了DPO的Pair-wise样本。具体地, 作者将前3种行为(即“Order”、“Item Click”和“Click”)视为正样本q\\_w，将后3种行为(即“Show”、“Not Show”和“Rand”)视为负样本q\\_l，进而构造出9类<正样本,负样本>Pair对, 并定义其reward(权重)为:
+rw\\_{\\Delta} = \\frac{1.0}{r(x\\_u, q\\_w) - r(x\\_u, q\\_l)} \\\
+相比于常规的DPO, 其不仅定义了正负样本Pair, 还额外定义了这个Pair对样本具体的权重。熟悉DPO算法的同学可能会发现, 这里动态的rw\\_{\\Delta}其实是替换了常规DPO损失中固定超参\\beta, 起到细粒度的Reward把控能力。
+### 2) On-policy方法
+OneRec-V1在一开始(公开Paper时), 是基于DPO的迭代偏好对齐来训练的, 其训练流程如下图所示:
+![](https://picx.zhimg.com/v2-fea35a677512ed2e96180c90c2580c2d\_1440w.jpg)
+由于使用On-policy方法, 论文预训练了一个的奖励模型R(\\mathbf{u},\\mathcal{S})(这里不做展开描述)。记当前的OneRec模型\\mathcal{M}\\_t, 使用beam search生成N个结果, 记作:
+\\mathcal{S}\\_u^n \\sim M\\_t(\\mathcal{H}\\_u) \\quad \\text{for all} \ u \\in \\mathcal{U} \ \\text{and} \ n \\in \\{1,2,\\dots,N\\} \\\
+并记奖励模型预测对应的reward为:
+r\\_u^n=R(\\mathbf{u},\\mathcal{S}\\_u^n) \\\
+然后, 基于reward筛选出分数最高的session列表\\mathcal{S}\\_u^w,和分数最低的session列表\\mathcal{S}\\_u^l组成偏好数据集D\\_t^\\text{pairs} = (\\mathcal{S}\\_u^w,\\mathcal{S}\\_u^l,\\mathcal{H}\\_u), 用于迭代训练t+1步的模型M\\_{t + 1}。
+### 3.3.1.2 损失函数
+以OneSug为例, 论文同时使用了pair-wise和list-wise损失。
+### 1) Pair-wise损失
+在计算Pair-wise的损失时, 引入了一个大于0的\\delta作为正负样本的margin以提高泛化性, 同时也把pair对的具体的样本系数rw\\_{\\Delta}, 这里较小的系数(Reward差异更大),会鼓励模型去把括号内的结果区分的更好一些。
+\\scriptsize \\mathcal{L}\\_{\\text{pair-wise}} = -\\mathbb{E} \\Bigg\[ \\log \\sigma \\Big( rw\\_{\\Delta} \\big(max(0, \\hat{r}\\_\\theta(x\\_u, q\\_w) - \\hat{r}\\_\\theta(x\\_u, q\\_l) - \\delta ) \\big) \\Big) + \\alpha \\log \\pi\\_\\theta(q\\_w \| x\\_u) \\Bigg\] \\\
+其中, \\hat{r}\\_\\theta(x\\_u, q\\_{w\\\/l})= \\beta \\log \\frac{\\pi\\_\\theta(q\\_{w\\\/l}\|x\\_u)}{\\pi\\_{\\text{ref}}(q\\_{w\\\/l}\|x\\_u)} ,第2项的\\alpha \\log \\pi\\_\\theta(q\\_w \| x\\_u)是SFT损失,是为避免模型过度拟合奖励模型而牺牲生成质量, rw\\_{\\Delta}是前面人为定义出来的样本权重。
+### 2) List-wise损失
+同时, 受S-DPO启发, 作者还构造了 \*\*(一个正样本, 多个负样本)\*\* 的偏好数据集, 将上述pairwise loss扩展成了listwise loss
+\\scriptsize \\mathcal{L}\\_{\\text{list-wise}} = -\\mathbb{E} \\Biggl\[ \\log \\sigma \\bigg( -\\log \\sum\\_{q\\_l \\in \\mathcal{Q}\\_l} \\exp \\Big( rw\\_{\\Delta} \\max \\big(0, \\hat{r}\\_\\theta(x\\_u, q\\_l) - \\hat{r}\\_\\theta(x\\_u, q\\_w) - \\delta \\big) \\Big) \\bigg) + {\\alpha \\log\\pi\\_\\theta\\left(q\\_w \| x\\_u \\right)} \\Biggr\] \\\
+其中, \\mathcal{Q}\\_l表示对应的多个负样本。
+### 3.3.2 基于GRPO的方法
+尽管DPO是非常不错的实现偏好对齐的框架，但它的奖励建模不足以应对精细的排序任务。基于GRPO的方法可以训练一个非常强大的Reward模型, 并使用组内排序来构造更复杂的奖励系统。不过, 推荐场景里, 基于GRPO算法训练不稳定是一个技术难点, OneRec-V1和OneRec-V2的技术报告里, 都做了一些改进以提高强化学习的训练稳定性。
+### 3.3.2.1 OneRec-V1技术报告:ECPO算法
+Early Clipped GRPO OneRec强化学习部分对DeepSeek的GRPO做了改进, 提出了ECPO(Early Clipped GRPO)方法:
+\\scriptsize \\mathcal{J}\\_{ECPO}(\\theta) = \\mathbb{E}\\_{u\\sim P(U),\\{o\\_i\\}\\_{i=1}^G\\sim\\pi\\_{\\theta\\_{old}}}\\left\[\\frac1G\\sum\\_{i=1}^G\\text{min}\\left(\\frac{\\pi\\_{\\theta}(o\\_i\|u)}{\\pi\\_{\\theta\\_{old}}'(o\\_i\|u)}A\\_i,\\text{clip}\\left(\\frac{\\pi\\_{\\theta}(o\\_i\|u)}{\\pi\\_{\\theta\\_{old}}'(o\\_i\|u)},1-\\epsilon,1+\\epsilon\\right)A\\_i\\right)\\right\] \\\A\\_i = \\frac{r\\_i-\\text{mean}(\\{r\\_1,r\\_2,...,r\\_G\\})}{\\text{std}(\\{r\\_1,r\\_2,...,r\\_G\\})} \\\\\pi\\_{\\theta\\_{old}}'(o\\_i\|u)=\\text{max}\\left(\\frac{\\text{sg}(\\pi\\_\\theta(o\\_i\|u))}{1+\\epsilon+\\delta},\\pi\\_{\\theta\\_{old}}(o\\_i\|u)\\right), \\quad\\delta>0 \\\
+根据上面ECPO 定义：
+\\pi\\_{o l d}^{\\prime}=\\max \\left(\\frac{s g\\left(\\pi\\_\\theta\\right)}{1+\\epsilon+\\delta}, \\pi\\_{o l d}\\right)>=\\frac{s g\\left(\\pi\\_\\theta\\right)}{1+\\epsilon+\\delta} \\\
+可以得到
+\\frac{\\pi\\_\\theta}{\\pi\\_{\\text {old }}^{\\prime}}<=\\frac{\\pi\\_\\theta}{\\frac{s g\\left(\\pi\\_\\theta\\right)}{1+\\epsilon+\\delta}}=1+\\epsilon+\\delta \\\
+因此
+- 当奖励 A\\_i>0 时，由于 1+\\epsilon+\\delta>1+\\epsilon ，原先上界 1+\\epsilon 不受影响，ECPO 和 GRPO 行为一致。
+- 当奖励 A\\_i<0 时，ECPO 对于可能出现的反向回传梯度过大的现象提前进行了截断，即增加上界约束 1+\\epsilon+\\delta 。
+ECPO对负优势（A<0）样本进行更严格的策略梯度截断, 如下图所示:
+总结下 ECPO 对 GRPO 的改进体现在以下两方面：
+- 去除 KL 散度约束。由于RL和SFT两阶段一起训练，SFT Loss 可以保证迭代稳定性，因此研究团队认为不需要 KL 散度约束。（传统 LLM 拆分为两个阶段：先 SFT，再 RL）
+- Clip算子中负向奖励增加梯度迭代上界约束。
+### 3.3.2.2 OneRec-V2技术报告:GBPO算法
+ECPO对负优势（A<0）样本进行更严格的策略梯度截断, 但作者发现ECPO对于负样本, 还是会存在一些梯度爆炸导致训练不稳定现象。
+![](https://pic2.zhimg.com/v2-a00437d4d0816fa748f33e29b3f3afed\_1440w.jpg)
+### 1) 梯度分析
+对于从推荐精排模型采样的样本, 作者直接做了\\pi\\_{old} = \\mathrm{sg}(\\pi\\_{\\theta})的简化, 那么, 对于这些样本
+\\mathcal{J}\\_{ECPO}^i(\\theta)= -A\\_i \\cdot \\frac{\\pi\\_{\\theta}}{sg(\\pi\\_\\theta)} \\\\\frac{\\partial \\mathcal{J}\\_{ECPO}^i(\\theta)}{\\partial \\theta} = - A\\_i\\cdot\\frac{1}{\\pi\\_\\theta} \\frac{\\partial \\pi\\_\\theta}{\\partial \\theta} \\\
+可以看到, \\pi\\_{\\theta}越小, 梯度越大。
+- 对于正样本A\\_i>0, 较小的概率意味着有更多的空间来促进它，因此具有更大的梯度是合理的。
+- 但对于负样本，较小的概率意味着抑制它的空间更少；如果梯度太大，它很容易导致模型过拟合甚至崩溃。
+这说明传统基于截断的方式并不能完全解决梯度不稳定现象。
+### 2) 提出GBPO算法
+OneRec-V2进一步提出了GBPO(Gradient-Bounded Policy Optimization)算法
+\\mathcal{J}\\_{GBPO}(\\theta) = -\\mathbb{E}\\_{u\\sim P(U),\\{o\\_i\\}\\_{i=1}^G\\sim\\pi\\_{\\theta\\_{old}}}\\left\[\\frac1G\\sum\\_{i=1}^G\\frac{\\pi\\_{\\theta}(o\\_i\|u)}{\\pi\\_{\\theta\\_{old}}'(o\\_i\|u)}\\cdot A\\_i\\right\] \\\\\pi\\_{\\theta\\_{old}}'(o\\_i\|u)= \\begin{cases} \\text{max}(\\pi\\_{\\theta\\_{old}}, sg(\\pi\\_{\\theta})),&A\\_i\\geq0, \\\\[6pt\] \\text{max}(\\pi\\_{\\theta\\_{old}}, 1-sg(\\pi\\_{\\theta})),&A\\_i< 0. \\\ \\end{cases} \\\
+直接去掉了Clip操作, 不存在No Gradient的情况, 并且对负样本做了动态的梯度截断
+![](https://picx.zhimg.com/v2-8b8453be441e301a143b1ec1ac929fc9\_1440w.jpg)
+同时, 作者使用交叉熵损失的梯度去约束常规RL损失的梯度, 即上图中Dynamic Bound的作用。
+\\mathcal{L}\\_{BCE}(y, p\\_\\theta) = - \\left\[ y \\cdot \\log(p\\_\\theta) + (1-y) \\cdot \\log(1-p\\_\\theta) \\right\] \\\\\frac{\\partial \\mathcal{L}\\_{BCE}}{\\partial \\theta}= \\begin{cases} -\\dfrac{1}{p\\_\\theta}\\dfrac{\\partial p\\_\\theta}{\\partial \\theta}, & y=1,\\\\[6pt\] \\dfrac{1}{1-p\\_\\theta}\\dfrac{\\partial p\\_\\theta}{\\partial \\theta}, & y=0. \\end{cases} \\\
+这是因为, 二元交叉熵损失(BCE)损失对于负样本的梯度会有一个惩罚项, 当模型概率越小时，倾向于让梯度越小，可以让模型更加稳定
+总的来说, GBPO对ECPO的改进主要体现在:
+- \*\*全样本利用:\*\* 保留了所有样本的梯度(之前的算法由于 Clip 截断操作会丢弃一部分样本)，鼓励模型进行更多样化的探索。
+- \*\*有界梯度稳定:\*\* 用BCE损失的梯度来约束强化学习policy的梯度范围，增强RL训练的稳定性。
+### 3.4 推理细节
+### 3.4.1 串行语义ID的推理
+### 1) 解码语义ID的过程
+像OneRec这样使用串行的语义ID在推理阶段, 一般是需要使用beam search来做多步推理, 关于beam search这里就不过多介绍。
+考虑到多层语义ID(如RQ-KMeans)是从粗->细的刻画过程, 浅层的语义ID是一种泛粒度的兴趣表示, 因此, 也有一些方法区分对待不同层的语义ID, 比如快手DualGR就把第1层和第2~3层的语义ID区分对待, 具体地, 快手DualGR这里
+第1层语义ID的解码还是beam search, 不过第2~3层语义ID的解码过程就类似于SIM, 会将第1层语义ID视作Target, 直接从用户原始完整的行为序列\\mathcal{H}\\_t=(\\mathbf{a}\\_1,\\ldots,\\mathbf{a}\\_{T\\_t})中Search-based检索出子序列
+- 训练时, 基于Ground Truth(即Next Item)的第1层语义ID s\\_\\star^{(1)}, 从用户完整序列\\mathcal{H}\\_t中检索出有相同第一层语义ID的子序列\\widehat{\\mathcal{H}}\\_t(s\\_\\star^{(1)}) ~=~ \\mathrm{Search}(\\{\\mathbf{a}\\in\\mathcal{H}\\_t \\;:\\; s^{(1)}(\\mathbf{a}) = s\\_\\star^{(1)}\\})
+- 推理时, 将长短期分别预测的第1层语义ID视作Target, 做类似的子序列检索
+- 将检索出来的子序列E\\_a(\\mathcal{H}\\_t(s\\_\\star^{(1)}))和用户静态特征E\\_u(\\mathbf{u})拼起来, x^\\text{search}\\_t=\\mathrm{LN}\\big(\[E\\_u(\\mathbf{u});E\\_a(\\mathcal{H}\\_t(s\\_\\star^{(1)}))\]\\big), 然后再做第2~3层语义ID的预测p\\_\\theta\\!(s\\_\\star^{(\\ell)} \\,\\big\|\\, s\\_\\star^{(1:\\ell-1)}, \\;x\\_t^{(>1)})
+### 2) 语义ID->ItemID映射问题
+在解码得到语义ID后, 还有一个步骤, 就是实现语义ID->ItemID的映射, 这里可能会遇到两类问题:
+- \*\*非法语义ID问题:\*\*
+非法语义ID是指推理得到的语义ID找不到对应ItemID的情况, 这是非常容易遇到的问题。以快手OneRec为例, 3层8192的编码空间为8192^3远大于一般内容池的量级。
+为了解决挤压效应带来的问题，OneRec在强化学习中引入了格式奖励机制, 鼓励模型生成合法的语义ID，从而提高生成结果的合法性。
+A\\_i = \\begin{cases} 1 & \\text{if } o\\_i\\in I\\_\\text{legal} \\\ 0 & \\text{if } o\\_i\\notin I\\_\\text{legal} \\end{cases} \\\
+- \*\*语义ID冲突问题:\*\*
+语义ID冲突问题是指推理得到的语义ID能映射到多个甚至成百上千个ItemID, 这时肯定没办法直接将所有的ItemID都返回。这里, 一般的解决策略是, 直接按某种序排序(如热度)做截断返回TopK。但是, 如果说这种语义ID冲突的现象比较突出, 那就需要重新Review语义ID的构造过程了。
+### 3.4.2 并行语义ID的推理
+Meta的RPG是基于并行语义ID的, 并行语义ID在推理时与串行语义ID有非常大的差异, 主要是因为其编码空间非常大, 可能远远大于内容量级。
+Meta的这篇论文提出基于图约束的语义ID解码方法, 只从合法的语义ID中去查找TopK, 如下图所示:
+![](https://pic3.zhimg.com/v2-6c1ce11b5764b95c3f610e90fcd07898\_1440w.jpg)
+### Step1: 构建解码图(Decoding Graph)
+训练完模型后, 会构建一个解码图:
+- \*\*节点:\*\* 每个节点 = Item池里的一个合法语义ID（即一个商品)
+- \*\*边(无向):\*\* 对节点(c\\_{1,1}, \\ldots, c\\_{1,m})和(c\\_{2,1}, \\ldots, c\\_{2,m})计算余弦相似度 sum\\_{j=1}^m \\mathbf{e}^{\\top}\\_{j,c\\_{1,j}} \\cdot \\mathbf{e}\\_{j,c\\_{2,j}} , 并保留每节点top-k最高相似边构建稀疏图, 边权即相似度，用于引导传播方向。
+### Step2: 迭代图传播解码(Iterative Graph Propagation)
+- \*\*初始化:\*\* 从物品池均匀随机采样b个语义ID作为初始beam
+- \*\*扩展:\*\* 把当前beam里每个节点的全部k邻居拉入临时集合 → 最多 b \\times k 个候选
+- \*\*打分:\*\* 用缓存的log-prob表, 查表求和得到每个候选Item的score
+- \*\*保留:\*\* 在临时集合里选b个最高分作为下一beam
+- \*\*终止:\*\* 重复q次，最终beam即为Top-b推荐列表
+## 4、总结与展望
+生成式推荐代表了一种根本性的新范式, 本文基于今年各大互联网公司公开发表的论文, 从各个维度拆解现阶段生成式推荐落地的技术路线和各种落地实践方法, 方便大家在各自业务场景中, 按图索骥, 互相验证。
+今年推荐系统的Scaling Law被广泛提出和讨论, 给这个领域带来了很多的惊喜, 但还是要承认, 推荐系统的这些进展和LLM还是有不小差距, 不过, 笔者相信推荐系统的Scaling Law的种子已经开始发芽, 见证其茁壮生长并开出更加丰硕的果实的那一天应该不会太远了吧。
+## 5、参考文献
+- \[1\] Guan L, Yang J Q, Zhao Z, et al. Make It Long, Keep It Fast: End-to-End 10k-Sequence Modeling at Billion Scale on Douyin\[J\]. arXiv preprint arXiv:2511.06077, 2025.
+- \[2\] Zhang Z, Pei H, Guo J, et al. OneTrans: Unified Feature Interaction and Sequence Modeling with One Transformer in Industrial Recommender\[J\]. arXiv preprint arXiv:2510.26104, 2025.
+- \[3\] Yi Z, Feng K, Ma X, et al. DualGR: Generative Retrieval with Long and Short-Term Interests Modeling\[J\]. arXiv preprint arXiv:2511.12518, 2025.
+- \[4\] Yan B, Liu S, Zeng Z, et al. Unlocking Scaling Law in Industrial Recommendation Systems with a Three-step Paradigm based Large User Model\[J\]. arXiv preprint arXiv:2502.08309, 2025.
+- \[5\] Li X, Chen B, She J, et al. A Survey of Generative Recommendation from a Tri-Decoupled Perspective: Tokenization, Architecture, and Optimization\[J\]. 2025.
+- \[6\] Zhai J, Liao L, Liu X, et al. Actions speak louder than words: Trillion-parameter sequential transducers for generative recommendations\[J\]. arXiv preprint arXiv:2402.17152, 2024.
+- \[7\] Wu B, Yang F, Chan Z, et al. MUSE: A Simple Yet Effective Multimodal Search-Based Framework for Lifelong User Interest Modeling\[J\]. arXiv preprint arXiv:2512.07216, 2025.
+- \[8\] Gao V R, Xue C, Versage M, et al. Synergen: Contextualized generative recommender for unified search and recommendation\[J\]. arXiv preprint arXiv:2509.21777, 2025.
+- \[9\] Chen S, Cui J, Xu Z, et al. HoMer: Addressing Heterogeneities by Modeling Sequential and Set-wise Contexts for CTR Prediction\[J\]. arXiv preprint arXiv:2510.11100, 2025.
+- \[10\] Liu Z, Wang S, Wang X, et al. Onerec-think: In-text reasoning for generative recommendation\[J\]. arXiv preprint arXiv:2510.11639, 2025.
+- \[11\] Wei Z, Cai K, She J, et al. OneLoc: Geo-Aware Generative Recommender Systems for Local Life Service.(2025)\[J\]. URL [https://arxiv](https://link.zhihu.com/?target=https%3A//arxiv). org/abs/2508, 2025, 14646.
+- \[12\] Guo X, Chen B, Wang S, et al. OneSug: The Unified End-to-End Generative Framework for E-commerce Query Suggestion\[J\]. arXiv preprint arXiv:2506.06913, 2025.
+- \[13\] Wang S, Ouyang T, Xiao Q, et al. Progressive Semantic Residual Quantization for Multimodal-Joint Interest Modeling in Music Recommendation\[C\]//Proceedings of the 34th ACM International Conference on Information and Knowledge Management. 2025: 6119-6127.
+- \[14\] Lai W, Jin B, Zhang J, et al. Exploring Scaling Laws of CTR Model for Online Performance Improvement\[C\]//Proceedings of the Nineteenth ACM Conference on Recommender Systems. 2025: 114-123.
+- \[15\] Chen B, Guo X, Wang S, et al. Onesearch: A preliminary exploration of the unified end-to-end generative framework for e-commerce search\[J\]. arXiv preprint arXiv:2509.03236, 2025.
+- \[16\] Xing H, Deng H, Mao Y, et al. Reg4rec: Reasoning-enhanced generative model for large-scale recommendation systems\[J\]. arXiv preprint arXiv:2508.15308, 2025.
+- \[17\] Zhou G, Hu H, Cheng H, et al. Onerec-v2 technical report\[J\]. arXiv preprint arXiv:2508.20900, 2025.
+- \[18\] Ye W, Sun M, Shi S, et al. DAS: Dual-Aligned Semantic IDs Empowered Industrial Recommender System\[C\]//Proceedings of the 34th ACM International Conference on Information and Knowledge Management. 2025: 6217-6224.
+- \[19\] Li D, Course K, Li W, et al. Realizing Scaling Laws in Recommender Systems: A Foundation-Expert Paradigm for Hyperscale Model Deployment\[J\]. arXiv preprint arXiv:2508.02929, 2025.
+- \[20\] Ju C M, Collins L, Neves L, et al. Generative Recommendation with Semantic IDs: A Practitioner's Handbook\[C\]//Proceedings of the 34th ACM International Conference on Information and Knowledge Management. 2025: 6420-6425.
+- \[21\] Zhu J, Fan Z, Zhu X, et al. Rankmixer: Scaling up ranking models in industrial recommenders\[C\]//Proceedings of the 34th ACM International Conference on Information and Knowledge Management. 2025: 6309-6316.
+- \[22\] Hou Y, Li J, Shin A, et al. Generating long semantic ids in parallel for recommendation\[C\]//Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V. 2. 2025: 956-966.
+- \[23\] Deng H, Xing H, Matsuyama K, et al. Heterrec: Heterogeneous information transformer for scalable sequential recommendation\[C\]//Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval. 2025: 3020-3024.
+- \[24\] Zhou G, Deng J, Zhang J, et al. OneRec Technical Report\[J\]. arXiv preprint arXiv:2506.13695, 2025.
+- \[25\] Han R, Yin B, Chen S, et al. Mtgr: Industrial-scale generative recommendation framework in meituan\[C\]//Proceedings of the 34th ACM International Conference on Information and Knowledge Management. 2025: 5731-5738.
+- \[26\] Chai Z, Ren Q, Xiao X, et al. Longer: Scaling up long sequence modeling in industrial recommenders\[C\]//Proceedings of the Nineteenth ACM Conference on Recommender Systems. 2025: 247-256.
+- \[27\] Huang Y, Chen Y, Cao X, et al. Towards Large-scale Generative Ranking\[J\]. arXiv preprint arXiv:2505.04180, 2025.
+- \[28\] Badrinath A, Agarwal P, Bhasin L, et al. PinRec: Outcome-Conditioned, Multi-Token Generative Retrieval for Industry-Scale Recommendation Systems\[J\]. arXiv preprint arXiv:2504.10507, 2025.
+- \[29\] Zheng C, Huang M, Pedchenko D, et al. Enhancing embedding representation stability in recommendation systems with semantic id\[C\]//Proceedings of the Nineteenth ACM Conference on Recommender Systems. 2025: 954-957.
+- \[30\] Yang Y, Ji Z, Li Z, et al. Sparse Meets Dense: Unified Generative Recommendations with Cascaded Sparse-Dense Representations. doi: 10.48550\[J\]. arXiv preprint arXiv.2503.02453, 2025.
+- \[31\] Song X, Li X, Hu J, et al. Efficient Long Sequential Low-rank Adaptive Attention for Click-through rate Prediction\[J\]. arXiv e-prints, 2025: arXiv: 2503.02542.
+- \[32\] Xing H, Matsuyama K, Deng H, et al. ESANS: Effective and Semantic-Aware Negative Sampling for Large-Scale Retrieval Systems\[C\]//Proceedings of the ACM on Web Conference 2025. 2025: 462-471.
+- \[33\] Deng J, Wang S, Cai K, et al. Onerec: Unifying retrieve and rank with generative recommender and iterative preference alignment\[J\]. arXiv preprint arXiv:2502.18965, 2025.
+- \[33\] Xu S, Wang S, Guo D, et al. An Efficient Large Recommendation Model: Towards a Resource-Optimal Scaling Law\[J\]. arXiv preprint arXiv:2502.09888, 2025.
+- \[34\] Wang W, Bao H, Lin X, et al. Learnable item tokenization for generative recommendation\[C\]//Proceedings of the 33rd ACM International Conference on Information and Knowledge Management. 2024: 2400-2409.
+- \[35\] Zhai J, Liao L, Liu X, et al. Actions speak louder than words: Trillion-parameter sequential transducers for generative recommendations\[J\]. arXiv preprint arXiv:2402.17152, 2024.
+- \[36\] Yi Z, Feng K, Ma X, et al. DualGR: Generative Retrieval with Long and Short-Term Interests Modeling\[J\]. arXiv preprint arXiv:2511.12518, 2025.
+- \[37\] 知乎, 阿里妈妈《从算力迷途到范式新生》 [https://zhuanlan.zhihu.com/p/1981724431232546733](https://zhuanlan.zhihu.com/p/1981724431232546733)
+- \[38\] 知乎, 九河之间,《生成式「GR」-快手/Meta/字节/美团方案【思考】》 [https://zhuanlan.zhihu.com/p/1943623760025482844](https://zhuanlan.zhihu.com/p/1943623760025482844)
+- \[39\] 知乎, 九河之间, 《「阿里」HHFT: Hierarchical Heterogeneous Feature Trans实现Scaling Law\|内含「RankMixer-MTGR-OneTrans」对比分析》 [https://zhuanlan.zhihu.com/p/1977499096957882860](https://zhuanlan.zhihu.com/p/1977499096957882860)
+- \[40\] 公众号, 百度商业技术, 《GRAB-百度推荐广告生成式排序模型技术实践》 [https://mp.weixin.qq.com/s/mT8DmHzgc3ag57PVMqZ3Rw](https://link.zhihu.com/?target=https%3A//mp.weixin.qq.com/s/mT8DmHzgc3ag57PVMqZ3Rw)
+编辑于 2026-01-01 18:30・广东
+[生成式推荐](https://www.zhihu.com/topic/30592392)
+[推荐系统](https://www.zhihu.com/topic/19563024)
+[大模型](https://www.zhihu.com/topic/25402720)
+赞同 418​​11 条评论​850 ​28
+​分享
+​申请转载​
+​
+暂无评论
+关于作者
+[![州懂](https://picx.zhimg.com/v2-f6b12ae25d2bd5b668e6832b64566a5a\_l.jpg?source=172ae18b)](https://www.zhihu.com/people/14jzzhan)
+[州懂](https://www.zhihu.com/people/14jzzhan)
+公众号:州懂学习笔记 & 某大厂算法工程师
+[回答](https://www.zhihu.com/people/14jzzhan/answers) [文章](https://www.zhihu.com/people/14jzzhan/posts) [关注者](https://www.zhihu.com/people/14jzzhan/followers)
+​关注他​发私信
+大家都在搜
+换一换
+[伊朗局势582 万](https://www.zhihu.com/search?q=%E4%BC%8A%E6%9C%97%E5%B1%80%E5%8A%BF&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[鞠婧祎被实名举报偷税漏税360 万](https://www.zhihu.com/search?q=%E9%9E%A0%E5%A9%A7%E7%A5%8E%E8%A2%AB%E5%AE%9E%E5%90%8D%E4%B8%BE%E6%8A%A5%E5%81%B7%E7%A8%8E%E6%BC%8F%E7%A8%8E&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[李荣浩喊话单依纯称其强行侵权《李白》350 万](https://www.zhihu.com/search?q=%E6%9D%8E%E8%8D%A3%E6%B5%A9%E5%96%8A%E8%AF%9D%E5%8D%95%E4%BE%9D%E7%BA%AF%E7%A7%B0%E5%85%B6%E5%BC%BA%E8%A1%8C%E4%BE%B5%E6%9D%83%E3%80%8A%E6%9D%8E%E7%99%BD%E3%80%8B&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[如何评价 Epic 把国区运营给裁了350 万](https://www.zhihu.com/search?q=%E5%A6%82%E4%BD%95%E8%AF%84%E4%BB%B7+Epic+%E6%8A%8A%E5%9B%BD%E5%8C%BA%E8%BF%90%E8%90%A5%E7%BB%99%E8%A3%81%E4%BA%86&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[官方通报鞠婧祎被举报偷税漏税350 万](https://www.zhihu.com/search?q=%E5%AE%98%E6%96%B9%E9%80%9A%E6%8A%A5%E9%9E%A0%E5%A9%A7%E7%A5%8E%E8%A2%AB%E4%B8%BE%E6%8A%A5%E5%81%B7%E7%A8%8E%E6%BC%8F%E7%A8%8E&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[Claude Code 源码泄露317 万](https://www.zhihu.com/search?q=Claude+Code+%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[美加墨世界杯48队名单出炉313 万](https://www.zhihu.com/search?q=%E7%BE%8E%E5%8A%A0%E5%A2%A8%E4%B8%96%E7%95%8C%E6%9D%AF48%E9%98%9F%E5%90%8D%E5%8D%95%E5%87%BA%E7%82%89&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[兰州大学考研初试401分被刷310 万](https://www.zhihu.com/search?q=%E5%85%B0%E5%B7%9E%E5%A4%A7%E5%AD%A6%E8%80%83%E7%A0%94%E5%88%9D%E8%AF%95401%E5%88%86%E8%A2%AB%E5%88%B7&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[有哪些吃了后被惊艳的美食306 万](https://www.zhihu.com/search?q=%E6%9C%89%E5%93%AA%E4%BA%9B%E5%90%83%E4%BA%86%E5%90%8E%E8%A2%AB%E6%83%8A%E8%89%B3%E7%9A%84%E7%BE%8E%E9%A3%9F&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[张雪机车 WSBK葡萄牙站夺冠303 万](https://www.zhihu.com/search?q=%E5%BC%A0%E9%9B%AA%E6%9C%BA%E8%BD%A6+WSBK%E8%91%A1%E8%90%84%E7%89%99%E7%AB%99%E5%A4%BA%E5%86%A0&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码

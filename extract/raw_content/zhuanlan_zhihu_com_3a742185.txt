@@ -1,0 +1,197 @@
+# Source URL: https://zhuanlan.zhihu.com/p/599700421
+# Content Length: 21309 characters
+# Extracted at: 2026-03-29 10:06:26
+#============================================================
+
+![](https://zhuanlan.zhihu.com/p/599700421)
+\*\*9本电子书在文末自取\*\*
+## 1、什么是[协同过滤](https://zhida.zhihu.com/search?content\_id=221399588&content\_type=Article&match\_order=1&q=%E5%8D%8F%E5%90%8C%E8%BF%87%E6%BB%A4&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ5MjI3ODAsInEiOiLljY\_lkIzov4fmu6QiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjEzOTk1ODgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.LTBbXd4nZzre7HOZIOUN5Xa6JSEY095A04KbIr6xo28&zhida\_source=entity)，优缺点。
+协同过滤即是通过（不同用户/物品）合作，实现信息的过滤（即筛选），是一个简单且可解释性强的方案。最常见的协同过滤的方法有UserCF和ItemCF，可以发现早期协同过滤的方法使热门的物品（或用户）具备很强的[头部效应](https://zhida.zhihu.com/search?content\_id=221399588&content\_type=Article&match\_order=1&q=%E5%A4%B4%E9%83%A8%E6%95%88%E5%BA%94&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ5MjI3ODAsInEiOiLlpLTpg6jmlYjlupQiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjEzOTk1ODgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.Nh4zjNPkJ\_RU3UCDFYTVaJr8UJk2cN09XfyY7w6JyR8&zhida\_source=entity)，使所有物品都与它有较大的相似度。这揭示了这一方法的天然缺陷，即对于稀疏的[数据处理](https://zhida.zhihu.com/search?content\_id=221399588&content\_type=Article&match\_order=1&q=%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ5MjI3ODAsInEiOiLmlbDmja7lpITnkIYiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjEzOTk1ODgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.Ze3Lkaf3eomNy1M6iwoa0uiPwPeCBFZpOq9o5UXCJ8o&zhida\_source=entity)能力弱。
+## 2、UserCF、ItemCF，应用场景。
+UserCF：得到[共现矩阵](https://zhida.zhihu.com/search?content\_id=221399588&content\_type=Article&match\_order=1&q=%E5%85%B1%E7%8E%B0%E7%9F%A9%E9%98%B5&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ5MjI3ODAsInEiOiLlhbHnjrDnn6npmLUiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjEzOTk1ODgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.NNi9nSyiTbc2ZgvYGmWoYNPYzJwp6oHzMmWasCfbGVQ&zhida\_source=entity)，根据共现矩阵得到所有用户两两之间的相似度，对User i取TopN个相似用户，对这TopN个用户的项目评分取加权平均，作为该用户预测评分结果。
+优点：简单易用，复合直觉“兴趣相似的人喜欢的东西相似”。
+缺点：用户的历史数据稀疏，找到相似用户的准确度并不是很高。UserCF不适用于正反馈较难获取的应用场景。另一方面，用户的增长是远大于Item的增长的，从这个角度来看，UserCF带来的存储压力更大。
+ItemCF：得到共现矩阵，根据共现矩阵得到所有物品两两之间的相似度，对User i取正反馈物品列表，根据相似度计算出相似的TopK个物品作为推荐列表。
+优点：物品相似度存储压力远小于用户相似度。复合直觉“用户喜欢某物品，应推荐相似物品”。
+缺点：头部效应严重，同样不适用于处理稀疏数据。
+应用场景：UserCF更适用于新闻推荐，用户能快速得知与自己兴趣相似的人最近喜欢什么，从而更趋向于新闻的及时性、热点性。ItemCF更适用于兴趣在短时间内变化较为稳定的场景，如电商推荐，用户倾向于在短时间内寻找一类商品，此时利用物品相似度时更符合用户动机的。由于UserCF与ItemCF这两种不同的特性，可以作为多路召回策略。
+## 3、user/item冷启动怎么解决？
+user冷启动：基于规则的冷启动（如热度、最高评分）；基于模型的冷启动（收集必要的用户属性信息进行建模）；主动学习方案的冷启动（用户自由选择/反馈）；基于迁移学习的冷启动（合理利用其它领域/来源的信息）。
+item冷启动：采用随机分发资源获取用户反馈信息；基于重要属性的冷启动（如同一作者/系列等）；设置“最新”排序列表获取用户反馈信息。
+## 4、推荐系统中常见的Embedding方法有哪些？
+[word2vec](https://zhida.zhihu.com/search?content\_id=221399588&content\_type=Article&match\_order=1&q=word2vec&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ5MjI3ODAsInEiOiJ3b3JkMnZlYyIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjIyMTM5OTU4OCwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.NVGYA2kC31HLQXTzF3-RVUsvo\_VXmi3U225b9leUTUE&zhida\_source=entity)是最经典的词向量embedding方式，基于word2vec思想，item2vec使用[item向量](https://zhida.zhihu.com/search?content\_id=221399588&content\_type=Article&match\_order=1&q=item%E5%90%91%E9%87%8F&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ5MjI3ODAsInEiOiJpdGVt5ZCR6YePIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjIxMzk5NTg4LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.MAhN2twrQNFLD9JQI01srQNVh70Z2QID2rtKS3z6iFM&zhida\_source=entity)代替词向量。这类方法无法处理网络化的数据，于是出现了大量Graph Embedding技术。
+DeepWalk使用用户行为序列构建物品关系图，然后通过[随机游走](https://zhida.zhihu.com/search?content\_id=221399588&content\_type=Article&match\_order=1&q=%E9%9A%8F%E6%9C%BA%E6%B8%B8%E8%B5%B0&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ5MjI3ODAsInEiOiLpmo\_mnLrmuLjotbAiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjEzOTk1ODgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.c92KoWys5gT-yjTJwfj4SacQOL3r3i66HWnQKvwBK1M&zhida\_source=entity)生成新的序列数据，继而通过word2vec训练。DeepWalk可以看做序列embedding到Graph embedding的过度方法。
+Node2vec核心思想在于同质性与[结构性](https://zhida.zhihu.com/search?content\_id=221399588&content\_type=Article&match\_order=1&q=%E7%BB%93%E6%9E%84%E6%80%A7&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ5MjI3ODAsInEiOiLnu5PmnoTmgKciLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjEzOTk1ODgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.bxzfLCTJKaUX1G26yDyxZYlbKgWgcR94-Tr1Y1N47Gc&zhida\_source=entity)的权衡。同质性指的图中距离近的节点应该尽量相似（倾向于DFS），结构性指图中节点所处结构位置相似的应该尽量相似（倾向于BFS）。Node2vec设置了跳转概率，使当前游走过程可能朝着更深的方向（同质性），或是返回之前的方向（结构性）。
+EGES（基于边信息的增强图Embedding）引入边信息作为物品embedding的补充信息，边信息可以是基于[知识图谱](https://zhida.zhihu.com/search?content\_id=221399588&content\_type=Article&match\_order=1&q=%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ5MjI3ODAsInEiOiLnn6Xor4blm77osLEiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjEzOTk1ODgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.GR\_BMWdUAC8KJZvQxH9Qu3FkJd6Vtf4SfIy3c8i1BS0&zhida\_source=entity)获得的信息（这类信息包括特征信息）。EGES的方法是对Item及其特征一起进行embedding建模，最终得到的单个Item的[embedding向量](https://zhida.zhihu.com/search?content\_id=221399588&content\_type=Article&match\_order=1&q=embedding%E5%90%91%E9%87%8F&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ5MjI3ODAsInEiOiJlbWJlZGRpbmflkJHph48iLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjEzOTk1ODgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.Jp--\_R-vivLKY9awSn962ik05PBOr3aQn6Fg5Bmhwhk&zhida\_source=entity)是该item及其特征的加权平均。EGES对缺少历史数据的Item更为亲切。
+## 5、fm和[矩阵分解](https://zhida.zhihu.com/search?content\_id=221399588&content\_type=Article&match\_order=1&q=%E7%9F%A9%E9%98%B5%E5%88%86%E8%A7%A3&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ5MjI3ODAsInEiOiLnn6npmLXliIbop6MiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjEzOTk1ODgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.Wd7l4HWt3aDkhLvyOrqPVR6UHO\_ztsyCShVJQdpJFS0&zhida\_source=entity)模型思想上的的异同点。
+MF 是用use和item 的[特征隐向量](https://zhida.zhihu.com/search?content\_id=221399588&content\_type=Article&match\_order=1&q=%E7%89%B9%E5%BE%81%E9%9A%90%E5%90%91%E9%87%8F&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ5MjI3ODAsInEiOiLnibnlvoHpmpDlkJHph48iLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjEzOTk1ODgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.uoCGuzyFEZwE4blbaxttZNNJCXNvABJtVbx39eoaKrE&zhida\_source=entity)表示user 和 item 的特征，进而做相似度计算，用于item召回。
+FM 是用[因子分解机](https://zhida.zhihu.com/search?content\_id=221399588&content\_type=Article&match\_order=1&q=%E5%9B%A0%E5%AD%90%E5%88%86%E8%A7%A3%E6%9C%BA&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ5MjI3ODAsInEiOiLlm6DlrZDliIbop6PmnLoiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjEzOTk1ODgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.FnJy4OsxJJYgzV25SOXMuKsD8BdbLIobpk-zb7wV7Qo&zhida\_source=entity)来做特征的二阶交叉，进而预测user 和 item 的ctr概率，可用于召回或者排序阶段。
+相同点：MF可以理解为一种特殊的FM，即只有 uid 和 iid 的 FM模型，MF将这两类特征通过矩阵分解来达到 embedding 的目的。
+区别：FM使用了id 之外的特征，同时FM还做了[矩阵积](https://zhida.zhihu.com/search?content\_id=221399588&content\_type=Article&match\_order=1&q=%E7%9F%A9%E9%98%B5%E7%A7%AF&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ5MjI3ODAsInEiOiLnn6npmLXnp68iLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjEzOTk1ODgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.6LoO1wcpENlbg0C\_mte\_XDA\_0VWttQ6Ff95J3yosbvU&zhida\_source=entity)的优化，复杂度大幅降低。
+## 6、LR中连续特征为什么要做[离散化](https://zhida.zhihu.com/search?content\_id=221399588&content\_type=Article&match\_order=1&q=%E7%A6%BB%E6%95%A3%E5%8C%96&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ5MjI3ODAsInEiOiLnprvmlaPljJYiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjEzOTk1ODgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.DIx9p7G0DMqVQeT8BEutoRd0-7HsBzQ1Z7EFd8zRTBY&zhida\_source=entity)？
+1、数据角度：离散化的特征对异常数据有很强的[鲁棒性](https://zhida.zhihu.com/search?content\_id=221399588&content\_type=Article&match\_order=1&q=%E9%B2%81%E6%A3%92%E6%80%A7&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ5MjI3ODAsInEiOiLpsoHmo5LmgKciLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjEzOTk1ODgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.dFbJxuBZzHEGEtz5jjOsgQ0qZmBbegJAvRB97FcPP8c&zhida\_source=entity)；离散化特征利于进行[特征交叉](https://zhida.zhihu.com/search?content\_id=221399588&content\_type=Article&match\_order=1&q=%E7%89%B9%E5%BE%81%E4%BA%A4%E5%8F%89&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ5MjI3ODAsInEiOiLnibnlvoHkuqTlj4kiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjEzOTk1ODgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.O4M8jLnWKy4d3tKVssObEza60HxC\_Hd2xtCKnz7JCSg&zhida\_source=entity)。
+2、模型角度：当数据增加/减少时，利于模型快速迭代；离散化相当于为模型引入[非线性表达](https://zhida.zhihu.com/search?content\_id=221399588&content\_type=Article&match\_order=1&q=%E9%9D%9E%E7%BA%BF%E6%80%A7%E8%A1%A8%E8%BE%BE&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ5MjI3ODAsInEiOiLpnZ7nur\_mgKfooajovr4iLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjEzOTk1ODgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.WWm8cnD-xZMnHeXdPrgLCnwh\_S2IXaF2xDcoXfh4658&zhida\_source=entity)；离散化特征简化了模型输入，降低过拟合风险；LR中离散化特征很容易根据权重找出bad case。
+3、计算角度：[稀疏向量](https://zhida.zhihu.com/search?content\_id=221399588&content\_type=Article&match\_order=1&q=%E7%A8%80%E7%96%8F%E5%90%91%E9%87%8F&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ5MjI3ODAsInEiOiLnqIDnlo\_lkJHph48iLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjEzOTk1ODgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.3rntNb-V0YfEjzkoHtrnK3dRbKLxVDUSRD4OEKYgAH0&zhida\_source=entity)内积计算速度快。（在计算稀疏矩阵内积时，可以根据当前值是否为0来直接输出0值，这相对于乘法计算是快很多的。）
+而离散化连续值特征后同样会带来一些缺点，如下：
+1、不合理的[区间划分](https://zhida.zhihu.com/search?content\_id=221399588&content\_type=Article&match\_order=1&q=%E5%8C%BA%E9%97%B4%E5%88%92%E5%88%86&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ5MjI3ODAsInEiOiLljLrpl7TliJLliIYiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjEzOTk1ODgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.XvWaIwMFiJA1\_x3vgHdFwFzEANpk5xf7fUyyj2i2xas&zhida\_source=entity)容易降低模型表达能力，构造合理的区间划分同样比较困难（需要从区间数、区间分段大小、区间内[样本分布](https://zhida.zhihu.com/search?content\_id=221399588&content\_type=Article&match\_order=1&q=%E6%A0%B7%E6%9C%AC%E5%88%86%E5%B8%83&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ5MjI3ODAsInEiOiLmoLfmnKzliIbluIMiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjEzOTk1ODgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.iLHYpfD-TNuBq-8h\_jPLEHPt4L2whB0nWwAL1IaziSA&zhida\_source=entity)进行权衡）。
+2、如果连续特征x对y有着很强的先验知识（如强线性关系），离散化后会使x的信息表达能力损失。
+\* \* \*
+\*\*↓ ↓ ↓以下9本书电子版免费领，直接送 ，想要哪本评论区说声，我小窗给你↓ ↓ ↓\*\*
+![](https://pic2.zhimg.com/v2-0a5fe70ec27429f710d0363d38f7c8e5\_1440w.jpg)
+![](https://pica.zhimg.com/v2-8a10f12f95cf49aaddc4821a9268cb84\_1440w.jpg)
+《2022年Q3最新大厂面试题》电子书，部分截图如下：
+![](https://picx.zhimg.com/v2-182968b847d9819a5734d0293157d813\_1440w.jpg)
+发布于 2023-01-17 04:29・北京
+[推荐算法](https://www.zhihu.com/topic/19580544)
+[推荐系统](https://www.zhihu.com/topic/19563024)
+[算法工程师面试](https://www.zhihu.com/topic/25520641)
+[文案创作没思路？腾讯ima为你提供海量爆款文案创意！\\
+\\
+腾讯ima能自动追踪热点趋势，提供专业的文案内容框架，在生成出文案的同时，还能对文案进行优化，轻松打造出一篇爆款文案查看详情腾讯ima能自动追踪热点趋势，提供专业的文案内容框架，在生成出文案的同时，还能对文案进行优化，轻松打造出一篇爆款文案 查看详情\\
+\\
+![用户头像](https://pic3.zhimg.com/v2-6bcab51aab5519d3e668f35b0a210fc3\_xl.webp?source=d6434cab)\\
+\\
+ima的广告](https://ima.qq.com/download/?webFrom=10000435&channel=10000435&cb=https%3A%2F%2Fsugar.zhihu.com%2Fplutus\_adreaper\_callback%3Fsi%3Df22331ac-f57e-48d6-aafc-d77710bbe10a%26os%3D3%26zid%3D1629%26zaid%3D3671183%26zcid%3D3628753%26cid%3D3628701%26event%3D\_\_EVENTTYPE\_\_%26value%3D\_\_EVENTVALUE\_\_%26ts%3D\_\_TIMESTAMP\_\_%26cts%3D\_\_TS\_\_%26mh%3D\_\_MEMBERHASHID\_\_%26adv%3D703838%26ocg%3D4%26cp%3D2500%26ocs%3D1%26aic%3D0%26atp%3D0%26ct%3D2%26ed%3DGiBNJgVzfCMmUW9XFyEvRA8xBGxJICwkOhh0FlwxKw1fY0gnWzUoISkY6onvXKClOvM%3D&spu=biz%3D0%26ci%3D3628753%26si%3Daeaba0a9-382a-4621-bd83-4e87ab206680%26ts%3D1774749981%26zid%3D1629)
+​赞同 6​​10 条评论​23 ​喜欢
+​分享
+​申请转载​
+​
+![](https://pic1.zhimg.com/v2-d41c2ceaed8f51999522f903672a521f\_l.jpeg)
+未登录用户
+10 条评论
+默认
+最新
+[![山河](https://picx.zhimg.com/583c0df6bf4044c15f3834ad9430898e\_l.jpg?source=06d4cd63)](https://www.zhihu.com/people/ffc5fec08395331bdd5e65d210b916f4)
+[山河](https://www.zhihu.com/people/ffc5fec08395331bdd5e65d210b916f4)
+可以分享一下电子书吗
+2023-02-07 · 湖北
+​回复​喜欢
+[![七月在线 七仔](https://pica.zhimg.com/v2-cd34bbd00d9979ac0b390edbcab49dd3\_l.jpg?source=06d4cd63)](https://www.zhihu.com/people/df4bdff852df84e5c9917d7f396bba95)
+[七月在线 七仔](https://www.zhihu.com/people/df4bdff852df84e5c9917d7f396bba95)
+作者
+私我一下哈，改规则了，我不能主动私你
+2023-02-10 · 北京
+​回复​喜欢
+[![凉白开丶](https://picx.zhimg.com/v2-4601b0a0c9bc4edcf4bccfba6d0b9e7d\_l.jpg?source=06d4cd63)](https://www.zhihu.com/people/d1fa8105f3f5e32d2c97735c59749596)
+[凉白开丶](https://www.zhihu.com/people/d1fa8105f3f5e32d2c97735c59749596)
+可以都要吗
+2023-01-27 · 广东
+​回复​喜欢
+[![七月在线 七仔](https://picx.zhimg.com/v2-cd34bbd00d9979ac0b390edbcab49dd3\_l.jpg?source=06d4cd63)](https://www.zhihu.com/people/df4bdff852df84e5c9917d7f396bba95)
+[七月在线 七仔](https://www.zhihu.com/people/df4bdff852df84e5c9917d7f396bba95)
+作者
+[out户](https://www.zhihu.com/people/4a1eefcde979211af7d14181eec71866)
+已发哈
+2024-01-15 · 北京
+​回复​喜欢
+[![out户](https://picx.zhimg.com/v2-abed1a8c04700ba7d72b45195223e0ff\_l.jpg?source=06d4cd63)](https://www.zhihu.com/people/4a1eefcde979211af7d14181eec71866)
+[out户](https://www.zhihu.com/people/4a1eefcde979211af7d14181eec71866)
+[七月在线 七仔](https://www.zhihu.com/people/df4bdff852df84e5c9917d7f396bba95)
+可以都要嘛谢谢
+2024-01-15 · 北京
+​回复​喜欢
+展开其他 1 条回复​
+[![anlan](https://pica.zhimg.com/v2-41ca212d06b138e27e5053a8e28e8319\_l.jpg?source=06d4cd63)](https://www.zhihu.com/people/728f214939c77f6a35a191895669fce4)
+[anlan](https://www.zhihu.com/people/728f214939c77f6a35a191895669fce4)
+可以分享下<2022年Q3最新大厂面试题>嘛
+2023-01-23 · 山西
+​回复​喜欢
+[![七月在线 七仔](https://pic1.zhimg.com/v2-cd34bbd00d9979ac0b390edbcab49dd3\_l.jpg?source=06d4cd63)](https://www.zhihu.com/people/df4bdff852df84e5c9917d7f396bba95)
+[七月在线 七仔](https://www.zhihu.com/people/df4bdff852df84e5c9917d7f396bba95)
+作者
+[anlan](https://www.zhihu.com/people/728f214939c77f6a35a191895669fce4)
+已发哈，注意查收![[爱]](https://pic1.zhimg.com/v2-0942128ebfe78f000e84339fbb745611.png)
+2023-01-31 · 北京
+​回复​喜欢
+[![anlan](https://picx.zhimg.com/v2-41ca212d06b138e27e5053a8e28e8319\_l.jpg?source=06d4cd63)](https://www.zhihu.com/people/728f214939c77f6a35a191895669fce4)
+[anlan](https://www.zhihu.com/people/728f214939c77f6a35a191895669fce4)
+[七月在线 七仔](https://www.zhihu.com/people/df4bdff852df84e5c9917d7f396bba95)
+感谢，已经私啦
+2023-01-30 · 山西
+​回复​喜欢
+展开其他 1 条回复​
+关于作者
+[![七月在线 七仔](https://pic1.zhimg.com/v2-cd34bbd00d9979ac0b390edbcab49dd3\_l.jpg?source=32738c0c&needBackground=1)](https://www.zhihu.com/people/julyedu.com)
+[七月在线 七仔](https://www.zhihu.com/people/julyedu.com)
+集AI大模型教育、应用开发、机器人解决方案一体的科技公司
+[回答\\
+\\
+\*\*193\*\*](https://www.zhihu.com/people/julyedu.com/answers) [文章\\
+\\
+\*\*931\*\*](https://www.zhihu.com/people/julyedu.com/posts) [关注者\\
+\\
+\*\*186,154\*\*](https://www.zhihu.com/people/julyedu.com/followers)
+​关注​发私信
+大家都在搜
+换一换
+[伊朗局势425 万](https://www.zhihu.com/search?q=%E4%BC%8A%E6%9C%97%E5%B1%80%E5%8A%BF&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[太原火灾397 万](https://www.zhihu.com/search?q=%E5%A4%AA%E5%8E%9F%E7%81%AB%E7%81%BE&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 新
+[美以袭击伊朗369 万](https://www.zhihu.com/search?q=%E7%BE%8E%E4%BB%A5%E8%A2%AD%E5%87%BB%E4%BC%8A%E6%9C%97&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[罗技短视频组被扣除全部绩效354 万](https://www.zhihu.com/search?q=%E7%BD%97%E6%8A%80%E7%9F%AD%E8%A7%86%E9%A2%91%E7%BB%84%E8%A2%AB%E6%89%A3%E9%99%A4%E5%85%A8%E9%83%A8%E7%BB%A9%E6%95%88&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[有什么东西盗版比正版的火353 万](https://www.zhihu.com/search?q=%E6%9C%89%E4%BB%80%E4%B9%88%E4%B8%9C%E8%A5%BF%E7%9B%97%E7%89%88%E6%AF%94%E6%AD%A3%E7%89%88%E7%9A%84%E7%81%AB&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[中科大少年班学生课上往黑板扔水杯352 万](https://www.zhihu.com/search?q=%E4%B8%AD%E7%A7%91%E5%A4%A7%E5%B0%91%E5%B9%B4%E7%8F%AD%E5%AD%A6%E7%94%9F%E8%AF%BE%E4%B8%8A%E5%BE%80%E9%BB%91%E6%9D%BF%E6%89%94%E6%B0%B4%E6%9D%AF&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[张雪峰因心源性猝死去世310 万](https://www.zhihu.com/search?q=%E5%BC%A0%E9%9B%AA%E5%B3%B0%E5%9B%A0%E5%BF%83%E6%BA%90%E6%80%A7%E7%8C%9D%E6%AD%BB%E5%8E%BB%E4%B8%96&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[张雪峰追悼会举行民众排长队送别307 万](https://www.zhihu.com/search?q=%E5%BC%A0%E9%9B%AA%E5%B3%B0%E8%BF%BD%E6%82%BC%E4%BC%9A%E4%B8%BE%E8%A1%8C%E6%B0%91%E4%BC%97%E6%8E%92%E9%95%BF%E9%98%9F%E9%80%81%E5%88%AB&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[「地球能量失衡程度达新高」意味着什么298 万](https://www.zhihu.com/search?q=%E3%80%8C%E5%9C%B0%E7%90%83%E8%83%BD%E9%87%8F%E5%A4%B1%E8%A1%A1%E7%A8%8B%E5%BA%A6%E8%BE%BE%E6%96%B0%E9%AB%98%E3%80%8D%E6%84%8F%E5%91%B3%E7%9D%80%E4%BB%80%E4%B9%88&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[徐良删除汪苏泷后会无期作词作曲288 万](https://www.zhihu.com/search?q=%E5%BE%90%E8%89%AF%E5%88%A0%E9%99%A4%E6%B1%AA%E8%8B%8F%E6%B3%B7%E5%90%8E%E4%BC%9A%E6%97%A0%E6%9C%9F%E4%BD%9C%E8%AF%8D%E4%BD%9C%E6%9B%B2&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[广告\\
+\\
+![广告](https://pic2.zhimg.com/v2-928d7c3dfbed9279848e2866b2c9dbfc.webp?source=d6434cab)\\
+\\
+![广告](https://picx.zhimg.com/v2-c1b62e54dfe0ab396ead3746089b8c5b.webp?source=d6434cab)\\
+\\
+![广告](https://picx.zhimg.com/v2-6d1986925d2611de34ef6354e0e29105.webp?source=d6434cab)](https://ima.qq.com/download/?webFrom=10000435&channel=10000435&cb=https%3A%2F%2Fsugar.zhihu.com%2Fplutus\_adreaper\_callback%3Fsi%3D513563b0-48ad-4d4a-987a-e66535a06bd1%26os%3D3%26zid%3D6001%26zaid%3D3671861%26zcid%3D3629647%26cid%3D3629647%26event%3D\_\_EVENTTYPE\_\_%26value%3D\_\_EVENTVALUE\_\_%26ts%3D\_\_TIMESTAMP\_\_%26cts%3D\_\_TS\_\_%26mh%3D\_\_MEMBERHASHID\_\_%26adv%3D703838%26ocg%3D4%26cp%3D2500%26ocs%3D1%26aic%3D0%26atp%3D0%26ct%3D2%26ed%3DGiBNJgVzfCMmUW9XFyEvRA8xBGxJICwkOhh0FlwxKw1fY0gnWzUoISkY6onvXKClOvM%3D&spu=biz%3D0%26ci%3D3629647%26si%3D8e21bd5f-acdd-49aa-97d0-88c3e18d3213%26ts%3D1774749982%26zid%3D6001)
+### 推荐阅读
+[\*\*【经典书】全局优化算法：理论与应用，820页pdf\*\* \\
+\\
+全局优化是一个快速发展的领域，在应用数学和物理科学中有着强大的应用。这本书提供了这一领域的全面概述，材料上的关键主题，如复杂性;启发式方法;极小化问题下界的推导分支定界方法和收敛…\\
+\\
+专知](https://zhuanlan.zhihu.com/p/557158039) [\*\*多模态大模型落地总结：从 Qwen3-VL 微调到 vLLM 推理优化 (8×H100 复盘)\*\* \\
+\\
+TODO： 这篇文章是我在多模态智能控制系统项目中，从微调到部署的工程复盘。 核心挑战是：如何在 4×H100 算力下，让 Qwen2-VL-7B 在处理含图请求时，保持低延迟且输出的结构化指令（JSON）…\\
+\\
+阿龙](https://zhuanlan.zhihu.com/p/2002485688554238403) [\*\*关于类型系统的一些思考\*\* \\
+\\
+类型系统是什么类型系统是一个有多个规则组成的逻辑系统，系统内的规则会给程序中的每一个组成部分，包括变量、表达式、函数、甚至模块等等，制定一个 类型 属性。通俗的讲，类型系统是为了…\\
+\\
+泛程序员发表于软件工程狮](https://zhuanlan.zhihu.com/p/351798337) [![推荐系统相关算法整理](https://pic1.zhimg.com/v2-4c2480cb9b07c69d001891811a92b330\_250x0.jpg?source=172ae18b)\*\*推荐系统相关算法整理\*\* \\
+\\
+惊龙啸雨](https://zhuanlan.zhihu.com/p/393005915)
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_
+打开知乎App
+在「我的页」右上角打开扫一扫
+![](https://picx.zhimg.com/v2-9e41ea16bdfbe9cf4896617ecad5b4ca.png)
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+中国 +86
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+打开知乎App
+在「我的页」右上角打开扫一扫
+![](https://picx.zhimg.com/v2-9e41ea16bdfbe9cf4896617ecad5b4ca.png)
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+中国 +86
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+![](https://static.zhihu.com/heifetz/assets/liukanshan-peek.a71ecf3e.png)登录即可查看 超5亿 专业优质内容
+超 5 千万创作者的优质提问、专业回答、深度文章和精彩视频尽在知乎。
+立即登录/注册

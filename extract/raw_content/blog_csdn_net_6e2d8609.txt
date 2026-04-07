@@ -1,0 +1,819 @@
+# Source URL: https://blog.csdn.net/c9Yv2cf9I06K2A9E/article/details/153145347
+# Content Length: 16779 characters
+# Extracted at: 2026-03-25 12:24:14
+#============================================================
+
+ 
+
+
+
+
+
+Mamba-3惊现ICLR 2026投稿：三重升级打满“推理优先”范式-CSDN博客
+
+
+
+
+
+
+
+
+Mamba-3惊现ICLR 2026投稿：三重升级打满“推理优先”范式
+===================================
+
+
+最新推荐文章于 2026-03-18 14:07:12 发布
+原创
+[![]()](https://mall.csdn.net/vip)
+最新推荐文章于 2026-03-18 14:07:12 发布
+·
+1.3k 阅读
+·
+![]()
+![]()
+9
+
+
+·
+![]()
+![]()
+16
+
+
+
+
+
+
+
+
+![]()
+
+### 
+
+ICLR 2026 投稿惊现 Mamba-3：一场从数值分析、复值状态到硬件算力的系统重构，线性模型的“效率—能力—质量”三线齐升。
+
+在 ICLR 2026 的 OpenReview 上，一篇匿名投稿以 Mamba-3 为名，给出了建立在经典状态空间理论上的三项系统性改造：复值状态空间（等价数据依赖 RoPE）、广义梯形离散（卷积化掩码）、以及 MIMO 化的状态更新（提升算术强度）。
+
+与此前追求参数简化、结构轻量的 Mamba-2 不同，Mamba-3 回到了对数值稳定性与状态表达力的根本追问——它用更高阶的离散化精度、更丰富的复值动态和更高密度的算术更新，让线性时序模型重新具备可解释、可扩展的物理一致性。
+
+作者称其为一次“inference-first paradigm（推理优先范式）”的回归，意味着推理效率不再是附加优化目标，而是模型设计的起点。
+
+实验证明，在语言建模、形式语言推理与长序列解码延迟三个关键维度上，Mamba-3 都显著前移了性能—效率的 Pareto 前沿，为“后 Transformer 时代的线性建模”描绘出了一个新的可能边界。
+
+![]()
+
+论文标题：
+
+Mamba-3: Improved Sequence Modeling using State Space Principles
+
+论文链接：
+
+https://openreview.net/pdf?id=HwCvaJOiCj
+
+![]()
+
+研究背景
+
+**Transformer 的瓶颈众所周知：自注意力的二次计算和 KV-Cache 的线性增长，使得“高质量大模型 + 高频推理”的工业部署面临成本与延迟的双重压力。**
+
+**Mamba 系列以线性时间复杂度为突破口，通过选择性状态空间（Selective SSM）将全部历史信息压缩进固定维度的隐状态，从而摆脱对 KV-Cache 的依赖。**
+
+**Mamba-1 [1] 提出选择性状态更新机制，使模型能动态聚焦于关键片段；Mamba-2 [2] 进一步简化参数化（将过渡矩阵约束为输入依赖的单一标量），训练与部署更高效，但也牺牲了部分表达力与状态跟踪能力。**
+
+**这正是 Mamba-3 的切入点：不是“再简化”，而是“把必要的表达力与数值稳定性找回来”，同时让解码阶段真的吃满硬件。作者将其称为 “inference-first paradigm（推理优先范式）”。**
+
+![]()
+
+论文方法
+
+Mamba-3 并非继续“极简化”，而是围绕数值稳定性、状态表达力与推理效率对线性 SSM 进行系统重构。原文的方法脉络可以概括为三步：
+
+1. 广义梯形离散（GTR）：用更高阶的时间离散替代一阶欧拉，作为数值近似与结构化掩码的基础；
+
+2. 复值状态空间（Complex SSM）：把旋转/周期性动态引入到状态转移，并给出与数据依赖 RoPE 的等价写法；
+
+3. MIMO 更新与模块化整合：以更高算术强度实现线性解码的硬件友好。
+
+2.1 复值状态空间
+
+连续时间下，复值 SSM 记为：
+
+![]()![]()
+
+
+
+
+
+
+
+
+
+
+ 控制衰减，
+
+
+
+
+
+
+
+
+ 引入旋转频率，输出端取实部以与后续实值模块兼容。作者在随后的离散化推导中给出将旋转并入输入/输出投影（等价于数据依赖 RoPE）的形式，从而在保持线性复杂度的同时恢复对周期性/相位结构的表达能力。
+
+![]()![]()
+
+▲ 图1. Mamba-2 vs Mamba-3 的模块级差异总览
+
+2.2 广义梯形离散：从欧拉到隐显融合
+
+在离散化层面，Mamba-3 采用广义梯形法（Generalized Trapezoidal Rule, GTR），用端点加权实现二阶全局精度与更好的数值稳定性。对复值状态与旋转动态离散后，论文给出与数据依赖 RoPE 等价的递推：
+
+![]()
+
+其中 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+![]()
+最低0.47元/天 解锁文章
+![]()
+
+
+![]()
+确定要放弃本次机会？
+
+福利倒计时
+
+*:*
+
+*:*
+
+
+![]()
+立减 ¥
+
+
+普通VIP年卡可用
+
+[立即使用](https://mall.csdn.net/vip)
+
+
+[![]()
+PaperWeekly](https://blog.csdn.net/c9Yv2cf9I06K2A9E)
+
+[关注](javascript:;)
+关注
+
+
+* ![]()
+  ![]()
+  ![]()
+  9
+  点赞
+* ![]()
+  ![]()
+  踩
+* [![]()
+  ![]()
+  ![]()
+  16](javascript:;)
+  收藏
+  
+  
+  
+  觉得还不错?
+  一键收藏
+  
+  ![]()
+* ![]()
+  知道了
+  
+  [![]()
+  0](#commentBox)
+  评论
+* [![]()
+  分享](javascript:;)
+  复制链接
+  
+  分享到 QQ
+  
+  分享到新浪微博
+  
+  ![]()扫一扫
+* ![]()
+  ![]()
+  举报
+  
+  ![]()
+  举报
+
+
+
+
+![]()
+
+[*Mamba*：*3* 记忆殿堂](https://blog.csdn.net/Janexjy/article/details/138557767)
+
+[鲁班模锤](https://blog.csdn.net/Janexjy)
+
+05-08
+![]()
+1476
+
+
+
+
+[*Mamba*自从出道就一直被拿来和Transformer对比，文章巨多，带着标题的爆炸性字样“颠覆Transfomer”，“全面包围”等等。文章深浅不一，小编认为其背后的设计思路以及演化过程更加重要。为此本专题将从山上有座庙开始，沿着RNN、SSM、S4、HIPPO一路走来。期间抛弃冗杂的文辞，以更接地气的模式协助读者打开新的逻辑思维.](https://blog.csdn.net/Janexjy/article/details/138557767)
+
+
+
+
+
+参与评论
+您还未登录，请先
+登录
+后发表或查看评论
+
+
+[下载*mamba**-*ssm报错ERROR*:* ERROR*:* Failed to build installable wheels for some pyproject.toml based projects](https://blog.csdn.net/m0_73811793/article/details/140802243)
+
+[m0\_73811793的博客](https://blog.csdn.net/m0_73811793)
+
+07-30
+![]()
+1995
+
+
+
+
+[【代码】下载*mamba**-*ssm报错ERROR*:* ERROR*:* Failed to build installable wheels for some pyproject.toml based projects。](https://blog.csdn.net/m0_73811793/article/details/140802243)
+
+
+
+[奥特曼宣判Transformer死刑，*Mamba*‑*3*正在接管下一代AI架构](https://blog.csdn.net/cf2SudS8x8F0v/article/details/159217623)
+
+[人工智能学家](https://blog.csdn.net/cf2SudS8x8F0v)
+
+03-18
+![]()
+92
+
+
+
+
+[波动智能旨在建立一个基于人类意图与反应的真实需求洞察及*满*足的价值体系，融合人工智能与意识科学，构建覆盖情绪识别、建模与推荐的智能引擎，自主研发面向社交、电商等场景的多模态意图识别引擎、意图标签系统及意图智能推荐算法，形成从情绪采集、意图建模到商业转化的完整解决方案。但线性模型也有自己的短板，它们的表达能力不如 Transformer，尤其在状态跟踪、复杂动态建模上表*现*乏力，它们的离散化方法粗糙，理论基础薄弱，它们的*推理*阶段虽然复杂度低，但在 GPU 上却是典型的 memory‑bound，算力利用率极低。](https://blog.csdn.net/cf2SudS8x8F0v/article/details/159217623)
+
+
+
+
+[*Mamba**-**3**惊**现**ICLR* *2026*！引爆AI圈](https://blog.csdn.net/amusi1994/article/details/153379105)
+
+[阿木寺的博客](https://blog.csdn.net/amusi1994)
+
+10-15
+![]()
+433
+
+
+
+
+[例如，当遇到需要周期性状态跟踪或精确计数的场景，*Mamba**-*2可能依旧力不从心，因为它的内部状态演化仍是相对单一的衰减形式，缺乏「钟摆」般来回振荡的机制来捕捉循环规律。如果把AI智能体看作是在理解「环境观察」的问题，那随着「不可见状态」的增长（也就是观察不到，需要*推理*出来的信息），模型要解决的就变成了「状态追踪问题」。从*Mamba**-*1的雏形初*现*，到*Mamba**-*2的加速攀升，再到*Mamba**-**3*的全面跃迁，这项技术就像一段连续的乐章，一步步逼近效率与能力的完美和声。带着这些经验和反思，*Mamba**-**3*孕育而生。](https://blog.csdn.net/amusi1994/article/details/153379105)
+
+
+
+[*Mamba**-**3* 深度剖析 *-* 01. 导论 (Introduction)](https://blog.csdn.net/lczdyx/article/details/157898385)
+
+[lczdyx的博客](https://blog.csdn.net/lczdyx)
+
+02-09
+![]()
+790
+
+
+
+
+[本章作为《*Mamba**-**3*深度剖析》开篇，从“*推理**优先*”视角审视序列建模的演进，揭示了线性模型在质量、能力与硬件效率上的权衡困境。文章阐述了 *Mamba**-**3* 如何通过回归SSM原理突破瓶颈，重点概览其三大核心创新：梯形离散化提升模型精度，复数域状态（结合 RoPE）解决状态追踪难题，及MIMO机制优化解码阶段的算术强度与硬件利用率。本章旨在构建*Mamba**-**3*的理论框架并提供全教程导读。](https://blog.csdn.net/lczdyx/article/details/157898385)
+
+
+
+[*Mamba**-**3* 深度剖析 *-* 07. 实验与评估 (实验与性能)](https://blog.csdn.net/lczdyx/article/details/157968244)
+
+[lczdyx的博客](https://blog.csdn.net/lczdyx)
+
+02-11
+![]()
+910
+
+
+
+
+[本文深入剖析*Mamba**-**3*的实验评估章节。在语言建模方面，*Mamba**-**3*凭借梯形离散化架构，在FineWeb*-*Edu基准上全面超越Transformer与*Mamba**-*2，刷新同规模模型性能上限。针对线性模型短板，其通过复数域SSM（RoPE）完美解决状态追踪难题，在合成任务中达到近100%准确率。*推理*分析进一步证实，MIMO机制在几乎不增加延迟的前提下大幅提升硬件利用率，成功确立了性能与*推理*效率的新帕累托前沿，展示了下一代线性序列模型的统治级潜力。](https://blog.csdn.net/lczdyx/article/details/157968244)
+
+
+
+[MiM*-*ISTD*:* *Mamba**-*in*-**Mamba* for Efficient Infrared Small Target Detection](https://wanghao.blog.csdn.net/article/details/140691742)
+
+[AI浩](https://blog.csdn.net/hhhhhhhhhhwwwwwwwwww)
+
+07-26
+![]()
+2811
+
+
+
+
+[近年来，随着基础模型的发展，红外小目标检测（ISTD）取得了显著进展。具体来说，将卷积神经网络（CNNs）与转换器（transformers）相结合的模型能够成功地提取局部和全局特征。然而，转换器的缺点也被继承了下来，即序列长度的二次计算复杂度。受最近具有线性复杂度的远距离建模基础模型*Mamba*的启发，本文探讨了该状态空间模型在ISTD任务中的有效性和效率方面的潜力。然而，由于缺乏对检测小目标至关重要的局部特征的充分利用，直接应用*Mamba*模型只能达到次优性能。](https://wanghao.blog.csdn.net/article/details/140691742)
+
+
+
+[*Mamba**-*UNet*:* UNet*-*Like Pure Visual *Mamba* for Medical Image Segmentation](https://blog.csdn.net/zzzyyy8/article/details/141993745)
+
+[zzzyyy8的博客](https://blog.csdn.net/zzzyyy8)
+
+09-07
+![]()
+4496
+
+
+
+
+[受以处理长序列和全局上下文信息并增强计算效率为特点的*Mamba*架构（作为状态空间模型SSM）的启发，我们提出了*Mamba**-*UNet，这是一种将医学图像分割中的U*-*Net与*Mamba*能力相结合的新型架构。](https://blog.csdn.net/zzzyyy8/article/details/141993745)
+
+
+
+[*Mamba*DFuse*:* A *Mamba**-*based Dual*-*phase Model forMulti*-*modality Image Fusion——基于*Mamba*的双阶段多模态图像融合模型](https://yishuihancheng.blog.csdn.net/article/details/144507012)
+
+[Together\_CZ的博客](https://blog.csdn.net/Together_CZ)
+
+12-21
+![]()
+1808
+
+
+
+
+[*Mamba*DFuse*:* A *Mamba**-*based Dual*-*phase Model for Multi*-*modality Image Fusion——基于*Mamba*的双阶段多模态图像融合模型](https://yishuihancheng.blog.csdn.net/article/details/144507012)
+
+
+
+[MTAIR：*Mamba**-*Transformer Aggregation——基于*Mamba**-*Transformer聚合的多维视觉提示增强图像恢复](https://yishuihancheng.blog.csdn.net/article/details/144773426)
+
+[Together\_CZ的博客](https://blog.csdn.net/Together_CZ)
+
+12-30
+![]()
+1298
+
+
+
+
+[Multi*-*dimensional Visual Prompt Enhanced Image
+Restoration via *Mamba**-*Transformer Aggregation
+MTAIR：*Mamba**-*Transformer Aggregation——基于*Mamba**-*Transformer聚合的多维视觉提示增强图像恢复](https://yishuihancheng.blog.csdn.net/article/details/144773426)
+
+
+
+精选资源
+[*mamba**-*ssm*-*2.2.4 加 causal*-*conv1d*-*1.5.0的Wheel安装文件](https://download.csdn.net/download/smallnew198705/90615442)
+
+04-14
+
+
+
+[修改完代码后进入causal*-*conv1d*-*1.5.0.post6和*mamba**-*2.2.4文件夹分别执行下面命令安装 pip install . pip install . *-**-*no*-*build*-*isolation *-**-*verbose ...进入causal*-*conv1d*-*1.5.0.post6和*mamba**-*2.2.4文件夹执行下面...](https://download.csdn.net/download/smallnew198705/90615442)
+
+
+
+精选资源
+[*mamba**-*ssm*-*1.2.0.post1*-*py*3**-*none*-*any.whl](https://download.csdn.net/download/yyywxk/89538359)
+
+07-13
+
+
+
+[*mamba*\_ssm*-*1.2.0.post1 Windows 下whl 直接 pip install 安装这个whl即可。 此为旧版本，计算缓慢，不要下载。 新版移步：https*:*//blog.csdn.net/yyywxk/article/details/1404205*3*8](https://download.csdn.net/download/yyywxk/89538359)
+
+
+
+[*mamba**-*ssm*-*1*-*1*-**3**-*cp*3*10*-*cp*3*10*-*win*-*amd64*-*whl](https://download.csdn.net/download/2401_89793006/91602096)
+
+08-06
+
+
+
+[标题中的“*mamba**-*ssm*-*1*-*1*-**3**-*cp*3*10*-*cp*3*10*-*win*-*amd64*-*whl”指明了这是一个针对Windows操作系统的Python包安装文件，具体是指*mamba*\_ssm软件包的版本1.1.*3*。从这个标题可以得知，这个whl文件是为Python版本*3*10以及*3*10的...](https://download.csdn.net/download/2401_89793006/91602096)
+
+
+
+[mysql修改密码步骤*-*下载即用.zip](https://download.csdn.net/download/mianmiandage/92755008)
+
+03-23
+
+
+
+[源码链接： https*:*//pan.quark.cn/s/22f5*3*2ed24ae
+### MySQL 密码变更指南#### 一、引言在数据库维护的日常实践中，周期性更新数据库名称的访问密钥是一项关键的安全实践。MySQL平台提供了多样的途径来调整密码，涵盖了在Windows与Linux操作系统环境下的具体实施方法。本说明将详尽阐述如何在两种系统配置中更改MySQL的登录凭证。#### 二、在Windows平台调整MySQL密码在Windows环境下修正MySQL密码主要涉及两个核心环节：接入MySQL服务器及运用指令修改密码。\*\*阶段1：接入MySQL\*\*1. 启动命令行界面（cmd）。2. 定位至MySQL的安装路径下的`bin`子目录。通常路径为`C*:*\Program Files\MySQL\MySQL Server xx\bin`，其中`xx`代表MySQL服务器的特定版本标识。*3*. 运用以下指令连接至MySQL服务器： ```bash mysql *-*u root *-*p ``` 在提示时输入MySQL管理员（root）的当前密钥后按回车键即可成功接入。\*\*阶段2：调整密码\*\*1. 成功接入后，执行以下指令来变更密码： ```sql SET PASSWORD FOR root@localhost = PASSWORD(新密钥); ``` 其中`新密钥`替换为你计划设定的新访问密钥。2. 若调整操作成功，MySQL将反馈确认信息，表明密码已成功更新。#### 三、在Linux平台调整MySQL密码相较于Windows系统，在Linux环境下修正MySQL密码的过程稍显复杂，需要首先终止MySQL服务的运行，然后启动一个临时的服务实例，最终才能执行密码的调...](https://download.csdn.net/download/mianmiandage/92755008)
+
+
+
+[基于DBSCAN点云聚类与视觉检测的多传感器融合避障技术\_项目极简说明本项目是一个专注于机器人或自动驾驶系统在复杂动态环境中实*现*安全导航的综合性避障解决方案它通过高效整合激光雷.zip](https://download.csdn.net/download/YVZONG1234/92755546)
+
+03-23
+
+
+
+[基于DBSCAN点云聚类与视觉检测的多传感器融合避障技术\_项目极简说明本项目是一个专注于机器人或自动驾驶系统在复杂动态环境中实*现*安全导航的综合性避障解决方案它通过高效整合激光雷.zip](https://download.csdn.net/download/YVZONG1234/92755546)
+
+
+
+[基于Transformer的大模型预训练从零到一实战.md
+最新发布](https://download.csdn.net/download/weixin_43107715/92756043)
+
+03-23
+
+
+
+[从基础原理、核心架构出发，体系化覆盖预训练、高效微调、提示词工程、RAG、Agent、量化优化、多模态、安全合规、分布式训练等核心技术，同时包含开源模型部署、垂直领域落地、传统业务集成等实战内容，助力大模型开发者、AI从业者构建完整知识体系，掌握企业级落地能力。](https://download.csdn.net/download/weixin_43107715/92756043)
+
+
+
+[【IEEE顶刊复*现*】水下机器人AUV路径规划和MPC模型预测控制跟踪控制（复*现*）（Matlab代码实*现*）](https://download.csdn.net/download/F_Matlab/92755528)
+
+03-23
+
+
+
+[内容概要：本文复*现*了发表于IEEE顶刊的水下机器人自主水下航行器（AUV）路径规划与模型预测控制（MPC）跟踪控制方法，重点实*现*了复杂海洋环境下AUV的高效路径规划与精确轨迹跟踪。基于Matlab平台，构建了AUV动力学与运动学模型，结合优化算法完成全局路径规划，并采用MPC控制器实*现*动态环境中的实时轨迹跟踪与扰动抑制，有效提升系统的鲁棒性与控制精度。文档提供了完整的代码实*现*与仿真验证流程，涵盖算法设计、参数整定及结果分析，确保复*现*结果的可靠性与可重复性。;
+适合人群：具备自动控制理论、机器人学及优化算法基础，熟悉Matlab编程，从事智能控制系统、海洋工程或机器人研究的研发人员与硕博研究生；
+使用场景及目标：①掌握AUV在复杂约束下的路径规划与MPC控制一体化设计方法；②深入理解MPC在非线性系统中的应用及其对模型不确定性和外部干扰的应对机制；③为相关科研课题提供可复用的算法框架与仿真基准；
+阅读建议：此资源以高水平期刊论文复*现*为核心，建议读者结合原文深入理解算法原理，在仿真过程中调整参数并对比不同工况下的控制性能，以全面掌握AUV智能控制的关键技术细节。](https://download.csdn.net/download/F_Matlab/92755528)
+
+
+
+[基于CloudCompare开源点云处理软件的IO插件开发框架与详细实*现*指南\_包含插件项目创建CMake配置源码修改点云数据存储与显示类使用文件加载与日志输出方法以及编译.zip](https://download.csdn.net/download/nihao2025123/92755493)
+
+03-23
+
+
+
+[基于CloudCompare开源点云处理软件的IO插件开发框架与详细实*现*指南\_包含插件项目创建CMake配置源码修改点云数据存储与显示类使用文件加载与日志输出方法以及编译.zip](https://download.csdn.net/download/nihao2025123/92755493)
+
+
+
+[chrome*-*linux64*-*147.0.7727.15(Beta).zip](https://download.csdn.net/download/qq_26354367/92755335)
+
+03-23
+
+
+
+[chrome*-*linux64*-*147.0.7727.15(Beta).zip](https://download.csdn.net/download/qq_26354367/92755335)
+
+
+
+[*Mamba**-*SSM导入时报c10*:**:*Warning符号未定义，是不是PyTorch版本或编译环境不匹配？](https://wenku.csdn.net/answer/4mvxd3a2vumq)
+
+02-08
+
+
+
+[*3*. \*\*CUDA工具链不一致\*\*：编译 *Mamba**-*SSM 时的 CUDA 版本与当前环境中的 CUDA/cuDNN 版本不匹配 #### 解决方案（逐步操作） ```bash # 1. 强制重新编译安装（关键步骤） pip uninstall *-*y *mamba*\_ssm pip install ...](https://wenku.csdn.net/answer/4mvxd3a2vumq)
+
+
+
+
+
+
+[![]()](https://blog.csdn.net/c9Yv2cf9I06K2A9E)
+
+[PaperWeekly](https://blog.csdn.net/c9Yv2cf9I06K2A9E)
+
+
+博客等级
+
+![]()
+
+码龄9年
+
+
+
+[2002
+原创](https://blog.csdn.net/c9Yv2cf9I06K2A9E)
+
+1万+
+点赞
+
+3万+
+收藏
+
+1万+
+粉丝
+
+
+关注
+
+[私信](https://im.csdn.net/chat/c9Yv2cf9I06K2A9E)
+
+
+
+[![]()](https://ai.csdn.net/workbench/wallet?utm_source=xtai_slb_bloglb)
+
+![]()
+
+
+### 热门文章
+
+* [一文通俗讲解元学习（Meta-Learning）
+  ![]()
+  63283](https://blog.csdn.net/c9Yv2cf9I06K2A9E/article/details/121413057)
+* [想了解推荐系统最新研究进展？请收好这16篇论文
+  ![]()
+  38117](https://blog.csdn.net/c9Yv2cf9I06K2A9E/article/details/82881839)
+* [深入理解图注意力机制（Graph Attention Network）
+  ![]()
+  35122](https://blog.csdn.net/c9Yv2cf9I06K2A9E/article/details/105548217)
+* [CVPR 2018值得一看的25篇论文，都在这里了 | 源码 & 解读
+  ![]()
+  33408](https://blog.csdn.net/c9Yv2cf9I06K2A9E/article/details/80104952)
+* [收下这12篇最新论文，炼丹不愁没灵感 | 本周值得读
+  ![]()
+  31985](https://blog.csdn.net/c9Yv2cf9I06K2A9E/article/details/82185784)
+
+
+上一篇：
+
+[Attention is NOT All You Need：让“深度”重新流入时间，而非堆叠在参数之上](https://blog.csdn.net/c9Yv2cf9I06K2A9E/article/details/153082036)
+
+
+下一篇：
+
+[93%成功率！从“改提示”到“写剧情”：STaR-Attack用叙事推理攻破大模型防线](https://blog.csdn.net/c9Yv2cf9I06K2A9E/article/details/153144321)
+
+
+
+### 最新评论
+
+* [入门必备！生物医学命名实体识别（BioNER）最全论文清单，附SOTA结果汇总](https://blog.csdn.net/c9Yv2cf9I06K2A9E/article/details/102386978#comments_38953152)
+  
+  [极客小云:](https://blog.csdn.net/m0_73370855) 
+  是这个吧:https://github.com/xy200303/bioner
+
+
+### 大家在看
+
+* [MYsql学习2025-03-25](https://blog.csdn.net/2601_95374055/article/details/159465329)
+* [2026.3.25mysql的一些语句](https://blog.csdn.net/2601_95374046/article/details/159465298)
+* [雷火游戏引擎开发面试题精选：10道高频考题+答案解析
+  ![]()
+  330](https://blog.csdn.net/ZHHHHH15/article/details/159415430)
+* [拿下淘宝offer的3个关键：我从10个JD里总结的备考策略
+  ![]()
+  423](https://blog.csdn.net/TechPioneer_lp/article/details/159392678)
+* [[SZ901] 多路FPGA 网络下载器总览
+  ![]()
+  133](https://blog.csdn.net/qaz178889322/article/details/159434840)
+
+
+### 最新文章
+
+* [为了给NeurIPS审稿，Meta的Agent自己重写了底层代码](https://blog.csdn.net/c9Yv2cf9I06K2A9E/article/details/159440055)
+* [ICLR 2026 | 多模态训练遇梯度冲突？Uni-X探索纯自回归原生多模态架构](https://blog.csdn.net/c9Yv2cf9I06K2A9E/article/details/159453610)
+* [这篇ICLR神了！文言文「硬控」全网大模型，100%成功越狱](https://blog.csdn.net/c9Yv2cf9I06K2A9E/article/details/159402024)
+
+
+2026
+[03月
+45篇](https://blog.csdn.net/c9Yv2cf9I06K2A9E?type=blog&year=2026&month=03)
+
+[02月
+30篇](https://blog.csdn.net/c9Yv2cf9I06K2A9E?type=blog&year=2026&month=02)
+
+[01月
+50篇](https://blog.csdn.net/c9Yv2cf9I06K2A9E?type=blog&year=2026&month=01)
+
+
+[2025年805篇](https://blog.csdn.net/c9Yv2cf9I06K2A9E?type=blog&year=2025&month=12)
+[2024年1100篇](https://blog.csdn.net/c9Yv2cf9I06K2A9E?type=blog&year=2024&month=12)
+[2023年1154篇](https://blog.csdn.net/c9Yv2cf9I06K2A9E?type=blog&year=2023&month=12)
+[2022年771篇](https://blog.csdn.net/c9Yv2cf9I06K2A9E?type=blog&year=2022&month=12)
+[2021年829篇](https://blog.csdn.net/c9Yv2cf9I06K2A9E?type=blog&year=2021&month=12)
+[2020年533篇](https://blog.csdn.net/c9Yv2cf9I06K2A9E?type=blog&year=2020&month=12)
+[2019年397篇](https://blog.csdn.net/c9Yv2cf9I06K2A9E?type=blog&year=2019&month=12)
+[2018年334篇](https://blog.csdn.net/c9Yv2cf9I06K2A9E?type=blog&year=2018&month=12)
+[2017年92篇](https://blog.csdn.net/c9Yv2cf9I06K2A9E?type=blog&year=2017&month=12)
+
+
+
+![]()
+
+
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+
+
+![]()
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+![]()
+
+上一篇：
+
+[Attention is NOT All You Need：让“深度”重新流入时间，而非堆叠在参数之上](https://blog.csdn.net/c9Yv2cf9I06K2A9E/article/details/153082036)
+
+
+下一篇：
+
+[93%成功率！从“改提示”到“写剧情”：STaR-Attack用叙事推理攻破大模型防线](https://blog.csdn.net/c9Yv2cf9I06K2A9E/article/details/153144321)
+
+
+
+### 最新文章
+
+* [为了给NeurIPS审稿，Meta的Agent自己重写了底层代码](https://blog.csdn.net/c9Yv2cf9I06K2A9E/article/details/159440055)
+* [ICLR 2026 | 多模态训练遇梯度冲突？Uni-X探索纯自回归原生多模态架构](https://blog.csdn.net/c9Yv2cf9I06K2A9E/article/details/159453610)
+* [这篇ICLR神了！文言文「硬控」全网大模型，100%成功越狱](https://blog.csdn.net/c9Yv2cf9I06K2A9E/article/details/159402024)
+
+
+2026
+[03月
+45篇](https://blog.csdn.net/c9Yv2cf9I06K2A9E?type=blog&year=2026&month=03)
+
+[02月
+30篇](https://blog.csdn.net/c9Yv2cf9I06K2A9E?type=blog&year=2026&month=02)
+
+[01月
+50篇](https://blog.csdn.net/c9Yv2cf9I06K2A9E?type=blog&year=2026&month=01)
+
+
+[2025年805篇](https://blog.csdn.net/c9Yv2cf9I06K2A9E?type=blog&year=2025&month=12)
+[2024年1100篇](https://blog.csdn.net/c9Yv2cf9I06K2A9E?type=blog&year=2024&month=12)
+[2023年1154篇](https://blog.csdn.net/c9Yv2cf9I06K2A9E?type=blog&year=2023&month=12)
+[2022年771篇](https://blog.csdn.net/c9Yv2cf9I06K2A9E?type=blog&year=2022&month=12)
+[2021年829篇](https://blog.csdn.net/c9Yv2cf9I06K2A9E?type=blog&year=2021&month=12)
+[2020年533篇](https://blog.csdn.net/c9Yv2cf9I06K2A9E?type=blog&year=2020&month=12)
+[2019年397篇](https://blog.csdn.net/c9Yv2cf9I06K2A9E?type=blog&year=2019&month=12)
+[2018年334篇](https://blog.csdn.net/c9Yv2cf9I06K2A9E?type=blog&year=2018&month=12)
+[2017年92篇](https://blog.csdn.net/c9Yv2cf9I06K2A9E?type=blog&year=2017&month=12)
+
+
+
+
+
+
+### 目录
+
+
+
+
+
+
+
+
+
+
+
+
+
+评论
+![]()
+
+![]()被折叠的  条评论
+[为什么被折叠?](https://blogdev.blog.csdn.net/article/details/122245662)
+[![]()到【灌水乐园】发言](https://bbs.csdn.net/forums/FreeZone)
+
+
+查看更多评论![]()
+
+
+
+添加红包
+
+
+祝福语
+
+
+请填写红包祝福语或标题
+
+
+红包数量
+
+个
+
+红包个数最小为10个
+
+
+红包总金额
+
+元
+
+红包金额最低5元
+
+
+余额支付
+当前余额3.43元
+[前往充值 >](https://i.csdn.net/#/wallet/balance/recharge)
+
+
+需支付：10.00元
+
+取消
+确定
+
+
+
+
+![]()
+下一步
+
+![]()
+知道了
+
+
+
+![]()
+成就一亿技术人!
+
+
+
+领取后你会自动成为博主和红包主的粉丝
+规则
+
+
+
+![]()
+hope\_wisdom 发出的红包
+
+
+
+
+
+
+
+
+
+实付元
+[使用余额支付](javascript:;)
+![]()
+点击重新获取
+
+
+![]()![]()![]()扫码支付
+
+
+
+
+钱包余额
+0
+![]()
+
+抵扣说明：
+
+1.余额是钱包充值的虚拟货币，按照1:1的比例进行支付金额的抵扣。  
+ 2.余额无法直接购买下载，可以购买VIP、付费专栏及课程。
+
+
+
+
+
+[![]()余额充值](https://i.csdn.net/#/wallet/balance/recharge)
+
+![]()
+
+
+
+
+
+

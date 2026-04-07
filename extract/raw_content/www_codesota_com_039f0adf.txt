@@ -1,0 +1,375 @@
+# Source URL: https://www.codesota.com/guides/tts-models
+# Content Length: 15274 characters
+# Extracted at: 2026-03-31 10:12:20
+#============================================================
+
+
+Best Open-Source TTS Models Compared | 2026 Guide | CodeSOTA[CodeSOTA](/)[Benchmarks](/browse)[Task Mapping](/browse/mapping)[OCR](/ocr)[News](/news)[Blocks](/building-blocks)[Learn](/learn)[Guides](/guides)[Benchmarks](/browse)[Task Mapping](/browse/mapping)[OCR](/ocr)[News](/news)[Building Blocks](/building-blocks)[Learn](/learn)[Guides](/guides)[Home](/)/[Guides](/guides)/TTS ModelsSpeech SynthesisComparison GuideMarch 2026
+
+Best Open-Source TTS Models Compared(2026 Edition)
+==================================================
+
+Eight models, one goal: human-quality speech from open-source code. We compare naturalness, speed, voice cloning, hardware needs, and licensing so you can pick the right TTS for your project.
+
+Updated March 2026|20 min read|8 models compared
+
+TL;DR - Pick Your Model
+-----------------------
+
+>
+
+**Best overall quality:** Kokoro (MOS 4.2, 82M params, Apache 2.0)
+
+>
+
+**Best voice cloning:** XTTS v2 (6s reference, 17 languages)
+
+>
+
+**Best for edge/embedded:** Piper (runs on Raspberry Pi, 30+ langs)
+
+>
+
+**Best for dialogue:** Dia (multi-speaker turns, 1.6B params)
+
+>
+
+**Best multilingual cloning:** Fish Speech (8 langs, Apache 2.0)
+
+>
+
+**Best non-speech audio:** Bark (laughter, music, MIT license)
+
+>
+
+**Best flow-matching TTS:** F5-TTS (zero-shot cloning, 336M params)
+
+>
+
+**Most controllable:** Parler-TTS (describe voice in text)
+
+Naturalness (MOS Scores)
+------------------------
+
+Mean Opinion Score on a 1-5 scale. Human speech typically scores 4.5-4.8. Scores below are from published evaluations and community benchmarks.
+
+Kokoro4.2Fish Speech4.1F5-TTS4.1XTTS v24.0Dia4.0Parler-TTS3.8Bark3.7Piper3.5Human speech4.5+
+
+Full Comparison Table
+---------------------
+
+| Model | MOS | RTF | VRAM | Params | Voice Clone | Languages | License |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| KokoroHexgrad | 4.2 | 0.03 | < 1 GB | 82M | No (style presets) | English, Japanese, Korean, Chinese, French, Spanish, Italian, Portuguese, Hindi | Apache 2.0 |
+| XTTS v2Coqui | 4.0 | 0.18 | ~4 GB | 467M | Yes (6s reference) | 17 languages (EN, ES, FR, DE, IT, PT, PL, TR, RU, NL, CZ, AR, ZH, JA, HU, KO, HI) | CPML (non-commercial) |
+| BarkSuno | 3.7 | 0.85 | ~6 GB | 900M | Limited (speaker prompts) | 13 languages | MIT |
+| PiperRhasspy | 3.5 | 0.008 | < 100 MB (CPU) | 6-60M | No (pre-trained voices) | 30+ languages | MIT |
+| Fish SpeechFish Audio | 4.1 | 0.12 | ~4 GB | 500M | Yes (10-30s reference) | English, Chinese, Japanese, Korean, Spanish, French, German, Arabic | Apache 2.0 |
+| DiaNari Labs | 4.0 | 0.15 | ~5 GB | 1.6B | Yes (audio prompt) | English | Apache 2.0 |
+| F5-TTSSWivid | 4.1 | 0.14 | ~4 GB | 336M | Yes (5-15s reference) | English, Chinese | CC-BY-NC 4.0 |
+| Parler-TTSHugging Face | 3.8 | 0.22 | ~4 GB | 880M | No (text-described voices) | English | Apache 2.0 |
+
+RTF = Real-Time Factor (lower is faster; <1.0 means faster than real-time). Measured on NVIDIA A100 unless noted. MOS scores from published papers and community evaluations. VRAM at fp16, single utterance.
+
+Model Deep Dives
+----------------
+
+### Kokoro
+
+Highest MOS82M params
+
+Kokoro is the efficiency champion. Built on StyleTTS 2 architecture, it achieves the highest MOS score (4.2) among all open-source models while using just 82M parameters -- orders of magnitude smaller than competitors. It runs comfortably on CPU and can generate speech at RTF 0.03 on GPU, meaning a 10-second clip is synthesized in 0.3 seconds. The model ships with curated style presets for different voices but does not support arbitrary voice cloning. As of early 2026, it supports 9 languages including English, Japanese, Korean, and major European languages.
+
+ArchitectureStyleTTS 2 basedSample Rate24 kHzStreamingYes (chunked)Best ForNarration, assistantskokoro\_example.py
+```
+# pip install kokoro>=0.8 soundfile
+from kokoro import KPipeline
+import soundfile as sf
+
+pipe = KPipeline(lang_code="a")  # 'a' = American English
+# Available voices: af_heart, af_bella, am_adam, am_michael, etc.
+samples = pipe("Hello from Kokoro, the most efficient open-source TTS.", voice="af_heart", speed=1.0)
+for i, (gs, ps, audio) in enumerate(samples):
+    sf.write(f"output_{i}.wav", audio, 24000)
+```
+### XTTS v2
+
+Best Voice CloningCPML License
+
+XTTS v2 remains the gold standard for zero-shot voice cloning. With just 6 seconds of reference audio, it produces remarkably faithful voice reproductions across 17 languages. The architecture combines a GPT-style autoregressive model with DVAE and HiFi-GAN vocoder. The main caveat is its CPML license, which restricts commercial use without a separate agreement. For commercial projects, consider Fish Speech or F5-TTS as alternatives.
+
+ArchitectureGPT + DVAE + HiFi-GANSample Rate24 kHzStreamingYesBest ForVoice cloning, dubbingxtts\_example.py
+```
+# pip install TTS
+from TTS.api import TTS
+
+tts = TTS("tts_models/multilingual/multi-dataset/xtts_v2", gpu=True)
+
+# Zero-shot voice cloning from a 6s reference clip
+tts.tts_to_file(
+    text="This is a cloned voice speaking naturally.",
+    speaker_wav="reference.wav",
+    language="en",
+    file_path="output.wav",
+)
+```
+### Bark
+
+Non-Speech AudioMIT
+
+Bark by Suno is unique in its ability to generate non-speech audio alongside speech. It can produce laughter, music snippets, sighs, and other paralinguistic sounds using inline tags. The GPT-style autoregressive architecture means it is slower (RTF 0.85) and requires more VRAM (~6 GB), but for creative applications where expressive, varied audio is needed, Bark remains unmatched. The MIT license makes it suitable for any commercial project.
+
+ArchitectureGPT-style ARSample Rate24 kHzStreamingNoBest ForCreative audio, gamesbark\_example.py
+```
+# pip install bark
+from bark import SAMPLE_RATE, generate_audio, preload_models
+from scipy.io.wavfile import write as write_wav
+
+preload_models()
+
+# Bark supports non-speech: laughter, music, hesitations
+text = """Hello! [laughs] This is Bark speaking.
+It can generate ♪ musical notes ♪ and even [sighs] emotions."""
+
+audio = generate_audio(text, history_prompt="v2/en_speaker_6")
+write_wav("output.wav", SAMPLE_RATE, audio)
+```
+### Piper
+
+Edge / EmbeddedMIT
+
+Piper is the go-to TTS for edge devices. Built on VITS/VITS2 architecture and exported to ONNX, it achieves RTF 0.008 -- meaning a 10-second clip generates in 80 milliseconds. It runs entirely on CPU with less than 100 MB of RAM. With 30+ pre-trained language models, it is the most broadly multilingual option. The trade-off is lower naturalness (MOS 3.5) and no voice cloning; you pick from pre-trained voices. Ideal for home assistants, kiosks, and offline applications.
+
+ArchitectureVITS / VITS2 (ONNX)Sample Rate16-22 kHzStreamingYes (sentence-level)Best ForRPi, offline, IoTpiper\_example.py
+```
+# Install: pip install piper-tts
+# Download a voice: piper --download-dir ./voices --model en_US-lessac-high
+import subprocess
+
+text = "Piper runs on a Raspberry Pi in real-time."
+subprocess.run(
+    ["piper", "--model", "./voices/en_US-lessac-high.onnx", "--output_file", "output.wav"],
+    input=text.encode(),
+)
+
+# Or use the Python API directly:
+from piper import PiperVoice
+
+voice = PiperVoice.load("en_US-lessac-high.onnx")
+with open("output.wav", "wb") as f:
+    voice.synthesize(text, f)
+```
+### Fish Speech
+
+Multilingual CloningApache 2.0
+
+Fish Speech combines a VQGAN tokenizer with a Llama-based decoder to achieve strong voice cloning across 8 languages. It requires 10-30 seconds of reference audio for cloning, slightly more than XTTS v2, but comes with an Apache 2.0 license -- making it the best commercially-friendly voice cloning option. MOS of 4.1 puts it near the top for naturalness. The architecture allows fine-tuning on custom voices with relatively small datasets.
+
+ArchitectureVQGAN + LlamaSample Rate44.1 kHzStreamingYesBest ForCommercial cloningfish\_speech\_example.py
+```
+# pip install fish-speech
+from fish_speech.api import FishSpeechTTS
+
+tts = FishSpeechTTS(device="cuda")
+
+# Zero-shot cloning with 10-30s reference
+tts.synthesize(
+    text="Fish Speech excels at multilingual voice cloning.",
+    reference_audio="speaker_ref.wav",
+    output_path="output.wav",
+)
+```
+### Dia (Nari Labs)
+
+Multi-Speaker DialogueApache 2.0
+
+Dia is purpose-built for dialogue. You pass in a script with speaker tags ([S1], [S2]) and it generates a natural multi-speaker conversation with appropriate prosody, pacing, and turn-taking. At 1.6B parameters it is the largest model in this comparison, requiring ~5 GB VRAM. It also supports non-verbal cues like laughter and hesitations. Currently English-only, but the dialogue capability is unmatched.
+
+ArchitectureEnc-dec transformerSample Rate44 kHzStreamingNoBest ForPodcasts, audiobooksdia\_example.py
+```
+# pip install diarizationlm  # Dia by Nari Labs
+from dia import Dia
+
+model = Dia("nari-labs/Dia-1.6B", device="cuda")
+
+# Multi-speaker dialogue generation
+dialogue = """[S1] Hey, have you tried the new open-source TTS models?
+[S2] Yeah, Dia is amazing for dialogue. It handles turn-taking naturally.
+[S1] The prosody between speakers is surprisingly good."""
+
+audio = model.generate(dialogue)
+model.save_audio("dialogue.wav", audio)
+```
+### F5-TTS
+
+Flow MatchingCC-BY-NC 4.0
+
+F5-TTS uses a novel flow matching approach with a Diffusion Transformer (DiT) backbone. It achieves MOS 4.1 with only 336M parameters and provides strong zero-shot voice cloning from 5-15 seconds of reference audio. The flow matching architecture produces more consistent output than autoregressive approaches, avoiding the occasional artifacts common in GPT-style TTS. The CC-BY-NC license limits commercial use.
+
+ArchitectureFlow matching + DiTSample Rate24 kHzStreamingYes (chunk-based)Best ForResearch, cloningf5tts\_example.py
+```
+# pip install f5-tts
+from f5_tts.api import F5TTS
+
+tts = F5TTS(device="cuda")
+
+# Zero-shot voice cloning via flow matching
+tts.infer(
+    ref_file="reference.wav",
+    ref_text="This is the reference transcript.",
+    gen_text="F5-TTS uses flow matching for natural-sounding speech synthesis.",
+    output="output.wav",
+)
+```
+### Parler-TTS
+
+Text-Described VoicesApache 2.0
+
+Parler-TTS from Hugging Face takes a unique approach: instead of providing reference audio for cloning, you describe the voice you want in natural language. "A warm female voice with a slight British accent, speaking clearly and calmly" -- and the model generates speech matching that description. This makes it highly controllable without needing any reference recordings. MOS of 3.8 is decent but not top-tier; the value is in the controllability and Apache 2.0 license.
+
+ArchitectureT5 + DAC decoderSample Rate44.1 kHzStreamingNoBest ForPrototyping, contentparler\_example.py
+```
+# pip install parler-tts
+from parler_tts import ParlerTTSForConditionalGeneration
+from transformers import AutoTokenizer
+import soundfile as sf
+
+model = ParlerTTSForConditionalGeneration.from_pretrained("parler-tts/parler-tts-large-v1")
+tokenizer = AutoTokenizer.from_pretrained("parler-tts/parler-tts-large-v1")
+
+# Describe the voice you want in natural language
+description = "A warm female voice with a slight British accent, speaking clearly and calmly."
+prompt = "Parler TTS lets you describe the exact voice characteristics you want."
+
+input_ids = tokenizer(description, return_tensors="pt").input_ids
+prompt_ids = tokenizer(prompt, return_tensors="pt").input_ids
+
+gen = model.generate(input_ids=input_ids, prompt_input_ids=prompt_ids)
+sf.write("output.wav", gen.cpu().numpy().squeeze(), model.config.sampling_rate)
+```
+
+Hardware Requirements
+---------------------
+
+### Edge / Embedded
+
+CPU only / RPi 4 / 1-4 GB RAMPiper
+
+Real-time on ARM. Perfect for home assistants and offline kiosks.
+
+### Consumer Laptop
+
+Integrated / no GPU / 8 GB RAMKokoroPiper
+
+Kokoro runs on CPU at near real-time. Piper is instant.
+
+### Mid-range GPU
+
+RTX 3060 / 4060 (8 GB) / 16 GB RAMKokoroXTTS v2Fish SpeechF5-TTSParler-TTS
+
+Sweet spot for most use cases. All mainstream models run comfortably.
+
+### High-end GPU
+
+RTX 3090 / 4090 (24 GB) / 32 GB RAMAll models
+
+Run Dia and Bark with large batch sizes. Batch TTS for audiobook production.
+
+Decision Matrix
+---------------
+
+Start from your primary requirement and follow it to the right model.
+
+| Your Priority | Best Pick | Runner-Up | Why |
+| --- | --- | --- | --- |
+| Maximum naturalness | Kokoro | Fish Speech | MOS 4.2 with only 82M params. Apache 2.0. |
+| Voice cloning (any license) | XTTS v2 | F5-TTS | Best speaker similarity from 6s reference. |
+| Voice cloning (commercial) | Fish Speech | Kokoro presets | Apache 2.0 with strong multilingual cloning. |
+| Fastest inference | Piper | Kokoro | RTF 0.008 on CPU. Sub-100ms latency. |
+| Minimal VRAM / edge | Piper | Kokoro | <100 MB on CPU. Runs on Raspberry Pi. |
+| Most languages | Piper | XTTS v2 | 30+ vs 17 languages. Pre-trained voices. |
+| Multi-speaker dialogue | Dia | Bark | Native [S1]/[S2] tags with natural turn-taking. |
+| Expressive / non-speech | Bark | Dia | Laughter, music, emotions inline. |
+| Voice control via text | Parler-TTS | Kokoro presets | Describe voice in natural language. |
+| Research / novel architecture | F5-TTS | Parler-TTS | Flow matching + DiT. Cutting-edge approach. |
+
+Licensing Quick Reference
+-------------------------
+
+### Fully Commercial (Apache 2.0 / MIT)
+
+* + Kokoro (Apache 2.0)
+* + Fish Speech (Apache 2.0)
+* + Dia (Apache 2.0)
+* + Parler-TTS (Apache 2.0)
+* + Bark (MIT)
+* + Piper (MIT)
+### Non-Commercial / Restricted
+
+* ! XTTS v2 (CPML -- contact Coqui)
+* ! F5-TTS (CC-BY-NC 4.0)
+### Key Considerations
+
+* Training data licenses may add constraints
+* Voice cloning raises consent/legal issues
+* Check model card for dataset-specific terms
+* Some jurisdictions restrict synthetic speech
+
+Continue Exploring
+------------------
+
+[### All Guides
+
+Browse our full collection of technical guides](/guides)[### Speech Hub
+
+TTS, STT, and speech benchmarks](/speech)[### Speech Benchmarks
+
+SOTA results across speech tasks](/browse/speech)
+#### Benchmarks
+
+* [All Benchmarks](/benchmarks)
+* [LLM State of the Art](/llm)
+* [OCR Benchmarks](/ocr)
+* [Text Embeddings (MTEB)](/benchmarks/mteb)
+* [AI Arena Rankings](/arena)
+* [Find Your Benchmark](/find)
+#### Domains
+
+* [Computer Vision](/computer-vision)
+* [NLP](/nlp)
+* [Speech](/speech)
+* [Audio](/audio)
+* [Medical AI](/medical)
+* [Robotics](/robotics)
+#### Tools
+
+* [AI Building Blocks](/building-blocks)
+* [Code Generation](/code-generation)
+* [GPU Benchmarks](/hardware)
+* [Object Detection](/object-detection)
+* [Industrial Inspection](/industrial)
+* [Agentic AI](/agentic)
+#### Learn
+
+* [Academy](/learn)
+* [Guides](/guides)
+* [Explainers](/explainers)
+* [AI Model News](/news)
+* [Zen of AI Composition](/zen-of-ai-composition)
+* [The Nerd Iceberg](/iceberg)
+#### CodeSOTA
+
+* [About](/about)
+* [Papers with Code Story](/papers-with-code)
+* [Methodology](/methodology)
+* [Changelog](/changelog)
+* [GitHub](https://github.com/kwikiel/codesota.com)
+* [Consulting](/consulting)
+#### Get Involved
+
+* [The Data Flywheel](/flywheel)
+* [Research Challenges](/challenges)
+* [Suggest a Topic](/submit-paper)
+* [Get Updates](/join)
+* [Partners](/sponsors)
+CodeSOTA - State of the Art Benchmarks[Terms](/legal/terms)|[Privacy](/legal/privacy)|[Built by Kacper Wikiel](https://kacperwikiel.com)

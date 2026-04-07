@@ -1,0 +1,700 @@
+# Source URL: https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/
+# Content Length: 31244 characters
+# Extracted at: 2026-04-07 10:04:45
+#============================================================
+
+## [常见面试问题](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/\#%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98 "常见面试问题") 常见面试问题
+### [LightGBM和XBoost的联系与区别（可以引申到Boosting和Bagging）](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/\#LightGBM%E5%92%8CXBoost%E7%9A%84%E8%81%94%E7%B3%BB%E4%B8%8E%E5%8C%BA%E5%88%AB%EF%BC%88%E5%8F%AF%E4%BB%A5%E5%BC%95%E7%94%B3%E5%88%B0Boosting%E5%92%8CBagging%EF%BC%89 "LightGBM和XBoost的联系与区别（可以引申到Boosting和Bagging）") LightGBM和XBoost的联系与区别（可以引申到Boosting和Bagging）
+### [如何解决过拟合？（可以引申到L1/L2正则化的区别）](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/\#%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E8%BF%87%E6%8B%9F%E5%90%88%EF%BC%9F%EF%BC%88%E5%8F%AF%E4%BB%A5%E5%BC%95%E7%94%B3%E5%88%B0L1-L2%E6%AD%A3%E5%88%99%E5%8C%96%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%89 "如何解决过拟合？（可以引申到L1/L2正则化的区别）") 如何解决过拟合？（可以引申到L1/L2正则化的区别）
+### [Shared bottom、MMoE、PLE的联系以及演讲过程](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/\#Shared-bottom%E3%80%81MMoE%E3%80%81PLE%E7%9A%84%E8%81%94%E7%B3%BB%E4%BB%A5%E5%8F%8A%E6%BC%94%E8%AE%B2%E8%BF%87%E7%A8%8B "Shared bottom、MMoE、PLE的联系以及演讲过程") Shared bottom、MMoE、PLE的联系以及演讲过程
+## [高频八股](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/\#%E9%AB%98%E9%A2%91%E5%85%AB%E8%82%A1 "高频八股") 高频八股
+1、AUC/F1
+2、Transformer（encoder/decoder/attention/masked机制常见）
+3、优化器
+4、L1/L2正则化
+5、lightgbm/xgboost等树模型（这个如果项目用到被问到的几率非常大，一般就是讲区别与联系）
+6、激活函数
+7、归一化（尤其是LN和BN区别）
+8、推荐的整个流程，召回/粗排/精排典型模型
+9、过拟合/欠拟合
+10、dropout
+11、bagging和boosting
+12、bert
+13、损失函数
+14、准确率/召回率/精确率
+15、梯度消失/梯度爆炸
+16、NDCG
+17、word2vec
+18、LR/SVM等
+### [搜广推最高频八股（一）](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/\#%E6%90%9C%E5%B9%BF%E6%8E%A8%E6%9C%80%E9%AB%98%E9%A2%91%E5%85%AB%E8%82%A1%EF%BC%88%E4%B8%80%EF%BC%89 "搜广推最高频八股（一）") 搜广推最高频八股（一）
+1.评估特征重要性有哪些方法
+2.auc 的含义，怎么计算，以及 guac
+3.过拟合的解决办法（围绕模型结构，特征数，样本处理，L1L2 正则化，dropout 等等回答）
+4.target attention 的计算方式一定要搞清楚 QKV 以及计算过程中的维度变化
+5.wide deep 以及 deepFM 的模型细节（包括模型结构以及输入等）
+> 参考笔记： [http://xhslink.com/o/1Unqy5jvKlA](http://xhslink.com/o/1Unqy5jvKlA)
+### [搜广推最高频八股（二）](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/\#%E6%90%9C%E5%B9%BF%E6%8E%A8%E6%9C%80%E9%AB%98%E9%A2%91%E5%85%AB%E8%82%A1%EF%BC%88%E4%BA%8C%EF%BC%89 "搜广推最高频八股（二）") 搜广推最高频八股（二）
+1.transformer 的 attention 除以根号 k 的原因
+2.DIN 模型的细节
+3.离线指标好，线上指标不行（线上线下不一致）
+答：可以考虑特征穿越、老汤模型、冰山：系统的内在缺陷、链路一致性问题
+4.share bottom，mmoe，ple 模型（多任务模型）细节和演化
+5.过拟合和欠拟合的表现和解决方法
+> 参考笔记： [http://xhslink.com/o/9wA7DMIRJB](http://xhslink.com/o/9wA7DMIRJB)
+### [搜广推最高频八股（三）](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/\#%E6%90%9C%E5%B9%BF%E6%8E%A8%E6%9C%80%E9%AB%98%E9%A2%91%E5%85%AB%E8%82%A1%EF%BC%88%E4%B8%89%EF%BC%89 "搜广推最高频八股（三）") 搜广推最高频八股（三）
+1.多目标学习的跷跷板问题有哪些缓解或解决思路（例如模型侧 sharebottom 升级 mmoe 或 ple ，损失函数设计（权重）等等）
+2.常见的优化器对比和原理（SGD，RMSProp，Adam，AdaGrad 等等）
+3.如何防止梯度消失和梯度爆炸（一般碰到这种问题的难度的问题就是送分，也能看出来面试官这一轮对你印象比较好的概率高不想为难你\[doge\]）
+4.常见的损失函数原理和对比，工程中有时会做一些定制，例如 a✖️tanh（bx）来调节输出范围和梯度敏感性
+5.如何筛选特征（1.拍脑袋 2.看一些类似相关性的指标等，3.很有含金量的方法，离线挨个 mask 掉单个特征，看 auc 的跌幅）
+> 参考笔记： [http://xhslink.com/o/4lomnpf0oEa](http://xhslink.com/o/4lomnpf0oEa)
+### [搜广推最高频八股（四）](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/\#%E6%90%9C%E5%B9%BF%E6%8E%A8%E6%9C%80%E9%AB%98%E9%A2%91%E5%85%AB%E8%82%A1%EF%BC%88%E5%9B%9B%EF%BC%89 "搜广推最高频八股（四）") 搜广推最高频八股（四）
+1.对比下推荐搜索广告的区别（推荐：增加用户粘性，被动触发，算法侧重长期建模等等，搜索：query 的处理，主动触发，更强调相关性，广告：商业变现，考虑出价，ecpm 等等）
+2.数据穿越问题，一些动作的时间靠后，如购买，退货等等，但是都统计了一遍点击，导致某些指标虚高，解决方法：时间窗口，负采样等等）
+3.召回：ucf，icf ，向量化召回等等，常见的融合多路召回的方法：蛇形 merge 等等
+> 参考笔记： [http://xhslink.com/o/9bF8C0FPZMx](http://xhslink.com/o/9bF8C0FPZMx)
+## [自己的面经](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/\#%E8%87%AA%E5%B7%B1%E7%9A%84%E9%9D%A2%E7%BB%8F "自己的面经") 自己的面经
+### [百度推荐算法一面](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/\#%E7%99%BE%E5%BA%A6%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95%E4%B8%80%E9%9D%A2 "百度推荐算法一面") 百度推荐算法一面
+面试官：段奕
+自我介绍+项目相关
+\*\*介绍一下第一个项目\*\*
+为什么使用多尺度卷积？
+介绍一下论文中使用的多头注意力？
+为什么加相对位置编码？
+对相对位置编码做消融实验了么？
+你的改进点是什么？
+数据集用的是？数据量多少？（忘了）
+\*\*来到第二个项目：新闻推荐\*\*
+推荐系统的流程和结构？
+使用多路召回分别是？
+介绍一下ItemCF是怎么做的？相似度是怎么计算的？
+考虑了对用户兴趣度做衰减，有考虑根据物品热度做消偏么？（应该像是SingCF这种）
+讲一下第二路召回？时间窗口怎么定义？
+召回的是最后一次点击的前后24h，如果下一次点击和前一次相隔比较远？
+正负样本怎么选择？
+HitRate怎么算？MRR怎么算的？
+UserCF了解么？
+所给特征都用了么？如何判断特征重要性？
+MMoE了解么，PLE呢？
+\*\*手撕：\*\*
+每次操作中，选择任意一个 `nums[i]`，删除它并获得 `nums[i`\] 的点数。之后，你必须删除所有等于 `nums[i] - 1`和 `nums[i] + 1`的元素。
+开始时你拥有 0 个点数。返回你能通过这些操作获得的最大点数。
+示例：
+输入：`nums = [3, 4, 2]`
+输出：`6`
+反问：组里的业务：百度听书的全链路，但是面试官是负责召回和重排多样性部分的
+自己的缺点：对项目的熟悉度差一点，代码手撕差一点
+### [百度推广搜NLP算法工程师实习生一面](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/\#%E7%99%BE%E5%BA%A6%E6%8E%A8%E5%B9%BF%E6%90%9CNLP%E7%AE%97%E6%B3%95%E5%B7%A5%E7%A8%8B%E5%B8%88%E5%AE%9E%E4%B9%A0%E7%94%9F%E4%B8%80%E9%9D%A2 "百度推广搜NLP算法工程师实习生一面") 百度推广搜NLP算法工程师实习生一面
+项目介绍，问项目
+几路召回具体是怎么做的？
+多路召回如何融合？
+如果用户点击的倾向于某一路召回的item，该如何调整？
+手撕：ItemCF
+> 请用Python实现一个简单的「物品相似度计算」函数：输入为用户-物品交互字典（如 `{'user1': ['item1', 'item2'], 'user2': ['item2', 'item3']}`），输出为任意两个物品的余弦相似度（如 item1 和 item2 的相似度），要求考虑计算效率，避免重复计算。
+用prompt给大模型，如何判断输出结果集的好坏？
+场景题：
+特征如何选取？
+冷启动怎么做？
+使用过大规模数据库么？像Hadoop这种
+了解过python的一下相关特性么，加速大规模数据处理相关。
+手撕：合并区间
+反问：组里业务，答：百度网盘和文库的Feed流推荐，也有海外一些网盘等。
+是否全链路都会做？答：是的，具体说了一些。
+## [别人的面经](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/\#%E5%88%AB%E4%BA%BA%E7%9A%84%E9%9D%A2%E7%BB%8F "别人的面经") 别人的面经
+### [百度一面1](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/\#%E7%99%BE%E5%BA%A6%E4%B8%80%E9%9D%A21 "百度一面1") 百度一面1
+1. \*\*相似度怎么算的\*\*
+2. \*\*怎么根据相似度进行召回\*\*
+3. \*\*itemcf和swingcf\*\*
+答：这两个唯一的区别在于物品的相似度，ItemCF两个物品重合的用户比例高，则判定两个物品相似，Swing则额外考虑重合的用户是否来自同一个小圈子。
+![](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/image-20260111155409104.png)
+1. \*\*怎么进行多路召回融合\*\*
+答：直接将两个召回的物品做concat，然后去重；
+如果数量较多的召回，可以先取出每路召回的第一个，依此类推；
+1. \*\*构造了哪些特征\*\*
+Δtime = 点击时间戳-创建时间
+1. \*\*DIN模型的输入和输出\*\*
+输入：
+- 用户特征：
+- 用户静态特征（如 age, gender）
+- 用户行为序列（list of item embeddings）
+- 物品特征：
+- 目标 item 的 embedding
+- 物品侧其他特征（如 category, price）
+输出：
+- \*\*CTR 预估值\*\*：一个 \[0,1\] 区间的概率值，表示用户点击该物品的可能性。
+> DIN 的核心是 \*\*activation unit\*\*，通过目标 item 与用户历史行为的 attention 计算加权用户兴趣表示。
+1. \*\*DIN里面的embedding怎么得到\*\*
+Embedding 获取方式：
+1. ID 类特征（item\\_id, user\\_id, cate\\_id 等）：
+- 通过 \*\*Embedding Lookup Table\*\*（即 nn.Embedding）从随机初始化或预训练的 embedding matrix 中查表得到。
+- 通常在训练过程中端到端学习。
+2. 预训练 embedding：
+- 可用 Word2Vec、GraphSAGE、双塔模型等预训练 item/user embedding，作为 DIN 的初始化或固定输入。
+3. 多模态 embedding：
+- 图像用 ResNet 提取，文本用 BERT，再 concat 或 fusion 作为 item embedding。
+> 注意：DIN 原始论文中，所有 ID 类特征都通过 embedding layer 映射为 dense 向量。
+1. \*\*AUC怎么算\*\*
+AUC（Area Under ROC Curve）衡量模型排序能力。
+定义：
+- ROC 曲线：TPR（真正率） vs FPR（假正率）在不同阈值下的曲线。
+- AUC = 曲线下面积 ∈ \[0.5, 1.0\]，越大越好。
+在排序算法中：
+正确排序的样本对所有样本对AUC=正确排序的样本对所有样本对
+> 延伸：GAUC，每个Group统计一个AUC，然后再取平均。
+手撕：
+1、给定target和nums，找出nums中满足其和 ≥ target 的长度最小的连续子数组，并返回其长度。
+python
+| | |
+| --- | --- |
+| ```  
+1  
+2  
+3  
+4  
+5  
+6  
+7  
+8  
+9  
+10  
+11  
+12  
+13  
+14  
+15  
+``` | ```  
+# 解法：滑动窗口（双指针）  
+def minSubArrayLen(target, nums):  
+ # 时间复杂度：O(n)，每个元素最多进/出窗口一次。  
+ left = 0  
+ total = 0  
+ min\_len = float('inf')  
+   
+ for right in range(len(nums)):  
+ total += nums[right]  
+ while total >= target:  
+ min\_len = min(min\_len, right - left + 1)  
+ total -= nums[left]  
+ left += 1  
+   
+ return min\_len if min\_len != float('inf') else 0  
+``` |
+2、DIN结构
+python
+| | |
+| --- | --- |
+| ```  
+1  
+2  
+3  
+4  
+5  
+6  
+7  
+8  
+9  
+10  
+11  
+12  
+13  
+14  
+15  
+16  
+17  
+18  
+19  
+20  
+21  
+22  
+23  
+24  
+25  
+26  
+27  
+28  
+29  
+30  
+31  
+32  
+33  
+34  
+35  
+36  
+37  
+38  
+39  
+40  
+41  
+42  
+43  
+44  
+45  
+46  
+47  
+48  
+49  
+``` | ```  
+import torch  
+import torch.nn as nn  
+import torch.nn.functional as F  
+# PyTorch 简化版  
+class ActivationUnit(nn.Module):  
+ def \_\_init\_\_(self, embed\_dim, hidden\_dim=36):  
+ super().\_\_init\_\_()  
+ self.fc1 = nn.Linear(embed\_dim \* 3, hidden\_dim)  
+ self.fc2 = nn.Linear(hidden\_dim, 1)  
+ self.relu = nn.ReLU()  
+   
+ def forward(self, target\_emb, hist\_embs):  
+ # target\_emb: [B, D]  
+ # hist\_embs: [B, L, D]  
+ B, L, D = hist\_embs.shape  
+ target\_expand = target\_emb.unsqueeze(1).expand(-1, L, -1) # [B, L, D]  
+   
+ # 拼接: [target, hist, target \* hist]  
+ concat = torch.cat([target\_expand, hist\_embs, target\_expand \* hist\_embs], dim=-1) # [B, L, 3D]  
+ attn\_weights = self.fc2(self.relu(self.fc1(concat))) # [B, L, 1]  
+ attn\_weights = F.softmax(attn\_weights, dim=1) # [B, L, 1]  
+   
+ weighted\_hist = (attn\_weights \* hist\_embs).sum(dim=1) # [B, D]  
+ return weighted\_hist  
+class DIN(nn.Module):  
+ def \_\_init\_\_(self, user\_feat\_size, item\_feat\_size, embed\_dim=18):  
+ super().\_\_init\_\_()  
+ self.user\_emb = nn.Embedding(user\_feat\_size, embed\_dim)  
+ self.item\_emb = nn.Embedding(item\_feat\_size, embed\_dim)  
+ self.activation\_unit = ActivationUnit(embed\_dim)  
+ self.dnn = nn.Sequential(  
+ nn.Linear(embed\_dim \* 2, 64),  
+ nn.ReLU(),  
+ nn.Linear(64, 1),  
+ nn.Sigmoid()  
+ )  
+   
+ def forward(self, user\_id, target\_item\_id, hist\_item\_ids):  
+ # user\_id: [B], target\_item\_id: [B], hist\_item\_ids: [B, L]  
+ user\_e = self.user\_emb(user\_id) # [B, D]  
+ target\_e = self.item\_emb(target\_item\_id) # [B, D]  
+ hist\_e = self.item\_emb(hist\_item\_ids) # [B, L, D]  
+   
+ weighted\_hist = self.activation\_unit(target\_e, hist\_e) # [B, D]  
+ concat = torch.cat([target\_e, weighted\_hist], dim=1) # [B, 2D]  
+ output = self.dnn(concat) # [B, 1]  
+ return output.squeeze(-1)  
+``` |
+### [百度一面2](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/\#%E7%99%BE%E5%BA%A6%E4%B8%80%E9%9D%A22 "百度一面2") 百度一面2
+1、自我介绍
+2、你觉得生成式推荐相对于传统DLRM的优势在哪里？
+3、多路召回的融合怎么做的？
+4、动态权重设计具体讲一下？
+5、讲一下icf和swing以及其区别和联系
+6、SENet的作用是什么？带来收益了吗？
+7、transformer的结构是什么？
+答：Encoder（Embedding + PE + MHSA + FFN + LN）堆叠，推荐常用 Encoder-only
+8、讲一讲为什么transformer用LN而不用BN？
+![](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/image-20260111165437167.png)
+9、transformer 与din的注意力机制的区别？
+![](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/image-20260111165630630.png)
+Code: 给你一个下标从0开始、长度为n的整数排列nums。如果排列的第一个数字等于1且最后一个数字等于n,则称其为半有序排列。你可以执行多次下述操作,直到将nums变成一个半有序排列:选择nums中相邻的两个元素,然后交换它们。 返回使nums变成半有序排列所需的最小操作次数。排列是一个长度为n的整数序列,其中包含从1到n的每个数字恰好一次。
+python
+| | |
+| --- | --- |
+| ```  
+1  
+2  
+3  
+4  
+5  
+6  
+7  
+8  
+9  
+10  
+``` | ```  
+def semiOrderedPermutation(nums):  
+ n = len(nums)  
+ pos1 = nums.index(1)  
+ posN = nums.index(n)  
+   
+ swaps = pos1 + (n - 1 - posN)  
+ if pos1 > posN:  
+ swaps -= 1  
+   
+ return swaps  
+``` |
+### [百度二面1](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/\#%E7%99%BE%E5%BA%A6%E4%BA%8C%E9%9D%A21 "百度二面1") 百度二面1
+1. 了解哪些二分类算法，换个问法，为什么用LGB，没用随机森林，LR，XGBoost?
+先说结论： \*\*LGB 在“精度-速度-内存-特征支持”上取得了最佳平衡\*\*
+| 维度 | LR | 随机森林（RF） | XGBoost | LightGBM（LGB）✅ |
+| --- | --- | --- | --- | --- |
+| 训练速度 | 极快 | 慢（需建多棵树） | 中等 | 极快（直方图+Leaf-wise） |
+| 内存占用 | 极低 | 高（存整棵树） | 高 | 低（直方图压缩） |
+| 处理高维稀疏特征 | 好（但需特征工程） | 差（树分裂效率低） | 一般 | 优秀（支持类别特征、稀疏优化） |
+| 精度 | 低（线性） | 中（Bagging 抗过拟合但欠拟合） | 高 | 更高（Leaf-wise + 更深树） |
+| 支持类别特征 | ❌（需 One-Hot） | ✅（但 One-Hot 膨胀） | ❌（需预处理） | ✅（原生支持，无需 One-Hot） |
+| 分布式/线上部署 | 极易 | 难（模型大） | 可 | 极易（模型小、推理快） |
+\*\*为什么不选逻辑回归（LR）？\*\*
+- \*\*优点\*\*：可解释性强、训练快、输出概率。
+- 致命缺点：
+- \*\*无法自动学习特征交叉\*\*：在推荐/广告场景中，`user\_gender × item\_category` 这类交叉特征极其重要，LR 必须手动构造（如 FM/FFM 才能缓解）。
+- \*\*线性假设太强\*\*：真实用户行为是非线性的（比如“价格敏感度”随收入非线性变化）。
+- \*\*适用场景\*\*：冷启动、实时性要求极高（<1ms）、或作为 baseline。
+> ✅ \*\*结论\*\*：LR 精度天花板太低，不适合复杂二分类任务。
+\*\*为什么不选随机森林（RF）？\*\*
+- \*\*优点\*\*：鲁棒、抗过拟合、无需调参。
+- 致命缺点：
+- \*\*Bagging 天然欠拟合\*\*：每棵树独立训练，无法像 Boosting 那样聚焦难样本，在 CTR 这种正负样本极度不均衡（1:1000）的任务中表现差。
+- \*\*无法有效利用排序信息\*\*：RF 优化的是 Gini/Entropy，而我们更关心 AUC、LogLoss —— LGB/XGB 支持自定义损失函数。
+- \*\*模型体积大\*\*：100 棵树的 RF 模型可能几百 MB，难以线上部署。
+- \*\*适用场景\*\*：小数据集、特征重要性分析、快速验证。
+> ✅ \*\*结论\*\*：RF 在精度和效率上都不如 LGB，尤其不适合点击率预估这类排序任务。
+\*\*为什么不选 XGBoost？\*\*
+- XGBoost 很强，但 LGB 在以下方面更优：
+- \*\*速度\*\*：LGB 使用 \*\*直方图算法（Histogram-based）\*\*，将连续特征离散化为 bins，大幅减少计算量；XGBoost 默认用精确贪心算法（Exact Greedy），每轮遍历所有分裂点。
+- \*\*内存\*\*：直方图只需存储 bin 索引，内存占用比 XGBoost 低 5～10 倍。
+- \*\*Leaf-wise 生长策略\*\*：XGBoost 是 Level-wise（按层分裂），LGB 是 Leaf-wise（每次选增益最大的叶子分裂）， \*\*用更少的树达到更高精度\*\*。
+- \*\*原生支持类别特征\*\*：LGB 可直接输入 `category` 类型，内部用最优分割（如 target encoding 思路）；XGBoost 需要提前 One-Hot 或 Label Encoding（后者会引入序数偏见）。
+- \*\*大数据友好\*\*：LGB 的 GOSS（Gradient-based One-Side Sampling）和 EFB（Exclusive Feature Bundling）专为大规模数据设计。
+> 📌 \*\*实测数据\*\*：在千万级样本、千维特征的广告数据上，LGB 训练速度通常是 XGBoost 的 \*\*3～5 倍\*\*，AUC 相当或略高。
+>
+> ✅ \*\*结论\*\*：XGBoost 和 LGB 精度接近，但 LGB \*\*更快、更省内存、更易用\*\*，工业首选。
+\*\*为什么 LGB 特别适合搜广推的二分类任务？\*\*
+1. \*\*高维稀疏特征\*\*：用户 ID、物品 ID、交叉特征 → LGB 的直方图和类别特征支持完美适配。
+2. \*\*正负样本极度不均衡\*\*：LGB 支持 `scale\_pos\_weight` 和 `is\_unbalance` 参数，优化 LogLoss。
+3. \*\*需要高精度排序\*\*：AUC 是核心指标，LGB 的 Leaf-wise 策略更擅长优化排序性能。
+4. \*\*线上低延迟要求\*\*：LGB 模型小（通常 <50MB），C++ 推理引擎快（单次预测 <0.1ms）。
+5. \*\*特征工程友好\*\*：支持缺失值、自动处理类别变量，减少 pipeline 复杂度。
+\*\*什么时候用其他算法？\*\*
+| 场景 | 选用算法 | 原因 |
+| --- | --- | --- |
+| 实时性要求极高（<0.5ms） | LR / FFM | 模型极小，计算简单 |
+| 冷启动阶段（数据少） | RF | 鲁棒，不易过拟合 |
+| 需要严格可解释性 | LR + SHAP | 线性模型 \+ 局部解释 |
+| 多模态/深度交叉特征 | DNN（如 DeepFM） | 自动学习高阶交叉 |
+| 主流二分类任务（CTR/CVR） | LightGBM | 精度、速度、工程性最佳平衡 |
+1. XGBoost和LGB区别；并行化的差别；属于boosting还是bagging?
+\*\*XGBoost 和 LightGBM（LGB）的核心区别\*\*
+| 维度 | XGBoost | LightGBM (LGB) |
+| --- | --- | --- |
+| 分裂策略 | Level-wise（按层分裂） | Leaf-wise（按叶子分裂） |
+| 特征处理 | 精确贪心 / 近似分位数 | 直方图算法（Histogram-based） |
+| 类别特征 | 不支持原生，需 One-Hot 或 Label Encoding | 原生支持类别特征（无需预处理） |
+| 内存/速度 | 较高内存，较慢（尤其大数据） | 低内存，极快（直方图压缩 \+ GOSS） |
+| 过拟合风险 | 相对较低（Level-wise 更稳） | 略高（Leaf-wise 可能过深），但可通过 `max\_depth` 控制 |
+| 大数据优化 | 支持近似算法、采样 | GOSS（梯度采样） + EFB（特征捆绑） |
+\*\*属于 Boosting 还是 Bagging？\*\*
+✅ 两者都属于 \*\*Boosting\*\*！
+- Boosting 特点：
+- 串行训练：每棵树学习前序模型的 \*\*残差（负梯度）\*\*
+- 关注难样本：通过加权或梯度放大错误样本的影响
+- 目标： \*\*降低偏差（Bias）\*\*
+- Bagging 特点
+（如 Random Forest）：
+- 并行训练：每棵树独立，基于 bootstrap 抽样
+- 目标： \*\*降低方差（Variance）\*\*
+> 📌 XGBoost 和 LGB 都是 \*\*Gradient Boosting Decision Tree (GBDT)\*\* 的高效实现，本质是 \*\*加法模型 \+ 前向分步优化 \+ 梯度下降\*\*。
+1. 深度学习的算法，排序方面(提到FM)；FM的目标函数和时间复杂度
+| 模型 | 核心思想 | 特点 |
+| --- | --- | --- |
+| Wide & Deep (Google, 2016) | LR（记忆） + DNN（泛化） | 工业落地标杆 |
+| DeepFM (Huawei, 2017) | FM（二阶交叉） + DNN（高阶交叉） | 无需人工交叉特征 |
+| NFM (2017) | 用 Bi-Interaction Pooling 替代 FM 的内积和 | 更强非线性 |
+| DCN (2017/2020) | 显式构造高阶交叉（Cross Network） | 可控交叉阶数 |
+| DIN / DIEN (Alibaba) | 用户行为序列 \+ Attention | 动态兴趣建模 |
+| BST / SASRec | Transformer 建模用户序列 | 捕捉长期依赖 |
+![](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/image-20260111171919808.png)![](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/image-20260111171812165.png)
+1. 召回知道什么；知道图模型吗，图召回
+2. word2vec，了解deep walk吗
+3. 用户行为序列相关的深度学习算法(提到DIN)；DIN的实现原理，怎么学出那个位置的?(以为和Transformer一样。。)
+| 模型 | 年份 | 核心思想 | 局限性 |
+| --- | --- | --- | --- |
+| Pooling-based（如 YouTube DNN） | 2016 | 将用户历史行为平均/求和 → 静态兴趣向量 | 无法区分不同 target item 下的兴趣差异 |
+| DIN（Deep Interest Network） | 2018 ✅ | 引入 Attention：根据候选物品激活相关历史行为 | 未建模行为序列时序依赖 |
+| DIEN（Deep Interest Evolution Network） | 2019 | 用 GRU + Attention 建模兴趣演化 | 训练复杂，推理慢 |
+| BST（Behavior Sequence Transformer） | 2019 | 用 Transformer 建模行为序列内部依赖 | 能捕捉长期兴趣 |
+| SIM / UBR4Rec | 2020+ | 超长序列检索（Hard Search + Soft Matching） | 解决“百万级行为序列”建模 |
+> 🔑 \*\*关键演进\*\*：
+>
+> \*\*静态兴趣（Pooling） → 动态兴趣（DIN） → 兴趣演化（DIEN） → 序列结构感知（BST）\*\*
+\*\*DIN实现原理\*\*
+![](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/image-20260111172335999.png)
+\*\*DIN 并不直接“学位置”，而是学“相关性权重”\*\*。
+详细解释：
+1. 没有显式位置编码
+DIN 不关心行为发生的时间顺序或绝对位置（如第1个、第50个），只关心语义相关性
+。即使“手机”出现在序列末尾，“手机壳”仍能将其激活。
+2. 权重由 Activation Unit 端到端学习
+- 输入：候选物品 embedding `a` \+ 历史行为 embedding `hi`
+- 网络：2层 MLP（带 ReLU）
+- 输出：标量权重 `α\_i`
+- 通过 \*\*CTR 预估的全局损失函数（LogLoss）反向传播\*\*，自动调整权重
+3. 训练目标驱动权重学习
+- 如果某次曝光中，用户点击了“手机壳”，而历史中有“手机”
+- 损失函数会促使模型 \*\*增大“手机”对应的 α\\_i\*\*
+- 久而久之，模型学会：“当 target 是配件时，激活电子产品行为”
+🌰 举例说明：
+- 训练样本：`(user\_hist=[A,B,C], target=X, label=1)`
+- 反向传播时，若 `B` 与 `X` 语义相关（如同 category），则 `α\_B` 的梯度为正 → 权重增大
+- \*\*无需标注“哪个位置重要”，由点击信号隐式监督\*\*
+> 💡 \*\*本质\*\*：DIN 的 attention 是 \*\*target-aware 的 soft selection\*\*，不是基于位置的 hard selection。
+1. Transfomer的Encorder-Decorder过程，展开讲Encorder怎么实现
+\*\*整体框架回顾：\*\*
+Transformer Encoder 由 \*\*N 个相同层（如 N=6）堆叠而成\*\*，每层包含两个核心子模块：
+1. \*\*Multi-Head Self-Attention (MHSA)\*\*
+2. \*\*Position-wise Feed-Forward Network (FFN)\*\*
+每个子模块后都接 \*\*残差连接（Residual Connection） + Layer Normalization（LN）\*\*
+> 📌 数据流：
+>
+> `Input → [MHSA → Add&Norm → FFN → Add&Norm] × N → Output`
+LC 15三数之和
+LC 84柱状图中最大的矩形
+### [百度二面2](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/\#%E7%99%BE%E5%BA%A6%E4%BA%8C%E9%9D%A22 "百度二面2") 百度二面2
+1、自我介绍
+2、HSTU用作encoder还是decoder？
+3、传统DLRM与生成式推荐的区别？
+4、SASRec了解吗，讲一下？
+5、Transformer 的encoder和decoder的区别？
+6、decoder的mask是怎么做的？
+7、HSTU的mask是怎么做的？
+8、HSTU 与Transformer的区别？
+9、了解过HSTU 源码中召回和排序是怎么做的吗？
+Code:
+1、交换链表两两之间的节点，分析时空复杂度。
+2、三数之和。
+### [得物一面](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/\#%E5%BE%97%E7%89%A9%E4%B8%80%E9%9D%A2 "得物一面") 得物一面
+1. \*\*自我介绍\*\*，并简要概括科研经历、项目经历都做了什么。
+2. （硕士做的方向）具体做了什么，用什么样的方法去实现的；网络架构？是否在工业界有应用？
+3. 这几个项目里你认为实现起来最大的困难是什么，最后怎么解决的？
+4. \*\*做题目：\*\*
+4.1. 手撕逻辑回归（不能调库，纯手搓）；假设单个样本X=\[x1, x2…xn\]，标签Y=0 or 1。
+4.2. Leetcode原题，删除重复区间的最小数目。
+### [得物二面](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/\#%E5%BE%97%E7%89%A9%E4%BA%8C%E9%9D%A2 "得物二面") 得物二面
+\*\*1\. 深度神经网络训练经验\*\*
+- 有没有训练过深度神经网络？
+- 输入是什么，任务是什么？
+- 用的什么模型，简单介绍一下框架？
+\*\*2\. 推荐系统样本处理\*\*
+- 推荐系统里正负样本不均衡，需要对负样本下采样，那么预测结果的偏移如何纠正？（王树森原题，讲过推导）
+\*\*3\. 过拟合解决方法\*\*
+- 如何解决过拟合？
+- （若回答dropout和正则化）继续追问还有什么能想到的？
+\*\*4\. LeetCode算法题\*\*
+- 题目：求小于等于n的全体正整数（二进制表示下）所有1的个数之和。
+- 追问：用暴力法做的时间复杂度如何计算？
+- 要求：优化算法。
+\*\*5\. 概率题（写出推导过程）\*\*
+- 52张扑克，求不放回抽10张，正好有4张A的概率。
+- 不放回抽，抽到第四张A时抽数的期望。
+### [美团一面](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/\#%E7%BE%8E%E5%9B%A2%E4%B8%80%E9%9D%A2 "美团一面") 美团一面
+01. 数值型特征处理方式有哪些
+02. 介绍一下CGC, PLE和MMoE的区别
+03. 多任务loss平衡方式
+04. AUC为什么可以判别排序任务
+05. 双塔召回的改进有哪些
+06. 介绍一下sampled softmax
+07. tiger和hstu走什么路线实现生成式推荐
+08. hstu怎么构建长序列
+09. rqvae的loss，塌陷问题等
+10. rqvae一开始不是应用于推荐领域，在推荐领域他想解决什么样的问题，可以从离散化的角度说吗
+11. 为什么rqvae没有像vae一样对分布进行重建而是采用残差量化的方式还原数据
+12. 手撕二叉树最大路径和
+### [Soul日常实习](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/\#Soul%E6%97%A5%E5%B8%B8%E5%AE%9E%E4%B9%A0 "Soul日常实习") Soul日常实习
+1、自我介绍
+2、AUC的物理含义是什么？
+3、AUC具体怎么计算？若给定roc曲线横轴，如何得到纵轴对应值？
+4、你用到的DSSM的损失函数是什么？优化目标是什么？
+5、是否了解NCE这个损失函数？
+6、SENet的作用是什么？
+7、SENet如何让DSSM的特征交叉做得更好？
+8、DSSM在训练时的正负样本是如何选取的？
+Code:
+实现以下函数：
+def drop\\_out(X,rate,mode=‘training’):
+追问：
+1、代码中分母的1-rate的作用是什么？
+2、mode有哪几种取值？
+### [小红书一面](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/\#%E5%B0%8F%E7%BA%A2%E4%B9%A6%E4%B8%80%E9%9D%A2 "小红书一面") 小红书一面
+1、召回在整个推荐链路中的作用和必要性？
+2、多路召回融合的动态权重设计，手动还是自适应调整？
+3、规则召回是怎么做的，用到哪些规则？
+4、cf的召回过程？
+5、swing与cf的区别，这两者存在什么弊端
+6、怎么实现u-u-i的召回？
+7、多目标排序算法有了解吗？讲一下MMoE
+8、序列建模有了解吗？
+9、对实习有什么想法？
+Code:最长递增子序列
+### [B站一面](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/\#B%E7%AB%99%E4%B8%80%E9%9D%A2 "B站一面") B站一面
+1、自我介绍
+2、Transformer 的结构
+3、DIN和Transformer 的注意力机制区别
+4、softmax表达式，以及导数推导
+5、推荐场景下的连续值，离散值的处理
+6、推荐系统的链路
+7、是否了解DIN、SIM用于embedding
+8、从模型角度介绍特征交叉
+9、正负样本的选取方法以及对应的优缺点
+Code ：滑动窗口内的最大值
+### [快手一面](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/\#%E5%BF%AB%E6%89%8B%E4%B8%80%E9%9D%A2 "快手一面") 快手一面
+1. 混淆矩阵、准确率、召回率
+2. 生成对抗网络介绍一下
+3. 生成器和判别器是不是一起迭代
+4. 生成器判别器训练什么时候结束，怎么判断要结束
+5. LightGBM和GBDT区别
+6. 手写一下交叉熵损失函数公式
+7. 特征交叉的好处
+8. 介绍一下DIN
+### [快手二面](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/\#%E5%BF%AB%E6%89%8B%E4%BA%8C%E9%9D%A2 "快手二面") 快手二面
+1. 手撕：梯度下降求正数的算术平方根
+2. 对召回模型了解：双塔模型、TDM模型
+3. YouTubeDNN有了embedding后怎么用faiss进行召回
+4. 召回和排序阶段一般看什么指标
+5. 召回排序各阶段正负样本
+### [滴滴一面](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/\#%E6%BB%B4%E6%BB%B4%E4%B8%80%E9%9D%A2 "滴滴一面")\*\*滴滴一面\*\*
+1. SQL的数据倾斜
+2. 介绍一下XGboost和LightGBM优化了GBDT什么
+3. 分类树和回归树的区别
+4. 介绍NDCG
+5. AUC物理意义
+6. 介绍一下Transformer
+### [滴滴二面](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/\#%E6%BB%B4%E6%BB%B4%E4%BA%8C%E9%9D%A2 "滴滴二面") 滴滴二面
+1. 手撕带掩码的多头注意力机制
+2. 为什么要除以根号d
+3. permute和transpose函数区别
+4. 介绍一下GAUC和NDCG
+5. 介绍XGboost
+6. XGboost如何做的缺失值处理
+7. XGboost防止过拟合怎么做
+### [小米二面](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/\#%E5%B0%8F%E7%B1%B3%E4%BA%8C%E9%9D%A2 "小米二面") 小米二面
+1. 手撕：字符串最长公共前缀
+2. 数据分析是怎么思考的
+3. 介绍一下Transformer
+4. 介绍一下序列相关的模型（RNN、LSTM、GRU）
+5. LSTM、GRU等模型代码实现的时候，数据是以什么形式给这个结构的
+6. 数据序列长怎么办，如何处理变长的序列数据
+7. 点击长度较长如何处理嵌入维度。直接使用独热编码会导致维度爆炸，怎么处理
+8. DIN模型
+### [字节跳动AML筋斗云广告大模型面经](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/\#%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8AML%E7%AD%8B%E6%96%97%E4%BA%91%E5%B9%BF%E5%91%8A%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%9D%A2%E7%BB%8F "字节跳动AML筋斗云广告大模型面经") 字节跳动AML筋斗云广告大模型面经
+#### [一面](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/\#%E4%B8%80%E9%9D%A2 "一面") 一面
+项目相关
+讲讲设计的初衷，模型结构
+生成式相关问题
+• 为什么会想在重排做生成式
+• 如果是做生成式召回应该对模型结构怎么修改
+召回相关问题
+• 召回怎么构造负样本
+• 需要热度纠偏吗，减的那个概率和什么有关
+技术细节
+• 稀疏MOE怎么做的
+• beamsearch怎么做的
+你觉得这个项目遇到的最大的难点是什么
+方案设计与指标提升上的一些问题
+八股
+大模型了解多少，强化学习了解什么
+DPO的全称是什么，公式是什么，直接体现在哪里
+与PPO对比
+归一化方法
+• 常用的归一化方法有哪些
+• 讲讲RMSNorm
+AUC
+• auc的定义
+• 从样本里随机去掉一些负样本，Auc怎么变
+优化器
+• 讲一讲常用的优化器
+• sgd是什么，Adam相对于sgd改进了什么
+位置编码
+• 正余弦位置编码的公式
+手撕
+• 计算逆序对数量
+• 多头自注意力
+#### [二面](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/\#%E4%BA%8C%E9%9D%A2 "二面") 二面
+项目介绍
+训练样本大概多少条
+用户反馈怎么做的
+MOE激活的分布，怎么确定是MOE的效果而不是单纯ffn参数量增大的效果
+MOE稀疏激活相关问题
+beamsearch多少条
+有考虑用别的强化学习的方法吗
+dpo的公式是什么
+grpo了解吗
+kvcache怎么做的，了解大模型中别的提高效率的办法吗
+知道MTP吗
+手撕transformer并计算flops和内存开销（给了10min，没写完就直接反问了）
+反问面试官讲了下组里做的一些内容，以及组里只探索难度大的一些前沿方向。
+文章作者: [SpongeBob](http://example.com/)
+文章链接: [http://example.com/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/](http://example.com/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/)
+版权声明: 本博客所有文章除特别声明外，均采用 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) 许可协议。转载请注明来自 [SpongeBob's Blog](http://example.com/)！
+[Algorithm](https://spongebobyyb.github.io/tags/Algorithm/)
+\*\*微信扫一扫：分享\*\*
+![Scan me!]()
+微信里点“发现”，扫一下
+二维码便可将本文分享至朋友圈。
+相关推荐
+[2026-03-21\\
+\\
+AI\\_Agent面经总结](https://spongebobyyb.github.io/2026/03/21/AI-Agent%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/ "AI\_Agent面经总结")
+[2025-11-21\\
+\\
+DeepSeek+LoRA+FastAPI](https://spongebobyyb.github.io/2025/11/21/DeepSeek-LoRA-FastAPI/ "DeepSeek+LoRA+FastAPI")
+[2025-12-21\\
+\\
+FTRL算法的数学原理](https://spongebobyyb.github.io/2025/12/21/FTRL%E7%AE%97%E6%B3%95%E7%9A%84%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/ "FTRL算法的数学原理")
+[2026-01-12\\
+\\
+Transformer常见八股及手撕](https://spongebobyyb.github.io/2026/01/12/Transformer%E5%B8%B8%E8%A7%81%E5%85%AB%E8%82%A1%E5%8F%8A%E6%89%8B%E6%92%95/ "Transformer常见八股及手撕")
+[2025-12-29\\
+\\
+天池新闻推荐代码解读\\_1](https://spongebobyyb.github.io/2025/12/29/%E5%A4%A9%E6%B1%A0%E6%96%B0%E9%97%BB%E6%8E%A8%E8%8D%90%E4%BB%A3%E7%A0%81%E8%A7%A3%E8%AF%BB-1/ "天池新闻推荐代码解读\_1")
+[2025-12-31\\
+\\
+天池新闻推荐代码解读\\_2](https://spongebobyyb.github.io/2025/12/31/%E5%A4%A9%E6%B1%A0%E6%96%B0%E9%97%BB%E6%8E%A8%E8%8D%90%E4%BB%A3%E7%A0%81%E8%A7%A3%E8%AF%BB-2/ "天池新闻推荐代码解读\_2")
+![avatar](https://spongebobyyb.github.io/img/new.jpg)
+SpongeBob
+[文章\\
+\\
+23](https://spongebobyyb.github.io/archives/) [标签\\
+\\
+4](https://spongebobyyb.github.io/tags/) [分类\\
+\\
+0](https://spongebobyyb.github.io/categories/)
+[Follow Me](https://github.com/SPONGEBOByyb)
+公告
+This is my Blog
+目录
+1. [1.常见面试问题](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/#%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98)
+1. [1.1.LightGBM和XBoost的联系与区别（可以引申到Boosting和Bagging）](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/#LightGBM%E5%92%8CXBoost%E7%9A%84%E8%81%94%E7%B3%BB%E4%B8%8E%E5%8C%BA%E5%88%AB%EF%BC%88%E5%8F%AF%E4%BB%A5%E5%BC%95%E7%94%B3%E5%88%B0Boosting%E5%92%8CBagging%EF%BC%89)
+2. [1.2.如何解决过拟合？（可以引申到L1/L2正则化的区别）](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/#%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E8%BF%87%E6%8B%9F%E5%90%88%EF%BC%9F%EF%BC%88%E5%8F%AF%E4%BB%A5%E5%BC%95%E7%94%B3%E5%88%B0L1-L2%E6%AD%A3%E5%88%99%E5%8C%96%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%89)
+3. [1.3.Shared bottom、MMoE、PLE的联系以及演讲过程](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/#Shared-bottom%E3%80%81MMoE%E3%80%81PLE%E7%9A%84%E8%81%94%E7%B3%BB%E4%BB%A5%E5%8F%8A%E6%BC%94%E8%AE%B2%E8%BF%87%E7%A8%8B)
+2. [2.高频八股](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/#%E9%AB%98%E9%A2%91%E5%85%AB%E8%82%A1)
+1. [2.1.搜广推最高频八股（一）](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/#%E6%90%9C%E5%B9%BF%E6%8E%A8%E6%9C%80%E9%AB%98%E9%A2%91%E5%85%AB%E8%82%A1%EF%BC%88%E4%B8%80%EF%BC%89)
+2. [2.2.搜广推最高频八股（二）](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/#%E6%90%9C%E5%B9%BF%E6%8E%A8%E6%9C%80%E9%AB%98%E9%A2%91%E5%85%AB%E8%82%A1%EF%BC%88%E4%BA%8C%EF%BC%89)
+3. [2.3.搜广推最高频八股（三）](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/#%E6%90%9C%E5%B9%BF%E6%8E%A8%E6%9C%80%E9%AB%98%E9%A2%91%E5%85%AB%E8%82%A1%EF%BC%88%E4%B8%89%EF%BC%89)
+4. [2.4.搜广推最高频八股（四）](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/#%E6%90%9C%E5%B9%BF%E6%8E%A8%E6%9C%80%E9%AB%98%E9%A2%91%E5%85%AB%E8%82%A1%EF%BC%88%E5%9B%9B%EF%BC%89)
+3. [3.自己的面经](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/#%E8%87%AA%E5%B7%B1%E7%9A%84%E9%9D%A2%E7%BB%8F)
+1. [3.1.百度推荐算法一面](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/#%E7%99%BE%E5%BA%A6%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95%E4%B8%80%E9%9D%A2)
+2. [3.2.百度推广搜NLP算法工程师实习生一面](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/#%E7%99%BE%E5%BA%A6%E6%8E%A8%E5%B9%BF%E6%90%9CNLP%E7%AE%97%E6%B3%95%E5%B7%A5%E7%A8%8B%E5%B8%88%E5%AE%9E%E4%B9%A0%E7%94%9F%E4%B8%80%E9%9D%A2)
+4. [4.别人的面经](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/#%E5%88%AB%E4%BA%BA%E7%9A%84%E9%9D%A2%E7%BB%8F)
+01. [4.1.百度一面1](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/#%E7%99%BE%E5%BA%A6%E4%B8%80%E9%9D%A21)
+02. [4.2.百度一面2](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/#%E7%99%BE%E5%BA%A6%E4%B8%80%E9%9D%A22)
+03. [4.3.百度二面1](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/#%E7%99%BE%E5%BA%A6%E4%BA%8C%E9%9D%A21)
+04. [4.4.百度二面2](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/#%E7%99%BE%E5%BA%A6%E4%BA%8C%E9%9D%A22)
+05. [4.5.得物一面](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/#%E5%BE%97%E7%89%A9%E4%B8%80%E9%9D%A2)
+06. [4.6.得物二面](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/#%E5%BE%97%E7%89%A9%E4%BA%8C%E9%9D%A2)
+07. [4.7.美团一面](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/#%E7%BE%8E%E5%9B%A2%E4%B8%80%E9%9D%A2)
+08. [4.8.Soul日常实习](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/#Soul%E6%97%A5%E5%B8%B8%E5%AE%9E%E4%B9%A0)
+09. [4.9.小红书一面](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/#%E5%B0%8F%E7%BA%A2%E4%B9%A6%E4%B8%80%E9%9D%A2)
+10. [4.10.B站一面](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/#B%E7%AB%99%E4%B8%80%E9%9D%A2)
+11. [4.11.快手一面](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/#%E5%BF%AB%E6%89%8B%E4%B8%80%E9%9D%A2)
+12. [4.12.快手二面](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/#%E5%BF%AB%E6%89%8B%E4%BA%8C%E9%9D%A2)
+13. [4.13.滴滴一面](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/#%E6%BB%B4%E6%BB%B4%E4%B8%80%E9%9D%A2)
+14. [4.14.滴滴二面](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/#%E6%BB%B4%E6%BB%B4%E4%BA%8C%E9%9D%A2)
+15. [4.15.小米二面](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/#%E5%B0%8F%E7%B1%B3%E4%BA%8C%E9%9D%A2)
+16. [4.16.字节跳动AML筋斗云广告大模型面经](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/#%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8AML%E7%AD%8B%E6%96%97%E4%BA%91%E5%B9%BF%E5%91%8A%E5%A4%A7%E6%A8%A1%E5%9E%8B%E9%9D%A2%E7%BB%8F)
+1. [4.16.1.一面](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/#%E4%B8%80%E9%9D%A2)
+2. [4.16.2.二面](https://spongebobyyb.github.io/2026/01/10/%E6%90%9C%E5%B9%BF%E6%8E%A8%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/#%E4%BA%8C%E9%9D%A2)
+最新文章
+[AI\\_Agent面经总结](https://spongebobyyb.github.io/2026/03/21/AI-Agent%E9%9D%A2%E7%BB%8F%E6%80%BB%E7%BB%93/ "AI\_Agent面经总结") 2026-03-21
+[hot100心得](https://spongebobyyb.github.io/2026/02/04/hot100%E5%BF%83%E5%BE%97/ "hot100心得") 2026-02-04
+[推荐系统八股总结](https://spongebobyyb.github.io/2026/01/25/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E5%85%AB%E8%82%A1%E6%80%BB%E7%BB%93/ "推荐系统八股总结") 2026-01-25
+[Git学习笔记](https://spongebobyyb.github.io/2026/01/23/Git%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/ "Git学习笔记") 2026-01-23
+[Transformer常见八股及手撕](https://spongebobyyb.github.io/2026/01/12/Transformer%E5%B8%B8%E8%A7%81%E5%85%AB%E8%82%A1%E5%8F%8A%E6%89%8B%E6%92%95/ "Transformer常见八股及手撕") 2026-01-12

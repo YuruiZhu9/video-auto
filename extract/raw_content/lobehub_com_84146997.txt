@@ -1,0 +1,106 @@
+# Source URL: https://lobehub.com/zh/blog/openclaw-claude-subscription-no-longer-covered
+# Content Length: 11533 characters
+# Extracted at: 2026-04-06 22:34:47
+#============================================================
+
+
+OpenClaw 与 Claude 订阅：发生了什么变化，以及接下来该怎么做 · LobeHub[![]()](/)[产品](/)社区资源[定价](/pricing)[74.8K](https://github.com/lobehub/lobehub)[开始使用](https://app.lobehub.com/?utm_source=landing&utm_content=header_get_started)[返回博客](/blog)![]()
+
+Agent teammates that grow with you
+----------------------------------
+
+### 立即开始使用 LobeHub，成为万千超级个体的一员
+
+[免费开始使用](https://app.lobehub.com/?utm_source=landing&utm_content=hero_get_started)[获取最新版本…](/downloads)[社区生态](/blog/category/community)星期六, 四月 4 2026
+
+没有 Claude Code 的 OpenClaw：2026 年最佳替代 Harness
+============================================
+
+Anthropic 宣布 Claude 订阅将不再覆盖在 OpenClaw 等第三方工具上的使用。以下是这意味着什么，以及你有哪些替代方案。
+
+撰写者[![]()LobeHubOfficial Account](https://github.com/lobehub)
+
+刚刚发生了什么
+-------
+
+从 2026 年 4 月 5 日起，Anthropic 的 Claude 订阅计划不再覆盖在 OpenClaw 等第三方工具上的使用。
+
+如果你一直使用 Claude 登录在 OpenClaw 中使用服务，那么这部分访问现在会被 “额外用量包（extra usage bundles）” 付费墙拦住。或者，你需要提供自己的 Claude API key。
+
+这不是技术故障，而是一次有意的政策调整。
+
+---
+
+OpenClaw 除了 API 访问之外还失去了什么
+--------------------------
+
+订阅变化是最显眼的标题，但下面还有一个更隐蔽的问题。
+
+OpenClaw 之前主要依赖 **Claude Code** —— Anthropic 自家的 Agent 基础设施 —— 作为执行任务、tool-calling 与多步骤工作流的主要 harness。而现在，这也属于需要额外付费的部分之一。
+
+OpenClaw 自己也有一个 harness 作为备用方案，但它并不是主角。那些依赖 OpenClaw 完整 agentic 能力的用户，现在要么付更多钱，要么得到更少能力。
+
+---
+
+你现在的选择
+------
+
+### 1. 从 Anthropic 购买额外用量包
+
+Anthropic 在过渡期提供折扣。这样可以保持你现有的工作流不变 —— 但需要增加成本。
+
+### 2. 切换为使用 Claude API key
+
+把你的客户端配置为直接使用你自己的 API key。用量将由 Anthropic 按量计费（pay-as-you-go）。大多数第三方客户端都支持这一点，包括 OpenClaw。
+
+### 3. 切换到从一开始就不依赖这些机制的客户端
+
+有些客户端从第一天起就不依赖 Anthropic 的订阅透传（subscription passthrough）或 Anthropic 原生的 Agent 基础设施。它们从未受到这次变化影响，因为它们本来就不需要这些。
+
+---
+
+LobeHub：从第一天起就独立构建
+------------------
+
+LobeHub 一直运行自有的 Agent 与 tool-calling 基础设施 —— 不借用 Claude Code，也不依赖任何单一模型提供商。
+
+这意味着两点：
+
+**没有政策风险。** 当 Anthropic 改变 Claude 订阅覆盖范围时，LobeHub 用户不会有任何感知，因为根本没有 “会失去访问权限” 的东西。
+
+**没有模型锁定。** LobeHub 的 harness 可与 Claude、GPT-5、Gemini 等一起工作。你可以在不损失能力的情况下切换模型。无论底层是哪种 LLM，Agent 层都保持一致。
+
+当政策变化时，工作质量不会下降，因为能力从来不是租来的。
+
+**[免费开始使用 LobeHub →](https://lobehub.com)**
+
+### LobeHub 提供什么
+
+* **自有 Agent 基础设施** —— tool-calling、plugins、多步骤任务，全部自研
+* **模型无关（model-agnostic）** —— Claude、GPT-4o、Gemini 等都可在同一处使用
+* **你的 API key，你的用量** —— 直接计费，无订阅透传
+* **无消息上限** —— 仅受你的 API quota 限制
+* **知识库** —— 与你自己的文档和文件对话
+* **开源** —— 自托管 Community Edition，获得完全控制权
+
+还有个好消息：你可以用一条命令从 OpenClaw 迁移到 LobeHub：
+
+如果你想自托管
+-------
+
+[LobeHub Community Edition](https://github.com/lobehub/lobe-chat) 免费且开源。带上任意 API key，自行部署，你就完全不再依赖任何第三方订阅。
+
+[部署指南 →](https://lobehub.com/docs/self-hosting/start)
+
+---
+
+结论
+--
+
+OpenClaw 的处境暴露了两个叠加风险：依赖订阅透传来获得访问权限，以及依赖提供商的原生基础设施来获得能力。其中任何一项发生变化，都会带来伤害；两项同时变化，影响更大。
+
+LobeHub 从一开始就为了同时掌控这两层而构建：harness 是我们的，模型选择是你的。
+
+这不是对这条新闻的临时回应，而是它一直以来的构建方式。
+
+AnthropicClaudeOpenClawLobeHubThird-Party Claude ClientAI Agent分享至[X](https://x.com/intent/tweet?hashtags=Anthropic%2CClaude%2COpenClaw%2CLobeHub%2CThird-Party%20Claude%20Client%2CAI%20Agent&text=%E6%B2%A1%E6%9C%89%20Claude%20Code%20%E7%9A%84%20OpenClaw%EF%BC%9A2026%20%E5%B9%B4%E6%9C%80%E4%BD%B3%E6%9B%BF%E4%BB%A3%20Harness%20-%20Anthropic%20%E5%AE%A3%E5%B8%83%20Claude%20%E8%AE%A2%E9%98%85%E5%B0%86%E4%B8%8D%E5%86%8D%E8%A6%86%E7%9B%96%E5%9C%A8%20OpenClaw%20%E7%AD%89%E7%AC%AC%E4%B8%89%E6%96%B9%E5%B7%A5%E5%85%B7%E4%B8%8A%E7%9A%84%E4%BD%BF%E7%94%A8%E3%80%82%E4%BB%A5%E4%B8%8B%E6%98%AF%E8%BF%99%E6%84%8F%E5%91%B3%E7%9D%80%E4%BB%80%E4%B9%88%EF%BC%8C%E4%BB%A5%E5%8F%8A%E4%BD%A0%E6%9C%89%E5%93%AA%E4%BA%9B%E6%9B%BF%E4%BB%A3%E6%96%B9%E6%A1%88%E3%80%82)[Reddit](https://www.reddit.com/submit?title=%E6%B2%A1%E6%9C%89%20Claude%20Code%20%E7%9A%84%20OpenClaw%EF%BC%9A2026%20%E5%B9%B4%E6%9C%80%E4%BD%B3%E6%9B%BF%E4%BB%A3%20Harness%20-%20Anthropic%20%E5%AE%A3%E5%B8%83%20Claude%20%E8%AE%A2%E9%98%85%E5%B0%86%E4%B8%8D%E5%86%8D%E8%A6%86%E7%9B%96%E5%9C%A8%20OpenClaw%20%E7%AD%89%E7%AC%AC%E4%B8%89%E6%96%B9%E5%B7%A5%E5%85%B7%E4%B8%8A%E7%9A%84%E4%BD%BF%E7%94%A8%E3%80%82%E4%BB%A5%E4%B8%8B%E6%98%AF%E8%BF%99%E6%84%8F%E5%91%B3%E7%9D%80%E4%BB%80%E4%B9%88%EF%BC%8C%E4%BB%A5%E5%8F%8A%E4%BD%A0%E6%9C%89%E5%93%AA%E4%BA%9B%E6%9B%BF%E4%BB%A3%E6%96%B9%E6%A1%88%E3%80%82%20%23anthropic%20%23claude%20%23openClaw%20%23lobeHub%20%23thirdPartyClaudeClient%20%23aiAgent)[Telegram](https://t.me/share/url"?text=%E6%B2%A1%E6%9C%89%20Claude%20Code%20%E7%9A%84%20OpenClaw%EF%BC%9A2026%20%E5%B9%B4%E6%9C%80%E4%BD%B3%E6%9B%BF%E4%BB%A3%20Harness%20-%20Anthropic%20%E5%AE%A3%E5%B8%83%20Claude%20%E8%AE%A2%E9%98%85%E5%B0%86%E4%B8%8D%E5%86%8D%E8%A6%86%E7%9B%96%E5%9C%A8%20OpenClaw%20%E7%AD%89%E7%AC%AC%E4%B8%89%E6%96%B9%E5%B7%A5%E5%85%B7%E4%B8%8A%E7%9A%84%E4%BD%BF%E7%94%A8%E3%80%82%E4%BB%A5%E4%B8%8B%E6%98%AF%E8%BF%99%E6%84%8F%E5%91%B3%E7%9D%80%E4%BB%80%E4%B9%88%EF%BC%8C%E4%BB%A5%E5%8F%8A%E4%BD%A0%E6%9C%89%E5%93%AA%E4%BA%9B%E6%9B%BF%E4%BB%A3%E6%96%B9%E6%A1%88%E3%80%82%20%23anthropic%20%23claude%20%23openClaw%20%23lobeHub%20%23thirdPartyClaudeClient%20%23aiAgent)[WhatsApp](https://api.whatsapp.com/send?text=%E6%B2%A1%E6%9C%89%20Claude%20Code%20%E7%9A%84%20OpenClaw%EF%BC%9A2026%20%E5%B9%B4%E6%9C%80%E4%BD%B3%E6%9B%BF%E4%BB%A3%20Harness%20-%20Anthropic%20%E5%AE%A3%E5%B8%83%20Claude%20%E8%AE%A2%E9%98%85%E5%B0%86%E4%B8%8D%E5%86%8D%E8%A6%86%E7%9B%96%E5%9C%A8%20OpenClaw%20%E7%AD%89%E7%AC%AC%E4%B8%89%E6%96%B9%E5%B7%A5%E5%85%B7%E4%B8%8A%E7%9A%84%E4%BD%BF%E7%94%A8%E3%80%82%E4%BB%A5%E4%B8%8B%E6%98%AF%E8%BF%99%E6%84%8F%E5%91%B3%E7%9D%80%E4%BB%80%E4%B9%88%EF%BC%8C%E4%BB%A5%E5%8F%8A%E4%BD%A0%E6%9C%89%E5%93%AA%E4%BA%9B%E6%9B%BF%E4%BB%A3%E6%96%B9%E6%A1%88%E3%80%82%20%23anthropic%20%23claude%20%23openClaw%20%23lobeHub%20%23thirdPartyClaudeClient%20%23aiAgent)[Mastodon](https://mastodon.social/share?text=%E6%B2%A1%E6%9C%89%20Claude%20Code%20%E7%9A%84%20OpenClaw%EF%BC%9A2026%20%E5%B9%B4%E6%9C%80%E4%BD%B3%E6%9B%BF%E4%BB%A3%20Harness%20-%20Anthropic%20%E5%AE%A3%E5%B8%83%20Claude%20%E8%AE%A2%E9%98%85%E5%B0%86%E4%B8%8D%E5%86%8D%E8%A6%86%E7%9B%96%E5%9C%A8%20OpenClaw%20%E7%AD%89%E7%AC%AC%E4%B8%89%E6%96%B9%E5%B7%A5%E5%85%B7%E4%B8%8A%E7%9A%84%E4%BD%BF%E7%94%A8%E3%80%82%E4%BB%A5%E4%B8%8B%E6%98%AF%E8%BF%99%E6%84%8F%E5%91%B3%E7%9D%80%E4%BB%80%E4%B9%88%EF%BC%8C%E4%BB%A5%E5%8F%8A%E4%BD%A0%E6%9C%89%E5%93%AA%E4%BA%9B%E6%9B%BF%E4%BB%A3%E6%96%B9%E6%A1%88%E3%80%82%20%23anthropic%20%23claude%20%23openClaw%20%23lobeHub%20%23thirdPartyClaudeClient%20%23aiAgent)[LinkedIn](https://www.linkedin.com/sharing/share-offsite/)[Sina Weibo](http://service.weibo.com/share/share.php?sharesource=weibo&title=%E6%B2%A1%E6%9C%89%20Claude%20Code%20%E7%9A%84%20OpenClaw%EF%BC%9A2026%20%E5%B9%B4%E6%9C%80%E4%BD%B3%E6%9B%BF%E4%BB%A3%20Harness%20-%20Anthropic%20%E5%AE%A3%E5%B8%83%20Claude%20%E8%AE%A2%E9%98%85%E5%B0%86%E4%B8%8D%E5%86%8D%E8%A6%86%E7%9B%96%E5%9C%A8%20OpenClaw%20%E7%AD%89%E7%AC%AC%E4%B8%89%E6%96%B9%E5%B7%A5%E5%85%B7%E4%B8%8A%E7%9A%84%E4%BD%BF%E7%94%A8%E3%80%82%E4%BB%A5%E4%B8%8B%E6%98%AF%E8%BF%99%E6%84%8F%E5%91%B3%E7%9D%80%E4%BB%80%E4%B9%88%EF%BC%8C%E4%BB%A5%E5%8F%8A%E4%BD%A0%E6%9C%89%E5%93%AA%E4%BA%9B%E6%9B%BF%E4%BB%A3%E6%96%B9%E6%A1%88%E3%80%82%20%23anthropic%20%23claude%20%23openClaw%20%23lobeHub%20%23thirdPartyClaudeClient%20%23aiAgent)相关阅读[LOL #3 - 可靠性优先、一天三款模型，以及当服务商宕机时](/blog/lol-3)![]()3月 27, 2026[LOL #4 - Product Hunt、移动端上线，以及你的 WhatsApp 里的 Agent](/blog/lol-4)![]()4月 03, 2026撰写者[![]()LobeHubOfficial Account](https://github.com/lobehub)分享至[X](https://x.com/intent/tweet?hashtags=Anthropic%2CClaude%2COpenClaw%2CLobeHub%2CThird-Party%20Claude%20Client%2CAI%20Agent&text=%E6%B2%A1%E6%9C%89%20Claude%20Code%20%E7%9A%84%20OpenClaw%EF%BC%9A2026%20%E5%B9%B4%E6%9C%80%E4%BD%B3%E6%9B%BF%E4%BB%A3%20Harness%20-%20Anthropic%20%E5%AE%A3%E5%B8%83%20Claude%20%E8%AE%A2%E9%98%85%E5%B0%86%E4%B8%8D%E5%86%8D%E8%A6%86%E7%9B%96%E5%9C%A8%20OpenClaw%20%E7%AD%89%E7%AC%AC%E4%B8%89%E6%96%B9%E5%B7%A5%E5%85%B7%E4%B8%8A%E7%9A%84%E4%BD%BF%E7%94%A8%E3%80%82%E4%BB%A5%E4%B8%8B%E6%98%AF%E8%BF%99%E6%84%8F%E5%91%B3%E7%9D%80%E4%BB%80%E4%B9%88%EF%BC%8C%E4%BB%A5%E5%8F%8A%E4%BD%A0%E6%9C%89%E5%93%AA%E4%BA%9B%E6%9B%BF%E4%BB%A3%E6%96%B9%E6%A1%88%E3%80%82)[Reddit](https://www.reddit.com/submit?title=%E6%B2%A1%E6%9C%89%20Claude%20Code%20%E7%9A%84%20OpenClaw%EF%BC%9A2026%20%E5%B9%B4%E6%9C%80%E4%BD%B3%E6%9B%BF%E4%BB%A3%20Harness%20-%20Anthropic%20%E5%AE%A3%E5%B8%83%20Claude%20%E8%AE%A2%E9%98%85%E5%B0%86%E4%B8%8D%E5%86%8D%E8%A6%86%E7%9B%96%E5%9C%A8%20OpenClaw%20%E7%AD%89%E7%AC%AC%E4%B8%89%E6%96%B9%E5%B7%A5%E5%85%B7%E4%B8%8A%E7%9A%84%E4%BD%BF%E7%94%A8%E3%80%82%E4%BB%A5%E4%B8%8B%E6%98%AF%E8%BF%99%E6%84%8F%E5%91%B3%E7%9D%80%E4%BB%80%E4%B9%88%EF%BC%8C%E4%BB%A5%E5%8F%8A%E4%BD%A0%E6%9C%89%E5%93%AA%E4%BA%9B%E6%9B%BF%E4%BB%A3%E6%96%B9%E6%A1%88%E3%80%82%20%23anthropic%20%23claude%20%23openClaw%20%23lobeHub%20%23thirdPartyClaudeClient%20%23aiAgent)[Telegram](https://t.me/share/url"?text=%E6%B2%A1%E6%9C%89%20Claude%20Code%20%E7%9A%84%20OpenClaw%EF%BC%9A2026%20%E5%B9%B4%E6%9C%80%E4%BD%B3%E6%9B%BF%E4%BB%A3%20Harness%20-%20Anthropic%20%E5%AE%A3%E5%B8%83%20Claude%20%E8%AE%A2%E9%98%85%E5%B0%86%E4%B8%8D%E5%86%8D%E8%A6%86%E7%9B%96%E5%9C%A8%20OpenClaw%20%E7%AD%89%E7%AC%AC%E4%B8%89%E6%96%B9%E5%B7%A5%E5%85%B7%E4%B8%8A%E7%9A%84%E4%BD%BF%E7%94%A8%E3%80%82%E4%BB%A5%E4%B8%8B%E6%98%AF%E8%BF%99%E6%84%8F%E5%91%B3%E7%9D%80%E4%BB%80%E4%B9%88%EF%BC%8C%E4%BB%A5%E5%8F%8A%E4%BD%A0%E6%9C%89%E5%93%AA%E4%BA%9B%E6%9B%BF%E4%BB%A3%E6%96%B9%E6%A1%88%E3%80%82%20%23anthropic%20%23claude%20%23openClaw%20%23lobeHub%20%23thirdPartyClaudeClient%20%23aiAgent)[WhatsApp](https://api.whatsapp.com/send?text=%E6%B2%A1%E6%9C%89%20Claude%20Code%20%E7%9A%84%20OpenClaw%EF%BC%9A2026%20%E5%B9%B4%E6%9C%80%E4%BD%B3%E6%9B%BF%E4%BB%A3%20Harness%20-%20Anthropic%20%E5%AE%A3%E5%B8%83%20Claude%20%E8%AE%A2%E9%98%85%E5%B0%86%E4%B8%8D%E5%86%8D%E8%A6%86%E7%9B%96%E5%9C%A8%20OpenClaw%20%E7%AD%89%E7%AC%AC%E4%B8%89%E6%96%B9%E5%B7%A5%E5%85%B7%E4%B8%8A%E7%9A%84%E4%BD%BF%E7%94%A8%E3%80%82%E4%BB%A5%E4%B8%8B%E6%98%AF%E8%BF%99%E6%84%8F%E5%91%B3%E7%9D%80%E4%BB%80%E4%B9%88%EF%BC%8C%E4%BB%A5%E5%8F%8A%E4%BD%A0%E6%9C%89%E5%93%AA%E4%BA%9B%E6%9B%BF%E4%BB%A3%E6%96%B9%E6%A1%88%E3%80%82%20%23anthropic%20%23claude%20%23openClaw%20%23lobeHub%20%23thirdPartyClaudeClient%20%23aiAgent)[Mastodon](https://mastodon.social/share?text=%E6%B2%A1%E6%9C%89%20Claude%20Code%20%E7%9A%84%20OpenClaw%EF%BC%9A2026%20%E5%B9%B4%E6%9C%80%E4%BD%B3%E6%9B%BF%E4%BB%A3%20Harness%20-%20Anthropic%20%E5%AE%A3%E5%B8%83%20Claude%20%E8%AE%A2%E9%98%85%E5%B0%86%E4%B8%8D%E5%86%8D%E8%A6%86%E7%9B%96%E5%9C%A8%20OpenClaw%20%E7%AD%89%E7%AC%AC%E4%B8%89%E6%96%B9%E5%B7%A5%E5%85%B7%E4%B8%8A%E7%9A%84%E4%BD%BF%E7%94%A8%E3%80%82%E4%BB%A5%E4%B8%8B%E6%98%AF%E8%BF%99%E6%84%8F%E5%91%B3%E7%9D%80%E4%BB%80%E4%B9%88%EF%BC%8C%E4%BB%A5%E5%8F%8A%E4%BD%A0%E6%9C%89%E5%93%AA%E4%BA%9B%E6%9B%BF%E4%BB%A3%E6%96%B9%E6%A1%88%E3%80%82%20%23anthropic%20%23claude%20%23openClaw%20%23lobeHub%20%23thirdPartyClaudeClient%20%23aiAgent)[LinkedIn](https://www.linkedin.com/sharing/share-offsite/)[Sina Weibo](http://service.weibo.com/share/share.php?sharesource=weibo&title=%E6%B2%A1%E6%9C%89%20Claude%20Code%20%E7%9A%84%20OpenClaw%EF%BC%9A2026%20%E5%B9%B4%E6%9C%80%E4%BD%B3%E6%9B%BF%E4%BB%A3%20Harness%20-%20Anthropic%20%E5%AE%A3%E5%B8%83%20Claude%20%E8%AE%A2%E9%98%85%E5%B0%86%E4%B8%8D%E5%86%8D%E8%A6%86%E7%9B%96%E5%9C%A8%20OpenClaw%20%E7%AD%89%E7%AC%AC%E4%B8%89%E6%96%B9%E5%B7%A5%E5%85%B7%E4%B8%8A%E7%9A%84%E4%BD%BF%E7%94%A8%E3%80%82%E4%BB%A5%E4%B8%8B%E6%98%AF%E8%BF%99%E6%84%8F%E5%91%B3%E7%9D%80%E4%BB%80%E4%B9%88%EF%BC%8C%E4%BB%A5%E5%8F%8A%E4%BD%A0%E6%9C%89%E5%93%AA%E4%BA%9B%E6%9B%BF%E4%BB%A3%E6%96%B9%E6%A1%88%E3%80%82%20%23anthropic%20%23claude%20%23openClaw%20%23lobeHub%20%23thirdPartyClaudeClient%20%23aiAgent)相关阅读[LOL #3 - 可靠性优先、一天三款模型，以及当服务商宕机时](/blog/lol-3)![]()3月 27, 2026[LOL #4 - Product Hunt、移动端上线，以及你的 WhatsApp 里的 Agent](/blog/lol-4)![]()4月 03, 2026

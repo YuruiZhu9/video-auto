@@ -1,0 +1,247 @@
+# Source URL: https://www.jdon.com/90329-Qwen3-Coder-Next-Sonnet.html
+# Content Length: 6844 characters
+# Extracted at: 2026-03-31 08:04:22
+#============================================================
+
+
+
+
+
+
+
+
+开源本地模型Qwen3-Coder-Next首次逼近 Claude Sonnet 4.5性能 - 极道
+
+
+
+
+
+
+
+
+
+
+
+[![]()](https://www.jdon.com/threads/)
+[Dojo](https://www.jdon.com/forum/)
+[话题](https://www.jdon.com/tag/)
+[新佳](https://www.jdon.com/approval/)
+[订阅](https://www.jdon.com/followus.html)
+
+
+
+
+
+
+[极道](https://www.jdon.com/)
+
+* [元认知](https://www.jdon.com/metacognition.htm)
+* [元逻辑](https://www.jdon.com/metalogic.htm)
+* [元设计](https://www.jdon.com/metadesign.htm)
+* [元编程](https://www.jdon.com/metaprogramming.htm)
+* [元语言](https://www.jdon.com/metalanguage.htm)
+
+
+
+
+
+[AI大语言模型、AGI](/forum/121/)
+
+开源本地模型Qwen3-Coder-Next首次逼近 Claude Sonnet 4.5性能
+==============================================
+
+[#AI人工智能指南](https://www.jdon.com/tag/30661/)
+[#vibe编程](https://www.jdon.com/tag/98071/)
+[#DeepSeek时刻](https://www.jdon.com/tag/97174/)
+[#本地小语言模型](https://www.jdon.com/tag/89861/)
+
+2026-02-04
+
+
+2
+4K
+
+banq
+
+
+
+Qwen3-Coder-Next 是阿里巴巴通义千问团队发布的 800 亿参数 MoE 代码模型，每次推理仅激活 30 亿参数，原生支持 25.6 万 token 上下文（可扩展至 100 万 token），在 SWE-Bench Pro 等基准测试中表现接近 Claude Sonnet 4.5 等顶级闭源模型。
+
+该模型专为编码代理和本地部署优化，4-bit 量化后仅需 46GB 内存即可运行，支持 OpenClaw、Claude Code、Codex CLI 等主流编码工具。社区围绕本地部署可行性、硬件门槛、与闭源模型的性能差距、以及 Anthropic 等厂商对第三方客户端的限制政策展开了激烈讨论。  
+
+---
+
+  
+**模型架构与性能定位：用 30 亿参数干 800 亿参数的活儿**
+
+Qwen3-Coder-Next 的核心卖点在于其超高稀疏度的混合专家架构（MoE），总参数量达到 800 亿，但每次前向传播只激活 30 亿参数，稀疏率高达 96.25% 。这种设计让模型在保持大容量知识存储的同时，推理成本被压缩到与小型模型相当。架构上采用了混合注意力机制，结合了 Gated DeltaNet 和 Gated Attention，每 4 层使用一次传统 GQA 注意力，其余层使用线性注意力，这种交替设计让长上下文处理效率提升了 10 倍 。
+
+模型原生支持 25.6 万 token 的上下文窗口，通过 YaRN 技术可扩展至 100 万 token，这意味着你可以把整个代码库丢进去让它分析，而不用担心遗忘前面的内容 。在性能基准方面，Qwen3-Coder-Next 在 SWE-Bench Verified 上取得了 70% 以上的成绩，在 SWE-Bench Pro 上达到 44.3%，这个成绩已经逼近 Claude Sonnet 4.5 和 GPT-5 的水平 。更关键的是，它专门针对编码代理场景做了优化，支持多轮工具调用、浏览器自动化和复杂任务规划，官方明确宣称这是通义千问系列中代理能力最强的代码模型 。
+
+**本地部署实战：46GB 内存门槛与量化博弈**
+
+对于想本地运行这个模型的开发者来说，硬件门槛是最现实的考量。根据 Unsloth 的测试数据，4-bit 量化版本需要约 46GB 的统一内存或显存，8-bit 版本则需要 85GB 。这意味着一台配备 64GB 内存的 MacBook Pro 或一台装有 RTX 4090（24GB 显存）加 128GB 系统内存的台式机可以运行量化版本，但想要流畅体验并不容易。
+
+社区用户分享了各种部署方案：有人在 M1 64GB 的机器上用 llama.cpp 跑出了 20 token/秒的速度，用 MLX 框架甚至能达到两倍速，但 MLX 的 KV 缓存一致性存在问题，代理编码时经常需要重新处理提示词，实际体验反而更慢 。另一位用户在 NVIDIA Spark 上用 Q4\_K\_XL 量化版本跑出了 25-30 token/秒的生成速度，提示词处理速度达到 251 token/秒，这个速度对于本地模型来说已经相当可观，但和云端 API 相比仍有差距 。
+
+量化质量的选择也是个技术活。Unsloth 提供了从 Q2 到 Q8 的多种量化版本，其中 UD-Q4\_K\_XL（Unsloth 动态 4-bit 超大杯）被推荐为大多数硬件的最佳选择，而 Q6\_K 或 Q8\_0 版本在 96GB 显存的 RTX 6000 Blackwell 上能达到 60 token/秒以上的速度，且代码生成质量接近原始模型 。有用户用 Q8\_0 版本一次性生成了 Flappy Bird 游戏和 Wordle 克隆，证明高量化等级确实能保留足够的性能 。
+
+**与闭源模型的正面交锋：性能差距与生态锁定**
+
+社区讨论中最激烈的议题之一是 Qwen3-Coder-Next 与 Claude Code、Codex CLI 等闭源工具的性能对比。
+
+多位用户坦言，尽管本地模型进步神速，但在实际编码代理任务中仍无法与 Claude Opus 4.5 或 GPT-5.2 相提并论 。  
+一位开发者描述了自己用 GPT-OSS-120B 配合 Codex 的尝试，虽然能跑起来，但模型经常在一两秒后放弃任务，工具调用成功率远低于云端模型 。
+
+更深层的问题在于生态系统的锁定。Anthropic 近期开始限制 Claude Code 的订阅计划只能用于官方客户端，禁止第三方工具如 OpenClaw 使用其订阅额度，这引发了社区的强烈反弹 。多位开发者因此取消了订阅，转而探索本地模型方案。一位用户愤怒地指出，这种做法是反竞争的，如果 Anthropic 在尚未建立垄断地位时就如此强势，未来掌握市场主导权后只会更加肆无忌惮 。相比之下，OpenAI 明确允许将订阅用于第三方编码代理，这一策略差异让部分用户转向了 Codex 。
+
+性能与便利性的权衡贯穿整个讨论。有用户指出，Claude Code 经过专门优化，能有效利用提示词缓存等机制，而第三方客户端往往缺乏这些优化，导致同样的订阅额度消耗速度是官方客户端的 3 倍 。这解释了为什么 Anthropic 要封锁第三方客户端：他们的订阅定价模型基于特定的使用模式假设，一旦被高消耗的第三方工具突破，商业模式就会崩溃 。
+
+**硬件门槛与成本哲学：什么是真正的本地模型**
+
+社区对本地模型的定义本身也存在分歧。一位用户提出，我们需要区分真正的本地模型和伪本地模型：真正的本地应该是在自己控制的、成本低于 1 万美元的硬件上免费运行推理，并且理论上可以在几天内完成微调 。按照史蒂夫·乔布斯的兆便士（megapenny，约 10 万美元）单位来衡量，真正的本地设备应该控制在个位数兆便士以内。
+
+现代硬件配置中，一套配备 RTX 5090、Threadripper 处理器、NVMe 固态和 256GB 内存的机器大约需要 1 万美元，而苹果 M3 Ultra 60 核配 256GB 统一内存的 Mac Studio 税后约 6000 美元，这些都被认为是本地模型的合理硬件平台 。但问题在于，即使有了这样的硬件，模型架构和量化方式的不同也会导致实际性能差异巨大，简单的参数量对比已经不足以预测实际表现 。
+
+有开发者提出需要建立标准化的评估基准，在统一的硬件配置上测试真实的端到端任务表现，包括首 token 延迟、每秒 token 数、内存占用和总测试时间等指标，而不是只看模型在理想条件下的理论性能 。另一位用户则指出，很多人可以接受极慢的推理速度（比如每秒 0.2 个 token），只要模型成功率足够高，但这种高成功率的前提是你对模型的置信度有准确判断，而大多数人并没有这种判断力 。
+
+**开源模型的追赶与代理编排的新范式**
+
+尽管存在性能差距，社区普遍认为开源本地模型正在快速逼近闭源前沿模型。
+
+一位用户回忆起 GPT-3.5 时代的 ChatGPT 被认为有数千亿参数，而现在手机上运行的模型已经能达到类似能力，这种进步速度表明小型模型的效率正在持续提升 。另一位开发者则认为，当本地模型达到 Claude Opus 4.5 水平时，闭源在线模型的价值将大幅缩水，因为边际收益递减定律会开始发挥作用 。
+
+更激进的观点提出了代理编排的新范式：不再依赖单一的大型模型处理所有任务，而是使用智能编排器将简单任务分发给快速、廉价的本地小模型，只在遇到复杂推理难题时才调用昂贵的云端大模型 。这种分层架构既能降低成本，又能保证最终输出质量。有用户已经在实践中采用这种模式，用 Mastra 框架搭建了一套 TypeScript 代理集群，专门处理代码扫描、网络搜索、库查询等重复性任务，大幅减少了对 Opus 的依赖 。
+
+对于硬件厂商来说，这场变革意味着巨大的市场机会。随着模型效率提升和量化技术进步，消费级硬件运行大型模型的能力正在快速改善。一位用户预测，未来五年内，高端个人电脑和 GPU 将能够本地运行接近 SOTA 水平的模型，届时内存产量提升、消费者硬件升级和模型优化将形成正向循环，彻底改变当前依赖云端的 AI 使用模式 。  
+
+---
+
+  
+**总之：**
+
+阿里巴巴发布 Qwen3-Coder-Next，采用 800 亿总参数、30 亿激活参数的超高稀疏度 MoE 架构，原生支持 25.6 万 token 上下文，4-bit 量化后仅需 46GB 内存即可本地运行。模型在 SWE-Bench Pro 基准测试中表现接近顶级闭源模型，支持 OpenClaw、Claude Code 等主流编码工具，但社区实测显示其性能与 Claude Opus 4.5 仍有差距。Anthropic 对第三方客户端的限制政策引发开发者不满，加速了本地模型替代方案的探索。
+
+**URL Slug**
+
+**作者背景与独特性评价**
+
+本次讨论汇聚了 AI 基础设施领域的顶尖实践者。西蒙·威利森（Simon Willison）是 Django 框架的联合创始人，Datasette 项目的创建者，以其在数据新闻和开源工具方面的深厚造诣闻名，目前在 GitHub 拥有超过 3.7 万星标项目，是 AI 工具实用主义评估的权威声音 。丹尼尔·汉辰（Daniel Hanchen）是 Unsloth AI 的创始人，专注于大模型量化与推理优化，其团队发布的动态量化 GGUF 文件被社区广泛采用，在降低本地部署门槛方面做出了实质性贡献 。
+
+讨论的独特价值在于它超越了单纯的技术参数对比，深入探讨了 AI 基础设施的商业模式与开发者自主权之间的张力。社区成员不仅分享了从 M1 Mac 到 RTX 5090 的各类硬件实测数据，更对 Anthropic 的生态系统锁定策略进行了尖锐批判，提出了代理分层编排等前瞻性架构思路。这种将技术实现、商业策略和开源伦理融为一体的讨论，在当前的 AI 社区中具有较高的稀缺性。
+
+
+
+
+2
+
+
+* ![]()
+  
+  
+  [本地AI：Qwen3+Unsloth=2倍速+少70%显存](https://www.jdon.com/79173-unsloth.html)
+
+* ![]()
+  
+  
+  [Qwen3-8B：本地推理小钢炮](https://www.jdon.com/79186-bendi-AI.html)
+
+
+* ![]()
+  
+  
+  [阿里Qwen3暴打Claude3.7！代码实测封神](https://www.jdon.com/79201-Claude-biancheng.html)
+
+* ![]()
+  
+  
+  [苹果M3 Ultra对决：Qwen3完胜4大模型](https://www.jdon.com/79281-M3-Qwen3.html)
+
+
+
+
+
+
+
+
+
+
+
+* ![]()
+  
+  
+  [AI推翻自己才能构建真正具备发现能力的智能体科学体系](https://www.jdon.com/90346-break-world-discovery-machine.html)
+* ![]()
+  
+  
+  [Nature重磅炸弹：AI已经达到人类水平的通用智能（AGI）](https://www.jdon.com/90340-nature-agi-is-here-evidence-clear.html)
+* ![]()
+  
+  
+  [开源本地模型Qwen3-Coder-Next首次逼近 Claude Sonnet 4.5性能](https://www.jdon.com/90329-Qwen3-Coder-Next-Sonnet.html)
+* ![]()
+  
+  
+  [Kimi K2.5用三个反直觉的第一性掀翻AI训练常识](https://www.jdon.com/90290-kimi-k25-first-principles-early-fusion-zero-vision.html)
+* ![]()
+  
+  
+  [OpenClaw引爆递归革命：AI自产数据喂养，彻底击穿人类数据墙](https://www.jdon.com/90286-AI-Agent-Networks-Recursive-Training-OpenClaw.html)
+
+
+
+
+#### 本文话题：
+
+* [AI人工智能指南](https://www.jdon.com/tag/30661/)
+* [vibe编程](https://www.jdon.com/tag/98071/)
+* [DeepSeek时刻](https://www.jdon.com/tag/97174/)
+* [本地小语言模型](https://www.jdon.com/tag/89861/)
+
+
+
+* ![]()
+  
+  #### [什么是Context上下文？](https://www.jdon.com/69062-shenmeshiCon.html)
+* ![]()
+  
+  #### [抽象两种方法：上下文与类型](https://www.jdon.com/69903-chouxiangliangzhongfangfa.html)
+* ![]()
+  
+  #### [Content与Context一字之差暗藏逆天极道](https://www.jdon.com/76821-shangxiawengongcheng.html)
+* ![]()
+  
+  #### [语境崩塌：你的注意力正被劫持](https://www.jdon.com/79419-yujing-zhuyili.html)
+* ![]()
+  
+  #### [Context逻辑之道](https://www.jdon.com/design.htm)
+
+
+
+
+
+
+
+
+
+### Jdon.com
+
+
+极道：极客之道
+
+
+
+
+* [关注极道](https://www.jdon.com/followus.html)
+* [关于极道](https://www.jdon.com/aboutsite.htm)
+
+
+
+
+
+[沪ICP备12033263号-1](https://beian.miit.gov.cn/) 本系统软件来自[开源JiveJdon](https://github.com/banq/jivejdon)
+
+
+
+
+

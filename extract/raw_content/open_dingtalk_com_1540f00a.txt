@@ -1,0 +1,191 @@
+# Source URL: https://open.dingtalk.com/document/dingstart/install-openclaw-locally
+# Content Length: 8437 characters
+# Extracted at: 2026-03-08 22:31:49
+#============================================================
+
+本地安装OpenClaw - 钉钉开放平台
+![](https://gw.alicdn.com/imgextra/i1/O1CN01Flkd9L28UHshAeykK\_!!6000000007935-2-tps-360-62.png)
+开放能力
+应用中心
+开发者文档
+开发助手![](https://gw.alicdn.com/imgextra/i1/O1CN01bmmsFS1K1gNjbWTrC\_!!6000000001104-2-tps-144-48.png)
+开发者后台
+[登录](https://login.dingtalk.com/oauth2/auth?redirect\_uri=https%3A%2F%2Fopen.dingtalk.com%2Fdingtalk\_sso\_call\_back%3Fcontinue%3Dhttps%3A%2F%2Fopen.dingtalk.com%2Fdocument%2Fdingstart%2Finstall-openclaw-locally&response\_type=code&client\_id=dingbakuoyxavyp5ruxw&scope=openid+corpid)
+官方文档
+·
+应用开发
+新手指南
+服务端API
+客户端JSAPI
+事件订阅
+工具与资源
+平台服务
+更新日志
+模块总览
+平台简介
+开发流程
+开发小程序应用
+开发网页应用
+开发酷应用
+开发机器人应用
+Webhook 机器人
+移动客户端接入
+实践教程
+身份验证（免登）
+文档/文件
+机器人
+互动卡片
+连接平台
+OpenClaw
+快速上手：从零构建钉钉AI员工
+深度集成：OpenClaw调用钉钉MCP
+OpenClaw常用部署方式
+阿里云ECS服务器部署
+阿里云轻量服务器部署
+本地安装OpenClaw
+# 本地安装OpenClaw
+更新于 2026-03-05
+## \*\*前提条件\*\*
+\* 已经完成了钉钉应用和机器人的创建与发布。
+\* 已经添加了`Card.Streaming.Write`、`Card.Instance.Write`和`qyapi\_robot\_sendmsg`权限点，如何添加请参考[添加接口调用权限](/document/development/add-api-permission#)。
+\* 已经获取了钉钉应用的Client ID和Client Secret，用于后续使用。
+\* 已经安装了[Node.js](https://nodejs.org/en/download)，并完成了相关[环境的配置](https://m.runoob.com/nodejs/nodejs-install-setup.html)，版本最低v22.22.0。
+\* 已经正确安装了[Git](https://git-scm.com/book/zh/v2/%E8%B5%B7%E6%AD%A5-%E5%AE%89%E8%A3%85-Git)工具
+如果你不想安装，可以直接使用阿里云的[Openclaw 一键部署 (原 Clawdbot)](https://www.aliyun.com/activity/ecs/clawdbot?userCode=oq2t54oi)，部署之后可以直接跳到[对接钉钉](https://developer.aliyun.com/article/1709772#%E5%AF%B9%E6%8E%A5%E9%92%89%E9%92%89)。
+\*\*重要\*\*
+在本地安装OpenClaw部署方式，仅支持MAC系统安装，暂不支持WIndows系统。
+## \*\*步骤一：安装 OpenClaw\*\*
+### \*\*安装\*\*\*\*服务\*\*
+1. 使用官方脚本安装：
+Loading...
+服务器在国内，如果安装失败的话，可能需要解决网络问题。
+其他平台安装方式请参考[Openclaw 安装文档 (原 Clawdbot)](https://docs.openclaw.ai/install)。
+执行上面脚本后，你会看到如下图输出：
+\*\*说明\*\*
+如果是首次安装，时间会很长，请耐心等待。
+![](https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/1474622771/p1055526.webp)
+如果最后输出如下内容：
+Loading...
+\*\*重要\*\*
+新的脚本服务器内存要求比较高，如果出错的话，建议使用 `swap` 把硬盘空间当作交互内存使用。
+成功之后，输出如下图片：
+![](https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/1474622771/p1055527.png)
+2. 第一个选项选择 `yes`，就是询问是否知道风险。
+3. 第二步选择 `QuickStart`。
+![](https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/1474622771/p1055528.png)
+4. 第三步选择模型服务商，选择 `Qwen`，免费额度充足，适合入门使用。
+![](https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/1474622771/p1055529.png)
+5. 选择千问模型后，会提供一个链接，复制并在浏览器中打开，如下图：
+![](https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/1474622771/p1055530.png)
+打开浏览器后，会看到如下界面。由于我已登录过，所以显示账户信息；如果尚未登录，按照提示完成登录即可。
+![](https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/1474622771/p1055531.png)
+6. 登录完成后，会出现以下选项，提示选择对应的千问模型，如下图：
+![](https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/1474622771/p1055532.png)
+7. 选择默认模型即可。接下来会提示选择 channel，可以先选择`Skip for now`，后续再添加。
+![](https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/3658162771/p1056753.png)
+8. 选择 skills，选择 `No`，如下图：
+![](https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/1474622771/p1055536.png)
+9. 继续下面选择 hooks，使用`空格`选择 `Skip for now`，如下图：
+![](https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/1474622771/p1055537.png)
+10. 等待安装完成，最后出现以下选项，这里选择 `TUI`：
+![](https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/1474622771/p1055538.webp)
+如果看到 TUI聊天界面，说明安装成功，可以尝试输入`Hello` 进行测试。
+![](https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/1474622771/p1055539.png)
+11. 然后使用 `ctrl+c` 先关闭，后续可以再设置。
+### \*\*查看服务\*\*
+使用下方命令查看：
+Loading...
+服务启动成功后，如下图所示：
+![](https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/1474622771/p1055540.png)
+### \*\*访问 Web UI 面板\*\*
+在浏览器打开 `http://127.0.0.1:18789/`, 你会看到 Dashboard 了，如下图：
+![](https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/1474622771/p1055541.png)
+图中显示的是未授权状态，回到服务器，输入以下命令：
+Loading...
+执行后，会看到下方的面板数据：
+![](https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/1474622771/p1055542.png)
+复制对应的 `Dashboard URL` 到浏览器打开，即可正常查看聊天记录。
+![](https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/1474622771/p1055544.png)
+恭喜你，至此 Openclaw (原 Clawdbot) 已安装完成，可以正常访问了。
+聊天框里面首次输入`Hello`, `Clawdbot`会询问你他应该叫什么，应该叫你什么。就是你需要给它设置名字，还有 bot该叫你什么。此时可以在聊天框中输入以下内容：
+Loading...
+## \*\*步骤二：OpenClaw和钉钉机器人打通\*\*
+### \*\*安装钉钉插件\*\*
+首先安装钉钉官方插件，输入以下命令直接运行 OpenClaw 插件安装命令，OpenClaw 会自动处理下载、安装依赖和注册。
+\*\*说明\*\*
+时间有可能比较久，请耐心等待即可。
+Loading...
+效果如下图所示：
+![](https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/1474622771/p1055546.png)
+### \*\*在\*\* OpenClaw \*\*中添加钉钉配置\*\*
+#### \*\*方式一：\*\*在 `~/.openclaw/openclaw.json` 中添加配置
+完成上方步骤后，你需要在`~/.openclaw/openclaw.json` 文件中添加`channels/dingtalk-connector`、`gateway/auth` 和 `gateway/http/endpoints`3 个配置项属性：
+\*\*说明\*\*
+下方已省略其他配置项，只提供了核心配置项及需要配置钉钉的相关属性内容。
+执行 `vim ~/.openclaw/openclaw.json`进入文件编辑：
+Loading...
+#### \*\*方式二：本地AI工具自动配置\*\*
+通过本地的AI工具（本示例以Qoder IDE为例），帮助完成配置。在Qoder IDE中输入下方文本内容：
+\*我现在想使用openclaw对接钉钉，请按照我下方的json配置和注释，在我的~/.openclaw/openclaw.json 中添加下方“channels/dingtalk-connector、gateway/auth 和 gateway/http/endpoints”3 个配置属性，不要改动其他属性。并最后帮我展示整个openclaw.json文件，让我可以人工修改查验相关内容。相关json配置和注释如下：\*`... ... 这是一处 json 数据占位。需要提前修改方式一中的 json 配置信息，修改clientId和clientSecret后，复制放到这里 ... ...`\*。\*
+案例如下图所示：
+![](https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/3658162771/p1056780.png)
+工具执行效果如下：
+![](https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/3658162771/p1056781.png)
+#### \*\*重启 Gateway\*\*
+执行以下命令：
+Loading...
+重启需等待一段时间，直至出现“Restarted LaunchAgent: gui/502/ai.openclaw.gateway”提示，如下图所示：
+![](https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/1474622771/p1055553.png)
+验证：
+Loading...
+## \*\*常见问题\*\*
+### \*\*Q: 出现 405 错误\*\*
+![](https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/1474622771/p1055554.png)
+需要在 `~/.openclaw/openclaw.json` 中启用 chatCompletions 端点：
+Loading...
+mac 电脑上执行`vim ~/.openclaw/openclaw.json`，进行修改。修改完成后，执行 openclaw gateway restart
+### \*\*Q: 出现 401 错误\*\*
+![](https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/1474622771/p1055555.png)
+检查 `~/.openclaw/openclaw.json` 中的gateway.auth鉴权的 token/password 是否正确：
+![](https://help-static-aliyun-doc.aliyuncs.com/assets/img/zh-CN/1474622771/p1055557.png)
+### \*\*Q: 钉钉机器人无响应\*\*
+\* 确认 Gateway 正在运行：`curl http://127.0.0.1:18789/health`
+\* 确认机器人配置为 \*\*Stream 模式\*\*（非 Webhook）
+\* 确认 AppKey/AppSecret 正确
+### \*\*Q: AI Card 不显示，只有纯文本\*\*
+需要开通权限 `Card.Streaming.Write` 和 `Card.Instance.Write`，并重新发布应用。
+### \*\*Q: 升级后出现插件加载异常或配置不生效\*\*
+由于官方两次更名（Clawdbot → Moltbot → OpenClaw），旧版本（0.4.0 以下）的 connector 插件可能与新版本不兼容。建议按以下步骤处理：
+1. 先检查 `~/.openclaw/openclaw.json`（或旧版的 `~/.clawdbot/clawdbot.json`、`~/.moltbot/moltbot.json`），如果其中存在 dingtalk 相关的 JSON 节点（如 `channels.dingtalk`、`plugins.entries.dingtalk` 等），请将这些节点全部删除。
+2. 然后清除旧插件并重新安装：
+Loading...
+### \*\*Q: 图片不显示\*\*
+1. 确认 `enableMediaUpload: true`（默认开启）
+2. 检查日志 `[DingTalk][Media]` 相关输出
+3. 确认钉钉应用有图片上传权限
+遇到其他问题？问问![](https://gw.alicdn.com/imgextra/i2/O1CN01IRtISO1hvJeLvBwMi\_!!6000000004339-2-tps-72-72.png)钉钉开发助手
+如何配置钉钉开放平台应用连接？![](https://gw.alicdn.com/imgextra/i2/O1CN01heMpEw1cG1rq4mpE8\_!!6000000003572-2-tps-48-48.png)
+调用钉钉开放平台API所需的必要权限有哪些？![](https://gw.alicdn.com/imgextra/i2/O1CN01heMpEw1cG1rq4mpE8\_!!6000000003572-2-tps-48-48.png)
+调用钉钉API返回401错误的常见原因及解决方法？![](https://gw.alicdn.com/imgextra/i2/O1CN01heMpEw1cG1rq4mpE8\_!!6000000003572-2-tps-48-48.png)
+AI Card在钉钉客户端中不显示的排查与解决方法？![](https://gw.alicdn.com/imgextra/i2/O1CN01heMpEw1cG1rq4mpE8\_!!6000000003572-2-tps-48-48.png)
+[下一篇：模块总览](/document/dingstart/start-overview)
+这篇文档是否有帮助？
+![](https://img.alicdn.com/imgextra/i4/O1CN014sXZxT1kdr5BtyQXq\_!!6000000004707-2-tps-240-250.png)
+![](https://img.alicdn.com/imgextra/i4/O1CN01hqC5di1MA2WHvoWnN\_!!6000000001393-2-tps-250-240.png)
+![](https://img.alicdn.com/imgextra/i1/O1CN01gp5aYi1REgcDCViRe\_!!6000000002080-2-tps-240-240.png)
+![](https://img.alicdn.com/imgextra/i2/O1CN01pnOtzm23ekYYAqDcX\_!!6000000007281-2-tps-240-240.png)
+![](https://img.alicdn.com/imgextra/i3/O1CN01SiDq4V23xWnD7kMWq\_!!6000000007322-2-tps-240-240.png)
+本页内容
+[前提条件](#c8c9abc0883qw)
+[步骤一：安装 OpenClaw](#a072b8125eaxv)
+[步骤二：OpenClaw和钉钉机器人打通](#938506c3c0ufy)
+[常见问题](#8b77e32aa926h)
+![](https://gw.alicdn.com/imgextra/i2/O1CN01oWGgE51qji9lhaeEf\_!!6000000005532-2-tps-632-254.png)
+鼠标选中内容，AI智能解释
+选中存在疑惑的内容，即可快速唤起AI解释反馈
+好的，知道了
+![](https://gw.alicdn.com/imgextra/i2/O1CN01IRtISO1hvJeLvBwMi\_!!6000000004339-2-tps-72-72.png)
+开发助手
+钉钉开发助手
+![](https://gw.alicdn.com/imgextra/i2/O1CN01dsAxnc28DLFNCEhSc\_!!6000000007898-2-tps-72-65.png)智能解释
+![](https://gw.alicdn.com/imgextra/i2/O1CN017aGvLG1Wz14jbPaMX\_!!6000000002858-2-tps-48-48.png)文档纠错

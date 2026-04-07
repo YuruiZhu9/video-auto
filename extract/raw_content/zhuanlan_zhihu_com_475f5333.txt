@@ -1,0 +1,108 @@
+# Source URL: https://zhuanlan.zhihu.com/p/1889796359344857240
+# Content Length: 6596 characters
+# Extracted at: 2026-03-27 21:27:18
+#============================================================
+
+![](https://zhuanlan.zhihu.com/p/1889796359344857240)
+![字节跳动 MegaTTS3 开源：0.45B 参数实现高质量中英双语 TTS 与语音克隆](https://pic1.zhimg.com/v2-6ce823886ff837f2e0f8f4b0cbe2428f\_720w.jpg?source=172ae18b)
+### \*\*导语\*\*
+在人工智能的浪潮中，文本转语音（Text-to-Speech, TTS）技术正以前所未有的速度发展，让机器拥有自然、富有表现力的声音不再是遥不可及的梦想。近日，来自字节跳动（ByteDance）的研究团队为开源社区带来了一份重磅礼物—— \*\*MegaTTS3\*\*。这款模型凭借其仅 \*\*0.45B\*\* 的参数量，不仅实现了高质量的中英双语语音合成，更在语音克隆方面展现出惊人潜力。本文将带你深入了解 MegaTTS3 的技术亮点、核心优势。
+### \*\*AI快站下载\*\*
+模型仓库： \*\*[https://aifasthub.com/ByteDance/MegaTTS3](https://link.zhihu.com/?target=https%3A//aifasthub.com/ByteDance/MegaTTS3)\*\*
+### \*\*什么是 MegaTTS3？\*\*
+MegaTTS3 是字节跳动最新研发并开源的新一代文本转语音模型。它的核心目标是生成高度自然、富有情感并且与目标说话人音色高度相似的语音。
+与许多大型模型不同，MegaTTS3 在追求高质量的同时，也注重模型的效率和轻量化。其主要特点包括：
+- \*\*高质量语音合成:\*\* 旨在生成清晰、自然、韵律丰富的语音。
+- \*\*中英双语支持:\*\* 无缝支持中文和英文的文本输入，甚至能在同一段语音中实现自然的代码切换（Code-Switching）。
+- \*\*高质量语音克隆:\*\* 能够学习并模仿目标说话人的独特音色，实现个性化语音合成。
+- \*\*轻量级架构:\*\* 其核心 TTS Diffusion Transformer 主干网络参数量仅为 0.45B，相对高效。
+- \*\*可控性:\*\* 支持对部分语音属性进行控制，如口音强度等。
+### \*\*深入核心：MegaTTS3 的技术架构\*\*
+MegaTTS3 的强大能力源于其先进的模型架构设计，主要融合了两大关键技术：
+1. 1\. \*\*TTS Diffusion Transformer:\*\*
+- 这是模型的核心驱动力，负责将文本信息逐步转换为精细的声学特征。Diffusion 模型近年来在图像生成等领域大放异彩，其原理是通过一个逐步去噪的过程，从随机噪声中迭代地生成目标数据。
+- MegaTTS3 采用 Transformer 架构作为 Diffusion 模型的主干，有效捕捉文本序列的长距离依赖关系，并将其精准地映射到语音的韵律和声学细节上。
+- \*\*关键数据:\*\* 该 Transformer 主干网络的参数量仅为 \*\*0.45B\*\*，体现了其轻量化设计的思路。
+2\. \*\*WaveVAE 声码器:\*\*
+- 为了实现高质量的音频波形重建，MegaTTS3 采用了强大的 WaveVAE 声码器。这是一种基于变分自编码器（VAE）的波形编码和解码技术。
+- \*\*关键数据:\*\* WaveVAE 能够将 24kHz 的高保真语音信号，高效地压缩成 \*\*25Hz\*\* 的低维声学潜码（latent codes），并在解码时几乎无损地重建原始语音波形。这种高压缩率和高保真度是实现高效、高质量语音合成和克隆的关键。
+- 这种架构可能借鉴了其前代 MegaTTS 系列模型的思想，即将语音分解为内容、音色、韵律等不同属性，进行解耦和精细建模。
+### \*\*核心功能亮点解析\*\*
+1. 1\. 高质量语音克隆 (Voice Cloning)
+这是 MegaTTS3 最受关注的功能之一。理论上，通过学习目标说话人的一小段音频，模型就能生成具有该说话人独特音色的语音。
+- \*\*效果:\*\* 目标是实现极高的音色相似度和自然度。
+- \*\*当前状态与限制:\*\* 需要注意的是，根据官方发布的信息，目前开源的版本 \*\*并未包含 WaveVAE 编码器的参数\*\*。这意味着用户 \*\*无法直接在本地使用任意音频进行即时的语音克隆\*\*。要进行克隆，用户需要使用官方预先提取好的声学潜码，或者将自己的音频上传至指定位置（如 [Hugging Face Space Demo](https://zhida.zhihu.com/search?content\_id=255774741&content\_type=Article&match\_order=1&q=Hugging+Face+Space+Demo&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ3OTA4MzQsInEiOiJIdWdnaW5nIEZhY2UgU3BhY2UgRGVtbyIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI1NTc3NDc0MSwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.nFtdoSAHD1erUPRhRpdxH68ky-ElFsZyv1y4Et5O548&zhida\_source=entity) 或 [Colab](https://zhida.zhihu.com/search?content\_id=255774741&content\_type=Article&match\_order=1&q=Colab&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ3OTA4MzQsInEiOiJDb2xhYiIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI1NTc3NDc0MSwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.Z3JhNRBQSgHN6uGA74rLRQ20AB39weSHuRwmBkKX8w0&zhida\_source=entity)）由官方处理后获取潜码 。虽然这保证了技术的合规使用并可能出于安全考虑，但也给本地化部署和即时克隆带来了一定的不便。
+- \*\*所需数据:\*\* MegaTTS 系列的前代研究（如 MegaTTS 2）提到可能仅需数秒音频即可进行克隆，但具体到 MegaTTS3 的最佳实践和效果，还需根据官方文档和社区反馈进一步验证。
+![](https://pica.zhimg.com/v2-f040b5f50e011ca96d544242360ce818\_1440w.jpg)
+1. 2\. 流畅的中英双语与代码切换
+MegaTTS3 对中文和英文的支持都非常出色，并且能够处理包含两种语言的混合文本输入（代码切换），生成流畅自然的双语语音，这对于多语言交流场景和内容创作非常有价值。
+1. 3\. 轻量高效
+0.45B 参数量的 TTS Diffusion Transformer 主干，相较于动辄数十亿甚至更大的模型，MegaTTS3 在保持高质量输出的同时，对计算资源的需求相对更友好，降低了部署和使用的门槛。
+1. 4\. 可控的语音合成
+模型目前支持 \*\*口音强度控制\*\*，让用户可以调整合成语音的口音特点。官方表示，未来计划加入更细粒度的控制能力，例如发音和时长的调整，这将进一步提升模型的实用性和灵活性。
+### \*\*性能表现如何？\*\*
+虽然目前公开的针对 MegaTTS3 本身的详细 MOS（Mean Opinion Score）评测数据还不多，但我们可以从其前代模型的表现和相关研究中窥见其潜力：
+- MegaTTS 和 MegaTTS 2 在相关论文中，其语音质量（MOS-Q）和说话人相似度（MOS-S）指标均表现出与当时顶尖模型（如 NaturalSpeech 2, [Voicebox](https://zhida.zhihu.com/search?content\_id=255774741&content\_type=Article&match\_order=1&q=Voicebox&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ3OTA4MzQsInEiOiJWb2ljZWJveCIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI1NTc3NDc0MSwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.v\_C7RGyxb4rWXmhQ\_j\_4h-XLd5k8bdBGSa1Ro30t3T8&zhida\_source=entity)）相媲美甚至超越的性能 。
+- [FVTTS](https://zhida.zhihu.com/search?content\_id=255774741&content\_type=Article&match\_order=1&q=FVTTS&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ3OTA4MzQsInEiOiJGVlRUUyIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI1NTc3NDc0MSwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.GrTqNrLTfemk6OObx\_WsQCxenMNoyLP7JdVrCZeMRng&zhida\_source=entity) 等研究也将 MegaTTS 系列视为 SOTA (State-of-the-Art) 模型进行比较。
+可以合理预期，作为升级版的 MegaTTS3，在语音自然度、清晰度、韵律表现以及音色相似度方面，将达到业界领先水平。
+![](https://pic4.zhimg.com/v2-fe049dc5ee1f3d5f013d2e84cc5ceac3\_1440w.jpg)
+### \*\*应用场景与未来展望\*\*
+高质量、可控且支持语音克隆的 TTS 技术拥有广阔的应用前景：
+- \*\*个性化虚拟助手:\*\* 打造具有独特声音、更具亲和力的 AI 助手。
+- \*\*有声读物与内容创作:\*\* 自动化生成高质量的有声读物、播客、视频配音。
+- \*\*数字人与元宇宙:\*\* 为虚拟形象赋予逼真的声音。
+- \*\*教育与培训:\*\* 创建定制化的教学语音材料。
+- \*\*辅助功能:\*\* 为视障人士提供更自然的信息播报。
+MegaTTS3 的开源，无疑将加速这些应用的落地。随着技术的持续迭代和社区的共同建设，我们期待 MegaTTS3 未来能带来更多惊喜，例如更便捷的零样本克隆能力、更丰富的情感和风格控制等。
+### \*\*结语\*\*
+MegaTTS3 以其轻量高效的架构、出色的中英双语能力和备受瞩目的语音克隆技术，成为了开源 TTS 领域一颗闪亮的新星。字节跳动将其开源，不仅展示了其在语音技术上的深厚积累，也为整个 AI 社区的发展贡献了宝贵资源。如果你对前沿的语音合成技术感兴趣，不妨立刻前往 Hugging Face 或 GitHub，亲自探索 MegaTTS3 的魅力吧！
+### \*\*AI快站下载:\*\*
+模型仓库： \*\*[https://aifasthub.com/ByteDance/MegaTTS3](https://link.zhihu.com/?target=https%3A//aifasthub.com/ByteDance/MegaTTS3)\*\*
+发布于 2025-03-30 20:35・北京
+[克隆](https://www.zhihu.com/topic/19566711)
+[语音克隆](https://www.zhihu.com/topic/29162593)
+[AI语音克隆](https://www.zhihu.com/topic/928105338)
+​赞同​​添加评论​5 ​喜欢
+​分享
+​申请转载​
+​
+暂无评论
+关于作者
+[![努力犯错玩AI](https://pic1.zhimg.com/v2-b2781095f7fb4da640813fcf58413296\_l.jpg?source=172ae18b)](https://www.zhihu.com/people/yan-ming-58)
+[努力犯错玩AI](https://www.zhihu.com/people/yan-ming-58)
+AI Infra从业者，研究各种开源模型，混迹各大互联网公司
+[​](https://zhuanlan.zhihu.com/p/96956163)
+白俄罗斯格洛德诺杨克库帕尔国立大学 经济学硕士
+[回答](https://www.zhihu.com/people/yan-ming-58/answers) [文章](https://www.zhihu.com/people/yan-ming-58/posts) [关注者](https://www.zhihu.com/people/yan-ming-58/followers)
+​关注他​发私信
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码

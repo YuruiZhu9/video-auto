@@ -1,0 +1,370 @@
+# Source URL: https://papers.cool/arxiv/cs.LG
+# Content Length: 59361 characters
+# Extracted at: 2026-04-03 11:40:51
+#============================================================
+
+Loading \[MathJax\]/jax/element/mml/optable/GreekAndCoptic.js
+# Machine Learning
+2026-03-11 \|
+\|
+Total: 152
+## [\#1](https://arxiv.org/abs/2603.09974 "1/152") [Task Aware Modulation Using Representation Learning for Upsaling of Terrestrial Carbon Fluxes](https://papers.cool/arxiv/2603.09974)\[PDF2\]\[Copy\]\[Kimi4\]\[REL\]
+\*\*Authors\*\*:
+[Aleksei Rozanov](https://arxiv.org/search/?searchtype=author&query=Aleksei%20Rozanov),
+[Arvind Renganathan](https://arxiv.org/search/?searchtype=author&query=Arvind%20Renganathan),
+[Vipin Kumar](https://arxiv.org/search/?searchtype=author&query=Vipin%20Kumar)
+Accurately upscaling terrestrial carbon fluxes is central to estimating the global carbon budget, yet remains challenging due to the sparse and regionally biased distribution of ground measurements. Existing data-driven upscaling products often fail to generalize beyond observed domains, leading to systematic regional biases and high predictive uncertainty. We introduce Task-Aware Modulation with Representation Learning (TAM-RL), a framework that couples spatio-temporal representation learning with knowledge-guided encoder-decoder architecture and loss function derived from the carbon balance equation. Across 150+ flux tower sites representing diverse biomes and climate regimes, TAM-RL improves predictive performance relative to existing state-of-the-art datasets, reducing RMSE by 8-9.6% and increasing explained variance (R2) from 19.4% to 43.8%, depending on the target flux. These results demonstrate that integrating physically grounded constraints with adaptive representation learning can substantially enhance the robustness and transferability of global carbon flux estimates.
+\*\*Subjects\*\*:
+[Machine Learning](https://papers.cool/arxiv/cs.LG),
+[Atmospheric and Oceanic Physics](https://papers.cool/arxiv/physics.ao-ph)
+\*\*Publish\*\*: 2026-03-10 17:59:29 UTC
+\* \* \*
+## [\#2](https://arxiv.org/abs/2603.09972 "2/152") [From Data Statistics to Feature Geometry: How Correlations Shape Superposition](https://papers.cool/arxiv/2603.09972)\[PDF3\]\[Copy\]\[Kimi1\]\[REL\]
+\*\*Authors\*\*:
+[Lucas Prieto](https://arxiv.org/search/?searchtype=author&query=Lucas%20Prieto),
+[Edward Stevinson](https://arxiv.org/search/?searchtype=author&query=Edward%20Stevinson),
+[Melih Barsbey](https://arxiv.org/search/?searchtype=author&query=Melih%20Barsbey),
+[Tolga Birdal](https://arxiv.org/search/?searchtype=author&query=Tolga%20Birdal),
+[Pedro A. M. Mediano](https://arxiv.org/search/?searchtype=author&query=Pedro%20A.%20M.%20Mediano)
+A central idea in mechanistic interpretability is that neural networks represent more features than they have dimensions, arranging them in superposition to form an over-complete basis. This framing has been influential, motivating dictionary learning approaches such as sparse autoencoders. However, superposition has mostly been studied in idealized settings where features are sparse and uncorrelated. In these settings, superposition is typically understood as introducing interference that must be minimized geometrically and filtered out by non-linearities such as ReLUs, yielding local structures like regular polytopes. We show that this account is incomplete for realistic data by introducing Bag-of-Words Superposition (BOWS), a controlled setting to encode binary bag-of-words representations of internet text in superposition. Using BOWS, we find that when features are correlated, interference can be constructive rather than just noise to be filtered out. This is achieved by arranging features according to their co-activation patterns, making interference between active features constructive, while still using ReLUs to avoid false positives. We show that this kind of arrangement is more prevalent in models trained with weight decay and naturally gives rise to semantic clusters and cyclical structures which have been observed in real language models yet were not explained by the standard picture of superposition. Code for this paper can be found at https://github.com/LucasPrietoAl/correlations-feature-geometry.
+\*\*Subjects\*\*:
+[Machine Learning](https://papers.cool/arxiv/cs.LG),
+[Artificial Intelligence](https://papers.cool/arxiv/cs.AI),
+[Computer Vision and Pattern Recognition](https://papers.cool/arxiv/cs.CV)
+\*\*Publish\*\*: 2026-03-10 17:59:02 UTC
+\* \* \*
+## [\#3](https://arxiv.org/abs/2603.09952 "3/152") [On the Width Scaling of Neural Optimizers Under Matrix Operator Norms I: Row/Column Normalization and Hyperparameter Transfer](https://papers.cool/arxiv/2603.09952)\[PDF11\]\[Copy\]\[Kimi7\]\[REL\]
+\*\*Authors\*\*:
+[Ruihan Xu](https://arxiv.org/search/?searchtype=author&query=Ruihan%20Xu),
+[Jiajin Li](https://arxiv.org/search/?searchtype=author&query=Jiajin%20Li),
+[Yiping Lu](https://arxiv.org/search/?searchtype=author&query=Yiping%20Lu)
+A central question in modern deep learning is how to design optimizers whose behavior remains stable as the network width w increases. We address this question by interpreting several widely used neural-network optimizers, including \\textrm{AdamW} and \\textrm{Muon}, as instances of steepest descent under matrix operator norms. This perspective links optimizer geometry with the Lipschitz structure of the network forward map, and enables width-independent control of both Lipschitz and smoothness constants. However, steepest-descent rules induced by standard p→q operator norms lack layerwise composability and therefore cannot provide width-independent bounds in deep architectures. We overcome this limitation by introducing a family of mean-normalized operator norms, denoted \\pmean→\\qmean, that admit layerwise composability, yield width-independent smoothness bounds, and give rise to practical optimizers such as \\emph{rescaled} \\textrm{AdamW}, row normalization, and column normalization. The resulting learning rate width-aware scaling rules recover μP scaling~\\cite{yang2021tensor} as a special case and provide a principled mechanism for cross-width learning-rate transfer across a broad class of optimizers. We further show that \\textrm{Muon} can suffer an \\mathcal{O}(\\sqrt{w}) worst-case growth in the smoothness constant, whereas a new family of row-normalized optimizers we propose achieves width-independent smoothness guarantees. Based on the observations, we propose MOGA (Matrix Operator Geometry Aware), a width-aware optimizer based only on row/column-wise normalization that enables stable learning-rate transfer across model widths. Large-scale pre-training on GPT-2 and LLaMA shows that MOGA, especially with row normalization, is competitive with Muon while being notably faster in large-token and low-loss regimes.
+\*\*Subjects\*\*:
+[Machine Learning](https://papers.cool/arxiv/cs.LG),
+[Systems and Control](https://papers.cool/arxiv/eess.SY),
+[Numerical Analysis](https://papers.cool/arxiv/math.NA),
+[Optimization and Control](https://papers.cool/arxiv/math.OC),
+[Machine Learning](https://papers.cool/arxiv/stat.ML)
+\*\*Publish\*\*: 2026-03-10 17:49:19 UTC
+\* \* \*
+## [\#4](https://arxiv.org/abs/2603.09951 "4/152") [Towards a Neural Debugger for Python](https://papers.cool/arxiv/2603.09951)\[PDF1\]\[Copy\]\[Kimi6\]\[REL\]
+\*\*Authors\*\*:
+[Maximilian Beck](https://arxiv.org/search/?searchtype=author&query=Maximilian%20Beck),
+[Jonas Gehring](https://arxiv.org/search/?searchtype=author&query=Jonas%20Gehring),
+[Jannik Kossen](https://arxiv.org/search/?searchtype=author&query=Jannik%20Kossen),
+[Gabriel Synnaeve](https://arxiv.org/search/?searchtype=author&query=Gabriel%20Synnaeve)
+Training large language models (LLMs) on Python execution traces grounds them in code execution and enables the line-by-line execution prediction of whole Python programs, effectively turning them into neural interpreters (FAIR CodeGen Team et al., 2025). However, developers rarely execute programs step by step; instead, they use debuggers to stop execution at certain breakpoints and step through relevant portions only while inspecting or modifying program variables. Existing neural interpreter approaches lack such interactive control. To address this limitation, we introduce neural debuggers: language models that emulate traditional debuggers, supporting operations such as stepping into, over, or out of functions, as well as setting breakpoints at specific source lines. We show that neural debuggers -- obtained via fine-tuning large LLMs or pre-training smaller models from scratch -- can reliably model both forward execution (predicting future states and outputs) and inverse execution (inferring prior states or inputs) conditioned on debugger actions. Evaluated on CruxEval, our models achieve strong performance on both output and input prediction tasks, demonstrating robust conditional execution modeling. Our work takes first steps towards future agentic coding systems in which neural debuggers serve as a world model for simulated debugging environments, providing execution feedback or enabling agents to interact with real debugging tools. This capability lays the foundation for more powerful code generation, program understanding, and automated debugging.
+\*\*Subjects\*\*:
+[Machine Learning](https://papers.cool/arxiv/cs.LG),
+[Artificial Intelligence](https://papers.cool/arxiv/cs.AI),
+[Software Engineering](https://papers.cool/arxiv/cs.SE)
+\*\*Publish\*\*: 2026-03-10 17:47:05 UTC
+\* \* \*
+## [\#5](https://arxiv.org/abs/2603.09950 "5/152") [When Learning Rates Go Wrong: Early Structural Signals in PPO Actor-Critic](https://papers.cool/arxiv/2603.09950)\[PDF\]\[Copy\]\[Kimi\]\[REL\]
+\*\*Authors\*\*:
+[Alberto Fernández-Hernández](https://arxiv.org/search/?searchtype=author&query=Alberto%20Fern%C3%A1ndez-Hern%C3%A1ndez),
+[Cristian Pérez-Corral](https://arxiv.org/search/?searchtype=author&query=Cristian%20P%C3%A9rez-Corral),
+[Jose I. Mestre](https://arxiv.org/search/?searchtype=author&query=Jose%20I.%20Mestre),
+[Manuel F. Dolz](https://arxiv.org/search/?searchtype=author&query=Manuel%20F.%20Dolz),
+[Jose Duato](https://arxiv.org/search/?searchtype=author&query=Jose%20Duato),
+[Enrique S. Quintana-Ortí](https://arxiv.org/search/?searchtype=author&query=Enrique%20S.%20Quintana-Ort%C3%AD)
+Deep Reinforcement Learning systems are highly sensitive to the learning rate (LR), and selecting stable and performant training runs often requires extensive hyperparameter search. In Proximal Policy Optimization (PPO) actor--critic methods, small LR values lead to slow convergence, whereas large LR values may induce instability or collapse. We analyse this phenomenon from the behavior of the hidden neurons in the network using the Overfitting-Underfitting Indicator (OUI), a metric that quantifies the balance of binary activation patterns over a fixed probe batch. We introduce an efficient batch-based formulation of OUI and derive a theoretical connection between LR and activation sign changes, clarifying how a correct evolution of the neuron's inner structure depends on the step size. Empirically, across three discrete-control environments and multiple seeds, we show that OUI measured at only 10\\% of training already discriminates between LR regimes. We observe a consistent asymmetry: critic networks achieving highest return operate in an intermediate OUI band (avoiding saturation), whereas actor networks achieving highest return exhibit comparatively high OUI values. We then compare OUI-based screening rules against early return, clip-based, divergence-based, and flip-based criteria under matched recall over successful runs. In this setting, OUI provides the strongest early screening signal: OUI alone achieves the best precision at broader recall, while combining early return with OUI yields the highest precision in best-performing screening regimes, enabling aggressive pruning of unpromising runs without requiring full training.
+\*\*Subjects\*\*:
+[Machine Learning](https://papers.cool/arxiv/cs.LG),
+[Artificial Intelligence](https://papers.cool/arxiv/cs.AI)
+\*\*Publish\*\*: 2026-03-10 17:46:31 UTC
+\* \* \*
+## [\#6](https://arxiv.org/abs/2603.09940 "6/152") [SignalMC-MED: A Multimodal Benchmark for Evaluating Biosignal Foundation Models on Single-Lead ECG and PPG](https://papers.cool/arxiv/2603.09940)\[PDF\]\[Copy\]\[Kimi\]\[REL\]
+\*\*Authors\*\*:
+[Fredrik K. Gustafsson](https://arxiv.org/search/?searchtype=author&query=Fredrik%20K.%20Gustafsson),
+[Xiao Gu](https://arxiv.org/search/?searchtype=author&query=Xiao%20Gu),
+[Mattia Carletti](https://arxiv.org/search/?searchtype=author&query=Mattia%20Carletti),
+[Patitapaban Palo](https://arxiv.org/search/?searchtype=author&query=Patitapaban%20Palo),
+[David W. Eyre](https://arxiv.org/search/?searchtype=author&query=David%20W.%20Eyre),
+[David A. Clifton](https://arxiv.org/search/?searchtype=author&query=David%20A.%20Clifton)
+Recent biosignal foundation models (FMs) have demonstrated promising performance across diverse clinical prediction tasks, yet systematic evaluation on long-duration multimodal data remains limited. We introduce SignalMC-MED, a benchmark for evaluating biosignal FMs on synchronized single-lead electrocardiogram (ECG) and photoplethysmogram (PPG) data. Derived from the MC-MED dataset, SignalMC-MED comprises 22,256 visits with 10-minute overlapping ECG and PPG signals, and includes 20 clinically relevant tasks spanning prediction of demographics, emergency department disposition, laboratory value regression, and detection of prior ICD-10 diagnoses. Using this benchmark, we perform a systematic evaluation of representative time-series and biosignal FMs across ECG-only, PPG-only, and ECG + PPG settings. We find that domain-specific biosignal FMs consistently outperform general time-series models, and that multimodal ECG + PPG fusion yields robust improvements over unimodal inputs. Moreover, using the full 10-minute signal consistently outperforms shorter segments, and larger model variants do not reliably outperform smaller ones. Hand-crafted ECG domain features provide a strong baseline and offer complementary value when combined with learned FM representations. Together, these results establish SignalMC-MED as a standardized benchmark and provide practical guidance for evaluating and deploying biosignal FMs.
+\*\*Subject\*\*:
+[Machine Learning](https://papers.cool/arxiv/cs.LG)
+\*\*Publish\*\*: 2026-03-10 17:32:28 UTC
+\* \* \*
+## [\#7](https://arxiv.org/abs/2603.09936 "7/152") [Generative Drifting is Secretly Score Matching: a Spectral and Variational Perspective](https://papers.cool/arxiv/2603.09936)\[PDF\]\[Copy\]\[Kimi1\]\[REL\]
+\*\*Authors\*\*:
+[Erkan Turan](https://arxiv.org/search/?searchtype=author&query=Erkan%20Turan),
+[Maks Ovsjanikov](https://arxiv.org/search/?searchtype=author&query=Maks%20Ovsjanikov)
+Generative Modeling via Drifting has recently achieved state-of-the-art one-step image generation through a kernel-based drift operator, yet the success is largely empirical and its theoretical foundations remain poorly understood. In this paper, we make the following observation: \\emph{under a Gaussian kernel, the drift operator is exactly a score difference on smoothed distributions}. This insight allows us to answer all three key questions left open in the original work: (1) whether a vanishing drift guarantees equality of distributions (V\\_{p,q}=0\\Rightarrow p=q), (2) how to choose between kernels, and (3) why the stop-gradient operator is indispensable for stable training. Our observations position drifting within the well-studied score-matching family and enable a rich theoretical perspective. By linearizing the McKean-Vlasov dynamics and probing them in Fourier space, we reveal frequency-dependent convergence timescales comparable to \\emph{Landau damping} in plasma kinetic theory: the Gaussian kernel suffers an exponential high-frequency bottleneck, explaining the empirical preference for the Laplacian kernel. We also propose an exponential bandwidth annealing schedule σ(t)=σ\\_0 e^{-rt} that reduces convergence time from \\exp(O(K\\_{\\max}^2)) to O(\\log K\\_{\\max}). Finally, by formalizing drifting as a Wasserstein gradient flow of the smoothed KL divergence, we prove that the stop-gradient operator is derived directly from the frozen-field discretization mandated by the JKO scheme, and removing it severs training from any gradient-flow guarantee. This variational perspective further provides a general template for constructing novel drift operators, demonstrated with a Sinkhorn divergence drift.
+\*\*Subject\*\*:
+[Machine Learning](https://papers.cool/arxiv/cs.LG)
+\*\*Publish\*\*: 2026-03-10 17:30:35 UTC
+\* \* \*
+## [\#8](https://arxiv.org/abs/2603.09923 "8/152") [OptEMA: Adaptive Exponential Moving Average for Stochastic Optimization with Zero-Noise Optimality](https://papers.cool/arxiv/2603.09923)\[PDF2\]\[Copy\]\[Kimi2\]\[REL\]
+\*\*Author\*\*:
+[Ganzhao Yuan](https://arxiv.org/search/?searchtype=author&query=Ganzhao%20Yuan)
+The Exponential Moving Average (EMA) is a cornerstone of widely used optimizers such as Adam. However, existing theoretical analyses of Adam-style methods have notable limitations: their guarantees can remain suboptimal in the zero-noise regime, rely on restrictive boundedness conditions (e.g., bounded gradients or objective gaps), use constant or open-loop stepsizes, or require prior knowledge of Lipschitz constants. To overcome these bottlenecks, we introduce OptEMA and analyze two novel variants: OptEMA-M, which applies an adaptive, decreasing EMA coefficient to the first-order moment with a fixed second-order decay, and OptEMA-V, which swaps these roles. Crucially, OptEMA is closed-loop and Lipschitz-free in the sense that its effective stepsizes are trajectory-dependent and do not require the Lipschitz constant for parameterization. Under standard stochastic gradient descent (SGD) assumptions, namely smoothness, a lower-bounded objective, and unbiased gradients with bounded variance, we establish rigorous convergence guarantees. Both variants achieve a noise-adaptive convergence rate of \\widetilde{\\mathcal{O}}(T^{-1/2}+σ^{1/2} T^{-1/4}) for the average gradient norm, where σ is the noise level. In particular, in the zero-noise regime where σ=0, our bounds reduce to the nearly optimal deterministic rate \\widetilde{\\mathcal{O}}(T^{-1/2}) without manual hyperparameter retuning.
+\*\*Subjects\*\*:
+[Machine Learning](https://papers.cool/arxiv/cs.LG),
+[Numerical Analysis](https://papers.cool/arxiv/math.NA),
+[Optimization and Control](https://papers.cool/arxiv/math.OC)
+\*\*Publish\*\*: 2026-03-10 17:19:54 UTC
+\* \* \*
+## [\#9](https://arxiv.org/abs/2603.09892 "9/152") [MSSR: Memory-Aware Adaptive Replay for Continual LLM Fine-Tuning](https://papers.cool/arxiv/2603.09892)\[PDF\]\[Copy\]\[Kimi1\]\[REL\]
+\*\*Authors\*\*:
+[Yiyang Lu](https://arxiv.org/search/?searchtype=author&query=Yiyang%20Lu),
+[Yu He](https://arxiv.org/search/?searchtype=author&query=Yu%20He),
+[Jianlong Chen](https://arxiv.org/search/?searchtype=author&query=Jianlong%20Chen),
+[Hongyuan Zha](https://arxiv.org/search/?searchtype=author&query=Hongyuan%20Zha)
+Continual fine-tuning of large language models (LLMs) is becoming increasingly crucial as these models are deployed in dynamic environments where tasks and data distributions evolve over time. While strong adaptability enables rapid acquisition of new knowledge, it also exposes LLMs to catastrophic forgetting, where previously learned skills degrade during sequential training. Existing replay-based strategies, such as fixed interleaved replay, accuracy-supervised, and loss-driven scheduling, remain limited: some depend on heuristic rules and provide only partial mitigation of forgetting, while others improve performance but incur substantial computational overhead. Motivated by retention dynamics under sequential fine-tuning, we propose Memory-Inspired Sampler and Scheduler Replay (MSSR), an experience replay framework that estimates sample-level memory strength and schedules rehearsal at adaptive intervals to mitigate catastrophic forgetting while maintaining fast adaptation. Extensive experiments across three backbone models and 11 sequential tasks show that MSSR consistently outperforms state-of-the-art replay baselines, with particularly strong gains on reasoning-intensive and multiple-choice benchmarks.
+\*\*Subjects\*\*:
+[Machine Learning](https://papers.cool/arxiv/cs.LG),
+[Artificial Intelligence](https://papers.cool/arxiv/cs.AI),
+[Computation and Language](https://papers.cool/arxiv/cs.CL)
+\*\*Publish\*\*: 2026-03-10 16:49:44 UTC
+\* \* \*
+## [\#10](https://arxiv.org/abs/2603.09868 "10/152") [CarbonBench: A Global Benchmark for Upscaling of Carbon Fluxes Using Zero-Shot Learning](https://papers.cool/arxiv/2603.09868)\[PDF1\]\[Copy\]\[Kimi\]\[REL\]
+\*\*Authors\*\*:
+[Aleksei Rozanov](https://arxiv.org/search/?searchtype=author&query=Aleksei%20Rozanov),
+[Arvind Renganathan](https://arxiv.org/search/?searchtype=author&query=Arvind%20Renganathan),
+[Yimeng Zhang](https://arxiv.org/search/?searchtype=author&query=Yimeng%20Zhang),
+[Vipin Kumar](https://arxiv.org/search/?searchtype=author&query=Vipin%20Kumar)
+Accurately quantifying terrestrial carbon exchange is essential for climate policy and carbon accounting, yet models must generalize to ecosystems underrepresented in sparse eddy covariance observations. Despite this challenge being a natural instance of zero-shot spatial transfer learning for time series regression, no standardized benchmark exists to rigorously evaluate model performance across geographically distinct locations with different climate regimes and vegetation types. We introduce CarbonBench, the first benchmark for zero-shot spatial transfer in carbon flux upscaling. CarbonBench comprises over 1.3 million daily observations from 567 flux tower sites globally (2000-2024). It provides: (1) stratified evaluation protocols that explicitly test generalization across unseen vegetation types and climate regimes, separating spatial transfer from temporal autocorrelation; (2) a harmonized set of remote sensing and meteorological features to enable flexible architecture design; and (3) baselines ranging from tree-based methods to domain-generalization architectures. By bridging machine learning methodologies and Earth system science, CarbonBench aims to enable systematic comparison of transfer learning methods, serves as a testbed for regression under distribution shift, and contributes to the next-generation climate modeling efforts.
+\*\*Subjects\*\*:
+[Machine Learning](https://papers.cool/arxiv/cs.LG),
+[Atmospheric and Oceanic Physics](https://papers.cool/arxiv/physics.ao-ph)
+\*\*Publish\*\*: 2026-03-10 16:33:28 UTC
+\* \* \*
+## [\#11](https://arxiv.org/abs/2603.09865 "11/152") [GAST: Gradient-aligned Sparse Tuning of Large Language Models with Data-layer Selection](https://papers.cool/arxiv/2603.09865)\[PDF\]\[Copy\]\[Kimi1\]\[REL\]
+\*\*Authors\*\*:
+[Kai Yao](https://arxiv.org/search/?searchtype=author&query=Kai%20Yao),
+[Zhenghan Song](https://arxiv.org/search/?searchtype=author&query=Zhenghan%20Song),
+[Kaixin Wu](https://arxiv.org/search/?searchtype=author&query=Kaixin%20Wu),
+[Mingjie Zhong](https://arxiv.org/search/?searchtype=author&query=Mingjie%20Zhong),
+[Danzhao Cheng](https://arxiv.org/search/?searchtype=author&query=Danzhao%20Cheng),
+[Zhaorui Tan](https://arxiv.org/search/?searchtype=author&query=Zhaorui%20Tan),
+[Yixin Ji](https://arxiv.org/search/?searchtype=author&query=Yixin%20Ji),
+[Penglei Gao](https://arxiv.org/search/?searchtype=author&query=Penglei%20Gao)
+Parameter-Efficient Fine-Tuning (PEFT) has become a key strategy for adapting large language models, with recent advances in sparse tuning reducing overhead by selectively updating key parameters or subsets of data. Existing approaches generally focus on two distinct paradigms: layer-selective methods aiming to fine-tune critical layers to minimize computational load, and data-selective methods aiming to select effective training subsets to boost training. However, current methods typically overlook the fact that different data points contribute varying degrees to distinct model layers, and they often discard potentially valuable information from data perceived as of low quality. To address these limitations, we propose Gradient-aligned Sparse Tuning (GAST), an innovative method that simultaneously performs selective fine-tuning at both data and layer dimensions as integral components of a unified optimization strategy. GAST specifically targets redundancy in information by employing a layer-sparse strategy that adaptively selects the most impactful data points for each layer, providing a more comprehensive and sophisticated solution than approaches restricted to a single dimension. Experiments demonstrate that GAST consistently outperforms baseline methods, establishing a promising direction for future research in PEFT strategies.
+\*\*Subject\*\*:
+[Machine Learning](https://papers.cool/arxiv/cs.LG)
+\*\*Publish\*\*: 2026-03-10 16:28:48 UTC
+\* \* \*
+## [\#12](https://arxiv.org/abs/2603.09859 "12/152") [A Graph-Based Approach to Spectrum Demand Prediction Using Hierarchical Attention Networks](https://papers.cool/arxiv/2603.09859)\[PDF1\]\[Copy\]\[Kimi1\]\[REL\]
+\*\*Authors\*\*:
+[Mohamad Alkadamani](https://arxiv.org/search/?searchtype=author&query=Mohamad%20Alkadamani),
+[Halim Yanikomeroglu](https://arxiv.org/search/?searchtype=author&query=Halim%20Yanikomeroglu),
+[Amir Ghasemi](https://arxiv.org/search/?searchtype=author&query=Amir%20Ghasemi)
+The surge in wireless connectivity demand, coupled with the finite nature of spectrum resources, compels the development of efficient spectrum management approaches. Spectrum sharing presents a promising avenue, although it demands precise characterization of spectrum demand for informed policy-making. This paper introduces HR-GAT, a hierarchical resolution graph attention network model, designed to predict spectrum demand using geospatial data. HR-GAT adeptly handles complex spatial demand patterns and resolves issues of spatial autocorrelation that usually challenge standard machine learning models, often resulting in poor generalization. Tested across five major Canadian cities, HR-GAT improves predictive accuracy of spectrum demand by 21% over eight baseline models, underscoring its superior performance and reliability.
+\*\*Subjects\*\*:
+[Machine Learning](https://papers.cool/arxiv/cs.LG),
+[Artificial Intelligence](https://papers.cool/arxiv/cs.AI),
+[Networking and Internet Architecture](https://papers.cool/arxiv/cs.NI),
+[Systems and Control](https://papers.cool/arxiv/eess.SY)
+\*\*Publish\*\*: 2026-03-10 16:20:51 UTC
+\* \* \*
+## [\#13](https://arxiv.org/abs/2603.09842 "13/152") [A Unified Hierarchical Multi-Task Multi-Fidelity Framework for Data-Efficient Surrogate Modeling in Manufacturing](https://papers.cool/arxiv/2603.09842)\[PDF\]\[Copy\]\[Kimi\]\[REL\]
+\*\*Authors\*\*:
+[Manan Mehta](https://arxiv.org/search/?searchtype=author&query=Manan%20Mehta),
+[Zhiqiao Dong](https://arxiv.org/search/?searchtype=author&query=Zhiqiao%20Dong),
+[Yuhang Yang](https://arxiv.org/search/?searchtype=author&query=Yuhang%20Yang),
+[Chenhui Shao](https://arxiv.org/search/?searchtype=author&query=Chenhui%20Shao)
+Surrogate modeling is an essential data-driven technique for quantifying relationships between input variables and system responses in manufacturing and engineering systems. Two major challenges limit its effectiveness: (1) large data requirements for learning complex nonlinear relationships, and (2) heterogeneous data collected from sources with varying fidelity levels. Multi-task learning (MTL) addresses the first challenge by enabling information sharing across related processes, while multi-fidelity modeling addresses the second by accounting for fidelity-dependent uncertainty. However, existing approaches typically address these challenges separately, and no unified framework simultaneously leverages inter-task similarity and fidelity-dependent data characteristics. This paper develops a novel hierarchical multi-task multi-fidelity (H-MT-MF) framework for Gaussian process-based surrogate modeling. The proposed framework decomposes each task's response into a task-specific global trend and a residual local variability component that is jointly learned across tasks using a hierarchical Bayesian formulation. The framework accommodates an arbitrary number of tasks, design points, and fidelity levels while providing predictive uncertainty quantification. We demonstrate the effectiveness of the proposed method using a 1D synthetic example and a real-world engine surface shape prediction case study. Compared to (1) a state-of-the-art MTL model that does not account for fidelity information and (2) a stochastic kriging model that learns tasks independently, the proposed approach improves prediction accuracy by up to 19% and 23%, respectively. The H-MT-MF framework provides a general and extensible solution for surrogate modeling in manufacturing systems characterized by heterogeneous data sources.
+\*\*Subjects\*\*:
+[Machine Learning](https://papers.cool/arxiv/cs.LG),
+[Methodology](https://papers.cool/arxiv/stat.ME),
+[Machine Learning](https://papers.cool/arxiv/stat.ML)
+\*\*Publish\*\*: 2026-03-10 16:06:01 UTC
+\* \* \*
+## [\#14](https://arxiv.org/abs/2603.09815 "14/152") [Correction of Transformer-Based Models with Smoothing Pseudo-Projector](https://papers.cool/arxiv/2603.09815)\[PDF\]\[Copy\]\[Kimi1\]\[REL\]
+\*\*Author\*\*:
+[Vitaly Bulgakov](https://arxiv.org/search/?searchtype=author&query=Vitaly%20Bulgakov)
+The pseudo-projector is a lightweight modification that can be integrated into existing language models and other neural networks without altering their core architecture. It can be viewed as a hidden-representation corrector that reduces sensitivity to noise by suppressing directions induced by label-irrelevant input content. The design is inspired by the multigrid (MG) paradigm, originally developed to accelerate the convergence of iterative solvers for partial differential equations and boundary value problems, and later extended to more general linear systems through algebraic multigrid methods. We refer to the method as a pseudo-projector because its linear prototype corresponds to a strictly idempotent orthogonal projector, whereas the practical formulation employs learnable restriction and prolongation operators and therefore does not, in general, satisfy the properties of an exact orthogonal projection. We evaluate the proposed approach on transformer-based text classification tasks, as well as controlled synthetic benchmarks, demonstrating its effectiveness in improving training dynamics and robustness. Experimental results, together with supporting theoretical heuristics, indicate consistent improvements in training behavior across a range of settings, with no adverse effects observed otherwise. Our next step will be to extend this approach to language models.
+\*\*Subjects\*\*:
+[Machine Learning](https://papers.cool/arxiv/cs.LG),
+[Artificial Intelligence](https://papers.cool/arxiv/cs.AI)
+\*\*Publish\*\*: 2026-03-10 15:42:46 UTC
+\* \* \*
+## [\#15](https://arxiv.org/abs/2603.09803 "15/152") [Good Reasoning Makes Good Demonstrations: Implicit Reasoning Quality Supervision via In-Context Reinforcement Learning](https://papers.cool/arxiv/2603.09803)\[PDF\]\[Copy\]\[Kimi\]\[REL\]
+\*\*Authors\*\*:
+[Tiehua Mei](https://arxiv.org/search/?searchtype=author&query=Tiehua%20Mei),
+[Minxuan Lv](https://arxiv.org/search/?searchtype=author&query=Minxuan%20Lv),
+[Leiyu Pan](https://arxiv.org/search/?searchtype=author&query=Leiyu%20Pan),
+[Zhenpeng Su](https://arxiv.org/search/?searchtype=author&query=Zhenpeng%20Su),
+[Hongru Hou](https://arxiv.org/search/?searchtype=author&query=Hongru%20Hou),
+[Hengrui Chen](https://arxiv.org/search/?searchtype=author&query=Hengrui%20Chen),
+[Ao Xu](https://arxiv.org/search/?searchtype=author&query=Ao%20Xu),
+[Deqing Yang](https://arxiv.org/search/?searchtype=author&query=Deqing%20Yang)
+Reinforcement Learning with Verifiable Rewards (RLVR) improves reasoning in large language models but treats all correct solutions equally, potentially reinforcing flawed traces that get correct answers by chance. We observe that better reasoning are better teachers: high-quality solutions serve as more effective demonstrations than low-quality ones. We term this teaching ability Demonstration Utility, and show that the policy model's own in-context learning ability provides an efficient way to measure it, yielding a quality signal termed Evidence Gain. To employ this signal during training, we introduce In-Context RLVR. By Bayesian analysis, we show that this objective implicitly reweights rewards by Evidence Gain, assigning higher weights to high-quality traces and lower weights to low-quality ones, without requiring costly computation or external evaluators. Experiments on mathematical benchmarks show improvements in both accuracy and reasoning quality over standard RLVR.
+\*\*Subject\*\*:
+[Machine Learning](https://papers.cool/arxiv/cs.LG)
+\*\*Publish\*\*: 2026-03-10 15:33:07 UTC
+\* \* \*
+## [\#16](https://arxiv.org/abs/2603.09793 "16/152") [Information Theoretic Bayesian Optimization over the Probability Simplex](https://papers.cool/arxiv/2603.09793)\[PDF1\]\[Copy\]\[Kimi\]\[REL\]
+\*\*Authors\*\*:
+[Federico Pavesi](https://arxiv.org/search/?searchtype=author&query=Federico%20Pavesi),
+[Antonio Candelieri](https://arxiv.org/search/?searchtype=author&query=Antonio%20Candelieri),
+[Noémie Jaquier](https://arxiv.org/search/?searchtype=author&query=No%C3%A9mie%20Jaquier)
+Bayesian optimization is a data-efficient technique that has been shown to be extremely powerful to optimize expensive, black-box, and possibly noisy objective functions. Many applications involve optimizing probabilities and mixtures which naturally belong to the probability simplex, a constrained non-Euclidean domain defined by non-negative entries summing to one. This paper introduces α-GaBO, a novel family of Bayesian optimization algorithms over the probability simplex. Our approach is grounded in information geometry, a branch of Riemannian geometry which endows the simplex with a Riemannian metric and a class of connections. Based on information geometry theory, we construct Matérn kernels that reflect the geometry of the probability simplex, as well as a one-parameter family of geometric optimizers for the acquisition function. We validate our method on benchmark functions and on a variety of real-world applications including mixtures of components, mixtures of classifiers, and a robotic control task, showing its increased performance compared to constrained Euclidean approaches.
+\*\*Subject\*\*:
+[Machine Learning](https://papers.cool/arxiv/cs.LG)
+\*\*Publish\*\*: 2026-03-10 15:25:56 UTC
+\* \* \*
+## [\#17](https://arxiv.org/abs/2603.09792 "17/152") [Exploiting Label-Aware Channel Scoring for Adaptive Channel Pruning in Split Learning](https://papers.cool/arxiv/2603.09792)\[PDF\]\[Copy\]\[Kimi\]\[REL\]
+\*\*Authors\*\*:
+[Jialei Tan](https://arxiv.org/search/?searchtype=author&query=Jialei%20Tan),
+[Zheng Lin](https://arxiv.org/search/?searchtype=author&query=Zheng%20Lin),
+[Xiangming Cai](https://arxiv.org/search/?searchtype=author&query=Xiangming%20Cai),
+[Ruoxi Zhu](https://arxiv.org/search/?searchtype=author&query=Ruoxi%20Zhu),
+[Zihan Fang](https://arxiv.org/search/?searchtype=author&query=Zihan%20Fang),
+[Pingping Chen](https://arxiv.org/search/?searchtype=author&query=Pingping%20Chen),
+[Wei Ni](https://arxiv.org/search/?searchtype=author&query=Wei%20Ni)
+Split learning (SL) transfers most of the training workload to the server, which alleviates computational burden on client devices. However, the transmission of intermediate feature representations, referred to as smashed data, incurs significant communication overhead, particularly when a large number of client devices are involved. To address this challenge, we propose an adaptive channel pruning-aided SL (ACP-SL) scheme. In ACP-SL, a label-aware channel importance scoring (LCIS) module is designed to generate channel importance scores, distinguishing important channels from less important ones. Based on these scores, an adaptive channel pruning (ACP) module is developed to prune less important channels, thereby compressing the corresponding smashed data and reducing the communication overhead. Experimental results show that ACP-SL consistently outperforms benchmark schemes in test accuracy. Furthermore, it reaches a target test accuracy in fewer training rounds, thereby reducing communication overhead.
+\*\*Subjects\*\*:
+[Machine Learning](https://papers.cool/arxiv/cs.LG),
+[Artificial Intelligence](https://papers.cool/arxiv/cs.AI)
+\*\*Publish\*\*: 2026-03-10 15:25:08 UTC
+\* \* \*
+## [\#18](https://arxiv.org/abs/2603.09789 "18/152") [A Hybrid Quantum-Classical Framework for Financial Volatility Forecasting Based on Quantum Circuit Born Machines](https://papers.cool/arxiv/2603.09789)\[PDF\]\[Copy\]\[Kimi\]\[REL\]
+\*\*Author\*\*:
+[Yixiong Chen](https://arxiv.org/search/?searchtype=author&query=Yixiong%20Chen)
+Accurate forecasting of financial market volatility is crucial for risk management, option pricing, and portfolio optimization. Traditional econometric models and classical machine learning methods face challenges in handling the inherent non-linear and non-stationary characteristics of financial time series. In recent years, the rapid development of quantum computing has provided a new paradigm for solving complex optimization and sampling problems. This paper proposes a novel hybrid quantum-classical computing framework aimed at combining the powerful representation capabilities of classical neural networks with the unique advantages of quantum models. For the specific task of financial market volatility forecasting, we designed and implemented a hybrid model based on this framework, which combines a Long Short-Term Memory (LSTM) network with a Quantum Circuit Born Machine (QCBM). The LSTM is responsible for extracting complex dynamic features from historical time series data, while the QCBM serves as a learnable prior module, providing the model with a high-quality prior distribution to guide the forecasting process. We evaluated the model on two real financial datasets consisting of 5-minute high-frequency data from the Shanghai Stock Exchange (SSE) Composite Index and CSI 300 Index. Experimental results show that, compared to a purely classical LSTM baseline model, our hybrid quantum-classical model demonstrates significant advantages across multiple key metrics, including Mean Squared Error (MSE), Root Mean Squared Error (RMSE), and QLIKE loss, proving the great potential of quantum computing in enhancing the capabilities of financial forecasting models. More broadly, the proposed hybrid framework offers a flexible architecture that may be adapted to other machine learning tasks involving high-dimensional, complex, or non-linear data distributions.
+\*\*Subjects\*\*:
+[Machine Learning](https://papers.cool/arxiv/cs.LG),
+[Artificial Intelligence](https://papers.cool/arxiv/cs.AI),
+[Quantum Physics](https://papers.cool/arxiv/quant-ph)
+\*\*Publish\*\*: 2026-03-10 15:23:41 UTC
+\* \* \*
+## [\#19](https://arxiv.org/abs/2603.09742 "19/152") [Upper Generalization Bounds for Neural Oscillators](https://papers.cool/arxiv/2603.09742)\[PDF\]\[Copy\]\[Kimi\]\[REL\]
+\*\*Authors\*\*:
+[Zifeng Huang](https://arxiv.org/search/?searchtype=author&query=Zifeng%20Huang),
+[Konstantin M. Zuev](https://arxiv.org/search/?searchtype=author&query=Konstantin%20M.%20Zuev),
+[Yong Xia](https://arxiv.org/search/?searchtype=author&query=Yong%20Xia),
+[Michael Beer](https://arxiv.org/search/?searchtype=author&query=Michael%20Beer)
+Neural oscillators that originate from the second-order ordinary differential equations (ODEs) have shown competitive performance in learning mappings between dynamic loads and responses of complex nonlinear structural systems. Despite this empirical success, theoretically quantifying the generalization capacities of their neural network architectures remains undeveloped. In this study, the neural oscillator consisting of a second-order ODE followed by a multilayer perceptron (MLP) is considered. Its upper probably approximately correct (PAC) generalization bound for approximating causal and uniformly continuous operators between continuous temporal function spaces and that for approximating the uniformly asymptotically incrementally stable second-order dynamical systems are derived by leveraging the Rademacher complexity framework. The theoretical results show that the estimation errors grow polynomially with respect to both the MLP size and the time length, thereby avoiding the curse of parametric complexity. Furthermore, the derived error bounds demonstrate that constraining the Lipschitz constants of the MLPs via loss function regularization can improve the generalization ability of the neural oscillator. A numerical study considering a Bouc-Wen nonlinear system under stochastic seismic excitation validates the theoretically predicted power laws of the estimation errors with respect to the sample size and time length, and confirms the effectiveness of constraining MLPs' matrix and vector norms in enhancing the performance of the neural oscillator under limited training data.
+\*\*Subjects\*\*:
+[Machine Learning](https://papers.cool/arxiv/cs.LG),
+[Dynamical Systems](https://papers.cool/arxiv/math.DS),
+[Machine Learning](https://papers.cool/arxiv/stat.ML)
+\*\*Publish\*\*: 2026-03-10 14:47:23 UTC
+\* \* \*
+## [\#20](https://arxiv.org/abs/2603.09727 "20/152") [A Multi-Prototype-Guided Federated Knowledge Distillation Approach in AI-RAN Enabled Multi-Access Edge Computing System](https://papers.cool/arxiv/2603.09727)\[PDF\]\[Copy\]\[Kimi\]\[REL\]
+\*\*Authors\*\*:
+[Luyao Zou](https://arxiv.org/search/?searchtype=author&query=Luyao%20Zou),
+[Hayoung Oh](https://arxiv.org/search/?searchtype=author&query=Hayoung%20Oh),
+[Chu Myaet Thwal](https://arxiv.org/search/?searchtype=author&query=Chu%20Myaet%20Thwal),
+[Apurba Adhikary](https://arxiv.org/search/?searchtype=author&query=Apurba%20Adhikary),
+[Seohyeon Hong](https://arxiv.org/search/?searchtype=author&query=Seohyeon%20Hong),
+[Zhu Han](https://arxiv.org/search/?searchtype=author&query=Zhu%20Han)
+With the development of wireless network, Multi-Access Edge Computing (MEC) and Artificial Intelligence (AI)-native Radio Access Network (RAN) have attracted significant attention. Particularly, the integration of AI-RAN and MEC is envisioned to transform network efficiency and responsiveness. Therefore, it is valuable to investigate AI-RAN enabled MEC system. Federated learning (FL) nowadays is emerging as a promising approach for AI-RAN enabled MEC system, in which edge devices are enabled to train a global model cooperatively without revealing their raw data. However, conventional FL encounters the challenge in processing the non-independent and identically distributed (non-IID) data. Single prototype obtained by averaging the embedding vectors per class can be employed in FL to handle the data heterogeneity issue. Nevertheless, this may result in the loss of useful information owing to the average operation. Therefore, in this paper, a multi-prototype-guided federated knowledge distillation (MP-FedKD) approach is proposed. Particularly, self-knowledge distillation is integrated into FL to deal with the non-IID issue. To cope with the problem of information loss caused by single prototype-based strategy, multi-prototype strategy is adopted, where we present a conditional hierarchical agglomerative clustering (CHAC) approach and a prototype alignment scheme. Additionally, we design a novel loss function (called LEMGP loss) for each local client, where the relationship between global prototypes and local embedding will be focused. Extensive experiments over multiple datasets with various non-IID settings showcase that the proposed MP-FedKD approach outperforms the considered state-of-the-art baselines regarding accuracy, average accuracy and errors (RMSE and MAE).
+\*\*Subject\*\*:
+[Machine Learning](https://papers.cool/arxiv/cs.LG)
+\*\*Publish\*\*: 2026-03-10 14:32:41 UTC
+\* \* \*
+## [\#21](https://arxiv.org/abs/2603.09697 "21/152") [Mousse: Rectifying the Geometry of Muon with Curvature-Aware Preconditioning](https://papers.cool/arxiv/2603.09697)\[PDF\]\[Copy\]\[Kimi1\]\[REL\]
+\*\*Authors\*\*:
+[Yechen Zhang](https://arxiv.org/search/?searchtype=author&query=Yechen%20Zhang),
+[Shuhao Xing](https://arxiv.org/search/?searchtype=author&query=Shuhao%20Xing),
+[Junhao Huang](https://arxiv.org/search/?searchtype=author&query=Junhao%20Huang),
+[Kai Lv](https://arxiv.org/search/?searchtype=author&query=Kai%20Lv),
+[Yunhua Zhou](https://arxiv.org/search/?searchtype=author&query=Yunhua%20Zhou),
+[Xipeng Qiu](https://arxiv.org/search/?searchtype=author&query=Xipeng%20Qiu),
+[Qipeng Guo](https://arxiv.org/search/?searchtype=author&query=Qipeng%20Guo),
+[Kai Chen](https://arxiv.org/search/?searchtype=author&query=Kai%20Chen)
+Recent advances in spectral optimization, notably Muon, have demonstrated that constraining update steps to the Stiefel manifold can significantly accelerate training and improve generalization. However, Muon implicitly assumes an isotropic optimization landscape, enforcing a uniform spectral update norm across all eigen-directions. We argue that this "egalitarian" constraint is suboptimal for Deep Neural Networks, where the curvature spectrum is known to be highly heavy-tailed and ill-conditioned. In such landscapes, Muon risks amplifying instabilities in high-curvature directions while limiting necessary progress in flat directions. In this work, we propose \\textbf{Mousse} (\\textbf{M}uon \\textbf{O}ptimization \\textbf{U}tilizing \\textbf{S}hampoo's \\textbf{S}tructural \\textbf{E}stimation), a novel optimizer that reconciles the structural stability of spectral methods with the geometric adaptivity of second-order preconditioning. Instead of applying Newton-Schulz orthogonalization directly to the momentum matrix, Mousse operates in a whitened coordinate system induced by Kronecker-factored statistics (derived from Shampoo). Mathematically, we formulate Mousse as the solution to a spectral steepest descent problem constrained by an anisotropic trust region, where the optimal update is derived via the polar decomposition of the whitened gradient. Empirical results across language models ranging from 160M to 800M parameters demonstrate that Mousse consistently outperforms Muon, achieving around \\sim12\\% reduction in training steps with negligible computational overhead.
+\*\*Subjects\*\*:
+[Machine Learning](https://papers.cool/arxiv/cs.LG),
+[Artificial Intelligence](https://papers.cool/arxiv/cs.AI),
+[Computation and Language](https://papers.cool/arxiv/cs.CL)
+\*\*Publish\*\*: 2026-03-10 14:03:49 UTC
+\* \* \*
+## [\#22](https://arxiv.org/abs/2603.09693 "22/152") [Physics-informed neural operator for predictive parametric phase-field modelling](https://papers.cool/arxiv/2603.09693)\[PDF\]\[Copy\]\[Kimi\]\[REL\]
+\*\*Authors\*\*:
+[Nanxi Chen](https://arxiv.org/search/?searchtype=author&query=Nanxi%20Chen),
+[Airong Chen](https://arxiv.org/search/?searchtype=author&query=Airong%20Chen),
+[Rujin Ma](https://arxiv.org/search/?searchtype=author&query=Rujin%20Ma)
+Predicting the microstructural and morphological evolution of materials through phase-field modelling is computationally intensive, particularly for high-throughput parametric studies. While neural operators such as the Fourier neural operator (FNO) show promise in accelerating the solution of parametric partial differential equations (PDEs), the lack of explicit physical constraints, may limit generalisation and long-term accuracy for complex phase-field dynamics. Here, we develop a physics-informed neural operator framework to learn parametric phase-field PDEs, namely PF-PINO. By embedding the residuals of phase-field governing equations into the data-fidelity loss function, our framework effectively enforces physical constraints during training. We validate PF-PINO against benchmark phase-field problems, including electrochemical corrosion, dendritic crystal solidification, and spinodal decomposition. Our results demonstrate that PF-PINO significantly outperforms conventional FNO in accuracy, generalisation capability, and long-term stability. This work provides a robust and efficient computational tool for phase-field modelling and highlights the potential of physics-informed neural operators to advance scientific machine learning for complex interfacial evolution problems.
+\*\*Subjects\*\*:
+[Machine Learning](https://papers.cool/arxiv/cs.LG),
+[Materials Science](https://papers.cool/arxiv/cond-mat.mtrl-sci),
+[Computational Physics](https://papers.cool/arxiv/physics.comp-ph)
+\*\*Publish\*\*: 2026-03-10 14:00:00 UTC
+\* \* \*
+## [\#23](https://arxiv.org/abs/2603.09692 "23/152") [ActiveUltraFeedback: Efficient Preference Data Generation using Active Learning](https://papers.cool/arxiv/2603.09692)\[PDF\]\[Copy\]\[Kimi1\]\[REL\]
+\*\*Authors\*\*:
+[Davit Melikidze](https://arxiv.org/search/?searchtype=author&query=Davit%20Melikidze),
+[Marian Schneider](https://arxiv.org/search/?searchtype=author&query=Marian%20Schneider),
+[Jessica Lam](https://arxiv.org/search/?searchtype=author&query=Jessica%20Lam),
+[Martin Wertich](https://arxiv.org/search/?searchtype=author&query=Martin%20Wertich),
+[Ido Hakimi](https://arxiv.org/search/?searchtype=author&query=Ido%20Hakimi),
+[Barna Pásztor](https://arxiv.org/search/?searchtype=author&query=Barna%20P%C3%A1sztor),
+[Andreas Krause](https://arxiv.org/search/?searchtype=author&query=Andreas%20Krause)
+Reinforcement Learning from Human Feedback (RLHF) has become the standard for aligning Large Language Models (LLMs), yet its efficacy is bottlenecked by the high cost of acquiring preference data, especially in low-resource and expert domains. To address this, we introduce ACTIVEULTRAFEEDBACK, a modular active learning pipeline that leverages uncertainty estimates to dynamically identify the most informative responses for annotation. Our pipeline facilitates the systematic evaluation of standard response selection methods alongside DOUBLE REVERSE THOMPSON SAMPLING (DRTS) and DELTAUCB, two novel methods prioritizing response pairs with large predicted quality gaps, leveraging recent results showing that such pairs provide good signals for fine-tuning. Our experiments demonstrate that ACTIVEULTRAFEEDBACK yields high-quality datasets that lead to significant improvements in downstream performance, notably achieving comparable or superior results with as little as one-sixth of the annotated data relative to static baselines. Our pipeline is available at https://github.com/lasgroup/ActiveUltraFeedback and our preference datasets at https://huggingface.co/ActiveUltraFeedback.
+\*\*Subjects\*\*:
+[Machine Learning](https://papers.cool/arxiv/cs.LG),
+[Artificial Intelligence](https://papers.cool/arxiv/cs.AI),
+[Computation and Language](https://papers.cool/arxiv/cs.CL)
+\*\*Publish\*\*: 2026-03-10 13:59:50 UTC
+\* \* \*
+## [\#24](https://arxiv.org/abs/2603.09684 "24/152") [On Catastrophic Forgetting in Low-Rank Decomposition-Based Parameter-Efficient Fine-Tuning](https://papers.cool/arxiv/2603.09684)\[PDF\]\[Copy\]\[Kimi\]\[REL\]
+\*\*Authors\*\*:
+[Muhammad Ahmad](https://arxiv.org/search/?searchtype=author&query=Muhammad%20Ahmad),
+[Jingjing Zheng](https://arxiv.org/search/?searchtype=author&query=Jingjing%20Zheng),
+[Yankai Cao](https://arxiv.org/search/?searchtype=author&query=Yankai%20Cao)
+Parameter-efficient fine-tuning (PEFT) based on low-rank decomposition, such as LoRA, has become a standard for adapting large pretrained models. However, its behavior in sequential learning -- specifically regarding catastrophic forgetting -- remains insufficiently understood. In this work, we present an empirical study showing that forgetting is strongly influenced by the geometry and parameterization of the update subspace. While methods that restrict updates to small, shared matrix subspaces often suffer from task interference, tensor-based decompositions (e.g., LoRETTA) mitigate forgetting by capturing richer structural information within ultra-compact budgets, and structurally aligned parameterizations (e.g., WeGeFT) preserve pretrained representations. Our findings highlight update subspace design as a key factor in continual learning and offer practical guidance for selecting efficient adaptation strategies in sequential settings.
+\*\*Subject\*\*:
+[Machine Learning](https://papers.cool/arxiv/cs.LG)
+\*\*Publish\*\*: 2026-03-10 13:53:25 UTC
+\* \* \*
+## [\#25](https://arxiv.org/abs/2603.09675 "25/152") [GNNs for Time Series Anomaly Detection: An Open-Source Framework and a Critical Evaluation](https://papers.cool/arxiv/2603.09675)\[PDF\]\[Copy\]\[Kimi\]\[REL\]
+\*\*Authors\*\*:
+[Federico Bello](https://arxiv.org/search/?searchtype=author&query=Federico%20Bello),
+[Gonzalo Chiarlone](https://arxiv.org/search/?searchtype=author&query=Gonzalo%20Chiarlone),
+[Marcelo Fiori](https://arxiv.org/search/?searchtype=author&query=Marcelo%20Fiori),
+[Gastón García González](https://arxiv.org/search/?searchtype=author&query=Gast%C3%B3n%20Garc%C3%ADa%20Gonz%C3%A1lez),
+[Federico Larroca](https://arxiv.org/search/?searchtype=author&query=Federico%20Larroca)
+There is growing interest in applying graph-based methods to Time Series Anomaly Detection (TSAD), particularly Graph Neural Networks (GNNs), as they naturally model dependencies among multivariate signals. GNNs are typically used as backbones in score-based TSAD pipelines, where anomalies are identified through reconstruction or prediction errors followed by thresholding. However, and despite promising results, the field still lacks standardized frameworks for evaluation and suffers from persistent issues with metric design and interpretation. We thus present an open-source framework for TSAD using GNNs, designed to support reproducible experimentation across datasets, graph structures, and evaluation strategies. Built with flexibility and extensibility in mind, the framework facilitates systematic comparisons between TSAD models and enables in-depth analysis of performance and interpretability. Using this tool, we evaluate several GNN-based architectures alongside baseline models across two real-world datasets with contrasting structural characteristics. Our results show that GNNs not only improve detection performance but also offer significant gains in interpretability, an especially valuable feature for practical diagnosis. We also find that attention-based GNNs offer robustness when graph structure is uncertain or inferred. In addition, we reflect on common evaluation practices in TSAD, showing how certain metrics and thresholding strategies can obscure meaningful comparisons. Overall, this work contributes both practical tools and critical insights to advance the development and evaluation of graph-based TSAD systems.
+\*\*Subjects\*\*:
+[Machine Learning](https://papers.cool/arxiv/cs.LG),
+[Artificial Intelligence](https://papers.cool/arxiv/cs.AI)
+\*\*Publish\*\*: 2026-03-10 13:45:34 UTC
+\* \* \*
+Include(OR):
+Exclude:
+Search
+Filter
+Highlight
+Stared Paper(s):
+#1 [Task Aware Modulation Using Representation Learning for Upsaling of Terrestrial Carbon Fluxes](https://papers.cool/arxiv/cs.LG#2603.09974)
+#2 [From Data Statistics to Feature Geometry: How Correlations Shape Superposition](https://papers.cool/arxiv/cs.LG#2603.09972)
+#3 [On the Width Scaling of Neural Optimizers Under Matrix Operator Norms I: Row/Column Normalization and Hyperparameter Transfer](https://papers.cool/arxiv/cs.LG#2603.09952)
+#4 [Towards a Neural Debugger for Python](https://papers.cool/arxiv/cs.LG#2603.09951)
+#5 [When Learning Rates Go Wrong: Early Structural Signals in PPO Actor-Critic](https://papers.cool/arxiv/cs.LG#2603.09950)
+#6 [SignalMC-MED: A Multimodal Benchmark for Evaluating Biosignal Foundation Models on Single-Lead ECG and PPG](https://papers.cool/arxiv/cs.LG#2603.09940)
+#7 [Generative Drifting is Secretly Score Matching: a Spectral and Variational Perspective](https://papers.cool/arxiv/cs.LG#2603.09936)
+#8 [OptEMA: Adaptive Exponential Moving Average for Stochastic Optimization with Zero-Noise Optimality](https://papers.cool/arxiv/cs.LG#2603.09923)
+#9 [MSSR: Memory-Aware Adaptive Replay for Continual LLM Fine-Tuning](https://papers.cool/arxiv/cs.LG#2603.09892)
+#10 [CarbonBench: A Global Benchmark for Upscaling of Carbon Fluxes Using Zero-Shot Learning](https://papers.cool/arxiv/cs.LG#2603.09868)
+#11 [GAST: Gradient-aligned Sparse Tuning of Large Language Models with Data-layer Selection](https://papers.cool/arxiv/cs.LG#2603.09865)
+#12 [A Graph-Based Approach to Spectrum Demand Prediction Using Hierarchical Attention Networks](https://papers.cool/arxiv/cs.LG#2603.09859)
+#13 [A Unified Hierarchical Multi-Task Multi-Fidelity Framework for Data-Efficient Surrogate Modeling in Manufacturing](https://papers.cool/arxiv/cs.LG#2603.09842)
+#14 [Correction of Transformer-Based Models with Smoothing Pseudo-Projector](https://papers.cool/arxiv/cs.LG#2603.09815)
+#15 [Good Reasoning Makes Good Demonstrations: Implicit Reasoning Quality Supervision via In-Context Reinforcement Learning](https://papers.cool/arxiv/cs.LG#2603.09803)
+#16 [Information Theoretic Bayesian Optimization over the Probability Simplex](https://papers.cool/arxiv/cs.LG#2603.09793)
+#17 [Exploiting Label-Aware Channel Scoring for Adaptive Channel Pruning in Split Learning](https://papers.cool/arxiv/cs.LG#2603.09792)
+#18 [A Hybrid Quantum-Classical Framework for Financial Volatility Forecasting Based on Quantum Circuit Born Machines](https://papers.cool/arxiv/cs.LG#2603.09789)
+#19 [Upper Generalization Bounds for Neural Oscillators](https://papers.cool/arxiv/cs.LG#2603.09742)
+#20 [A Multi-Prototype-Guided Federated Knowledge Distillation Approach in AI-RAN Enabled Multi-Access Edge Computing System](https://papers.cool/arxiv/cs.LG#2603.09727)
+#21 [Mousse: Rectifying the Geometry of Muon with Curvature-Aware Preconditioning](https://papers.cool/arxiv/cs.LG#2603.09697)
+#22 [Physics-informed neural operator for predictive parametric phase-field modelling](https://papers.cool/arxiv/cs.LG#2603.09693)
+#23 [ActiveUltraFeedback: Efficient Preference Data Generation using Active Learning](https://papers.cool/arxiv/cs.LG#2603.09692)
+#24 [On Catastrophic Forgetting in Low-Rank Decomposition-Based Parameter-Efficient Fine-Tuning](https://papers.cool/arxiv/cs.LG#2603.09684)
+#25 [GNNs for Time Series Anomaly Detection: An Open-Source Framework and a Critical Evaluation](https://papers.cool/arxiv/cs.LG#2603.09675)
+Export
+Magic Token:
+Kimi Language:
+中文English
+Desc Language:
+中文English
+Save
+Bug report? Issue submit? Please visit:
+\*\*Github:\*\* [https://github.com/bojone/papers.cool](https://github.com/bojone/papers.cool)
+Please read our [Disclaimer](https://github.com/bojone/papers.cool/blob/main/Disclaimer/README\_en.md) before proceeding.
+For more interesting features, please visit [kexue.fm](https://kexue.fm/) and [kimi.ai](https://kimi.moonshot.cn/?ref=papers.cool).
+[Home Page](https://papers.cool/ "Home Page")

@@ -1,0 +1,119 @@
+# Source URL: https://www.zhihu.com/question/1892119259968165459
+# Content Length: 7745 characters
+# Extracted at: 2026-03-23 09:55:21
+#============================================================
+
+![](https://www.zhihu.com/question/1892119259968165459)
+[人工智能](https://www.zhihu.com/topic/19551275)
+[Meta (Facebook)](https://www.zhihu.com/topic/20002767)
+[LLM（大型语言模型）](https://www.zhihu.com/topic/26797383)
+[llama](https://www.zhihu.com/topic/27207057)
+[开源大模型](https://www.zhihu.com/topic/28100723)
+# 如何评价 Meta 刚刚发布的 LLama 4 系列大模型？
+刚刚，当地时间2025年4月5日，Meta 发布了 Llama 4 系列模型。 \[图片\] 其中的Maveric的预览版已经登录LMArena，以141…显示全部 ​
+关注者
+\*\*542\*\*
+被浏览
+\*\*546,624\*\*
+关注问题​写回答
+​邀请回答
+​好问题 19
+​3 条评论
+​分享
+​
+#### 106 个回答
+默认排序
+[![涮月亮的谪仙人](https://pica.zhimg.com/v2-feb2093be8995a23639ab1cc6f80ce6b\_l.jpg?source=1def8aca)](https://www.zhihu.com/people/shuan-yue-liang-de-zhe-xian-ren)
+[涮月亮的谪仙人](https://www.zhihu.com/people/shuan-yue-liang-de-zhe-xian-ren)
+Deepseek&Claude粉
+​ 关注
+Meta颓势尽显，从llama3.1起，技术上insight就慢慢落后了。回首往昔，llama2还真是最巅峰。
+眼看他起高楼，眼看他宴宾客，
+新Llama4系列叫做Scout，Maverick，Behemoth。这三个名字真是拗口，看来是我孤陋寡闻了。那不妨依次称之为中杯，大杯，超大杯吧。
+乍一看，三个杯都是MoE，为了性能舍弃陈腐Dense，是好事一桩;
+再定睛一瞧，超大杯Behemoth，参数量足足有2T，却只有16个 expert ，蛤?
+超大杯没有share expert，和好兄弟大杯Maverick架构route 128 share 1，似乎不太一样，真是奇怪呢。合理怀疑大杯Maverick是不是抄deepseek作业去了，超大杯2T参数太大了，来不及换架构，只能16 expert
+很有趣的小细节:
+1. MetaP: 逐layer的学习率，初始化迁移规律。metap可以在batch size，模型宽度/深度，数据量间迁移。真的假的，太厉害了，比mup功能多 (原文which allows us to reliably set critical model hyper-parameters such as per-layer learning rates and initialization scales. We found that chosen hyper-parameters transfer well across different values of batch size, model width, depth, and training tokens)
+2. Early fusion的原生多模态: meta应该是在chamelon/transfusion时期就一直在探索这个，个人觉得费力不讨好，一点也不高效。llama4目前没有image generation，只有understanding，可能是训崩了/没敢训，还不是很“多模态”
+3. 30T数据比llama3翻了一倍多，32k GPUs训练，有钱
+4. iRoPE: interleave的attn layers，nope，是不是很大胆(doge)。盲猜是为了兼顾多模态? 假如是纯text模型，不用rope还挺让人惊讶的。& inference time的temperature scaling来做长度泛化(不明白?)
+5. RL的算法部分乏善可陈，最近大家都知道了(pass@k课程学习，筛system prompt，动态过滤advantage为0的样本等等)。大杯Maverick后训练过程怎么还是DPO。llama真是吊死在DPO上了.....
+新架构infra，长上下文，Reasoning RL，工程性coding可能还是大家今年的主攻方向。移步转眼，时间快来到了2025年中旬，Openai，Anthropic，Deepseek的大模型都憋着劲还没发，要一飞冲天，未来几个月想必会非常热闹。
+看transformers库里提早放出的qwen3，架构本身倒是没看出什么很新的东西，略失望。耐心坐等报告中，希望qwen给我一个小惊喜
+阅读全文​
+​赞同 473​​35 条评论​153 ​22
+​分享
+[![知乎用户](https://pic1.zhimg.com/v2-abed1a8c04700ba7d72b45195223e0ff\_l.jpg?source=1def8aca)](https://www.zhihu.com/people/c4af492e353c019c23b9090207e95d19)
+[知乎用户](https://www.zhihu.com/people/c4af492e353c019c23b9090207e95d19)
+[​![](https://picx.zhimg.com/v2-4a07bc69c4bb04444721f35b32125c75\_l.png?source=32738c0c)](https://www.zhihu.com/question/48509984)
+大模型话题下的优秀答主
+[收录于 · 大模型单评](https://www.zhihu.com/column/c\_1893368816609781228)
+\*\*Llama4 Maverick和Scout测评\*\*
+先说Maverick。作为一个有400B总参数的MoE架构。成绩还算符合预期。中规中矩。
+优缺点都较为明显。对于步骤明确的计算题，如#10水果热量，#22连续计算，正确率都较高。甚至高于相同水平的其他底座模型，接近一些推理模型的准确率。但需要技巧的题目，比如#25算24点，则会像无头苍蝇一样四处碰壁。
+Maverick的大部分输出都有严格的格式对齐，会按照对问题的分解，一步步推理，并且输出Step1，Step2这样的分段。但最终结论有时会莫名其妙输出一个用boxed框起来，但不知道从哪来的答案。和推理过程无法匹配。
+Llama系列的老毛病，使用英文推理，在Llama4系列也“继承”了，Maverick约有30%的概率输出全英文回答。而Scout更是高达40%。
+Maverick的成绩如图所示，极限分46。（基于3月题库）
+![](https://picx.zhimg.com/80/v2-ebbe63baec3af53de85181e9dc1ad6e6\_720w.webp?source=1def8aca)
+\* \* \*
+Scout的问题就比较多了。
+首先是严重的字符幻觉，#9数字缩写题，Scout完全错误，表现和和半年前的模型表现相当。其次指令遵循也相当堪忧，#15程序改错，完全误解题目，没有改错，而是全部重写，但是重写的版本是错误的，低级到题意都没有充分理解。#16旅游规划也不按要求格式输出。
+此外各类低参数模型的常见问题，Scout也都不缺席，比如#14正则匹配，推理时明白哪些不匹配，最终结论还是全部输出，上下文相距仅600个字，严重失忆。
+Scout的计算能力较差，也容易出现不受控死循环。表现在像#10水果热量，#25算24点这类题目，不但算不对数，也会随着推理文本变长，失忆和幻觉越来越重，发展到虚空造数据，不知道在算什么的程度。
+哦对了，Scout又是会自称是ChatGPT。
+最终成绩如下，极限分24分。
+![](https://pic1.zhimg.com/80/v2-4c0f578160578f89b52bd8d279e53271\_720w.webp?source=1def8aca)
+以上测评是基于笔者私有题库，和固定测试方法进行，对于不熟悉的读者，请参阅：
+阅读全文​
+​赞同 166​​91 条评论​21 ​6
+​分享
+[![手动狗头](https://picx.zhimg.com/v2-620fc25dec09de7bb9c27df2100358ac\_l.jpg?source=1def8aca)](https://www.zhihu.com/people/fei-xiang-tian-xing-zhe)
+[手动狗头](https://www.zhihu.com/people/fei-xiang-tian-xing-zhe)
+​ 关注
+152 人赞同了该回答
+llama的不行是可以预见的，meta最大的问题是FAIR里真正有水平的一波人是看不上大模型的，而不停推进大模型的很多上层领导并无真才实学，几个月前连基本路线都是错的，兵熊熊一个将熊熊一窝，要知道对面google的gemini也是给了demis足够的权力+清理了一群不懂行瞎指挥的高管之后才好起来的。
+[编辑于 2025-04-08 03:03](https://www.zhihu.com/question/1892119259968165459/answer/1892955515371364721)
+​赞同 152​​13 条评论​29 ​10
+​分享
+​
+查看剩余 103 条回答
+​写回答
+15 个回答被折叠（ [为什么？](https://www.zhihu.com/question/20120168)）
+[![QR Code of Downloading Zhihu App](https://static.zhihu.com/heifetz/assets/sidebar-download-qrcode.9c4d2837.png)\\
+\\
+下载知乎客户端\\
+\\
+与世界分享知识、经验和见解](https://s.zhihu.com/BDXoI)
+[广告\\
+\\
+![广告](https://picx.zhimg.com/v2-84efcb2d7c1727ff7cfa0c15808209cb\_720w.webp?source=d6434cab)](https://ima.qq.com/download/?webFrom=10000435&channel=10000435&cb=https%3A%2F%2Fsugar.zhihu.com%2Fplutus\_adreaper\_callback%3Fsi%3D98a8b0d6-b7b1-4e46-b84b-29b3c6d25cc4%26os%3D3%26zid%3D3%26zaid%3D3671779%26zcid%3D3629532%26cid%3D3629532%26event%3D\_\_EVENTTYPE\_\_%26value%3D\_\_EVENTVALUE\_\_%26ts%3D\_\_TIMESTAMP\_\_%26cts%3D\_\_TS\_\_%26mh%3D\_\_MEMBERHASHID\_\_%26adv%3D703838%26ocg%3D4%26cp%3D3000%26ocs%3D1%26aic%3D0%26atp%3D0%26ct%3D2%26ed%3DGiBNJgVzfCMmUW9XIVDVNQZREwA%3D&spu=biz%3D0%26ci%3D3629532%26si%3D1ed83a0e-dfac-4a20-8018-e46e57c9e699%26ts%3D1772662024%26zid%3D3)
+大家都在搜
+换一换
+[美以袭击伊朗629 万](https://www.zhihu.com/search?q=%E7%BE%8E%E4%BB%A5%E8%A2%AD%E5%87%BB%E4%BC%8A%E6%9C%97&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[伊朗局势484 万](https://www.zhihu.com/search?q=%E4%BC%8A%E6%9C%97%E5%B1%80%E5%8A%BF&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[千问核心班底集体发帖告别356 万](https://www.zhihu.com/search?q=%E5%8D%83%E9%97%AE%E6%A0%B8%E5%BF%83%E7%8F%AD%E5%BA%95%E9%9B%86%E4%BD%93%E5%8F%91%E5%B8%96%E5%91%8A%E5%88%AB&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[伊朗称成功打击萨德系统323 万](https://www.zhihu.com/search?q=%E4%BC%8A%E6%9C%97%E7%A7%B0%E6%88%90%E5%8A%9F%E6%89%93%E5%87%BB%E8%90%A8%E5%BE%B7%E7%B3%BB%E7%BB%9F&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[2026年全国两会312 万](https://www.zhihu.com/search?q=2026%E5%B9%B4%E5%85%A8%E5%9B%BD%E4%B8%A4%E4%BC%9A&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[最高法明确彩礼诈骗将担刑责296 万](https://www.zhihu.com/search?q=%E6%9C%80%E9%AB%98%E6%B3%95%E6%98%8E%E7%A1%AE%E5%BD%A9%E7%A4%BC%E8%AF%88%E9%AA%97%E5%B0%86%E6%8B%85%E5%88%91%E8%B4%A3&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[薛之谦好友爆料谢娜小三上位296 万](https://www.zhihu.com/search?q=%E8%96%9B%E4%B9%8B%E8%B0%A6%E5%A5%BD%E5%8F%8B%E7%88%86%E6%96%99%E8%B0%A2%E5%A8%9C%E5%B0%8F%E4%B8%89%E4%B8%8A%E4%BD%8D&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[哈梅内伊遇袭身亡288 万](https://www.zhihu.com/search?q=%E5%93%88%E6%A2%85%E5%86%85%E4%BC%8A%E9%81%87%E8%A2%AD%E8%BA%AB%E4%BA%A1&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[美军承认仿制伊朗无人机攻击伊朗264 万](https://www.zhihu.com/search?q=%E7%BE%8E%E5%86%9B%E6%89%BF%E8%AE%A4%E4%BB%BF%E5%88%B6%E4%BC%8A%E6%9C%97%E6%97%A0%E4%BA%BA%E6%9C%BA%E6%94%BB%E5%87%BB%E4%BC%8A%E6%9C%97&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[比亚迪元Plus硬抗伊朗导弹256 万](https://www.zhihu.com/search?q=%E6%AF%94%E4%BA%9A%E8%BF%AA%E5%85%83Plus%E7%A1%AC%E6%8A%97%E4%BC%8A%E6%9C%97%E5%AF%BC%E5%BC%B9&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_
+登录知乎，问答干货一键收藏
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://www.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码

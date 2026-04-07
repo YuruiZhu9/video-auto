@@ -1,0 +1,388 @@
+# Source URL: https://programmercarl.com/0141.%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8.html
+# Content Length: 7772 characters
+# Extracted at: 2026-03-09 07:02:07
+#============================================================
+
+
+
+
+141. 环形链表 | 代码随想录
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ [![]() 代码随想录](/)  [首页](/)[拓展阅读](/前序/时间复杂度.html)[🔥卡码投递表
+  (opens new window)](https://toudi.kamacoder.com/)[大厂算法](/ke/bishi.html)[最强八股文
+  (opens new window)](https://notes.kamacoder.com/bagu)[⭐️知识星球⭐️](/other/kstar.html)⭐️训练营⭐️  ⭐️训练营⭐️ 
+
+* [算法训练营](/xunlian/xunlianying.html)
+* [八股训练营](/xunlian/bagu.html)
+* [卡码大模型训练营（校招、社招](/xunlian/damoxing.html)
+* [卡码C++训练营（校招、社招](/xunlian/kamac.html)
+* [卡码Java/Go训练营（校招、社招突击](/xunlian/houduan.html)
+* [卡码Java/Go训练营1V1私教（社招系统提升](/xunlian/houduan1v1.html)
+* [华为OD专项练习
+    (opens new window)](https://my.feishu.cn/wiki/QusQwcYADibtsRkXIKkcJzpQntc)
+免费资源  免费资源 
+
+* [完整PDF下载](/qita/algo_pdf.html)
+* [ACM模式输出输出练习](/qita/acm1.html)
+* [代码随想录题单](/qita/12.list.html)
+[Github
+  (opens new window)](https://github.com/youngyangyang04/leetcode-master)   [首页](/)[拓展阅读](/前序/时间复杂度.html)[🔥卡码投递表
+  (opens new window)](https://toudi.kamacoder.com/)[大厂算法](/ke/bishi.html)[最强八股文
+  (opens new window)](https://notes.kamacoder.com/bagu)[⭐️知识星球⭐️](/other/kstar.html)⭐️训练营⭐️  ⭐️训练营⭐️ 
+
+* [算法训练营](/xunlian/xunlianying.html)
+* [八股训练营](/xunlian/bagu.html)
+* [卡码大模型训练营（校招、社招](/xunlian/damoxing.html)
+* [卡码C++训练营（校招、社招](/xunlian/kamac.html)
+* [卡码Java/Go训练营（校招、社招突击](/xunlian/houduan.html)
+* [卡码Java/Go训练营1V1私教（社招系统提升](/xunlian/houduan1v1.html)
+* [华为OD专项练习
+    (opens new window)](https://my.feishu.cn/wiki/QusQwcYADibtsRkXIKkcJzpQntc)
+免费资源  免费资源 
+
+* [完整PDF下载](/qita/algo_pdf.html)
+* [ACM模式输出输出练习](/qita/acm1.html)
+* [代码随想录题单](/qita/12.list.html)
+[Github
+  (opens new window)](https://github.com/youngyangyang04/leetcode-master) 
+
+* 编程语言基础
+  
+  + [编程语言基础课](/qita/language.html)
+* 数组
+* 链表
+* 哈希表
+* 字符串
+* 双指针法
+* 栈与队列
+* 二叉树
+* 回溯算法
+* 贪心算法
+* 动态规划
+* 单调栈
+* 图论
+* 额外题目 
+  
+  + [本模块说明](/qita/ewaishuoming.html)
+  + [数组：有多少小于当前数字的数字](/1365.有多少小于当前数字的数字.html)
+  + [数组：有效的山脉数组](/0941.有效的山脉数组.html)
+  + [数组：独一无二的出现次数](/1207.独一无二的出现次数.html)
+  + [数组：移动零](/0283.移动零.html)
+  + [数组：旋转数组](/0189.旋转数组.html)
+  + [数组：寻找数组的中心索引](/0724.寻找数组的中心索引.html)
+  + [数组：在排序数组中查找元素的第一个和最后一个位置](/0034.在排序数组中查找元素的第一个和最后一个位置.html)
+  + [数组：按奇偶排序数组II](/0922.按奇偶排序数组II.html)
+  + [数组：搜索插入位置](/0035.搜索插入位置.html)
+  + [链表：两两交换链表中的节点](/0024.两两交换链表中的节点.html)
+  + [链表：回文链表](/0234.回文链表.html)
+  + [链表：重排链表](/0143.重排链表.html)
+  + [链表：环形链表](/0141.环形链表.html)
+    - [思路](/0141.环形链表.html#思路)
+    - [扩展](/0141.环形链表.html#扩展)
+    - [其他语言版本](/0141.环形链表.html#其他语言版本)
+  + [链表：相交链表](/0160.相交链表.html)
+  + [哈希表：同构字符串](/0205.同构字符串.html)
+  + [哈希表：查找常用字符](/1002.查找常用字符.html)
+  + [字符串：长按键入](/0925.长按键入.html)
+  + [字符串：比较含退格的字符串](/0844.比较含退格的字符串.html)
+  + [二叉树：求根到叶子节点数字之和](/0129.求根到叶子节点数字之和.html)
+  + [二叉树：将二叉搜索树变平衡](/1382.将二叉搜索树变平衡.html)
+  + [二叉树：相同的树](/0100.相同的树.html)
+  + [二叉树：填充每个节点的下一个右侧节点指针](/0116.填充每个节点的下一个右侧节点指针.html)
+  + [回溯算法：N皇后II](/0052.N皇后II.html)
+  + [贪心：Dota2参议院](/0649.Dota2参议院.html)
+  + [贪心：分割平衡字符串](/1221.分割平衡字符串.html)
+  + [动态规划：最长回文子串](/0005.最长回文子串.html)
+  + [动态规划：分割回文串II](/0132.分割回文串II.html)
+  + [动态规划：最长递增子序列的个数](/0673.最长递增子序列的个数.html)
+  + [图论：钥匙和房间](/0841.钥匙和房间.html)
+  + [图论：单词接龙](/0127.单词接龙.html)
+  + [并查集：冗余连接](/0684.冗余连接.html)
+  + [并查集：冗余连接II](/0685.冗余连接II.html)
+  + [模拟：机器人能否返回原点](/0657.机器人能否返回原点.html)
+  + [模拟：下一个排列](/0031.下一个排列.html)
+  + [模拟：岛屿的周长](/0463.岛屿的周长.html)
+  + [位运算：根据数字二进制下1的数目排序](/1356.根据数字二进制下1的数目排序.html)
+* 持续更新中...
+* 感悟
+  
+  + [通关代码随想录](/qita/say_feel.html)
+  
+
+* [做项目（多个C++、Java、Go、测开、前端项目）  (opens new window)](https://www.programmercarl.com/other/kstar.html)
+* [刷算法（两个月高强度学算法）  (opens new window)](https://www.programmercarl.com/xunlian/xunlianying.html)
+* [背八股（40天挑战高频面试题）  (opens new window)](https://www.programmercarl.com/xunlian/bagu.html)
+
+[#](#_141-环形链表) 141. 环形链表
+=========================
+
+[力扣题目链接  (opens new window)](https://leetcode.cn/problems/linked-list-cycle/submissions/)
+
+给定一个链表，判断链表中是否有环。
+
+如果链表中有某个节点，可以通过连续跟踪 next 指针再次到达，则链表中存在环。 为了表示给定链表中的环，我们使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 pos 是 -1，则在该链表中没有环。注意：pos 不作为参数进行传递，仅仅是为了标识链表的实际情况。
+
+如果链表中存在环，则返回 true 。 否则，返回 false 。
+
+![]()
+
+[#](#思路) 思路
+-----------
+
+可以使用快慢指针法， 分别定义 fast 和 slow指针，从头结点出发，fast指针每次移动两个节点，slow指针每次移动一个节点，如果 fast 和 slow指针在途中相遇 ，说明这个链表有环。
+
+为什么fast 走两个节点，slow走一个节点，有环的话，一定会在环内相遇呢，而不是永远的错开呢？
+
+首先第一点： **fast指针一定先进入环中，如果fast 指针和slow指针相遇的话，一定是在环中相遇，这是毋庸置疑的。**
+
+那么来看一下，**为什么fast指针和slow指针一定会相遇呢？**
+
+可以画一个环，然后让 fast指针在任意一个节点开始追赶slow指针。
+
+会发现最终都是这种情况， 如下图：
+
+![]()
+
+fast和slow各自再走一步， fast和slow就相遇了
+
+这是因为fast是走两步，slow是走一步，**其实相对于slow来说，fast是一个节点一个节点的靠近slow的**，所以fast一定可以和slow重合。
+
+动画如下：
+
+![]()
+
+C++代码如下
+
+```
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        ListNode* fast = head;
+        ListNode* slow = head;
+        while(fast != NULL && fast->next != NULL) {
+            slow = slow->next;
+            fast = fast->next->next;
+            // 快慢指针相遇，说明有环
+            if (slow == fast) return true;
+        }
+        return false;
+    }
+};
+
+```
+1  
+2  
+3  
+4  
+5  
+6  
+7  
+8  
+9  
+10  
+11  
+12  
+13  
+14  
+
+[#](#扩展) 扩展
+-----------
+
+做完这道题目，可以在做做[142.环形链表II  (opens new window)](https://programmercarl.com/0142.%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8II.html)，不仅仅要找环，还要找环的入口。
+
+[#](#其他语言版本) 其他语言版本
+-------------------
+
+### [#](#java) Java:
+
+```
+public class Solution {
+    public boolean hasCycle(ListNode head) {
+		ListNode fast = head;
+		ListNode slow = head;
+		// 空链表、单节点链表一定不会有环
+		while (fast != null && fast.next != null) {
+			fast = fast.next.next; // 快指针，一次移动两步
+			slow = slow.next;      // 慢指针，一次移动一步
+			if (fast == slow) {   // 快慢指针相遇，表明有环
+				return true;
+			}
+		}
+		return false; // 正常走到链表末尾，表明没有环
+    }
+}
+
+```
+1  
+2  
+3  
+4  
+5  
+6  
+7  
+8  
+9  
+10  
+11  
+12  
+13  
+14  
+15  
+### [#](#python) Python:
+
+```
+class Solution:
+    def hasCycle(self, head: ListNode) -> bool:
+        if not head: return False
+        slow, fast = head, head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+            if fast == slow:
+                return True
+        return False
+
+```
+1  
+2  
+3  
+4  
+5  
+6  
+7  
+8  
+9  
+10  
+### [#](#go) Go:
+
+```
+func hasCycle(head *ListNode) bool {
+    if head==nil{
+        return false
+    } //空链表一定不会有环
+    fast:=head
+    slow:=head //快慢指针
+    for fast.Next!=nil&&fast.Next.Next!=nil{
+        fast=fast.Next.Next
+        slow=slow.Next
+        if fast==slow{
+            return true  //快慢指针相遇则有环
+        }
+    }
+    return false
+}
+
+```
+1  
+2  
+3  
+4  
+5  
+6  
+7  
+8  
+9  
+10  
+11  
+12  
+13  
+14  
+15  
+### [#](#javascript) JavaScript:
+
+```
+var hasCycle = function(head) {
+    let fast = head;
+    let slow = head;
+    // 空链表、单节点链表一定不会有环
+    while(fast != null && fast.next != null){
+        fast = fast.next.next; // 快指针，一次移动两步
+        slow = slow.next; // 慢指针，一次移动一步
+        if(fast === slow) return true; // 快慢指针相遇，表明有环
+    }
+    return false; // 正常走到链表末尾，表明没有环
+};
+
+```
+1  
+2  
+3  
+4  
+5  
+6  
+7  
+8  
+9  
+10  
+11  
+### [#](#typescript) TypeScript:
+
+```
+function hasCycle(head: ListNode | null): boolean {
+    let slowNode: ListNode | null = head,
+        fastNode: ListNode | null = head;
+    while (fastNode !== null && fastNode.next !== null) {
+        slowNode = slowNode!.next;
+        fastNode = fastNode.next.next;
+        if (slowNode === fastNode) return true;
+    }
+    return false;
+};
+
+```
+1  
+2  
+3  
+4  
+5  
+6  
+7  
+8  
+9  
+10  
+  上次更新：: 11/13/2025, 1:13:22 PM 
+
+
+←
+[链表：重排链表](/0143.重排链表.html) [链表：相交链表](/0160.相交链表.html)
+→
+
+
+ @2021-2026 代码随想录 版权所有 **[粤ICP备19156078号](https://beian.miit.gov.cn)**  ![]() 侧边栏 ![]() 夜间 [![]() 卡码简历](https://jianli.kamacoder.com/) [![]() 最强八股文🔥](https://notes.kamacoder.com) [![]() 卡码投递表🔥](https://toudi.kamacoder.com) ![]() 算法群  添加客服微信 ![]()
+PS：通过微信后，请发送**姓名-学校/城市-年级/岗位-组队刷题** ![]() 2026实习校招群  添加客服微信 ![]()
+PS：通过微信后，请发送**姓名-学校-年级-2026实习/校招** ![]() PDF下载  添加客服微信，发你《代码随想录》PDF ![]()
+PS：通过微信后，**姓名-学校/城市-年级/岗位-PDF** ![]() 支持代码随想录  鼓励/支持/赞赏Carl ![]()   
+1. 如果感觉本站对你很有帮助，也可以请Carl喝杯奶茶，金额大小不重要，心意已经收下
+  
+2. 希望大家都能梦想成真，有好的前程，加油💪
+  
+
+

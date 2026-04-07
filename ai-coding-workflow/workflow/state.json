@@ -1,0 +1,549 @@
+{
+  "version": "1.7",
+  "lastUpdated": "2026-04-07",
+  "checked": "2026-04-07",
+  "weeklyCheck": "2026-04-07",
+  "cronCheck": "2026-04-07",
+  "nextCheck": "2026-04-12",
+  "lastCronCheckNote": "第五十八次（2026-04-07）：imidef.com验证五大趋势体系全部已覆盖；buildbetter.ai新增Review Sandwich（AI×人类双层审查-30-50%）+ Trust Gradient三阶段渐进授权 + 五层AI开发栈；Cursor 3 ARR大幅更新$500M→$2B，市占率~25%（行业基础设施级别）；任务粒度最佳实践（中等离散任务）；Claude Code 200K vs Cursor 128K上下文对比；JetBrains 2026调研（10K+开发者）确认Claude Code 6x增长/CSAT 91%/NPS 54最高/Copilot增长停滞；新增 patterns/evaluation-driven.md（Practical Spec Template五要素+五层AI开发栈+Vibe Coding红绿区矩阵+2026后展望）。无重大范式突破。",
+  "lastWeeklyNote": "第四十二次（2026-03-26）：Anthropic Skills 仓库更新。3个新增技能详解 + claude-code-guide（3.1k⭐）全面解读，无重大范式突破。doc-coauthoring 的读者测试子 Agent 模式值得关注。",
+  "lastContextEngineeringUpdate": "2026-04-04",
+  "lastContextEngineeringUpdateNote": "新增 Cursor Automations（事件驱动）、Multi-Model Rotation（成本路由）、Vibe Coding红绿区、Test-First AI Loop（TDD×AI）、2026市场数据",
+  "phases": [
+    {
+      "id": "01",
+      "name": "requirement",
+      "status": "ready",
+      "file": "phases/01-requirement.md"
+    },
+    {
+      "id": "02",
+      "name": "architecture",
+      "status": "ready",
+      "file": "phases/02-architecture.md"
+    },
+    {
+      "id": "03",
+      "name": "planning",
+      "status": "ready",
+      "file": "phases/03-planning.md"
+    },
+    {
+      "id": "04",
+      "name": "codegen",
+      "status": "ready",
+      "file": "phases/04-codegen.md"
+    },
+    {
+      "id": "05",
+      "name": "review",
+      "status": "ready",
+      "file": "phases/05-review.md"
+    },
+    {
+      "id": "06",
+      "name": "deployment",
+      "status": "ready",
+      "file": "phases/06-deployment.md"
+    }
+  ],
+  "patterns": [
+    {
+      "id": "01",
+      "name": "prompt-engineering",
+      "file": "patterns/prompt-engineering.md",
+      "updated": "2026-04-05",
+      "note": "🆕 Section 123：Plan-then-Execute（推理模型计划-执行分离）+ Section 124：SAM 3多模态进化 + Section 125：Claude Code快捷命令（/btw临时问答+CLI参数+Effort级别表+Hook事件完整清单）"
+    },
+    {
+      "id": "02",
+      "name": "context-management",
+      "file": "patterns/context-management.md",
+      "updated": "2026-04-04",
+      "note": "🆕 Section 15：Vibe Coding红绿区安全边界（绿区5类：样板/测试/文档/重构/CRUD；红区4类：安全/性能/状态机/金钱；+审查重点清单）"
+    },
+    {
+      "id": "03",
+      "name": "debugging-strategies",
+      "file": "patterns/debugging-strategies.md",
+      "updated": "2026-04-04",
+      "note": "🆕 Section 19: Claude Code源码泄露事件（BUDDY/KAIROS/ULTRAPLAN/108 gated modules）+ 愚人节彩蛋安全启示 + npm供应链风险"
+    },
+    {
+      "id": "04",
+      "name": "code-standards",
+      "file": "patterns/code-standards.md",
+      "updated": "2026-03-20"
+    },
+    {
+      "id": "05",
+      "name": "multi-agent-workflows",
+      "file": "patterns/multi-agent-workflows.md",
+      "updated": "2026-04-05",
+      "note": "🆕 Section 42：AT&T SLM案例（90%降本/70%加速）+ Section 43：Addy Osmani Conductor Pattern + Section 44：Reasoning Distillation + Section 32补充：Auto Mode运维三命令(auto-mode config/defaults/critique)"
+    },
+    {
+      "id": "06",
+      "name": "skills-anthropic-updates",
+      "file": "patterns/skills-anthropic-updates.md",
+      "updated": "2026-03-27",
+      "note": "🆕 Anthropic 内部 Skills 指南（9分类体系+8编写技巧+分发策略）+ claude-api skill正式加入+skill-creator移除API Key要求"
+    },
+    {
+      "id": "07",
+      "name": "evaluation-driven",
+      "file": "patterns/evaluation-driven.md",
+      "updated": "2026-04-07",
+      "note": "🆕 新建：Practical Spec Handoff Template五要素（Purpose/Scope/Constraints/Acceptance/Verification）+ 编码前五项验证定义 + Vibe Coding红绿区矩阵 + 五层AI开发栈（IDE→Agent→Skills→测试→审查）+ 2026后展望"
+    }
+  ],
+  "notes": [
+    {
+      "date": "2026-03",
+      "file": "notes/2026-03.md",
+      "updated": "2026-03-26",
+      "note": "🆕 第三十次：Claude Code v2.1.84/2.1.83 发布 + anthropics/skills claude-api 批量更新（prompt-caching.md 新增）。TaskOutput tool 废弃。"
+    },
+    {
+      "date": "2026-04",
+      "file": "notes/2026-04.md",
+      "updated": "2026-03-26",
+      "note": "🆕 第四十二次：Anthropic Skills 仓库3个新技能（doc-coauthoring/frontend-design/slack-gif-creator）+ zebbern/claude-code-guide（3.1k⭐）全面解读"
+    },
+    {
+      "date": "2026-03-27",
+      "file": "notes/2026-04.md",
+      "updated": "2026-03-27",
+      "note": "🆕 Auto Mode发布+Anthropic内部Skills指南"
+    },
+    {
+      "date": "2026-03-27-46th",
+      "file": "notes/2026-04.md",
+      "updated": "2026-03-27",
+      "note": "🆕 Context Window Sovereignty + Architectural Drift + Devin 70% + Supermaven <50ms + Claude Code CHANGELOG存疑（官方仅到v2.1.15）"
+    },
+    {
+      "date": "2026-03-30-47th",
+      "file": "notes/2026-04.md",
+      "updated": "2026-03-30",
+      "note": "🆕 第四十九次：Claude Code v2.1.85/86/87三新版本确认。条件钩子if字段（Skills架构）+ 计划任务时间戳 + Read工具优化（去重/token节省）+ VCS排除(.jj/.sl)；已更新notes/2026-04.md。官方CHANGELOG仍停v2.1.15。change8.dev/gradually.ai新增为来源。"
+    },
+    {
+      "date": "2026-04-03-52nd",
+      "file": "notes/2026-04.md",
+      "updated": "2026-04-03",
+      "note": "🆕 第五十二次：RuleSync AI Coding Standards 2026（Agentic Safety Rules/Composable Rulesets/Security-First）+ Addy Osmani 2026 Workflow（Context7/Chrome DevTools MCP/Jules+Copilot Agent/Conductor）+ Ryz Labs 5 Trends（75%采用/领域定制AI/AI代码审查CI/CD）。patterns/context-management.md Section 14 + patterns/multi-agent-workflows.md Section 33。"
+    },
+    {
+      "date": "2026-04-04-53rd",
+      "file": "notes/2026-04.md",
+      "updated": "2026-04-04",
+      "note": "🆕 第五十三次：Claude Code源码泄露事件（2026-04-01）+ Cursor 3.0发布（2026-04-02）。Claude Code泄露512K行揭示BUDDY宠物/KAIROS常驻Agent/ULTRAPLAN 30min云端规划/Coordinator Mode多Agent编排；Cursor 3.0 AI Fleets+多仓+云端本地交接。patterns/multi-agent-workflows.md新增Section 36/37/38；patterns/debugging-strategies.md新增Section 19。"
+    },
+    {
+      "date": "2026-04-04-54th",
+      "file": "notes/2026-04.md",
+      "updated": "2026-04-04",
+      "note": "🆕 第五十四次：dev.to三Workflows（Multi-Model Rotation 73%降本路由表 / Test-First AI Loop TDD闭环 / Cursor Automations事件驱动）+ groundy 58种提示技术 + zencoder Repo Grokking + CodeGuru案例。"
+    },
+    {
+      "date": "2026-04-05-56th",
+      "file": "notes/2026-04.md",
+      "updated": "2026-04-05",
+      "note": "🆕 第五十六次：computingforgeeks.com Claude Code Cheat Sheet 2026（3天前发布）新增5项：/btw临时问答+CLI参数+Effort级别表+Hook事件清单+Auto Mode运维命令。patterns/prompt-engineering.md新增Section 125；patterns/multi-agent-workflows.md更新Section 32。"
+    }
+  ],
+  "sources": [
+    {
+      "name": "emergent.sh — Best AI Coding Tools in 2026",
+      "url": "https://emergent.sh/learn/best-ai-models-for-coding",
+      "date": "2026-03",
+      "note": "🆕 实测评估：Most AI coding tools break in real workflows. Claude Code/Cursor/Codex/Copilot横向对比"
+    },
+    {
+      "name": "vibecoding.app — How Vibe Coding Works (GitHub 9.3k⭐)",
+      "url": "https://vibecoding.app/blog/how-vibe-coding-works",
+      "date": "2026-03",
+      "note": "🆕 Intent→Spec→Generate→Review→Iterate→Ship六步循环 + 45% OWASP失败率 + 96%功能不正确率 + 工具分阶段矩阵"
+    },
+    {
+      "name": "wavespeed.ai — Cursor vs Claude Code 2026",
+      "url": "https://wavespeed.ai/blog/zh-cn/posts/cursor-vs-claude-code-comparison-2026/",
+      "date": "2026-03",
+      "note": "🆕 新增：Claude Code 5.5x Token效率 + 30%更少返工 + 工具互补矩阵"
+    },
+    {
+      "name": "CSDN — 2026年AI Agent架构大变革：Workflow已死，Skills架构yyds",
+      "url": "https://blog.csdn.net/weixin_58753619/article/details/157553755",
+      "date": "2026-03-20",
+      "note": "🆕 重大架构范式转变，Skills架构节省95%启动内存，已新增至 multi-agent-workflows.md Section 19"
+    },
+    {
+      "name": "Forbes — Users Quit ChatGPT For Claude (1,487% Surge, 2026-03)",
+      "url": "https://www.forbes.com/sites/rachaelworthwell/2026/03/23/users-quit-chatgpt-for-claude-in-1487-surge-heres-how/",
+      "date": "2026-03-23",
+      "note": "🆕 ChatGPT→Claude用户迁移潮，Claude Code工作流价值被市场验证"
+    },
+    {
+      "name": "MacRumors — Claude AI Can Now Use Your Mac Remotely (2026-03-24)",
+      "url": "https://www.macrumors.com/2026/03/24/claude-use-mac-remotely-iphone/",
+      "date": "2026-03-24",
+      "note": "🆕 Claude Code Mac 远程控制能力"
+    },
+    {
+      "name": "Addy Osmani 2026 Workflow",
+      "url": "https://addyosmani.com/blog/ai-coding-workflow/",
+      "date": "2026-01"
+    },
+    {
+      "name": "Vibe Coding Guide",
+      "url": "https://github.com/tukuaiai/vibe-coding-cn",
+      "date": "2026-03"
+    },
+    {
+      "name": "CSDN AI编程术语全景指南",
+      "url": "https://blog.csdn.net/qq_16038125/article/details/159238360",
+      "date": "2026-03"
+    },
+    {
+      "name": "Dev.to CRISP Framework",
+      "url": "https://dev.to/iniyarajan86/prompt-engineering-for-developers-10x-your-ai-coding-in-2026-8d6",
+      "date": "2026-03"
+    },
+    {
+      "name": "ccino.org Claude Code Workflow 2026",
+      "url": "https://blog.ccino.org/p/claude-code-workflow-best-practices-2026/",
+      "date": "2026-03"
+    },
+    {
+      "name": "bswen.com Claude Code vs Cursor",
+      "url": "https://docs.bswen.com/blog/2026-03-23-claude-code-vs-cursor/",
+      "date": "2026-03"
+    },
+    {
+      "name": "lilys.ai AI Coding Workflow 2026",
+      "url": "https://lilys.ai/en/notes/ai-coding-agent-20260106/ai-coding-workflow-2026",
+      "date": "2026-01"
+    },
+    {
+      "name": "hamy.xyz AI Engineering Best Practices",
+      "url": "https://hamy.xyz/blog/2026-01_ai-engineering-best-practices",
+      "date": "2026-01"
+    },
+    {
+      "name": "OpenAI Codex 最佳实践指南",
+      "url": "https://jimo.studio/blog/openai-releases-codex-best-practices-guide-ai-programming-workflow-exposed-for-the-first-time/",
+      "date": "2026-03"
+    },
+    {
+      "name": "规范驱动开发 SDD (腾讯云)",
+      "url": "https://cloud.tencent.com/developer/article/2586438",
+      "date": "2026-03"
+    },
+    {
+      "name": "cursor.com Best Practices for Coding with Agents",
+      "url": "https://cursor.com/blog/agent-best-practices",
+      "date": "2026-03"
+    },
+    {
+      "name": "CometAPI Cursor vs Claude Code vs Codex 2026",
+      "url": "https://www.cometapi.com/zh-CN/cursor-vs-claude-code-vs-codex-which-is-better-for-vibe-coding-in-2026/",
+      "date": "2026-03"
+    },
+    {
+      "name": "GitHub LearnClaudeCode (26.7k⭐)",
+      "url": "https://github.com/tukuaiai/learn-claude-code",
+      "date": "2026-03"
+    },
+    {
+      "name": "Promptbestie AI Prompt Engineering Trends 2026",
+      "url": "https://promptbestie.com/en/ai-prompt-engineering-trends-2026-definitive-guide/",
+      "date": "2026-03"
+    },
+    {
+      "name": "ITSFOSS 12 AI Coding Best Practices 2026",
+      "url": "https://itsfoss.gitlab.io/post/how-to-use-ai-in-coding-12-best-practices-in-2026/",
+      "date": "2026-03"
+    },
+    {
+      "name": "GitHub obra/superpowers Agentic Skills Framework",
+      "url": "https://github.com/obra/superpowers",
+      "date": "2026-03"
+    },
+    {
+      "name": "GitHub ykdojo/claude-code-tips (6.7k⭐)",
+      "url": "https://github.com/ykdojo/claude-code-tips",
+      "date": "2026-03"
+    },
+    {
+      "name": "Opentools.ai AI Coding Assistants 2026",
+      "url": "https://opentools.ai/news/ai-coding-assistants-revolutionizing-software-development-by-2026",
+      "date": "2026-03"
+    },
+    {
+      "name": "Yoocollab AI in Software Development Teams 2026",
+      "url": "https://yoocollab.com/blog/ai-in-software-development-teams-in-2026/",
+      "date": "2026-03"
+    },
+    {
+      "name": "腾讯云 Claude Code实战最佳实践16条",
+      "url": "https://cloud.tencent.com/developer/article/2643607",
+      "date": "2026-03-21"
+    },
+    {
+      "name": "Geeky Gadgets 50 Claude Code Tips 2026",
+      "url": "https://www.geeky-gadgets.com/claude-code-tips-2/",
+      "date": "2026-02"
+    },
+    {
+      "name": "verdent.ai — AI Coding Agents 2026 Complete Guide",
+      "url": "https://www.verdent.ai/guides/ai-coding-agent-2026",
+      "date": "2026"
+    },
+    {
+      "name": "36氪 — 2026 AI Agent六大趋势（CB Insights《AI Agent圣经》）",
+      "url": "https://www.36kr.com/p/3518938465770373",
+      "date": "2026"
+    },
+    {
+      "name": "🆕 dev.to — 5 Vibe Coding Workflows（2026-03）",
+      "url": "https://dev.to/dohkoai/5-vibe-coding-workflows-that-actually-ship-production-code-in-2026-1nmn",
+      "date": "2026-03",
+      "note": "🆕 Cursor Automations Pipeline + Multi-Model Rotation（节省73%）+ AGENTS.MD Pipeline + Test-First AI Loop + Vibe Coding红绿区"
+    },
+    {
+      "name": "🆕 eastondev.com — 2026 AI编程工具全景盘点",
+      "url": "https://eastondev.com/blog/zh/posts/ai/ai-coding-tools-panorama-2026/",
+      "date": "2026-03",
+      "note": "🆕 $128亿市场/85%采用率/20M Copilot用户/AI辅助代码4x缺陷率/三大工具类别"
+    },
+    {
+      "name": "🆕 bswen.com — Claude Code vs Cursor（2026-03-23）",
+      "url": "https://docs.bswen.com/blog/2026-03-23-claude-code-vs-cursor/",
+      "date": "2026-03-23",
+      "note": "🆕 Agent-centric vs IDE-centric架构差异 + .claude/pipeline.yaml CI/CD自动化"
+    },
+    {
+      "name": "EPAM — 7 AI Trends Redefining Software Development (2026-02-01)",
+      "url": "https://www.epam.com/insights/ai/blogs/ai-trends-in-software-development",
+      "date": "2026-02-01",
+      "note": "Agentic Memory(GAM)/T-Shaped工程师/Program Verification/AI-Friendly代码库，EPAM AI/Run团队13+领导者调研"
+    },
+    {
+      "name": "🆕 CosmicJS — Claude Code vs GitHub Copilot vs Cursor (2026)",
+      "url": "https://www.cosmicjs.com/blog/claude-code-vs-github-copilot-vs-cursor-which-ai-coding-agent-should-you-use-2026",
+      "date": "2026-03",
+      "note": "🆕 三工具IDE覆盖度对比（Copilot 10+ IDE）+ Dual Tool Strategy + 企业安全合规三选一矩阵（SOC 2/HIPAA/IP indemnity）"
+    },
+    {
+      "name": "🆕 GitHub anthropics/skills (52.3k⭐) — Anthropic Skills 仓库",
+      "url": "https://github.com/anthropics/skills",
+      "date": "2025-12-20",
+      "note": "🆕 3个新技能（doc-coauthoring三阶段文档协作/frontend-design反AI-slop设计/slack-gif-creator）+ agentskills.io规范链接"
+    },
+    {
+      "name": "🆕 GitHub zebbern/claude-code-guide (3.1k⭐)",
+      "url": "https://github.com/zebbern/claude-code-guide",
+      "date": "2026-03",
+      "note": "🆕 5子Agent（planner/codegen/tester/reviewer/docs）+ 8种Hook事件 + 3个GitHub Actions工作流（PR Review/Security/Issue Triage）+ 10个MCP服务器推荐"
+    },
+    {
+      "name": "🆕 GitHub anthropics/skills — claude-api prompt-caching (2026-03-25)",
+      "url": "https://github.com/anthropics/skills/commit/98669c11ca63e9c81c11501e1437e5c47b556621",
+      "date": "2026-03-25",
+      "note": "🆕 claude-api skill 批量更新13文件：shared/prompt-caching.md 新增（prefix match原则）+ 各语言SDK同步更新"
+    },
+    {
+      "name": "🆕 GitHub zebbern/claude-code-guide — CHANGELOG v2.1.84 (2026-03-26)",
+      "url": "https://github.com/zebbern/claude-code-guide/blob/main/CHANGELOG.md",
+      "date": "2026-03-26",
+      "note": "🆕 Claude Code v2.1.84：PowerShell工具预览/ANTHROPIC_DEFAULT_MODEL_SUPPORTS env var/CLAUDE_STREAM_IDLE_TIMEOUT_MS/transcript搜索/Ctrl+U多行清空/token计数格式化/TaskCreated hook/VSCode速率限制警告"
+    },
+    {
+      "name": "🆕 GitHub zebbern/claude-code-guide — CHANGELOG v2.1.83 (2026-03-25)",
+      "url": "https://github.com/zebbern/claude-code-guide/blob/main/CHANGELOG.md",
+      "date": "2026-03-25",
+      "note": "🆕 Claude Code v2.1.83：managed-settings.d drop-in/CwdChanged+FileChanged hook/sandbox.failIfUnavailable/Agent initialPrompt/Ctrl+X Ctrl+E/TaskOutput废弃"
+    },
+    {
+      "name": "🆕 TechCrunch — Anthropic hands Claude Code more control (2026-03-24)",
+      "url": "https://techcrunch.com/2026/03/24/anthropic-hands-claude-code-more-control-but-keeps-it-on-a-leash/",
+      "date": "2026-03-24",
+      "note": "🆕 Claude Code Auto Mode 正式发布：三层决策机制+四类风险拦截，Agentic Coding进入新阶段"
+    },
+    {
+      "name": "🆕 toolin.ai — Anthropic内部实战：如何用 Skills 让 Claude Code 效率翻倍",
+      "url": "https://toolin.ai/blog/claude-code-skills-guide",
+      "date": "2026-03",
+      "note": "🆕 Anthropic团队工程师Thariq Shihipar一手经验：9大Skills分类体系+8个编写技巧+分发策略"
+    },
+    {
+      "name": "🆕 AIBase — Claude Code Auto Mode Launches (2026-03-25)",
+      "url": "https://www.aibase.com/news/26548",
+      "date": "2026-03-25",
+      "note": "🆕 Auto Mode完整指南：classifier三层决策+vs保守模式对比+四类核心风险拦截"
+    },
+    {
+      "name": "🆕 dev.to — Top 10 AI Coding Tools for 2026: The New Development Standard",
+      "url": "https://dev.to/del_rosario/top-10-ai-coding-tools-for-2026-the-new-development-standard-e5p",
+      "date": "2026-03",
+      "note": "🆕 Context Window Sovereignty（2026最大范式）+ Architectural Drift新反模式 + SWE-bench Lite 40%+基准 + Devin Enterprise 70%自主率 + Supermaven <50ms"
+    },
+    {
+      "name": "🆕 Kanaries — 15 Best AI Coding Tools 2026: The Definitive Comparison",
+      "url": "https://docs.kanaries.net/articles/best-ai-coding-tools-2026",
+      "date": "2026-03",
+      "note": "🆕 RunCell数据科学专用Agent + 效率提升30-55%区间 + Claude Code 200K token vs Supermaven 300K benchmark"
+    },
+    {
+      "name": "⚠️ GitHub anthropics/claude-code — CHANGELOG v2.1.83/84 存疑",
+      "url": "https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md",
+      "date": "2026-03-27",
+      "note": "⚠️ 官方CHANGELOG最高版本v2.1.15（2026-01-21），state.json记录的v2.1.83/84（2026-03-25/26）待验证；Claude Haiku 3废弃日期2026-04-19已确认"
+    },
+    {
+      "name": "🆕 change8.dev — Claude Code March 2026 Full Changelog (17 releases)",
+      "url": "https://www.change8.dev/ai-tools/claude-code/monthly/march-2026",
+      "date": "2026-03",
+      "note": "🆕 Claude Code 3月汇总：17次发布/73特性/282修复/123改进。v2.1.70~v2.1.87全版本列表。含Conditional Hooks/时间戳标记/VCS排除等关键新特性。"
+    },
+    {
+      "name": "🆕 gradually.ai — Claude Code Full Changelog (镜像站)",
+      "url": "https://www.gradually.ai/en/changelogs/claude-code/",
+      "date": "2026-03",
+      "note": "🆕 Claude Code CHANGELOG镜像站，最新版本v2.1.87。详细diff记录：v2.1.85条件钩子/v2.1.86 Read工具优化/v2.1.87 Cowork Dispatch修复。"
+    },
+    {
+      "name": "🆕 codewave.com — AI Prompt Engineering Cheat Sheet for Software Teams (2026)",
+      "url": "https://codewave.com/insights/ai-prompt-engineering-cheat-sheet/",
+      "date": "2026-03",
+      "note": "🆕 RTF/RASC/COSTAR三大结构化框架 + If-Then条件逻辑 + Temperature/Top-p量化设置；新增至prompt-engineering.md Section 122"
+    },
+    {
+      "name": "🆕 Builder.io — Every Claude Code Update From March 2026 Explained",
+      "url": "https://www.builder.io/blog/claude-code-updates",
+      "date": "2026-03-26",
+      "note": "🆕 March回顾：Computer Use/Cowork/Auto Mode/Remote Control/Scheduled Tasks/Interactive Visuals 六大功能发布；Claude Code三月版本跃升10个版本号。"
+    },
+    {
+      "name": "🆕 toolin.ai — Anthropic团队工程师Thariq Shihipar Skills实战指南",
+      "url": "https://toolin.ai/blog/claude-code-skills-guide",
+      "date": "2026-03",
+      "note": "🆕 Anthropic团队一手经验：9大Skills分类体系（Library/API/Verification/Data/Business/Scaffolding/Quality/CI&CD/Ops）+ 8个编写技巧 + 插件分发策略"
+    },
+    {
+      "name": "🆕 Claude Code v2.1.85 — CHANGELOG (2026-03)",
+      "url": "https://github.com/zebbern/claude-code-guide/blob/main/CHANGELOG.md",
+      "date": "2026-03",
+      "note": "🆕 条件钩子if字段（Skills架构关键）+ 计划任务时间戳标记 + deep link 5000字符 + MCP elicitation headless + /compact修复"
+    },
+    {
+      "name": "🆕 Claude Code v2.1.86 — CHANGELOG (2026-03)",
+      "url": "https://github.com/zebbern/claude-code-guide/blob/main/CHANGELOG.md",
+      "date": "2026-03",
+      "note": "🆕 VCS排除列表(.jj/.sl)+X-Claude-Code-Session-Id请求头+Read工具行号优化+/feedback OOM修复+启动性能优化"
+    },
+    {
+      "name": "🆕 Claude Code v2.1.87 — CHANGELOG (2026-03)",
+      "url": "https://github.com/zebbern/claude-code-guide/blob/main/CHANGELOG.md",
+      "date": "2026-03",
+      "note": "🆕 修复 Cowork Dispatch 消息未送达问题"
+    },
+    {
+      "name": "🆕 RuleSync — AI Coding Standards Landscape 2026",
+      "url": "https://www.rulesync.dev/blog/ai-coding-standards-2026-landscape",
+      "date": "2026-03-15",
+      "note": "🆕 70%+开发者每日使用AI；Agentic Safety Rules（运营边界新类别）+ Composable Rulesets分层架构（Base/Framework/Team）+ Security-First Rule Development；项目规则文件与.gitignore同等地位；集中式Dashboard管理+CI drift detection"
+    },
+    {
+      "name": "🆕 Addy Osmani — AI Coding Workflow 2026",
+      "url": "https://addyosmani.com/blog/ai-coding-workflow/",
+      "date": "2026-01",
+      "note": "🆕 10条黄金法则：Context7/gitingest/repo2txt上下文工具链 + Chrome DevTools MCP调试桥接 + Jules/Copilot Agent异步后台 + Conductor 3-4并行Agent编排 + Model musical chairs交叉验证 + spec.md先于代码 + 小块迭代 + CLAUDE.md/GEMINI.md复用指令"
+    },
+    {
+      "name": "🆕 Ryz Labs — 5 AI Coding Assistant Trends 2026",
+      "url": "https://learn.ryzlabs.com/ai-coding-assistants/5-ai-coding-assistant-trends-that-will-change-development-in-2026",
+      "date": "2026",
+      "note": "🆕 75%开发者使用AI；Context-Aware代码建议；AI驱动代码审查集成CI/CD；NLP自动文档生成；领域定制AI模型（高投入高回报）"
+    },
+    {
+      "name": "🆕 sagasu.art — Claude Code高效使用指南（2026-04-01更新）",
+      "url": "https://sagasu.art/p/claude-code-efficient-usage-guide-from-beginner-to-expert-update",
+      "date": "2026-04-01",
+      "note": "🆕 CLAUDE.md=短期记忆，Hooks=确定性保障，权限=信任边界 → 三者形成闭环；工具是思维的延伸，真正的效率在于让AI理解意图、规则与禁忌"
+    },
+    {
+      "name": "🆕 wavespeed.ai — Claude Code Leaked Source (2026-04-01)",
+      "url": "https://wavespeed.ai/blog/posts/claude-code-leaked-source-hidden-features/",
+      "date": "2026-04-01",
+      "note": "🆕 Claude Code源码泄露512K行：BUDDY宠物系统/KAIROS常驻Agent/ULTRAPLAN云端规划/Coordinator Mode/Undercover Mode；技术栈Bun+Ink+46K查询引擎"
+    },
+    {
+      "name": "🆕 cursor.com — Cursor 3 官方发布 (2026-04-02)",
+      "url": "https://cursor.com/blog/cursor-3",
+      "date": "2026-04-02",
+      "note": "🆕 Cursor 3.0：从'智能IDE'到'Agent构建软件工作区'；AI Fleets并行多Agent+多仓支持+Composer 2+云端本地无缝交接；2026-04-02正式发布"
+    },
+    {
+      "name": "🆕 the-decoder.com — Cursor 3 Agent-First Interface (2026-04-02)",
+      "url": "https://the-decoder.com/new-cursor-3-ditches-the-classic-ide-layout-for-an-agent-first-interface-built-around-parallel-ai-fleets/",
+      "date": "2026-04-02",
+      "note": "🆕 Cursor 3并行AI Fleets详细分析：Agent舰队自主协作+跨仓工作+内置浏览器+Git/PR管理；传统IDE布局降为可选模式"
+    },
+    {
+      "name": "🆕 abit.ee — Cursor 3 vs Claude Code (2026-04-02)",
+      "url": "https://abit.ee/en/artificial-intelligence/cursor-3-ide-ai-agents-composer-2-cloud-agents-vibe-coding-software-development-en",
+      "date": "2026-04-02",
+      "note": "🆕 Cursor 3定位转变：'smart IDE with AI' → 'workspace for building software with agents'；Mobile/Web/Slack/GitHub/Linear多渠道启动Agent"
+    },
+    {
+      "name": "dev.to/dohkoai — 5 Vibe Coding Workflows That Actually Ship (2026-03)",
+      "url": "https://dev.to/dohkoai/5-vibe-coding-workflows-that-actually-ship-production-code-in-2026-1nmn",
+      "date": "2026-03",
+      "note": "🆕 Multi-Model Rotation（73%降本）/ Test-First AI Loop / Cursor Automations Pipeline / Claude Deep-Work Session"
+    },
+    {
+      "name": "groundy.com — Prompt Engineering Patterns 2026: What Actually Works",
+      "url": "https://groundy.com/articles/prompt-engineering-patterns-2026-what-actually-works/",
+      "date": "2026-03",
+      "note": "🆕 58种提示技术盘点 / OPRO LLM自优化（DeepMind）+ 量化收益表（CoT+61%/Few-shot+15-30%/Self-Consistency+5-10%）"
+    },
+    {
+      "name": "zencoder.ai — 12 AI Coding Best Practices 2026",
+      "url": "https://zencoder.ai/blog/how-to-use-ai-in-coding",
+      "date": "2026",
+      "note": "🆕 Repo Grokking™深度代码库理解 / Amazon CodeGuru 325,000 CPU小时/年节省案例 / 12条最佳实践"
+    },
+    {
+      "name": "🆕 JetBrains Blog — Which AI Coding Tools Do Developers Actually Use (April 2026)",
+      "url": "https://blog.jetbrains.com/research/2026/04/which-ai-coding-tools-do-developers-actually-use-at-work/",
+      "date": "2026-04",
+      "note": "🆕 10,000+开发者调研：Claude Code增长最快（采用率3%→18%/9个月，CSAT 91%/NPS 54最高）；Copilot 29% / Cursor 18% / Codex 3%；90%日常用AI；tool stacking新最佳实践；Best-of-breed趋势"
+    },
+    {
+      "name": "🆕 digitalapplied.com — AI Coding Assistants April 2026 Rankings",
+      "url": "https://www.digitalapplied.com/blog/ai-coding-assistants-april-2026-cursor-copilot-claude",
+      "date": "2026-04",
+      "note": "🆕 CursorBench基准：Composer 2得分61.3（+37% vs 1.5）；工具组合推荐表（按workflow阶段）；Copilot Agent Mode全面上市；三大架构哲学对比；各开发者画像推荐"
+    },
+    {
+      "name": "🆕 imidef.com — Beyond Vibe Coding: How AI Software Development Will Change Next (2026-04-06)",
+      "url": "https://imidef.com/en/2026-04-06-vibe-coding-next",
+      "date": "2026-04-06",
+      "note": "🆕 验证五大趋势（Spec-Driven/Evaluation-Driven/Review-Centered/Context-Connected/Parallel Agents）全部已覆盖；Practical Spec Template五要素；人类价值向架构/决策转移；"
+    },
+    {
+      "name": "🆕 buildbetter.ai — AI Development Workflow: 2026 Buyer's Guide",
+      "url": "https://blog.buildbetter.ai/ai-development-workflow-buyers-guide-2026/",
+      "date": "2026-04",
+      "note": "🆕 五层AI开发栈（IDE助手→Agent工具→Skills库→AI测试→AI审查）；Review Sandwich双层审查法（-30-50%人类时间）；Trust Gradient三阶段授权；多工具协同40-60%加速；30天实施路线图；"
+    },
+    {
+      "name": "🆕 openaitoolshub.org — Cursor 3 Glass Review (2026-04 第三方实测)",
+      "url": "https://www.openaitoolshub.org/en/blog/cursor-3-agent-first-review",
+      "date": "2026-04",
+      "note": "🆕 Cursor 3实测：ARR更新$500M→$2B；市占率~25%；任务粒度最佳实践（中等离散任务）；500+文件云端重构3倍速；前端UI节省20-40%；Claude Code 200K vs Cursor 128K上下文对比；"
+    }
+  ]
+}

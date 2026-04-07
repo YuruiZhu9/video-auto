@@ -1,0 +1,227 @@
+# Source URL: https://zhuanlan.zhihu.com/p/2022331398430703894
+# Content Length: 11805 characters
+# Extracted at: 2026-04-03 05:29:19
+#============================================================
+
+![](https://zhuanlan.zhihu.com/p/2022331398430703894)
+OpenClaw主流稳定版本与升级指南
+版本对比、功能差异、已知问题与安全升级策略
+文档更新时间：2026年03月31日
+## 目 录
+一、OpenClaw项目简介
+二、版本发布策略与渠道
+三、主流稳定版本深度解析（2026年3月）
+四、各版本功能差异对比
+五、当前已知问题与注意事项
+六、升级指南与最佳实践
+七、回滚方案
+八、版本选择建议
+九、总结
+## 一、OpenClaw项目简介
+\*\*OpenClaw\*\*（原名OpenCLAW）是一个开源的自主托管AI网关项目，能够将WhatsApp、Telegram、Discord、iMessage等多种即时通讯应用与AI编码代理进行连接。用户只需运行一个Gateway进程，即可实现从任意通讯应用发送消息并获得AI助手回复的功能。
+\*\*核心特性：\*\*
+• 自主托管：数据完全由用户掌控
+• 多通道支持：单一Gateway同时服务多个平台
+• 原生代理支持：支持工具调用、会话管理、记忆和多代理路由
+• 开源免费：MIT许可证，社区驱动
+• 移动节点：支持iOS/Android设备配对
+## 二、版本发布策略与渠道
+OpenClaw采用多渠道发布策略：
+1. \*\*稳定版（Stable）\*\*
+这是经过充分测试的正式版本，采用渐进式发布策略：
+\*\*• 发布后延迟6小时\*\* 开始更新
+\*\*• 在12小时\*\* 窗口内随机应用，实现分批 rollout
+• 推荐生产环境使用
+2. \*\*测试版（Beta）\*\*
+包含最新功能，每小时检查更新并立即应用。适合愿意尝鲜的用户。
+3. \*\*开发版（Dev）\*\*
+对应GitHub主分支最新代码，无自动更新，需手动执行openclaw update。
+4. \*\*预发布版（Pre-release）\*\*
+如2026.3.28-beta.1，用于测试特定功能或修复。版本号格式：年.月.日-版本类型.序号
+## 三、主流稳定版本深度解析（2026年3月）
+\*\*当前最新稳定版本为v2026.3.29\*\*（发布于2026年3月29日），同时有多个beta版本可供测试。
+1. \*\*v2026.3.29（最新稳定版）\*\*
+\*\*主要更新内容：\*\*
+\*\*• [xAI](https://zhida.zhihu.com/search?content\_id=272298921&content\_type=Article&match\_order=1&q=xAI&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUyMjY4NzIsInEiOiJ4QUkiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNzIyOTg5MjEsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.BNg9paxwpcnoZ-5p3lo0N30t\_oDUpP7t53FvOpmpJJM&zhida\_source=entity)/[Grok](https://zhida.zhihu.com/search?content\_id=272298921&content\_type=Article&match\_order=1&q=Grok&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUyMjY4NzIsInEiOiJHcm9rIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjcyMjk4OTIxLCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.aqseR\_5dIFFVdBJwhf63DbHstAUto3jsGhHghbPL9w0&zhida\_source=entity)增强：\*\* xAI provider迁移到Responses API，新增x\\_search，配置搜索更便捷
+\*\*• [MiniMax](https://zhida.zhihu.com/search?content\_id=272298921&content\_type=Article&match\_order=1&q=MiniMax&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUyMjY4NzIsInEiOiJNaW5pTWF4IiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjcyMjk4OTIxLCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.VQ8p6ZOvI6VQClDif4VpjEDV4\_zOvXdRHNiPxIx8wL0&zhida\_source=entity)图像生成：\*\* 新增image-01模型支持图像生成和图像编辑功能
+\*\*• 插件hooks增强：\*\* before\\_tool\\_call hooks支持requireApproval，可暂停执行并请求用户审批
+\*\*• [Claude](https://zhida.zhihu.com/search?content\_id=272298921&content\_type=Article&match\_order=1&q=Claude&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUyMjY4NzIsInEiOiJDbGF1ZGUiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNzIyOTg5MjEsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.m4UdhlYJ3CK6EtBjpGtb\_gYx7OALhfepe9bQQJn7tus&zhida\_source=entity)/Codex/Gemini CLI：\*\* bundled CLI后端整合，统一管理
+\*\*• 多平台文件上传：\*\* 统一Slack、Microsoft Teams、Google Chat文件上传
+\*\*• 配置自动迁移：\*\* legacy speech配置自动迁移，简化升级流程
+2. \*\*v2026.3.13（上一个稳定版）\*\*
+\*\*主要更新内容：\*\*
+\*\*• Control UI全新仪表盘：\*\* 模块化设计：概览、聊天、配置、代理、会话视图
+\*\*• GPT-5.4快速模式：\*\* 会话级fast toggle配置
+\*\*• Claude快速模式：\*\* 映射到Anthropic API service\\_tier
+\*\*• Ollama/vLLM/SGLang：\*\* 迁移到provider-plugin架构
+\*\*• Slack Block Kit：\*\* 代理可发送富文本消息
+## 四、各版本功能差异对比
+下表对比了近期主要版本的核心功能差异：
+| 功能/版本 | v2026.3.13 | v2026.3.28-beta.1 | v2026.3.29(最新) |
+| --- | --- | --- | --- |
+| Control UI新仪表盘 | ✅ 新增 | ✅ 完整 | ✅ 完整 |
+| xAI x\\_search | ❌ 无 | ✅ 新增 | ✅ 完整 |
+| MiniMax图像生成 | ❌ 无 | ✅ 新增 | ✅ 完整 |
+| Claude/Codex/Gemini CLI | ✅ 基础 | ✅ 整合 | ✅ 完整 |
+| 插件审批hooks | ❌ 无 | ✅ 支持 | ✅ 支持 |
+## 五、当前已知问题与注意事项
+\*\*根据官方Release Notes，以下问题需要注意：\*\*
+1. \*\*破坏性变更（需注意）\*\*
+\*\*• [Qwen](https://zhida.zhihu.com/search?content\_id=272298921&content\_type=Article&match\_order=1&q=Qwen&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUyMjY4NzIsInEiOiJRd2VuIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjcyMjk4OTIxLCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.gB9S5lI4FPxe06f6g2mxDVOGKQwUqViN5rQhLMq9AOU&zhida\_source=entity) OAuth移除\*\*：旧的qwen-portal-auth已废弃，需迁移到[Model Studio](https://zhida.zhihu.com/search?content\_id=272298921&content\_type=Article&match\_order=1&q=Model+Studio&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUyMjY4NzIsInEiOiJNb2RlbCBTdHVkaW8iLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNzIyOTg5MjEsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.YdwreDEsFhGluESZryvrpQarKtp8sUuvJ0WZecmUJOI&zhida\_source=entity)（openclaw onboard --auth-choice modelstudio-api-key）
+\*\*• 配置迁移简化\*\*：超过两个月的旧配置不再自动迁移，极旧的key会验证失败
+\*\*• MiniMax模型精简\*\*：仅保留M2.7型号，旧版M2/M2.1/M2.5/VL-01已移除
+2. \*\*近期修复的问题\*\*
+\*\*• WhatsApp自聊循环：\*\* 修复了自我聊天时无限回声循环问题
+\*\*• Telegram消息分割：\*\* 修复了长消息在单词中间分割的问题
+\*\*• Google模型解析：\*\* 修复了Gemini 3.1 pro/flash/flash-lite解析错误
+\*\*• OpenAI Codex图像：\*\* 修复了Codex图像分析失败问题
+\*\*• Discord重连：\*\* 修复了Discord因resume状态损坏导致的重连循环
+3. \*\*升级注意事项\*\*
+\*\*• 升级前建议运行\*\* \_openclaw doctor\_ 检查配置兼容性
+• 如果使用Qwen需重新配置认证方式
+• MiniMax用户需确认使用的模型在支持列表中
+• 建议备份配置文件~/.openclaw/openclaw.json
+## 六、升级指南与最佳实践
+推荐升级步骤：
+\*\*① 备份配置：\*\* cp ~/.openclaw/openclaw.json ~/.openclaw/openclaw.json.backup
+\*\*② 运行更新：\*\* openclaw update
+\*\*③ 诊断检查：\*\* openclaw doctor
+\*\*④ 重启Gateway：\*\* openclaw gateway restart
+\*\*⑤ 验证状态：\*\* openclaw health
+### 其他升级方式
+安装脚本：
+curl -fsSL [https://openclaw.ai/install.sh](https://link.zhihu.com/?target=https%3A//openclaw.ai/install.sh) \| bash
+npm手动：
+npm i -g openclaw@latest
+### 自动更新配置
+在~/.openclaw/openclaw.json中添加：
+{
+"update": {
+"channel": "stable",
+"auto": {
+"enabled": true,
+"stableDelayHours": 6,
+"stableJitterHours": 12
+}
+}
+}
+## 七、回滚方案
+如遇问题，可按以下方式回滚：
+查看可用版本：
+npm view openclaw version
+安装指定版本：
+npm i -g openclaw@<版本号>
+openclaw doctor
+openclaw gateway restart
+## 八、版本选择建议
+\*\*• 生产环境：\*\* 稳定版（Stable） — 确保稳定性，启用自动更新
+\*\*• 开发测试：\*\* 测试版（Beta） — 体验新功能，反馈问题
+\*\*• 贡献者：\*\* 开发版（Dev） — 参与最新开发
+\*\*• Docker生产：\*\* 明确版本标签 — 如openclaw:stable
+\*\*对于大多数用户，推荐使用稳定版v2026.3.29，它是目前最完整、功能最丰富的稳定版本。\*\*
+## 九、总结
+OpenClaw当前最新稳定版本为v2026.3.29，相比上一版本新增了xAI x\\_search、MiniMax图像生成、插件审批hooks等重要功能。版本升级整体平滑，但仍需注意Qwen认证迁移和MiniMax模型精简等破坏性变更。
+\*\*升级建议：\*\*
+1. 生产环境使用稳定版，启用自动更新
+2. 升级前备份配置，运行doctor检查
+3. 关注官方Release Notes了解变更
+4. 遇到问题及时回滚或寻求社区帮助
+\*\*更多详细信息请访问官方文档：\*\* [https://docs.openclaw.ai](https://link.zhihu.com/?target=https%3A//docs.openclaw.ai)
+## 附录：常用命令速查
+| 操作 | 命令 |
+| --- | --- |
+| 查看版本 | openclaw --version |
+| 检查状态 | openclaw gateway status |
+| 运行诊断 | openclaw doctor |
+| 健康检查 | openclaw health |
+| 更新版本 | openclaw update |
+| 重启Gateway | openclaw gateway restart |
+| 打开控制台 | openclaw dashboard |
+| 配置检查 | openclaw config schema |
+发布于 2026-03-31 03:18・中国香港
+[OpenClaw](https://www.zhihu.com/topic/1999063153082913027)
+[OpenClaw爆火](https://www.zhihu.com/topic/2014627166470571033)
+[openclaw部署](https://www.zhihu.com/topic/2001685462989948796)
+赞同​​添加评论​收藏​喜欢
+​分享
+​申请转载​
+​
+![](https://pic1.zhimg.com/v2-d41c2ceaed8f51999522f903672a521f\_l.jpeg)
+未登录用户
+还没有评论，发表第一个评论吧
+关于作者
+[![毅先生](https://pic1.zhimg.com/v2-abed1a8c04700ba7d72b45195223e0ff\_l.jpg?source=32738c0c&needBackground=1)](https://www.zhihu.com/people/yi-xian-sheng-56-45)
+[毅先生](https://www.zhihu.com/people/yi-xian-sheng-56-45)
+脚踏实地
+[回答\\
+\\
+\*\*166\*\*](https://www.zhihu.com/people/yi-xian-sheng-56-45/answers) [文章\\
+\\
+\*\*130\*\*](https://www.zhihu.com/people/yi-xian-sheng-56-45/posts) [关注者\\
+\\
+\*\*1,108\*\*](https://www.zhihu.com/people/yi-xian-sheng-56-45/followers)
+​关注​发私信
+大家都在搜
+换一换
+[伊朗局势583 万](https://www.zhihu.com/search?q=%E4%BC%8A%E6%9C%97%E5%B1%80%E5%8A%BF&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[鞠婧祎被实名举报偷税漏税349 万](https://www.zhihu.com/search?q=%E9%9E%A0%E5%A9%A7%E7%A5%8E%E8%A2%AB%E5%AE%9E%E5%90%8D%E4%B8%BE%E6%8A%A5%E5%81%B7%E7%A8%8E%E6%BC%8F%E7%A8%8E&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[李荣浩喊话单依纯称其强行侵权《李白》349 万](https://www.zhihu.com/search?q=%E6%9D%8E%E8%8D%A3%E6%B5%A9%E5%96%8A%E8%AF%9D%E5%8D%95%E4%BE%9D%E7%BA%AF%E7%A7%B0%E5%85%B6%E5%BC%BA%E8%A1%8C%E4%BE%B5%E6%9D%83%E3%80%8A%E6%9D%8E%E7%99%BD%E3%80%8B&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[TES 369 发文确认休息342 万](https://www.zhihu.com/search?q=TES+369+%E5%8F%91%E6%96%87%E7%A1%AE%E8%AE%A4%E4%BC%91%E6%81%AF&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 新
+[双休和单休区别大吗334 万](https://www.zhihu.com/search?q=%E5%8F%8C%E4%BC%91%E5%92%8C%E5%8D%95%E4%BC%91%E5%8C%BA%E5%88%AB%E5%A4%A7%E5%90%97&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[兰州大学考研初试401分被刷320 万](https://www.zhihu.com/search?q=%E5%85%B0%E5%B7%9E%E5%A4%A7%E5%AD%A6%E8%80%83%E7%A0%94%E5%88%9D%E8%AF%95401%E5%88%86%E8%A2%AB%E5%88%B7&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[Claude Code 源码泄露318 万](https://www.zhihu.com/search?q=Claude+Code+%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[张雪机车 WSBK葡萄牙站夺冠302 万](https://www.zhihu.com/search?q=%E5%BC%A0%E9%9B%AA%E6%9C%BA%E8%BD%A6+WSBK%E8%91%A1%E8%90%84%E7%89%99%E7%AB%99%E5%A4%BA%E5%86%A0&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[有什么低成本养生的方法296 万](https://www.zhihu.com/search?q=%E6%9C%89%E4%BB%80%E4%B9%88%E4%BD%8E%E6%88%90%E6%9C%AC%E5%85%BB%E7%94%9F%E7%9A%84%E6%96%B9%E6%B3%95&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[韩国向中国 14 城发十年签291 万](https://www.zhihu.com/search?q=%E9%9F%A9%E5%9B%BD%E5%90%91%E4%B8%AD%E5%9B%BD+14+%E5%9F%8E%E5%8F%91%E5%8D%81%E5%B9%B4%E7%AD%BE&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+### 推荐阅读
+[![OpenClaw 很强，但你不一定是它的目标用户](https://picx.zhimg.com/v2-e086692368ab24bae421bc82fe9bd4b5\_250x0.jpg?source=172ae18b)\*\*OpenClaw 很强，但你不一定是它的目标用户\*\* \\
+\\
+Xiaochen Nie](https://zhuanlan.zhihu.com/p/2015101138031108784) [![OpenClaw发布新版本，GPT-5.4原生支持，200多个Bug一次性修完，安全性仍不容忽视](https://pic1.zhimg.com/v2-04b2e25e82094c228b84bf0b8d30ec16\_250x0.jpg?source=172ae18b)\*\*OpenClaw发布新版本，GPT-5.4原生支持，200多个Bug一次性修完，安全性仍不容忽视\*\* \\
+\\
+DeepTech深科技](https://zhuanlan.zhihu.com/p/2014331247934058998) [\*\*📖 OpenClaw 完整使用指南\*\*\\
+\\
+OpenClaw 完整使用指南 版本：OpenClaw 2026.2.x \| 作者：jason \| OpenClaw 是一个自托管的 AI 助手网关，把 AI 模型（Claude、GPT、DeepSeek 等）接入到飞书、微信、Telegram、Discord 等…\\
+\\
+JasonL](https://zhuanlan.zhihu.com/p/2013761363168732403) [\*\*OpenClaw部署手册（2026.03.24版本）\*\* \\
+\\
+OpenClaw 部署手册（2026.3.24 版本） 本手册将指导您如何部署 OpenClaw 环境，包括安装必要的软件、配置环境变量以及使用常见功能。目录环境要求安装必要的软件安装 OpenClaw配置 Tavily A…\\
+\\
+会写代码的周杰伦](https://zhuanlan.zhihu.com/p/2020924243945224011)
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_
+打开知乎App
+在「我的页」右上角打开扫一扫
+![](https://picx.zhimg.com/v2-9e41ea16bdfbe9cf4896617ecad5b4ca.png)
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+中国 +86
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+打开知乎App
+在「我的页」右上角打开扫一扫
+![](https://picx.zhimg.com/v2-9e41ea16bdfbe9cf4896617ecad5b4ca.png)
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+中国 +86
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+![](https://static.zhihu.com/heifetz/assets/liukanshan-peek.a71ecf3e.png)登录即可查看 超5亿 专业优质内容
+超 5 千万创作者的优质提问、专业回答、深度文章和精彩视频尽在知乎。
+立即登录/注册

@@ -1,0 +1,621 @@
+# Source URL: https://zhuanlan.zhihu.com/p/2015178083435554555
+# Content Length: 63918 characters
+# Extracted at: 2026-03-30 22:33:06
+#============================================================
+
+![](https://zhuanlan.zhihu.com/p/2015178083435554555)
+3月10日，国家信息安全漏洞库（[CNNVD](https://zhida.zhihu.com/search?content\_id=271323014&content\_type=Article&match\_order=1&q=CNNVD&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwNTM5NzgsInEiOiJDTk5WRCIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI3MTMyMzAxNCwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.VH5q3scvnDfGR4e4-A897KpEmArNldvdDmPlaubK58g&zhida\_source=entity)）统计了自2026年1月-2026年3月9日以来openclaw的82个相关漏洞，其中超危12个，高危21个，中危47个，低危2个。
+![](https://pic4.zhimg.com/v2-cbe1cc7cdfa42322c030bc03ff2f1a01\_1440w.jpg)
+[https://www.cnnvd.org.cn/home/globalSearch?keyword=openclaw](https://link.zhihu.com/?target=https%3A//www.cnnvd.org.cn/home/globalSearch%3Fkeyword%3Dopenclaw)
+本文通过openclaw梳理了这82个漏洞详情。
+## 1\. CNNVD-202603-666 / CVE-2026-28470
+\*\*漏洞类型\*\*：参数注入
+\*\*风险等级\*\*：超危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.2
+\*\*[CWE](https://zhida.zhihu.com/search?content\_id=271323014&content\_type=Article&match\_order=1&q=CWE&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwNTM5NzgsInEiOiJDV0UiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNzEzMjMwMTQsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.zPeeaYow0q1ysDjo--f0vrHi\_6Z26wODojrVWWBsMoU&zhida\_source=entity)\*\*：CWE-88
+\*\*漏洞描述\*\*：OpenClaw 2026.2.2 之前版本存在 exec approvals（需显式启用）白名单绕过漏洞。攻击者可通过注入命令替换语法，在双引号字符串中嵌入未转义的 $() 或反引号，从而绕过 allowlist 限制并执行未授权命令。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.2及以上，具体以官方公告/发行说明为准）；立即限制或关闭高危 exec/命令执行接口，禁止将未过滤输入拼接到 shell/子进程调用中，并收紧 allowlist；若相关功能为可选项且暂时无法升级，先禁用该功能或仅对白名单管理面开放。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28470](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28470) \| [https://github.com/openclaw/openclaw/commit/d1ecb46076145deb188abcba8f0699709ea17198](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/d1ecb46076145deb188abcba8f0699709ea17198) \| [https://github.com/openclaw/openclaw/security/advisories/GHSA-3hcm-ggvf-rch5](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/security/advisories/GHSA-3hcm-ggvf-rch5)
+## 2\. CNNVD-202602-3715 / CVE-2026-27002
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：超危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.15
+\*\*CWE\*\*：CWE-250
+\*\*漏洞描述\*\*：OpenClaw 2026.2.15 之前版本在 [Docker](https://zhida.zhihu.com/search?content\_id=271323014&content\_type=Article&match\_order=1&q=Docker&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwNTM5NzgsInEiOiJEb2NrZXIiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNzEzMjMwMTQsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.0XzF3GwLAX8De6cYycKJUiq7waT1SwCQtGKSZI4GSaE&zhida\_source=entity) 工具沙箱配置中存在配置注入问题，可能允许危险的 Docker 选项（如绑定挂载、host 网络、unconfined 安全配置）被应用，进而导致容器逃逸或主机数据被访问。官方已在 2026.2.15 中阻断危险沙箱 Docker 配置，并在构造 \`docker create\` 参数及配置校验阶段增加运行时限制。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.15及以上，具体以官方公告/发行说明为准）；结合漏洞类型检查输入校验、权限控制、错误处理和日志审计，必要时临时下线相关功能降低暴露面。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-27002](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-27002) \| [https://github.com/openclaw/openclaw/commit/887b209db47f1f9322fead241a1c0b043fd38339](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/887b209db47f1f9322fead241a1c0b043fd38339) \| [https://github.com/openclaw/openclaw/releases/tag/v2026.2.15](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/releases/tag/v2026.2.15)
+## 3\. CNNVD-202603-738 / CVE-2026-28472
+\*\*漏洞类型\*\*：访问控制错误
+\*\*风险等级\*\*：超危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.2
+\*\*CWE\*\*：CWE-306
+\*\*漏洞描述\*\*：OpenClaw 2026.2.2 之前版本在网关 WebSocket 连接握手阶段存在身份校验缺陷：当 auth.token 存在但未被正确验证时，设备身份检查可能被跳过。攻击者可利用“仅判断存在、不验证有效性”的问题，在未完成设备身份校验或配对的情况下接入网关，并在易受影响部署中获取操作员级访问能力。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.2及以上，具体以官方公告/发行说明为准）；补强鉴权与授权校验，确保敏感接口、管理功能和跨租户数据访问均做服务端权限检查。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28472](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28472) \| [https://github.com/openclaw/openclaw/commit/fe81b1d7125a014b8280da461f34efbf5f761575](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/fe81b1d7125a014b8280da461f34efbf5f761575) \| [https://github.com/openclaw/openclaw/security/advisories/GHSA-rv39-79c4-7459](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/security/advisories/GHSA-rv39-79c4-7459)
+## 4\. CNNVD-202603-739 / CVE-2026-28469
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：超危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.14
+\*\*CWE\*\*：CWE-639
+\*\*漏洞描述\*\*：OpenClaw 2026.2.14 之前版本的 Google Chat 监控组件存在 webhook 路由漏洞。当多个 webhook 目标共享相同 HTTP 路径时，可能发生跨账号策略上下文错配。攻击者可利用“首个匹配即通过”的请求校验语义，使入站 webhook 事件在错误账号上下文中被处理，从而绕过预期的 allowlist 与会话策略限制。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.14及以上，具体以官方公告/发行说明为准）；结合漏洞类型检查输入校验、权限控制、错误处理和日志审计，必要时临时下线相关功能降低暴露面。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28469](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28469) \| [https://github.com/openclaw/openclaw/commit/61d59a802869177d9cef52204767cd83357ab79e](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/61d59a802869177d9cef52204767cd83357ab79e) \| [https://github.com/openclaw/openclaw/security/advisories/GHSA-rq6g-px6m-c248](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/security/advisories/GHSA-rq6g-px6m-c248)
+## 5\. CNNVD-202603-599 / CVE-2026-28484
+\*\*漏洞类型\*\*：命令注入
+\*\*风险等级\*\*：超危
+\*\*漏洞影响版本\*\*：待官方进一步确认
+\*\*漏洞描述\*\*：该编号当前已被 CVE 编号机构驳回/撤销，不再作为有效 CVE 持续使用。现可公开核验到的页面可见说明主要为“该 CVE ID 已被其编号机构驳回或撤销”，未再保留可供独立核验的完整技术细节；因此本文仅保留其“已驳回/已撤销”状态说明，不对已撤销编号补充未经证实的利用条件或受影响范围。
+\*\*修复建议\*\*：优先升级到 OpenClaw 官方最新安全修复版本，并核对对应发行说明/安全公告；立即限制或关闭高危 exec/命令执行接口，禁止将未过滤输入拼接到 shell/子进程调用中，并收紧 allowlist。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28484](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28484) \| [https://cveawg.mitre.org/api/cve/CVE-2026-28484](https://link.zhihu.com/?target=https%3A//cveawg.mitre.org/api/cve/CVE-2026-28484)
+## 6\. CNNVD-202603-604 / CVE-2026-28473
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：超危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.2
+\*\*CWE\*\*：CWE-863
+\*\*漏洞描述\*\*：OpenClaw 2026.2.2 之前版本存在授权绕过漏洞。具备 operator.write 权限范围的客户端可通过发送 /approve 聊天命令来批准或拒绝 exec 审批请求；该命令路径会借助内部高权限网关客户端调用 exec.approval.resolve，从而绕过原本用于直接 RPC 调用的 operator.approvals 权限检查。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.2及以上，具体以官方公告/发行说明为准）；结合漏洞类型检查输入校验、权限控制、错误处理和日志审计，必要时临时下线相关功能降低暴露面。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28473](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28473) \| [https://github.com/openclaw/openclaw/commit/efe2a464afcff55bb5a95b959e6bd9ec0fef086e](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/efe2a464afcff55bb5a95b959e6bd9ec0fef086e) \| [https://github.com/openclaw/openclaw/security/advisories/GHSA-mqpw-46fh-299h](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/security/advisories/GHSA-mqpw-46fh-299h)
+## 7\. CNNVD-202603-605 / CVE-2026-28474
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：超危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.6
+\*\*CWE\*\*：CWE-863
+\*\*漏洞描述\*\*：OpenClaw 的 [Nextcloud Talk](https://zhida.zhihu.com/search?content\_id=271323014&content\_type=Article&match\_order=1&q=Nextcloud+Talk&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwNTM5NzgsInEiOiJOZXh0Y2xvdWQgVGFsayIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI3MTMyMzAxNCwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.vZzW7mvSbql2-ZQ0\_Lir4upLnHhxXMJ-\_CB-mNH9TEQ&zhida\_source=entity) 插件在 2026.2.6 之前版本中，allowlist 校验对可变的 actor.name 显示名称采用相等匹配，导致攻击者可绕过私聊和房间白名单。攻击者只需将自己的 Nextcloud 显示名修改为与白名单用户 ID 相同，即可未经授权访问受限会话。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.6及以上，具体以官方公告/发行说明为准）；结合漏洞类型检查输入校验、权限控制、错误处理和日志审计，必要时临时下线相关功能降低暴露面。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28474](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28474) \| [https://github.com/openclaw/openclaw/commit/6b4b6049b47c3329a7014509594647826669892d](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/6b4b6049b47c3329a7014509594647826669892d) \| [https://github.com/openclaw/openclaw/security/advisories/GHSA-r5h9-vjqc-hq3r](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/security/advisories/GHSA-r5h9-vjqc-hq3r)
+## 8\. CNNVD-202603-614 / CVE-2026-28464
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：超危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.12
+\*\*CWE\*\*：CWE-208
+\*\*漏洞描述\*\*：OpenClaw 2026.2.12 之前版本在 hook token 校验中使用非常量时间字符串比较，可能泄露时间侧信道信息。具备网络访问能力的远程攻击者可通过多次请求测量响应时间，逐步推断认证令牌。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.12及以上，具体以官方公告/发行说明为准）；结合漏洞类型检查输入校验、权限控制、错误处理和日志审计，必要时临时下线相关功能降低暴露面。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28464](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28464) \| [https://github.com/openclaw/openclaw/commit/113ebfd6a23c4beb8a575d48f7482593254506ec](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/113ebfd6a23c4beb8a575d48f7482593254506ec) \| [https://github.com/openclaw/openclaw/security/advisories/GHSA-jmm5-fvh5-gf4p](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/security/advisories/GHSA-jmm5-fvh5-gf4p)
+## 9\. CNNVD-202603-623 / CVE-2026-28454
+\*\*漏洞类型\*\*：数据伪造问题
+\*\*风险等级\*\*：超危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.2
+\*\*CWE\*\*：CWE-345
+\*\*漏洞描述\*\*：OpenClaw 2026.2.2 之前版本在 [Telegram](https://zhida.zhihu.com/search?content\_id=271323014&content\_type=Article&match\_order=1&q=Telegram&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwNTM5NzgsInEiOiJUZWxlZ3JhbSIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI3MTMyMzAxNCwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.rQsM77zOm5h82RlMnueF2ZG7oyX58g56GwmdI-lOZDU&zhida\_source=entity) webhook 模式（需显式启用）下未正确校验 webhook secret，导致 webhook 端点可接收未经认证的 HTTP POST 请求并信任攻击者构造的 JSON 载荷。远程攻击者可伪造 Telegram 更新数据，冒充 message.from.id 与 chat.id 字段，绕过发送者白名单并执行高权限机器人命令。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.2及以上，具体以官方公告/发行说明为准）；限制敏感信息暴露，增加请求完整性校验/签名校验，并对关键状态变更启用审计日志；若相关功能为可选项且暂时无法升级，先禁用该功能或仅对白名单管理面开放。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28454](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28454) \| [https://github.com/openclaw/openclaw/commit/3cbcba10cf30c2ffb898f0d8c7dfb929f15f8930](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/3cbcba10cf30c2ffb898f0d8c7dfb929f15f8930) \| [https://github.com/openclaw/openclaw/commit/5643a934799dc523ec2ef18c007e1aa2c386b670](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/5643a934799dc523ec2ef18c007e1aa2c386b670)
+## 10\. CNNVD-202603-630 / CVE-2026-28446
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：超危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.1
+\*\*漏洞描述\*\*：安装并启用 voice-call 扩展的 OpenClaw 2026.2.1 之前版本，在入站 allowlist 策略校验中存在认证绕过漏洞：其接受空来电方 ID，且使用后缀匹配而非严格相等匹配。远程攻击者可通过缺失 caller ID 的来电，或构造号码后缀与白名单一致的来电，绕过入站访问控制并触发 voice-call agent 执行工具操作。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.1及以上，具体以官方公告/发行说明为准）；结合漏洞类型检查输入校验、权限控制、错误处理和日志审计，必要时临时下线相关功能降低暴露面。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28446](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28446) \| [https://github.com/openclaw/openclaw/commit/f8dfd034f5d9235c5485f492a9e4ccc114e97fdb](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/f8dfd034f5d9235c5485f492a9e4ccc114e97fdb) \| [https://github.com/openclaw/openclaw/security/advisories/GHSA-4rj2-gpmh-qq5x](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/security/advisories/GHSA-4rj2-gpmh-qq5x)
+## 11\. CNNVD-202603-634 / CVE-2026-28392
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：超危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.14
+\*\*漏洞描述\*\*：OpenClaw 2026.2.14 之前版本在 [Slack](https://zhida.zhihu.com/search?content\_id=271323014&content\_type=Article&match\_order=1&q=Slack&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwNTM5NzgsInEiOiJTbGFjayIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI3MTMyMzAxNCwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.jS8go2uzeggbxKs8rKk8wsKj8\_FNSMC4ia\_uGtDneK8&zhida\_source=entity) slash-command 处理逻辑中存在权限提升漏洞。当 dmPolicy 被配置为 open 时，系统会错误地将任意私信发送者视为已授权用户。攻击者可借此通过私信执行高权限 slash 命令，绕过 allowlist 与访问组限制。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.14及以上，具体以官方公告/发行说明为准）；结合漏洞类型检查输入校验、权限控制、错误处理和日志审计，必要时临时下线相关功能降低暴露面。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28392](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28392) \| [https://github.com/openclaw/openclaw/commit/f19eabee54c49e9a2e264b4965edf28a2f92e657](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/f19eabee54c49e9a2e264b4965edf28a2f92e657) \| [https://github.com/openclaw/openclaw/security/advisories/GHSA-v773-r54f-q32w](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/security/advisories/GHSA-v773-r54f-q32w)
+## 12\. CNNVD-202603-641 / CVE-2026-28391
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：超危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.2（Windows \`cmd.exe\` 场景，需显式启用相关 allowlist/审批配置）
+\*\*漏洞描述\*\*：OpenClaw 2026.2.2 之前版本在 Windows \`cmd.exe\` 场景下，对 allowlist 门控的 exec 请求未正确处理 \`&\`、\`%...%\` 等命令解释符。攻击者可借此构造命令字符串，绕过原本应生效的审批/白名单限制，执行额外未获批准的命令。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.2 及以上，具体以官方公告/发行说明为准）；在升级前避免在 Windows \`cmd.exe\` 路径上依赖宽松 allowlist 规则，对命令参数做严格转义与规范化校验，并尽量改为不经 shell 解释的参数化执行方式。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28391](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28391)
+## 13\. CNNVD-202602-3716 / CVE-2026-27001
+\*\*漏洞类型\*\*：命令注入
+\*\*风险等级\*\*：高危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.15
+\*\*漏洞描述\*\*：OpenClaw 2026.2.15 之前版本会将当前工作目录（workspace 路径）未经充分净化地嵌入到 agent system prompt 中。若攻击者能够让 OpenClaw 在包含换行符、Unicode 双向控制字符或零宽字符等特殊字符的目录名下运行，则可能破坏提示词结构并注入攻击者控制的指令。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.15及以上，具体以官方公告/发行说明为准）；避免在不受信任或攻击者可控目录中运行 OpenClaw，对 workspace 路径中的控制字符、格式字符及换行分隔符进行净化，并审查所有会嵌入模型提示词的环境元数据来源。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-27001](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-27001) \| [https://github.com/openclaw/openclaw/commit/6254e96acf16e70ceccc8f9b2abecee44d606f79](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/6254e96acf16e70ceccc8f9b2abecee44d606f79) \| [https://github.com/openclaw/openclaw/releases/tag/v2026.2.15](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/releases/tag/v2026.2.15) \| [https://github.com/openclaw/openclaw/security/advisories/GHSA-2qj5-gwg2-xwc4](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/security/advisories/GHSA-2qj5-gwg2-xwc4)
+## 14\. CNNVD-202602-2953 / CVE-2026-26323
+\*\*漏洞类型\*\*：操作系统命令注入
+\*\*风险等级\*\*：高危
+\*\*漏洞影响版本\*\*：OpenClaw 2026.1.8 - 2026.2.13
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-26323](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-26323) \| [https://github.com/openclaw/openclaw/commit/a429380e337152746031d290432a4b93aa553d55](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/a429380e337152746031d290432a4b93aa553d55) \| [https://github.com/openclaw/openclaw/releases/tag/v2026.2.14](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/releases/tag/v2026.2.14) \| [https://github.com/openclaw/openclaw/security/advisories/GHSA-m7x8-2w3w-pr42](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/security/advisories/GHSA-m7x8-2w3w-pr42)
+## 15\. CNNVD-202602-4748 / CVE-2026-28363
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：高危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.23
+\*\*漏洞描述\*\*：OpenClaw 2026.2.23 之前版本在 allowlist 模式下对 \`tools.exec.safeBins\` 中 \`sort\` 命令参数的校验不充分，仅拒绝精确字符串 \`--compress-program\`，但可被 GNU 长选项缩写（如 \`--compress-prog\`）绕过。攻击者可借此在原本应触发审批的执行路径中实现免审批执行。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.23及以上，具体以官方公告/发行说明为准）；在升级前临时收紧或禁用 \`sort\` 相关免审批白名单规则，避免接受可缩写长选项，并对 safeBins 参数匹配采用标准化后再校验的策略。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28363](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28363) \| [https://github.com/openclaw/openclaw/security/advisories/GHSA-3c6h-g97w-fg78](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/security/advisories/GHSA-3c6h-g97w-fg78)
+## 16\. CNNVD-202602-3749 / CVE-2026-27488
+\*\*漏洞类型\*\*：代码问题
+\*\*风险等级\*\*：高危
+\*\*漏洞影响版本\*\*：OpenClaw <= 2026.2.17
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-27488](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-27488) \| [https://github.com/openclaw/openclaw/commit/99db4d13e5c139883ef0def9ff963e9273179655](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/99db4d13e5c139883ef0def9ff963e9273179655) \| [https://github.com/openclaw/openclaw/releases/tag/v2026.2.19](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/releases/tag/v2026.2.19) \| [https://github.com/openclaw/openclaw/security/advisories/GHSA-w45g-5746-x9fp](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/security/advisories/GHSA-w45g-5746-x9fp)
+## 17\. CNNVD-202602-3750 / CVE-2026-27487
+\*\*漏洞类型\*\*：操作系统命令注入
+\*\*风险等级\*\*：高危
+\*\*漏洞影响版本\*\*：OpenClaw <= 2026.2.13（macOS）
+\*\*漏洞描述\*\*：OpenClaw 在 macOS 平台的 [Claude CLI](https://zhida.zhihu.com/search?content\_id=271323014&content\_type=Article&match\_order=1&q=Claude+CLI&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwNTM5NzgsInEiOiJDbGF1ZGUgQ0xJIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjcxMzIzMDE0LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.MZ9EsxzaCu5zOx41cz079rzYZhr3uydfr3mgltXwh\_I&zhida\_source=entity) 钥匙串凭据刷新流程中，会构造 shell 命令调用 \`security add-generic-password -w ...\` 将更新后的 JSON 凭据写入 Keychain。由于 OAuth token 属于用户可控数据，受影响版本存在操作系统命令注入风险，攻击者可借此在凭据刷新过程中触发任意命令执行。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.14及以上，具体以官方公告/发行说明为准）；在升级前避免在 macOS 主机上使用旧版 Claude CLI 凭据刷新流程，禁止将 token/JSON 等不可信内容直接拼接进 shell 命令，改用参数化 API 或安全转义后的系统调用。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-27487](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-27487) \| [https://github.com/openclaw/openclaw/commit/66d7178f2d6f9d60abad35797f97f3e61389b70c](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/66d7178f2d6f9d60abad35797f97f3e61389b70c) \| [https://github.com/openclaw/openclaw/pull/15924](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/pull/15924) \| [https://github.com/openclaw/openclaw/releases/tag/v2026.2.14](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/releases/tag/v2026.2.14) \| [https://github.com/openclaw/openclaw/security/advisories/GHSA-4564-pvr2-qq4h](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/security/advisories/GHSA-4564-pvr2-qq4h)
+## 18\. CNNVD-202603-745 / CVE-2026-28479
+\*\*漏洞类型\*\*：加密问题
+\*\*风险等级\*\*：高危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.15
+\*\*漏洞描述\*\*：OpenClaw 2026.2.15 之前版本使用 SHA-1 对 Docker 与浏览器沙箱配置的缓存键进行哈希。由于 SHA-1 已被证明存在碰撞风险，攻击者可利用哈希碰撞制造缓存投毒，使一种沙箱配置被误识别为另一种配置，进而导致不安全的沙箱状态被复用。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.15及以上，具体以官方公告/发行说明为准）；停止在安全关键缓存键中使用 SHA-1，改用抗碰撞能力更强的哈希算法，并在升级后清理既有沙箱缓存，避免旧缓存状态继续被复用。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28479](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28479) \| [https://github.com/openclaw/openclaw/commit/559c8d9930eebb5356506ff1a8cd3dbaec92be77](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/559c8d9930eebb5356506ff1a8cd3dbaec92be77) \| [https://github.com/openclaw/openclaw/security/advisories/GHSA-fh3f-q9qw-93j9](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/security/advisories/GHSA-fh3f-q9qw-93j9)
+## 19\. CNNVD-202603-592 / CVE-2026-29610
+\*\*漏洞类型\*\*：代码问题
+\*\*风险等级\*\*：高危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.14
+\*\*漏洞描述\*\*：OpenClaw 2026.2.14 之前版本存在命令劫持问题。攻击者可通过 node-host 执行面或受攻击者控制的项目目录操纵 PATH 环境变量，放置恶意可执行文件覆盖 allowlist 中原本被视为安全的命令，从而诱导系统执行非预期二进制文件并实现任意命令执行。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.14及以上，具体以官方公告/发行说明为准）；在升级前固定 PATH 搜索路径、使用绝对路径调用 allowlist 中的可执行文件，避免在不可信目录下运行 bootstrapping/node-host 执行流程，并清理项目目录中的可疑同名二进制文件。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-29610](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-29610) \| [https://github.com/openclaw/openclaw/commit/013e8f6b3be3333a229a066eef26a45fec47ffcc](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/013e8f6b3be3333a229a066eef26a45fec47ffcc) \| [https://github.com/openclaw/openclaw/security/advisories/GHSA-jqpq-mgvm-f9r6](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/security/advisories/GHSA-jqpq-mgvm-f9r6)
+## 20\. CNNVD-202603-594 / CVE-2026-29609
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：高危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.14
+\*\*漏洞描述\*\*：OpenClaw 2026.2.14 之前版本在 \`fetchWithGuard\` 函数中，会在执行 \`maxBytes\` 限制前先将整个响应载荷读入内存。远程攻击者可通过返回不带 \`content-length\` 的超大响应，诱导服务端发生内存耗尽，进而造成拒绝服务。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.14及以上，具体以官方公告/发行说明为准）；在升级前限制可访问的远程媒体/URL 来源，对下载体积设置更严格的网关或代理层上限，并采用流式读取后即时截断的方式执行 \`maxBytes\` 控制。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-29609](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-29609) \| [https://github.com/openclaw/openclaw/commit/00a08908892d1743d1fc52e5cbd9499dd5da2fe0](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/00a08908892d1743d1fc52e5cbd9499dd5da2fe0) \| [https://github.com/openclaw/openclaw/security/advisories/GHSA-j27p-hq53-9wgc](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/security/advisories/GHSA-j27p-hq53-9wgc)
+## 21\. CNNVD-202603-595 / CVE-2026-29613
+\*\*漏洞类型\*\*：访问控制错误
+\*\*风险等级\*\*：高危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.12
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-29613](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-29613) \| [https://github.com/openclaw/openclaw/commit/743f4b28495cdeb0d5bf76f6ebf4af01f6a02e5a](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/743f4b28495cdeb0d5bf76f6ebf4af01f6a02e5a) \| [https://github.com/openclaw/openclaw/commit/f836c385ffc746cb954e8ee409f99d079bfdcd2f](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/f836c385ffc746cb954e8ee409f99d079bfdcd2f) \| [https://github.com/openclaw/openclaw/security/advisories/GHSA-xc7w-v5x6-cc87](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/security/advisories/GHSA-xc7w-v5x6-cc87)
+## 22\. CNNVD-202603-596 / CVE-2026-28485
+\*\*漏洞类型\*\*：访问控制错误
+\*\*风险等级\*\*：高危
+\*\*漏洞影响版本\*\*：2026.1.5 <= OpenClaw < 2026.2.12
+\*\*漏洞描述\*\*：OpenClaw 的 \`/agent/act\` 浏览器控制 HTTP 路由未强制执行必需的身份认证，导致未授权的本地调用方可直接触发高权限浏览器操作。处于本机或局域网可达范围内的攻击者，可能借此执行任意浏览器上下文动作并访问会话中的敏感数据。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.12 及以上，具体以官方公告/发行说明为准）；在升级前应立即为 \`/agent/act\` 等浏览器控制接口补齐强制认证与来源限制，仅允许受信本地进程访问，并避免将相关端口暴露到局域网。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28485](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28485) \| [https://github.com/openclaw/openclaw/commit/9230a2ae14307740a13ada7afd6dcfab34e0287f](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/9230a2ae14307740a13ada7afd6dcfab34e0287f) \| [https://github.com/openclaw/openclaw/security/advisories/GHSA-qpjj-47vm-64pj](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/security/advisories/GHSA-qpjj-47vm-64pj)
+## 23\. CNNVD-202603-600 / CVE-2026-28478
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：高危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.13
+\*\*漏洞描述\*\*：OpenClaw 的多个 Webhook 处理器在读取请求体时未设置严格的字节上限与超时控制，会对请求体进行无界缓冲。远程未授权攻击者可通过发送超大 JSON 负载或缓慢上传请求，造成内存压力上升和服务可用性下降。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.13 及以上，具体以官方公告/发行说明为准）；在升级前应为各类 Webhook 入口增加请求体大小限制、读取超时和反向代理层限流，必要时临时关闭不需要的外部 Webhook 暴露面。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28478](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28478) \| [https://github.com/openclaw/openclaw/commit/3cbcba10cf30c2ffb898f0d8c7dfb929f15f8930](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/3cbcba10cf30c2ffb898f0d8c7dfb929f15f8930) \| [https://github.com/openclaw/openclaw/security/advisories/GHSA-q447-rj3r-2cgh](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/security/advisories/GHSA-q447-rj3r-2cgh)
+## 24\. CNNVD-202603-612 / CVE-2026-28466
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：高危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.14
+\*\*漏洞描述\*\*：OpenClaw Gateway 在处理 \`node.invoke\` 参数时，未对内部审批控制字段进行充分清理，导致已认证客户端可通过构造参数绕过 \`system.run\` 的执行审批门控。攻击者一旦持有有效网关凭据，可能在已连接节点主机上执行任意命令，进而危及开发工作站或 CI 运行环境。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.14 及以上，具体以官方公告/发行说明为准）；在升级前应禁止客户端传入审批控制字段，收紧 \`system.run\`/节点执行能力的授权范围，并对高危节点操作启用额外审批与审计。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28466](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28466) \| [https://github.com/openclaw/openclaw/commit/0af76f5f0e93540efbdf054895216c398692afcd](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/0af76f5f0e93540efbdf054895216c398692afcd) \| [https://github.com/openclaw/openclaw/commit/318379cdb8d045da0009b0051bd0e712e5c65e2d](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/318379cdb8d045da0009b0051bd0e712e5c65e2d) \| [https://github.com/openclaw/openclaw/commit/a7af646fdab124a7536998db6bd6ad567d2b06b0](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/a7af646fdab124a7536998db6bd6ad567d2b06b0) \| [https://github.com/openclaw/openclaw/commit/c1594627421f95b6bc4ad7c606657dc75b5ad0ce](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/c1594627421f95b6bc4ad7c606657dc75b5ad0ce) \| [https://github.com/openclaw/openclaw/security/advisories/GHSA-gv46-4xfq-jv58](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/security/advisories/GHSA-gv46-4xfq-jv58)
+## 25\. CNNVD-202603-613 / CVE-2026-28468
+\*\*漏洞类型\*\*：访问控制错误
+\*\*风险等级\*\*：高危
+\*\*漏洞影响版本\*\*：2026.1.29-beta.1 <= OpenClaw < 2026.2.14
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.14 及以上，具体以官方公告/发行说明为准）；在升级前应关闭或限制沙箱浏览器桥接服务的本地暴露，确保所有桥接请求必须经过网关认证，并隔离浏览器运行环境中的敏感会话。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28468](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28468) \| [https://github.com/openclaw/openclaw/commit/4711a943e30bc58016247152ba06472dab09d0b0](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/4711a943e30bc58016247152ba06472dab09d0b0) \| [https://github.com/openclaw/openclaw/commit/6dd6bce997c48752134f2d6ed89b27de01ced7e3](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/6dd6bce997c48752134f2d6ed89b27de01ced7e3) \| [https://github.com/openclaw/openclaw/commit/cd84885a4ac78eadb7bf321aae98db9519426d67](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/cd84885a4ac78eadb7bf321aae98db9519426d67) \| [https://github.com/openclaw/openclaw/security/advisories/GHSA-h9g4-589h-68xv](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/security/advisories/GHSA-h9g4-589h-68xv)
+## 26\. CNNVD-202603-616 / CVE-2026-28462
+\*\*漏洞类型\*\*：路径遍历
+\*\*风险等级\*\*：高危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.13
+\*\*漏洞描述\*\*：OpenClaw 浏览器控制 API 在处理跟踪文件和下载文件输出路径时，未始终将写入位置严格限制在临时目录内，导致攻击者可通过 \`POST /trace/stop\`、\`POST /wait/download\` 与 \`POST /download\` 等接口构造路径穿越，将文件写入预期目录之外的位置。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.13 及以上，具体以官方公告/发行说明为准）；在升级前应仅允许服务端生成输出文件路径，对外部传入路径做规范化校验并限制在受控临时目录内，同时禁用绝对路径、\`..\` 及符号链接逃逸。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28462](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28462) \| [https://github.com/openclaw/openclaw/commit/7f0489e4731c8d965d78d6eac4a60312e46a9426](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/7f0489e4731c8d965d78d6eac4a60312e46a9426) \| [https://github.com/openclaw/openclaw/security/advisories/GHSA-gq9c-wg68-gwj2](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/security/advisories/GHSA-gq9c-wg68-gwj2)
+## 27\. CNNVD-202603-618 / CVE-2026-28465
+\*\*漏洞类型\*\*：数据伪造问题
+\*\*风险等级\*\*：高危
+\*\*漏洞影响版本\*\*：OpenClaw 语音通话插件 < 2026.2.3
+\*\*漏洞描述\*\*：OpenClaw 语音通话插件在 Webhook 校验逻辑中，对来自代理链路的转发头信任过度，导致攻击者可通过伪造 \`Forwarded\` 或 \`X-Forwarded-\\*\` 头绕过认证验证。在反向代理部署场景下，远程攻击者可借此伪造 Webhook 事件。
+\*\*修复建议\*\*：优先升级到官方已修复版本（语音通话插件 2026.2.3 及以上，具体以官方公告/发行说明为准）；在升级前应仅信任显式配置的反向代理来源，禁用未经校验的转发头参与认证判断，并为 Webhook 叠加独立签名或共享密钥校验。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28465](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28465) \| [https://github.com/openclaw/openclaw/commit/a749db9820eb6d6224032a5a34223d286d2dcc2f](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/a749db9820eb6d6224032a5a34223d286d2dcc2f) \| [https://github.com/openclaw/openclaw/security/advisories/GHSA-3m3q-x3gj-f79x](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/security/advisories/GHSA-3m3q-x3gj-f79x)
+## 28\. CNNVD-202603-619 / CVE-2026-28463
+\*\*漏洞类型\*\*：操作系统命令注入
+\*\*风险等级\*\*：高危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.14
+\*\*漏洞描述\*\*：OpenClaw 的 exec-approvals allowlist 对 \`safeBins\` 仅检查 shell 展开前的 argv，而实际执行阶段会经过真实 shell 展开。攻击者可利用通配符或环境变量，让原本被视为仅允许标准输入的 \`head\`、\`tail\`、\`grep\` 等命令读取任意本地文件，进而泄露网关或节点进程可访问的数据。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.14 及以上，具体以官方公告/发行说明为准）；在升级前应禁用或严格收紧 shell 展开执行路径，避免通过 shell 解释 allowlist 命令，并从 \`safeBins\` 中移除具备文件读取能力的命令。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28463](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28463) \| [https://github.com/openclaw/openclaw/commit/77b89719d5b7e271f48b6f49e334a8b991468c3b](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/77b89719d5b7e271f48b6f49e334a8b991468c3b) \| [https://github.com/openclaw/openclaw/security/advisories/GHSA-xvhf-x56f-2hpp](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/security/advisories/GHSA-xvhf-x56f-2hpp)
+## 29\. CNNVD-202603-620 / CVE-2026-28458
+\*\*漏洞类型\*\*：访问控制错误
+\*\*风险等级\*\*：高危
+\*\*漏洞影响版本\*\*：2026.1.20 <= OpenClaw < 2026.2.1
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.1 及以上，具体以官方公告/发行说明为准）；在升级前应停用或限制 Browser Relay 扩展，对 \`/cdp\` 端点补齐令牌认证与来源校验，并避免本地浏览器控制端口被任意网页访问。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28458](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28458) \| [https://github.com/openclaw/openclaw/commit/a1e89afcc19efd641c02b24d66d689f181ae2b5c](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/a1e89afcc19efd641c02b24d66d689f181ae2b5c) \| [https://github.com/openclaw/openclaw/security/advisories/GHSA-mr32-vwc2-5j6h](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/security/advisories/GHSA-mr32-vwc2-5j6h)
+## 30\. CNNVD-202603-622 / CVE-2026-28456
+\*\*漏洞类型\*\*：代码问题
+\*\*风险等级\*\*：高危
+\*\*漏洞影响版本\*\*：2026.1.5 <= OpenClaw < 2026.2.14
+\*\*漏洞描述\*\*：OpenClaw Gateway 在将已配置的 Hook 模块路径传入 \`dynamic import()\` 前，未对路径范围进行充分约束，导致具备网关配置修改权限的攻击者可加载并执行非预期的本地模块，从而在 Node.js 进程内实现代码执行。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.14 及以上，具体以官方公告/发行说明为准）；在升级前应将 Hook 模块路径限制为受控目录白名单，禁止绝对路径和路径穿越写法，并收紧可修改网关配置的权限边界。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28456](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28456) \| [https://github.com/openclaw/openclaw/commit/35c0e66ed057f1a9f7ad2515fdcef516bd6584ce](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/35c0e66ed057f1a9f7ad2515fdcef516bd6584ce) \| [https://github.com/openclaw/openclaw/commit/a0361b8ba959e8506dc79d638b6e6a00d12887e4](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/a0361b8ba959e8506dc79d638b6e6a00d12887e4) \| [https://github.com/openclaw/openclaw/security/advisories/GHSA-v6c6-vqqg-w888](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/security/advisories/GHSA-v6c6-vqqg-w888)
+## 31\. CNNVD-202603-624 / CVE-2026-28453
+\*\*漏洞类型\*\*：路径遍历
+\*\*风险等级\*\*：高危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.14
+\*\*漏洞描述\*\*：OpenClaw 在解压 TAR 归档文件时，未校验归档条目路径是否逃逸目标目录，导致攻击者可通过构造包含 \`../../\` 等路径穿越序列的恶意归档，在预期解压目录之外写入文件，进而造成配置篡改甚至代码执行风险。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.14 及以上，具体以官方公告/发行说明为准）；在升级前应禁止解压不可信 TAR 包，对归档条目路径做规范化校验并确保写入位置始终位于目标目录内，同时阻断绝对路径和符号链接逃逸。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28453](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28453) \| [https://github.com/openclaw/openclaw/commit/3aa94afcfd12104c683c9cad81faf434d0dadf87](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/3aa94afcfd12104c683c9cad81faf434d0dadf87) \| [https://github.com/openclaw/openclaw/security/advisories/GHSA-p25h-9q54-ffvw](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/security/advisories/GHSA-p25h-9q54-ffvw)
+## 32\. CNNVD-202603-627 / CVE-2026-28447
+\*\*漏洞类型\*\*：路径遍历
+\*\*风险等级\*\*：高危
+\*\*漏洞影响版本\*\*：2026.1.29-beta.1 <= OpenClaw < 2026.2.1
+\*\*漏洞描述\*\*：OpenClaw 在插件安装流程中，未对插件包名进行充分路径约束，导致恶意构造的作用域包名可逃逸 \`extensions\` 目录。攻击者可诱导受害者执行插件安装命令，借助包含路径穿越片段的包名在预期安装目录之外写入文件。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.1 及以上，具体以官方公告/发行说明为准）；在升级前应仅安装受信插件，严格校验插件包名与安装目标路径，禁止任何 \`..\`、绝对路径或目录逃逸写入。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28447](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28447) \| [https://github.com/openclaw/openclaw/commit/d03eca8450dc493b198a88b105fd180895238e57](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/d03eca8450dc493b198a88b105fd180895238e57) \| [https://github.com/openclaw/openclaw/security/advisories/GHSA-qrq5-wjgg-rvqw](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/security/advisories/GHSA-qrq5-wjgg-rvqw)
+## 33\. CNNVD-202603-633 / CVE-2026-28393
+\*\*漏洞类型\*\*：代码问题
+\*\*风险等级\*\*：高危
+\*\*漏洞影响版本\*\*：2.0.0-beta3 <= OpenClaw < 2026.2.14
+\*\*漏洞描述\*\*：OpenClaw 在 Hook 转换模块加载过程中，对 \`hooks.mappings\[\].transform.module\` 参数缺乏严格路径限制，允许接受绝对路径或路径穿越序列。具备配置写入权限的攻击者可借此加载并执行恶意 JavaScript 模块，从而以 Gateway 进程权限执行任意代码。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.14 及以上，具体以官方公告/发行说明为准）；在升级前应将转换模块路径限制在受控目录内，禁止绝对路径与路径穿越写法，并严格限制可修改 Hook 映射配置的主体。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28393](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28393) \| [https://github.com/openclaw/openclaw/commit/18e8bd68c5015a894f999c6d5e6e32468965bfb5](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/18e8bd68c5015a894f999c6d5e6e32468965bfb5) \| [https://github.com/openclaw/openclaw/commit/a0361b8ba959e8506dc79d638b6e6a00d12887e4](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/a0361b8ba959e8506dc79d638b6e6a00d12887e4) \| [https://github.com/openclaw/openclaw/security/advisories/GHSA-7xhj-55q9-pc3m](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/security/advisories/GHSA-7xhj-55q9-pc3m)
+## 34\. CNNVD-202602-3710 / CVE-2026-27009
+\*\*漏洞类型\*\*：跨站脚本
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.15
+\*\*漏洞描述\*\*：OpenClaw 2026.2.15 之前版本的 Control UI 在将 assistant identity（名称/头像等）渲染到内联 \`\` 等片段的恶意值打断脚本标签，在 Control UI 域内执行任意 JavaScript，造成存储型 XSS。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.15 及以上，具体以官方公告/发行说明为准）；在升级前避免将未净化的身份字段直接嵌入内联脚本，改用独立 JSON 配置端点传递启动数据，并为 Control UI 启用严格 CSP（禁止 inline script）。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-27009](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-27009)
+## 35\. CNNVD-202602-3711 / CVE-2026-27008
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.15
+\*\*漏洞描述\*\*：OpenClaw 2026.2.15 之前版本在 download skill 安装流程中，对技能 frontmatter 提供的 \`targetDir\` 校验不严，可能将写入目标解析到每个技能工具目录之外。具备管理员权限的安装路径中，攻击者可借此把文件写到预期沙箱外的位置。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.15 及以上，具体以官方公告/发行说明为准）；在升级前应将 \`targetDir\` 严格限制在技能专属工具目录内，拒绝绝对路径、\`..\` 与符号链接逃逸，并仅允许管理员从受信来源安装技能。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-27008](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-27008)
+## 36\. CNNVD-202602-3713 / CVE-2026-27004
+\*\*漏洞类型\*\*：访问控制错误
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.15
+\*\*漏洞描述\*\*：OpenClaw 2026.2.15 之前版本在部分共享 agent 部署中，对 \`sessions\\_list\`、\`sessions\\_history\`、\`sessions\\_send\` 等会话工具的可见范围控制不够严格，可能允许会话目标超出部分运维者原本预期；同时 Telegram webhook 启动逻辑在仅配置账号级 \`webhookSecret\` 时，未正确回退使用该密钥，导致鉴权边界变弱。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.15 及以上，具体以官方公告/发行说明为准）；在升级前收紧共享部署下的会话可见范围与目标选择权限，确保 Telegram webhook 同时正确继承并强制校验账号级密钥。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-27004](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-27004)
+## 37\. CNNVD-202602-3714 / CVE-2026-27003
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.15
+\*\*漏洞描述\*\*：OpenClaw 2026.2.15 之前版本未对日志、异常堆栈中的 Telegram Bot Token 做充分脱敏。若请求 URL 或报错信息中包含 \` [https://api.telegram.org/bot](https://link.zhihu.com/?target=https%3A//api.telegram.org/bot) /...\` 这类字符串，令牌可能泄露到日志、崩溃报告、CI 输出或支持包中，进而导致机器人被冒用。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.15 及以上，具体以官方公告/发行说明为准）；升级后同步轮换可能已暴露的 Telegram Bot Token，并在日志、错误上报和诊断导出流程中统一增加密钥脱敏。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-27003](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-27003)
+## 38\. CNNVD-202602-2949 / CVE-2026-26325
+\*\*漏洞类型\*\*：访问控制错误
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.14（node host / \`system.run\` 路径）
+\*\*漏洞描述\*\*：OpenClaw 2026.2.14 之前版本在 node host 的 \`system.run\` 处理流程中，allowlist/审批判断所使用的 \`rawCommand\` 与最终执行的 \`command\[\]\` 可能不一致，导致系统在检查一条命令时实际执行了另一组参数。启用 node host 且依赖 allowlist+审批策略的部署中，攻击者可借此绕过预期执行门控。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.14 及以上，具体以官方公告/发行说明为准）；在升级前统一以最终实际执行的 argv 作为审批与 allowlist 判断依据，并临时收紧 node host 的 \`system.run\` 能力暴露。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-26325](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-26325)
+## 39\. CNNVD-202602-3717 / CVE-2026-26972
+\*\*漏洞类型\*\*：路径遍历
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：2026.1.12 <= OpenClaw < 2026.2.13
+\*\*漏洞描述\*\*：OpenClaw 2026.1.12 至 2026.2.12 版本的浏览器下载辅助逻辑接受未经净化的输出路径。通过浏览器控制网关路由调用时，已认证攻击者可利用路径穿越，将下载文件写到 OpenClaw 临时下载目录之外的位置。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.13 及以上，具体以官方公告/发行说明为准）；在升级前仅允许服务端生成下载目标路径，对外部传入路径做规范化校验并强制限制在受控临时目录内。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-26972](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-26972)
+## 40\. CNNVD-202602-2950 / CVE-2026-26324
+\*\*漏洞类型\*\*：代码问题
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.14
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-26324](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-26324)
+## 41\. CNNVD-202602-2951 / CVE-2026-26327
+\*\*漏洞类型\*\*：数据伪造问题
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.14
+\*\*漏洞描述\*\*：OpenClaw 2026.2.14 之前版本会把 Bonjour/mDNS / DNS-SD 发现报文中的 TXT 记录（如 \`lanHost\`、\`tailnetDns\`、\`gatewayPort\`、\`gatewayTlsSha256\`）当作可信连接参数使用。由于 TXT 记录本身不可认证，攻击者可伪造这些字段，误导客户端连接到恶意主机、端口或错误 TLS 指纹。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.14 及以上，具体以官方公告/发行说明为准）；在升级前不要将发现报文中的主机、端口和证书指纹直接视为可信，应以预配置或已配对的连接信息为准。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-26327](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-26327)
+## 42\. CNNVD-202602-2952 / CVE-2026-26326
+\*\*漏洞类型\*\*：信息泄露
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.14
+\*\*漏洞描述\*\*：OpenClaw 2026.2.14 之前版本的 \`skills.status\` 在返回 \`configChecks\` 时，会向具备 \`operator.read\` 权限的客户端暴露技能 \`requires.config\` 路径对应的原始解析后配置值，可能导致 Discord Token 等敏感信息泄露。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.14 及以上，具体以官方公告/发行说明为准）；升级后应轮换可能已暴露的 Discord Token 等密钥，并确保状态检查接口仅返回“路径+是否满足”之类的最小必要信息。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-26326](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-26326)
+## 43\. CNNVD-202602-3721 / CVE-2026-26328
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.14（iMessage \`groupPolicy=allowlist\` 场景）
+\*\*漏洞描述\*\*：OpenClaw 2026.2.14 之前版本在 iMessage \`groupPolicy=allowlist\` 场景下，群组授权判断错误地复用了私聊配对存储中的发送者身份，导致原本只应适用于私聊的信任关系被扩展到群聊上下文。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.14 及以上，具体以官方公告/发行说明为准）；在升级前将群聊授权与私聊配对数据彻底隔离，并重新核查 iMessage 群组白名单配置。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-26328](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-26328)
+## 44\. CNNVD-202602-2954 / CVE-2026-26322
+\*\*漏洞类型\*\*：代码问题
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.14
+\*\*漏洞描述\*\*：OpenClaw 2026.2.14 之前版本允许 Gateway 工具接受工具调用方提供的 \`gatewayUrl\` 覆盖值，且限制不足，可能诱导 OpenClaw 主机向攻击者指定的目标发起出站 WebSocket 连接，带来 SSRF/错误连接风险。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.14 及以上，具体以官方公告/发行说明为准）；在升级前禁止普通工具调用覆盖 \`gatewayUrl\`，并将可连接目标限制为受信主机白名单。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-26322](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-26322)
+## 45\. CNNVD-202602-2955 / CVE-2026-26321
+\*\*漏洞类型\*\*：路径遍历
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.14（Feishu 扩展）
+\*\*漏洞描述\*\*：OpenClaw 2026.2.14 之前版本的 Feishu 扩展会把攻击者可控的 \`mediaUrl\` 当作本地文件路径直接读取。若攻击者能够影响工具调用参数，可借此传入 \`/etc/passwd\` 等路径并把本地敏感文件作为媒体附件外传。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.14 及以上，具体以官方公告/发行说明为准）；在升级前禁止 \`sendMediaFeishu\` 直接读取任意本地路径，仅允许受控目录内的文件句柄或经过校验的远程 URL。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-26321](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-26321)
+## 46\. CNNVD-202602-3723 / CVE-2026-26329
+\*\*漏洞类型\*\*：路径遍历
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.14
+\*\*漏洞描述\*\*：OpenClaw 2026.2.14 之前版本的浏览器工具 \`upload\` 动作允许将绝对路径或路径穿越序列直接传给 Playwright \`setInputFiles()\`，已认证攻击者可借此读取 Gateway 宿主机上的任意文件并上传到目标页面。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.14 及以上，具体以官方公告/发行说明为准）；在升级前仅允许上传受控工作目录或临时目录内的文件，并阻断绝对路径、\`..\` 与符号链接逃逸。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-26329](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-26329)
+## 47\. CNNVD-202602-2956 / CVE-2026-26320
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：2026.2.6 <= OpenClaw < 2026.2.14（macOS Desktop Beta）
+\*\*漏洞描述\*\*：OpenClaw macOS 桌面客户端在处理 \`openclaw://agent\` 深链时，确认对话框只展示消息前 240 个字符，但用户点击“Run”后会执行完整消息内容。2026.2.6 至 2026.2.13 的 Beta 版本中，攻击者可通过填充空白或无害前缀隐藏后续恶意指令，诱导用户确认执行。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.14 及以上，具体以官方公告/发行说明为准）；在升级前避免打开来源不明的 \`openclaw://agent\` 深链，并要求确认界面完整展示即将执行的全部内容。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-26320](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-26320)
+## 48\. CNNVD-202602-2957 / CVE-2026-26319
+\*\*漏洞类型\*\*：访问控制错误
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw <= 2026.2.13（安装并启用 \`@openclaw/voice-call\` / Telnyx）
+\*\*漏洞描述\*\*：OpenClaw 2026.2.13 及更早版本的可选 \`@openclaw/voice-call\` 插件在未配置 \`telnyx.publicKey\` 时，Telnyx webhook 验签逻辑可能实际“失败即放行”，导致未签名的入站事件也会被接受，攻击者可伪造 Telnyx Webhook 请求。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.14 及以上，具体以官方公告/发行说明为准）；在升级前必须显式配置并强制校验 Telnyx 公钥，未满足时应直接拒绝 webhook。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-26319](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-26319)
+## 49\. CNNVD-202602-2967 / CVE-2026-26316
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.13（BlueBubbles 插件）
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-26316](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-26316)
+## 50\. CNNVD-202602-2968 / CVE-2026-26317
+\*\*漏洞类型\*\*：跨站请求伪造
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.14
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.14 及以上，具体以官方公告/发行说明为准）；在升级前为本地变更接口增加严格的 Origin/Referer 校验与 CSRF 防护，并避免浏览器控制端点在活跃浏览器会话中长期暴露。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-26317](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-26317)
+## 51\. CNNVD-202602-3748 / CVE-2026-27576
+\*\*漏洞类型\*\*：资源管理错误
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw <= 2026.2.17（ACP bridge）
+\*\*漏洞描述\*\*：OpenClaw 2026.2.17 及更早版本的 ACP bridge 可接受超大 prompt 文本，并在转发到 \`chat.send\` 前先组装出过大的请求载荷。本地 ACP 客户端（如 IDE 集成）若发送异常大的输入，可能导致内存压力上升并影响服务可用性。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.19 及以上，具体以官方公告/发行说明为准）；在升级前为 ACP 输入设置严格的文本长度、总载荷与消息片段上限，避免一次性转发超大 prompt。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-27576](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-27576)
+## 52\. CNNVD-202602-3751 / CVE-2026-27486
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.14
+\*\*漏洞描述\*\*：OpenClaw 2026.2.14 之前版本的进程清理逻辑通过系统级进程枚举与命令行模式匹配终止进程，但未核验目标进程是否属于当前 OpenClaw 实例。在共享主机场景下，可能误杀其他无关进程。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.14 及以上，具体以官方公告/发行说明为准）；在升级前仅清理由当前 OpenClaw 进程显式创建并记录了 PID/归属关系的子进程，避免使用宽泛命令行模式直接杀进程。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-27486](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-27486) \| [https://github.com/openclaw/openclaw/commit/6084d13b956119e3cf95daaf9a1cae1670ea3557](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/6084d13b956119e3cf95daaf9a1cae1670ea3557) \| [https://github.com/openclaw/openclaw/commit/eb60e2e1b213740c3c587a7ba4dbf10da620ca66](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/eb60e2e1b213740c3c587a7ba4dbf10da620ca66) \| [https://github.com/openclaw/openclaw/security/advisories/GHSA-jfv4-h8mc-jcp8](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/security/advisories/GHSA-jfv4-h8mc-jcp8)
+## 53\. CNNVD-202602-3752 / CVE-2026-27485
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw <= 2026.2.17（本地打包脚本 \`package\\_skill.py\`）
+\*\*漏洞描述\*\*：OpenClaw 技能打包辅助脚本 \`skills/skill-creator/scripts/package\\_skill.py\` 在 2026.2.17 及更早版本会跟随符号链接打包文件。若作者在恶意构造的本地技能目录上运行该脚本，生成的 \`.skill\` 压缩包可能意外包含技能根目录之外的本地文件内容。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.19 及以上，具体以官方公告/发行说明为准）；在升级前不要在不受信技能目录上运行打包脚本，并禁止打包流程跟随符号链接读取根目录外文件。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-27485](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-27485) \| [https://github.com/openclaw/openclaw/commit/c275932aa4230fb7a8212fe1b9d2a18424874b3f](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/c275932aa4230fb7a8212fe1b9d2a18424874b3f) \| [https://github.com/openclaw/openclaw/commit/ee1d6427b544ccadd73e02b1630ea5c29ba9a9f0](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/ee1d6427b544ccadd73e02b1630ea5c29ba9a9f0) \| [https://github.com/openclaw/openclaw/security/advisories/GHSA-r6h2-5gqq-v5v6](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/security/advisories/GHSA-r6h2-5gqq-v5v6)
+## 54\. CNNVD-202602-3753 / CVE-2026-27484
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw <= 2026.2.17（Discord moderation actions）
+\*\*漏洞描述\*\*：OpenClaw 2026.2.17 及更早版本在 Discord moderation action（timeout/kick/ban）工具驱动流程中，使用了请求参数里的发送者身份，而非可信运行时上下文。启用相关能力且 Bot 拥有 guild 管理权限时，非管理员用户可通过伪造身份字段请求执行封禁、踢出或禁言等操作。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.18 及以上，具体以官方公告/发行说明为准）；在升级前应仅依据 Discord 运行时真实发送者上下文做权限判定，并暂时关闭高风险 moderation action 自动执行。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-27484](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-27484) \| [https://github.com/openclaw/openclaw/commit/775816035ecc6bb243843f8000c9a58ff609e32d](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/775816035ecc6bb243843f8000c9a58ff609e32d) \| [https://github.com/openclaw/openclaw/security/advisories/GHSA-wh94-p5m6-mr7j](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/security/advisories/GHSA-wh94-p5m6-mr7j)
+## 55\. CNNVD-202602-943 / CVE-2026-25593
+\*\*漏洞类型\*\*：访问控制错误
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.1.20
+\*\*CWE\*\*：CWE-306 / CWE-78
+\*\*漏洞描述\*\*：OpenClaw 2026.1.20 之前版本的 Gateway WebSocket API 存在本地未授权配置写入问题。攻击者可在未认证情况下调用 \`config.apply\` 写入配置，并设置恶意 \`cliPath\`；该值随后会在命令发现流程中被使用，最终以网关用户权限触发命令注入。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.1.20 及以上，具体以官方公告/发行说明为准）；同时应限制本机对 Gateway WebSocket 的访问，禁止未认证客户端调用配置写入接口，并对 \`cliPath\` 等可影响命令执行的配置项增加白名单校验与审计。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-25593](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-25593) \| [https://github.com/openclaw/openclaw/security/advisories/GHSA-g55j-c2v4-pjcg](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/security/advisories/GHSA-g55j-c2v4-pjcg)
+## 56\. CNNVD-202602-3251 / CVE-2026-25474
+\*\*漏洞类型\*\*：数据伪造问题
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw <= 2026.1.30
+\*\*漏洞描述\*\*：OpenClaw 在 Telegram webhook 模式下，若未配置 \`channels.telegram.webhookSecret\`，会接受未携带 Telegram 密钥头的入站 HTTP 请求。对于可被公网访问的 webhook 端点，远程攻击者可伪造 Telegram 更新数据，绕过预期来源校验并冒充授权发送者与机器人交互。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.1 及以上，具体以官方公告/发行说明为准）；在升级前必须为 Telegram webhook 显式配置并强制校验 \`webhookSecret\`，同时限制 webhook 入口的公网暴露并记录异常来源请求。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-25474](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-25474)
+## 57\. CNNVD-202602-3256 / CVE-2026-24764
+\*\*漏洞类型\*\*：代码注入
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw <= 2026.2.2（启用 Slack 集成）
+\*\*漏洞描述\*\*：OpenClaw 2026.2.2 及更早版本在启用 Slack 集成时，可能把 Slack 频道 topic/description 等不可信元数据注入模型 system prompt，扩大高信任提示词被外部内容污染的面。攻击者可通过频道元数据实施提示词注入，影响 agent 行为。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.3 及以上，具体以官方公告/发行说明为准）；在升级前不要将 Slack 频道元数据直接并入高信任 system prompt，应将其视为低信任上下文并做隔离。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-24764](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-24764)
+## 58\. CNNVD-202603-590 / CVE-2026-29612
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.14
+\*\*漏洞描述\*\*：OpenClaw 2026.2.14 之前版本在处理 base64 媒体输入时，会先将数据完整解码到内存，再检查解码后的大小预算。攻击者可借助超大 base64 载荷触发大块内存分配，造成内存压力甚至拒绝服务。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.14 及以上，具体以官方公告/发行说明为准）；在升级前对 base64 输入设置更小的前置大小限制，并改为边解码边计量，超限立即中止。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-29612](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-29612)
+## 59\. CNNVD-202603-591 / CVE-2026-29611
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.14（BlueBubbles 扩展）
+\*\*漏洞描述\*\*：OpenClaw 2026.2.14 之前版本的 BlueBubbles 扩展在处理 \`mediaPath\` 时缺少本地文件路径白名单校验。攻击者可请求读取 \`/etc/passwd\` 等任意本地文件，并将其作为媒体附件外传，形成本地文件包含/敏感信息泄露。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.14 及以上，具体以官方公告/发行说明为准）；在升级前禁止 \`mediaPath\` 直接指向任意宿主路径，仅允许受控媒体目录中的文件。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-29611](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-29611)
+## 60\. CNNVD-202603-593 / CVE-2026-29606
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.14（voice-call 扩展，且显式启用 \`tunnel.allowNgrokFreeTierLoopbackBypass\`）
+\*\*漏洞描述\*\*：OpenClaw 2026.2.14 之前版本的 voice-call 扩展在显式启用 \`tunnel.allowNgrokFreeTierLoopbackBypass\` 时，可能绕过 Twilio Webhook 签名校验，未携带有效 \`X-Twilio-Signature\` 的外部请求也会被接受，导致伪造 webhook 事件或请求洪泛。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.14 及以上，具体以官方公告/发行说明为准）；在升级前不要启用该兼容绕过选项，并强制对所有公网 webhook 请求执行 Twilio 签名校验。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-29606](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-29606)
+## 61\. CNNVD-202603-597 / CVE-2026-28482
+\*\*漏洞类型\*\*：路径遍历
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.12
+\*\*漏洞描述\*\*：OpenClaw 2026.2.12 之前版本在构造 transcript 文件路径时，对 \`sessionId\` 与 \`sessionFile\` 参数缺少净化和目录约束。已认证攻击者可利用 \`../../\` 等路径穿越序列，在 agent sessions 目录外读写任意文件。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.12 及以上，具体以官方公告/发行说明为准）；在升级前应对 \`sessionId\`、\`sessionFile\` 做严格规范化，并强制最终路径落在受控会话目录内。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28482](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28482)
+## 62\. CNNVD-202603-598 / CVE-2026-28480
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.14
+\*\*CWE\*\*：CWE-290
+\*\*漏洞描述\*\*：OpenClaw 2026.2.14 之前版本存在授权绕过漏洞：Telegram allowlist 匹配使用的是可变的用户名，而非不可变的数字型发送者 ID。攻击者可通过获取被回收再分配的用户名来伪装身份，绕过白名单限制并以未授权发送者身份与机器人交互。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.14及以上，具体以官方公告/发行说明为准）；结合漏洞类型检查输入校验、权限控制、错误处理和日志审计，必要时临时下线相关功能降低暴露面。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28480](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28480) \| [https://github.com/openclaw/openclaw/commit/9e147f00b48e63e7be6964e0e2a97f2980854128](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/9e147f00b48e63e7be6964e0e2a97f2980854128) \| [https://github.com/openclaw/openclaw/commit/e3b432e481a96b8fd41b91273818e514074e05c3](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/e3b432e481a96b8fd41b91273818e514074e05c3)
+## 63\. CNNVD-202603-601 / CVE-2026-28481
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw <= 2026.1.30
+\*\*漏洞描述\*\*：OpenClaw 2026.1.30 及更早版本的 MS Teams 附件下载器（需安装并启用相关扩展）存在令牌泄露问题。系统在收到 401/403 后会基于“允许后缀域名”重试下载请求，可能将 Bearer Token 发送到攻击者可控但后缀伪装匹配的域名，导致访问令牌泄露。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.1 及以上，具体以官方公告/发行说明为准）；在升级前应停用相关附件自动下载能力，避免按后缀宽松匹配受信域名，并为下载重试逻辑限制认证头的转发范围。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28481](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28481)
+## 64\. CNNVD-202603-602 / CVE-2026-28476
+\*\*漏洞类型\*\*：代码问题
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.14（可选 Tlon Urbit 扩展）
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28476](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28476)
+## 65\. CNNVD-202602-046 / CVE-2026-24763
+\*\*漏洞类型\*\*：操作系统命令注入
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.1.29（Docker 沙箱执行路径）
+\*\*漏洞描述\*\*：OpenClaw 2026.1.29 之前版本在 Docker 沙箱执行机制中，对 PATH 环境变量处理不安全。已认证且可控制环境变量的用户可借此影响容器上下文中的命令解析与执行，进而触发操作系统命令注入。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.1.29 及以上，具体以官方公告/发行说明为准）；在升级前不要让不可信输入控制 Docker 沙箱内的 PATH 或命令拼接结果，并尽量使用绝对路径与参数化执行。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-24763](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-24763)
+## 66\. CNNVD-202603-603 / CVE-2026-28477
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.14（Chutes 手动登录流程）
+\*\*漏洞描述\*\*：OpenClaw 2026.2.14 之前版本的 Chutes 手动 OAuth 登录流程存在 state 校验绕过。攻击者可诱导用户粘贴其控制的 OAuth 回调数据，从而绕过原本用于防 CSRF 的 state 检查，造成凭据替换与未授权账号令牌持久化。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.14 及以上，具体以官方公告/发行说明为准）；在升级前必须对手动登录回调严格校验 state，并避免接受来源不明的回调内容粘贴。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28477](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28477)
+## 67\. CNNVD-202603-606 / CVE-2026-28486
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：2026.1.16-2 <= OpenClaw < 2026.2.14
+\*\*漏洞描述\*\*：OpenClaw 2026.1.16-2 至 2026.2.13 版本在安装命令的归档解压流程中存在 Zip Slip / 路径穿越问题。攻击者可构造恶意归档，在 \`skills install\`、\`hooks install\`、\`plugins install\` 或 \`signal install\` 等安装过程中将文件写到目标目录之外，进而实现持久化或代码执行。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.14 及以上，具体以官方公告/发行说明为准）；在升级前不要安装不受信归档，对解压条目路径做规范化校验并强制限制在预期安装根目录内。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28486](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28486)
+## 68\. CNNVD-202603-608 / CVE-2026-28475
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.13
+\*\*漏洞描述\*\*：OpenClaw 2026.2.13 之前版本在 hook token 校验中使用非常量时间字符串比较。具备网络访问能力的攻击者可通过多次测量响应时间逐步推断认证令牌，形成时间侧信道攻击。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.13 及以上，具体以官方公告/发行说明为准）；在升级前改用非常量时间安全比较函数，并限制 hooks 入口的可达范围与重试频率。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28475](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28475)
+## 69\. CNNVD-202603-615 / CVE-2026-28467
+\*\*漏洞类型\*\*：代码问题
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.2
+\*\*CWE\*\*：CWE-918
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.2及以上，具体以官方公告/发行说明为准）；结合漏洞类型检查输入校验、权限控制、错误处理和日志审计，必要时临时下线相关功能降低暴露面。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28467](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28467) \| [https://github.com/openclaw/openclaw/commit/81c68f582d4a9a20d9cca9f367d2da9edc5a65ae](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/81c68f582d4a9a20d9cca9f367d2da9edc5a65ae) \| [https://github.com/openclaw/openclaw/commit/9bd64c8a1f91dda602afc1d5246a2ff2be164647](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/commit/9bd64c8a1f91dda602afc1d5246a2ff2be164647)
+## 70\. CNNVD-202603-617 / CVE-2026-28459
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.12
+\*\*漏洞描述\*\*：OpenClaw 对 \`sessionFile\` 路径参数缺少充分校验，已认证网关客户端可将会话转录内容写入 \`sessions\` 目录之外的任意宿主文件路径。攻击者可借此创建文件或向任意位置追加数据，进而造成任意文件写入风险。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.12 及以上，具体以官方公告/发行说明为准）；在升级前应禁止客户端直接控制 \`sessionFile\` 的最终写入位置，对路径做规范化校验并强制限制在受控会话目录内，同时阻断绝对路径与 \`..\` 逃逸。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28459](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28459)
+## 71\. CNNVD-202603-621 / CVE-2026-28457
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.14
+\*\*漏洞描述\*\*：OpenClaw 在启用沙箱技能镜像功能时，会将技能 frontmatter 中的 \`name\` 参数未经充分净化地用于复制路径。攻击者可提供包含路径穿越序列的恶意技能包，使镜像过程逃逸沙箱工作目录，在宿主文件系统预期位置之外写入文件。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.14 及以上，具体以官方公告/发行说明为准）；在升级前应停用或严格限制沙箱技能镜像功能，对技能名做路径规范化校验，并阻断 \`..\`、绝对路径及符号链接逃逸。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28457](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28457)
+## 72\. CNNVD-202603-625 / CVE-2026-28450
+\*\*漏洞类型\*\*：访问控制错误
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.12
+\*\*漏洞描述\*\*：OpenClaw 在启用可选 Nostr 插件时，对 \`/api/channels/nostr/:accountId/profile\` 及 \`/api/channels/nostr/:accountId/profile/import\` 两个 HTTP 端点未强制执行网关鉴权。远程攻击者可在未认证情况下读取或篡改 Nostr 资料信息。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.12 及以上，具体以官方公告/发行说明为准）；在升级前应立即关闭或限制上述 Nostr HTTP 入口，仅允许受信调用方访问，并为资料读写接口补齐认证、授权与审计。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28450](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28450)
+## 73\. CNNVD-202603-626 / CVE-2026-28448
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：2026.1.29 <= OpenClaw < 2026.2.1
+\*\*漏洞描述\*\*：OpenClaw 的 Twitch 插件在安装并启用后，若 \`allowedRoles\` 未设置或为空，未能正确执行 \`allowFrom\` 白名单限制。远程未授权 Twitch 用户可借此通过 mention 或其他触发路径向 agent 派发请求。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.1 及以上，具体以官方公告/发行说明为准）；在升级前应同时配置并强制校验 \`allowFrom\` 与角色限制，避免以空角色配置运行相关插件，并临时收紧 Twitch 入口暴露面。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28448](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28448)
+## 74\. CNNVD-202602-583 / CVE-2026-25475
+\*\*漏洞类型\*\*：信息泄露
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.1.30
+\*\*漏洞描述\*\*：OpenClaw 的 \`isValidMedia()\` 函数未充分限制媒体路径，允许传入绝对路径、家目录路径及目录穿越序列。攻击者可诱导 agent 输出 \`MEDIA:/path/to/file\` 一类路径，从而读取系统上的任意本地文件，造成敏感信息泄露。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.1.30 及以上，具体以官方公告/发行说明为准）；在升级前应禁用不可信媒体路径输入，仅允许受控目录下的相对路径，并阻断绝对路径、\`~\` 与 \`..\` 等逃逸写法。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-25475](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-25475)
+## 75\. CNNVD-202603-628 / CVE-2026-28451
+\*\*漏洞类型\*\*：代码问题
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.14
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.14 及以上，具体以官方公告/发行说明为准）；在升级前应禁止 Feishu 扩展直接抓取不受信 URL，统一通过带 SSRF 防护的请求封装访问外部资源，并限制可访问的协议、域名和网段。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28451](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28451)
+## 76\. CNNVD-202603-629 / CVE-2026-28452
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.14
+\*\*漏洞描述\*\*：OpenClaw 的 \`extractArchive\` 解压逻辑缺少对高膨胀 ZIP/TAR 归档的资源约束。攻击者可构造压缩炸弹或高展开归档，诱导系统在解压过程中大量消耗 CPU、内存和磁盘空间，造成拒绝服务。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.14 及以上，具体以官方公告/发行说明为准）；在升级前应禁止处理不可信归档文件，为解压过程设置总展开大小、文件数量、层级深度和执行超时上限。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28452](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28452)
+## 77\. CNNVD-202602-586 / CVE-2026-25157
+\*\*漏洞类型\*\*：操作系统命令注入
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.1.29
+\*\*CWE\*\*：CWE-78
+\*\*漏洞描述\*\*：OpenClaw 2026.1.29 之前版本在 SSH 远程连接处理中存在两处命令注入问题：一是 \`sshNodeCommand\` 在生成 shell 脚本时，未对项目路径在错误输出中的插值做安全转义，导致 \`cd\` 失败时可在远端主机执行任意命令；二是 \`parseSSHTarget\` 未阻止以短横线开头的目标字符串，攻击者可构造类似 \`-oProxyCommand=...\` 的参数，使其被当作 SSH 选项解析并在本地触发命令执行。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.1.29 及以上，具体以官方公告/发行说明为准）；在升级前应禁止将项目路径或 SSH 目标等不可信输入直接拼接进 shell/ssh 调用，拦截以短横线开头的 SSH 目标参数，并限制高危远程执行能力。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-25157](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-25157) \| [https://github.com/openclaw/openclaw/security/advisories/GHSA-q284-4pvr-m585](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/security/advisories/GHSA-q284-4pvr-m585)
+## 78\. CNNVD-202603-631 / CVE-2026-28395
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：2026.1.14-1 <= OpenClaw < 2026.2.12
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28395](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28395)
+## 79\. CNNVD-202603-632 / CVE-2026-28394
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.15
+\*\*漏洞描述\*\*：OpenClaw 的 \`web\\_fetch\` 工具在解析超大或深度嵌套的 HTML 响应时缺少足够的资源限制。攻击者可通过恶意网页响应诱导 Gateway 进程发生内存耗尽并崩溃，造成拒绝服务。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.15 及以上，具体以官方公告/发行说明为准）；在升级前应限制 \`web\\_fetch\` 可访问来源，对响应体大小、解析深度和处理时长设置硬上限，并避免抓取不受信网页。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-28394](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-28394)
+## 80\. CNNVD-202602-001 / CVE-2026-25253
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：中危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.1.29
+\*\*漏洞描述\*\*：OpenClaw 会从查询字符串读取 \`gatewayUrl\` 并在未充分提示用户的情况下自动建立 WebSocket 连接，同时携带访问令牌。攻击者可诱导用户打开特制链接，使客户端主动连接到恶意网关并泄露令牌或进一步暴露会话数据。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.1.29 及以上，具体以官方公告/发行说明为准）；在升级前应禁用从 URL 查询参数自动接管网关连接的行为，对新网关连接增加显式确认，并避免在不可信链接中传递连接参数。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-25253](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-25253)
+## 81\. CNNVD-202602-3712 / CVE-2026-27007
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：低危
+\*\*漏洞影响版本\*\*：OpenClaw < 2026.2.15
+\*\*漏洞描述\*\*：OpenClaw 的 \`normalizeForHash\` 在处理仅含原始值的数组时会递归排序，导致本应保留顺序语义的沙箱配置数组在哈希后出现碰撞。攻击者可利用这一点让不同顺序的安全配置与不安全配置共用同一缓存键，从而复用错误的沙箱状态。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.15 及以上，具体以官方公告/发行说明为准）；在升级前应避免依赖顺序敏感数组生成沙箱缓存键，并在升级后清理旧的沙箱配置缓存，防止错误状态继续被复用。
+来源： [https://nvd.nist.gov/vuln/detail/CVE-2026-27007](https://link.zhihu.com/?target=https%3A//nvd.nist.gov/vuln/detail/CVE-2026-27007)
+## 82\. CNNVD-202603-607 / CVE-2026-28471
+\*\*漏洞类型\*\*：其他
+\*\*风险等级\*\*：低危
+\*\*漏洞影响版本\*\*：2026.1.14-1 <= OpenClaw < 2026.2.2（安装并启用 Matrix 插件）
+\*\*漏洞描述\*\*：OpenClaw 的 Matrix 插件在私聊 allowlist 匹配时，会对发送者显示名和 localpart 做精确匹配，但未校验 homeserver 归属。远程 Matrix 用户可伪装为与白名单用户同名或同 localpart 的跨服务器身份，从而绕过私聊白名单限制。
+\*\*修复建议\*\*：优先升级到官方已修复版本（OpenClaw 2026.2.2 及以上，具体以官方公告/发行说明为准）；在升级前应停止仅按显示名或 localpart 做放行判断，改为同时校验完整 Matrix 用户标识与 homeserver，并临时收紧 DM allowlist 规则。
+发布于 2026-03-11 09:31・北京
+​赞同 1​​添加评论​3 ​喜欢
+​分享
+​申请转载​
+​
+暂无评论
+关于作者
+[![模安局管铭](https://pic1.zhimg.com/v2-884a39101e93842b0fab515ea3e3a577\_l.jpg?source=172ae18b)](https://www.zhihu.com/people/zhu-guan-jin-ming)
+[模安局管铭](https://www.zhihu.com/people/zhu-guan-jin-ming)
+公众号「模安局」主理人，聚焦AI及AI安全。
+[​](https://zhuanlan.zhihu.com/p/96956163)
+北京奇元科技有限公司 高级产品经理
+[回答](https://www.zhihu.com/people/zhu-guan-jin-ming/answers) [文章](https://www.zhihu.com/people/zhu-guan-jin-ming/posts) [关注者](https://www.zhihu.com/people/zhu-guan-jin-ming/followers)
+​关注他​发私信
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码

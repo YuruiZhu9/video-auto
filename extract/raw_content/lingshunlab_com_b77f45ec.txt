@@ -1,0 +1,661 @@
+# Source URL: https://lingshunlab.com/ai/openclaw-2026-breaking-changes-old-guides-wont-work-new-config-explained
+# Content Length: 18302 characters
+# Extracted at: 2026-03-08 22:31:42
+#============================================================
+
+
+
+
+
+OpenClaw 2026.3.2 重大变更！旧教程全部失效，新配置逻辑在这里 – 凌顺实验室
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+[Skip to content](#main)
+星期日, 8 3 月, 2026 
+**Latest:**
+
+* [OpenClaw 2026.3.2 重大变更！旧教程全部失效，新配置逻辑在这里](https://lingshunlab.com/ai/openclaw-2026-breaking-changes-old-guides-wont-work-new-config-explained)
+* [How to Drive a 2.4″ ILI9341 TFT Display with ESP32](https://lingshunlab.com/book/esp32/how-to-drive-a-2-4-ili9341-tft-display-with-esp32-en)
+* [ESP32 驱动 ILI9341 并口屏保姆级教程：接线、配置与 Core 3.0 报错修复](https://lingshunlab.com/book/esp32/esp32-ili9341-8bit-parallel-display-wiring-config-core-3-0-fix)
+* [Qwen3-TTS on Mac Mini M4: The Ultimate Installation & Optimization Guide](https://lingshunlab.com/ai/qwen3-tts-on-mac-mini-m4-the-ultimate-installation-optimization-guide)
+* [RP2350 开发上手教程：使用 Thonny IDE 轻松玩转 MicroPython](https://lingshunlab.com/book/pi-pico/rp2350-micropython-tutorial-thonny-ide-setup-guide)
+
+
+
+[![]()](https://lingshunlab.com/) 
+### [凌顺实验室](https://lingshunlab.com/)
+
+凌晨时分，顺便做个实验
+
+
+
+
+
+
+
+* [极客情报局](https://lingshunlab.com/category/geek-news)
+* [ESP32](https://lingshunlab.com/category/book/esp32)
+* [3D打印机](https://lingshunlab.com/category/3dprinter)
+  + [Voron2](https://lingshunlab.com/category/3dprinter/voron2)
+* [Arduino](https://lingshunlab.com/category/book/arduino)
+* [Raspberry Pi](https://lingshunlab.com/category/book/raspberry-pi)
+* [Jetson nano](https://lingshunlab.com/category/book/jetson-nano)
+* [编程](https://lingshunlab.com/category/program)
+  + [MacOS开发](https://lingshunlab.com/category/program/macos-dev)
+  + [Processing](https://lingshunlab.com/category/book/processing)
+  + [Python](https://lingshunlab.com/category/program/python)
+  + [C](https://lingshunlab.com/category/program/c)
+* [AI](https://lingshunlab.com/category/ai)
+  + [提示词](https://lingshunlab.com/category/ai/prompt)
+  + [SD-WebUI](https://lingshunlab.com/category/ai/sd-webui)
+* [其他](https://lingshunlab.com/category/other)
+  + [Docker](https://lingshunlab.com/category/book/docker)
+  + [Rock Pi](https://lingshunlab.com/category/book/rockpi)
+  + [Raspberry Pi Pico](https://lingshunlab.com/category/book/pi-pico)
+  + [51单片机](https://lingshunlab.com/category/book/c51)
+
+
+
+
+
+[![]()](https://img.lingflux.com/2026/03/015705fbca42171bdf09fabe9220b546.webp)
+
+[AI](https://lingshunlab.com/category/ai) 
+
+OpenClaw 2026.3.2 重大变更！旧教程全部失效，新配置逻辑在这里
+=======================================
+
+
+ [2026年3月6日2026年3月6日](https://lingshunlab.com/ai/openclaw-2026-breaking-changes-old-guides-wont-work-new-config-explained)
+
+[lingshun](https://lingshunlab.com/author/lingshun) 
+
+
+
+目录
+
+Toggle
+
+* [在开始之前：你的 API 余额够用吗？](#%E5%9C%A8%E5%BC%80%E5%A7%8B%E4%B9%8B%E5%89%8D%EF%BC%9A%E4%BD%A0%E7%9A%84_API_%E4%BD%99%E9%A2%9D%E5%A4%9F%E7%94%A8%E5%90%97%EF%BC%9F)
+* [安装OpenClaw开始吧](#%E5%AE%89%E8%A3%85OpenClaw%E5%BC%80%E5%A7%8B%E5%90%A7)
+  + [macOS快速安装](#macOS%E5%BF%AB%E9%80%9F%E5%AE%89%E8%A3%85)
+  + [1，这是在问你这的使用场景：](#1%EF%BC%8C%E8%BF%99%E6%98%AF%E5%9C%A8%E9%97%AE%E4%BD%A0%E8%BF%99%E7%9A%84%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF%EF%BC%9A)
+  + [2，这是问你选择哪种安装配置方式：](#2%EF%BC%8C%E8%BF%99%E6%98%AF%E9%97%AE%E4%BD%A0%E9%80%89%E6%8B%A9%E5%93%AA%E7%A7%8D%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E6%96%B9%E5%BC%8F%EF%BC%9A)
+  + [3，关键：选择用哪家 AI 模型来驱动 OpenClaw 的大脑。](#3%EF%BC%8C%E5%85%B3%E9%94%AE%EF%BC%9A%E9%80%89%E6%8B%A9%E7%94%A8%E5%93%AA%E5%AE%B6_AI_%E6%A8%A1%E5%9E%8B%E6%9D%A5%E9%A9%B1%E5%8A%A8_OpenClaw_%E7%9A%84%E5%A4%A7%E8%84%91%E3%80%82)
+  + [4，选择通过哪个聊天软件来跟 AI 对话。](#4%EF%BC%8C%E9%80%89%E6%8B%A9%E9%80%9A%E8%BF%87%E5%93%AA%E4%B8%AA%E8%81%8A%E5%A4%A9%E8%BD%AF%E4%BB%B6%E6%9D%A5%E8%B7%9F_AI_%E5%AF%B9%E8%AF%9D%E3%80%82)
+  + [5，选择是否配置技能（skills）](#5%EF%BC%8C%E9%80%89%E6%8B%A9%E6%98%AF%E5%90%A6%E9%85%8D%E7%BD%AE%E6%8A%80%E8%83%BD%EF%BC%88skills%EF%BC%89)
+  + [6，之后有一连串API配置，全NO跳过](#6%EF%BC%8C%E4%B9%8B%E5%90%8E%E6%9C%89%E4%B8%80%E8%BF%9E%E4%B8%B2API%E9%85%8D%E7%BD%AE%EF%BC%8C%E5%85%A8NO%E8%B7%B3%E8%BF%87)
+  + [7，Hooks 是自动化触发器，当特定事件发生时自动执行某些操作。](#7%EF%BC%8CHooks_%E6%98%AF%E8%87%AA%E5%8A%A8%E5%8C%96%E8%A7%A6%E5%8F%91%E5%99%A8%EF%BC%8C%E5%BD%93%E7%89%B9%E5%AE%9A%E4%BA%8B%E4%BB%B6%E5%8F%91%E7%94%9F%E6%97%B6%E8%87%AA%E5%8A%A8%E6%89%A7%E8%A1%8C%E6%9F%90%E4%BA%9B%E6%93%8D%E4%BD%9C%E3%80%82)
+  + [8，用哪种方式来启动和使用你的机器人：](#8%EF%BC%8C%E7%94%A8%E5%93%AA%E7%A7%8D%E6%96%B9%E5%BC%8F%E6%9D%A5%E5%90%AF%E5%8A%A8%E5%92%8C%E4%BD%BF%E7%94%A8%E4%BD%A0%E7%9A%84%E6%9C%BA%E5%99%A8%E4%BA%BA%EF%BC%9A)
+* [和你的小龙虾（OpenClaw）第一次对话](#%E5%92%8C%E4%BD%A0%E7%9A%84%E5%B0%8F%E9%BE%99%E8%99%BE%EF%BC%88OpenClaw%EF%BC%89%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%AF%B9%E8%AF%9D)
+* [配置操作浏览器和文件操作权限](#%E9%85%8D%E7%BD%AE%E6%93%8D%E4%BD%9C%E6%B5%8F%E8%A7%88%E5%99%A8%E5%92%8C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E6%9D%83%E9%99%90)
+  + [OpenClaw控制浏览器有2个模式](#OpenClaw%E6%8E%A7%E5%88%B6%E6%B5%8F%E8%A7%88%E5%99%A8%E6%9C%892%E4%B8%AA%E6%A8%A1%E5%BC%8F)
+  + [找到OpenClaw gateway token KEY](#%E6%89%BE%E5%88%B0OpenClaw_gateway_token_KEY)
+    - [1，直接在配置文件中找打](#1%EF%BC%8C%E7%9B%B4%E6%8E%A5%E5%9C%A8%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%B8%AD%E6%89%BE%E6%89%93)
+    - [2，在Web UI中查看 （这个方法最简单）](#2%EF%BC%8C%E5%9C%A8Web_UI%E4%B8%AD%E6%9F%A5%E7%9C%8B_%EF%BC%88%E8%BF%99%E4%B8%AA%E6%96%B9%E6%B3%95%E6%9C%80%E7%AE%80%E5%8D%95%EF%BC%89)
+  + [1，Chrome安装浏览器接管插件](#1%EF%BC%8CChrome%E5%AE%89%E8%A3%85%E6%B5%8F%E8%A7%88%E5%99%A8%E6%8E%A5%E7%AE%A1%E6%8F%92%E4%BB%B6)
+  + [2，开启开发者模式](#2%EF%BC%8C%E5%BC%80%E5%90%AF%E5%BC%80%E5%8F%91%E8%80%85%E6%A8%A1%E5%BC%8F)
+  + [3，配置OpenClaw 支持浏览器和文件操作](#3%EF%BC%8C%E9%85%8D%E7%BD%AEOpenClaw_%E6%94%AF%E6%8C%81%E6%B5%8F%E8%A7%88%E5%99%A8%E5%92%8C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C)
+  + [4，限制文件操作仅在工作空间目录](#4%EF%BC%8C%E9%99%90%E5%88%B6%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E4%BB%85%E5%9C%A8%E5%B7%A5%E4%BD%9C%E7%A9%BA%E9%97%B4%E7%9B%AE%E5%BD%95)
+* [结语](#%E7%BB%93%E8%AF%AD)
+* [参考](#%E5%8F%82%E8%80%83)
+  + [tools.profile 权限](#toolsprofile_%E6%9D%83%E9%99%90)
+  + [权限对比（核心差异一览）](#%E6%9D%83%E9%99%90%E5%AF%B9%E6%AF%94%EF%BC%88%E6%A0%B8%E5%BF%83%E5%B7%AE%E5%BC%82%E4%B8%80%E8%A7%88%EF%BC%89)
+  + [browser常用命令列表](#browser%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%88%97%E8%A1%A8)
+
+openClaw 卸载了10次我终于搞明白openClaw的配置逻辑 MacOS
+
+大家养龙虾都有一段时间了，感觉现在的版本应该比较稳定了，之前就名字都可以给我搞到一头烟，明明是ClawdBot的网址，但安装命令是install MoltBot，转过头又叫OpenClaw。这不是 bug，这是开源项目的传统：先做，收到律师信再改名。（Claude 告 ClawBot 发音太像 Claude，从此Claw就更出名了）
+
+
+这几天在测试的时候，感觉天天都在更新，因为我为了搞明白配置的逻辑，我删了又装，装了又删，从
+
+2026.2.25  
+
+2026.2.26  
+
+2026.3.1  
+
+2026.3.2  
+
+....
+
+这更新的速度也太密集了，尤其是我测试最新版本2026.3.2（截稿日期为2026年3月6日）发现配置的方式有所改变，导致之前测试的行不通。这个版本感觉默认配置的安全性提高了，需要自己手动去配置更高权限。
+
+OpenClaw我喜欢它可以操作浏览器，可以操作系统文件，当然这也带来很多安全问题，所以也必须要小心使用。要养好这个小龙虾，就得花点时间学习怎么配置。
+
+在开始之前：你的 API 余额够用吗？
+-------------------
+
+OpenClaw 本身是开源免费的，但它要"动手"，得靠 AI 模型在背后驱动，而这需要 API token。
+
+如果你的 token 快见底了，或者还没配过，以下两个平台目前性价比不错，按需选择：
+
+* **智谱 GLM**：支持 Claude Code、Cline 等 20+ 工具，有限时订阅优惠 → [链接](https://www.bigmodel.cn/glm-coding?ic=IPWNTCEXE2) （我现在正在用这个，注意这不是广告！！！这不是广告！！！这不是广告！！！没收钱的，广告位正在招租）
+
+​ ![]()
+
+​ 1，你的API KEY ：在控制中心找到API key 进行复制  
+
+​ 2，GML的地址：<https://open.bigmodel.cn/api/anthropic> （适配Cladue code的地址）  
+
+​ 3，模型名称：GLM-4.7
+
+​ 以上3个信息请先过目一下，在接下来的配置会需要用
+
+* **阿里云百炼**：全量大模型，新用户有免费额度 → [链接](https://www.aliyun.com/benefit/ai/aistar?clubBiz=subTask..12406352..10263..) （这个也不错的，注意这也不是广告！！！）
+
+准备好之后，我们开始。
+
+安装OpenClaw开始吧
+-------------
+
+我的是macOS系统，这是养龙虾的最好系统，因为作者就是用macOS系统开发的，问题是最少点，其他的windows，Raspberry PI OS，linux，可能会有点不一样。但这个项目的贡献者众多，有大问题也能很快解决。
+
+但我看从高到低最好的顺序应该如下：
+
+macOS > Linux > Windows > others
+
+先去官网看看，有多种安装方法：<https://openclaw.ai/>
+
+### macOS快速安装
+
+在macOS系统中，官方有提供APP下载，但是我不知道为什么我就是装不上APP。用那个一条自动安装的命令`curl -fsSL https://openclaw.ai/install.sh | bash`，又不是每次都成功，所以我选择使用npm的安装方式，命令行输入：
+
+```
+# Install OpenClaw  | 安装 OpenClaw
+npm i -g openclaw
+```
+
+耐心等待安装完成，之后继续输入：
+
+```
+# Meet your lobster ｜ 配置 OpenClaw
+openclaw onboard
+```
+
+之后就是配置向导的界面，慢慢查看一步一步选择和配置API即可，大概过程如下：
+
+### 1，这是在问你这的使用场景：
+
+* **Personal（个人使用）**：只有你一个人用这台 Mac Mini → 选 **Yes**
+* **Shared/multi-user（多人共用）**：多个用户账号共用这台机器，需要额外的权限管控 → 选 No
+
+**你直接选 Yes 就好**，按回车确认继续。
+
+![]()
+
+### 2，这是问你选择哪种**安装配置方式**：
+
+* **QuickStart（快速开始）**：先快速装好，细节配置（API密钥、模型选择等）之后再慢慢设置
+* **Manual（手动）**：现在就一步步手动配置所有细节
+
+---
+
+**建议选 QuickStart**，原因：
+
+* 可以先跑起来，之后再用 `openclaw config set` 慢慢调整
+* 省时省力
+
+![]()
+
+### 3，关键：选择**用哪家 AI 模型**来驱动 OpenClaw 的大脑。
+
+简单说就是：**OpenClaw 本身不提供 AI，需要你接入一个 AI 服务商**。
+
+---
+
+常见选项说明
+
+| 选项 | 说明 |
+| --- | --- |
+| **OpenAI** | GPT-4o 等，最主流 |
+| **Google** | Gemini 系列 |
+| **XAI (Grok)** | 马斯克的 AI |
+| **Moonshot AI (Kimi)** | 国产，支持中文很好 |
+| **Mistral AI** | 欧洲开源模型 |
+| **OpenRouter** | 聚合平台，一个 key 用多个模型 |
+| **Qianfan** | 百度文心 |
+| **Volcano Engine** | 字节跳动火山引擎 |
+| **Hugging Face** | 开源模型平台 |
+
+这里的选择非常关键，因为看网上说即使你选择的是国内模型，但由于国内模型有分国内版本和国外版本的，所以你如果直接选择这个列表中的国内模型供应商例如（Qwen，Z.AI等等）可能模型的入口url会有所出入。
+
+所以我建议选择 `Custom Provider`, 按下回车。（这样模型的入口就是由你自己定义，一定不会错）
+
+![]()
+
+之后会见到，需要你输入API Base URL ，这里复制你对应的URL即可，演示中我的就复制刚才让你过目的地址：  
+
+<https://open.bigmodel.cn/api/anthropic> （输入完成，按回车）
+
+![]()
+
+问是否现在就输入API KEY？选择Paste API key now （现在输入），按回车即可
+
+![]()
+
+现在就把你的API KEY 复制后回车
+
+![]()
+
+之后，这是问你选择的 AI 服务商用的是**哪种接口格式**：
+
+* **OpenAI-compatible**：接口格式跟 OpenAI 一样，大多数模型服务商都支持这个格式（OpenRouter、Kimi、火山引擎、Mistral 等）
+* **Anthropic-compatible**：接口格式跟 Anthropic（Claude）一样
+
+由于我的URL是兼容Claude Code的，所以选择「Anthropic-compatible」即可
+
+![]()
+
+再之后，会让你输入模型ID，这个需要查看你的AI供应商API上的指定名称是什么，
+
+演示这里使用的GLM-4.7（实际上现在已经支持到GLM-5.0，请根据模型名称输入），按回车
+
+![]()
+
+等待一下，就会进行API连通性测试，测试成功就会显示 「Verification successful」，恭喜你完成了配置过程中最复杂的一步了。
+
+![]()
+
+之后会叫你输入Endpoint ID（给这个 AI 服务商配置起一个**唯一的名字**，方便区分）， 直接默认值即可，直接回车
+
+之后会叫你输入Model alias （给模型起一个**简短的昵称**，方便以后切换时少打字），直接默认空也行，输入也行，回车
+
+### 4，选择**通过哪个聊天软件来跟 AI 对话**。
+
+简单说就是：你想在哪里跟你的 AI 机器人聊天？
+
+---
+
+常见选项说明
+
+| 选项 | 说明 |
+| --- | --- |
+| **Telegram** | 推荐✅ 最容易设置，新手友好 |
+| **Discord** | 适合游戏/社群用户 |
+| **Slack** | 适合工作场景 |
+| **飞书/Lark** | 国内企业常用 |
+| **LINE** | 日本/东南亚常用 |
+| **iMessage** | 苹果用户 |
+| **Signal** | 注重隐私 |
+| **Skip for now** | 先跳过，以后再配置 |
+
+这里先选择跳过「Skip for now」，因为篇幅有限，下回分解。
+
+![]()
+
+### 5，选择是否配置技能（skills）
+
+同样，选择NO，因为篇幅有限，下回分解。
+
+![]()
+
+### 6，之后有一连串API配置，全NO跳过
+
+这是在问你要不要配置一些**额外的功能插件**，每个都需要对应的 API Key：
+
+---
+
+| 提示 | 功能 | 需要什么 |
+| --- | --- | --- |
+| **GOOGLE\_PLACES\_API\_KEY** | 地图/地点搜索（Google地图） | Google Cloud API Key |
+| **GEMINI\_API\_KEY** | 用 Gemini AI 模型 | Google AI Studio Key |
+| **NOTION\_API\_KEY** | 连接你的 Notion 笔记 | Notion 集成 Token |
+| **OPENAI\_API\_KEY (image-gen)** | AI 生成图片（DALL-E） | OpenAI API Key |
+| **OPENAI\_API\_KEY (whisper)** | 语音转文字 | OpenAI API Key |
+| **ELEVENLABS\_API\_KEY** | AI 语音合成（文字转语音） | ElevenLabs Key |
+
+---
+
+怎么处理？**现在直接全部选 No/跳过就好**，原因：
+
+* 这些都是可选功能，不影响基本使用
+* 没有对应账号的话强行填也用不了
+* 之后随时可以回来配置
+
+![]()
+
+### 7，**Hooks 是自动化触发器**，当特定事件发生时自动执行某些操作。
+
+| 选项 | 作用 |
+| --- | --- |
+| **Skip for now** | 全部跳过 |
+| **boot-md** | 启动时自动加载某些指令/提示词 |
+| **bootstrap-extra-files** | 启动时自动加载额外文件 |
+| **command-logger** | 记录所有操作日志 |
+| **session-memory** | 发 `/new` 或 `/reset` 时自动保存当前对话记忆 |
+
+---
+
+建议**只勾选 `session-memory`** 就够了，最实用，能让 AI 记住之前聊过的内容。
+
+其他的初次使用先跳过，之后熟悉了再开启。
+
+用**空格键勾选**，回车确认。
+
+![]()
+
+### 8，用哪种方式来启动和使用你的机器人：
+
+* **Hatch in TUI**：在终端里直接用，命令行界面。
+* **Open the Web UI**：（推荐）在浏览器里打开网页界面操作。
+* **Do this later**：稍后再说。
+
+这里选择「Open the Web UI」，选择并回车
+
+![]()
+
+这时候，浏览器会自动弹出OpenClaw的Web UI 界面，
+
+和你的小龙虾（OpenClaw）第一次对话
+---------------------
+
+![]()
+
+见到OpenClaw 有回应则表示，现在你已经安装成功，并且正常运行中。
+
+恭喜！
+
+但是现在，你养的小龙虾只能嗷嗷待哺，没有手脚，你让它干嘛干嘛不成（打不开浏览器，改不了文件）。
+
+![]()
+
+配置操作浏览器和文件操作权限
+--------------
+
+请注意：以下的操作会让你的OpenClaw提升使用权限，请详细阅读相关内容，保持学习。
+
+### OpenClaw控制浏览器有2个模式
+
+1，（独立模式）使用openClaw内置的浏览器，完全隔离本地系统，有独立的登陆信息。
+
+2，（扩展模式）使用本地Chrome浏览器，安装openclaw browser Relay扩展插件，共用本地的登陆信息。
+
+> 本次例子演示的是使用**扩展模式**，使用本地Chrome浏览器
+
+### 找到OpenClaw gateway token KEY
+
+OpenClaw gateway token KEY 要好像密码那样对待，好好保管。
+
+获取OpenClaw gateway token KEY的方法有以下2个：
+
+#### 1，直接在配置文件中找打
+
+macOS的配置文件在用户目录下，隐藏文件，需要显示隐藏文件才能找到`.openclaw`文件夹，打开进入打开openclaw.json文件，里面在「geteway」那段中找到token
+
+![]()
+
+#### 2，在Web UI中查看 （这个方法最简单）
+
+点击「Overview」，在「Gateway Token」下就是，非常简单可以看到。
+
+![]()
+
+### 1，Chrome安装浏览器接管插件
+
+在Chrome的插件市场（<https://chromewebstore.google.com/）搜索「OpenClaw> Browser Relay」
+
+（截稿的时候已经到了v2.7版本），并安装。（注意，现在很多OpenClaw Browser 请看清楚，别安装错了）
+
+安装完成则会弹出一个页面，要你输入token KEY 验证，这里输入的是OpenClaw的gateway token KEY，不是AI API KEY不要搞错。
+
+设置完即可，顺便可以置顶显示该插件，方便操作。（等下还要手动操作的，记住了）
+
+![]()
+
+### 2，开启开发者模式
+
+浏览器再次输入 chrome://extensions/ ，回车，进入插件管理页，在页面的右上角有一个开关「Developer mode」(开发者模式)，检查是否已经启用，如果没有启用的请启用。
+
+### 3，配置OpenClaw 支持浏览器和文件操作
+
+使用CLI配置，打开终端（命令行工具），输入以下命令：
+
+```
+# 把openclaw的权限提升 coding 级别
+openclaw config set tools.profile coding
+
+# 确保浏览器功能开启
+openclaw config set browser.enabled true
+
+# 切换到系统 Chrome（这就是“系统默认 Chrome”的官方方式）
+openclaw config set browser.defaultProfile "chrome"
+
+# 清空 allowlist（让 coding profile 自动暴露正确文件工具，这是关键！）
+openclaw config set tools.allow '[]' 
+
+# 配置完成，重启openclaw gateway（必做）
+openclaw gateway restart
+```
+
+如下图显示：
+
+![]()
+
+重启完之后。。。
+
+1，打开浏览器，随便访问一个页面，例如 <https://lingshunlab.com> ，然后点击刚才安装的插件，那个龙虾，点击距会显示「ON」的小标记，表示工作正常。
+
+![]()
+
+2，进入OpenClaw Web UI 页面，进行「Chat」对话，但对话前请先「New seesion」，然后发送类似「浏览器打开bilibili.com」。
+
+一切正常的话，这个时候，浏览器就会自动打开bilibili的网址。
+
+![]()
+
+此时，你也可以试试文件操作的功能，发送类似「帮我在用户目录下创建一个文件，测试创建文件的功能」，小龙虾就能帮你成功创建一个文件，
+
+![]()
+
+一切正常，恭喜但是。。。感觉到有点恐怖了吧，万一。。。
+
+所以我需要把文件操作的权限保留在「workspace」工作空间目录中，而这个工作空间目录在哪里？可以查看openclaw.json配置，也可以在Web UI 的 「Agents」的「Overview」查看到。
+
+![]()
+
+### 4，限制文件操作仅在工作空间目录
+
+使用CLI配置的方式，打开终端（命令行工具），输入以下命令：
+
+```
+# 配置文件操作仅在工作空间目录
+openclaw config set tools.fs.workspaceOnly true 
+```
+
+重启gateway即可
+
+```
+openclaw gateway restart
+```
+
+结语
+--
+
+现在，龙虾已经有手了。
+
+它可以打开浏览器、点击页面、在你划定的工作区里读写文件——这听起来简单，但背后能做的事其实非常多。
+
+下一篇，我会演示怎么把它接入飞书，这样不管你在哪，都能远程"云养虾"。
+
+感兴趣的话，关注我的频道，我会持续更新：
+
+* 🎬 **YouTube**：[lingshunlab](https://www.youtube.com/@lingshunlab)
+* 📺 **Bilibili**：[凌顺实验室](https://space.bilibili.com/456183128)
+
+参考
+--
+
+### **`tools.profile`** 权限
+
+<https://docs.openclaw.ai/tools#tool-profiles-base-allowlist>
+
+OpenClaw（2026.3.2 及近期版本）中的 **`tools.profile`** 是工具权限的**基础预设（base allowlist）**，这个配置项**强烈影响安全性**：新安装默认是 `"messaging"`（从 2026.3.x 开始的重大安全升级），旧版本很多用户习惯的 broad/coding 现在需要显式设置。
+
+### 权限对比（核心差异一览）
+
+| 维度 | minimal | messaging | coding | full |
+| --- | --- | --- | --- | --- |
+| **文件操作** (fs.read/write/edit/apply\_patch) | ✗ 完全禁止 | ✗ 禁止 | ✓ 允许（可进一步用 fs.workspaceOnly 限制） | ✓ 允许 |
+| **Shell 执行** (exec/runtime/process) | ✗ 禁止 | ✗ 禁止 | ✓ 允许（可加 approvals.exec 审批） | ✓ 允许 |
+| **浏览器** (browser) | ✗ 禁止 | ✗ 禁止 | ✓ 允许 | ✓ 允许 |
+| **消息/会话管理** (sessions\_\*, messaging group) | 只允许 session\_status | ✓ 完整支持 | ✓ 完整支持 | ✓ 完整支持 |
+| **图像/内存工具** (image, memory\_\*) | ✗ 禁止 | ✗ 禁止 | ✓ 部分支持 | ✓ 完整支持 |
+| **其他高危工具** (cron, gateway, nodes 等) | ✗ 禁止 | ✗ 禁止 | ✗ 大部分禁止（需 allow） | ✓ 可能开放 |
+| **默认新安装** | ✗ 不默认 | ✓ 是（2026.3.x 重大变更） | ✗ 需要手动设置 | ✗ 需要手动设置 |
+| **推荐人群** | 极致安全、只聊天 | 普通用户、新手、聊天为主 | 开发者、代码/文件重度用户 | 测试、POC、信任模型时 |
+
+### 
+
+### browser常用命令列表
+
+<https://docs.openclaw.ai/tools/browser>
+
+
+
+
+
+
+* [← How to Drive a 2.4″ ILI9341 TFT Display with ESP32](https://lingshunlab.com/book/esp32/how-to-drive-a-2-4-ili9341-tft-display-with-esp32-en)
+
+#### You May Also Like
+
+### [DeepSeek 官网卡顿？这些平台入口让你白嫖满血版，秒速响应还免费！](https://lingshunlab.com/ai/free-deepseek-v3-access-platforms-instant-response-no-cost)
+
+
+ [2025年2月20日2025年3月23日](https://lingshunlab.com/ai/free-deepseek-v3-access-platforms-instant-response-no-cost)
+
+[lingshun](https://lingshunlab.com/author/lingshun) 
+
+
+ 
+
+### [每月省$20！DeepSeek+Cursor组合，技术人的终极生产力工具](https://lingshunlab.com/ai/save-20-monthly-deepseek-cursor-combo-the-ultimate-productivity-tool-for-developers)
+
+
+ [2025年1月26日2025年1月27日](https://lingshunlab.com/ai/save-20-monthly-deepseek-cursor-combo-the-ultimate-productivity-tool-for-developers)
+
+[lingshun](https://lingshunlab.com/author/lingshun) 
+
+
+ 
+
+### [掌握这个方法，轻松将AI对话变成清晰思维导图](https://lingshunlab.com/ai/master-the-method-easily-convert-ai-chat-to-clear-mind-maps)
+
+
+ [2025年1月17日2025年3月27日](https://lingshunlab.com/ai/master-the-method-easily-convert-ai-chat-to-clear-mind-maps)
+
+[lingshun](https://lingshunlab.com/author/lingshun) 
+
+
+ 
+
+
+
+
+### 最新硬件指南
+
+[![]()](https://lingshunlab.com/book/arduino/arduino-uno-mpu6050-kalman-filter-attitude-calculation-tutorial)
+[Arduino](https://lingshunlab.com/category/book/arduino) [指南](https://lingshunlab.com/category/book) 
+### [Arduino Uno使用MPU6050和卡尔曼滤波实现姿态解算教程](https://lingshunlab.com/book/arduino/arduino-uno-mpu6050-kalman-filter-attitude-calculation-tutorial)
+
+ [2024年6月5日2024年6月5日](https://lingshunlab.com/book/arduino/arduino-uno-mpu6050-kalman-filter-attitude-calculation-tutorial)
+
+[lingshun](https://lingshunlab.com/author/lingshun) 
+
+
+
+本教程将详细介绍如何使用Arduino Uno和MPU6050传感器，通过卡尔曼滤波器实现姿态解算，包括硬件连接、编程步骤和算法原理。
+
+
+
+
+[![]()](https://lingshunlab.com/book/arduino/arduino-uno-using-l298n-red-board-to-drive-dc-motors-detailed-tutorial-and-examples)
+[Arduino](https://lingshunlab.com/category/book/arduino) [指南](https://lingshunlab.com/category/book) 
+### [Arduino Uno 使用L298N(红板)驱动直流电机：详细教程与实例演示](https://lingshunlab.com/book/arduino/arduino-uno-using-l298n-red-board-to-drive-dc-motors-detailed-tutorial-and-examples)
+
+ [2024年6月3日2024年6月3日](https://lingshunlab.com/book/arduino/arduino-uno-using-l298n-red-board-to-drive-dc-motors-detailed-tutorial-and-examples)
+
+[lingshun](https://lingshunlab.com/author/lingshun) 
+
+
+
+
+
+[![]()](https://lingshunlab.com/book/arduino/simple-use-of-photoresistor-with-arduino-uno)
+[Arduino](https://lingshunlab.com/category/book/arduino) [指南](https://lingshunlab.com/category/book) 
+### [Arduino Uno 光敏电阻简单应用](https://lingshunlab.com/book/arduino/simple-use-of-photoresistor-with-arduino-uno)
+
+ [2024年6月2日2024年6月2日](https://lingshunlab.com/book/arduino/simple-use-of-photoresistor-with-arduino-uno)
+
+[lingshun](https://lingshunlab.com/author/lingshun) 
+
+
+
+
+
+[![]()](https://lingshunlab.com/book/arduino/arduino-uno-human-detection-with-ld2410b-sensor-module-using-fmcw-technology-for-serial-data-output)
+[Arduino](https://lingshunlab.com/category/book/arduino) [指南](https://lingshunlab.com/category/book) 
+### [Arduino Uno 使用LD2410人体存在感应检测模块](https://lingshunlab.com/book/arduino/arduino-uno-human-detection-with-ld2410b-sensor-module-using-fmcw-technology-for-serial-data-output)
+
+ [2024年5月31日2024年5月31日](https://lingshunlab.com/book/arduino/arduino-uno-human-detection-with-ld2410b-sensor-module-using-fmcw-technology-for-serial-data-output)
+
+[lingshun](https://lingshunlab.com/author/lingshun) 
+
+
+
+
+
+
+
+
+
+### 关于本站
+
+[![]()](https://lingshunlab.com)  
+分享一些开发过程中的遇到的问题，方便查阅，如有错误，请关注公众号指出指导，万分感谢。 
+
+友情链接
+  
+
+[创客出手](https://makeronsite.com/)
+[红菜3D](https://beets3d.cn/) 
+
+
+ 
+
+
+
+
+Copyright © 2026 [凌顺实验室](https://lingshunlab.com/). All rights reserved.  
+Theme: [ColorMag](https://themegrill.com/themes/colormag) by ThemeGrill. Powered by [WordPress](https://wordpress.org). [粤ICP备18158987号-1](http://beian.miit.gov.cn) 
+
+
+
+
+
+
+
+

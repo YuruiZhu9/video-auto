@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>视频课程播放器</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#0a0a0a; color:#fff; font-family:'PingFang SC','Microsoft YaHei',sans-serif;
+        display:flex; flex-direction:column; align-items:center; padding:20px; }
+h1 { font-size:1.2em; color:#4fc3f7; margin-bottom:16px; }
+#player { width:720px; max-width:100%; }
+#controls { width:720px; max-width:100%; margin-top:12px; }
+#progress-bar { width:100%; height:8px; background:#333; border-radius:4px; cursor:pointer; }
+#progress-fill { height:100%; background:linear-gradient(90deg,#4fc3f7,#81d4fa); border-radius:4px; width:0%; }
+#seg-info { display:flex; justify-content:space-between; margin-top:8px; font-size:0.85em; color:#aaa; }
+#seg-title { margin-top:8px; font-size:0.9em; color:#81d4fa; }
+#bg-toggle { margin-top:12px; padding:6px 16px; background:#1a1a1a; border:1px solid #4fc3f7; color:#4fc3f7; border-radius:4px; cursor:pointer; }
+</style>
+</head>
+<body>
+<h1>视频课程播放器</h1>
+<video id="player"></video>
+<audio id="bg-audio" src="../audio/tts.mp3"></audio>
+<div id="controls">
+  <div id="progress-bar"><div id="progress-fill"></div></div>
+  <div id="seg-info"><span id="seg-name">加载中...</span><span id="seg-count">1/9</span></div>
+  <div id="seg-title"></div>
+</div>
+<button id="bg-toggle">播放背景音</button>
+
+<script>
+var SEGS = ['../slides/slide01.mp4', '../slides/slide02.mp4', '../slides/slide03.mp4', '../slides/slide04.mp4', '../slides/slide05.mp4', '../slides/slide06.mp4', '../slides/slide07.mp4', '../slides/slide08.mp4', '../slides/slide09.mp4'];
+var TITLES = ['第1章：课程简介', '第2章：基础知识', '第3章：核心概念', '第4章：实战演练', '第5章：进阶技巧', '第6章：案例分析', '第7章：常见问题', '第8章：总结回顾', '第9章：后续学习'];
+var player = document.getElementById('player');
+var bgAudio = document.getElementById('bg-audio');
+var fill = document.getElementById('progress-fill');
+var bar = document.getElementById('progress-bar');
+var segName = document.getElementById('seg-name');
+var segCount = document.getElementById('seg-count');
+var segTitle = document.getElementById('seg-title');
+var bgToggle = document.getElementById('bg-toggle');
+var idx = 0;
+var bgOn = false;
+
+function load(i) {
+  player.src = SEGS[i];
+  player.load();
+  segName.textContent = TITLES[i];
+  segCount.textContent = (i+1) + '/' + SEGS.length;
+  segTitle.textContent = '';
+}
+player.addEventListener('loadedmetadata', function() { segTitle.textContent = TITLES[idx]; });
+player.addEventListener('timeupdate', function() {
+  if (player.duration) fill.style.width = (player.currentTime/player.duration*100)+'%';
+});
+player.addEventListener('ended', function() {
+  if (idx < SEGS.length-1) { idx++; load(idx); player.play(); }
+  else segName.textContent = '播放完毕';
+});
+bar.addEventListener('click', function(e) {
+  player.currentTime = player.duration * (e.clientX - bar.getBoundingClientRect().left) / bar.offsetWidth;
+});
+bgToggle.addEventListener('click', function() {
+  bgOn = !bgOn;
+  if (bgOn) { bgAudio.currentTime=0; bgAudio.play(); bgToggle.textContent='关闭背景音'; }
+  else { bgAudio.pause(); bgToggle.textContent='播放背景音'; }
+});
+load(0);
+player.play();
+</script>
+</body>
+</html>

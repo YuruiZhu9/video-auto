@@ -1,0 +1,336 @@
+# Source URL: https://www.nxcode.io/resources/news/deepseek-v4-release-specs-benchmarks-2026
+# Content Length: 23249 characters
+# Extracted at: 2026-04-01 12:50:03
+#============================================================
+
+
+DeepSeek V4 (2026): 1T Parameters, 81% SWE-bench, $0.30/MTok — Full Specs | NxCode[![]()
+
+NxCode
+======](/)Product[Features](/product/features)[Pricing](/pricing)[Enterprise](/product/enterprise)[Case Studies](/product/case-studies)[Security](/product/security)[Free Tools](/tools)Resources[Documentation](/resources/documentation)[Tutorials](/resources/tutorials)[News](/resources/news)[API Reference](/resources/api-reference)[Community](/resources/community)Company[About Us](/company/about)[Careers](/company/careers)[Contact](/contact)[Privacy Policy](/legal/privacy-policy)[Terms of Service](/legal/terms-of-service)English[English](/resources/news/deepseek-v4-release-specs-benchmarks-2026)[中文](/zh/resources/news/deepseek-v4-release-specs-benchmarks-2026)[日本語](/ja/resources/news/deepseek-v4-release-specs-benchmarks-2026)[Deutsch](/de/resources/news/deepseek-v4-release-specs-benchmarks-2026)[Français](/fr/resources/news/deepseek-v4-release-specs-benchmarks-2026)[العربية](/ar/resources/news/deepseek-v4-release-specs-benchmarks-2026)[Español](/es/resources/news/deepseek-v4-release-specs-benchmarks-2026)[Português](/pt/resources/news/deepseek-v4-release-specs-benchmarks-2026)[Indonesia](/id/resources/news/deepseek-v4-release-specs-benchmarks-2026)[Nederlands](/nl/resources/news/deepseek-v4-release-specs-benchmarks-2026)[Svenska](/sv/resources/news/deepseek-v4-release-specs-benchmarks-2026)[Suomi](/fi/resources/news/deepseek-v4-release-specs-benchmarks-2026)[Čeština](/cs/resources/news/deepseek-v4-release-specs-benchmarks-2026)[Dansk](/da/resources/news/deepseek-v4-release-specs-benchmarks-2026)[Norsk](/no/resources/news/deepseek-v4-release-specs-benchmarks-2026)[Italiano](/it/resources/news/deepseek-v4-release-specs-benchmarks-2026)[Polski](/pl/resources/news/deepseek-v4-release-specs-benchmarks-2026)[Slovenščina](/sl/resources/news/deepseek-v4-release-specs-benchmarks-2026)[Magyar](/hu/resources/news/deepseek-v4-release-specs-benchmarks-2026)[Română](/ro/resources/news/deepseek-v4-release-specs-benchmarks-2026)[Русский](/ru/resources/news/deepseek-v4-release-specs-benchmarks-2026)[한국어](/ko/resources/news/deepseek-v4-release-specs-benchmarks-2026)[繁體中文](/zh-TW/resources/news/deepseek-v4-release-specs-benchmarks-2026)[עברית](/he/resources/news/deepseek-v4-release-specs-benchmarks-2026)[Eesti](/et/resources/news/deepseek-v4-release-specs-benchmarks-2026)[Start Building FreeStart Free](https://studio.nxcode.io?ref=header_cta)![]()[← Back to news](/resources/news)
+
+DeepSeek V4 (2026): 1T Parameters, 81% SWE-bench, $0.30/MTok — Full Specs
+=========================================================================
+
+N
+
+NxCode Team
+
+2026-03-12•12 min read
+
+Key Takeaways
+-------------
+
+* **1T parameters with MoE efficiency**: DeepSeek V4 scales to approximately 1 trillion total parameters but activates only ~37B per token, keeping inference costs comparable to V3.
+* **Engram memory enables 1M context**: The conditional memory architecture achieves 97% Needle-in-a-Haystack accuracy at million-token scale, solving the retrieval degradation problem.
+* **Native multimodal**: Unlike models that bolt on vision, V4 integrates text, image, and video generation during pre-training for more coherent cross-modal reasoning.
+* **Delayed but imminent**: Multiple release windows have passed, but a "V4 Lite" appeared on DeepSeek's website on March 9, 2026, suggesting an incremental rollout strategy.
+
+DeepSeek V4: Everything We Know -- Specs, Benchmarks & Release Status (March 2026)
+==================================================================================
+
+DeepSeek V4 is a ~1 trillion parameter Mixture-of-Experts model with only ~37B active parameters per token, a 1M-token context window powered by Engram conditional memory, and native multimodal generation (text, image, video). Leaked benchmarks claim 90% HumanEval and 80%+ [SWE-bench Verified](https://www.swebench.com/) — which would match [Claude Opus 4.6](https://www.anthropic.com/news/claude-opus-4-6). Based on [DeepSeek's current pricing](https://api-docs.deepseek.com/quick_start/pricing), V4 is expected to remain dramatically cheaper than closed-source competitors, with weights planned for Apache 2.0 release.
+
+**March 2026** -- DeepSeek V3 rewrote the rules for open-source AI when it launched in late 2024, proving that a Chinese AI lab could compete head-to-head with OpenAI and Anthropic on reasoning benchmarks while releasing weights for free. Now, DeepSeek V4 is the most anticipated open-source model of 2026 -- and after months of delays, leaks, and a surprise "V4 Lite" appearance, the full release appears imminent.
+
+This article compiles everything currently known about DeepSeek V4: its architecture, capabilities, benchmark claims, hardware story, and the long road to launch. Where information comes from leaks or unofficial sources, we note that clearly.
+
+---
+
+Architecture: 1 Trillion Parameters, 37 Billion Active
+------------------------------------------------------
+
+DeepSeek V4 continues the **Mixture-of-Experts (MoE)** architecture that made V3 so efficient, but scales it dramatically. Here are the key architectural numbers based on available information:
+
+| Specification | DeepSeek V3 | DeepSeek V4 | DeepSeek V4 Lite |
+| --- | --- | --- | --- |
+| **Total Parameters** | 671B | ~1T (1 trillion) | ~200B |
+| **Active Parameters** | ~37B | ~37B | TBD |
+| **Architecture** | MoE | MoE | MoE |
+| **Context Window** | 128K tokens | 1M tokens | TBD |
+| **Training Hardware** | Nvidia H800 | Huawei Ascend / Cambricon | TBD |
+| **License** | Open (custom) | Apache 2.0 (planned) | TBD |
+
+The MoE approach is what keeps V4 practical despite its trillion-parameter scale. Rather than activating the entire model on every token, MoE routes each input to a small subset of specialized "expert" sub-networks. DeepSeek V4 reportedly activates approximately **37 billion parameters per token** -- roughly the same as V3 -- which means inference costs stay manageable even though the total model is 50% larger.
+
+This is a critical design choice. A dense 1T-parameter model would be prohibitively expensive to run. By keeping active parameters constant while expanding the expert pool, DeepSeek gains capacity for deeper specialization across domains (code, math, creative writing, multilingual tasks) without proportionally increasing compute requirements.
+
+---
+
+Engram Memory: Conditional Memory That Actually Works
+-----------------------------------------------------
+
+Perhaps the most technically interesting feature of DeepSeek V4 is **Engram**, a conditional memory architecture designed to solve one of the hardest problems in long-context language models: actually retrieving relevant information from extremely long inputs.
+
+Standard transformer attention degrades as context grows. Models can technically accept long inputs, but their ability to find and use specific information buried deep in those contexts drops off. This is well-documented in the **Needle-in-a-Haystack** benchmark, which tests whether a model can locate a specific fact embedded at various positions within a long document.
+
+The Engram architecture addresses this through a conditional memory mechanism that selectively stores and retrieves information based on relevance signals, rather than relying purely on attention across the full sequence.
+
+The claimed results:
+
+| Metric | Standard Attention | Engram (DeepSeek V4) |
+| --- | --- | --- |
+| **Needle-in-a-Haystack (1M tokens)** | 84.2% accuracy | 97% accuracy |
+| **Context Length Supported** | Varies (128K typical) | 1M tokens |
+
+If the 97% figure holds up under independent testing, this represents a meaningful advance. The gap between 84.2% and 97% at million-token scale is the difference between a model that mostly works with long documents and one that reliably works with them. For developers building retrieval-augmented generation (RAG) systems, code analysis tools, or document processing pipelines, this could reduce the need for chunking strategies and external retrieval layers.
+
+**Important caveat:** These numbers come from internal benchmarks and have not been independently verified as of March 2026. Until third-party evaluations confirm the claims, treat them as aspirational.
+
+---
+
+Context Window: 1 Million Tokens
+--------------------------------
+
+DeepSeek V4's **1 million token context window** puts it in the same class as Google's Gemini models, which pioneered million-token contexts. For reference, a million tokens is roughly equivalent to:
+
+* 15-20 full-length novels
+* An entire medium-sized codebase (500+ files)
+* Several years of chat history
+* A full legal discovery document set
+
+The practical value of long context depends heavily on retrieval quality (see Engram above). A million-token window with poor retrieval is worse than a 128K window with excellent retrieval. If DeepSeek's Engram claims hold, V4 would offer both the capacity and the accuracy to make million-token contexts genuinely useful rather than a marketing number.
+
+For developers, the immediate applications include:
+
+* **Whole-repository code understanding** without needing to chunk and summarize
+* **Long document analysis** (legal, medical, financial) in a single pass
+* **Extended agent sessions** where the model retains full conversation and action history
+* **Multi-document reasoning** across large collections
+
+---
+
+Multimodal Capabilities: Text, Image, and Video Generation
+----------------------------------------------------------
+
+DeepSeek V4 is described as a **native multimodal model**, meaning vision and generation capabilities are integrated during pre-training rather than added as separate modules after the fact. This is a significant architectural distinction from models that bolt on image understanding through adapter layers.
+
+The reported multimodal capabilities include:
+
+* **Text generation** (the core language model capability)
+* **Image understanding and generation** (competing with DALL-E 3, Midjourney)
+* **Video generation** (competing with OpenAI Sora, Google Veo 3)
+* **Cross-modal reasoning** (answering questions about images, generating images from complex descriptions, creating video from text)
+
+The video generation capability is particularly notable. If DeepSeek V4 can generate video at a quality competitive with Sora or Veo 3 while being open-source, it would democratize access to a technology that currently requires either expensive API access or proprietary platforms. However, video generation quality claims are among the hardest to evaluate from spec sheets alone -- real-world output quality varies enormously.
+
+Native multimodal integration theoretically enables more coherent cross-modal reasoning. A model that understands images from pre-training should handle tasks like "describe what's wrong with this UI screenshot and generate a corrected version" more naturally than one where vision was added later. Whether V4 delivers on this promise in practice remains to be seen.
+
+---
+
+Benchmarks: Strong Claims, Unverified
+-------------------------------------
+
+Leaked internal benchmarks paint an impressive picture of DeepSeek V4's capabilities. Here is how the claimed scores compare to current leading models:
+
+### Coding Benchmarks
+
+| Model | HumanEval | SWE-bench Verified |
+| --- | --- | --- |
+| **DeepSeek V4** (leaked) | 90% | 80%+ |
+| **Claude Opus 4.5** | ~88% | 80.9% |
+| **GPT-5.3 Codex** | ~87% | ~80% |
+| **DeepSeek V3** | ~82% | ~49% |
+| **Llama 3.1 405B** | ~80% | ~33% |
+
+### Key Observations
+
+**HumanEval at 90%** would represent a new high-water mark for this benchmark, though HumanEval has become increasingly saturated and many researchers question its continued relevance for distinguishing top-tier models.
+
+**SWE-bench Verified above 80%** is the more meaningful claim. SWE-bench tests a model's ability to resolve real GitHub issues from real open-source projects -- a much harder and more practical test of coding ability. Claude Opus 4.5 currently holds the record at 80.9%. If DeepSeek V4 matches or exceeds this while being open-source, it would be a landmark achievement.
+
+The jump from V3's ~49% SWE-bench score to V4's claimed 80%+ would be extraordinary. This kind of improvement in a single generation is unusual and warrants skepticism until independently verified. Possible explanations include:
+
+1. The Engram memory and longer context window allow the model to reason over entire repositories, which SWE-bench rewards
+2. Significant improvements in code-specific training data and fine-tuning
+3. The benchmark scores are from an optimized evaluation setup that may not reflect typical usage
+
+**Until independent benchmarks from sources like LMSYS, BigCode, or academic labs confirm these numbers, they should be treated as claims rather than facts.**
+
+---
+
+Hardware: Built Without Nvidia
+------------------------------
+
+One of the most consequential aspects of DeepSeek V4 is its training hardware. Due to U.S. export restrictions that limit Chinese companies' access to Nvidia's most powerful GPUs, DeepSeek V4 was reportedly trained on a combination of:
+
+* **Huawei Ascend 910B** AI accelerators
+* **Cambricon MLU** chips
+
+This is significant for two reasons.
+
+First, it demonstrates that frontier AI models can be trained without Nvidia hardware. DeepSeek V3 was already notable for using Nvidia H800 chips (a restricted version of the H100), but V4 moves entirely to domestic Chinese silicon. If V4 delivers on its benchmark claims, it would prove that the hardware moat around Nvidia is narrower than many assumed.
+
+Second, it has implications for AI hardware competition broadly. Huawei and Cambricon have been investing heavily in AI accelerators, and a successful V4 training run would be their strongest proof point to date.
+
+### Running V4 on Consumer Hardware
+
+Despite its trillion-parameter scale, DeepSeek has emphasized that V4 can run on consumer hardware when quantized. The reported targets:
+
+| Configuration | Hardware Required |
+| --- | --- |
+| **Full precision (FP16/BF16)** | Multi-node GPU cluster |
+| **INT8 quantized** | 2x Nvidia RTX 4090 (48 GB total VRAM) |
+| **INT4 quantized** | 1x Nvidia RTX 5090 (32 GB VRAM) |
+
+This accessibility story is central to DeepSeek's open-source value proposition. An open-weight model that requires a data center to run is academically interesting but practically limited. A model that fits on hardware a developer can buy at Micro Center changes the equation entirely.
+
+Quantization always involves tradeoffs -- reduced precision can degrade performance on certain tasks -- but DeepSeek's MoE architecture is well-suited to quantization because only the active expert parameters need to be loaded into memory for any given inference step.
+
+---
+
+Open Source: Apache 2.0 License
+-------------------------------
+
+DeepSeek has confirmed plans to release V4 weights under the **Apache 2.0 license**, one of the most permissive open-source licenses available. This means:
+
+* **Commercial use permitted** -- companies can deploy V4 in products without licensing fees
+* **Modification permitted** -- developers can fine-tune, distill, or modify the model freely
+* **No copyleft obligations** -- derivative works do not need to be open-sourced
+* **Patent grant included** -- Apache 2.0 includes an explicit patent license
+
+This continues DeepSeek's pattern of genuine open releases, which contrasts with the "open-weight but restricted license" approach taken by some competitors. For the developer community, an Apache 2.0 release of a model at this capability level would be unprecedented.
+
+The practical impact for developers:
+
+* **Self-hosted alternatives** to Claude, GPT, and Gemini APIs become viable for more use cases
+* **Fine-tuning on proprietary data** becomes possible without sharing data with a third party
+* **Cost predictability** -- inference costs are hardware costs, not per-token API fees
+* **Latency control** -- local deployment eliminates network round trips
+
+---
+
+Release Timeline: A Long Series of Missed Windows
+-------------------------------------------------
+
+The path to DeepSeek V4's release has been anything but smooth. Here is the timeline of expected and missed release windows:
+
+| Date | Event |
+| --- | --- |
+| **Late January 2026** | Early rumors of a "V4" in testing surface on Chinese tech forums |
+| **Mid-February 2026** | First speculated release window passes without announcement |
+| **Late February 2026** | Lunar New Year release window passes; brief API outage sparks speculation |
+| **Early March 2026** | Financial Times reports V4 release is "imminent" |
+| **March 9, 2026** | "V4 Lite" label appears on DeepSeek's website, is quickly noted by users |
+| **March 12, 2026** | Full V4 has still not officially launched |
+
+The **V4 Lite** appearance on March 9 is the most concrete signal to date. While details remain sparse, it suggests that at least a smaller variant of the V4 family is in final stages. The ~200B parameter count rumored for V4 Lite would make it significantly more accessible than the full trillion-parameter model while potentially offering a preview of V4's architectural innovations like Engram memory.
+
+Multiple factors could explain the delays:
+
+* **Training on non-Nvidia hardware** introduces novel engineering challenges
+* **Benchmark targets** may not have been met on initial training runs
+* **Regulatory considerations** around China's AI governance frameworks
+* **Geopolitical timing** -- major AI releases from Chinese labs attract scrutiny
+
+---
+
+What This Means for Developers
+------------------------------
+
+Regardless of the exact release date, DeepSeek V4 has implications worth planning for.
+
+### If the benchmarks hold
+
+An open-source model matching Claude Opus 4.5 and GPT-5.3 on coding tasks would fundamentally shift the build-vs-buy calculation for AI-powered developer tools. Companies currently paying significant API costs for frontier coding capabilities would have a self-hostable alternative. This puts downward pressure on API pricing across the industry -- which benefits developers regardless of which model they use.
+
+### If Engram works as claimed
+
+A model that reliably handles million-token contexts would reduce the complexity of RAG architectures. Instead of building elaborate chunking, embedding, and retrieval pipelines, developers could potentially pass entire codebases or document collections directly to the model. This does not eliminate the need for RAG entirely (cost and latency still matter), but it simplifies the architecture for many use cases.
+
+### If multimodal generation is competitive
+
+Open-source image and video generation would open up creative and product use cases that currently require expensive proprietary APIs. Small teams and indie developers would gain access to capabilities that are currently gated behind waitlists and enterprise pricing.
+
+### What to do now
+
+1. **Watch for the official release** -- follow DeepSeek's official channels rather than relying on rumors
+2. **Prepare your infrastructure** -- if you plan to self-host, ensure you have the GPU hardware (2x RTX 4090 minimum for quantized inference)
+3. **Plan your evaluation** -- decide which benchmarks and use cases matter for your specific applications, so you can test quickly once weights are available
+4. **Stay skeptical** -- leaked benchmarks are marketing until independently verified; evaluate the model on your own tasks before making infrastructure decisions
+
+---
+
+The Bottom Line
+---------------
+
+DeepSeek V4 represents what could be the most significant open-source AI release of 2026. A trillion-parameter MoE model with million-token context, native multimodal capabilities, and coding benchmarks that rival the best proprietary models -- all under Apache 2.0 -- would be a genuine inflection point for the AI developer ecosystem.
+
+The operative word is "could." The benchmark claims are unverified. The release date remains uncertain. The Engram memory system needs independent evaluation. And the practical performance of a model trained on non-Nvidia hardware at this scale is genuinely uncharted territory.
+
+What is clear is that the gap between open-source and proprietary AI models continues to narrow, and DeepSeek is one of the primary forces driving that convergence. Whether V4 delivers on every claim or falls short in some areas, its eventual release will be one of the most important events in AI development this year.
+
+We will update this article as new information becomes available. For the latest on DeepSeek V4 and other AI developments, follow our coverage.
+
+[Back to all news](/resources/news)Enjoyed this article?Share it
+
+Build with NxCode
+-----------------
+
+Turn your idea into a working app — no coding required.
+
+Start FreeSee Examples46,000+ developers built with NxCode this month
+
+Build your idea with AI
+-----------------------
+
+Describe what you want — NxCode builds it for you.
+
+Build It Free →Online StoreBooking AppDashboard46,000+ developers built with NxCode this month
+
+Related Articles
+----------------
+
+[![]()
+### Claude Sonnet 4.6: 79.6% SWE-bench at $3/MTok — Complete Guide (2026)
+
+Claude Sonnet 4.6 delivers near-Opus performance at 5x lower cost. See full benchmarks, pricing breakdown, and how it compares to Opus 4.6 and GPT-5.3.
+
+2026-02-18Read more →](/resources/news/claude-sonnet-4-6-complete-guide-benchmarks-pricing-2026)[![]()
+### DeepSeek API Pricing 2026: Complete Cost Guide (V4, R1 & Chat)
+
+Complete DeepSeek API pricing guide for 2026. V4, R1, and Chat model costs, free tier details, rate limits, and how it compares to OpenAI and Anthropic pricing.
+
+2026-03-24Read more →](/resources/news/deepseek-api-pricing-complete-guide-2026)[![]()
+### GPT-5.4 (March 2026): 75% Computer Use, 1M Context, $2.50/MTok
+
+GPT-5.4 complete overview: release date, key features, pricing, benchmarks, computer use, reasoning effort levels, and how it compares to GPT-5.3 Codex and Claude Opus 4.6. Everything developers need to know.
+
+2026-03-13Read more →](/resources/news/gpt-5-4-release-date-features-pricing-2026)[![]()
+### DeepSeek V4 API Guide: Pricing, Setup & Code Examples (2026)
+
+Complete DeepSeek V4 API developer guide. Setup, authentication, pricing breakdown, context caching, code examples in Python and JavaScript, and migration from OpenAI — everything you need to start building with DeepSeek V4.
+
+2026-03-12Read more →](/resources/news/deepseek-v4-api-guide-pricing-setup-2026)[View All Articles →](/resources/news)![]()
+
+NxCode
+------
+
+Transform your ideas into production-ready software without writing a single line of code.
+
+### Product
+
+* [Features](/product/features)
+* [Pricing](/pricing)
+* [Enterprise](/product/enterprise)
+* [Case Studies](/product/case-studies)
+* [Security](/product/security)
+* [Free Tools](/tools)
+### Resources
+
+* [Documentation](/resources/documentation)
+* [Tutorials](/resources/tutorials)
+* [News](/resources/news)
+* [API Reference](/resources/api-reference)
+* [Community](/resources/community)
+### Company
+
+* [About Us](/company/about)
+* [Careers](/company/careers)
+* [Contact](/contact)
+* [Privacy Policy](/legal/privacy-policy)
+* [Terms of Service](/legal/terms-of-service)
+
+© 2026 NxCode. All rights reserved.
+
+

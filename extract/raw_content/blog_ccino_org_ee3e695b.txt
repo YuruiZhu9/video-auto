@@ -1,0 +1,407 @@
+# Source URL: https://blog.ccino.org/p/claude-code-workflow-best-practices-2026/
+# Content Length: 8939 characters
+# Extracted at: 2026-03-27 06:50:02
+#============================================================
+
+
+
+2026 Claude Code 工作流最佳实践：当 AI 写 90% 的代码
+
+
+
+
+
+
+
+[![]()](/)
+
+[奇诺分享 | 重在分享](/)
+================
+
+
+1. [Archives](/archives/)
+2. [Search](/search/)
+3. [Links](/links/)
+4. [About](/p/about)
+5. [Channel](https://channel.ccino.org)
+6. [Chat](https://voce.ccino.uk)
+7. [Discuss](https://answer.ccino.uk)
+8. [Excalidraw](https://ex.ccino.org)
+9. [Gsearch](https://s.ccino.org)
+10. [home](/)
+11. 1. 暗色模式
+
+
+
+
+
+
+目录
+--
+
+1. [Claude Code 不是 Copilot](#claude-code-不是-copilot)
+2. [Specs before Code：AI 原生工作流](#specs-before-codeai-原生工作流)
+3. [CLAUDE.md：项目的"大脑"](#claudemd项目的大脑)
+   1. [保持简洁但完整](#保持简洁但完整)
+   2. [实时更新架构](#实时更新架构)
+   3. [指定编码风格和禁止事项](#指定编码风格和禁止事项)
+4. [Plan Mode：从规格到代码](#plan-mode从规格到代码)
+   1. [实战示例](#实战示例)
+5. [进阶技巧](#进阶技巧)
+   1. [并行编码（Parallel Vibe Coding）](#并行编码parallel-vibe-coding)
+   2. [语音输入：5x 效率提升](#语音输入5x-效率提升)
+   3. [Subagents for Context over Roles](#subagents-for-context-over-roles)
+6. [AI 原生工程师的一天](#ai-原生工程师的一天)
+7. [常见陷阱与解决方案](#常见陷阱与解决方案)
+   1. [陷阱1：把 Claude 当搜索引擎](#陷阱1把-claude-当搜索引擎)
+   2. [陷阱2：一次性生成大量代码](#陷阱2一次性生成大量代码)
+   3. [陷阱3：忽略代码审查](#陷阱3忽略代码审查)
+8. [真实项目案例：48小时构建 SaaS 应用](#真实项目案例48小时构建-saas-应用)
+   1. [项目背景](#项目背景)
+   2. [Day 1：架构设计与核心功能](#day-1架构设计与核心功能)
+   3. [Day 2：支付与优化](#day-2支付与优化)
+   4. [成果统计](#成果统计)
+   5. [人类在做什么？](#人类在做什么)
+9. [2026 年新特性前瞻](#2026-年新特性前瞻)
+10. [结语](#结语)
+
+
+
+
+[![]()](/p/claude-code-workflow-best-practices-2026/)
+
+[程序员](/categories/%E7%A8%8B%E5%BA%8F%E5%91%98/)
+
+[2026 Claude Code 工作流最佳实践：当 AI 写 90% 的代码](/p/claude-code-workflow-best-practices-2026/)
+---------------------------------------------------------------------------------------
+
+### 综合 Addy Osmani、Ray Amjad、Mukesh Murugan 等一线开发者的实践经验，为你梳理 2026 年使用 Claude Code 的完整工作流。从"Specs before Code"理念到 Plan Mode 实战，从 CLAUDE.md 最佳实践到 48小时构建 SaaS 的真实案例。
+
+
+
+
+
+
+
+
+Jan 28, 2026
+
+
+
+
+阅读时长: 4 分钟
+
+
+
+
+
+> “当 AI 写 90% 的代码时，工程师的角色从’写代码’变成了’思考代码’。”
+
+—— Addy Osmani，2026年
+
+2025 年是 AI 编程工具爆发的一年。而进入 2026 年，一个惊人的数据被透露出来：**Anthropic 工程师编写的 Claude Code 代码中，90% 是由 Claude Code 自己完成的**。
+
+这不仅仅是"自动补全"那么简单。它代表了一种全新的工作方式——AI 不再是辅助工具，而是真正的"结对编程伙伴"。
+
+Claude Code 不是 Copilot
+----------------------
+
+| 特性 | GitHub Copilot | Claude Code |
+| --- | --- | --- |
+| **定位** | 代码补全工具 | AI 原生编程助手 |
+| **工作方式** | 逐行补全 | 理解项目架构，多步骤执行 |
+| **上下文** | 当前文件 | 整个代码库 |
+| **能力** | 自动完成 | 规划、编码、调试、重构 |
+
+**关键差异**：Claude Code 是一个"代理"（Agent），它不是帮你写代码，而是**和你一起写代码**。
+
+![]()
+
+Specs before Code：AI 原生工作流
+--------------------------
+
+| ``` 1 2 3 4 5  ``` | ``` 传统流程： ❌ 想法 → 直接写代码 → 发现问题 → 修改 → 重复 AI 原生流程： ✅ 明确问题 → 与 AI 规划方案 → 执行 → 反思 → 优化  ``` |
+| --- | --- |
+
+
+Addy Osmani 强调：“不要把 Claude 当作搜索引擎或写作工具。它是一个**需要清晰方向、上下文和监督**的强大伙伴。”
+
+CLAUDE.md：项目的"大脑"
+-----------------
+
+`CLAUDE.md` 是 Claude Code 理解你项目的核心文档。
+
+### 保持简洁但完整
+
+**✅ 好的 CLAUDE.md**
+
+| ```  1  2  3  4  5  6  7  8  9 10 11  ``` | ``` # 项目：用户认证 API ## 架构 - app/api/：路由端点 - app/models/：SQLAlchemy 模型 - app/services/：业务逻辑（重要！所有新功能必须在这里实现） ## 约束 - 使用依赖注入（FastAPI Depends） - 所有 service 函数必须有类型注解 - 测试覆盖率要求 > 80%  ``` |
+| --- | --- |
+
+
+**❌ 不好的 CLAUDE.md**
+
+| ``` 1 2  ``` | ``` # 这是一个 FastAPI 项目... # （然后列举了所有 50 个文件的功能，Claude 反而记不住）  ``` |
+| --- | --- |
+
+
+### 实时更新架构
+
+| ``` 1 2 3 4  ``` | ``` ## 最近变更（2026-01-27） - 添加了 Redis 缓存层（app/cache/） - 认证方式从 JWT 改为 Session + Redis - 新功能优先使用缓存，不要直接查数据库  ``` |
+| --- | --- |
+
+
+### 指定编码风格和禁止事项
+
+| ``` 1 2 3 4 5 6 7 8 9  ``` | ``` ## 编码风格 - 使用 Pydantic v2 的 validate_call 装饰器 - 异步函数统一用 async/await - 错误处理：统一 raise HTTPException ## 禁止事项 - ❌ 不要修改 alembic/versions/ 中的迁移文件（手动管理） - ❌ 不要直接操作数据库，必须通过 service 层 - ❌ 不要添加新的依赖包，先在 CLAUDE.md 中说明用途  ``` |
+| --- | --- |
+
+
+Plan Mode：从规格到代码
+----------------
+
+![]()
+
+Plan Mode 是 Claude Code 的核心功能，工作流程：
+
+1. **描述需求**（用自然语言）
+2. **Claude 生成计划**（多步骤）
+3. **你确认或修改**
+4. **Claude 执行计划**（自动实现）
+
+### 实战示例
+
+| ```  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16  ``` | ``` # 进入 Plan Mode claude # 输入需求 > 我需要添加一个用户认证功能，包括注册、登录、JWT token 管理 # Claude 生成的计划 1. 创建 User 模型（SQLAlchemy） 2. 实现注册端点 (/api/auth/register) 3. 实现登录端点 (/api/auth/login) 4. 添加 JWT 工具函数 5. 编写中间件验证 token 6. 添加单元测试 # 确认后执行 > yes  ``` |
+| --- | --- |
+
+
+进阶技巧
+----
+
+### 并行编码（Parallel Vibe Coding）
+
+Ray Amjad 提出的技巧：**同时运行多个 Claude 实例，从不同角度解决问题**。
+
+| ``` 1 2 3 4 5 6 7 8  ``` | ``` # 终端 1：处理前端 claude # 终端 2：处理后端 claude # 终端 3：编写测试 claude  ``` |
+| --- | --- |
+
+
+### 语音输入：5x 效率提升
+
+| ``` 1  ``` | ``` claude --voice  ``` |
+| --- | --- |
+
+
+用语音描述需求，Claude 会识别语音、理解意图、执行编码。适用于快速记录想法、边走边说、避免"打字打断思路"。
+
+### Subagents for Context over Roles
+
+Ray Amjad 的核心发现：**用子 Agent 管理上下文，而不是用角色分配任务**。
+
+| ``` 1  ``` | ``` # ✅ 创建专门的 Agent 管理特定代码区域的上下文  ``` |
+| --- | --- |
+
+
+AI 原生工程师的一天
+-----------
+
+| 时间 | 活动 | Claude 的作用 |
+| --- | --- | --- |
+| 9:00-10:00 | Code Review | 分析代码质量、安全漏洞 |
+| 10:00-12:00 | 新功能开发 | Plan Mode + 编码实现 |
+| 14:00-15:00 | Bug 修复 | 诊断问题、生成修复补丁 |
+| 15:00-16:00 | 文档编写 | 生成 API 文档、注释 |
+
+Addy Osmani 强调：“我们仍然是**软件的所有者**，AI 是放大器，不是替代品。”
+
+**你仍然需要**：
+
+* ✅ 理解业务需求
+* ✅ 架构设计决策
+* ✅ 代码审查
+* ✅ 对最终结果负责
+
+常见陷阱与解决方案
+---------
+
+### 陷阱1：把 Claude 当搜索引擎
+
+**症状**：询问"如何做 X"，复制粘贴代码，不理解原理
+
+**解决方案**：先问"为什么需要这样做"，让 Claude 解释代码逻辑，主动学习而非被动接受
+
+### 陷阱2：一次性生成大量代码
+
+**症状**：要求 Claude “生成整个用户模块”，结果代码量大，难以调试
+
+**解决方案**：拆分任务，逐步验证，每 2-3 步暂停，检查进度
+
+### 陷阱3：忽略代码审查
+
+**症状**：Claude 生成代码后直接提交，结果技术债务累积
+
+**解决方案**：把 Claude 的输出当作"初稿"，进行 Review，确认质量，优化后再合并
+
+真实项目案例：48小时构建 SaaS 应用
+---------------------
+
+Addy Osmani 如何使用 Claude Code 在 **48 小时内**构建一个完整的 SaaS 应用：
+
+### 项目背景
+
+* **目标**：构建一个 AI 图像生成器的 Web 应用
+* **技术栈**：Next.js 14 + Tailwind CSS + Replicate API
+* **时间**：2 个周末（共 16 小时编码时间）
+* **AI 贡献**：约 85% 的代码由 Claude Code 编写
+
+### Day 1：架构设计与核心功能
+
+**上午（9:00-12:00）：规划与设置**
+
+| ```  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22  ``` | ``` # 1. 初始化项目 npx create-next-app@latest ai-image-gen --typescript --tailwind # 2. 创建 CLAUDE.md cat > CLAUDE.md << 'EOF' # 项目：AI 图像生成器 SaaS ## 架构 - app/：Next.js 14 App Router - components/：React 组件（使用 Server Components 优先） - lib/：工具函数和 API 客户端 - types/：TypeScript 类型定义 ## 技术约束 - 使用 Server Components 优化性能 - API routes 用 /api/ 路径 - 环境变量用 .env.local 管理 - 图片存储用 Cloudflare R2 EOF # 3. 启动 Claude Code claude .  ``` |
+| --- | --- |
+
+
+**与 Claude 的对话（规划阶段）**
+
+| ```  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15  ``` | ``` > 我需要构建一个 AI 图像生成器，用户输入文本提示词， > 调用 Replicate API 生成图片，然后显示画廊。   需要：   1. 用户认证（Clerk）   2. 信用卡支付（Stripe）   3. 图片历史记录（Supabase）   4. 生成进度显示 Claude 生成的计划： 1. 设置 Clerk 认证（30 分钟） 2. 创建主页 UI（带输入框和画廊） 3. 实现 Replicate API 集成 4. 添加 Stripe 支付流程 5. 设置 Supabase 存储图片 URL 6. 实现生成进度 WebSocket  ``` |
+| --- | --- |
+
+
+**下午（13:00-18:00）：执行计划**
+
+Claude 自动执行：
+
+* 安装依赖（@clerk/nextjs, replicate, stripe, @supabase/supabase-js）
+* 创建组件结构
+* 实现核心逻辑
+
+### Day 2：支付与优化
+
+**上午**：Stripe Checkout 集成
+**下午**：性能优化、错误处理、Vercel 部署
+
+### 成果统计
+
+| 指标 | 数值 |
+| --- | --- |
+| **总代码行数** | ~2,400 行 |
+| **人工编写** | ~360 行（15%） |
+| **Claude 编写** | ~2,040 行（85%） |
+| **开发时间** | 16 小时 |
+| **传统预估时间** | 80+ 小时 |
+| **性能提升** | **5x** |
+
+### 人类在做什么？
+
+Addy Osmani 的时间分配：
+
+1. **需求细化**（30%）：明确想要什么功能
+2. **代码审查**（40%）：检查 Claude 生成的代码质量
+3. **测试**（20%）：验证功能是否正常
+4. **架构决策**（10%）：选择技术栈和设计方案
+
+**核心洞察**：“我不是在写代码，我是在**设计和审查**。”
+
+2026 年新特性前瞻
+-----------
+
+基于社区讨论和官方路线图，2026 年可能的新特性：
+
+1. **更强的多文件编辑能力**
+2. **与 IDE 更深度集成**（VS Code、Cursor）
+3. **自定义 Agent 工具链**
+4. **团队协作功能**
+
+结语
+--
+
+当 AI 写 90% 的代码时，我们作为工程师的价值反而提升了——因为我们从"编码者"变成了"架构师"、“思考者"和"决策者”。
+
+2026 年的编程范式，不是"人与 AI 的竞争"，而是"**人 + AI**的协同"。
+
+**下一步**：
+
+* 如果你是 Claude Code 新手：从 [Mukesh 的教程](https://codewithmukesh.com/blog/claude-code-for-beginners/) 开始
+* 如果你已经在使用：尝试 Addy Osmani 的 [AI-Native Software Engineer](https://addyosmani.com/blog/ai-coding-workflow/) 方法论
+* 如果你想深入社区：加入 [r/ClaudeAI](https://www.reddit.com/r/ClaudeAI/)（45.1万成员）
+
+---
+
+**参考资料**：
+
+* [Addy Osmani - My LLM coding workflow going into 2026](https://addyosmani.com/blog/ai-coding-workflow/)
+* [Ray Amjad - My Claude Code Workflow for 2026](https://www.youtube.com/watch?v=sy65ARFI9Bg)
+* [Mukesh Murugan - Claude Code for Beginners](https://codewithmukesh.com/blog/claude-code-for-beginners/)
+* [Skywork AI - Claude Code SDK Community Trends](https://skywork.ai/blog/claude-code-sdk-community-trends-reddit-and-github/)
+
+[ClaudeCode](/tags/claudecode/)
+[AI编程](/tags/ai%E7%BC%96%E7%A8%8B/)
+[工作流](/tags/%E5%B7%A5%E4%BD%9C%E6%B5%81/)
+
+
+
+
+[Licensed under CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by/4.0/deed.zh-hans)
+
+
+
+相关文章
+----
+
+[![]()
+
+Meta工程师告诉你：Claude Code 用一个分支，你就输在起跑线上了
+--------------------------------------](/p/claude-code-branch-workflow-secrets-2026/)
+
+[![]()
+
+Cursor vs Claude Code：双剑合璧的编程工作流
+--------------------------------](/p/cursor-vs-claude-code-workflow/)
+
+[![]()
+
+Vibe Coding之父说：该升级了
+-------------------](/p/karpathy-agentic-engineering-2026/)
+
+[![]()
+
+Claude Code 定时任务上线：你的 AI 程序员现在可以在你睡觉时工作了
+----------------------------------------](/p/claude-code-scheduled-tasks/)
+
+[![]()
+
+Claude Code 1岁，创始人说"编程已被解决"——20年老程序员的反击来了
+-----------------------------------------](/p/claude-code-first-birthday-coding-solved-2026/)
+
+
+
+
+
+©
+2012 -
+2026 奇诺分享 | 重在分享
+
+[![]()](/index.xml)
+使用 [Hugo](https://gohugo.io/) 构建   
+
+主题 **[Stack](https://github.com/CaiJimmy/hugo-theme-stack)** 由 [Jimmy](https://jimmycai.com) 设计
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

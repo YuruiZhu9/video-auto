@@ -1,0 +1,913 @@
+# Source URL: https://baijiahao.baidu.com/s?id=1854998050675714485&wfr=spider&for=pc
+# Content Length: 18720 characters
+# Extracted at: 2026-04-01 11:05:21
+#============================================================
+
+
+2026年可调用的15款免费大语言模型API全览[![]()](https://www.baidu.com)[百度首页](https://www.baidu.com)登录[![]()搜索](//www.baidu.com/s?rsv_dl=selectedsearch&wd=)![]()复制2026年可调用的15款免费大语言模型API全览[![]()](https://author.baidu.com/home?from=bjh_article&app_id=1576672126808914)[51CTO](https://author.baidu.com/home?from=bjh_article&app_id=1576672126808914)2026-01-22 14:39河北北京无忧创想信息技术有限公司关注
+
+译者 | 晶颜
+
+审校 | 重楼
+
+在人工智能应用开发的实践场景中，若你正计划基于大语言模型搭建聊天机器人、代码助手、数据分析流水线，或快速完成产品原型验证，却希望规避高昂的基础设施部署成本与付费API订阅开支，当下的技术生态已为你提供了高效解决方案。
+
+目前，众多头部AI技术提供商均已开放免费LLM API服务，不仅搭载性能强劲的模型，还具备宽松的调用速率限制与OpenAI兼容接口，极大降低了开发门槛。
+
+本指南将对当前主流免费LLM API进行全面汇总，涵盖模型选型、请求限额、令牌阈值等核心参数，并配套可落地的代码案例。
+
+### LLM API核心工作机制与关键概念
+
+**API工作流程**
+
+LLM API采用标准化的请求-响应交互模型，其运行流程可分为三个核心阶段：
+
+**1. 请求提交：**开发者通过应用程序向API端点发送JSON格式的请求报文，报文需包含模型版本、提示词、超参数（如温度系数、最大生成长度）等关键信息。
+
+**2. 模型推理：**API网关接收请求后，将其转发至后端大语言模型集群，模型依托自然语言处理（NLP）技术完成文本理解与内容生成。
+
+**3. 响应返回：**模型生成结果后，由API网关封装为标准格式的响应报文，反馈至开发者的应用程序。
+
+**令牌与成本管理**
+
+**1. 令牌（Token）定义：**在大语言模型的技术体系中，令牌是文本处理的最小单元，一个令牌通常对应 1-2 个英文单词或一个汉字。API 服务的计费逻辑通常基于令牌消耗量，且输入令牌与输出令牌会分别统计。
+
+**2. 成本管理模式：**多数厂商采用按需付费的定价模式，开发者可根据实际业务的调用量灵活管控成本，而免费套餐则为中小规模应用提供了零成本的技术验证渠道。
+
+### 2026年主流免费LLM API资源
+
+以下将逐一介绍当前可商用的免费LLM API，涵盖平台特性、核心优势、调用限制及实操代码，为开发者提供选型依据。
+
+**1.OpenRouter**
+
+OpenRouter是一款聚合型LLM API平台，整合了多厂商的模型资源，能够满足多样化的任务需求，是开发者灵活选型的优选方案。该平台的免费套餐支持每分钟20次请求、每日200次请求的调用频率。
+
+**核心可用模型：**
+
+* DeepSeek R1
+* Llama 3.3 70B Instruct
+* Mistral 7B Instruct
+
+**全量模型列表：**https://openrouter.ai/models?fmt=table
+
+**官方文档：**https://openrouter.ai/docs/
+
+**核心优势：**
+
+* 免费套餐的请求上限在同类产品中具备竞争力；
+* 模型资源丰富，覆盖轻量级与大参数模型，适配不同复杂度任务。  
+  **定价策略**：提供基础免费套餐，超出限额后按令牌量计费。
+
+**示例代码**：
+
+from openai import OpenAI
+
+client = OpenAI(
+
+base\_url="https://openrouter.ai/api/v1",
+
+api\_key="<OPENROUTER\_API\_KEY>",
+
+)
+
+completion = client.chat.completions.create(
+
+model="cognitivecomputations/dolphin3.0-r1-mistral-24b:free",
+
+messages=[
+
+{
+
+"role": "user",
+
+"content": "What is the meaning of life?"
+
+}
+
+]
+
+)
+
+print(completion.choices[0].message.content)
+
+**输出结果示例**：  
+生命的意义是一个横跨哲学、宗教、科学与个体经验的多元命题，不同视角下的解读各有侧重：
+
+* **存在主义视角**：以萨特为代表的哲学家认为，生命本身不具备先天的固有意义，个体需通过自主选择与实践行动，在承担责任的过程中赋予生命独特价值。
+* **宗教与灵性视角**：多数宗教体系为生命意义提供了信仰框架，例如基督教主张通过践行上帝的旨意，实现精神层面的救赎与超越。
+
+* **心理学与实践哲学视角**：维克多·弗兰克尔提出，生命的意义可从三个维度探寻——投身有价值的工作、维系真挚的情感联结、直面苦难并实现自我超越。此外，个人成长、社会贡献与人际关系的构建，同样是意义感的重要来源。
+
+**2. Google AI Studio**
+
+Google AI Studio是一款面向开发者的大语言模型实验平台，其免费套餐提供了极为慷慨的资源额度，支持每分钟100万令牌、每日1500次请求的调用规模。
+
+**核心可用模型：**
+
+* Gemini 2.0 Flash
+* Gemini 1.5 Flash
+
+**全量模型列表：**https://ai.google.dev/gemini-api/docs/models/gemini
+
+**官方文档：**https://ai.google.dev/gemini-api/docs/
+
+**核心优势**：
+
+* 可直接调用Google自研的高性能Gemini系列模型，兼顾推理速度与生成质量；
+* 令牌限额远超同类平台，能够支撑大规模文本处理任务。
+
+**定价策略：**提供基础免费套餐，超出部分按令牌量阶梯计费。
+
+**示例代码**：
+
+from google import genai
+
+client = genai.Client(api\_key="YOUR\_API\_KEY")
+
+response = client.models.generate\_content(
+
+model="gemini-2.0-flash",
+
+contents="Explain how AI works",
+
+)
+
+print(response.text)
+
+**输出结果示例：**
+
+/usr/local/lib/python3.11/dist-packages/pydantic/\_internal/\_generate\_schema.py:502: UserWarning: <built-in function any> 不是 Python 类型（它可能是对象的实例），Pydantic 将允许任何对象输入而不进行任何验证，因为我们甚至无法强制输入是给定类型的实例。要消除此错误，请使用 `pydantic.SkipValidation` 包装类型。
+
+下面让我们来详细了解一下人工智能的工作原理，从高层次的概念到一些核心技术。这是一个非常庞大的领域，所以我尽量提供一个清晰易懂的概述。
+
+**人工智能究竟是什么？**
+
+人工智能（AI）的核心目标是构建能够模拟人类智能行为的机器系统，使其具备学习、推理、决策等能力，以完成传统上依赖人类智力的任务。其核心能力包含两大维度：
+
+* **学习能力**：通过数据输入获取知识，并提炼出可复用的规则与模式；
+* **推理能力**：运用已掌握的知识进行逻辑推演，实现问题求解、趋势预测与决策制定。
+
+**3. Mistral（La Plateforme）**
+
+Mistral是专注于高性能大语言模型研发的技术厂商，其开放的免费API支持每秒1次请求、每分钟50万令牌的调用限制，模型性能在同参数规模产品中处于领先地位。
+
+**核心可用模型**：
+
+* mistral-large-2402
+* mistral-8b-latest
+
+**全量模型列表：**https://docs.mistral.ai/getting-started/models/models\_overview/
+
+**官方文档：**https://docs.mistral.ai/
+
+**核心优势：**
+
+* 模型推理速度快，兼顾生成效率与内容质量，适配实时性要求较高的应用场景；
+* 免费套餐的令牌限额充足，支持开发者开展多样化的技术实验。
+
+**定价策略：**提供基础免费套餐，超出限额后按令牌量计费。
+
+**示例代码：**
+
+import os
+
+from mistralai import Mistral
+
+api\_key = os.environ["MISTRAL\_API\_KEY"]
+
+model = "mistral-large-latest"
+
+client = Mistral(api\_key=api\_key)
+
+chat\_response = client.chat.complete(
+
+model= model,
+
+messages = [
+
+{
+
+"role": "user",
+
+"Content": "What is the best French cheese?",
+
+},
+
+]
+
+)
+
+print(chat\_response.choices[0].message.content)
+
+**输出结果示例：**  
+“最佳法国奶酪”的评判标准因人而异，取决于个人的口味偏好，但以下三款奶酪凭借独特的风味与悠久的历史，成为全球公认的经典代表：
+
+* **洛克福奶酪**（Roquefort）：产自法国中央高原地区的蓝纹奶酪，以绵羊奶为原料，具有浓郁辛辣的风味与柔滑细腻的质地，是蓝纹奶酪品类中的标杆产品。
+* **莫城布里奶酪**（Brie de Meaux）：产自巴黎近郊莫城地区的软质奶酪，奶源为牛乳，外皮呈洁白的霉层，口感温和醇厚，带有淡淡的奶油香气，可根据成熟度选择不同的食用时机。
+* **卡门贝尔奶酪**（Camembert）：源自诺曼底地区的软质牛乳奶酪，与布里奶酪工艺相似，但风味更为浓郁，质地也更为柔润，成熟后口感绵密，是法式餐桌的常见食材。
+
+**4. HuggingFace 无服务器推理**
+
+HuggingFace无服务器推理平台为开发者提供了便捷的开源模型调用渠道，免费套餐支持部署小于10GB的轻量级模型，并提供每月动态调整的免费调用额度。
+
+**核心可用模型：**
+
+* GPT-3（开源适配版本）
+* DistilBERT
+
+**全量模型列表**：https://huggingface.co/models?inference=warm&sort=trending
+
+**官方文档：**https://huggingface.co/docs/api-inference/index
+
+**核心优势：**
+
+* 模型资源丰富，涵盖自然语言处理领域的各类开源模型，满足分类、摘要、翻译等多样化任务需求；
+* 接口设计简洁，易于与现有开发框架集成，降低技术适配成本。
+
+**定价策略：**提供每月免费调用额度，超出部分按模型规模与调用次数计费。
+
+**示例代码**：
+
+from huggingface\_hub import InferenceClient
+
+client = InferenceClient(
+
+provider="hf-inference",
+
+api\_key="hf\_xxxxxxxxxxxxxxxxxxxxxxxx"
+
+)
+
+messages = [
+
+{
+
+"role": "user",
+
+"content": "What is the capital of Germany?"
+
+}
+
+]
+
+completion = client.chat.completions.create(
+
+model="meta-llama/Meta-Llama-3-8B-Instruct",
+
+messages=messages,
+
+max\_tokens=500,
+
+)
+
+print(completion.choices[0].message)
+
+**输出结果示例：**
+
+ChatCompletionOutputMessage(role='assistant', content='德国的首都是柏林。', tool\_calls=None)
+
+5. Cerebras
+
+Cerebras依托其自研的Wafer Scale Engine超大规模计算芯片，为开发者提供高性能LLM API服务，免费套餐支持每分钟30次请求、每分钟6万令牌的调用限制，且支持Llama系列大参数模型。
+
+**核心可用模型：**
+
+* Llama 3.1 8B
+* Llama 3.3 70B
+
+**全量模型列表：**https://inference-docs.cerebras.ai/api-reference/models
+
+**官方文档：**https://inference-docs.cerebras.ai/introduction
+
+**核心优势：**
+
+* 基于专用计算硬件优化，模型推理速度快，能够支撑大参数模型的高效运行；
+* 免费套餐可调用Llama系列热门模型，满足复杂任务的处理需求。
+
+**定价策略：**提供免费套餐，需通过候补名单申请开通，超出限额后按令牌量计费。
+
+**示例代码：**
+
+import os
+
+from cerebras.cloud.sdk import Cerebras
+
+client = Cerebras(
+
+api\_key=os.environ.get("CEREBRAS\_API\_KEY"),
+
+)
+
+chat\_completion = client.chat.completions.create(
+
+messages=[
+
+{"role": "user", "content": "Why is fast inference important?",}
+
+],
+
+model="llama3.1-8b",
+
+)
+
+**输出结果示例：**  
+快速推理能力是大语言模型落地应用的核心技术指标，其重要性体现在以下三个关键维度：
+
+* **实时决策支持**：在自动驾驶、实时医疗诊断、在线智能推荐等场景中，模型需在毫秒级时间内完成推理并输出结果，快速推理能力是保障系统安全性与用户体验的关键。
+* **系统可扩展性**：具备快速推理能力的模型，能够在相同硬件资源下处理更多并发请求，支撑业务规模的快速扩张，降低大规模部署的硬件成本。
+* **边缘设备适配**：在智能手机、智能家居、工业物联网终端等边缘设备中，计算资源与功耗均受严格限制，快速推理可有效减少模型运行时的资源占用，实现本地化部署。
+
+**6. Groq**
+
+Groq凭借其自研的Tensor Streaming Processor架构，实现了大语言模型的超低延迟推理，其免费套餐支持每日1000次请求、每分钟6000令牌的调用限制，适配实时性要求较高的应用场景。
+
+**核心可用模型**：
+
+* DeepSeek R1 Distill Llama 70B
+* Gemma 2 9B Instruct
+
+**全量模型列表**：https://console.groq.com/docs/models
+
+**官方文档**：https://console.groq.com/docs/quickstart
+
+**核心优势：**
+
+* 模型推理延迟极低，响应速度远超同类产品，适合构建实时聊天机器人、智能客服等应用；
+* 免费套餐的请求上限充足，支持开发者完成产品原型的性能验证。
+
+**定价策略**：提供基础免费套餐，超出限额后按令牌量阶梯计费。
+
+**示例代码**：
+
+import os
+
+from groq import Groq
+
+client = Groq(
+
+api\_key=os.environ.get("GROQ\_API\_KEY"),
+
+)
+
+chat\_completion = client.chat.completions.create(
+
+messages=[
+
+{
+
+"role": "user",
+
+"content": "Explain the importance of fast language models",
+
+}
+
+],
+
+model="llama-3.3-70b-versatile",
+
+)
+
+print(chat\_completion.choices[0].message.content)
+
+**输出结果示例：**  
+快速大语言模型在人工智能应用生态中占据核心地位，其价值主要体现在以下三大领域：
+
+* **实时交互场景落地**：在智能聊天机器人、语音助手、在线教育答疑系统等场景中，用户对响应延迟的容忍度极低。快速语言模型能够实现秒级甚至毫秒级的内容生成，保障流畅的人机交互体验。
+* **大规模内容处理效率提升**：在社交媒体情感分析、新闻稿件自动摘要、企业文档智能检索等场景中，快速语言模型可批量处理海量文本数据，显著提升工作效率，降低人力成本。
+* **边缘与终端设备赋能**：快速语言模型可通过模型压缩与量化技术，部署于智能手机、智能手表等终端设备，实现本地化推理，既保障了数据隐私安全，又摆脱了对网络环境的依赖。
+
+**7. Scaleway Generative Free API**
+
+Scaleway 面向开发者开放多款生成式大语言模型的免费调用权限，其免费套餐支持每分钟100次请求、每分钟20万令牌的调用规模，能够满足中高强度的开发测试需求。
+
+**核心可用模型**：
+
+* BGE-Multilingual-Gemma2
+* Llama 3.1 70B Instruct
+
+**全量模型列表**：https://www.scaleway.com/en/docs/generative-apis/reference-content/supported-models/
+
+**官方文档：**https://www.scaleway.com/en/docs/generative-apis/quickstart/
+
+**核心优势**：
+
+* 免费套餐的请求与令牌限制宽松，可支撑规模化的原型验证与小流量应用部署；
+* 模型选型丰富，覆盖多语言处理与大参数推理场景，适配多样化开发需求。
+
+**定价策略：**当前提供免费测试版服务，有效期至2025年3月，到期后将切换为按量计费模式。  
+  
+**示例代码：**
+
+from openai import OpenAI
+
+# Initialize the client with your base URL and API key
+
+client = OpenAI(
+
+base\_url="https://api.scaleway.ai/v1",
+
+api\_key="<SCW\_API\_KEY>"
+
+)
+
+# Create a chat completion for Llama 3.1 8b instruct
+
+completion = client.chat.completions.create(
+
+model="llama-3.1-8b-instruct",
+
+messages=[{"role": "user", "content": "Describe a futuristic city with advanced technology and green energy solutions."}],
+
+temperature=0.7,
+
+max\_tokens=100
+
+)
+
+# Output the result
+
+print(completion.choices[0].message.content)
+
+**输出结果示例**：  
+2125年光明之城：可持续发展的灯塔  
+  
+光明之城坐落于海岸悬崖之上，是未来主义建筑美学与创新绿色能源方案深度融合的奇迹。这座2125年的自给自足型大都市，以实践印证了人类构建生态与科技共生未来的可能性。  
+  
+其核心特色体现在两大维度：
+
+* **分布式能量采集网络**：城市街道与建筑外立面全域铺设压电感应瓦片，可将行人脚步的压力、交通工具行驶的振动以及自然风力转化为电能。这套去中心化的能源系统，大幅降低了城市对化石燃料的依赖，助力光明之城实现近乎绝对的碳中和目标。
+* **光伏一体化摩天大楼**：地标性的100层摩天大楼采用双层光伏玻璃幕墙设计，内嵌的高效光伏组件可将太阳辐射转化为电能，同时通过光学优化技术为城市内部提供300%的自然照明增益，满足城市50%的基础能源需求。
+
+**8. OVH AI Endpoints**
+
+OVH依托其全球云计算基础设施，推出免费AI模型调用服务，免费套餐支持每分钟最多12次请求，为开发者提供轻量化的模型测试渠道。
+
+**核心可用模型：**
+
+* CodeLlama 13B Instruct
+* Llama 3.1 70B Instruct
+
+**全量模型列表及官方文档：**https://endpoints.ai.cloud.ovh.net/
+
+**核心优势：**
+
+* 接口设计简洁直观，无需复杂的环境配置即可快速调用，降低技术入门门槛；
+* 模型覆盖代码生成与通用文本处理场景，适配开发者的多元化需求。
+
+**定价策略：**提供免费测试版套餐，超出限额后可按需升级为付费方案。
+
+**示例代码：**
+
+import os
+
+from openai import OpenAI
+
+client = OpenAI(
+
+base\_url='https://llama-2-13b-chat-hf.endpoints.kepler.ai.cloud.ovh.net/api/openai\_compat/v1',
+
+api\_key=os.getenv("OVH\_AI\_ENDPOINTS\_ACCESS\_TOKEN")
+
+)
+
+def chat\_completion(new\_message: str) -> str:
+
+history\_openai\_format = [{"role": "user", "content": new\_message}]
+
+return client.chat.completions.create(
+
+model="Llama-2-13b-chat-hf",
+
+messages=history\_openai\_format,
+
+temperature=0,
+
+max\_tokens=1024
+
+).choices.pop().message.content
+
+if \_\_name\_\_ == '\_\_main\_\_':
+
+print(chat\_completion("Write a story in the style of James Joyce. The story should be about a trip to the Irish countryside in 2083, to see the beautiful scenery and robots.d"))
+
+**输出结果示例：**
+
+当然，我很乐意为你呈现这篇詹姆斯·乔伊斯风格的故事，故事背景设定于2083年的爱尔兰乡村：
+
+当我走下太空舱列车，双脚踏上乡村郁郁葱葱的草地时，清新的空气裹挟着青草与泥土的芬芳涌入肺腑，令我困顿的精神为之一振。时值2083年，岁月的洪流似乎未曾冲刷这片土地的本真——爱尔兰连绵起伏的丘陵依旧披着翠绿的绒毯，波光粼粼的湖泊宛如镶嵌在大地的蓝宝石。唯一的变数，是那些穿梭于田野间的机器人，它们光滑的金属身躯在阳光下泛着冷冽的光泽，闪耀的蓝色眼睛则是科技文明悄然渗透的见证。
+
+我踏足此地，本是为了逃离都市的喧嚣，寻求一份心灵的慰藉与创作的灵感，沉浸于大自然的原始美景与机器文明的奇妙碰撞之中。当我沿着蜿蜒的山路漫步时，偶遇一群机器人正在田间照料庄稼，它们的动作轻柔而精准，每一次播种、灌溉都经过精密的计算，以确保作物的最优生长状态。其中一个机器人，拥有蜻蜓般轻盈流畅的机翼，缓缓飞到我的面前，用悦耳的合成音友好地问好：“你好，旅人，是什么风把你吹到了我们这简陋的住所？”我向它倾诉了渴望体验爱尔兰乡村风光的心愿，机器人人性化地点了点头，眼眸中闪烁着理解的光芒。
+
+**9. Together Free API**
+
+Together是一款聚焦于大语言模型协作调用的开发平台，为用户提供多款主流模型的免费访问权限，官方未明确标注免费套餐的请求与令牌限制，具备较高的使用灵活性。
+
+**核心可用模型：**
+
+* Llama 3.2 11B Vision Instruct
+* DeepSeek R1 Distil Llama 70B
+
+**全量模型列表：**https://docs.together.ai/docs/serverless-models
+
+**官方文档：**https://docs.together.ai/docs/quickstart
+
+**核心优势**：
+
+* 聚合多款热门开源模型，支持视觉-文本多模态交互，适配复杂的任务场景；
+* 内置协作开发环境，便于团队成员共享模型调用资源与开发成果。
+
+**定价策略：**提供基础免费套餐，超出默认限额后可根据业务需求定制付费方案。  
+  
+**示例代码：**
+
+from together import Together
+
+client = Together()
+
+stream = client.chat.completions.create(
+
+model="meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
+
+messages=[{"role": "user", "content": "What are the top 3 things to do in New York?"}],
+
+stream=True,
+
+)
+
+for chunk in stream:
+
+print(chunk.choices[0].delta.content or "", end="", flush=True)
+
+**输出结果示例：**  
+不夜城——纽约！这座被称为“大苹果”的国际都市，从不缺乏值得探索的精彩体验，以下是三大必游的经典目的地：
+
+* **造访自由女神像与埃利斯岛**：搭乘渡轮前往自由岛，近距离瞻仰这座象征美国自由与民主的标志性雕像。与此同时，埃利斯岛移民博物馆也是不容错过的打卡地，馆内的珍贵史料生动还原了美国近代移民的历史轨迹，登岛游览的同时，还能饱览曼哈顿天际线的震撼全景。
+* **探索大都会艺术博物馆**：大都会艺术博物馆（简称“大都会”）是全球规模最大、馆藏最丰富的艺术博物馆之一。馆内藏品横跨五千余年的人类文明史，从古老的埃及文物到前沿的现代与当代艺术作品，应有尽有。博物馆宏伟的建筑外观与精致的花园景观，同样值得驻足欣赏。
+* **漫步布鲁克林大桥**：这座百年历史的悬索桥，是纽约的标志性地标之一。漫步于大桥的人行道上，可将曼哈顿天际线、东河风光与布鲁克林的城市风貌尽收眼底。行至桥的另一端，不妨前往布鲁克林大桥公园稍作休憩，在品尝地道美食与饮品的同时，感受纽约的都市风情。
+
+当然，纽约的魅力远不止于此，但这三项体验，足以成为任何游客开启纽约之旅的绝佳起点。
+
+### 10. GitHub Models – Free API
+
+GitHub依托其开发者生态优势，推出AI模型免费调用服务，平台聚合了多款主流大语言模型，免费套餐的访问速率限制与用户的GitHub订阅级别挂钩。
+
+**核心可用模型**：
+
+* AI21 Jamba 1.5 Large
+* Cohere Command R
+
+**全量模型列表及官方文档：**https://github.com/marketplace
+
+**核心优势：**
+
+* 模型资源丰富，覆盖长文本处理、代码生成等多个细分场景，满足开发者的多元化需求；
+* 与GitHub代码仓库、Actions等核心功能深度集成，便于在开发流程中无缝调用模型能力。
+
+**定价策略：**用户只需拥有GitHub账户，即可免费享受基础模型调用服务，高频率、大规模的调用需求可通过升级订阅套餐解锁。
+
+**示例代码：**
+
+import os
+
+from openai import OpenAI
+
+token = os.environ["GITHUB\_TOKEN"]
+
+endpoint = "https://models.inference.ai.azure.com"
+
+model\_name = "gpt-4o"
+
+client = OpenAI(
+
+base\_url=endpoint,
+
+api\_key=token,
+
+)
+
+response = client.chat.completions.create(
+
+messages=[
+
+{
+
+"role": "system",
+
+"content": "You are a helpful assistant.",
+
+},
+
+{
+
+"role": "user",
+
+"content": "What is the capital of France?",
+
+}
+
+],
+
+temperature=1.0,
+
+top\_p=1.0,
+
+max\_tokens=1000,
+
+model=model\_name
+
+)
+
+print(response.choices[0].message.content)
+
+**输出结果示例**：
+
+法国的首都是**巴黎**。
+
+11. Fireworks AI – Free API
+
+Fireworks AI 面向开发者开放多款高性能大语言模型的调用服务，其无服务器推理架构支持最高每分钟6000次请求（RPM），日处理令牌峰值可达25亿个，能够支撑高并发、大规模的文本生成任务。
+
+**核心可用模型：**
+
+* Llama-v3p1-405b-instruct
+* deepseek-r1
+
+**全量模型列表：**https://fireworks.ai/models
+
+**官方文档：**https://docs.fireworks.ai/getting-started/quickstart
+
+**核心优势：**
+
+* 支持低成本的模型定制化开发，可针对特定业务场景优化推理效果，兼具经济性与实用性；
+* 依托高性能推理架构，模型响应速度快，能够满足实时交互类应用的需求。
+
+**定价策略：**免费额度的获取成本极低，仅需1美元即可解锁基础调用权限，超出部分按令牌消耗量计费。
+
+**示例代码：**
+
+from fireworks.client import Fireworks
+
+client = Fireworks(api\_key="<FIREWORKS\_API\_KEY>")
+
+response = client.chat.completions.create(
+
+model="accounts/fireworks/models/llama-v3p1-8b-instruct",
+
+messages=[{
+
+"role": "user",
+
+"content": "Say this is a test",
+
+}],
+
+)
+
+print(response.choices[0].message.content)
+
+**输出结果示例**：
+
+我已准备好接受测试！请提供具体的问题或提示词，我会基于自身的模型能力，为你提供准确且详实的解答。
+
+**12. Cloudflare Workers AI**
+
+Cloudflare Workers AI是一款轻量化的无服务器AI服务平台，支持大语言模型、嵌入模型、图像生成模型及音频处理模型的一站式调用。平台为开发者提供每日10000个神经元的免费配额（神经元为Cloudflare定义的GPU计算单位），配额会在每日UTC时间00:00自动重置。
+
+**核心可用模型：**
+
+* @cf/meta/llama-3.1-8b-instruct
+* @cf/mistral/mistral-7b-instruct-v0.1
+* @cf/baai/bge-m3 (embeddings)
+* @cf/black-forest-labs/flux-1-schnell (image)
+
+**全量模型列表：**https://developers.cloudflare.com/workers-ai/models/
+
+**官方文档：**https://developers.cloudflare.com/workers-ai/get-started/rest-api/
+
+**核心优势：**
+
+* 每日免费配额可满足快速原型开发需求，无需投入前期成本即可验证AI功能的可行性；
+* 接口与OpenAI的聊天补全、嵌入生成标准完全兼容，便于开发者迁移既有代码；
+* 模型库覆盖文本、图像、音频等多模态任务，可一站式满足多样化的开发需求。
+
+**定价策略：**基础免费套餐包含每日10000个神经元额度，超出部分采用按量付费模式，需联系Cloudflare开通Workers Paid套餐。
+
+**示例代码：**
+
+import os
+
+import requests
+
+ACCOUNT\_ID = "YOUR\_CLOUDFLARE\_ACCOUNT\_ID"
+
+API\_TOKEN = "YOUR\_CLOUDFLARE\_API\_TOKEN"
+
+response = requests.post( f"https://api.cloudflare.com/client/v4/accounts/{ACCOUNT\_ID}/ai/v1/responses",
+
+headers={"Authorization": f"Bearer {AUTH\_TOKEN}"},
+
+json={
+
+"model": "@cf/openai/gpt-oss-120b",
+
+"input": "Tell me all about PEP-8"
+
+}
+
+)
+
+result = response.json()
+
+from IPython.display import Markdown
+
+Markdown(result["output"][1]["content"][0]["text"])
+
+输出结果示例：
+
+![]()
+### 13. NVIDIA NIM API / build.nvidia.com inference endpoints
+
+NVIDIA依托其build.nvidia.com平台，推出基于NIM（NVIDIA Inference Microservices）技术的模型推理端点服务。该平台明确区分原型开发与生产部署场景：NVIDIA开发者计划成员可免费访问NIM API端点进行原型验证；公开的API目录则提供试用体验，速率限制因模型规格而异，具体限额可在build.nvidia.com账户界面中查询。
+
+**核心可用模型**：
+
+* deepseek-ai/deepseek-r1
+* ai21labs/jamba-1.5-mini-instruct
+* google/gemma-2-9b-it
+* nvidia/llama-3.1-nemotron-nano-vl-8b-v1
+
+**全量模型列表：**https://build.nvidia.com/models
+
+**官方文档**：https://docs.api.nvidia.com/
+
+**核心优势：**
+
+* 接口完全兼容OpenAI的聊天补全协议，可无缝迁移基于OpenAI生态开发的代码；
+* 模型库涵盖多领域、多参数规模的主流模型，便于开发者进行横向对比与选型评估；
+* 清晰划分原型开发与生产使用的许可权限，为开发者从测试到部署提供全流程支持。
+
+**定价策略：**开发者计划成员可免费用于原型开发；生产环境的商业使用需订阅NVIDIA AI企业版套餐，具体定价可咨询官方销售团队。
+
+**示例代码：**
+
+from openai import OpenAI
+
+client = OpenAI(
+
+base\_url = "https://integrate.api.nvidia.com/v1",
+
+api\_key="YOUR\_NVIDIA\_API\_KEY"
+
+)
+
+completion = client.chat.completions.create(
+
+model="deepseek-ai/deepseek-v3.2",
+
+messages=[{"role":"user","content":"WHat is PEP-8"}],
+
+temperature=1,
+
+top\_p=0.95,
+
+max\_tokens=8192,
+
+extra\_body={"chat\_template\_kwargs": {"thinking":True}},
+
+stream=True
+
+)
+
+for chunk in completion:
+
+if not getattr(chunk, "choices", None):
+
+continue
+
+reasoning = getattr(chunk.choices[0].delta, "reasoning\_content", None)
+
+if reasoning:
+
+print(reasoning, end="")
+
+if chunk.choices[0].delta.content is not None:
+
+print(chunk.choices[0].delta.content, end="")
+
+输出结果示例：  
+
+
+![]()
+### 14. Cohere
+
+Cohere为开发者提供免费的评估/试用密钥，试用密钥设有明确的速率限制，具体规则可参考官方文档，例如每月1000次API调用上限，且不同端点的请求频率限制存在差异。
+
+**核心可用模型**：
+
+* 聊天生成类：Command A、Command R、Command R+
+* 文本嵌入类：Embed v3
+* 文本排序类：重排序模型
+
+**全量模型列表：**https://docs.cohere.com/docs/rate-limits
+
+**官方文档：**https://docs.cohere.com/docs/text-gen-quickstart
+
+**核心优势：**
+
+* Command系列聊天模型具备强大的上下文理解与内容生成能力，嵌入和重排序模型则为RAG（检索增强生成）、智能搜索等场景提供高效支撑；
+* Python SDK（ClientV2）设计简洁易用，可快速完成开发环境配置与功能集成；
+* 试用阶段的限制规则透明公开，便于开发者进行可预测的功能测试与负载评估。
+
+**定价策略：**提供免费试用套餐，包含有限的调用额度与速率限制；更高使用量的商业场景需升级至付费计划，具体资费可根据业务需求定制。
+
+**示例代码：**
+
+import cohere
+
+co = cohere.ClientV2("YOUR\_COHERE\_API\_KEY")
+
+response = co.chat(
+
+model="command-a-03-2025",
+
+messages=[{"role": "user", "content": "Tell me about PEP8"}],
+
+)
+
+from IPython.display import Markdown
+
+Markdown(response.message.content[0].text)
+
+**输出结果示例：**
+
+![]()
+### 15. AI21 Labs
+
+AI21 Labs推出门槛极低的免费试用方案，为开发者提供价值10美元的调用额度，有效期长达3个月，且申请时无需绑定信用卡。其基础模型系列包含多款Jamba变体，官方公布的速率限制为每秒10次请求（RPS）、每分钟200次请求（RPM），该限制适用于Jamba Large与Jamba Mini等主流模型。
+
+**核心可用模型：**
+
+* jamba-mini
+* jamba-large
+
+**全量模型列表：**https://docs.ai21.com/docs/jamba-foundation-models
+
+**官方文档**：https://docs.ai21.com/reference/jamba-1-6-api-ref
+
+**核心优势：**
+
+* 无需提供付款信息即可获取试用额度，降低开发者的测试门槛，便于快速验证模型能力；
+* 提供简洁易用的SDK与标准化的REST接口，支持高效的聊天补全功能开发；
+* 各模型的速率限制规则公开透明，便于开发者进行负载测试与应用性能优化。
+
+**定价策略**：免费试用套餐包含10美元额度，有效期3个月；额度耗尽后自动切换为按量付费模式，具体计费标准可参考官方定价页面。
+
+**示例代码：**
+
+from ai21 import AI21Client
+
+from ai21.models.chat import ChatMessage
+
+messages = [
+
+ChatMessage(role="user", cnotallow="What is PEP8?"),
+
+]
+
+client = AI21Client(api\_key="YOUR\_API\_KEY")
+
+result = client.chat.completions.create(
+
+messages=messages,
+
+model="jamba-large",
+
+max\_tokens=1024,
+
+)
+
+from IPython.display import Markdown
+
+Markdown(result.choices[0].message.content)
+
+**输出结果示例：**
+
+![]()
+
+**使用免费LLM API的核心优势**
+
+* **低门槛易用性**：无需深厚的AI底层技术积累，也无需投入高昂的基础设施建设成本，即可快速调用顶尖大语言模型的能力。
+* **高灵活定制性：**支持针对特定业务场景进行模型微调，实现功能与性能的双重优化，满足垂直领域的个性化需求。
+* **强扩展适配性：**随着业务规模的增长，可平滑过渡至付费套餐，轻松应对高并发、大规模的请求处理需求。
+### 高效使用免费LLM API的实用技巧
+
+* **精准选型模型：**从轻量级模型入手处理基础文本任务，根据业务复杂度逐步升级至大参数模型，平衡性能与资源消耗。
+* **实时监控用量：**利用平台提供的仪表盘工具，实时跟踪令牌消耗情况，并合理设置使用额度预警，避免超出免费限额。
+* **优化提示词设计**：编写简洁、明确的提示词，在保证生成效果的前提下，最大限度减少令牌使用量，提升免费额度的利用效率。
+### 结语
+
+上述15款免费LLM API为开发者与企业提供了低成本接入先进AI技术的便捷途径，无需承担高昂的前期投入，即可将智能文本生成、多模态交互等功能集成到应用程序中。通过合理选型与高效利用这些资源，开发者能够显著提升产品的用户体验，实现业务流程的自动化升级，进而推动项目的创新发展。建议开发者结合自身需求，积极探索各类API的功能特性，充分释放AI技术的应用潜力。
+
+原文标题：15 Free LLM APIs You Can Use in 2026，作者：Harsh Mishra
+
+举报/反馈![]()0![]()0![]()收藏![]()分享![]()微信好友![]()新浪微博![]()复制链接![]()![]()扫码分享至微信[设为首页](//www.baidu.com/cache/sethelp/index.html)© Baidu [使用百度前必读](//www.baidu.com/duty/) 京ICP证030173号 ![]()[京公网安备11000002000001号](http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11000002000001)

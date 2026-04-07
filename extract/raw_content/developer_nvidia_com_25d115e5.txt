@@ -1,0 +1,357 @@
+# Source URL: https://developer.nvidia.com/blog/bringing-ai-closer-to-the-edge-and-on-device-with-gemma-4/
+# Content Length: 18090 characters
+# Extracted at: 2026-04-05 12:03:46
+#============================================================
+
+
+
+
+
+
+Bringing AI Closer to the Edge and On-Device with Gemma 4 | NVIDIA Technical Blog
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[![]()](/)
+[DEVELOPER](/)
+
+* [Home](/)
+* [Blog](/blog)
+* [Forums](https://forums.developer.nvidia.com/)
+* [Docs](https://docs.nvidia.com/)
+* [Downloads](https://developer.nvidia.com/downloads)
+* [Training](https://www.nvidia.com/en-us/training/)
+
+
+
+* [Join](https://developer.nvidia.com/login)
+
+
+
+[Technical Blog](https://developer.nvidia.com/blog)
+
+
+
+
+
+
+[Subscribe](https://developer.nvidia.com/email-signup)
+
+
+
+
+
+
+
+[Related Resources](#main-content-end)
+
+[Agentic AI / Generative AI](https://developer.nvidia.com/blog/category/generative-ai/)
+
+
+English中文
+
+Bringing AI Closer to the Edge and On-Device with Gemma 4
+=========================================================
+
+![]()
+Apr 02, 2026
+
+By [Anu Srivastava](https://developer.nvidia.com/blog/author/anusrivastav/) 
+  
+Like 
+
+[Discuss (0)](#entry-content-comments)
+
+
+
+
+
+
+
+
+* [L](https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fdeveloper.nvidia.com%2Fblog%2Fbringing-ai-closer-to-the-edge-and-on-device-with-gemma-4%2F)
+* [T](https://twitter.com/intent/tweet?text=Bringing+AI+Closer+to+the+Edge+and+On-Device+with+Gemma+4%C2%A0+%7C+NVIDIA+Technical+Blog+https%3A%2F%2Fdeveloper.nvidia.com%2Fblog%2Fbringing-ai-closer-to-the-edge-and-on-device-with-gemma-4%2F)
+* [F](https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdeveloper.nvidia.com%2Fblog%2Fbringing-ai-closer-to-the-edge-and-on-device-with-gemma-4%2F)
+* [R](https://www.reddit.com/submit?url=https%3A%2F%2Fdeveloper.nvidia.com%2Fblog%2Fbringing-ai-closer-to-the-edge-and-on-device-with-gemma-4%2F&title=Bringing+AI+Closer+to+the+Edge+and+On-Device+with+Gemma+4%C2%A0+%7C+NVIDIA+Technical+Blog)
+* [E](mailto:?subject=I'd like to share a link with you&body=https%3A%2F%2Fdeveloper.nvidia.com%2Fblog%2Fbringing-ai-closer-to-the-edge-and-on-device-with-gemma-4%2F)
+
+
+
+
+
+AI-Generated Summary
+
+
+
+
+Like
+
+
+
+
+Dislike
+
+
+
+
+
+* The Gemma 4 multimodal and multilingual model family was launched to support a wide range of AI tasks, offering improved efficiency and accuracy, and can be deployed across the full spectrum of NVIDIA hardware, from Blackwell data centers to Jetson edge devices.
+* Four models are included, featuring Gemmas first MoE model, and support for over 140 languages; these models enable reasoning, code generation, agent tool use, and multimodal input, and can be deployed locally using vLLM, Ollama, llama.cpp, and Unsloth for efficient workflows.
+* Developers can fine-tune and deploy Gemma 4 models securely on NVIDIA platforms using tools like NeMo Automodel and NVIDIA NIM, with production-ready microservices and commercial-friendly licensing available for enterprise and on-device use.
+
+AI-generated content may summarize information incompletely. Verify important information. [Learn more](https://www.nvidia.com/en-us/agreements/trustworthy-ai/terms/)
+
+
+
+
+The Gemmaverse expands with the launch of the latest [Gemma 4](https://blog.google/innovation-and-ai/technology/developers-tools/gemma-4) multimodal and multilingual models, designed to scale across the full spectrum of deployments, from NVIDIA Blackwell in the data center to Jetson at the edge. These models are suited to meet the growing demand for local deployment for AI development and prototyping, secure on-prem requirements, cost efficiency, and latency-sensitive use cases. The newest generation improves both efficiency and accuracy, making these general-purpose models well-suitable for a wide range of common tasks:
+
+* **Reasoning:** Strong performance on complex problem-solving tasks.
+* **Coding:** Code generation and debugging for developer workflows.
+* **Agents:** Native support for structured tool use (function calling).
+* **Vision****,** **v****ideo** **and audio capability:** Enables rich multimodal interactions for use cases such as object recognition, automated speech recognition (ASR), document and video intelligence, and more.
+* **Interleaved multimodal input****:** Freely mix text and images in any order within a single prompt.
+* **Multilingual:** Out-of-the-box support for over 35 languages, and pre-trained on over 140 languages.
+
+The bundle includes four models, including Gemma’s first MoE model, which can all fit on a single NVIDIA H100 GPU and supports over 140 languages. The 31B and 26B A4B variants are high-performing reasoning models suitable for both local and data center environments. The E4B and E2B are the newest edition of on-device and mobile designed models first launched with [Gemma 3n](https://ai.google.dev/gemma/docs/gemma-3n).
+
+| **Model** **Name** | **Architecture Type** | **Total Parameters** | **Active or Effective Parameters** | **Input Context Length** **(Tokens)** | **Sliding Window** **(Tokens)** | **Modalities** |
+| --- | --- | --- | --- | --- | --- | --- |
+| **Gemma-4-31B** | Dense Transformer | 31B | — | 256K | 1024 |  |
+| **Gemma-4-26B-A4B** | MoE – 128 Experts | 26B | 3.8B | 256K | — |  |
+| **Gemma-4-E4B** | Dense Transformer | 7.9B with embeddings | 4.5B effective | 128K | 512 | Text, Audio, Vision, Video |
+| **Gemma-4-E2B** | Dense Transformer | 5.1B with embeddings | 2.3B effective | 128K | 512 | Text, Audio, Vision, Video |
+
+*Table 1. Overview of the Gemma 4 model family, summarizing architecture types, parameter sizes, effective parameters, supported context lengths, and available modalities to help developers choose the right model for data center, edge, and on‑device deployments.*
+
+Each model is available today on Hugging Face with BF16 checkpoints, and an [NVFP4 quantized check point for Gemma-4-31B](https://huggingface.co/nvidia/Gemma-4-31B-IT-NVFP4) is available using [NVIDIA Model Optimizer](https://github.com/NVIDIA/Model-Optimizer)  for NVIDIA Blackwell developers with vLLM. NVFP4 enables 4-bit precision while maintaining nearly identical accuracy to 8-bit precision, increasing performance per watt and lowering cost per token.
+
+Run intelligent workloads on-device
+-----------------------------------
+
+As AI workflows and agents become more integrated into everyday applications, the ability to run these models beyond traditional data center environments is becoming critical. The NVIDIA suite of client and edge systems, from RTX GPUs and DGX Spark to Jetson Nano, provides developers with the flexibility to manage cost and latency while supporting security requirements for highly regulated industries such as healthcare and finance.
+
+We collaborated with vLLM, Ollama and llama.cpp to provide the best local deployment experience for each of the Gemma 4 models. Unsloth also provides day-one support with optimized and quantized models for efficient local deployment via [Unsloth Studio](https://unsloth.ai/docs/models/gemma-4).
+
+Check out the [RTX AI Garage blog post](https://blogs.nvidia.com/blog/rtx-ai-garage-open-models-google-gemma-4) to get started with Gemma 4 on RTX GPUs and DGX Spark.
+
+|  | **DGX Spark** | **Jetson** | **RTX****/****RTX PRO** |
+| --- | --- | --- | --- |
+| **Use Case** | AI research  and prototyping | Edge AI and robotics | Desktop apps  and Windows development |
+| **Key Highlights** | A preinstalled NVIDIA AI software stack and 128 GB of unified memory power local prototyping, fine-tuning, and fully local OpenClaw workflows | Near-zero latency due to architecture features such as conditional parameter loading and per-layer embeddings which can be cached for faster and reduced memory use ([more info](https://ai.google.dev/gemma/docs/gemma-3n)) | Optimized performance for local inference for hobbyists, creators and professionals |
+| **Getting Started Guide** | [DGX Spark Playbooks](https://build.nvidia.com/spark) for vLLM, Ollama, Unsloth and llama.cpp deployment guides [NeMo Automodel](https://github.com/NVIDIA-NeMo/Automodel/tree/main/docs/guides/vlm/gemma4.md) for fine-tuning on Spark guide | [Jetson AI Lab](https://www.jetson-ai-lab.com/models/) for tutorials and custom Gemma containers | [RTX AI Garage](https://blogs.nvidia.com/blog/rtx-ai-garage-open-models-google-gemma-4) for Ollama and llama.cpp guides. RTX Pro owners can use vLLM as well. |
+
+*Table 2. Comparison of local deployment options across NVIDIA platforms, highlighting primary use cases, key capabilities, and recommended getting‑started resources for DGX Spark, Jetson, and RTX / RTX PRO systems running Gemma 4 models.*
+
+Build secure agentic AI workflows with DGX Spark
+------------------------------------------------
+
+AI developers and enthusiasts benefit from the GB10 Grace Blackwell Superchip paired with 128 GB of unified memory in DGX Spark, providing the resources needed to run Gemma 4 31B with BF16 model weights. Combined with DGX Linux OS and the full NVIDIA software stack, developers can efficiently prototype and build agentic AI workflows with Gemma 4 while maintaining private, secure on-device execution.
+
+The vLLM inference engine is designed to run LLMs efficiently, maximizing throughput while minimizing memory usage. Using vLLM high-throughput LLM serving on DGX Spark provides a high-performance platform for the largest Gemma 4 models; the [vLLM for Inference DGX Spark](https://build.nvidia.com/spark/vllm) playbook provides the details to get vLLM running with Gemma 4 on your DGX Spark. Or get started with Gemma 4 using [Ollama](https://ollama.com/download/windows) or [llama.cpp.](https://llama-cpp.com/) Users can further fine-tune the models on DGX Spark with [NeMo Automodel](https://github.com/NVIDIA-NeMo/Automodel/tree/main/docs/guides/vlm/gemma4.md).
+
+Power physical AI agents with Jetson
+------------------------------------
+
+Modern physical AI agents are evolving rapidly with Gemma 4 models that integrate audio, multimodal perception, and deep reasoning capabilities. These advanced models enable robotics systems to move beyond simple task execution, allowing them to understand speech, interpret visual context, and reason intelligently before taking action. On NVIDIA Jetson, developers can run Gemma 4 inference at the edge using llama.cpp and vLLM. Jetson Orin Nano supports the Gemma 4 e2b and e4b variants, enabling multimodal inference on small, embedded, and power-constrained systems, with the same model family scaling across the Jetson platform up to Jetson Thor.
+
+This supports scalable deployment across robotics, smart machines, and industrial automation use cases that depend on low-latency performance and on-device intelligence.
+
+Jetson developers can check out the tutorial and download the container to get started from the [Jetson AI Lab.](https://www.jetson-ai-lab.com/models/)
+
+*Video 1. Demo of Gemma 4 31B on build.nvidia.com*
+
+Production ready deployment with NVIDIA NIM
+-------------------------------------------
+
+Enterprise developers can try the Gemma 4 31B model for free using an NVIDIA-hosted NIM API available in the [NVIDIA API catalog](https://catalog.ngc.nvidia.com/orgs/nim/teams/google/containers/gemma-4-31b-it) for prototyping. For production deployment, they can use prepackaged and optimized NIM microservices for secure, self-hosted deployment with an NVIDIA Enterprise License.
+
+Day 0 fine-tuning with NeMo Framework
+-------------------------------------
+
+Developers can customize Gemma 4 with their own domain data using the [NVIDIA NeMo framework](https://github.com/NVIDIA-NeMo/), specifically the [NeMo Automodel](https://github.com/NVIDIA-NeMo/Automodel/tree/main/docs/guides/vlm/gemma4.md) library, which combines native PyTorch ease of use with optimized performance. Using this [fine‑tuning recipe](https://github.com/NVIDIA-NeMo/Automodel/tree/main/examples/vlm_finetune/gemma4/gemma4_31b.yaml) for Gemma 4, developers can apply techniques such as supervised fine‑tuning (SFT) and memory‑efficient LoRA to perform day‑0 fine‑tuning starting from  [Hugging Face](https://huggingface.co/collections/google/gemma-4) model checkpoints without the need for conversion.
+
+Get started today
+-----------------
+
+No matter which NVIDIA GPU you are using, Gemma 4 is supported across the entire NVIDIA AI platform and is available under the commercial-friendly Apache 2.0 license. From Blackwell, with NVFP4 quantized checkpoints coming soon, to Jetson platforms, developers can quickly get started deploying these high-accuracy multimodal models, with the flexibility to meet their speed, security, and cost requirements.
+
+Check out Gemma on [Hugging Face](https://huggingface.co/collections/google/gemma-4), or test Gemma 4 31B for free using NVIDIA APIs at [build.nvidia.com](https://build.nvidia.com/google/gemma-4-31b-it).
+
+
+[Discuss (0)](#entry-content-comments)
+
+  
+Like 
+
+
+Tags
+----
+
+
+[Agentic AI / Generative AI](https://developer.nvidia.com/blog/category/generative-ai/) | [Edge Computing](https://developer.nvidia.com/blog/category/edge-computing/) | [General](https://developer.nvidia.com/blog/recent-posts/?industry=General) | [Blackwell](https://developer.nvidia.com/blog/recent-posts/?products=Blackwell) | [DGX](https://developer.nvidia.com/blog/recent-posts/?products=DGX) | [Jetson](https://developer.nvidia.com/blog/recent-posts/?products=Jetson) | [NeMo](https://developer.nvidia.com/blog/recent-posts/?products=NeMo) | [Beginner Technical](https://developer.nvidia.com/blog/recent-posts/?learning_levels=Beginner+Technical) | [News](https://developer.nvidia.com/blog/recent-posts/?content_types=News) | [featured](https://developer.nvidia.com/blog/tag/featured/) | [LLMs](https://developer.nvidia.com/blog/tag/large-language-models/) 
+
+About the Authors
+-----------------
+
+
+![]()
+
+**About Anu Srivastava**
+  
+
+Anu Srivastava is a senior technical marketing manager who focuses on NVIDIA’s lighthouse AI model collaborations. She works with key partners and foundations to enable NVIDIA accelerated platform support for the open source developer ecosystem. Prior to NVIDIA, she worked at Google for over a decade in various engineering and management roles and holds a degree in computer science from the University of Texas at Austin.
+[View all posts by Anu Srivastava](https://developer.nvidia.com/blog/author/anusrivastav/)
+
+
+
+
+
+Comments
+--------
+
+
+
+
+
+
+
+
+Related posts
+-------------
+
+![]()
+
+### Develop Specialized AI Agents with New NVIDIA Nemotron Vision, RAG, and Guardrail Models
+
+
+
+[Develop Specialized AI Agents with New NVIDIA Nemotron Vision, RAG, and Guardrail Models](https://developer.nvidia.com/blog/develop-specialized-ai-agents-with-new-nvidia-nemotron-vision-rag-and-guardrail-models/)
+
+
+![]()
+
+### Build Agents and Understand Long Docs with Mistral Medium 3 and NVIDIA NIM
+
+
+
+[Build Agents and Understand Long Docs with Mistral Medium 3 and NVIDIA NIM](https://developer.nvidia.com/blog/build-agents-and-understand-long-docs-with-mistral-medium-3-and-nvidia-nim/)
+
+
+![]()
+
+### Lightweight, Multimodal, Multilingual Gemma 3 Models Are Streamlined for Performance
+
+
+
+[Lightweight, Multimodal, Multilingual Gemma 3 Models Are Streamlined for Performance](https://developer.nvidia.com/blog/lightweight-multimodal-multilingual-gemma-3-models-are-streamlined-for-performance/)
+
+
+![]()
+
+### Deploy Agents, Assistants, and Avatars on NVIDIA RTX AI PCs with New Small Language Models
+
+
+
+[Deploy Agents, Assistants, and Avatars on NVIDIA RTX AI PCs with New Small Language Models](https://developer.nvidia.com/blog/deploy-agents-assistants-and-avatars-on-nvidia-rtx-ai-pcs-with-new-small-language-models/)
+
+
+![]()
+
+### NVIDIA TensorRT-LLM Revs Up Inference for Google Gemma
+
+
+
+[NVIDIA TensorRT-LLM Revs Up Inference for Google Gemma](https://developer.nvidia.com/blog/nvidia-tensorrt-llm-revs-up-inference-for-google-gemma/)
+
+
+
+Related posts
+-------------
+
+![]()
+
+### Building the AI Grid with NVIDIA: Orchestrating Intelligence Everywhere
+
+
+
+[Building the AI Grid with NVIDIA: Orchestrating Intelligence Everywhere](https://developer.nvidia.com/blog/building-the-ai-grid-with-nvidia-orchestrating-intelligence-everywhere/)
+
+
+![]()
+
+### Introducing NVIDIA BlueField-4-Powered CMX Context Memory Storage Platform for the Next Frontier of AI
+
+
+
+[Introducing NVIDIA BlueField-4-Powered CMX Context Memory Storage Platform for the Next Frontier of AI](https://developer.nvidia.com/blog/introducing-nvidia-bluefield-4-powered-inference-context-memory-storage-platform-for-the-next-frontier-of-ai/)
+
+
+![]()
+
+### Design, Simulate, and Scale AI Factory Infrastructure with NVIDIA DSX Air
+
+
+
+[Design, Simulate, and Scale AI Factory Infrastructure with NVIDIA DSX Air](https://developer.nvidia.com/blog/design-simulate-and-scale-ai-factory-infrastructure-with-nvidia-dsx-air/)
+
+
+![]()
+
+### Run Autonomous, Self-Evolving Agents More Safely with NVIDIA OpenShell
+
+
+
+[Run Autonomous, Self-Evolving Agents More Safely with NVIDIA OpenShell](https://developer.nvidia.com/blog/run-autonomous-self-evolving-agents-more-safely-with-nvidia-openshell/)
+
+
+![]()
+
+### NVIDIA Vera Rubin POD: Seven Chips, Five Rack-Scale Systems, One AI Supercomputer
+
+
+
+[NVIDIA Vera Rubin POD: Seven Chips, Five Rack-Scale Systems, One AI Supercomputer](https://developer.nvidia.com/blog/nvidia-vera-rubin-pod-seven-chips-five-rack-scale-systems-one-ai-supercomputer/)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+* [L](https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fdeveloper.nvidia.com%2Fblog%2Fbringing-ai-closer-to-the-edge-and-on-device-with-gemma-4%2F)
+* [T](https://twitter.com/intent/tweet?text=Bringing+AI+Closer+to+the+Edge+and+On-Device+with+Gemma+4%C2%A0+%7C+NVIDIA+Technical+Blog+https%3A%2F%2Fdeveloper.nvidia.com%2Fblog%2Fbringing-ai-closer-to-the-edge-and-on-device-with-gemma-4%2F)
+* [F](https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdeveloper.nvidia.com%2Fblog%2Fbringing-ai-closer-to-the-edge-and-on-device-with-gemma-4%2F)
+* [R](https://www.reddit.com/submit?url=https%3A%2F%2Fdeveloper.nvidia.com%2Fblog%2Fbringing-ai-closer-to-the-edge-and-on-device-with-gemma-4%2F&title=Bringing+AI+Closer+to+the+Edge+and+On-Device+with+Gemma+4%C2%A0+%7C+NVIDIA+Technical+Blog)
+* [E](mailto:?subject=I'd like to share a link with you&body=https%3A%2F%2Fdeveloper.nvidia.com%2Fblog%2Fbringing-ai-closer-to-the-edge-and-on-device-with-gemma-4%2F)
+
+
+

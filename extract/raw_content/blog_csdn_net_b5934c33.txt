@@ -1,0 +1,436 @@
+# Source URL: https://blog.csdn.net/qq_35456045/article/details/104793376
+# Content Length: 29118 characters
+# Extracted at: 2026-03-27 10:09:45
+#============================================================
+
+机器学习/推荐系统/推荐系统算法工程师面试指导\\_推荐算法社招教程-CSDN博客
+[![](https://img-home.csdnimg.cn/images/20201124032511.png)](https://www.csdn.net/)
+\* [博客](https://blog.csdn.net/)
+\* [下载](https://download.csdn.net/)
+\* [社区](https://devpress.csdn.net/)
+\* [![](https://img-home.csdnimg.cn/images/20240829093757.png)GitCode](https://link.csdn.net?target=https%3A%2F%2Fgitcode.com%3Futm\_source%3Dcsdn\_toolbar)
+\* [![](https://i-operation.csdnimg.cn/images/3c66245675ae423e9cc897dc790b8ac9.png)GPU算力
+![](https://i-operation.csdnimg.cn/images/d8d2f104eeeb4a428045d2b34d72ed13.png)](https://ai.csdn.net/)
+\* 更多
+[会议](https://www.bagevent.com/event/9117243)[学习](https://edu.csdn.net?utm\_source=zhuzhantoolbar)[![](https://i-operation.csdnimg.cn/images/77c4dd7a760a493498bee1d336b064c0.png)InsCode](https://inscode.net?utm\_source=csdn\_blog\_top\_bar)
+搜索
+AI 搜索
+登录
+登录后您可以：
+\* 复制代码和一键运行
+\* 与博主大V深度互动
+\* 解锁海量精选资源
+\* 获取前沿技术资讯
+立即登录
+[![](https://i-operation.csdnimg.cn/images/f9098e9320264ddc85f274234b2f0c6a.png)新客开通会员 立减60![](https://i-operation.csdnimg.cn/images/97f199b02b604390ab516e4897fb5bfe.png)](https://mall.csdn.net/vip?utm\_source=dl\_hover)
+[会员·新人礼包 ![](https://i-operation.csdnimg.cn/images/105eda9d414f4250a7c3fe45be3cd15f.png)](https://mall.csdn.net/vip?utm\_source=260309\_vip\_toolbarhyzx\_hy)
+[消息](https://i.csdn.net/#/msg/index)
+[创作中心](https://mp.csdn.net)
+[创作](https://mp.csdn.net/edit)
+[![](https://i-operation.csdnimg.cn/images/6e41bd372d1f4ec39b3cd36ab95046c4.png)](https://mp.csdn.net/edit)![](https://i-operation.csdnimg.cn/images/43349e98a45341699652b0b6fa4ea541.png)![](https://i-operation.csdnimg.cn/images/0f13ec529b6b4195ad99894f76653e56.png)
+# 机器学习/推荐系统/推荐系统算法工程师面试指导
+最新推荐文章于 2025-04-15 15:39:43 发布
+原创[![](https://csdnimg.cn/release/blogv2/dist/pc/img/identityVipNew.png)](https://mall.csdn.net/vip)于 2020-03-11 11:53:37 发布·2.1k 阅读
+·![](https://csdnimg.cn/release/blogv2/dist/pc/img/newHeart2023Active.png)![](https://csdnimg.cn/release/blogv2/dist/pc/img/newHeart2023Black.png)
+2
+·![](https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollect2.png)![](https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollectionActive2.png)
+35
+文章标签：
+[#算法](https://so.csdn.net/so/search/s.do?q=%E7%AE%97%E6%B3%95&t=all&o=vip&s=&l=&f=&viparticle=&from\_tracking\_code=tag\_word&from\_code=app\_blog\_art)[#大数据](https://so.csdn.net/so/search/s.do?q=%E5%A4%A7%E6%95%B0%E6%8D%AE&t=all&o=vip&s=&l=&f=&viparticle=&from\_tracking\_code=tag\_word&from\_code=app\_blog\_art)[#编程语言](https://so.csdn.net/so/search/s.do?q=%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80&t=all&o=vip&s=&l=&f=&viparticle=&from\_tracking\_code=tag\_word&from\_code=app\_blog\_art)[#hadoop](https://so.csdn.net/so/search/s.do?q=hadoop&t=all&o=vip&s=&l=&f=&viparticle=&from\_tracking\_code=tag\_word&from\_code=app\_blog\_art)[#python](https://so.csdn.net/so/search/s.do?q=python&t=all&o=vip&s=&l=&f=&viparticle=&from\_tracking\_code=tag\_word&from\_code=app\_blog\_art)
+![](https://i-operation.csdnimg.cn/images/a7311a21245d4888a669ca3155f1f4e5.png)本文提供了机器学习/推荐系统算法工程师的面试指导，涵盖知识、工具、逻辑和业务四大方面。重点包括推荐系统算法面试题、机器学习相关问题、简历编写建议和相关资源推荐。强调了知识储备（如ML理论、CTR模型）、工具应用（如Spark、TensorFlow）、逻辑思维和业务理解的重要性，并给出了具体面试题实例。
+#### 面试指导
+#### 文章目录
+\* + - [面试指导](#\_0)
+- [1、机器学习/推荐系统/推荐系统算法工程师面试技能图](#1\_7)
+- [2.1 推荐系统算法相关面试笔试题](#21\_\_34)
+- \* [2.2 机器学习相关问题](#22\_\_113)
+\* [重点：](#\_115)
+\* [2.3 框架方面](#23\_\_169)
+\* [2.4 业务流程](#24\_\_174)
+- [3、简历指导项目编写](#3\_178)
+- [4、书籍资料网站推荐](#4\_271)
+\* 1、机器学习/推荐系统/推荐系统算法工程师面试技能图
+\* 2、知识、工具、逻辑、业务面试题
+\* 3、简历编写与招聘需求
+\* 4、书籍资料网站推荐
+#### 1、机器学习/推荐系统/推荐系统 算法 工程师面试技能图
+但抛开具体的岗位要求，从稍高的角度角度看待这个问题，一名机器学习/推荐系统算法、研发工程师的技术素质基本可以拆解成下面四个方面：知识、工具、逻辑、业务。
+![](https://i-blog.csdnimg.cn/blog\_migrate/1ce990c43c9a6cdd79a96a72760fa4cd.png)
+在最小要求的基础上，算法工程师的能力要求是相对全面的。其实所谓算法工程师，就是因为你不仅应该是一位合格的“工程师”，还应该再次基础上有算法的改进和实现的能力。除此之外，大数据工程师更注重大数据工具和平台的改进，研究员则在知识和逻辑层面相对突出。
+下面给出相关要求，有通用的要求，不管是做不想关的领域。然后深入一个具体领域如推荐系统工程师的职位，会对应有一些具体的能力要求：
+\*\*知识\*\*：主要是指你对ML相关知识和理论的储备(40%)
+\* 机器学习相关的知识+基础的深度学习知识
+\* 如主流CTR模型、推荐算法模型的原理和技术细节
+\*\*工具\*\*：将你的ML知识应用于实际业务的
+框架 工具(30%)
+\* 如coding能力、spark、tensorflow、serving相关工具
+\*\*逻辑\*\*：基础算法逻辑相关(10%)
+\* 常见基础算法题，逻辑题，模型之间演化关系，考量举一反三能力
+\*\*业务\*\*：深入理解所在行业的商业模式，从业务中发现而改进模型算法的能力(20%)
+\* 根据比如文章推荐构建模型场景和需求，了解业务走向，根据业务指定目标模型
+#### 2.1 推荐系统算法相关面试笔试题
+11.如果选用一种其他的模型替代XGBoost或者改进XGBoost你会怎么做，为什么？\*\*（业务+逻辑+知识）\*\*
+1、 协同过滤（基于物品和基于用户）的原理，ItemCF、UserCF、SVD矩阵分解必须会说明？
+2、以下推荐方法中，推荐结果多样性最好的是：（ B ）
+A. 基于内容的推荐
+B. 基于用户的协同过滤推荐
+C. 基于物品的协同过滤推荐
+D. 热门推荐
+3、请描述至少2种熟悉的推荐系统中常用的算法原理（如: 协同过滤、矩阵分解等）
+4、协同过滤经常被用于推荐系统，包含基于
+内存 的协同过滤、基于模型的协同过滤以及混合模型。 以下说法不正确的是（C）
+\* 基于用户的协同过滤推荐、基于物品的协同过滤推荐都是基于内存的协同过滤推荐
+\* 混合模型综合两个模型的优点，通常能够达到由于两者的效果
+\* 基于内存的协同过滤可以较好解决冷启动问题
+\* 基于内存的协同过滤实现比较简单,新数据可以较方便的加入
+5、协同过滤是推荐系统构成中非常经典的算法，分为基于用户的协同过滤和基于物品的协同过滤。它的本质是通过计算用户与用户之间的相似度，或物品与物品的相似度来对用户的兴趣进行预测，进而推荐相关物品给用户。请使用上述知识解答下面问题：
+(1)现有五个用户A，B，C，D，E；三个物品X，Y，Z；通过分析用户在网站上的购物历史和人群画像标签，分析出各个用户对各个物品的兴趣
+指数
+。兴趣指数见下面表格：
+| X | Y | Z |
+| --- | --- | --- |
+| A | 3 | 4 | 3 |
+| B | 2 | 4 | 4 |
+| C | 3 | 5 | 4www.julyedu.com
+七月在线双12活动正式开启 ·40门AI.](https://blog.csdn.net/julyedu\_7/article/details/121798127)
+[【\*算法\*\*工程师\*】\*算法\*学习与\*面试\*通关指南：题库\*推荐\*、核心知识点梳理及\*面试\*实战经验总结
+最新发布](https://download.csdn.net/download/fq1986614/90835488)
+05-14
+[③指导读者如何准备\*算法\*\*工程师\*的\*面试\*，提高\*面试\*成功率。 阅读建议：此资源不仅提供了理论知识，还结合了大量实际案例和\*面试\*经验，建议读者在学习过程中多做笔记，勤于实践，尤其要重视项目经验和\*面试\*技巧的积累。](https://download.csdn.net/download/fq1986614/90835488)
+[【\*面试\*系列】\*机器学习\*\*工程师\*高频\*面试\*题及详细解答](https://blog.csdn.net/u010225915/article/details/140133764)
+[在路上的专栏](https://blog.csdn.net/u010225915)
+07-02![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)
+1673
+[本文详细介绍了\*机器学习\*\*工程师\*岗位的常见\*面试\*问题及其解答，涵盖初级、中级和高级三个层次。初级问题涉及\*机器学习\*基础概念和常见\*算法\*，如监督学习、非监督学习和回归\*算法\*等；中级问题深入探讨决策树、随机森林、支持向量机、PCA等技术；高级问题则涉及深度学习、生成对抗网络、迁移学习和强化学习等前沿主题。此外，文章总结了该岗位常考知识点，并强调了实践技能的重要性。这些内容不仅为准备\*面试\*的求职者提供了全面的指导，也为希望深入理解\*机器学习\*领域的技术人员提供了丰富的参考资料。](https://blog.csdn.net/u010225915/article/details/140133764)
+[\*推荐\*相关\*面试\*](https://blog.csdn.net/weixin\_48166466/article/details/129026116)
+[weixin\\_48166466的博客](https://blog.csdn.net/weixin\_48166466)
+02-17![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)
+288
+[\*推荐\*\*算法\*\*面试\*](https://blog.csdn.net/weixin\_48166466/article/details/129026116)
+[2022YY直播\*招\*聘-\*推荐系统\*开发 B卷笔试题](https://download.csdn.net/download/qq\_26164991/85086444)
+04-06
+[先序中序后序、volatile、时间片、SYN包、XML、判断搜索二叉树、找出符合条件的字符串、TCP协议、](https://download.csdn.net/download/qq\_26164991/85086444)
+[\*推荐\*\*算法\*岗\*面试\*题收集](https://blog.csdn.net/qq\_50714222/article/details/136421457)
+[qq\\_50714222的博客](https://blog.csdn.net/qq\_50714222)
+03-02![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)
+2862
+[收集一下\*推荐\*\*算法\*岗的\*面试\*题和网上同仁\*面试\*的情况，欢迎大家评论区补充，一起学习！！
+后面会一直更新，丰富内容，祝愿大家\*面试\*顺利！！！](https://blog.csdn.net/qq\_50714222/article/details/136421457)
+[\*算法\*\*工程师\*\*面试\*热门问题四](https://blog.csdn.net/Chujun123528/article/details/140245582)
+[Chujun123528的博客](https://blog.csdn.net/Chujun123528)
+07-08![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)
+711
+[卷积神经网络（Convolutional Neural Networks, CNN）是深度学习领域中最重要的神经网络之一，特别擅长处理图像数据。CNN的基本结构包括输入层、卷积层、池化层（也称为下采样层）、全连接层和输出层，其中卷积层和池化层是最核心的部分。](https://blog.csdn.net/Chujun123528/article/details/140245582)
+[2024 \*算法\*\*工程师\*求职面经杂谈](https://blog.csdn.net/weixin\_39548654/article/details/136013136)
+[weixin\\_39548654的博客](https://blog.csdn.net/weixin\_39548654)
+02-03![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)
+745
+[本人硕4.5\*算法\*\*工程师\*，某大厂业务\*算法\*部门大头兵一枚。目前自身职业上升空间不大，趁着2024春节前后看看机会。这里记录一些自己的面经，供参考。](https://blog.csdn.net/weixin\_39548654/article/details/136013136)
+[太棒了！这是我见过的\*推荐\*\*算法\*岗（含实习）\*面试\*真题最全的总结了！](https://blog.csdn.net/m0\_59596990/article/details/136067620)
+[机器学习社区](https://blog.csdn.net/m0\_59596990)
+02-07![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)
+3250
+[学校：悉尼新南威尔士大学专业：计算机类岗位：360\*推荐\*\*算法\*岗（实习）](https://blog.csdn.net/m0\_59596990/article/details/136067620)
+[2024 | 大模型\*算法\*\*工程师\*相关\*面试\*题汇总及答案解析](https://devpress.csdn.net/v1/article/detail/140644928)
+[Androiddddd的博客](https://blog.csdn.net/Androiddddd)
+07-23![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)
+2471
+[在准备大模型的\*面试\*时，我们需要对模型的基础理论、进阶应用、微调策略、以及特定技术如LangChain、参数高效微调（PEFT）等有深入的理解。这里给大家整理了一份详细的\*面试\*题，帮助大家提前进行\*面试\*复习，同时对自己的技术进行查漏补缺。](https://devpress.csdn.net/v1/article/detail/140644928)
+[\*推荐\*\*算法\*\*面试\*](https://blog.csdn.net/qq\_43431934/article/details/134126142)
+[qq\\_43431934的博客](https://blog.csdn.net/qq\_43431934)
+10-30![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)
+1327
+[现在的大模型（如GPT-3、BERT等）在自然语言处理和其他领域取得了巨大成功，但也面临挑战，例如计算资源的需求和模型的可解释性问题。这些大模型的出现增加了\*算法\*\*工程师\*处理复杂任务的能力，但也要求\*算法\*\*工程师\*具备更多的领域知识、深入了解模型的结构和原理，以及对实际问题的抽象和建模能力。在分类问题中使用MSE损失函数可能不太合适，因为它对概率的微小差异不够敏感，而且在分类问题中通常需要使用激活函数（如sigmoid或softmax）将输出映射到概率空间，使得MSE的数学性质不再适用。](https://blog.csdn.net/qq\_43431934/article/details/134126142)
+[\*推荐\*\*算法\*\*面试\*集锦--架构工程](https://blog.csdn.net/fegnkuang/article/details/123537447)
+[fengkuang的一亩三分地](https://blog.csdn.net/fegnkuang)
+03-18![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)
+2542
+[现今，\*推荐系统\*主要分为召回和排序两个阶段，很多人可能是认为是基于算力性能的问题，然而真的只是这个原因吗？……](https://blog.csdn.net/fegnkuang/article/details/123537447)
+\* [关于我们](//www.csdn.net/company/index.html#about)
+\* [招贤纳士](//www.csdn.net/company/index.html#recruit)
+\* [商务合作](https://fsc-p05.txscrm.com/T8PN8SFII7W)
+\* [寻求报道](//marketing.csdn.net/questions/Q2202181748074189855)
+\* ![](//g.csdnimg.cn/common/csdn-footer/images/tel.png)400-660-0108
+\* ![](//g.csdnimg.cn/common/csdn-footer/images/email.png)[kefu@csdn.net](mailto:webmaster@csdn.net)
+\* ![](//g.csdnimg.cn/common/csdn-footer/images/cs.png)[在线客服](https://csdn.s2.udesk.cn/im\_client/?web\_plugin\_id=29181)
+\* 工作时间 8:30-22:00
+\* ![](//g.csdnimg.cn/common/csdn-footer/images/badge.png)[公安备案号11010502030143](http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502030143)
+\* [京ICP备19004658号](http://beian.miit.gov.cn/publish/query/indexFirst.action)
+\* [京网文〔2020〕1039-165号](https://csdnimg.cn/release/live\_fe/culture\_license.png)
+\* [经营性网站备案信息](https://csdnimg.cn/cdn/content-toolbar/csdn-ICP.png)
+\* [北京互联网违法和不良信息举报中心](http://www.bjjubao.org/)
+\* [家长监护](https://download.csdn.net/tutelage/home)
+\* [网络110报警服务](https://cyberpolice.mps.gov.cn/)
+\* [中国互联网举报中心](http://www.12377.cn/)
+\* [Chrome商店下载](https://chrome.google.com/webstore/detail/csdn%E5%BC%80%E5%8F%91%E8%80%85%E5%8A%A9%E6%89%8B/kfkdboecolemdjodhmhmcibjocfopejo?hl=zh-CN)
+\* [账号管理规范](https://blog.csdn.net/blogdevteam/article/details/126135357)
+\* [版权与免责声明](https://www.csdn.net/company/index.html#statement)
+\* [版权申诉](https://blog.csdn.net/blogdevteam/article/details/90369522)
+\* [出版物许可证](https://img-home.csdnimg.cn/images/20250103023206.png)
+\* [营业执照](https://img-home.csdnimg.cn/images/20250103023201.png)
+\* ©1999-2026北京创新乐知网络技术有限公司
+[![](https://profile-avatar.csdnimg.cn/98409096843647e396fdbad400327555\_qq\_35456045.jpg!1)](https://vicky.blog.csdn.net)
+[汪雯琦](https://vicky.blog.csdn.net)
+博客等级
+![](https://csdnimg.cn/identity/blog8.png)
+码龄10年
+![](https://i-operation.csdnimg.cn/images/b6e4d056bf60411fb3dca60bc68c7b39.png)优质创作者: python技术领域
+[: 956
+原创](https://vicky.blog.csdn.net)
+: 2441
+点赞
+: 6588
+收藏
+: 9673
+粉丝
+关注
+[私信](https://im.csdn.net/chat/qq\_35456045)
+[![](https://i-operation.csdnimg.cn/images/d5d144f1d1904560adf54c48ec13c5b4.png)](https://ai.csdn.net/workbench/wallet?utm\_source=xtai\_slb\_bloglb)
+[![](https://cdn.wwads.cn/creatives/tCsMFF956EX0JzAB8kkMuGpAUwWcW7KoJnzN1fY5.jpg)](https://wwads.cn/click/bundle?code=4jeJzpwdlvxxNQZOCUR6QPYHG25IAo)
+[🛒 B2B2C商家入驻平台系统java版 \*\*Java+vue+uniapp\*\* 功能强大 稳定 支持diy 方便二开](https://wwads.cn/click/bundle?code=4jeJzpwdlvxxNQZOCUR6QPYHG25IAo)[![]()广告](https://wwads.cn/?utm\_source=property-175&utm\_medium=footer)
+![](https://kunyu.csdn.net/1.png?p=56&adId=1071043&adBlockFlag=0&a=1071043&c=0&k=机器学习推荐系统推荐系统算法工程师面试指导&spm=1001.2101.3001.5000&articleId=104793376&d=1&t=3&u=bc261f76ea134ebebe6d77ea7c800f1f)
+### 热门文章
+\* [解决报错：AttributeError: 'AxesSubplot' object has no attribute 'set\\_xtickslabels'
+![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)57301](https://vicky.blog.csdn.net/article/details/104572767)
+\* [【已解决】报错AttributeError: 'numpy.ndarray' object has no attribute 'iloc'
+![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)53254](https://vicky.blog.csdn.net/article/details/104841820)
+\* [Linux中使用命令cd切换到当前用户的主目录
+![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)44352](https://vicky.blog.csdn.net/article/details/104785084)
+\* [Ubuntu操作系统是什么？它和windows有什么区别呢？
+![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)42456](https://vicky.blog.csdn.net/article/details/104785000)
+\* [Python中两个斜杠//是什么运算?
+![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)40520](https://vicky.blog.csdn.net/article/details/104584401)
+### 分类专栏
+\* [![](https://i-blog.csdnimg.cn/blog\_column\_migrate/c80a21fa0241422f7006846d0ccf756e.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【吴恩达机器学习】](https://blog.csdn.net/qq\_35456045/category\_9762715.html)34篇
+\* [![](https://i-blog.csdnimg.cn/blog\_column\_migrate/2ea133e7388c6f6eb143b56bf10fc130.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【力扣面试刷题】](https://blog.csdn.net/qq\_35456045/category\_9735322.html)12篇
+\* [![](https://i-blog.csdnimg.cn/blog\_column\_migrate/c9e7664acc0954b409c406d6935c4e95.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【新冠病毒】](https://blog.csdn.net/qq\_35456045/category\_9711638.html)2篇
+\* [![](https://i-blog.csdnimg.cn/columns/default/20201014180756930.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【2021产品经理学习专栏】](https://blog.csdn.net/qq\_35456045/category\_10730499.html)9篇
+\* [![](https://i-blog.csdnimg.cn/columns/default/20201014180756918.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【产品经理专栏】](https://blog.csdn.net/qq\_35456045/category\_10337746.html)3篇
+\* [![](https://i-blog.csdnimg.cn/columns/default/20201014180756923.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【产品必备技能专栏】](https://blog.csdn.net/qq\_35456045/category\_10672116.html)16篇
+\* [![](https://i-blog.csdnimg.cn/columns/default/20201014180756724.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【Axuren9.0原型实战】](https://blog.csdn.net/qq\_35456045/category\_10645695.html)1篇
+\* [![](https://i-blog.csdnimg.cn/columns/default/20201014180756930.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【数据产品】](https://blog.csdn.net/qq\_35456045/category\_10017699.html)2篇
+\* [![](https://i-blog.csdnimg.cn/columns/default/20201014180756926.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【数据分析岗位面试】](https://blog.csdn.net/qq\_35456045/category\_9844422.html)28篇
+\* [![](https://i-blog.csdnimg.cn/columns/default/20201014180756926.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+数据挖掘竞赛](https://blog.csdn.net/qq\_35456045/category\_9822262.html)9篇
+\* [![](https://i-blog.csdnimg.cn/columns/default/20201014180756913.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【Lambda大数据开发】](https://blog.csdn.net/qq\_35456045/category\_9783274.html)51篇
+\* [![](https://i-blog.csdnimg.cn/columns/default/20201014180756923.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【吴恩达深度学习】](https://blog.csdn.net/qq\_35456045/category\_9834324.html)30篇
+\* [![](https://i-blog.csdnimg.cn/blog\_column\_migrate/2896fc2f69f5194fe21261ad56649db8.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【机器学习与深度学习】](https://blog.csdn.net/qq\_35456045/category\_9697906.html)167篇
+\* [![](https://i-blog.csdnimg.cn/blog\_column\_migrate/3a1cb81de8a2885ca4b608cf7ebf4d19.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【数据分析与挖掘】](https://blog.csdn.net/qq\_35456045/category\_9683950.html)116篇
+\* [![](https://i-blog.csdnimg.cn/blog\_column\_migrate/3a1cb81de8a2885ca4b608cf7ebf4d19.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【数据结构与算法专栏】](https://blog.csdn.net/qq\_35456045/category\_9692026.html)47篇
+\* [![](https://i-blog.csdnimg.cn/blog\_column\_migrate/2ea133e7388c6f6eb143b56bf10fc130.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【Web后端】](https://blog.csdn.net/qq\_35456045/category\_9673001.html)20篇
+\* [![](https://i-blog.csdnimg.cn/blog\_column\_migrate/2ea133e7388c6f6eb143b56bf10fc130.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【爬虫】](https://blog.csdn.net/qq\_35456045/category\_9688229.html)68篇
+\* [![](https://i-blog.csdnimg.cn/blog\_column\_migrate/08c8bc4749e40afc586d21825e4a65ab.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【数据库】](https://blog.csdn.net/qq\_35456045/category\_9682723.html)68篇
+\* [![](https://i-blog.csdnimg.cn/blog\_column\_migrate/eb9b4578b75763a886c4c12f2908d628.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【前端】](https://blog.csdn.net/qq\_35456045/category\_9689016.html)99篇
+\* [![](https://i-blog.csdnimg.cn/blog\_column\_migrate/cf4306bcd74c78610f6b3eeeed362422.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【Linux基础与高级】](https://blog.csdn.net/qq\_35456045/category\_9674346.html)49篇
+\* [![](https://i-blog.csdnimg.cn/blog\_column\_migrate/e16359b55d293a6a8e60bc4f79e4c5e3.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【网络基础与高级】](https://blog.csdn.net/qq\_35456045/category\_9682654.html)57篇
+\* [![](https://i-blog.csdnimg.cn/blog\_column\_migrate/31f35a4612ceb27e53680155c6246021.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【面向对象】](https://blog.csdn.net/qq\_35456045/category\_9680928.html)14篇
+\* [![](https://i-blog.csdnimg.cn/blog\_column\_migrate/90a35ae621c65769a9a7d2ace5d65249.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【Python基础与提高】](https://blog.csdn.net/qq\_35456045/category\_9682674.html)48篇
+\* [![](https://i-blog.csdnimg.cn/blog\_column\_migrate/3a1cb81de8a2885ca4b608cf7ebf4d19.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【Excel】](https://blog.csdn.net/qq\_35456045/category\_9714033.html)1篇
+\* [![](https://i-blog.csdnimg.cn/blog\_column\_migrate/e16359b55d293a6a8e60bc4f79e4c5e3.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【PhotoShop】](https://blog.csdn.net/qq\_35456045/category\_9689246.html)6篇
+\* [![](https://i-blog.csdnimg.cn/blog\_column\_migrate/08c8bc4749e40afc586d21825e4a65ab.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【Python工程师面试题】](https://blog.csdn.net/qq\_35456045/category\_9673259.html)9篇
+\* [![](https://i-blog.csdnimg.cn/blog\_column\_migrate/b6486a9813d600afb8927f21d53d0098.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【小问题解决】](https://blog.csdn.net/qq\_35456045/category\_9600917.html)28篇
+展开全部![](https://csdnimg.cn/release/blogv2/dist/pc/img/arrowup-line-bot-White.png)收起![](https://csdnimg.cn/release/blogv2/dist/pc/img/arrowup-line-top-White.png)
+上一篇：
+: [HTTP的Method、HTTP的常用状态码](https://blog.csdn.net/qq\_35456045/article/details/104792488)
+下一篇：
+: [LeetCode力扣刷题数据库（196）：删除重复的电子邮箱](https://blog.csdn.net/qq\_35456045/article/details/104798953)
+### 大家在看
+\* [Hx0鹰眼：浏览器原生AI抓包插件
+![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)454](https://blog.csdn.net/qq\_36229933/article/details/159487088)
+\* [AI镜像站核心技术解析
+![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)551](https://blog.csdn.net/lulu1216544078/article/details/159459908)
+\* [零成本起步：如何用免费的 baoyu-skills 提示词换取第一桶金？](https://blog.csdn.net/fq1986614/article/details/159531495)
+\* [Linux权限维持与安全加固
+![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)326](https://blog.csdn.net/zh\_cxsxb/article/details/159432616)
+\* [AI Agent与Skill架构解析
+![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)194](https://blog.csdn.net/u013171130/article/details/159427560)
+### 最新文章
+\* [C端产品经理面试攻略](https://vicky.blog.csdn.net/article/details/117001287)
+\* [008产品设计的思考（创造思维+用户体验+用户画像+用户群体）](https://vicky.blog.csdn.net/article/details/113855328)
+\* [007需求分析中的重要知识点（马斯洛需求层次理论+KANO优先级筛选模型+金字塔模型）](https://vicky.blog.csdn.net/article/details/113839063)
+[2021年9篇](https://vicky.blog.csdn.net?type=blog&year=2021&month=05)
+[2020年939篇](https://vicky.blog.csdn.net?type=blog&year=2020&month=12)
+[2019年11篇](https://vicky.blog.csdn.net?type=blog&year=2019&month=12)
+[2018年1篇](https://vicky.blog.csdn.net?type=blog&year=2018&month=12)
+![]()
+### 目录
+1. [面试指导](#t0)
+2. [文章目录](#t1)
+3. [1、机器学习/推荐系统/推荐系统算法工程师面试技能图](#t2)
+4. [2.1 推荐系统算法相关面试笔试题](#t3)
+展开全部![](https://csdnimg.cn/release/blogv2/dist/pc/img/arrowup-line-bot-White.png)
+收起![](https://csdnimg.cn/release/blogv2/dist/pc/img/arrowup-line-top-White.png)
+![]()
+### 目录
+1. [面试指导](#t0)
+2. [文章目录](#t1)
+3. [1、机器学习/推荐系统/推荐系统算法工程师面试技能图](#t2)
+4. [2.1 推荐系统算法相关面试笔试题](#t3)
+展开全部![](https://csdnimg.cn/release/blogv2/dist/pc/img/arrowup-line-bot-White.png)
+收起![](https://csdnimg.cn/release/blogv2/dist/pc/img/arrowup-line-top-White.png)
+[![](https://cdn.wwads.cn/creatives/tCsMFF956EX0JzAB8kkMuGpAUwWcW7KoJnzN1fY5.jpg)](https://wwads.cn/click/bundle?code=4jeJzpwdlvxxNQZOCUR6QPYHG25IAo)
+[🛒 B2B2C商家入驻平台系统java版 \*\*Java+vue+uniapp\*\* 功能强大 稳定 支持diy 方便二开](https://wwads.cn/click/bundle?code=4jeJzpwdlvxxNQZOCUR6QPYHG25IAo)[![]()广告](https://wwads.cn/?utm\_source=property-175&utm\_medium=footer)
+![]()
+上一篇：
+: [HTTP的Method、HTTP的常用状态码](https://blog.csdn.net/qq\_35456045/article/details/104792488)
+下一篇：
+: [LeetCode力扣刷题数据库（196）：删除重复的电子邮箱](https://blog.csdn.net/qq\_35456045/article/details/104798953)
+### 分类专栏
+\* [![](https://i-blog.csdnimg.cn/blog\_column\_migrate/c80a21fa0241422f7006846d0ccf756e.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【吴恩达机器学习】](https://blog.csdn.net/qq\_35456045/category\_9762715.html)34篇
+\* [![](https://i-blog.csdnimg.cn/blog\_column\_migrate/2ea133e7388c6f6eb143b56bf10fc130.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【力扣面试刷题】](https://blog.csdn.net/qq\_35456045/category\_9735322.html)12篇
+\* [![](https://i-blog.csdnimg.cn/blog\_column\_migrate/c9e7664acc0954b409c406d6935c4e95.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【新冠病毒】](https://blog.csdn.net/qq\_35456045/category\_9711638.html)2篇
+\* [![](https://i-blog.csdnimg.cn/columns/default/20201014180756930.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【2021产品经理学习专栏】](https://blog.csdn.net/qq\_35456045/category\_10730499.html)9篇
+\* [![](https://i-blog.csdnimg.cn/columns/default/20201014180756918.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【产品经理专栏】](https://blog.csdn.net/qq\_35456045/category\_10337746.html)3篇
+\* [![](https://i-blog.csdnimg.cn/columns/default/20201014180756923.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【产品必备技能专栏】](https://blog.csdn.net/qq\_35456045/category\_10672116.html)16篇
+\* [![](https://i-blog.csdnimg.cn/columns/default/20201014180756724.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【Axuren9.0原型实战】](https://blog.csdn.net/qq\_35456045/category\_10645695.html)1篇
+\* [![](https://i-blog.csdnimg.cn/columns/default/20201014180756930.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【数据产品】](https://blog.csdn.net/qq\_35456045/category\_10017699.html)2篇
+\* [![](https://i-blog.csdnimg.cn/columns/default/20201014180756926.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【数据分析岗位面试】](https://blog.csdn.net/qq\_35456045/category\_9844422.html)28篇
+\* [![](https://i-blog.csdnimg.cn/columns/default/20201014180756926.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+数据挖掘竞赛](https://blog.csdn.net/qq\_35456045/category\_9822262.html)9篇
+\* [![](https://i-blog.csdnimg.cn/columns/default/20201014180756913.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【Lambda大数据开发】](https://blog.csdn.net/qq\_35456045/category\_9783274.html)51篇
+\* [![](https://i-blog.csdnimg.cn/columns/default/20201014180756923.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【吴恩达深度学习】](https://blog.csdn.net/qq\_35456045/category\_9834324.html)30篇
+\* [![](https://i-blog.csdnimg.cn/blog\_column\_migrate/2896fc2f69f5194fe21261ad56649db8.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【机器学习与深度学习】](https://blog.csdn.net/qq\_35456045/category\_9697906.html)167篇
+\* [![](https://i-blog.csdnimg.cn/blog\_column\_migrate/3a1cb81de8a2885ca4b608cf7ebf4d19.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【数据分析与挖掘】](https://blog.csdn.net/qq\_35456045/category\_9683950.html)116篇
+\* [![](https://i-blog.csdnimg.cn/blog\_column\_migrate/3a1cb81de8a2885ca4b608cf7ebf4d19.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【数据结构与算法专栏】](https://blog.csdn.net/qq\_35456045/category\_9692026.html)47篇
+\* [![](https://i-blog.csdnimg.cn/blog\_column\_migrate/2ea133e7388c6f6eb143b56bf10fc130.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【Web后端】](https://blog.csdn.net/qq\_35456045/category\_9673001.html)20篇
+\* [![](https://i-blog.csdnimg.cn/blog\_column\_migrate/2ea133e7388c6f6eb143b56bf10fc130.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【爬虫】](https://blog.csdn.net/qq\_35456045/category\_9688229.html)68篇
+\* [![](https://i-blog.csdnimg.cn/blog\_column\_migrate/08c8bc4749e40afc586d21825e4a65ab.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【数据库】](https://blog.csdn.net/qq\_35456045/category\_9682723.html)68篇
+\* [![](https://i-blog.csdnimg.cn/blog\_column\_migrate/eb9b4578b75763a886c4c12f2908d628.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【前端】](https://blog.csdn.net/qq\_35456045/category\_9689016.html)99篇
+\* [![](https://i-blog.csdnimg.cn/blog\_column\_migrate/cf4306bcd74c78610f6b3eeeed362422.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【Linux基础与高级】](https://blog.csdn.net/qq\_35456045/category\_9674346.html)49篇
+\* [![](https://i-blog.csdnimg.cn/blog\_column\_migrate/e16359b55d293a6a8e60bc4f79e4c5e3.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【网络基础与高级】](https://blog.csdn.net/qq\_35456045/category\_9682654.html)57篇
+\* [![](https://i-blog.csdnimg.cn/blog\_column\_migrate/31f35a4612ceb27e53680155c6246021.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【面向对象】](https://blog.csdn.net/qq\_35456045/category\_9680928.html)14篇
+\* [![](https://i-blog.csdnimg.cn/blog\_column\_migrate/90a35ae621c65769a9a7d2ace5d65249.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【Python基础与提高】](https://blog.csdn.net/qq\_35456045/category\_9682674.html)48篇
+\* [![](https://i-blog.csdnimg.cn/blog\_column\_migrate/3a1cb81de8a2885ca4b608cf7ebf4d19.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【Excel】](https://blog.csdn.net/qq\_35456045/category\_9714033.html)1篇
+\* [![](https://i-blog.csdnimg.cn/blog\_column\_migrate/e16359b55d293a6a8e60bc4f79e4c5e3.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【PhotoShop】](https://blog.csdn.net/qq\_35456045/category\_9689246.html)6篇
+\* [![](https://i-blog.csdnimg.cn/blog\_column\_migrate/08c8bc4749e40afc586d21825e4a65ab.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【Python工程师面试题】](https://blog.csdn.net/qq\_35456045/category\_9673259.html)9篇
+\* [![](https://i-blog.csdnimg.cn/blog\_column\_migrate/b6486a9813d600afb8927f21d53d0098.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+【小问题解决】](https://blog.csdn.net/qq\_35456045/category\_9600917.html)28篇
+展开全部![](https://csdnimg.cn/release/blogv2/dist/pc/img/arrowup-line-bot-White.png)收起![](https://csdnimg.cn/release/blogv2/dist/pc/img/arrowup-line-top-White.png)
+登录后您可以享受以下权益：
+\* 免费复制代码
+\* 和博主大V互动
+\* 下载海量资源
+\* 发动态/写文章/加入社区
+×立即登录
+评论 4
+![](https://csdnimg.cn/release/blogv2/dist/pc/img/closeBt.png)
+![](https://csdnimg.cn/release/blogv2/dist/pc/img/commentArrowLeftWhite.png)被折叠的  条评论
+[为什么被折叠?](https://blogdev.blog.csdn.net/article/details/122245662)[![](https://csdnimg.cn/release/blogv2/dist/pc/img/iconPark.png)到【灌水乐园】发言](https://bbs.csdn.net/forums/FreeZone)
+查看更多评论![](https://csdnimg.cn/release/blogv2/dist/pc/img/commentArrowDownWhite.png)
+添加红包
+祝福语
+请填写红包祝福语或标题
+红包数量
+个
+红包个数最小为10个
+红包总金额
+元
+红包金额最低5元
+余额支付
+当前余额3.43元
+[前往充值 >](https://i.csdn.net/#/wallet/balance/recharge)
+需支付：10.00元
+取消确定
+![]()
+成就一亿技术人!
+领取后你会自动成为博主和红包主的粉丝
+[规则](https://blogdev.blog.csdn.net/article/details/128932621)
+![](https://profile-avatar.csdnimg.cn/default.jpg!2)
+hope\\_wisdom
+发出的红包
+实付元
+[使用余额支付](javascript:;)
+![](https://csdnimg.cn/release/blogv2/dist/pc/img/pay-time-out.png)点击重新获取
+![](https://csdnimg.cn/release/blogv2/dist/pc/img/weixin.png)![](https://csdnimg.cn/release/blogv2/dist/pc/img/zhifubao.png)![](https://csdnimg.cn/release/blogv2/dist/pc/img/jingdong.png)扫码支付
+钱包余额0
+![](https://csdnimg.cn/release/blogv2/dist/pc/img/pay-help.png)
+抵扣说明：
+1.余额是钱包充值的虚拟货币，按照1:1的比例进行支付金额的抵扣。 2.余额无法直接购买下载，可以购买VIP、付费专栏及课程。
+[![](https://csdnimg.cn/release/blogv2/dist/pc/img/recharge.png)余额充值](https://i.csdn.net/#/wallet/balance/recharge)
+![]()
+确定取消![](https://csdnimg.cn/release/blogv2/dist/pc/img/closeBt.png)
+举报
+![](https://csdnimg.cn/release/blogv2/dist/pc/img/closeBlack.png)
+选择你想要举报的内容（必选）
+\* 内容涉黄
+\* 政治相关
+\* 内容抄袭
+\* 涉嫌广告
+\* 内容侵权
+\* 侮辱谩骂
+\* 样式问题
+\* 其他
+原文链接（必填）
+请选择具体原因（必选）
+\* 包含不实信息
+\* 涉及个人隐私
+请选择具体原因（必选）
+\* 侮辱谩骂
+\* 诽谤
+请选择具体原因（必选）
+\* 搬家样式
+\* 博文样式
+补充说明（选填）
+取消
+确定
+![](https://g.csdnimg.cn/side-toolbar/3.6/images/mobile.png)
+下载APP
+![](https://g.csdnimg.cn/side-toolbar/3.6/images/qr\_app.png)
+程序员都在用的中文IT技术交流社区
+公众号
+![](https://g.csdnimg.cn/side-toolbar/3.6/images/qr\_wechat.png)
+专业的中文 IT 技术社区，与千万技术人共成长
+视频号
+![](https://g.csdnimg.cn/side-toolbar/3.6/images/qr\_video.png)
+关注【CSDN】视频号，行业资讯、技术分享精彩不断，直播好礼送不停！![](https://g.csdnimg.cn/side-toolbar/3.6/images/customer.png)客服![](https://g.csdnimg.cn/side-toolbar/3.6/images/totop.png)返回顶部

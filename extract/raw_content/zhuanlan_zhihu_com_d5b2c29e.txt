@@ -1,0 +1,97 @@
+# Source URL: https://zhuanlan.zhihu.com/p/1962976509611454658
+# Content Length: 5882 characters
+# Extracted at: 2026-03-27 06:46:24
+#============================================================
+
+![](https://zhuanlan.zhihu.com/p/1962976509611454658)
+\* \* \*
+### \*\*一、为什么[NeuTTS Air](https://zhida.zhihu.com/search?content\_id=264458760&content\_type=Article&match\_order=1&q=NeuTTS+Air&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ3Mzc5ODIsInEiOiJOZXVUVFMgQWlyIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjY0NDU4NzYwLCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.zMQCaLS1Fup7L70XNqoaY6Qt31U5rXhh2Mhf\_bTv8EE&zhida\_source=entity)值得关注？\*\*
+2025年10月，[Neuphonic团队](https://zhida.zhihu.com/search?content\_id=264458760&content\_type=Article&match\_order=1&q=Neuphonic%E5%9B%A2%E9%98%9F&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ3Mzc5ODIsInEiOiJOZXVwaG9uaWPlm6LpmJ8iLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNjQ0NTg3NjAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.0E2AIM0aG93fyKGZgaOUDwWXi91m8GoL-lPhM9SYXrg&zhida\_source=entity)开源的 \*\*NeuTTS Air\*\* 突然刷屏开发者社区。它解决了传统TTS（文本转语音）的两大痛点：
+1\. \*\*无需云端依赖\*\*：直接在手机、树莓派等设备运行，隐私数据不出本地。
+2\. \*\*极致轻量化\*\*：仅0.5B参数的[Qwen主干模型](https://zhida.zhihu.com/search?content\_id=264458760&content\_type=Article&match\_order=1&q=Qwen%E4%B8%BB%E5%B9%B2%E6%A8%A1%E5%9E%8B&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ3Mzc5ODIsInEiOiJRd2Vu5Li75bmy5qih5Z6LIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjY0NDU4NzYwLCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.kom4PvX8fjbLB8TbdJKAatBQoQSAEyposI0Vnf4pP\_4&zhida\_source=entity) \+ 自研[NeuCodec编解码器](https://zhida.zhihu.com/search?content\_id=264458760&content\_type=Article&match\_order=1&q=NeuCodec%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ3Mzc5ODIsInEiOiJOZXVDb2RlY-e8luino-eggeWZqCIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI2NDQ1ODc2MCwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.ZHuyppVaUd0qy2g8uM8oMkJP-eBeyqxaPrXJI7k38sc&zhida\_source=entity)，在2GB内存下实现实时生成。
+这意味着， \*\*个人开发者也能零成本打造“定制化语音助手”\*\*，彻底告别商业API的调用费和延迟。
+\* \* \*
+### \*\*二、核心技术突破：如何用3秒克隆声音？\*\*
+与传统需要数小时训练数据的模型不同，NeuTTS Air的 \*\*少样本学习能力\*\* 背后是三重创新：
+\- \*\*神经编解码器（NeuCodec）\*\*：将音频压缩为紧凑的语义表征，在低比特率下保留呼吸声、语调起伏等细节。
+\- \*\*轻量LLM适配\*\*：基于Qwen 0.5B理解文本语境，再通过风格迁移技术匹配参考音频的音色。
+\- \*\*GGML/ONNX优化\*\*：模型可转换为高效格式，即使CPU也能在500ms内响应。
+> \*\*对比实验\*\*：在Hugging Face评测中，其英语合成自然度（[MOS](https://zhida.zhihu.com/search?content\_id=264458760&content\_type=Article&match\_order=1&q=MOS&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ3Mzc5ODIsInEiOiJNT1MiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNjQ0NTg3NjAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.eiopVqfdth3Ec5NuNfzviGvqmeXmSkzvFd2DbgRDJ\_A&zhida\_source=entity)）达4.2分（满分5），接近真人录音水平。
+\* \* \*
+### \*\*三、不只是“克隆”：颠覆性应用场景\*\*
+1. \*\*无障碍工具\*\*：为视障用户生成“家人声音”的屏幕阅读器。
+2. \*\*内容创作\*\*：视频制作者用15秒音频生成多角色配音，成本降低90%。
+3. \*\*嵌入式设备\*\*：智能家居、玩具从此拥有“情感化语音”，如用童声提醒孩子睡觉。
+4. \*\*隐私保护场景\*\*：医疗、金融等敏感场景的语音交互无需上传数据。
+\* \* \*
+### \*\*四、动手体验：5分钟克隆你的声音\*\*
+1. \*\*克隆项目\*\*：
+`bash git clone https://github.com/neuphonic/neutts-air.git cd neutts-air pip install -r requirements.txt`
+2. \*\*准备音频\*\*：录制一段3-15秒、无杂音的英文语音（支持16kHz单声道WAV）。
+3. \*\*运行合成\*\*：
+`bash python -m examples.basic\_example \ --input\_text "Hello, this is my cloned voice" \ --ref\_audio my\_voice.wav`
+→ 生成音频默认保存为`output.wav`，试听是否与你的音色一致。
+\*\*避坑提示\*\*：
+\- 需提前安装`espeak`语音引擎（Mac用`brew install espeak`）。
+\- 若使用Safari浏览器，音频可能需下载后播放。
+\* \* \*
+### \*\*五、争议与责任：技术双刃剑的边界\*\*
+- \*\*水印机制\*\*：所有生成音频内嵌[Perth数字水印](https://zhida.zhihu.com/search?content\_id=264458760&content\_type=Article&match\_order=1&q=Perth%E6%95%B0%E5%AD%97%E6%B0%B4%E5%8D%B0&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ3Mzc5ODIsInEiOiJQZXJ0aOaVsOWtl-awtOWNsCIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI2NDQ1ODc2MCwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.RzTgHPLyx\_Db3jvtlXsJqji1X4U4AI1sr6i63Gba8lY&zhida\_source=entity)，支持溯源伪造内容。
+- \*\*许可证限制\*\*：禁止用于欺诈、深度伪造等场景，违者需承担法律责任。
+- \*\*当前局限\*\*：仅支持英语，但社区已启动多语言适配计划。
+\* \* \*
+### \*\*六、未来展望：语音合成的“iPhone时刻”\*\*
+NeuTTS Air的诞生标志着一个趋势： \*\*模型小型化与边缘计算正打破云端垄断\*\*。当技术民主化到来，我们既可能迎来“千人千声”的个性化交互，也需警惕声音伪造泛滥的风险。
+> \*\*开发者预言\*\*：未来2年内，端侧TTS将覆盖90%的消费级硬件，语音交互会像触摸屏一样普及。
+\* \* \*
+\*\*参考资料\*\*
+1\. [NeuTTS-Air技术报告](https://link.zhihu.com/?target=https%3A//github.com/neuphonic/neutts-air)
+2\. [Hugging Face体验空间](https://link.zhihu.com/?target=https%3A//huggingface.co/spaces/neuphonic/neutts-air)
+3\. 2025年语音合成API评测
+\*\*（本文已内嵌水印检测测试音频，欢迎私信获取验证方法）\*\*
+\* \* \*
+\*\*互动话题\*\*：如果你能克隆任何人的声音，最想用它来做什么？在评论区聊聊你的创意吧！\\*\\*
+发布于 2025-10-18 08:22・四川
+[TTS](https://www.zhihu.com/topic/26788351)
+[语音合成](https://www.zhihu.com/topic/19866187)
+​赞同 4​​添加评论​18 ​喜欢
+​分享
+​申请转载​
+​
+暂无评论
+关于作者
+[![雨下停留](https://pic1.zhimg.com/efb9c01f4d11e060c14f94d63e131a91\_l.jpg?source=172ae18b)](https://www.zhihu.com/people/yu-xia-ting-liu)
+[雨下停留](https://www.zhihu.com/people/yu-xia-ting-liu)
+[回答](https://www.zhihu.com/people/yu-xia-ting-liu/answers) [文章](https://www.zhihu.com/people/yu-xia-ting-liu/posts) [关注者](https://www.zhihu.com/people/yu-xia-ting-liu/followers)
+​关注​发私信
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码

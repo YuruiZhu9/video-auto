@@ -1,0 +1,130 @@
+# Source URL: https://zhuanlan.zhihu.com/p/287838994
+# Content Length: 16359 characters
+# Extracted at: 2026-03-31 10:21:56
+#============================================================
+
+![](https://zhuanlan.zhihu.com/p/287838994)
+![](https://pica.zhimg.com/v2-19ffdb7172e738b1d14a15924eb4d236\_1440w.jpg)
+## DNN 与 DeepFM 之间的区别
+DNN 是 DeepFM 中的一个部分，DeepFM 多一次特征，多一个 FM 层的二次交叉特征
+## 2.你在使用 deepFM 的时候是如何处理[欠拟合](https://zhida.zhihu.com/search?content\_id=152093870&content\_type=Article&match\_order=1&q=%E6%AC%A0%E6%8B%9F%E5%90%88&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTY1MTEsInEiOiLmrKDmi5\_lkIgiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoxNTIwOTM4NzAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.QKnxtsH4EiMixKR79--1ikEIYuIdxJJUJYGUd1F-NOc&zhida\_source=entity)和过拟合问题的
+欠拟合:增加deep部分的层数，增加epoch的轮数，增加learningrate，减少正则 化力度
+[过拟合](https://zhida.zhihu.com/search?content\_id=152093870&content\_type=Article&match\_order=2&q=%E8%BF%87%E6%8B%9F%E5%90%88&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTY1MTEsInEiOiLov4fmi5\_lkIgiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoxNTIwOTM4NzAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MiwiemRfdG9rZW4iOm51bGx9.phf9gXha6Lvy8C\_lTbNYxOJDb9HjMctOSRHrigj47G0&zhida\_source=entity):在deep层直接增加dropout的率，减少epoch轮数，增加更多的数据，增 加正则化力度，shuffle 数据
+## 3.[deepfm](https://zhida.zhihu.com/search?content\_id=152093870&content\_type=Article&match\_order=1&q=deepfm&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTY1MTEsInEiOiJkZWVwZm0iLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoxNTIwOTM4NzAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.xRwxoomei87xNW1j6KnuHsxHEc-i8zZMq\_xRv13\_HlQ&zhida\_source=entity) 的 embedding 初始化有什么值得注意的地方吗
+常规的是Xavier，输出和输出可以保持[正态分布](https://zhida.zhihu.com/search?content\_id=152093870&content\_type=Article&match\_order=1&q=%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTY1MTEsInEiOiLmraPmgIHliIbluIMiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoxNTIwOTM4NzAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.XDqnC0RdUAQz4DeaHCW3QavTtwn4sOJrME6l22h\_PIY&zhida\_source=entity)且方差相近: np.random.rand(layer\[n-1\],layer\[n\])\\*np.sqrt(1/layer\[n-1\])
+[relu](https://zhida.zhihu.com/search?content\_id=152093870&content\_type=Article&match\_order=1&q=relu&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTY1MTEsInEiOiJyZWx1IiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MTUyMDkzODcwLCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.k1X4lEamQrKrkdiZ-ZNVFlLO7CWwJLS0QRwNK3gWBJY&zhida\_source=entity)的情况下通常是HE，保证半数神经元失活的情况下对输出[方差](https://zhida.zhihu.com/search?content\_id=152093870&content\_type=Article&match\_order=2&q=%E6%96%B9%E5%B7%AE&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTY1MTEsInEiOiLmlrnlt64iLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoxNTIwOTM4NzAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MiwiemRfdG9rZW4iOm51bGx9.dkbMMRirQjRi3qUYiJN6E6Gr2NdeIpd0yvkOvjbLm48&zhida\_source=entity)影响最小:: np.random.rand(layer\[n-1\],layer\[n\])\\*np.sqrt(2/layer\[n-1\])
+文本项目上也可以用预训练好的特征
+## MLR 的原理是什么? 做了哪些优化?
+MLR 可以看做是对 LR 的一个自然推广，它采用[分而治之](https://zhida.zhihu.com/search?content\_id=152093870&content\_type=Article&match\_order=1&q=%E5%88%86%E8%80%8C%E6%B2%BB%E4%B9%8B&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTY1MTEsInEiOiLliIbogIzmsrvkuYsiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoxNTIwOTM4NzAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.kL33CjN1IXwc0ND5tO\_M1Vc3Lh9ctwhXujiMclORod8&zhida\_source=entity)的思路，用分片线性的模式来拟 合高维空间的[非线性](https://zhida.zhihu.com/search?content\_id=152093870&content\_type=Article&match\_order=1&q=%E9%9D%9E%E7%BA%BF%E6%80%A7&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTY1MTEsInEiOiLpnZ7nur\_mgKciLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoxNTIwOTM4NzAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.ma045gSz9ry6qIJPHCtwNn6H8lossTZ2W-Rogra-uC0&zhida\_source=entity)分类面，其形式化表达如下:
+这里面超参数分片数 m 可以较好地平衡模型的拟合与推广能力。
+MLR [算法](https://zhida.zhihu.com/search?content\_id=152093870&content\_type=Article&match\_order=1&q=%E7%AE%97%E6%B3%95&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTY1MTEsInEiOiLnrpfms5UiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoxNTIwOTM4NzAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.9uhgrIL48JpBE-dH5ZxFBQGlAR2bMZBWvHtDDNiED9s&zhida\_source=entity)适合于工业级的大规模稀疏数据场景问题，如广告 CTR 预估。
+优势体现在两个方面:
+1)端到端的非线性学习:从模型端自动挖掘数据中蕴藏的[非线性模式](https://zhida.zhihu.com/search?content\_id=152093870&content\_type=Article&match\_order=1&q=%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%BC%8F&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTY1MTEsInEiOiLpnZ7nur\_mgKfmqKHlvI8iLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoxNTIwOTM4NzAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.GV4BC5VcxNPpjRqL8fLMy32UDGW7IovQFQCHFtLGCJ8&zhida\_source=entity)，省去了大量的人 工特征设计， 使得 MLR 算法可以端到端地完成训练，在不同场景中的迁移和应用非常 轻松。
+2)稀疏性:MLR 在建模时引入了 L1 和 L2,1 范数正则，可以使得最终训练出来的模型具 有较高的[稀疏度](https://zhida.zhihu.com/search?content\_id=152093870&content\_type=Article&match\_order=1&q=%E7%A8%80%E7%96%8F%E5%BA%A6&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTY1MTEsInEiOiLnqIDnlo\_luqYiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoxNTIwOTM4NzAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.u8SIKQCGsarXCbVg7iCrYS54XQh7KITpzULgJ9BcWlU&zhida\_source=entity)， 模型的学习和在线预测性能更好。
+## MLR 算法高级特性
+1)结构先验。基于领域知识先验，灵活地设定空间划分与线性拟合使用的不同特征结构。例如精准定向 广告中验证有效的先验为:以 user 特征空间划分、以 ad 特征为线性 拟合。
+2)[线性偏置](https://zhida.zhihu.com/search?content\_id=152093870&content\_type=Article&match\_order=1&q=%E7%BA%BF%E6%80%A7%E5%81%8F%E7%BD%AE&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTY1MTEsInEiOiLnur\_mgKflgY\_nva4iLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoxNTIwOTM4NzAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.vKRzTeUN1ZRx\_Rb57EH01cTUVVj9ZxR3gXmmqf\_HurQ&zhida\_source=entity)。这个特性提供了一个较好的方法解决 CTR 预估问题中的 bias 特征，如位 置、资源位等。
+3)模型级联。MLR 支持与 LR 模型的级联式联合训练，这有点类似于 wide&deep learning。在我们的实践经验中，一些强 feature 配置成[级联模式](https://zhida.zhihu.com/search?content\_id=152093870&content\_type=Article&match\_order=1&q=%E7%BA%A7%E8%81%94%E6%A8%A1%E5%BC%8F&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTY1MTEsInEiOiLnuqfogZTmqKHlvI8iLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoxNTIwOTM4NzAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.7iU-bT7EISfHqcqgxvsuasMjQ0qfFOMJ5DOIltzse7g&zhida\_source=entity)有助于提高模型的收敛 性。
+4)[增量训练](https://zhida.zhihu.com/search?content\_id=152093870&content\_type=Article&match\_order=1&q=%E5%A2%9E%E9%87%8F%E8%AE%AD%E7%BB%83&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTY1MTEsInEiOiLlop7ph4\_orq3nu4MiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoxNTIwOTM4NzAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.UwwVMUCDx5-AXM6fPuG4oJOQyqgq\_4H4HjqYP7KN1ig&zhida\_source=entity)。实践证明，MLR 通过结构先验进行 pretrain，然后再增量进行全空间参数 寻优训练，会获得进一步的效果提升。同时增量训练模式下模型达到收敛的步数更小，收 敛更为稳定。
+MLR 中使用的优化算法是从 OWLQN 改进过来的，主要有三个地方的变化:
+MLR 使用方向导数来优化[目标函数](https://zhida.zhihu.com/search?content\_id=152093870&content\_type=Article&match\_order=1&q=%E7%9B%AE%E6%A0%87%E5%87%BD%E6%95%B0&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTY1MTEsInEiOiLnm67moIflh73mlbAiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoxNTIwOTM4NzAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.m1ISQ2ljSrcsjrf1o75Nv3qU9Wa3KVO-L\_sYAVBzBqY&zhida\_source=entity)，而不是 OWLQN 的[次梯度](https://zhida.zhihu.com/search?content\_id=152093870&content\_type=Article&match\_order=1&q=%E6%AC%A1%E6%A2%AF%E5%BA%A6&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTY1MTEsInEiOiLmrKHmoq\_luqYiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoxNTIwOTM4NzAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.kQzEeFB7oMLf7fHr4ogJRI2Yg64Y8MFBUzF6dAByOYI&zhida\_source=entity)
+MLR 对更新方向 p 进行了象限约束:非正定时直接用方向导数作为搜索方向，否则要进行 象限约束在方向导数所在象限内。
+[线性搜索](https://zhida.zhihu.com/search?content\_id=152093870&content\_type=Article&match\_order=1&q=%E7%BA%BF%E6%80%A7%E6%90%9C%E7%B4%A2&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTY1MTEsInEiOiLnur\_mgKfmkJzntKIiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoxNTIwOTM4NzAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.eP2shKoQ0TK0Swx4PAGVJUuBPcBFY1UTH\_G6PtTsuJE&zhida\_source=entity)的象限约束不同，当 MLR 参数不在零点时，line search 保持在参数所在象限内 搜索，在零点时，参数在[方向导数](https://zhida.zhihu.com/search?content\_id=152093870&content\_type=Article&match\_order=4&q=%E6%96%B9%E5%90%91%E5%AF%BC%E6%95%B0&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTY1MTEsInEiOiLmlrnlkJHlr7zmlbAiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoxNTIwOTM4NzAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6NCwiemRfdG9rZW4iOm51bGx9.1Xz-B90rhe2jh8USkURx0QAZmWmzb5DT9oWmk3f\_BCs&zhida\_source=entity)约束的象限内进行 line search，给定更新方向，MLR 使用了 backtracking line search 方法找到合适的步长 α
+发布于 2020-11-11 20:34
+[深度学习（Deep Learning）](https://www.zhihu.com/topic/19813032)
+[机器学习](https://www.zhihu.com/topic/19559450)
+[ctr](https://www.zhihu.com/topic/20175751)
+[文案创作没思路？腾讯ima为你提供海量爆款文案创意！\\
+\\
+腾讯ima能自动追踪热点趋势，提供专业的文案内容框架，在生成出文案的同时，还能对文案进行优化，轻松打造出一篇爆款文案查看详情腾讯ima能自动追踪热点趋势，提供专业的文案内容框架，在生成出文案的同时，还能对文案进行优化，轻松打造出一篇爆款文案 查看详情\\
+\\
+![用户头像](https://pic3.zhimg.com/v2-6bcab51aab5519d3e668f35b0a210fc3\_xl.webp?source=d6434cab)\\
+\\
+ima的广告](https://ima.qq.com/download/?webFrom=10000435&channel=10000435&cb=https%3A%2F%2Fsugar.zhihu.com%2Fplutus\_adreaper\_callback%3Fsi%3Dbea58c01-efd3-4286-a1ca-cad5bae767ca%26os%3D3%26zid%3D1629%26zaid%3D3671183%26zcid%3D3628753%26cid%3D3628701%26event%3D\_\_EVENTTYPE\_\_%26value%3D\_\_EVENTVALUE\_\_%26ts%3D\_\_TIMESTAMP\_\_%26cts%3D\_\_TS\_\_%26mh%3D\_\_MEMBERHASHID\_\_%26adv%3D703838%26ocg%3D4%26cp%3D2500%26ocs%3D1%26aic%3D0%26atp%3D0%26ct%3D2%26ed%3DGiBNJgVzfCMmUW9XFyEvRA8xBGxJICwkOhh0FlwxKw1fY0gnWzUoISkYdAhfNSVUVnXOrVgSP7X0Rw%3D%3D&spu=biz%3D0%26ci%3D3628753%26si%3Da01a3500-5b4e-47ea-b82d-ceabb9639d08%26ts%3D1774923712%26zid%3D1629)
+​赞同 14​​添加评论​99 ​6
+​分享
+​申请转载​
+​
+![](https://pic1.zhimg.com/v2-d41c2ceaed8f51999522f903672a521f\_l.jpeg)
+未登录用户
+还没有评论，发表第一个评论吧
+关于作者
+[![幻梦动漫阁](https://picx.zhimg.com/v2-1e4d17c276873259f36b65452d19826e\_l.jpg?source=32738c0c&needBackground=1)](https://www.zhihu.com/people/aizhi-chang-ji-zhu-fen-xiang)
+[幻梦动漫阁](https://www.zhihu.com/people/aizhi-chang-ji-zhu-fen-xiang)
+[回答\\
+\\
+\*\*6\*\*](https://www.zhihu.com/people/aizhi-chang-ji-zhu-fen-xiang/answers) [文章\\
+\\
+\*\*57\*\*](https://www.zhihu.com/people/aizhi-chang-ji-zhu-fen-xiang/posts) [关注者\\
+\\
+\*\*85\*\*](https://www.zhihu.com/people/aizhi-chang-ji-zhu-fen-xiang/followers)
+​关注​发私信
+大家都在搜
+换一换
+[伊朗局势413 万](https://www.zhihu.com/search?q=%E4%BC%8A%E6%9C%97%E5%B1%80%E5%8A%BF&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[李荣浩喊话单依纯称其强行侵权《李白》406 万](https://www.zhihu.com/search?q=%E6%9D%8E%E8%8D%A3%E6%B5%A9%E5%96%8A%E8%AF%9D%E5%8D%95%E4%BE%9D%E7%BA%AF%E7%A7%B0%E5%85%B6%E5%BC%BA%E8%A1%8C%E4%BE%B5%E6%9D%83%E3%80%8A%E6%9D%8E%E7%99%BD%E3%80%8B&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[张雪机车 WSBK葡萄牙站夺冠370 万](https://www.zhihu.com/search?q=%E5%BC%A0%E9%9B%AA%E6%9C%BA%E8%BD%A6+WSBK%E8%91%A1%E8%90%84%E7%89%99%E7%AB%99%E5%A4%BA%E5%86%A0&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[美以袭击伊朗335 万](https://www.zhihu.com/search?q=%E7%BE%8E%E4%BB%A5%E8%A2%AD%E5%87%BB%E4%BC%8A%E6%9C%97&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[张凌赫被戏称「粉底液将军」283 万](https://www.zhihu.com/search?q=%E5%BC%A0%E5%87%8C%E8%B5%AB%E8%A2%AB%E6%88%8F%E7%A7%B0%E3%80%8C%E7%B2%89%E5%BA%95%E6%B6%B2%E5%B0%86%E5%86%9B%E3%80%8D&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[重庆一隧道爆炸致4死9伤280 万](https://www.zhihu.com/search?q=%E9%87%8D%E5%BA%86%E4%B8%80%E9%9A%A7%E9%81%93%E7%88%86%E7%82%B8%E8%87%B44%E6%AD%BB9%E4%BC%A4&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 新
+[李荣浩评价单依纯《李白》不构成改编277 万](https://www.zhihu.com/search?q=%E6%9D%8E%E8%8D%A3%E6%B5%A9%E8%AF%84%E4%BB%B7%E5%8D%95%E4%BE%9D%E7%BA%AF%E3%80%8A%E6%9D%8E%E7%99%BD%E3%80%8B%E4%B8%8D%E6%9E%84%E6%88%90%E6%94%B9%E7%BC%96&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[单依纯向李荣浩道歉263 万](https://www.zhihu.com/search?q=%E5%8D%95%E4%BE%9D%E7%BA%AF%E5%90%91%E6%9D%8E%E8%8D%A3%E6%B5%A9%E9%81%93%E6%AD%89&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[郑丽文率国民党访问大陆261 万](https://www.zhihu.com/search?q=%E9%83%91%E4%B8%BD%E6%96%87%E7%8E%87%E5%9B%BD%E6%B0%91%E5%85%9A%E8%AE%BF%E9%97%AE%E5%A4%A7%E9%99%86&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[DeepSeek又崩了260 万](https://www.zhihu.com/search?q=DeepSeek%E5%8F%88%E5%B4%A9%E4%BA%86&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[广告\\
+\\
+![广告](https://pic3.zhimg.com/v2-6d1986925d2611de34ef6354e0e29105\_720w.webp?source=d6434cab)](https://ima.qq.com/download/?webFrom=10000435&channel=10000435&cb=https%3A%2F%2Fsugar.zhihu.com%2Fplutus\_adreaper\_callback%3Fsi%3D7a11c92a-d14c-480f-aed6-028ecee7d33f%26os%3D3%26zid%3D6001%26zaid%3D3671772%26zcid%3D3629523%26cid%3D3629523%26event%3D\_\_EVENTTYPE\_\_%26value%3D\_\_EVENTVALUE\_\_%26ts%3D\_\_TIMESTAMP\_\_%26cts%3D\_\_TS\_\_%26mh%3D\_\_MEMBERHASHID\_\_%26adv%3D703838%26ocg%3D4%26cp%3D2100%26ocs%3D1%26aic%3D0%26atp%3D0%26ct%3D2%26ed%3DGiBNJgVzfCMmUW9XFyEvRA8xBGxJICwkOhh0FlwxKw1fY0gnWzUoISkYdAhfNSVUVnXOrVgSP7X0Rw%3D%3D&spu=biz%3D0%26ci%3D3629523%26si%3Dac317605-068a-4051-818f-1ee0f442e1bd%26ts%3D1774923713%26zid%3D6001)
+### 推荐阅读
+[\*\*一位算法工程师从30+场秋招面试中总结出的语义分割超强面经（含答案）\*\* \\
+\\
+本文首发于极市平台，作者：灯会，转载须经授权并注明来源作者灯会为21届中部985研究生，凭借自己整理的面经，去年在腾讯优图暑期实习，七月份将入职百度cv算法工程师。在去年灰飞烟灭的算…\\
+\\
+极市平台发表于极市平台](https://zhuanlan.zhihu.com/p/374517360) [\*\*一位算法工程师从30+场秋招面试中总结出的目标检测算法面经（含答案）\*\* \\
+\\
+本文首发于极市平台，作者：灯会，转载须经授权并注明来源作者灯会为21届中部985研究生，凭借自己整理的面经，去年在腾讯优图暑期实习，七月份将入职百度cv算法工程师。在去年灰飞烟灭的算…\\
+\\
+极市平台发表于极市平台](https://zhuanlan.zhihu.com/p/374017926) [![基于深度学习的目标检测算法面试必备（RCNN~YOLOv5）](https://picx.zhimg.com/v2-af0a85156b12a7418c64e64b373bcbff\_250x0.jpg?source=172ae18b)\*\*基于深度学习的目标检测算法面试必备（RCNN~YOLOv5）\*\* \\
+\\
+不出名的小...发表于CVer风...](https://zhuanlan.zhihu.com/p/354060133) [\*\*深度学习中的超参数调节（learning rate、epochs、batch-size...）\*\* \\
+\\
+公众号：数学建模与人工智能QInzhengk/Math-Model-and-Machine-Learning (github.com)一、参数（Parameter）和超参数（HyperParameter） 参数是我们训练神经网络 最终要学习的目标，最基本…\\
+\\
+我有一个创...发表于机器学习和...](https://zhuanlan.zhihu.com/p/433836153)
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_
+打开知乎App
+在「我的页」右上角打开扫一扫
+![](https://picx.zhimg.com/v2-9e41ea16bdfbe9cf4896617ecad5b4ca.png)
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+中国 +86
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+打开知乎App
+在「我的页」右上角打开扫一扫
+![](https://picx.zhimg.com/v2-9e41ea16bdfbe9cf4896617ecad5b4ca.png)
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+中国 +86
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+![](https://static.zhihu.com/heifetz/assets/liukanshan-peek.a71ecf3e.png)登录即可查看 超5亿 专业优质内容
+超 5 千万创作者的优质提问、专业回答、深度文章和精彩视频尽在知乎。
+立即登录/注册

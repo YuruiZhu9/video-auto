@@ -1,0 +1,954 @@
+# Source URL: https://blog.csdn.net/xyghehehehe/article/details/159487080
+# Content Length: 19182 characters
+# Extracted at: 2026-03-26 12:05:29
+#============================================================
+
+ 
+
+
+
+
+
+2026年3月全球大模型全景：国产登顶、百万上下文、智能体爆发-CSDN博客
+
+
+
+
+
+
+
+2026年3月全球大模型全景：国产登顶、百万上下文、智能体爆发
+===============================
+
+
+原创
+已于 2026-03-26 08:45:29 修改
+·
+18 阅读
+·
+![]()
+![]()
+0
+
+
+·
+![]()
+![]()
+1
+·
+CC 4.0 BY-SA版权
+版权声明：本文为博主原创文章，遵循 [CC 4.0 BY-SA](http://creativecommons.org/licenses/by-sa/4.0/) 版权协议，转载请附上原文出处链接和本声明。
+
+
+
+
+
+文章标签：
+
+[#javascript](https://so.csdn.net/so/search/s.do?q=javascript&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#数据库](https://so.csdn.net/so/search/s.do?q=%E6%95%B0%E6%8D%AE%E5%BA%93&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#开发语言](https://so.csdn.net/so/search/s.do?q=%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#人工智能](https://so.csdn.net/so/search/s.do?q=%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#AIGC](https://so.csdn.net/so/search/s.do?q=AIGC&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#gpt](https://so.csdn.net/so/search/s.do?q=gpt&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#AI写作](https://so.csdn.net/so/search/s.do?q=AI%E5%86%99%E4%BD%9C&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+
+
+
+于 2026-03-26 08:34:07 首次发布
+
+
+
+
+[![]()
+AI大模型技术
+专栏收录该内容](https://blog.csdn.net/xyghehehehe/category_13145483.html)
+
+12 篇文章
+
+订阅专栏
+
+
+
+
+[![]()
+新星杯·14天创作挑战营·第20期
+10w+人浏览
+645人参与
+
+![]()](https://activity.csdn.net/writing?id=11142)
+
+
+---
+
+⬅️ 上一篇：[RAG+MCP+Agent：大模型落地的三道关与工程实践全解](https://blog.csdn.net/xyghehehehe/article/details/159461697)
+
+➡️ 下一篇：[TurboQuant革命：KV Cache压缩如何让百万Token上下文变得可负担](https://blog.csdn.net/xyghehehehe/article/details/159487221?spm=1011.2415.3001.5331)
+
+---
+
+### 摘要
+
+2026年3月是全球大模型"史诗级爆发"的历史节点。OpenAI、Google、Meta、Anthropic在一个月内密集更新旗舰模型，百万Token上下文成为国际标配，GPT-5.1预览版更突破千万Token；与此同时，中国大模型完成历史性超越——国产Token调用量（4.19万亿）首次反超美国（3.63万亿），阿里Qwen3.5-Max-Preview以1464分登顶LM Arena全球盲测第一。AI正式从"参数内卷"时代步入"实用落地"新纪元。
+
+> **核心结论**：百万Token上下文、原生多模态与Agent规模化落地是2026年3月的三大技术主线；国产大模型在调用量、盲测排名、端侧部署三个维度同步实现全球竞争力突破。
+
+---
+
+### 什么是"百万Token上下文"？
+
+百万Token上下文（Million-Token Context Window）是指大语言模型单次推理可处理的最大文本长度达到100万Token（约75万中文字符，相当于一部1500页学术专著）。这一能力使模型能够在单次会话中完整理解和分析超长法律文档、完整代码库或全套科研论文，无需分段输入或外部检索。
+
+---
+
+### 一、国际巨头：密集更新，技术边界全面推进
+
+#### 1.1 OpenAI：双线并进，推理与上下文双突破
+
+3月5日，OpenAI发布**GPT-5.4**（正式版），将推理能力提升约30%，新增"中途响应可控"特性——用户可在模型推理过程中实时修正方向，避免无效计算。同时支持原生电脑控制（Computer Use），可直接操作操作系统GUI执行复杂任务。
+
+更具前瞻性的是3月21日灰度放出的**GPT-5.1预览版**，其上下文窗口达到**1000万Token**（约750万字），多模态原生融合文图音视频，推理速度较GPT-5.4提升3倍。这意味着模型可以在单次会话中处理整个中型代码仓库或数十本书籍。
+
+| 版本 | 发布时间 | 上下文 | 核心亮点 |
+| --- | --- | --- | --- |
+| GPT-5.4 | 2026-03-05 | 100万Token | 推理+30%，原生电脑控制 |
+| GPT-5.1预览版 | 2026-03-21 | 1000万Token | 多模态原生统一，推理速度×3 |
+
+#### 1.2 Google：Gemini 3.1 Pro + Veo 3 组合拳
+
+3月12日，Google发布**Gemini 3.1 Pro**，100万Token上下文且实现"长程推理无信息衰减"——通过改进的Attention架构，模型在处理超长文本时不再出现"中间内容遗忘"问题。配套发布的**Veo 3**视频生成模型能够生成10分钟1080P视频，在创意内容领域确立领先地位（来源：Google官方博客，2026年3月）。
+
+#### 1.3 Anthropic：Claude 4.6 多模态能力爆发
+
+3月25日，Anthropic发布**Claude 4.6**，将100万Token上下文面向免费用户开放，同时多模态处理能力较上一版本提升6倍，可同时解析600张图像或混合PDF文档。Claude 4.6在长文档分析、专业写作和代码审查等场景中继续保持竞争力。
+
+#### 1.4 Meta：Llama 4 开源再突破
+
+3月18日，Meta正式发布**Llama 4.0**系列（基于2025年4月发布的Llama 4基础架构的进一步迭代），全面取消商用限制。关键突破是开源性能反超GPT-4.5，端侧生态显著扩展。据Meta官方数据，Llama系列模型发布周下载量已突破**500万次**，创开源模型历史新高（来源：Meta官方，2026年3月）。
+
+---
+
+### 二、国产大模型：三维突破，进入全球第一梯队
+
+#### 2.1 调用量全球反超
+
+根据OpenRouter平台统计数据（2026年3月9日），中国大模型Token调用量达到**4.19万亿**，首次超越美国的**3.63万亿**（来源：OpenRouter，2026-03-09）。
+
+全球调用量Top 5中，国产模型占据3席：
+
+* MiniMax M2.5
+* DeepSeek V3.2
+* 阶跃星辰Step 3.5 Flash
+
+更值得关注的是，这些模型的**海外开发者调用占比达47%**，说明国产模型已获得国际技术社区的广泛认可，而非仅限于国内市场。
+
+#### 2.2 Qwen3.5-Max-Preview：登顶LM Arena
+
+阿里云发布的**Qwen3.5-Max-Preview**以**1464分**荣登LM Arena全球盲测第一位，超越GPT-5.4（约1451分）和Claude 4.5。
+
+其核心架构是\*\*稀疏MoE（Mixture of Experts）\*\*设计：
+
+* **总参数**：397B
+* **激活参数**：仅17B（每次推理只激活4.3%的参数）
+* **效果**：以极低推理成本实现顶级模型性能
+
+```
+Qwen3.5-Max-Preview 架构示意
+总参数: 397B (稀疏MoE)
+激活参数: ~17B (每次推理)
+激活比例: ~4.3%
+上下文: 100万Token
+LM Arena得分: 1464（#1 全球）
+
+```
+
+这种"以稀换精"的设计哲学，意味着同等算力可以服务更多并发用户，推理成本大幅降低。
+
+#### 2.3 国产厂商密集发布
+
+2026年3月，国内主要大模型厂商进入密集发布期：
+
+| 厂商/模型 | 关键参数/亮点 | 行业落地场景 |
+| --- | --- | --- |
+| 小米 MiMo-V2 Pro | 1.2万亿参数，100万Token上下文 | 小米15手机、SU7车机端侧落地 |
+| DeepSeek V4 | 国产芯片（海光+寒武纪）训练，推理成本降60% | 金融、政务多模态应用 |
+| 华为盘古2.0 | 具身智能，工业机械臂控制误差<0.01mm | 汽车、工业制造 |
+| 科大讯飞星火4.0 | 语音延迟200ms，支持12种方言 | 教育个性化学习 |
+| 百度文心5.0 | 低空经济专项，端侧开源 | 无人机协同、农业植保 |
+
+特别值得关注的是**DeepSeek V4**：在全国产化芯片（海光DCU + 寒武纪MLU）上完成大模型训练，成功摆脱CUDA生态依赖，标志着国产AI算力软件栈实现完整闭环（来源：DeepSeek技术报告，2026年3月）。
+
+#### 2.4 底层架构创新：月之暗面 Attention Residuals
+
+月之暗面在NeurIPS顶会发表《Attention Residuals》架构论文，核心创新是在标准Transformer注意力机制中引入残差连接优化：
+
+* **训练计算量减少25%**
+* **效率提升1.25倍**
+* **无缝兼容现有主流模型权重**
+
+这一成果意味着现有大模型无需重新训练即可获得效率提升，具有很强的工程实用价值（来源：NeurIPS 2026，月之暗面）。
+
+---
+
+### 三、核心技术趋势分析
+
+#### 3.1 上下文长度：从工具到基础设施
+
+2026年3月，百万Token上下文已成为旗舰模型标配，向着千万Token跨越。这从根本上改变了AI应用的架构范式：
+
+* **法律行业**：完整合同库即时分析，无需RAG分块
+* **金融行业**：全年财报+公告+研报联合分析
+* **科研领域**：文献综述实时生成，引用自动核查
+* **软件开发**：完整代码库理解，架构重构建议
+
+#### 3.2 多模态：从"拼接"到"原生统一"
+
+早期多模态模型（如CLIP）是将不同模态的编码器拼接在一起；2026年的新一代模型实现了"原生多模态"——文本、图像、音频、视频在统一的嵌入空间中联合训练，理解能力质变。GPT-5.1和Claude 4.6均已达到这一技术水平。
+
+#### 3.3 效率优化：算力限制下的工程智慧
+
+面对算力增长放缓，效率优化成为主旋律：
+
+* **MoE架构普及**：稀疏激活将推理成本降低30%～70%
+* **端侧部署**：手机、车机、IoT设备本地推理成为现实
+* **国产算力自主化**：DeepSeek V4完全基于国产芯片完成训练
+
+---
+
+### 四、产业生态变局
+
+#### 4.1 算力价格调整：免费时代落幕
+
+腾讯云、阿里云等主流平台于3月集中调整大模型API定价（部分方向涨幅高达463%），标志着大模型公测烧钱阶段正式结束，进入"价值付费"的商业化成熟期。
+
+#### 4.2 端侧落地：AI走进每一个设备
+
+小米15手机搭载MiMo-V2 Pro进行本地推理，SU7汽车同步升级，隐私保护与低延迟兼得。端侧AI的普及将大幅降低用户使用门槛，拓展AI应用边界。
+
+---
+
+### FAQ
+
+**Q: 百万Token上下文是否意味着RAG技术将被淘汰？**
+
+A: 短期不会。百万Token上下文虽然扩大了模型直接处理的范围，但对于TB级企业知识库，RAG仍是必要的索引和检索层。未来更可能的形态是"超长上下文 + 智能RAG"的组合，前者处理当前任务上下文，后者负责大规模知识检索。
+
+**Q: 国产Token调用量反超美国，能说明什么问题？**
+
+A: 这反映国产模型在性价比和功能上已具全球竞争力，但也要注意调用量≠综合能力排名。国产模型价格优势（DeepSeek V3.2相比GPT-5.4便宜约80%）是调用量高的重要因素之一，技术实力的真正验证仍需看盲测排名和复杂任务表现。
+
+**Q: Qwen3.5-Max-Preview的稀疏MoE架构对部署有何影响？**
+
+A: 稀疏MoE虽然激活参数只有17B，但**总参数397B仍需完整加载到内存**，对存储设备要求很高（约740GB FP16），通常需要多卡或分布式部署，不适合本地小规模部署。但云端推理成本大幅下降，对API用户来说是实惠的。
+
+**Q: DeepSeek V4完全脱离CUDA意味着什么？**
+
+A: 这是国产AI软硬件生态的重大里程碑。CUDA是NVIDIA构建了近20年的护城河，国产算力（海光DCU、寒武纪MLU）使用完全不同的指令集和编程框架。DeepSeek V4的成功证明国产软件栈已能支撑顶级大模型训练，对中美科技博弈背景下的AI算力安全具有重要战略意义。
+
+---
+
+⬅️ 上一篇：[RAG+MCP+Agent：大模型落地的三道关与工程实践全解](https://blog.csdn.net/xyghehehehe/article/details/159461697)
+
+➡️ 下一篇：[TurboQuant革命：KV Cache压缩如何让百万Token上下文变得可负担](https://blog.csdn.net/xyghehehehe/article/details/159487221?spm=1011.2415.3001.5331)
+
+---
+
+### 参考资料
+
+1. CSDN博客《2026年3月全球大模型全景》，北极的代码，2026-03-22
+2. OpenRouter平台调用量统计数据，2026-03-09
+3. LM Arena盲测排行榜，LMSYS，2026年3月
+4. Meta官方Llama 4开源公告，2026-03-18
+5. Google Gemini 3.1 Pro 及 Veo 3发布博客，Google，2026-03-12
+6. Anthropic Claude 4.6 发布说明，Anthropic，2026-03-25
+7. DeepSeek V4技术报告，DeepSeek，2026年3月
+8. 月之暗面《Attention Residuals》，NeurIPS 2026
+
+
+
+
+
+
+![]()
+确定要放弃本次机会？
+
+福利倒计时
+
+*:*
+
+*:*
+
+
+![]()
+立减 ¥
+
+
+普通VIP年卡可用
+
+[立即使用](https://mall.csdn.net/vip)
+
+
+[![]()
+柯儿的天空](https://blog.csdn.net/xyghehehehe)
+
+[关注](javascript:;)
+关注
+
+
+* ![]()
+  ![]()
+  ![]()
+  0
+  点赞
+* ![]()
+  ![]()
+  踩
+* [![]()
+  ![]()
+  ![]()
+  1](javascript:;)
+  收藏
+  
+  
+  
+  觉得还不错?
+  一键收藏
+  
+  ![]()
+* ![]()
+  知道了
+  
+  [![]()
+  0](#commentBox)
+  评论
+* [![]()
+  分享](javascript:;)
+  复制链接
+  
+  分享到 QQ
+  
+  分享到新浪微博
+  
+  ![]()扫一扫
+* ![]()
+  ![]()
+  举报
+  
+  ![]()
+  举报
+
+专栏目录
+
+
+
+
+[《*AI**大模型*应知应会100篇》第12篇：主流*大模型**全景*：Open*AI*、Anthropic、谷歌及*国产*模型对比](https://yweng18.blog.csdn.net/article/details/147184506)
+
+[yweng18的博客](https://blog.csdn.net/yweng18)
+
+04-13
+![]()
+1695
+
+
+
+
+[随着*人工智能*技术的迅猛发展，*大模型*已成为当前*AI*领域的核心驱动力。本报告将全面解析*全球*主流*大模型*提供商的技术路线、产品特点及应用优势，涵盖Open*AI*、Anthropic、谷歌等国际巨头以及百度、阿里、智谱等*国产*厂商的代表作。通过多维度比较，帮助读者建立清晰的*大模型**全景*认知，了解各模型的技术特点与应用场景，为实际应用中的模型选择提供参考。](https://yweng18.blog.csdn.net/article/details/147184506)
+
+
+
+
+[最新！*2026**年**3月**全球**大模型**全景*：*国产**登顶*、*百万**上下文*、*智能体**爆发*，*AI*进入实用新纪元](https://devpress.csdn.net/v1/article/detail/159349513)
+
+[命运的结局尽可永在，不屈的挑战却不可须臾或缺](https://blog.csdn.net/chen_si_shang_)
+
+03-22
+![]()
+5685
+
+
+
+
+[*2026**年**3月**全球**大模型*迎来*爆发*式发展，国内外厂商实现重大突破。海外方面，Open*AI*发布*GPT*-5.4/5.1支持*百万*Token*上下文*和电脑控制；谷歌Gemini3.1Pro优化长文本处理；Meta开源Llama4.0性能超越*GPT*-4.5。*国产*模型实现*全球*调用量反超，阿里Qwen3.5-Max-Preview*登顶*国际盲测，小米、华为等厂商加速端侧和行业落地。技术趋势呈现三大方向：*百万*Token*上下文*成标配、原生多模态融合、*AI**智能体*规模化商用。产业进入价值付费阶段，端侧*AI*在手机、汽车等领域快速落地，行](https://devpress.csdn.net/v1/article/detail/159349513)
+
+
+
+
+
+参与评论
+您还未登录，请先
+登录
+后发表或查看评论
+
+
+[*2026**年**3月**大模型**全景*深度解析：*国产**登顶*、*百万**上下文*落地、Agent工业化，*AI*实用时代全面来临[特殊字符]](https://devpress.csdn.net/v1/article/detail/159461622)
+
+[命运的结局尽可永在，不屈的挑战却不可须臾或缺](https://blog.csdn.net/chen_si_shang_)
+
+03-25
+![]()
+611
+
+
+
+
+[*2026**年**3月**全球**大模型*领域迎来重大变革：中国*大模型*周调用量达4.69万亿Token，首次超越美国，TOP10中占据6席。*国产*模型在推理效率、长文本处理、垂直场景适配等方面实现突破，如MiniMax M2.5支持80万Token*上下文*，成本仅为*GPT*-4 Turbo的1/8。技术层面，混合注意力架构和稀疏MoE技术使*百万*Token处理成为可能，Agent*智能体*实现工业化落地，多模态原生融合打破感知壁垒。产业应用方面，*大模型*已深度融入企业办公、医疗、教育等领域，端侧部署让*AI*走进日常生活。这一变革标志着*全球*A](https://devpress.csdn.net/v1/article/detail/159461622)
+
+
+
+[*2026**年**AI*风向标：超全*大模型*评测指南，这些巨头排名你看了吗？](https://devpress.csdn.net/v1/article/detail/158623798)
+
+[Trb201013的博客](https://blog.csdn.net/Trb201013)
+
+03-03
+![]()
+689
+
+
+
+
+[*2026**年**AI*技术发展聚焦*大模型*优化与应用创新，重点关注Transformer架构改进、多模态理解、生成模型等领域。国内外主流*大模型*如*GPT*、Claude、Gemini及国内阿里Qwen、字节豆包等持续迭代。SuperCLUE等评测平台通过科学基准测试追踪*大模型*进展，2025-*2026**年*测评显示字节Seedance 2.0视频生成领先，Claude-Opus-4.6代码能力突出。*AI*应用涵盖智能助手、办公协作、创作工具等场景，技术发展需结合实践评估。建议*开发*者既要关注评测排名，更要通过实际体验把握技术演进，](https://devpress.csdn.net/v1/article/detail/158623798)
+
+
+
+
+[【万字长文】2025*年**大模型*行业*全景*解析：从阿里千问到Gemini 3 Pro！](https://devpress.csdn.net/v1/article/detail/156645543)
+
+[2401\_85379281的博客](https://blog.csdn.net/2401_85379281)
+
+01-07
+![]()
+1972
+
+
+
+
+[文章分析了*AI**大模型*行业的最新发展，包括阿里千问APP对标Chat*GPT*、Google Gemini 3 Pro的突破性进展，以及*AI*在C端入口争夺和B端生产力工具的应用趋势。数据显示，*全球**AI*应用市场头部格局稳定，但中下游竞争激烈，视频生成与多模态创作类产品表现突出。国内*大模型*中标项目快速增长，商业化进程加速，并提供了*AI**大模型*学习资源，帮助小白和程序员掌握技术，实现就业转型。](https://devpress.csdn.net/v1/article/detail/156645543)
+
+
+
+[2025*年*7月*人工智能**大模型*领域重大事件盘点](https://devpress.csdn.net/v1/article/detail/149845503)
+
+[欢迎来到运通链达的官方博客！我们深度探讨人工智能技术与应用，贯彻科技向善理念，推动科技进步与社会福祉和谐共生。](https://blog.csdn.net/yuntongliangda)
+
+08-02
+![]()
+2640
+
+
+
+
+[【摘要】2025*年*7月，*全球**AI**大模型*领域迎来政策、技术、资本、产业与治理多维突破。本文系统梳理国际与国内重大事件，深度剖析行业格局、创新趋势与未来挑战，展现*AI*产业分化与融合的临界态势。](https://devpress.csdn.net/v1/article/detail/149845503)
+
+
+
+[*2026**年*“*AI*主流*大模型*“格局洞察以及未来技术发展趋势分析](https://devpress.csdn.net/v1/article/detail/158772162)
+
+[以0和1为基因，在赛博空间搭建诗意的代码迷宫；用AI与算法作羽翼，在数字穹顶下翱翔创新的无垠天际。这里有前沿技术的深度拆解，有编程美学的多维探索，邀您共赴一场科技与诗意交织的未来盛宴。](https://blog.csdn.net/SearchB)
+
+03-07
+![]()
+508
+
+
+
+
+[*2026**年*初*AI**大模型*市场呈现多元化竞争格局，各模型在性能、价格和应用场景上形成鲜明特色。Google Gemini 3 Pro以73分智能指数领跑，Claude在编程领域领先，DeepSeek以超高性价比成为中文用户首选。技术趋势显示：MoE架构普及、推理能力专项突破、*国产*模型性价比优势明显。未来十*年**AI*发展将转向价值落地，重点关注多模态融合、*智能体*工业化、世界模型等十大方向。选择建议强调"最适合"而非"最强"，需综合考量预算、场景和隐私需求。*AI*正从工具向&quo](https://devpress.csdn.net/v1/article/detail/158772162)
+
+
+
+[*国产*开源*大模型**2026*格局：Qwen3.5与DeepSeek V3.2深度解析](https://devpress.csdn.net/v1/article/detail/159460310)
+
+[xyghehehehe的专栏](https://blog.csdn.net/xyghehehehe)
+
+03-25
+![]()
+395
+
+
+
+
+[摘要：*2026**年**国产*开源*大模型*迎来突破性发展，Qwen3.5和DeepSeek V3.2成为技术标杆。Qwen3.5采用397B参数的极致稀疏MoE架构，在LM Arena盲测中排名*全球*第五，支持1M*上下文*和多模态任务。DeepSeek V3.2基于*国产*芯片实现完全自主化，训练成本降低60%。*3月*9日*国产*模型Token调用量首次超越美国，海外*开发*者占比达47%。文章详细解析了两款模型的技术架构，并提供了从Ollama快速验证到vLLM生产部署的完整实践指南，标志着*国产**大模型*从"替代品"升](https://devpress.csdn.net/v1/article/detail/159460310)
+
+
+
+[TurboQuant革命：KV Cache压缩让*百万*Token*上下文*可负担
+最新发布](https://devpress.csdn.net/v1/article/detail/159487221)
+
+[xyghehehehe的专栏](https://blog.csdn.net/xyghehehehe)
+
+03-26
+![]()
+199
+
+
+
+
+[摘要 *2026**年**3月*，Google Research在ICLR *2026*发表TurboQuant算法，突破性解决*大模型*长*上下文*推理的显存瓶颈问题。该技术通过PolarQuant随机旋转量化和QJL零开销压缩双核技术，将KV缓存压缩至3bit，实现内存缩减6倍、H100推理加速8倍，且无需训练或微调即可无损部署。TurboQuant为*百万*Token*上下文*的大规模商用扫清了算力障碍，成为*2026**年**大模型*推理领域最重要的技术突破之一。其三层技术架构包含随机旋转消除误差、Value向量极限压缩和统一框架组合，在保持](https://devpress.csdn.net/v1/article/detail/159487221)
+
+
+
+[2025*年**AI*技术*全景*回顾与*2026**年*趋势预测](https://devpress.csdn.net/v1/article/detail/158236141)
+
+[2511\_93721486的博客](https://blog.csdn.net/2511_93721486)
+
+02-20
+![]()
+899
+
+
+
+
+[2025*年*，*AI*技术从"对话"走向"行动"，从"虚拟"走向"实体"，从"单点工具"走向"基础设施"。*大模型*性能持续突破，*智能体*框架走向成熟，中国*AI*在成本创新和应用落地上展现出强大竞争力。展望*2026**年*，世界模型将成为AGI共识方向，多模态融合实现质的飞跃，具身智能走出实验室。*AI*不再仅是对话或生成文本的工具，而是能理解复杂指令、协同工作甚至操控物理设备的*智能体*。对于中国而言，场景优势、开源生态、成本创新构成了三大核心竞争力。](https://devpress.csdn.net/v1/article/detail/158236141)
+
+
+
+[*人工智能**大模型*工具分类应用*全景*：跨领域*AI*工具集成与高效能解决方案设计](https://download.csdn.net/download/WebCraft/92666533)
+
+02-18
+
+
+
+[内容概要：本文是一份名为《*大模型*工具大全》的科普报告，系统梳理了当前主流的*大模型*及相关*AI*工具，覆盖*AI*助手、图像生成、视频创作、音乐生成、语音克隆、编程辅助、科研*写作*、PPT生成、内容检测、网络安全、教育...](https://download.csdn.net/download/WebCraft/92666533)
+
+
+
+[### 【*智能体*安全合规】*智能体*体检报告-安全*全景*扫描：*智能体*产业发展与安全合规挑战、*智能体*产业](https://download.csdn.net/download/u011223449/91487818)
+
+07-25
+
+
+
+[文中还详细探讨了*智能体*产业链的上中下游，包括基础层的*大模型*、平台层的*开发*工具和应用层的实际应用。最后，文章深入讨论了*智能体*的安全合规问题，指出尽管业内普遍认为安全合规非常重要，但其优先级不高，主要关注...](https://download.csdn.net/download/u011223449/91487818)
+
+
+
+精选资源
+[【20230906】*全球*生成式*AI*应用*全景*图：*AI*应用进入大*爆发*时代-华金证券\_95页.pdf](https://download.csdn.net/download/weixin_44181744/88535316)
+
+11-14
+
+
+
+["*全球*生成式*AI*应用*全景*图：*AI*应用进入大*爆发*时代" 以下是生成式*AI*应用的知识点： 1. 算法及模型的快速进步：Transformer 模型和 Chat*GPT* 的发布标志着生成式 *AI* 在文本领域的重大飞跃，未来将推动 *AI* 应用的持续...](https://download.csdn.net/download/weixin_44181744/88535316)
+
+
+
+[### 中文*大模型*基准测评2025*年*上半*年*报告总结](https://download.csdn.net/download/u011223449/91654515)
+
+08-12
+
+
+
+[内容概要：《中文*大模型*基准测评2025*年*上半*年*报告》由SuperCLUE团队发布，详细评估了2025*年*上半*年*中文*大模型*的发展状况。报告涵盖了*大模型*的关键进展、国内外*大模型**全景*图及差距、专项测评基准介绍等。通过SuperCLUE...](https://download.csdn.net/download/u011223449/91654515)
+
+
+
+[vue3全家桶](https://blog.csdn.net/shadouqi/article/details/158348731)
+
+[shadouqi的博客](https://blog.csdn.net/shadouqi)
+
+03-23
+![]()
+327
+
+
+
+
+[2020*年*9月18日，vue.js发布3.0版本源码升级：使用proxy代替defineProperty重写dom的实现和tree-shaking拥抱ts性能更快新的特性组合apisetup ref。。。。新的内置组件fragmentteleportsuspenses…1.nanoid是一个插件，生成一个动态id import {nanoid} from ‘nanoid’](https://blog.csdn.net/shadouqi/article/details/158348731)
+
+
+
+[【技术干货】用 Stitch + *AI* 编码代理自动化前端*开发*：从设计到 Next.js 生产应用](https://devpress.csdn.net/v1/article/detail/159396106)
+
+[weixin\_45888077的博客](https://blog.csdn.net/weixin_45888077)
+
+03-23
+![]()
+651
+
+
+
+
+[本文基于 Google Stitch + *AI* Coding Agent 的工作流，拆解一种“设计自动生成 → 代码自动落地 → 直接跑生产”的前端自动化方案。重点讨论：为什么用专用设计模型（如 Gemini）+ 通用编码模型拆分流程、如何从设计系统一键生成 Next.js + TypeScript 应用，并给出基于（xuedingmao.com，Open*AI* 兼容）的完整 Python API 示例。](https://devpress.csdn.net/v1/article/detail/159396106)
+
+
+
+[基于SpringBoot+Vue的智能民宿预定游玩系统【*AI*智能客服+数据可视化】](https://devpress.csdn.net/v1/article/detail/159477433)
+
+[计算机学姐的博客](https://blog.csdn.net/2301_78335941)
+
+03-25
+![]()
+296
+
+
+
+
+[【*2026*最新】基于Java+SpringBoo+Vue+MySQL的智能民宿预定游玩系统](https://devpress.csdn.net/v1/article/detail/159477433)
+
+
+
+[Vue3暂不支持并发渲染](https://blog.csdn.net/weixin_45549481/article/details/159434943)
+
+[weixin\_45549481的博客](https://blog.csdn.net/weixin_45549481)
+
+03-24
+![]()
+140
+
+
+
+
+[Vue3 不支持 React 那样的并发渲染(Concurrent Mode)，但通过异步任务调度和批量更新机制实现流畅体验。Vue3的DOM更新是异步且批量的，但不能中断或恢复，也没有任务优先级。相比之下，React18支持可中断的并发渲染，架构更复杂但灵活性更高。Vue3通过微任务批量更新、精准DOM更新等优化实现高性能，其设计更轻量简单。两者都能保证流畅性，但实现原理完全不同。](https://blog.csdn.net/weixin_45549481/article/details/159434943)
+
+
+
+[*JavaScript*——异常处理](https://blog.csdn.net/cold___play/article/details/159434822)
+
+[吴声子夜歌的博客](https://blog.csdn.net/cold___play)
+
+03-24
+![]()
+333
+
+
+
+
+[大部分情况下*JavaScript*内置的异常对象不能满足业务的要求，一般的程序中都应该定义自己的异常对象来生成更具有业务意义上的异常对象，例如RESTful API请求异常、数据验证异常等。通过继承Error对象，然后修改其中默认的错误消息和处理方式，并添加自定义的异常信息和业务逻辑，就可以快速创建自定义的异常对象。super（message+＂,用户输入*:*＂+input）;if(!throw new ValidationError（＂密码不能小于8位＂,pwd）;try{](https://blog.csdn.net/cold___play/article/details/159434822)
+
+
+
+
+
+
+
+
+
+
+[![]()
+[![]()](https://blog.csdn.net/xyghehehehe)](https://blog.csdn.net/xyghehehehe)
+
+[柯儿的天空](https://blog.csdn.net/xyghehehehe)
+
+
+博客等级
+
+![]()
+
+码龄17年
+
+
+
+[55
+原创](https://blog.csdn.net/xyghehehehe)
+
+562
+点赞
+
+439
+收藏
+
+33
+粉丝
+
+
+关注
+
+[私信](https://im.csdn.net/chat/xyghehehehe)
+
+
+
+[![]()](https://ai.csdn.net/workbench/wallet?utm_source=xtai_slb_bloglb)
+
+### TA的精选
+
+* [新
+  Cq深度解析：Mozilla AI打造的智能体知识共享新范式，让AI编程代理告别重复踩坑](https://blog.csdn.net/xyghehehehe/article/details/159487819)
+  
+  16 阅读
+* [新
+  Vibe Coding时代：2026年AI编程工具全景与Agent革命](https://blog.csdn.net/xyghehehehe/article/details/159487534)
+  
+  23 阅读
+* [热
+  警惕动态代理导致的Metaspace内存泄漏问题](https://blog.csdn.net/xyghehehehe/article/details/78820135)
+  
+  9685 阅读
+* [热
+  OpenClaw技术架构深度解析：原理、核心与源码全面解读](https://blog.csdn.net/xyghehehehe/article/details/159002615)
+  
+  2194 阅读
+* [热
+  【OpenClaw 全面解析：从零到精通】第 002 篇：解剖“龙虾“——OpenClaw 核心技术原理全解析](https://blog.csdn.net/xyghehehehe/article/details/159155472)
+  
+  2138 阅读
+
+[查看更多 ![]()](https://blog.csdn.net/xyghehehehe?type=blog)
+
+
+
+### 大家在看
+
+* [收藏！Java后端 vs 大模型应用开发，程序员小白选对方向少走3年弯路](https://blog.csdn.net/Z987421/article/details/159498784)
+* [KAN用于齿轮箱故障诊断与特征剪枝
+  ![]()
+  499](https://blog.csdn.net/2301_78829506/article/details/159387378)
+* [大模型学习指南：小白程序员必备，收藏提升技能！
+  ![]()
+  15](https://blog.csdn.net/Z987421/article/details/159498547)
+* [STM32软实现宽带电力线通信
+  ![]()
+  408](https://blog.csdn.net/Si15166622538/article/details/159420138)
+* [HVV攻防演练全流程解析](https://blog.csdn.net/xjhnly/article/details/159492239)
+
+
+### TA的创作历程
+
+2026
+
+
+
+[03月
+52篇](https://blog.csdn.net/xyghehehehe?type=blog&year=2026&month=03)
+
+
+
+
+
+历年创作
+
+
+
+[2025年
+2篇](https://blog.csdn.net/xyghehehehe?type=blog&year=2025&month=07)
+[2017年
+1篇](https://blog.csdn.net/xyghehehehe?type=blog&year=2017&month=12)
+
+
+
+
+
+
+
+### 分类专栏
+
+* [![]()
+  OpenClaw 全面解析：从零到精通](https://blog.csdn.net/xyghehehehe/category_13142645.html)
+  25篇
+* [![]()
+  AI大模型技术](https://blog.csdn.net/xyghehehehe/category_13145483.html)
+  12篇
+* [![]()
+  大数据技术](https://blog.csdn.net/xyghehehehe/category_13006991.html)
+  2篇
+
+
+上一篇：
+
+[【OpenClaw 全面解析：从零到精通】第 025 篇：OpenClaw v2026.3.22+v2026.3.23 安全与架构全面升级：从版本迭代看 AI Agent 工程化实践](https://blog.csdn.net/xyghehehehe/article/details/159486933)
+
+
+下一篇：
+
+[TurboQuant革命：KV Cache压缩让百万Token上下文可负担](https://blog.csdn.net/xyghehehehe/article/details/159487221)
+
+
+
+
+![]()
+
+· AI 阅读助手
+
+
+
+
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+
+
+![]()
+
+· AI 阅读助手
+
+
+
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+上一篇：
+
+[【OpenClaw 全面解析：从零到精通】第 025 篇：OpenClaw v2026.3.22+v2026.3.23 安全与架构全面升级：从版本迭代看 AI Agent 工程化实践](https://blog.csdn.net/xyghehehehe/article/details/159486933)
+
+
+下一篇：
+
+[TurboQuant革命：KV Cache压缩让百万Token上下文可负担](https://blog.csdn.net/xyghehehehe/article/details/159487221)
+
+
+
+### 分类专栏
+
+* [![]()
+  OpenClaw 全面解析：从零到精通](https://blog.csdn.net/xyghehehehe/category_13142645.html)
+  25篇
+* [![]()
+  AI大模型技术](https://blog.csdn.net/xyghehehehe/category_13145483.html)
+  12篇
+* [![]()
+  大数据技术](https://blog.csdn.net/xyghehehehe/category_13006991.html)
+  2篇
+
+展开全部 ![]()
+收起 ![]()
+
+
+
+
+
+
+### 目录
+
+
+
+
+
+
+
+
+
+
+
+
+
+评论
+![]()
+
+![]()被折叠的  条评论
+[为什么被折叠?](https://blogdev.blog.csdn.net/article/details/122245662)
+[![]()到【灌水乐园】发言](https://bbs.csdn.net/forums/FreeZone)
+
+
+查看更多评论![]()
+
+
+
+添加红包
+
+
+祝福语
+
+
+请填写红包祝福语或标题
+
+
+红包数量
+
+个
+
+红包个数最小为10个
+
+
+红包总金额
+
+元
+
+红包金额最低5元
+
+
+余额支付
+当前余额3.43元
+[前往充值 >](https://i.csdn.net/#/wallet/balance/recharge)
+
+
+需支付：10.00元
+
+取消
+确定
+
+
+
+
+![]()
+下一步
+
+![]()
+知道了
+
+
+
+![]()
+成就一亿技术人!
+
+
+
+领取后你会自动成为博主和红包主的粉丝
+规则
+
+
+
+![]()
+hope\_wisdom 发出的红包
+
+
+
+
+
+
+
+
+
+实付元
+[使用余额支付](javascript:;)
+![]()
+点击重新获取
+
+
+![]()![]()![]()扫码支付
+
+
+
+
+钱包余额
+0
+![]()
+
+抵扣说明：
+
+1.余额是钱包充值的虚拟货币，按照1:1的比例进行支付金额的抵扣。  
+ 2.余额无法直接购买下载，可以购买VIP、付费专栏及课程。
+
+
+
+
+
+[![]()余额充值](https://i.csdn.net/#/wallet/balance/recharge)
+
+![]()
+
+
+
+
+
+

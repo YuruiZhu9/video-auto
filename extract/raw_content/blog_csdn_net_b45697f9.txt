@@ -1,0 +1,911 @@
+# Source URL: https://blog.csdn.net/Mikasa33/article/details/146199616
+# Content Length: 17322 characters
+# Extracted at: 2026-03-11 12:01:22
+#============================================================
+
+ 
+
+
+
+
+
+Mamba+Transformer这对科研CP大猛，成为 CVPR 2025 绝对的宠儿，狂发顶会，神作频出！\_mamba和transformer、cnn的混合模型-CSDN博客
+
+
+
+
+
+
+
+
+Mamba+Transformer这对科研CP大猛，成为 CVPR 2025 绝对的宠儿，狂发顶会，神作频出！
+=======================================================
+
+
+原创
+已于 2025-03-12 11:08:50 修改
+·
+1.5k 阅读
+·
+![]()
+![]()
+22
+
+
+·
+![]()
+![]()
+16
+·
+CC 4.0 BY-SA版权
+版权声明：本文为博主原创文章，遵循 [CC 4.0 BY-SA](http://creativecommons.org/licenses/by-sa/4.0/) 版权协议，转载请附上原文出处链接和本声明。
+
+
+
+
+
+文章标签：
+
+[#mamba](https://so.csdn.net/so/search/s.do?q=mamba&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#transformer](https://so.csdn.net/so/search/s.do?q=transformer&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#计算机视觉](https://so.csdn.net/so/search/s.do?q=%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#自然语言处理](https://so.csdn.net/so/search/s.do?q=%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+
+
+
+于 2025-03-12 11:07:54 首次发布
+
+
+
+
+PyTorch 2.7一键部署
+
+PyTorch 是一个开源的 Python 机器学习库，基于 Torch 库，底层由 C++ 实现，应用于人工智能领域，如计算机视觉和自然语言处理
+
+
+在人工智能前沿研究中，**Mamba与Transformer的融合**是当下备受瞩目的焦点。
+
+计算机视觉领域，英伟达团队研发的MambaVision成功入选顶级会议CVPR 2025。其采用分层架构，前两阶段借CNN层快速提取高分辨率特征，后两阶段**融合Mamba与Transformer模块**。Mamba模块经创新改造，将因果卷积替换为常规卷积并新增对称分支。这一设计使MambaVision在Top - 1精度和图像吞吐量上超越同类模型，实现新SOTA。
+
+自然语言处理方面，**腾讯发布的Hunyuan - TurboS**作为**首款超大型混合Transformer - Mamba MoE模型**备受关注。它整合Mamba高效处理长序列及Transformer深度理解上下文的优势，解决传统Transformer长文本处理效率瓶颈，在训练优化及奖励系统上也有创新。
+
+与以往模型相比，二者创新性地融合Mamba与Transformer，在各自领域独树一帜。
+
+目前该领域研究热度极高，成果众多。我整理了**12篇论文**能助力读者了解这一前沿趋势，为大家科研和论文写作提供有价值的参考。
+
+***全部论文+开源代码需要的同学看文末***
+
+### 【论文】MambaVision: A Hybrid Mamba-Transformer Vision Backbone
+
+![]()
+
+Top-1 accuracy vs. image throughput on ImageNet-1K.
+
+#### 
+
+#### 1.研究方法
+
+![]()
+
+The architecture of hierarchical MambaVision models.
+
+论文提出的MambaVision采用独特的分层架构作为理论方法，共4个阶段。前两个阶段借助基于CNN的层，在高分辨率输入下快速提取特征，其中CNN块遵循特定的残差块公式；后两个阶段集成MambaVision和Transformer模块。图像输入后先转换为重叠补丁并投影到嵌入空间，各阶段间利用批归一化的3×3 CNN层下采样以降低分辨率。微观架构上，重新设计Mamba模块，将因果卷积替换为常规卷积，新增无SSM的对称分支，两者输出连接后投影，同时采用通用多头自注意力机制，以此提升模型在视觉任务中的性能 。
+
+#### 2.创新点
+
+![]()
+
+Architecture of MambaVision block
+
+* **重新设计Mamba块**：改进了原始Mamba架构，使其更适用于视觉任务，在精度和图像吞吐量上优于原始架构。
+* **探索混合架构**：系统研究了Mamba和Transformer块的集成模式，发现最后阶段融入自注意力块可显著提升捕捉全局上下文和长距离空间依赖的能力。
+* **性能优势显著**：MambaVision在ImageNet - 1K数据集上，实现了Top - 1准确率和图像吞吐量的SOTA帕累托前沿，超越了基于Mamba、CNN和ViT的模型。在下游任务，如目标检测、实例分割和语义分割中，也优于尺寸相当的骨干网络。
+
+#### 论文链接：https://arxiv.org/pdf/2407.08083
+
+### 【腾讯Hunyuan-TurboS】首款超大型混合Transformer-Mamba MoE模型震撼发布
+
+#### 
+
+#### 1.研究方法
+
+![]()
+
+这款混元Hunyuan - TurboS模型提出许多原创性理论！
+
+* **架构融合**：融合Mamba与Transformer，Mamba降低长文本处理复杂度至O(n)，减少缓存占用，Transformer负责上下文理解，构建出兼具高效与强理解能力的混合架构，且在超大型MoE模型中无损应用Mamba 。
+* **训练优化**：引入慢思考集成提升数理推理能力，通过精细化指令调优增强模型与人类需求的契合度，针对英语训练以提升通用性能。
+* **奖励升级**：用规则评分、代码沙箱反馈及生成式奖励，保障输出质量，提升特定领域准确性，优化问答与创意任务表现 。
+
+#### 2.创新点
+
+![]()
+
+#### 架构创新
+
+* **混合架构**：创新性融合Mamba与Transformer，Mamba降低长文本处理复杂度至O(n)，Transformer负责强大上下文理解，打造显存与计算效率双优架构。
+* **MoE机制**：采用动态专家混合机制，在提升模型性能同时，大幅降低长文处理成本超60% 。
+
+#### 训练优化创新
+
+* **慢思考集成**：引入慢思考方式，结合混元T1慢思考模型数据，显著提升数学、编程和推理任务表现。
+* **指令调优**：精细化指令调优，增强模型对齐性与Agent执行能力，更好契合人类需求。
+* **英语优化**：针对英语训练优化，提升模型通用性能，增强全球场景适用性 。
+
+#### 奖励系统创新
+
+* **规则评分验证**：基于规则评分并一致性验证，保障模型输出质量与可靠性。
+* **代码沙箱反馈**：引入代码沙箱反馈，大幅提升STEM领域输出准确性。
+* **生成式奖励**：利用生成式奖励优化问答与创意任务，减少奖励作弊 。
+
+#### 链接：https://x.com/TXhunyuan/status/1899105803073958010
+
+**关注下方《AI前沿速递》🚀🚀🚀**
+
+**回复“C174”获取全部方案+开源代码**
+
+**码字不易，欢迎大家点赞评论收藏**
+
+
+
+
+
+您可能感兴趣的与本文相关的镜像
+
+![]()
+
+PyTorch 2.7
+
+PyTorch
+Cuda
+
+PyTorch 是一个开源的 Python 机器学习库，基于 Torch 库，底层由 C++ 实现，应用于人工智能领域，如计算机视觉和自然语言处理
+
+
+
+一键部署运行
+
+
+
+
+![]()
+确定要放弃本次机会？
+
+福利倒计时
+
+*:*
+
+*:*
+
+
+![]()
+立减 ¥
+
+
+普通VIP年卡可用
+
+[立即使用](https://mall.csdn.net/vip)
+
+
+[![]()
+AI前沿速递](https://blog.csdn.net/Mikasa33)
+
+[关注](javascript:;)
+关注
+
+
+* ![]()
+  ![]()
+  ![]()
+  22
+  点赞
+* ![]()
+  ![]()
+  踩
+* [![]()
+  ![]()
+  ![]()
+  16](javascript:;)
+  收藏
+  
+  
+  
+  觉得还不错?
+  一键收藏
+  
+  ![]()
+* ![]()
+  知道了
+  
+  [![]()
+  0](#commentBox)
+  评论
+* [![]()
+  分享](javascript:;)
+  复制链接
+  
+  分享到 QQ
+  
+  分享到新浪微博
+  
+  ![]()扫一扫
+* ![]()
+  ![]()
+  举报
+  
+  ![]()
+  举报
+
+
+
+
+![]()
+
+[*Mamba**和*状态空间模型(SSM)的视觉指南：替代 *Transformer*s 的语言建模方法](https://blog.csdn.net/lichunericli/article/details/137200694)
+
+[安静的软件工程师](https://blog.csdn.net/lichunericli)
+
+03-31
+![]()
+5630
+
+
+
+
+[*Mamba**和*状态空间模型(SSM)的视觉指南：替代 *Transformer*s 的语言建模方法](https://blog.csdn.net/lichunericli/article/details/137200694)
+
+
+
+
+
+参与评论
+您还未登录，请先
+登录
+后发表或查看评论
+
+
+[*Mamba*深度解析：AI模型的新突破](https://blog.csdn.net/swindler_ice/article/details/137229822)
+
+[冷冻工厂](https://blog.csdn.net/swindler_ice)
+
+04-01
+![]()
+1920
+
+
+
+
+[*Transformer*模型中的每个token在进行预测时都可以回顾所有之前的token，这导致了训练时的时间复杂度为O(n²)，即所谓的“二次瓶颈”。人工智能领域迎来了一位新星——*Mamba*，这是一种基于状态空间模型（SSMs）的新型AI模型，它作为*Transformer*模型的有力竞争者，解决了后者在处理长序列数据时的效率问题。*Mamba*模型在多个方面展现出了卓越的性能，特别是在需要处理长序列数据的场景中。：*Mamba*在序列长度上的扩展性是线性的，这意味着随着序列长度的增加，模型的性能不会受到显著影响。](https://blog.csdn.net/swindler_ice/article/details/137229822)
+
+
+
+[人工智能*和**计算机视觉*领域国际学术会议submission
+热门推荐](https://blog.csdn.net/u013889591/article/details/140694603)
+
+[u013889591的专栏](https://blog.csdn.net/u013889591)
+
+07-25
+![]()
+1万+
+
+
+
+
+[人工智能*和**计算机视觉*领域国际学术会议submission参考。](https://blog.csdn.net/u013889591/article/details/140694603)
+
+
+
+
+[*Transformer**和**Mamba*强强结合！最新混合架构全面开源，推理速度*狂*飙8倍](https://devpress.csdn.net/v1/article/detail/140215689)
+
+[学姐带你玩AI的博客](https://blog.csdn.net/weixin_42645636)
+
+07-05
+![]()
+1万+
+
+
+
+
+[最近*发*现，，效果会比单独使用好很多，这是因为该方法结合了*Mamba*的长序列处理能力*和**Transformer*的建模能力，可以显著提升计算效率*和*模型性能。典型案例如*大*名鼎鼎的Jamba：Jamba利用*Transformer*架构的元素增强*Mamba* 结构化状态空间模型技术，提供了 256K 上下文窗口，吞吐量直接超了*Transformer*三倍。除Jamba外，近日又有不少最新提出的*Transformer*结合*Mamba*的研究，效果都很赞，比如*Mamba*-2-Hybrid，推理速度比*Transformer*快8倍。](https://devpress.csdn.net/v1/article/detail/140215689)
+
+
+
+[*CVPR**2025*：*Mamba*Vision: A Hybrid *Mamba*-*Transformer* Vision Backbone](https://yanyx.blog.csdn.net/article/details/147120501)
+
+[Hali\_Botebie的博客](https://blog.csdn.net/djfjkj52)
+
+04-10
+![]()
+766
+
+
+
+
+[我们提出了一种新颖的混合 *Mamba*-*Transformer* 主干网络 *Mamba*Vision，专为视觉应用量身定制。我们的核心贡献包括重新设计 *Mamba* 的公式，以增强其高效建模视觉特征的能力。通过全面的消融研究，我们证明了将 Vision *Transformer*s (ViT) 与 *Mamba* 集成的可行性。结果表明，在 *Mamba* 架构的最终层中引入自注意力模块，可以显著提升其捕捉长距离空间依赖关系的能力。基于这些*发*现，我们引入了一系列具有分层架构的 *Mamba*Vision 模型，以满足各种设计标准。](https://yanyx.blog.csdn.net/article/details/147120501)
+
+
+
+[*2025*年，*Mamba* 与 *Transformer* “联姻”，视觉领域迎来了*大*动作！](https://devpress.csdn.net/v1/article/detail/148400578)
+
+[2501\_91624122的博客](https://blog.csdn.net/2501_91624122)
+
+06-03
+![]()
+1435
+
+
+
+
+[【AI架构革新：*Mamba*与*Transformer*融合引领*2025*新趋势】*计算机视觉*与*自然语言处理*领域迎来重*大*突破：英伟达团队提出的*Mamba*Vision混合架构入选*CVPR**2025*，通过*CNN*与改进型*Mamba*-*Transformer*的层级组合，在保持高精度的同时提升处理速度；腾讯Hunyuan-TurboS*成为*首款结合两种架构的MoE模型，突破长序列处理瓶颈。Dimba等创新模型采用交替堆叠设计，实现线性复杂度与全局注意力的优势互补。研究显示，混合架构在图像生成（FID指标）*和*语义理解（T2I-Comp](https://devpress.csdn.net/v1/article/detail/148400578)
+
+
+
+[杀疯了！*Mamba**+**Transformer* 组合在 *CVPR*-*2025* 疯*狂*收割*顶*会席位！！](https://blog.csdn.net/Malaai/article/details/146203576)
+
+[Malaai的博客](https://blog.csdn.net/Malaai)
+
+03-12
+![]()
+1061
+
+
+
+
+[微观架构上，重新设计*Mamba*模块，将因果卷积替换为常规卷积，新增无SSM的对称分支，两者输出连接后投影，同时采用通用多头自注意力机制，以此提升模型在视觉任务中的性能。：融合*Mamba*与*Transformer*，*Mamba*降低长文本处理复杂度至O(n)，减少缓存占用，*Transformer*负责上下文理解，构建出兼具高效与强理解能力的混合架构，且在超*大*型MoE模型中无损应用*Mamba*。：用规则评分、代码沙箱反馈及生成式奖励，保障输出质量，提升特定领域准确性，优化问答与创意任务表现。](https://blog.csdn.net/Malaai/article/details/146203576)
+
+
+
+[*Mamba**+*时间序列预测：又被秀到了，*发**顶*会分分钟的事！！](https://blog.csdn.net/2501_91057708/article/details/146234546)
+
+[2501\_91057708的博客](https://blog.csdn.net/2501_91057708)
+
+03-13
+![]()
+2416
+
+
+
+
+[在时间序列预测的领域，*Mamba*架构正不断突破技术瓶颈，为精确预测提供了新的方向！如何更有效地捕捉长期依赖关系并提升预测的准确性与稳定性？本期推荐的两篇前沿论文展示了*Mamba**+*时间序列的最新创新，解锁了时间序列建模的新潜力！🔥DT*Mamba*（Dual Twin *Mamba*）通过引入，配合，在处理长序列时表现出色，并有效避免了梯度消失问题。实验结果表明，DT*Mamba*在多个基准数据集上优于现有的SOTA，*成为*了新一代时间序列预测的核心工具！⚡。](https://blog.csdn.net/2501_91057708/article/details/146234546)
+
+
+
+[*顶*会蓝海：*Mamba**+**CNN**+**Transformer*！新作准确率近100％！](https://blog.csdn.net/2401_82426425/article/details/145598809)
+
+[2401\_82426425的博客](https://blog.csdn.net/2401_82426425)
+
+02-12
+![]()
+1615
+
+
+
+
+[一方面，其能充分利用*Mamba*的高效序列处理能力、*CNN*的局部感受野优势*和**Transformer*的全局上下文捕捉能力，不仅能提升模型性能，还能降低计算复杂度！比如模型Dual*Mamba*，便在高光谱任务中，实现了准确率高达99.66％、参数量减少94.5％、FLOPs减少94.2％的炸裂效果！另一方面，相比其他结合，*Mamba*是新技术，还不算卷，目前还在上升期，创新机会很多！不管你是做在图像处理，还是*自然语言处理*，或者多模态融合等任务，都非常推荐你关注！](https://blog.csdn.net/2401_82426425/article/details/145598809)
+
+
+
+[【论文阅读 | *CVPR* *2025* |*Mamba*Vision：一种混合 *Mamba*-*Transformer* 视觉骨干网络】](https://blog.csdn.net/berling00/article/details/148957060)
+
+[berling00的博客](https://blog.csdn.net/berling00)
+
+06-27
+![]()
+4211
+
+
+
+
+[我们提出了一种新颖的混合 *Mamba*-*Transformer* 骨干网络 *Mamba*Vision，专为视觉应用量身设计。我们的核心贡献包括重新设计 *Mamba* 公式，以增强其对视觉特征的高效建模能力。通过全面的消融研究，我们证明了将视觉 *Transformer*（ViT）与 *Mamba* 集成的可行性。研究结果表明，在*Mamba* 架构的最后几层配备自注意力块，能显著提升其捕捉长距离空间依赖关系的能力。基于这些*发*现，我们推出了一系列 *Mamba*Vision 模型，它们采用层次化架构，可满足不同的设计需求。](https://blog.csdn.net/berling00/article/details/148957060)
+
+
+
+[高分创新点！*Mamba**+**CNN*结合，*发**顶*会首选！
+最新发布](https://blog.csdn.net/m0_73122726/article/details/152227905)
+
+[m0\_73122726的博客](https://blog.csdn.net/m0_73122726)
+
+09-30
+![]()
+819
+
+
+
+
+[研究摘要 近期视觉领域涌现*CNN*与*Mamba*的融合架构，通过双分支设计互补优势。Conv*Mamba*结合*CNN*的局部特征提取与*Mamba*的全局建模能力，在ImageNet分类任务中实现90.2%准确率，推理速度提升1.8倍。医学图像方向，PGM-UNet引入提示引导残差*Mamba*模块，结合多尺度空洞卷积与KANs，显著提升分割精度；遥感领域CM-UNet通过CS*Mamba*块与多尺度注意力聚合模块，有效捕捉长距离依赖。这些工作表明，跨模态轻量化融合与注意力优化是未来重要方向。](https://blog.csdn.net/m0_73122726/article/details/152227905)
+
+
+
+[【*CVPR* *2025*】 炸场新作！*Mamba*Vision 横空出世，重新定义视觉主干网络](https://devpress.csdn.net/v1/article/detail/148015655)
+
+[qq\_57268469的博客](https://blog.csdn.net/qq_57268469)
+
+05-16
+![]()
+3173
+
+
+
+
+[*Mamba*Vision 是 *CVPR* *2025* 提出的一款混合型 *Mamba*-*Transformer* 视觉主干网络，旨在解决 *Transformer* 在长序列处理中的计算瓶颈。该模型通过融合 *Mamba* 的线性复杂度序列建模能力*和* *Transformer* 的全局上下文捕捉优势，显著提升了视觉任务的性能。*Mamba*Vision 采用四阶段分层架构，前两阶段使用 *CNN* 快速提取高分辨率特征，后两阶段结合 *Mamba* *和*自注意力模块，实现高效全局与局部建模。实验表明，*Mamba*Vision 在图像分类、目标检测](https://devpress.csdn.net/v1/article/detail/148015655)
+
+
+
+[太能打了！*Mamba**+**Transformer*，仅用一半时间准确率提升12%！](https://blog.csdn.net/m0_73122726/article/details/152032084)
+
+[m0\_73122726的博客](https://blog.csdn.net/m0_73122726)
+
+09-25
+![]()
+512
+
+
+
+
+[*CVPR*'*2025*谷歌DeepMind提出的分层协同混合架构创新性地结合*Transformer*与*Mamba*优势，突破长序列处理瓶颈：在256K文本分析中实现3倍吞吐提升，1024×1024卫星图像分割速度提高8倍，工业视频异常检测耗时缩减83%且准确率提升12%。同时，跨模态领域涌现新突破——MHAFF方法通过多头注意力融合*CNN*与*Transformer*特征，将牛只识别准确率推至99.88%；水稻病害检测研究则证实ResNet50结合迁移学习优于ViT*和*传统方法。这些进展为工业质检、农业智能](https://blog.csdn.net/m0_73122726/article/details/152032084)
+
+
+
+[*Mamba**和**Transformer*合体！Jamba来了：超越*Transformer*！](https://blog.csdn.net/amusi1994/article/details/137190232)
+
+[阿木寺的博客](https://blog.csdn.net/amusi1994)
+
+03-30
+![]()
+756
+
+
+
+
+[点击下方卡片，关注“CVer”公众号AI/CV重磅干货，第一时间送达点击进入—>【*Mamba*/扩散*和*多模态】微信交流群添加微信：CVer5555，小助手会拉你进群！扫描下方二维码，加入CVer学术星球！可以获得最新*顶*会/*顶*刊上的论文idea*和*CV从入门到精通资料，及最前沿应用！*发*论文/搞*科研*/涨薪，强烈推荐！转载自：机器之心 | 编辑：小舟*Mamba* 时代来了？自 2017 年开创性研究论文...](https://blog.csdn.net/amusi1994/article/details/137190232)
+
+
+
+[*CVPR**2025*:低光图像增强天花板！HVI 技术让红色噪声减少 63%，PSNR 突破 29.57](https://blog.csdn.net/kenter1983/article/details/147441914)
+
+[陈奕昆的博客](https://blog.csdn.net/kenter1983)
+
+04-23
+![]()
+2410
+
+
+
+
+[HVI颜色空间与CIDNet网络通过解耦颜色与亮度处理，突破了传统低光增强的噪声与色彩平衡难题，在10*+*数据集上刷新SOTA。视频级低光增强：扩展至视频序列处理，解决帧间一致性问题；轻量化部署：针对移动端优化模型结构，实现端侧实时增强；多模态融合：结合红外、深度等信息，构建跨模态低光增强框架。随着AIGC与影像处理的深度融合，HVI技术有望*成为*下一代低光视觉解决方案的核心引擎，为智能终端、安防、医疗等领域提供更可靠的视觉基础。](https://blog.csdn.net/kenter1983/article/details/147441914)
+
+
+
+[*CVPR* *2025*｜新一代自适应卷积，精准捕捉多尺度信息，全面提升深度视觉表现](https://blog.csdn.net/ym1593572486/article/details/150641011)
+
+[ym1593572486的博客](https://blog.csdn.net/ym1593572486)
+
+08-23
+![]()
+1087
+
+
+
+
+[作者首先提出StatA，通过实时收集输入数据的统计特征，指导模型参数的微调，使视觉-语言模型在测试阶段能够针对实际分布自适应优化；整个过程采用无监督策略，仅依赖自然输入，无需额外标签，最*大*程度保留了模型原有的零样本泛化能力；最终，通过轻量级的参数调整*和*高效计算，StatA在多领域视觉-语言任务中均展现出显著性能提升*和*稳定表现。](https://blog.csdn.net/ym1593572486/article/details/150641011)
+
+
+
+[*CVPR* *2025*丨3D视觉*+*多视角注意力机制重*大*突破](https://blog.csdn.net/ym1593572486/article/details/150019106)
+
+[ym1593572486的博客](https://blog.csdn.net/ym1593572486)
+
+08-07
+![]()
+1366
+
+
+
+
+[看好三维视觉在*CVPR*的爆*发*潜力？抓紧上车这个高潜力方向：三维重建与生成！这个方向主要围绕如何从图像/视频中获得更精准、更完整、更具语义理解能力的三维世界信息进行核心突破。接下来势必向超*大*规模场景重建、跨模态生成、物理仿真驱动等高阶任务演进，并配套建立更严格的几何精度与生成合理性评估体系。](https://blog.csdn.net/ym1593572486/article/details/150019106)
+
+
+
+[*CVPR* *2025* | 无需配对数据！慕尼黑工*大*提出盲匹配模型，开启跨模态对齐新范式！](https://blog.csdn.net/2501_92747450/article/details/151115801)
+
+[2501\_92747450的博客](https://blog.csdn.net/2501_92747450)
+
+09-02
+![]()
+1258
+
+
+
+
+[在*大*模型与*大*数据集的驱动下，视觉与语言表示间的几何相似性正在增强——同一世界中的“猫、狗、飞机”等概念在两种模态内部的两两距离结构逐步趋同。基于这一“柏拉图式表示假说”，本文探索了无并行数据的视觉—语言对应学习。核心思路是：仅依赖各自模态内部的相似度矩阵，将跨模态匹配转化为最小化配对后失真的 QAP；在算法上提出因子化 Hahn‑Grant下界法，内存复杂度由 O(N^4) 降至 O(N^3)，并配合更快的线性指派求解器与原始启*发*式，显著提升求解规模与质量；在任务设计上，建立了一个。](https://blog.csdn.net/2501_92747450/article/details/151115801)
+
+
+
+[*CVPR**2025* | 蚂蚁&浙*大*提出MP-GUI算法：全方位增强MLLM的GUI理解能力](https://blog.csdn.net/AntResearch/article/details/146401412)
+
+[AntResearch的博客](https://blog.csdn.net/AntResearch)
+
+03-20
+![]()
+852
+
+
+
+
+[在视觉定位方面，能够有效识别页面中的多粒度元素并具有目标元素的空间上下文感知能力；，不同于当前的端到端隐式训练，我们针对MP-GUI的特殊架构设计了一种多阶段训练策略，并结合不同的训练目标*和*新颖的空间关系预测任务实现对模型的有效训练，显式地引导MLLM学习GUI知识。通过广泛的基准测评，我们验证了MP-GUI的先进性，尤其是对屏幕中细粒度视觉元素的定位*和*理解以及元素间空间上下文的感知，并*发*现通过对增强MLLM对屏幕中的GUI感知与理解能力，能够进一步提升各种下游任务的性能。有效投稿并进入评审流程，其中。](https://blog.csdn.net/AntResearch/article/details/146401412)
+
+
+
+
+
+
+
+
+
+
+[![]()](https://blog.csdn.net/Mikasa33)
+
+[AI前沿速递](https://blog.csdn.net/Mikasa33)
+
+
+博客等级
+
+![]()
+
+码龄10年
+
+
+
+[283
+原创](https://blog.csdn.net/Mikasa33)
+
+4231
+点赞
+
+4949
+收藏
+
+1722
+粉丝
+
+
+关注
+
+[私信](https://im.csdn.net/chat/Mikasa33)
+
+
+
+[![]()](https://ai.csdn.net/workbench/wallet?utm_source=xtai_slb_bloglb)
+
+![]()
+
+
+### 热门文章
+
+* [CVPR2023 | 70+目标检测论文及代码整理
+  ![]()
+  20154](https://blog.csdn.net/Mikasa33/article/details/130427417)
+* [CVPR 2024 | CRNet：一种可保留细节的图像增强与统一恢复网络
+  ![]()
+  16092](https://blog.csdn.net/Mikasa33/article/details/139272579)
+* [CVPR2023论文及代码合集来啦~
+  ![]()
+  12105](https://blog.csdn.net/Mikasa33/article/details/129950285)
+* [CVPR 2023 | 一文看尽12篇Best Paper候选（附合集）
+  ![]()
+  6962](https://blog.csdn.net/Mikasa33/article/details/131207123)
+* [KDD 2023 | 先睹为快！KDD 2023论文合集50篇（附下载地址）
+  ![]()
+  5272](https://blog.csdn.net/Mikasa33/article/details/131304233)
+
+
+### 分类专栏
+
+* [![]()
+  计算机](https://blog.csdn.net/mikasa33/category_12618964.html)
+  1篇
+* [![]()
+  SCI](https://blog.csdn.net/mikasa33/category_12618965.html)
+  1篇
+* [![]()
+  AI](https://blog.csdn.net/mikasa33/category_12618966.html)
+  1篇
+
+
+上一篇：
+
+[特征融合这样做！GNN强强联合，我发那顶刊一区如探索取物！](https://blog.csdn.net/Mikasa33/article/details/146172373)
+
+
+下一篇：
+
+[频域革命来了！傅里叶变换+时间序列分析引爆顶会顶刊！](https://blog.csdn.net/Mikasa33/article/details/146224954)
+
+
+
+### 大家在看
+
+* [喊着“全面拥抱AI”，可我连从哪下手都不知道——一位制造业软件工程师的真心话
+  ![]()
+  277](https://blog.csdn.net/Leo_0924/article/details/158889480)
+* [免注册！Claude 4.6 + Gemini 3.1 深度接入指南：从架构设计到 200 万上下文实战](https://blog.csdn.net/jike88ai/article/details/158922586)
+* [别把同事当朋友，但要把同事当队友：「职场友谊」的边界感
+  ![]()
+  305](https://blog.csdn.net/TracyRaoqin/article/details/158881404)
+* [AI大模型应用开发：从入门到精通的体系化学习路线 (2026版) | 高薪技能速成攻略！](https://blog.csdn.net/2401_85375151/article/details/158922194)
+* [Nuxt2引入Gif.js与SSR 环境下部署遇到的问题
+  ![]()
+  250](https://blog.csdn.net/qq_42060498/article/details/158837705)
+
+
+### 最新文章
+
+* [CVPR 2026 | 手机视频秒变4D场景！清华&理想联合提出MoRe：实时、抗动态干扰的4D重建神器](https://blog.csdn.net/Mikasa33/article/details/158919640)
+* [CVPR 2026 | 显存杀手救星！剪掉90%的Token，性能几乎不掉？带你图解视频大模型极速推理神器 AOT！](https://blog.csdn.net/Mikasa33/article/details/158884172)
+* [我啃了1000篇2025年CV论文，发现计算机视觉正在悄悄“变务实”](https://blog.csdn.net/Mikasa33/article/details/158840639)
+
+
+[2026年25篇](https://blog.csdn.net/Mikasa33?type=blog&year=2026&month=03)
+[2025年163篇](https://blog.csdn.net/Mikasa33?type=blog&year=2025&month=12)
+[2024年84篇](https://blog.csdn.net/Mikasa33?type=blog&year=2024&month=12)
+[2023年15篇](https://blog.csdn.net/Mikasa33?type=blog&year=2023&month=08)
+
+
+
+官方同款运行环境
+
+PyTorch 2.7
+
+PyTorch 是一个开源的 Python 机器学习库，基于 Torch 库，底层由 C++ 实现，应用于人工智能领域，如计算机视觉和自然语言处理
+
+PyTorch
+Cuda
+
+
+![]()显存大小
+
+24GB
+
+
+![]()CPU
+
+10核心
+
+
+![]()内存
+
+120GB
+
+
+![]()系统盘/数据盘
+
+40GB
+
+
+
+一键部署
+
+无需本地环境部署，可直接运行
+
+
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+
+
+官方同款运行环境
+
+PyTorch 2.7
+
+PyTorch 是一个开源的 Python 机器学习库，基于 Torch 库，底层由 C++ 实现，应用于人工智能领域，如计算机视觉和自然语言处理
+
+PyTorch
+Cuda
+
+
+![]()显存大小
+
+24GB
+
+
+![]()CPU
+
+10核心
+
+
+![]()内存
+
+120GB
+
+
+![]()系统盘/数据盘
+
+40GB
+
+
+
+一键部署
+
+无需本地环境部署，可直接运行
+
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+![]()
+
+上一篇：
+
+[特征融合这样做！GNN强强联合，我发那顶刊一区如探索取物！](https://blog.csdn.net/Mikasa33/article/details/146172373)
+
+
+下一篇：
+
+[频域革命来了！傅里叶变换+时间序列分析引爆顶会顶刊！](https://blog.csdn.net/Mikasa33/article/details/146224954)
+
+
+
+### 分类专栏
+
+* [![]()
+  计算机](https://blog.csdn.net/mikasa33/category_12618964.html)
+  1篇
+* [![]()
+  SCI](https://blog.csdn.net/mikasa33/category_12618965.html)
+  1篇
+* [![]()
+  AI](https://blog.csdn.net/mikasa33/category_12618966.html)
+  1篇
+
+展开全部 ![]()
+收起 ![]()
+
+
+
+
+
+
+### 目录
+
+
+
+
+
+
+
+
+
+
+
+
+
+评论
+![]()
+
+![]()被折叠的  条评论
+[为什么被折叠?](https://blogdev.blog.csdn.net/article/details/122245662)
+[![]()到【灌水乐园】发言](https://bbs.csdn.net/forums/FreeZone)
+
+
+查看更多评论![]()
+
+
+
+添加红包
+
+
+祝福语
+
+
+请填写红包祝福语或标题
+
+
+红包数量
+
+个
+
+红包个数最小为10个
+
+
+红包总金额
+
+元
+
+红包金额最低5元
+
+
+余额支付
+当前余额3.43元
+[前往充值 >](https://i.csdn.net/#/wallet/balance/recharge)
+
+
+需支付：10.00元
+
+取消
+确定
+
+
+
+
+![]()
+下一步
+
+![]()
+知道了
+
+
+
+![]()
+成就一亿技术人!
+
+
+
+领取后你会自动成为博主和红包主的粉丝
+规则
+
+
+
+![]()
+hope\_wisdom 发出的红包
+
+
+
+
+
+
+
+
+
+实付元
+[使用余额支付](javascript:;)
+![]()
+点击重新获取
+
+
+![]()![]()![]()扫码支付
+
+
+
+
+钱包余额
+0
+![]()
+
+抵扣说明：
+
+1.余额是钱包充值的虚拟货币，按照1:1的比例进行支付金额的抵扣。  
+ 2.余额无法直接购买下载，可以购买VIP、付费专栏及课程。
+
+
+
+
+
+[![]()余额充值](https://i.csdn.net/#/wallet/balance/recharge)
+
+![]()
+
+
+
+
+
+

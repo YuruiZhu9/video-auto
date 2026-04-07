@@ -1,0 +1,123 @@
+# Source URL: https://wallstreetcn.com/articles/3768274
+# Content Length: 5659 characters
+# Extracted at: 2026-03-27 16:13:50
+#============================================================
+
+全网等了9天，OpenClaw大升级“翻车”了 - 华尔街见闻
+\* [首页](/)
+\* [资讯](/news)
+\* [快讯](/live)
+\* [行情](/markets)
+\* [日历](/calendar)
+\* [APP](/download)
+\* [VIP会员](/member/buy/gold)
+\* [大师课](/member/buy/master\_course)
+\* [生活家](https://wallstreetcn.com/life-and-art)
+登录 / 注册
+\* 301
+\* 收藏
+# 全网等了9天，OpenClaw大升级“翻车”了
+疯狂科技厅
+03-24 11:29
+OpenClaw时隔9天发布“史诗级更新”，推出插件市场ClawHub、支持按Agent切换模型、新增/btw轻量问答指令，并强化了身份验证与执行安全。但因发布匆忙，出现Web UI遗漏、微信插件失效等问题，创始人紧急修复并频繁回应。即便补丁更新速度再快，也依旧挡不住网友们的“毒舌”：有网友戏称“这是把测试工作外包给用户了。”
+北京时间3月23日晚，GitHub上停更9天的OpenClaw终于官宣更新。
+![](https://wpimg-wscn.awtmt.com/0a16765c-1ae3-4a74-9bcd-942bd7501c99.jpeg)
+这次，官方之所以宣称是史诗级更新，除了是其罕见地断更9天后才更新，还有升级内容上，官方称“这次发布内容太多了，多到我们要自备目录”。
+## \*\*ClawHub：把插件市场做成App Store\*\*
+以前装插件全靠npm install，插件质量参差不齐。现在OpenClaw plugins install会优先从官方ClawHub市场找，找不到才去npm。说不定，以后找插件就像逛App Store，官方帮你筛选，再也不用到npm里大海捞针。
+![](https://wpimg-wscn.awtmt.com/35544740-a8cc-4306-8b57-2c5a9f378185.jpeg)
+## \*\*模型集体更新\*\*
+说到模型这块，OpenClaw默认模型直接切到了gpt-5.4（Codex同步更新），顺便把gpt-5.4-mini和gpt-5.4-nano版本的兼容性也铺好了，MiniMax默认模型也是从M2.5版本更新为M2.7，值得关注的是M2.7不到一周前刚刚发布。智谱模型也迎来全面对齐，且涵盖了多模态条目及最新的计费标准。
+之前总有用户吐槽“龙虾”吃token，“胃量”惊人，这次更新之后想省token、跑轻量任务随时可以切模型。\*\*有意思的是，根据Github文档，现在每个Agent都能单独选模型\*\*——轻量任务用mini，复杂推理上旗舰，而不是像从前那样胡子眉毛一把抓，Per-agent是帮用户们省钱的关键。
+## \*\*btw：不影响主线的“插曲话题”\*\*
+OpenClaw新增/btw命令提供了一种轻量级的会话内问答方式，官方文档称用户可以在不改变当前对话上下文的前提下，快速提出与当前会话相关的问题并获得简洁答案。该命令适合需要临时确认信息、补充说明或进行工具无关的快速询问的场景。\*\*这一设计既保持了主对话的完整性，又提升了交互的灵活性和响应效率。\*\*
+\*\*安全层面：\*\*
+安全一直是“龙虾们”最容易被诟病的问题之一。这次版本更新，OpenClaw在安全层面做了不少的功课，最主要的两门课程便是：身份验证与执行内容的自我审查。
+\*\*身份验证：\*\*
+\*\*新版本增加了OpenShell和SSH沙盒支持\*\*，通过密钥、证书及known\\_hosts输入实现了密钥托管功能，从而精准控制谁能够操作这些沙盒后端。
+\*\*执行过程：\*\*
+\*\*执行审批、沙盒架构、配置部署及插件安装四大维度同步升级\*\*——审批流程可穿透调度包装器直接绑定至可执行文件，沙盒引入支持镜像与远程模式的可插拔后端，配置管理新增 SecretRef、JSON批量赋值与结构化dry-run校验，让系统更安全、灵活且可控。
+\*\*实际效果如何？\*\*
+\*\*虽然是“史诗级更新”，但问题可不少。\*\*版本一上线，好评与差评齐飞。由于发布匆忙，本次发布的正式版甚至遗漏了Web UI资源，导致部分功能加载异常。
+![](https://wpimg-wscn.awtmt.com/d796b001-7bb5-4cde-8ec9-37aa0cb8f285.jpeg)
+OpenClaw创始人Peter Steinberger也是第一时间出来“认领责任”，并迅速完善。
+![](https://wpimg-wscn.awtmt.com/a2a0e577-0a78-44c4-8a7a-2a7659dae305.jpeg)
+不到24小时，团队就推出v2026.3.23，一口气修复了数十个发布后才暴露的问题，主打一个“你提我改，态度诚恳”。
+![](https://wpimg-wscn.awtmt.com/1e6d4c67-b9a8-487a-a942-0a440f45087d.jpeg)
+![](https://wpimg-wscn.awtmt.com/3ef46605-2bb1-483b-b791-d86d23418863.jpeg)
+可即便补丁更新速度再快，也依旧挡不住网友们的“毒舌”：有网友戏称“这是把测试工作外包给用户了。”
+![](https://wpimg-wscn.awtmt.com/d4236178-0fd3-4afe-8dbb-37c2694f9b12.jpeg)
+国内的反馈同样不容乐观，多数用户反应微信插件失效，而微信端的ClawBot仅上线不到三天。
+![](https://wpimg-wscn.awtmt.com/58361d7b-ace3-401b-af18-40c11f450cf0.jpeg)
+不仅如此，也有用户反馈第三方插件“集体熄火”。
+![](https://wpimg-wscn.awtmt.com/038d594a-2fde-4099-ae31-93d182abaa7a.jpeg)
+截至发稿时，OpenClaw创始人Peter Steinberger已在X上高频率为用户答疑超数十条，堪称在线解惑的“OpenClaw首席客服”。
+从ClawHub到Per-agent模型选择，从/btw到沙盒安全，OpenClaw确实在朝着更成熟、更灵活的方向迈进，但匆忙上线导致的功能遗漏、插件失效、短暂熄火，也让用户实打实地当了一回测试工程师。但“先发布，再修补”本身也是多数产品成长的常规操作。\*\*好用的工具，可以在骂声中打磨出来。\*\*
+至于这次更新到底算不算“史诗级”，不妨再等它一两个小版本，让补丁飞一会儿。
+本文来源：[疯狂科技厅](https://mp.weixin.qq.com/s/ZVXbfLxp9ctuFkk5Q41K3Q)
+风险提示及免责条款
+市场有风险，投资需谨慎。本文不构成个人投资建议，也未考虑到个别用户特殊的投资目标、财务状况或需要。用户应考虑本文中的任何意见、观点或结论是否符合其特定状况。据此投资，责任自负。
+\* 301
+\* 收藏
+分享到:
+写评论
+表情
+图片
+发布评论
+最热文章
+[谈判僵局推动油价重新走强，再通胀预期重挫全球债市，芯片股拖累美股，美元冲高回落](https://wallstreetcn.com/articles/3768430)
+[收盘后11分钟发帖！美股遭遇伊朗战争以来“最惨一天”，特朗普“立刻”延长10天“谈判时间”](https://wallstreetcn.com/articles/3768527)
+[特朗普：不知美伊能否达成协议、我不迫切，伊朗允许十艘油轮通行霍尔木兹，市场对冲突反应没预期剧烈](https://wallstreetcn.com/articles/3768496)
+[华尔街见闻早餐FM-Radio | 2026年3月27日](https://wallstreetcn.com/articles/3768517)
+[美国被曝制定“最后一击”方案，或进行地面战，伊朗：若地面入侵，将开辟新战线，曼德海峡是下个目标](https://wallstreetcn.com/articles/3768470)
+华尔街见闻
+\* [关于我们](/about-us)
+\* [广告投放](/about-us#cooper)
+\* [版权与商务合作](/about-us#copyright)
+\* [联系方式](/about-us#contract)
+\* [意见反馈](https://wallstreetcn.com/feedback)
+法律信息
+\* [版权声明](/copyright)
+\* [用户协议](/terms)
+\* [付费内容订阅协议](/subscription-terms)
+\* [商品购买协议](/purchase-agreement)
+\* [隐私政策](/privacy)
+![](https://static.wscn.net/wscn/\_static/qrcode.jpg)
+华尔街见闻APP
+![](https://image.wscn.net/6c4dc91d-0171-4fa5-860c-99c1a00e4b17.jpg)
+华尔街见闻公众号
+![](https://image.wscn.net/f85f0893-d12c-4361-9152-4213b1e078bf.jpg)
+[微博@华尔街见闻](https://weibo.com/wallstreetcn)
+声明
+未经许可，任何人不得复制、转载、或以其他方式使用本网站的内容。
+评论前请阅读网站
+[“跟帖评论自律管理承诺书”](/comment-self-discipline)
+违法和不良信息
+举报电话: 021-60675200（周一到周五9:30-11:30，13:00-18:30）
+举报邮箱: contact@wallstreetcn.com
+网站举报: [点击这里](https://jinshuju.net/f/j9xaFQ)
+[违法和不良信息举报受理和处置管理办法](/illegal-information-report)
+[清朗·财经违规内容专项整治公告](/articles/3639092)
+[涉企虚假不实信息举报专区](/articles/3697184)[提交举报](https://jinshuju.net/f/eTkmnu)
+[网络辟谣专区](https://www.shjbzx.cn/shshlwwfhblxxjbzx/byzla/byzla.html)
+[中央网信办违法和不良信息举报中心](https://www.12377.cn/)[上海市互联网违法和不良信息举报中心](http://www.shjbzx.cn/)
+友情链接
+\* [腾讯财经](http://finance.qq.com)
+\* [财经网](http://www.caijing.com.cn)
+\* [澎湃新闻](http://www.thepaper.cn)
+\* [界面新闻](http://www.jiemian.com)
+\* [全景财经](http://www.p5w.net)
+\* [陆家嘴金融网](http://www.ljzfin.com)
+\* [富途牛牛](https://www.futunn.com)
+\* [网易财经](https://money.163.com)
+\* [凤凰网财经](https://finance.ifeng.com)
+\* [虎嗅](https://www.huxiu.com)
+\* [金融界](https://www.jrj.com.cn)
+\* [TradingView](https://www.tradingview.com)
+\* [chinabiz insider](https://chinabizinsider.com/)
+\* [chinabiz insider sitemap](https://wallstreetcn.com/chinabizinsider-sitemap)
+© 2024 上海阿牛信息科技有限公司   
+[沪ICP备13019121号](https://beian.miit.gov.cn/)[沪公网安备 31010602008394 号](http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=31010602008394)[增值电信业务经营许可证沪B2-20180399](https://image.wscn.net/c09a6eee-f07b-4be6-8bd4-46fe6ba97265.png)
+[![](https://static.wscn.net/ivanka-pc/8558b06a042fcb2a45c8c56c1a63a8e9.png)![](https://static.wscn.net/wscn/\_static/qrcode.jpg)](https://wallstreetcn.com/download)[![](https://wpimg-wscn.awtmt.com/7affb872-20e6-45a0-88d0-df9f5b6dd8f9.jpg)
+请用微信扫描二维码
+与客服联系](javascript:)

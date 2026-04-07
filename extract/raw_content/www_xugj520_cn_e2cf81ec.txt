@@ -1,0 +1,380 @@
+# Source URL: https://www.xugj520.cn/archives/openclaw-2026-4-1-release-review.html
+# Content Length: 9451 characters
+# Extracted at: 2026-04-03 05:03:37
+#============================================================
+
+
+
+
+
+
+
+
+
+
+OpenClaw 2026.4.1深度评测：任务管理变透明，AI协作更稳定 | 高效码农
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+* [Home](https://www.xugj520.cn/)
+* [GameTime](https://www.xugj520.cn/en/game-time.html)
+* [tools](https://www.xugj520.cn/en/tools.html)
+* [about](https://www.xugj520.cn/en/start-page.html)
+  + [Cascii](https://www.xugj520.cn/cascii.html)
+* [English](https://www.xugj520.cn/en/archives/openclaw-2026-release-task-management.html)
+* [中文](https://www.xugj520.cn/archives/openclaw-2026-4-1-release-review.html)
+* [Cookie Policy](https://www.xugj520.cn/cookie-policy-uk.html)
+  + [Terms and Conditions](https://www.xugj520.cn/cookie-policy-uk/terms-and-conditions.html)
+ 
+
+
+
+
+
+
+[登录](https://www.xugj520.cn/en/login.html) 
+
+
+
+[首页](https://www.xugj520.cn)[人工智能](https://www.xugj520.cn/archives/category/%e4%ba%ba%e5%b7%a5%e6%99%ba%e8%83%bd)OpenClaw 2026.4.1深度评测：任务管理变透明，AI协作更稳定 
+
+
+[OpenClaw 2026.4.1深度评测：任务管理变透明，AI协作更稳定](https://www.xugj520.cn/archives/openclaw-2026-4-1-release-review.html)
+--------------------------------------------------------------------------------------------------------------
+
+19小时前
+高效码农
+
+
+
+OpenClaw 2026.4.1 版本发布：更智能的任务管理、更稳定的跨平台体验
+=========================================
+
+我们很高兴地宣布，OpenClaw 2026.4.1 版本正式发布。这是一个专注于提升日常使用体验、增强核心功能稳定性的版本。无论是个人开发者还是企业团队，这次更新都将为你带来更流畅、更可靠的 AI 助手交互体验。
+
+本次更新涵盖了任务管理、跨平台集成、执行审批、系统稳定性等多个关键领域，并修复了此前版本中用户反馈的若干问题。下面，我们将为你详细解读这次更新的主要内容。
+
+核心亮点：让任务管理更“可视化”
+----------------
+
+如果你经常使用 OpenClaw 处理复杂的后台任务，那么本次更新中的 `/tasks` 功能一定会让你感到惊喜。现在，你可以在聊天界面直接使用 `/tasks` 命令，打开一个**「会话内的后台任务看板」**。这个看板会清晰地展示当前会话中的所有任务状态，包括正在运行的任务、最近完成的任务细节，以及当没有关联任务时显示的基于 Agent 本地的回退计数。
+
+这个功能的加入，将原本隐藏在后台的任务管理变得透明和直观。你无需再通过复杂的命令去查询任务状态，一个简单的 `/tasks` 就能一览无余，大大提升了任务跟踪的效率。
+
+更强大的跨平台集成
+---------
+
+OpenClab 一直致力于连接更多平台，这次更新在多个主流平台上都带来了显著的体验提升。
+
+### 飞书（Feishu）集成深度增强
+
+对于使用飞书进行文档协作的团队，本次更新专门优化了 Drive 评论事件的处理流程。现在，当有人在飞书文档中评论时，OpenClaw 可以：
+
+* **「解析评论线程上下文」**：理解评论所处的具体文档位置和对话脉络。
+* **「进行线程内回复」**：直接在评论线程下进行回复，保持对话的连贯性。
+* **「支持 Drive 评论操作」**：新增 `feishu_drive` 评论动作，允许 Agent 参与到文档协作的对话中。
+
+这意味着你的 AI 助手现在可以像一个真正的团队成员一样，参与到文档的审阅和讨论中，实现更紧密的工作流集成。
+
+### macOS 语音唤醒
+
+对于 macOS 用户，本次更新带来了期待已久的“语音唤醒”功能。你现在可以通过语音指令直接激活“对话模式”，无需再手动点击或敲击键盘。这为那些双手不便或希望更自然交互的场景提供了极大的便利。
+
+### WhatsApp 与 Telegram 的细节优化
+
+在 WhatsApp 上，OpenClaw 现在会将接收到的消息时间戳传递给模型，让 AI 能够理解消息的发送时间，做出更符合时间上下文的回复。  
+
+在 Telegram 上，我们引入了可配置的 `errorPolicy`（错误策略）和 `errorCooldownMs`（错误冷却时间）。这意味着当遇到重复的发送错误时，OpenClaw 可以智能地抑制错误提示，避免在群聊或频道中刷屏，同时又不影响对新错误的报告。
+
+### 更广泛的模型支持
+
+OpenClaw 的模型库持续扩展。本次更新中，Z.AI 提供商目录新增了 `glm-5.1` 和 `glm-5v-turbo` 两个模型。这为开发者提供了更多选择，可以根据不同任务（文本处理或多模态理解）选择最适合的模型。
+
+安全与执行：更精细的控制
+------------
+
+命令执行的安全性一直是 OpenClaw 关注的重点。2026.4.1 版本对 `exec-approvals`（命令审批）系统进行了深度重构，使其行为更加符合预期，也更加安全。
+
+### 命令审批策略更加可靠
+
+我们修复了多个与命令审批相关的逻辑问题，确保：
+
+* **「持久信任」**：`allow-always`（始终允许）现在会真正持久化用户的信任决定，而不是像之前的 `allow-once`（允许一次）那样仅生效一次。
+* **「精确匹配」**：对于 Shell 包装器路径，系统会重用精确的命令信任记录，避免了因路径变化而导致的重复审批。
+* **「规则不绕过」**：静态的允许列表条目不会再错误地绕过设置为 `ask:"always"`（总是询问）的策略。
+* **「Windows 稳定性」**：解决了在 Windows 系统上，当无法构建允许列表执行计划时，远程执行会硬性失败的问题。现在系统会要求明确批准，而不是直接卡死。
+
+此外，`openclaw doctor` 命令现在会增加一个警告：当 `tools.exec` 的配置范围比 `~/.openclaw/exec-approvals.json` 更宽泛时，它会明确提醒你存在策略冲突，帮助你及早发现并修正潜在的安全风险。
+
+### 更智能的故障转移与限流处理
+
+当你的 AI 模型提供商出现速率限制（Rate Limit）错误时，OpenClaw 的处理方式也更加智能了。本次更新增加了 `auth.cooldowns.rateLimitedProfileRotations` 配置项，允许系统在同一个提供商的不同认证配置（auth profile）之间进行重试，而不仅仅是简单地切换到另一个模型提供商。这能有效减少因 API 配额短暂用尽而导致的服务中断，提高了系统的整体鲁棒性。
+
+稳定性和修复：让系统运行更可靠
+---------------
+
+除了新功能，本次版本还包含大量底层修复，旨在解决用户在实际使用中遇到的卡顿、崩溃和数据不一致问题。
+
+### 告别启动后挂起
+
+部分用户反馈在升级后，网关（Gateway）会在启动约一分钟左右挂起。这一问题已被定位，原因是任务注册表的维护清理操作在同步 SQLite 压力下阻塞了网关事件循环。本次更新已修复此问题，确保网关能够稳定运行。
+
+### 会话与模型切换不中断
+
+当你正在与 AI 对话时，使用 `/model` 命令切换模型，是否曾担心会打断当前正在生成的内容？现在，模型切换命令会被安全地排在当前运行任务之后。只有当当前对话回合结束时，新的模型才会被启用，并且后续的对话会无缝地使用新模型。这种设计确保了切换过程不会造成对话中断或数据丢失。
+
+### 各渠道消息处理更健壮
+
+* **「Discord」**：解决了附件和贴纸下载超时导致消息处理挂起的问题，现在会通过共享的超时和中断路径进行处理。
+* **「Telegram」**：非幂等的发送操作现在会走更严格的安全发送路径，并正确处理 `429`（请求过多）错误和 `retry_after`（重试等待时间）回退，保证消息的可靠投递。同时，修复了论坛话题中执行命令审批时，回复会错位到根会话的问题。
+* **「QQ Bot」**：`/bot-logs` 导出功能现在被更严格地限制在显式允许的列表中，拒绝通配符和混合通配符条目，提升了安全性。
+* **「LINE」**：修复了全局 npm 安装后，LINE 通道无法启动的问题，确保了运行环境依赖的正确加载。
+
+### 数据与配置的“守护”
+
+* **「认证信息持久化」**：修复了 OpenAI Codex 插件刷新后的 OAuth 凭证无法正确保存到 `auth-profiles.json` 的问题，解决了重启后反复出现 `refresh_token_reused`（刷新令牌重复使用）错误的问题。
+* **「配置迁移」**：自动将已弃用的 `channels.telegram.groupMentionsOnly` 配置迁移到新的 `channels.telegram.groups["*"].requireMention` 格式，避免旧配置导致启动崩溃。
+* **「内存索引」**：修复了由 `session-start` 或 `watch` 触发的完整重建索引会跳过会话记录的问题，确保重启后会话记忆依然完整。
+
+### 开发与插件生态的改进
+
+* **「插件加载」**：修复了在严格插件允许列表下，内置渠道插件（如 `channels.<id>` 配置）无法加载的问题，并优化了 `openclaw doctor` 的警告信息，使其只报告真正的插件拦截问题。
+* **「运行时依赖」**：解决了 2026.3.31 版本外部化变更后，内置插件的运行时依赖无法正确打包到安装包和 Docker 构建中的问题，确保所有插件功能正常。
+* **「安装安全」**：`--dangerously-force-unsafe-install` 参数现在能正确传递到归档和 npm 规范插件的安装过程中，使文档中描述的安全覆盖选项真正生效。
+
+常见问题 (FAQ)
+----------
+
+**「问：我该如何使用新的 `/tasks` 功能？」**  
+
+**「答：」** 在任何支持聊天命令的 OpenClaw 会话中，直接输入 `/tasks` 即可。系统会返回当前会话的后台任务看板，以列表形式展示任务状态。
+
+**「问：配置 `agents.defaults.params` 有什么作用？」**  
+
+**「答：」** 这个新配置项允许你为 Agent 设置全局的默认提供商参数。例如，你可以为所有会话统一设置一个默认的“温度”或“最大输出长度”，而无需在每个 Agent 或每个会话中重复配置。
+
+**「问：关于命令审批，我需要注意什么？」**  
+
+**「答：」** 本次更新后，`exec-approvals.json` 的行为更加符合逻辑。如果你之前遇到过“允许一次”后仍需重复批准，或者“始终允许”不生效的情况，升级后应该会得到改善。建议你运行 `openclaw doctor` 检查配置，它可能会提示 `tools.exec` 的全局设置与你的审批白名单存在冲突。
+
+**「问：为什么我的 Telegram 论坛话题中，执行命令的回复会跑到根会话里？」**  
+
+**「答：」** 这已被确认为一个 bug，并在本次更新中修复。现在，话题感知的执行审批会正确地将后续回复路由到它所属的论坛话题中，而不是回退到根会话。
+
+**「问：我遇到了“queue owner unavailable”的 ACPX 会话错误，怎么办？」**  
+
+**「答：」** 这个问题已被修复。新的机制会通过替换已失效的命名会话并恢复后端会话来修复此问题，确保第一个 ACP 提示不再继承一个已失效的会话句柄。如果问题依然存在，系统会尝试在不使用 `--resume-session` 的情况下创建全新的命名会话，以完成恢复。
+
+结语
+--
+
+OpenClaw 2026.4.1 版本是一次全面的“加固”与“提质”更新。我们在不引入颠覆性新功能的前提下，对用户最常接触的任务管理、跨平台体验、执行安全、系统稳定性进行了深度优化。无论你是个人开发者、开源爱好者，还是企业用户，这次更新都将为你带来更加可靠、易用的 AI 助手体验。
+
+我们建议所有用户升级到最新版本，以享受这些改进和修复。详细的安装和升级指南，请查阅官方文档。感谢所有贡献者和社区用户的反馈，是你们的支持让 OpenClaw 不断进步。
+
+**「如何更新？」**  
+
+对于大多数安装方式，你可以使用以下命令进行更新：
+
+```
+# 如果你使用 npm 安装
+npm update -g @openclaw/openclaw
+
+# 如果你使用 Docker
+docker pull openclaw/openclaw:latest
+
+```
+
+具体的更新步骤请参考项目文档。
+
+![]()
+
+
+
+
+
+标签：[AI助手](https://www.xugj520.cn/archives/tag/ai%e5%8a%a9%e6%89%8b)[OpenClaw](https://www.xugj520.cn/archives/tag/openclaw)[任务管理](https://www.xugj520.cn/archives/tag/%e4%bb%bb%e5%8a%a1%e7%ae%a1%e7%90%86)[开源AI](https://www.xugj520.cn/archives/tag/%e5%bc%80%e6%ba%90ai)[跨平台集成](https://www.xugj520.cn/archives/tag/%e8%b7%a8%e5%b9%b3%e5%8f%b0%e9%9b%86%e6%88%90)
+[已赞 (0)](javascript:;)
+
+
+
+
+
+
+
+
+
+### 相关文章
+
+* [Claude Code本质拆解：源码曝光AI Agent操作系统的设计与性能核心](https://www.xugj520.cn/archives/claude-code-agent-os-source-code-analysis.html)
+* [深度解密Claude Code宠物系统：从白板仙人掌到闪光卡皮巴拉的逆袭攻略与底层架构全解析](https://www.xugj520.cn/archives/claude-code-buddy-pet-system-analysis.html)
+* [掌握Claude Skills 2.0：三步教会AI记住你的工作方式，告别重复指令](https://www.xugj520.cn/archives/claude-skills-2-0-guide.html)
+* [别再浪费AI的潜力！15个超实用的Claude Code隐藏功能，让编程效率暴涨5倍](https://www.xugj520.cn/archives/claude-code-hidden-features-programming-productivity.html)
+* [AI Agent 必备6个刚需技能！告别无效插件，工作效率翻倍的黄金组合](https://www.xugj520.cn/archives/essential-ai-agent-skills-workflow-efficiency.html)
+* [破解3018权限错误！即梦CLI命令行全实操指南：从脚本到视频生成落地](https://www.xugj520.cn/archives/dream-cli-tutorial-faq.html)
+* [Claude Code泄露源码惊现AI工程最高机密：揭秘为何它比GPT编程更靠谱的Harness工程体系](https://www.xugj520.cn/archives/claude-code-leak-harness-engineering-secrets.html)
+* [OpenClaw v2026.3.31安全大升级：AI代理默认不可信，你的工作流准备好「显式授权」了吗？](https://www.xugj520.cn/archives/openclaw-2026-security-task-system-update.html)
+
+
+
+
+
+
+
+
+© 2026 [高效码农](https://www.xugj520.cn)
+[冀ICP备19006427号-1](https://beian.miit.gov.cn/) 
+
+
+
+
+Manage Consent
+
+
+
+
+To provide the best experiences, we use technologies like cookies to store and/or access device information. Consenting to these technologies will allow us to process data such as browsing behavior or unique IDs on this site. Not consenting or withdrawing consent, may adversely affect certain features and functions.
+
+Functional
+
+Functional
+
+Always active 
+
+
+
+
+The technical storage or access is strictly necessary for the legitimate purpose of enabling the use of a specific service explicitly requested by the subscriber or user, or for the sole purpose of carrying out the transmission of a communication over an electronic communications network.
+
+
+Preferences
+
+Preferences
+
+
+
+
+The technical storage or access is necessary for the legitimate purpose of storing preferences that are not requested by the subscriber or user.
+
+
+Statistics
+
+Statistics
+
+
+
+
+The technical storage or access that is used exclusively for statistical purposes.
+The technical storage or access that is used exclusively for anonymous statistical purposes. Without a subpoena, voluntary compliance on the part of your Internet Service Provider, or additional records from a third party, information stored or retrieved for this purpose alone cannot usually be used to identify you.
+
+
+Marketing
+
+Marketing
+
+
+
+
+The technical storage or access is required to create user profiles to send advertising, or to track the user on a website or across several websites for similar marketing purposes.
+
+
+
+
+* [Manage options](#)
+* [Manage services](#)
+* [Manage {vendor\_count} vendors](#)
+* [Read more about these purposes](https://cookiedatabase.org/tcf/purposes/)
+
+
+Accept
+Deny
+View preferences
+Save preferences
+[View preferences](#)
+
+* [{title}](#)
+* [{title}](#)
+* [{title}](#)
+
+
+
+Manage consent
+ 
+[转到手机版](https://www.xugj520.cn/archives/openclaw-2026-4-1-release-review.html?amp=1) 
+
+* 登录
+* [注册](javascript:;)
+
+
+
+登录
+
+[忘记密码?](https://www.xugj520.cn/en/login.html?action=forget_password)
+
+
+
+
+
+
+
+
+* [登录](javascript:;)
+* 注册
+
+
+
+
+
+获取验证码
+
+
+注册
+
+
+
+
+
+
+
+
+ 
+
+
+
+

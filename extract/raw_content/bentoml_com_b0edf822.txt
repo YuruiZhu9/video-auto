@@ -1,0 +1,330 @@
+# Source URL: https://bentoml.com/blog/exploring-the-world-of-open-source-text-to-speech-models
+# Content Length: 29366 characters
+# Extracted at: 2026-03-28 19:40:09
+#============================================================
+
+
+The Best Open-Source Text-to-Speech Models in 2026
+
+* Product 
+  + [**Bento Inference Platform**
+    
+    Full control without the complexity. Self-host anywhere. Serve any model. Optimize for performance.
+    
+    Book a Demo](https://www.bentoml.com/contact)
+  + [**BentoML Open-Source**
+    
+    The most flexible way to serve AI/ML models and custom inference pipelines in production
+    
+    GitHub](https://github.com/bentoml)
+* [Pricing](https://www.modular.com/pricing?utm_source=bentoml_pricing)
+* [Docs](https://docs.bentoml.com/)
+* Learn 
+  + [Blog](/blog)
+  + [LLM Inference Handbook](/llm)
+  + [LLM Performance Explorer](/llm-perf)
+  + [Featured Examples](https://docs.bentoml.com/en/latest/examples/overview.html)
+* [Customers](/customers)
+[Log In](https://cloud.bentoml.com)[Sign UpSign Up](https://console.modular.com/signup?utm_source=bentoml_signup)
+
+* Product 
+  + [Bento Inference Platform](https://www.bentoml.com/contact)
+  + [BentoML Open-Source](https://github.com/bentoml)
+* [Pricing](https://www.modular.com/pricing?utm_source=bentoml_pricing)
+* [Docs](https://docs.bentoml.com/)
+* Learn 
+  + [Blog](/blog)
+  + [LLM Inference Handbook](/llm)
+  + [LLM Performance Explorer](/llm-perf)
+  + [Featured Examples](https://docs.bentoml.com/en/latest/examples/overview.html)
+* [Customers](/customers)
+[Log In](https://cloud.bentoml.com)[Sign Up](https://console.modular.com/signup?utm_source=bentoml_signup)ModelsModels
+
+The Best Open-Source Text-to-Speech Models in 2026
+==================================================
+
+Explore the top open-source TTS models and find answers to some FAQs about them.
+
+### Authors
+
+![]()Sherlock Xu
+### Last Updated
+
+January 8, 2026
+### Share
+
+![]()
+
+The demand for text-to-speech (TTS) technology has skyrocketed over the past few years, thanks to its wide-ranging applications across industries such as accessibility, education, and virtual assistants. Just like advancements in [LLMs](https://www.bentoml.com/blog/navigating-the-world-of-open-source-large-language-models) and [image generation models](https://www.bentoml.com/blog/a-guide-to-open-source-image-generation-models), TTS models have evolved to generate more realistic, human-like speech from text input.
+
+If you're looking to integrate TTS into your system, open-source models are a solid option. They offer greater flexibility, control, and customization compared to proprietary alternatives. In this post, we’ll explore some of the most popular open-source TTS models available today. We'll dive into their strengths and weaknesses, helping you choose the best model for your needs. Finally, we'll provide answers to some frequently asked questions.
+
+VibeVoice[#](#vibevoice)
+------------------------
+
+VibeVoice is designed by Microsoft for long-form, expressive, multi-speaker audio generation. The flagship model, [VibeVoice-1.5B](https://huggingface.co/microsoft/VibeVoice-1.5B), is capable of producing up to 90 minutes of speech with four distinct speakers, going far beyond traditional single-speaker or short-form TTS models.
+
+A key innovation behind VibeVoice is its use of extremely low-frame-rate acoustic and semantic tokenizers (7.5 Hz), which significantly reduce the computational cost of long-sequence audio generation. These tokenizers feed into a next-token diffusion architecture that blends LLM-level contextual understanding with high-fidelity acoustic detail. The result is natural prosody, stable voice identities, and smooth turn-taking across very long spans of audio.
+
+Key features:
+
+* **Long-form generation at scale:** The 1.5B model supports context lengths up to 64K tokens and produces roughly 90 minutes of continuous speech. It is a solid option for podcasts, audio dramas, multi-speaker dialogues, and narrative content.
+* **Multi-speaker control:** VibeVoice can generate conversations involving up to four speakers. Speaker identities remain consistent across long passages, and the model handles natural turn-taking without degrading into monotony or repetition.
+* **Lightweight streaming variant:** Microsoft also provides [VibeVoice-Realtime-0.5B](https://huggingface.co/microsoft/VibeVoice-Realtime-0.5B), which produces audible speech in roughly 300 ms and supports streaming text input for real-time narration or agent responses. However, the realtime version is single-speaker only and focuses on speed rather than multi-speaker dialogue.
+
+Points to be cautious about:
+
+* **Research-grade release**: The model is intended for research. Microsoft includes audible disclaimers, watermarking, and other safeguards to prevent misuse.
+* **English and Chinese only:** Trained on bilingual data, the model does not reliably support additional languages.
+* **No overlapping speech**: VibeVoice only generates sequential multi-speaker audio.
+
+Kokoro[#](#kokoro)
+------------------
+
+[Kokoro](https://huggingface.co/hexgrad/Kokoro-82M) is a lightweight yet high-quality TTS model with just **82 million parameters**. Despite its compact size, Kokoro delivers speech quality comparable to much larger models while being significantly faster and more cost-efficient to run. It’s ideal for developers and organizations seeking fast, scalable voice synthesis without compromising quality.
+
+Key features:
+
+* **Lightweight and efficient:** At just 82M parameters, Kokoro runs efficiently on modest hardware with minimal latency. It's an excellent choice for cost-sensitive applications or edge deployment scenarios.
+* **Rapid synthesis:** Built on architectures like StyleTTS2 and ISTFTNet, Kokoro avoids encoders and diffusion processes, providing faster generation speeds.
+* **Fully open-source:** Released under the Apache 2.0 license, Kokoro can be freely integrated into commercial products or personal projects.
+
+Points to be cautious about:
+
+* **No encoder/diffusion:** Kokoro’s decoder-only architecture improves speed but may limit some expressive controls compared to more complex systems.
+* **Beware of scams**: Some standalone websites claim to be the "official Kokoro TTS", which are unaffiliated and potentially fraudulent.
+
+FishAudio-S1[#](#fishaudio-s1)
+------------------------------
+
+FishAudio-S1 is a 4B text-to-speech model developed by [Fish Audio](https://fish.audio/), designed for realistic, emotionally expressive speech with multilingual voice cloning support.
+
+The open-source variant, [S1-mini](https://huggingface.co/fishaudio/openaudio-s1-mini), is a 0.5B distilled version that preserves many of S1’s core capabilities. It supports multilingual speech generation and voice cloning from short reference audio. The model is trained using large-scale RLHF, with an architecture that jointly models semantic and acoustic information. This helps reduce instability and artifacts commonly seen in semantic-only TTS systems, resulting in more natural and coherent speech.
+
+Key features:
+
+* **Expressive and controllable speech**: FishAudio-S1-mini supports fine-grained control over emotion, tone, and delivery, enabling natural prosody and expressive speech suitable for storytelling, character voices, and interactive agents.
+* **High-quality voice cloning**: The model can clone voices from short reference samples (around 10 seconds), capturing not only timbre but also speaking characteristics such as accent, tone, and delivery style.
+* **Multilingual support**: Trained on 13 core languages, with demonstrated generalization to additional languages beyond the training set.
+* **Efficient open-source deployment**: As a 0.5B distilled model, S1-mini balances audio quality and resource efficiency, making it practical for research and production experimentation.
+
+Points to be cautious about:
+
+* **Not equivalent to full S1**: As a distilled open-source variant, S1-mini does not fully match the stability, robustness, or error rates of the 4B FishAudio-S1 flagship model.
+* **Quality–speed trade-offs**: The S1-mini model prioritizes expressive quality and naturalness over aggressive low-latency optimization, which may make it less suitable for strict real-time or on-device scenarios.
+
+Dia2[#](#dia2)
+--------------
+
+[Dia](https://huggingface.co/nari-labs/Dia2-2B) is a dialogue-focused TTS model developed by Nari Labs. It is able to generate expressive, realistic multi-speaker conversations from text scripts, including nonverbal elements like laughter, coughing, or sighing. Its design makes it ideal for dynamic applications such as podcasts, audio dramas, game dialogues, or conversational interfaces.
+
+The newest release, Dia2, features a streaming architecture that can begin synthesizing speech from the first few tokens. The current checkpoints include 1B and 2B variants, both supporting English speech generation of up to about two minutes per output.
+
+Key features:
+
+* **Streaming generation**: Dia2 can start producing audio without waiting for the full text input. This lowers latency across turns and makes the model suitable for real-time conversational agents and speech-to-speech pipelines.
+* **Dialogue-first generation**: Dia2 interprets `[S1]` and `[S2]` tags to create flowing conversations between speakers. You can use these tags for character-based storytelling.
+* **Emotion and tone control**: You can control the speaker tone, emotion, and voice style with nonverbal tags like `(laughs)`, `(coughs)`, and `(gasps)` to enhance realism.
+  
+  ```
+  # A dialogue example
+  [S1] BentoML is a unified AI inference platform. [S2] Wow. Amazing. (laughs) [S1] You can deploy any models with it. [S2] I will try it now.
+  ```
+* **Voice cloning**: You can upload an audio sample and generate a new script in that voice, ensuring speaker consistency across sessions.
+* **Open source**: Dia is free for commercial and non-commercial use under the Apache 2.0 license.
+
+Points to be cautious about:
+
+* **No fixed voice identity**: By default, the model does not generate consistent voices unless guided by an audio prompt or fixed seed.
+* **Nonverbal tag handling**: Nonverbal tags like `(laughs)`, `(sighs)`, or `(coughs)` are supported, but may lead to unpredictable or inconsistent results.
+* **English-only**: The model currently only supports English generation.
+
+Chatterbox-Turbo[#](#chatterbox-turbo)
+--------------------------------------
+
+Chatterbox is a family of high-performance, open-source TTS models developed by Resemble AI for low-latency, production-grade voice applications.
+
+The newest model in the lineup [Chatterbox-Turbo](https://huggingface.co/ResembleAI/chatterbox-turbo) uses a streamlined 350M-parameter architecture that significantly lowers compute and VRAM requirements while maintaining high-fidelity audio output.
+
+Turbo introduces a distilled one-step decoder that reduces generation from ten diffusion steps to a single step. This makes it one of the fastest and most hardware-efficient open-source TTS families currently available.
+
+Chatterbox has been benchmarked favorably against proprietary models like ElevenLabs in side-by-side evaluations, while remaining completely free under the MIT License.
+
+Key features:
+
+* **Emotion exaggeration control**: Chatterbox introduces emotion exaggeration control (a first among open-source TTS models), which allows users to dial up or tone down emotional expressiveness in the generated voice. This makes the model a good choice for games, storytelling, or dynamic characters.
+* **Native paralinguistic tags**: Chatterbox-Turbo supports built-in tags such as `[laugh]`, `[cough]`, and `[chuckle]`. You can easily generate more natural conversational audio without extra post-processing.
+* **Voice cloning support**: You can synthesize speech in a different voice using a short reference clip, enabling speaker adaptation across use cases.
+* **Low-latency performance**: Chatterbox achieves sub-200ms inference latency, making it suitable for production-grade agents and voice interfaces.
+
+Points to be cautious about:
+
+* **Watermarked audio by default**: All audio generated with Chatterbox includes imperceptible watermarks using PerTh. You should be aware that all output is traceable, which is good for ethics but may be a concern in privacy-sensitive applications.
+* **Expressiveness tuning requires parameter adjustment**: To get the most out of its emotion exaggeration features, you may need to experiment with `cfg` and `exaggeration` parameters depending on your specific use case.
+* **English-only**: Chatterbox-Turbo currently supports only English. For multilingual applications, consider [Chatterbox-Multilingual](https://huggingface.co/ResembleAI/chatterbox). When cloning voices across languages, ensure that the reference audio matches the target language to avoid unintended accent transfer.
+
+MeloTTS[#](#melotts)
+--------------------
+
+[MeloTTS](https://github.com/myshell-ai/MeloTTS) is a high-quality, multilingual TTS library developed by [MyShell.ai](https://myshell.ai/). It supports a wide range of languages and accents, including several English dialects (American, British, Indian, and Australian). MeloTTS is optimized for real-time inference, even on CPUs.
+
+Currently, its English variant ([MeloTTS-English](https://huggingface.co/myshell-ai/MeloTTS-English)) is [one of the most downloaded TTS models on Hugging Face.](https://huggingface.co/models?pipeline_tag=text-to-speech&sort=downloads)
+
+Key features:
+
+* **Multilingual support**: MeloTTS offers a broad range of languages and accents. A key highlight is the ability of the Chinese speaker to handle mixed Chinese and English speech. This makes the model particularly useful in scenarios where both languages are needed, such as in international business or multilingual media content.
+* **Real-time inference**: It’s optimized for fast performance, even on CPUs, making it suitable for applications requiring low-latency responses.
+* **Free for commercial use**: Licensed under the MIT License, MeloTTS is available for both commercial and non-commercial usage.
+
+Points to be cautious about:
+
+* **No voice cloning**: MeloTTS does not support voice cloning, which could be a limitation for applications that require personalized voice replication.
+
+XTTS-v2[#](#xtts-v2)
+--------------------
+
+XTTS is one of the most popular voice generation models. Its latest version, [XTTS-v2](https://huggingface.co/coqui/XTTS-v2) is capable of cloning voices into different languages with just a quick 6-second audio sample. This efficiency eliminates the need for extensive training data, making it an attractive solution for voice cloning and multilingual speech generation. It is [the most downloaded TTS model](https://huggingface.co/models?pipeline_tag=text-to-speech&sort=downloads) on Hugging Face.
+
+The bad news is that the [company behind XTTS was shut down in early 2024](https://x.com/_josh_meyer_/status/1742522906041635166), leaving the project to the open-source community. The [source code remains available on GitHub](https://github.com/coqui-ai/TTS).
+
+Key features:
+
+* **Voice cloning with minimal input**: XTTS-v2 allows you to clone voices across multiple languages using only a 6-second audio clip, greatly simplifying the voice cloning process.
+* **Multi-language support**: The model supports 17 languages, making it ideal for global, multilingual applications.
+* **Emotion and style transfer**: XTTS-v2 can replicate not only the voice but also the emotional tone and speaking style, resulting in more realistic and expressive speech synthesis.
+* **Low-latency performance**: The model can achieve less than 150ms streaming latency with a pure PyTorch implementation on a consumer-grade GPU.
+
+Points to be cautious about:
+
+* **Non-commercial use only**: XTTS-v2 is licensed under the [Coqui Public Model License](https://coqui.ai/cpml), which restricts its use to non-commercial purposes. This limits its application in commercial products unless specific licensing terms are negotiated.
+* **Project shutdown**: As the original company was shut down, the model's future development relies entirely on the open-source community.
+
+Here is a code example of serving XTTS-v2 with BentoML:
+
+![]()
+
+[Deploy XTTS-v2Deploy XTTS-v2](https://github.com/bentoml/BentoXTTS) [Deploy XTTS-v2 with a streaming endpointDeploy XTTS-v2 with a streaming endpoint](https://github.com/bentoml/BentoXTTSStreaming)
+
+NeuTTS Air[#](#neutts%20air)
+----------------------------
+
+Developed by [Neuphonic](https://neuphonic.com/), [NeuTTS Air](https://huggingface.co/neuphonic/neutts-air) is the world’s first on-device, super-realistic TTS model with instant voice cloning. Built on a compact 0.5B-parameter LLM backbone, it delivers near-human speech quality and real-time performance. Unlike most cloud-locked systems, NeuTTS Air provides embedded voice AI capabilities on local devices such as laptops, mobile phones, and even Raspberry Pis.
+
+Key features:
+
+* **Human-like realism in a compact model**: Despite its small size, NeuTTS Air produces natural, expressive, and emotionally rich voices.
+* **Optimized for on-device inference**: Distributed in GGUF/GGML format, the model runs efficiently on consumer hardware, supporting both CPUs and GPUs with real-time synthesis.
+* **Instant voice cloning**: Clone any speaker’s voice from as little as 3 seconds of reference audio, without additional fine-tuning or large datasets.
+
+Points to be cautious about:
+
+* **English-focused**: The model currently only supports English generation.
+* **Security and traceability**: All generated audio includes imperceptible watermarks using [PerTh](https://github.com/resemble-ai/perth) to prevent misuse.
+
+ChatTTS[#](#chattts)
+--------------------
+
+[ChatTTS](https://github.com/2noise/ChatTTS) is a voice generation model designed for conversational applications, particularly for dialogue tasks in LLM assistants. It’s also ideal for conversational audio, video introductions, and other interactive tasks. Trained on approximately 100,000 hours of Chinese and English data, ChatTTS is capable of producing natural and high-quality speech in both languages.
+
+Key features:
+
+* **High-quality synthesis**: With extensive training, it delivers natural, fluid speech with clear articulation.
+* **Specialized for dialogues**: ChatTTS is optimized for conversational tasks, making it an excellent choice for LLM-based assistants and dialogue systems.
+* **Token-level control**: It offers limited but useful token-based control over elements like laughter and pauses, allowing some flexibility in dialogue delivery.
+
+Points to be cautious about:
+
+* **Limited language support**: Compared with other TTS models, ChatTTS currently supports only English and Chinese, which may restrict its use for applications in other languages.
+* **Limited emotional control**: At present, the model only supports basic token-level controls like laughter and breaks. More nuanced emotional controls are expected in future versions but are currently unavailable.
+* **Stability issues**: ChatTTS can sometimes encounter stability issues such as generating multi-speaker outputs or producing inconsistent audio quality. These issues are common with autoregressive models and you may need to generate multiple samples to get the desired result.
+
+[Deploy ChatTTSDeploy ChatTTS](https://github.com/bentoml/BentoChatTTS)
+
+---
+
+Now that we’ve explored some of the top open-source TTS models and their features, you might still have questions about how these models perform, their deployment, and the best practices. To help, we’ve compiled a list of FAQs to guide you through the considerations when working with TTS models.
+
+Any benchmarks for TTS models? And how much should I trust them?[#](#any%20benchmarks%20for%20tts%20models%3F%20and%20how%20much%20should%20i%20trust%20them%3F)
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+While LLMs have well-established benchmarks that offer insights into their performance across different tasks, the same cannot be said for TTS models. Evaluating their quality is inherently more challenging due to the subjective nature of human speech perception. If you use metrics like Word Error Rate (WER) to measure the performance, they often fail to capture the nuances of naturalness, inflection, and emotional tone in speech.
+
+I suggest you understand benchmarks for TTS models with caution. While they provide a rough overview of performance, they may not fully reflect how a model will perform in real-world scenarios. If you're interested in exploring TTS model rankings, you can check out the [TTS Arena leaderboard](https://huggingface.co/spaces/TTS-AGI/TTS-Arena), curated by the TTS AGI community on Hugging Face. Note that the leaderboard displays models in descending order of how natural they sound based on community votes.
+
+What should I consider when deploying TTS models?[#](#what%20should%20i%20consider%20when%20deploying%20tts%20models%3F)
+------------------------------------------------------------------------------------------------------------------------
+
+When deploying TTS models, key considerations include:
+
+* **Performance and latency**: Determine if your application requires real-time speech synthesis (e.g., virtual assistants) or if batch processing is sufficient (e.g., generating audiobooks). Real-time TTS deployment requires low-latency systems with optimized models.
+* **Fast scaling**: If your application expects to handle a large number of users simultaneously (e.g., in call centers or customer service bots), ensure that your infrastructure can scale horizontally, adding more compute resources as needed. In this connection, BentoML provides [a simple way to build scalable APIs](https://www.bentoml.com/blog/scaling-ai-model-deployment) and lets you run any TTS models on BentoCloud, which provides [fast and scalable infrastructure for model inference and advanced AI applications](https://www.bentoml.com/blog/introducing-bentocloud).
+* **Integration for compound AI**: TTS models can be combined with other AI components to create [compound AI solutions](https://www.bentoml.com/blog/a-guide-to-compound-ai-systems). For example, you can use STTTTS (speech-to-text and text-to-speech) pipelines to enable voice assistants, interactive systems, and real-time transcription services with seamless bidirectional communication. BentoML provides a set of toolkits that let you easily build and scale compound AI systems, offering [the key primitives for serving optimizations](https://www.bentoml.com/blog/benchmarking-llm-inference-backends), [task queues](https://docs.bentoml.com/en/latest/guides/tasks.html), [batching](https://docs.bentoml.com/en/latest/guides/adaptive-batching.html), [multi-model chains](https://docs.bentoml.com/en/latest/guides/model-composition.html), [distributed orchestration](https://docs.bentoml.com/en/latest/guides/distributed-services.html), and [multi-GPU serving](https://docs.bentoml.com/en/latest/guides/gpu-inference.html).
+
+Text-to-Speech vs. Text-to-Audio. Which one should I choose?[#](#text-to-speech%20vs.%20text-to-audio.%20which%20one%20should%20i%20choose%3F)
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+While "text-to-speech" and "text-to-audio" may seem interchangeable, they refer to slightly different concepts depending on your use case.
+
+* TTS focuses on converting written text into spoken words that sound as close to human speech as possible. It is typically used for applications like virtual assistants, accessibility tools, audiobooks, and voice interfaces. The goal is to generate speech that feels natural and conversational.
+* TTA is broader and can refer to any conversion of text into an audio format, not necessarily human speech. It may include sound effects, alerts, or any type of non-verbal audio cues based on the textual input.
+
+If you need human-like speech output, a TTS model is what you're looking for. On the other hand, if your focus is simply generating any form of audio from text, including sound effects or alerts, you may be considering text-to-audio solutions. Some popular open-source text-to-audio models include Stable Audio Open 1.0, Tango, Bark (which also functions as a TTS model), and MusicGen (often referred to as a "text-to-music" model).
+
+What should I consider regarding speech quality?[#](#what%20should%20i%20consider%20regarding%20speech%20quality%3F)
+--------------------------------------------------------------------------------------------------------------------
+
+When evaluating the speech quality of a TTS model, there are several key factors to consider to ensure the output meets your application's needs:
+
+### Naturalness and intelligibility[#](#naturalness%20and%20intelligibility)
+
+* One of the most important aspects of any TTS model is how natural and human-like the generated speech sounds. Listen for smooth transitions between words, appropriate pauses, and minimal robotic or synthetic artifacts.
+* Intelligibility is equally important. Ensure that the speech is clear and easy to understand, even with complex or lengthy text inputs.
+
+### Multilingual and accent support[#](#multilingual%20and%20accent%20support)
+
+* If your application is multilingual, test the model’s ability to generate high-quality speech across different languages, accents, and dialects. Some models, like MeloTTS mentioned above, are known for handling a broad range of languages, while others may specialize in fewer languages.
+* Be sure to test how well the model adapts to accents within the same language, especially for global applications requiring regional variations in speech.
+
+### Prosody and intonation[#](#prosody%20and%20intonation)
+
+* Prosody refers to the rhythm, stress, and intonation of speech, which play a critical role in making the generated speech sound natural. A good TTS model should replicate human-like prosody to avoid sounding monotonous or unnatural.
+* Intonation should vary naturally, reflecting questions, statements, and exclamations appropriately.
+
+### Emotional expression[#](#emotional%20expression)
+
+* For more advanced applications, consider a model's ability to convey different emotions in speech. Some models, such as OpenVoice, support granular control over emotional expression, which can be critical in customer service, virtual assistants, or entertainment applications.
+
+Final thoughts[#](#final%20thoughts)
+------------------------------------
+
+TTS technology has come a long way, with open-source models now offering high-quality, natural-sounding speech generation across multiple languages and applications. Ultimately, the right TTS model for you will depend on your specific use case.
+
+At [Bento](https://www.bentoml.com/), we work to help enterprises build scalable AI systems with production-grade reliability. Our unified AI inference platform lets developers bring their custom inference code and libraries to build AI systems 10x faster without the infrastructure complexity. You can scale your application efficiently in your cloud and maintain full control over security and compliance.
+
+Check out the following resources to learn more:
+
+* Explore our example projects using [ChatTTS](https://github.com/bentoml/BentoChatTTS), [XTTS](https://github.com/bentoml/BentoXTTS), and [Bark](https://github.com/bentoml/BentoBark)
+* Choose the right [NVIDIA](https://www.bentoml.com/blog/nvidia-data-center-gpus-explained-a100-h200-b200-and-beyond) or [AMD](https://www.bentoml.com/blog/amd-data-center-gpus-mi250x-mi300x-mi350x-and-beyond) GPUs for your TTS model
+* Choose the right deployment patterns: [BYOC](https://www.bentoml.com/llm/infrastructure-and-operations/bring-your-own-cloud), [multi-cloud and cross-region](https://www.bentoml.com/llm/infrastructure-and-operations/multi-cloud-and-cross-region-inference), [on-prem and hybrid](https://www.bentoml.com/llm/infrastructure-and-operations/on-prem-llms)
+* [Join our community forum](https://forum.modular.com/c/bento/31?utm_source=bentoml_blog) to connect with other builders
+* [Contact us](https://www.modular.com/request-demo?utm_source=bentoml_blog) if you have any questions of deploying TTS models
+* [Sign up for our inference platform](https://console.modular.com/signup?utm_source=bentoml_blog) to deploy your first TTS model
+
+Subscribe to our newsletter
+---------------------------
+
+Stay updated on AI infrastructure, inference techniques, and performance optimization.
+
+Subscribe
+### Products
+
+[Bento Inference Platform](https://cloud.bentoml.com/)[BentoML Open-Source](https://github.com/bentoml/BentoML)[OpenLLM](https://github.com/bentoml/OpenLLM)[LLM-Optimizer](https://github.com/bentoml/llm-optimizer)[Comfy-Pack](https://github.com/bentoml/comfy-pack)
+### Resources
+
+[Documentation](https://docs.bentoml.com/)[Blog](/blog)[LLM Inference Handbook](/llm)[LLM Performance Explorer](/llm-perf)[Example Projects](https://docs.bentoml.com/en/latest/examples/overview.html)[AI Infrastructure Report](/2024-ai-infra-report)
+### Company
+
+[Careers](https://www.modular.com/company/careers)[Privacy Policy](/privacy)[LinkedIn](https://www.linkedin.com/company/modular-ai/)[X](https://x.com/Modular)
+### Join our community
+
+[GitHub](https://github.com/modular/modular)[Discord](https://discord.gg/modular)[Forum](https://forum.modular.com/c/bento/31)

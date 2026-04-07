@@ -1,0 +1,788 @@
+# Source URL: https://www.nowcoder.com/feed/main/detail/5ea5cdab8bb848fb838b9a2972ed9ea2?sourceSSR=post
+# Content Length: 21609 characters
+# Extracted at: 2026-03-27 10:11:04
+#============================================================
+
+百度推荐算法二面面经\\_牛客网
+[![](https://static.nowcoder.com/fe/file/logo/1.png)](https://www.nowcoder.com/)
+\* [首页](https://www.nowcoder.com/)
+\* [题库](https://www.nowcoder.com/exam/company)
++ [专项练习](https://www.nowcoder.com/exam/intelligent)
++ [公司真题
+笔试](https://www.nowcoder.com/exam/company)
++ [公司真题
+面试](https://www.nowcoder.com/exam/interview)
++ [在线编程](https://www.nowcoder.com/exam/oj)
+\* [面试](https://www.nowcoder.com/interview/center?entranceType=%E5%AF%BC%E8%88%AA%E6%A0%8F)
++ [面试经验](https://www.nowcoder.com/interview/center?entranceType=%E5%AF%BC%E8%88%AA%E6%A0%8F)
++ [AI 模拟面试](https://www.nowcoder.com/interview/ai/index?entranceType=%E5%AF%BC%E8%88%AA%E6%A0%8F)
+\* [简历](https://www.zhiyeapp.com)
+\* [求职](https://www.nowcoder.com/jobs/recommend/campus)
+![](https://static.nowcoder.com/fe/file/images/web/icons/chunzhao.png)
+\* [学习](https://www.nowcoder.com/courses)
++ [基础学习课](https://www.nowcoder.com/courses?category=1)
++ [实战项目课](https://www.nowcoder.com/courses?category=2)
++ [求职辅导课](https://www.nowcoder.com/courses?category=3)
++ [专栏&文章](https://www.nowcoder.com/blog/blogCenter)
+\* [竞赛](https://ac.nowcoder.com)
+阿里笔试
+美团
+华为
+蚂蚁
+招银网络
+sql
+米哈游
+工银科技
+建信金科
+建信
+阿里笔试
+搜索
+猜你想搜
+阿里笔试
+美团
+华为
+蚂蚁
+招银网络
+sql
+米哈游
+工银科技
+建信金科
+建信
+校招日程
+![](https://uploadfiles.nowcoder.com/files/20220211/127456592\_1644572719235/3985294\_1592391670871\_478DB82018D8776348265B1B2D9DF13C1)寒武纪
+![](https://uploadfiles.nowcoder.com/files/20240308/841502154\_1709872204418/蚂蚁集团-彩色Logo.png)蚂蚁集团
+![](https://uploadfiles.nowcoder.com/images/20230310/947554488\_1678443208223/8927EF98AC98409D22B83E1127140D6C)腾讯云智研发
+![](https://uploadfiles.nowcoder.com/files/20250620/816588511\_1750391786999/联想logo.jpg)联想
+![](https://uploadfiles.nowcoder.com/images/20230310/947554488\_1678443208223/8927EF98AC98409D22B83E1127140D6C)腾讯云智研发
+[我要招人](https://nowpick.nowcoder.com/?channel=zz\_guide\_unlogin)
+\* [![](https://static.nowcoder.com/fe/file/images/web/header/headerPublishJob.png)
+发布职位
+发布职位、邀约牛人](https://nowpick.nowcoder.com/?channel=zz\_guide\_unlogin)
+\* [![](https://static.nowcoder.com/fe/file/images/web/header/headerMoreSolution.png)
+更多企业解决方案
+AI面试、笔试、校招、雇品](https://hr.nowcoder.com?utm\_channel=nkweb\_homepage)
+\* [![](https://static.nowcoder.com/fe/file/oss/2025031817422668458742400.png)
+HR免费试用AI面试
+最新面试提效必备](https://hr.nowcoder.com/product/interview?utm\_channel=nkweb\_homepage\_AIinterview)
+[登录](javascript:void(0);)
+/
+[注册](javascript:void(0);)
+[![](https://uploadfiles.nowcoder.com/images/20250207/170491150\_1738892230479/3997A2401935CA7FF776E8664E2294AF?x-oss-process=image%2Fresize%2Cw\_72%2Ch\_72%2Cm\_mfit)](/users/170491150)
+[搜广推算法offer](/users/170491150)[![](https://static.nowcoder.com/fe/file/site/www-web/prod/1.0.477/imageAssets/6308303d42ab389ee025.png)](/users/170491150)
+2024-11-25 02:41字节跳动\\_算法发布于广东
+发私信
+取消发送
+关注
+已关注取消关注
+# 百度推荐算法二面面经
+[#百度开奖#](/creation/subject/0b59cb1c130b416dac52eaf1cc4fd139)1. 自我介绍2. 模型优化项目    1. 模型优化为什么可以避免跷跷板现象呢？    2. 为什么模型优化能解决负迁移问题    3. 每个任务选择多少个特征呢？    4. 怎么为每个task选择增量特征4. MMOE为什么存在跷跷板现象5. 任何任务都存在跷跷板现象吗？6. 其他多任务训练的架构？7. AUC计算公式和意义8. DBSCAN算法9. 手撕：mask attention手写![](https://uploadfiles.nowcoder.com/images/20220815/318889480\_1660553763718/D9FDAE9918A39C99254A9D8D179628E5)在关注搜广推算法方向的校招/社招/实习同学们，想拿到搜广推算法offer，简历中没有岗位对口/高质量的项目经历，会较难通过面试甚至难以进面。![](https://uploadfiles.nowcoder.com/images/20220815/318889480\_1660553763573/A95184503DF1D65798194F12FCEDE5C5)同学们可以了解下算法项目辅导，在简历中增加一个高含金量的项目，助你斩获offer~[#推荐算法#](/creation/subject/f2e6f02d4f7d4610b86e71d23bac1707)[#百度#](/enterprise/139/discussion)[#面经#](/creation/subject/928d551be73f40db82c0ed83286c8783)
+评论
+点赞成功，聊一聊 >
+199
+分享
+\* 转发到动态
+\* 复制链接
+\* 微信
+\* QQ
+\* 微博
+分享到微信
+分享给好友
+暂不保存保存图片
+![](https://static.nowcoder.com/fe/file/oss/1713857023004LHONO.png)
+真题解析
+浏览
+1470
+邀请牛友回答
+换一批关 闭
+![](https://static.nowcoder.com/fe/file/oss/1731643914928FNFCI.png)
+大家都在搜：百度社招面经
+送花成功，捎句话 >
+![](https://static.nowcoder.com/fe/file/oss/1731897426169UUSUH.png)
+1
+一键发评
+项目辅导有用吗？
+接好运
+搜广推岗位真难
+AUC公式分享下
+MMOE理解了没
+快捷表情
+![](https://uploadfiles.nowcoder.com/images/20220815/318889480\_1660553763718/D9FDAE9918A39C99254A9D8D179628E5)
+![](https://uploadfiles.nowcoder.com/images/20220815/318889480\_1660553763890/5072FC474BC4CF9234FABC22E54A999A)
+![](https://uploadfiles.nowcoder.com/images/20220815/318889480\_1660553763465/6F6CA9EC40A6F04C7838E4DE94A77241)
+![](https://uploadfiles.nowcoder.com/images/20220815/318889480\_1660553763434/7A0C3C39D0D8037360A2B600921D52C5)
+![](https://uploadfiles.nowcoder.com/images/20220815/318889480\_1660553763573/A95184503DF1D65798194F12FCEDE5C5)
+![](https://uploadfiles.nowcoder.com/images/20220815/318889480\_1660553763930/8B36D115CE5468E380708713273FEF43)
+![](https://uploadfiles.nowcoder.com/images/20220815/318889480\_1660553763673/6409638369766F7FC4FBE09BD8BF58AB)
+![](https://uploadfiles.nowcoder.com/images/20220815/318889480\_1660553763988/A36B51811C2F08F8B587B123A106E546)
+![](https://uploadfiles.nowcoder.com/images/20220815/318889480\_1660553763618/25C98751B489394CFB21CE09AE55BC97)
+![](https://uploadfiles.nowcoder.com/images/20220815/318889480\_1660553764153/6078915537BAB7E95CE12422FD944756)
+畅所欲言吧～
+共0张，最多还能上传9张
+图片
+最近使用
+热门话题
+#AI面会问哪些问题？#290 讨论
+#你做过最难的笔试是哪家公司#112 讨论
+#找AI工作可以去哪些公司？#87 讨论
+#你的实习产出是真实的还是包装的？#214 讨论
+#从事AI岗需要掌握哪些技术栈？#115 讨论
+#机械/制造每日一题#1491 讨论
+#春招至今，你的战绩如何？#387 讨论
+#阿里笔试#1208 讨论
+#春招你拿到offer了吗#9949 讨论
+#应届生进小公司有什么影响吗#1188 讨论
+#长得好看会提高面试通过率吗？#192 讨论
+#学历对求职的影响#4208 讨论
+#应届生第一份工作最好去大厂吗？#1214 讨论
+#沪漂/北漂你觉得哪个更苦？#122 讨论
+#一张图晒出你司的标语#36 讨论
+#HR最不可信的一句话是\\_\\_#78 讨论
+#AI时代，哪个岗位还有“活路”#218 讨论
+#职场新人体验#1215 讨论
+#工作丧失热情的瞬间#2574 讨论
+#什么专业适合考公#304 讨论
+话题
+表情
+\* 默认
+emoji
+动作篇
+校招顺利
+打工篇
+😀
+😁
+😂
+🤣
+😃
+😄
+😅
+😆
+😉
+😊
+😋
+😎
+😍
+😘
+🥰
+😗
+😙
+😚
+🙂
+🤗
+🤩
+🤔
+🤨
+😐
+😑
+😶
+🙄
+😏
+😣
+😥
+😮
+🤐
+😯
+😪
+😫
+😴
+😌
+😛
+😜
+😝
+🤤
+😒
+😓
+😔
+😕
+1/2
+同时转发到我的动态
+评论
+全部评论
+推荐最新楼层
+![](https://static.nowcoder.com/fe/file/oss/1681101031872EGDPQ.png)
+暂无评论，快来抢首评~
+相关推荐
+[🔫Samira🔪](/users/68675864)
+昨天 06:17
+[门头沟学院 后端工程师](/users/68675864)
+发私信
+取消发送
+[360春招](/discuss/866685125226946560?sourceSSR=dynamic)
+[有360golang泡池子的吗，泡了4天了... 查看更多](/discuss/866685125226946560?sourceSSR=dynamic)
+点赞评论收藏
+分享
+\* 转发到动态
+\* 复制链接
+\* 微信
+\* QQ
+\* 微博
+分享到微信
+分享给好友
+暂不保存保存图片
+\* 屏蔽该作者全部动态
+\* 关注作者
+\* 举报
+举报
+取 消确 定
+取消确定
+设置该动态仅作者可见
+取消确认举报
+指定话题只能指定一个话题
+取消确定
+指定圈子一条动态只能指定一个圈子
+取消确定
+取消确认编辑
+取消确认编辑
+[我是猫熊](/users/102520625)
+03-20 06:01
+[中南大学 Java](/users/102520625)
+发私信
+取消发送
+[比心agent一面](/discuss/864506950397063168?sourceSSR=dynamic)
+[AI与八股 "介绍一下AI的技术理解" 回答要点：  Skill概念：技能说明书，渐进式加载，更精确 MCP vs Function Calling：MCP是统一标准，Function Calling需自定义 Transformer：QKV注意力机制，编码器理解语义... 查看更多](/discuss/864506950397063168?sourceSSR=dynamic)
+![](https://static.nowcoder.com/fe/file/oss/1715049343797JOCFB.png)查看6道真题和解析
+6235
+分享
+\* 转发到动态
+\* 复制链接
+\* 微信
+\* QQ
+\* 微博
+分享到微信
+分享给好友
+暂不保存保存图片
+\* 屏蔽该作者全部动态
+\* 关注作者
+\* 举报
+举报
+取 消确 定
+取消确定
+设置该动态仅作者可见
+取消确认举报
+指定话题只能指定一个话题
+取消确定
+指定圈子一条动态只能指定一个圈子
+取消确定
+取消确认编辑
+取消确认编辑
+[豆包ai](/users/163246903)
+03-20 13:27
+[中山大学 算法工程师](/users/163246903)
+发私信
+取消发送
+[这样是挂了还是要加面还是进hr面啊](/feed/main/detail/820b56506d2145c28d70f27504aaf8ee?sourceSSR=dynamic)
+[今天晚上七点半面完的，刚才看一眼链接消失了 ，🐭🐭之前都是链接自动消失，这是过了还是要加面还是能进hr面了啊😭😭... 查看更多](/feed/main/detail/820b56506d2145c28d70f27504aaf8ee?sourceSSR=dynamic)
+长图
+理性的塞拉斯喜欢摸鱼：这是面试官提交了面评![](https://uploadfiles.nowcoder.com/images/20220815/318889480\_1660553763718/D9FDAE9918A39C99254A9D8D179628E5) 等结果吧
+[提前批简历挂麻了怎么办](/creation/subject/d6ca161d32ac41d6815fe799578826b5?entranceType\_var=%E5%86%85%E5%AE%B9%E6%9D%A1%E7%9B%AE)
+4204
+分享
+\* 转发到动态
+\* 复制链接
+\* 微信
+\* QQ
+\* 微博
+分享到微信
+分享给好友
+暂不保存保存图片
+\* 屏蔽该作者全部动态
+\* 关注作者
+\* 举报
+举报
+取 消确 定
+取消确定
+设置该动态仅作者可见
+取消确认举报
+指定话题只能指定一个话题
+取消确定
+指定圈子一条动态只能指定一个圈子
+取消确定
+取消确认编辑
+取消确认编辑
+[ice\\_moon](/users/558953996)
+03-08 12:31
+已编辑
+[门头沟学院 Java](/users/558953996)
+发私信
+取消发送
+[27届找实习](/feed/main/detail/d43283431e11418f997b84b6777973fe?sourceSSR=dynamic)
+[已经有一段实习了，但是年后投到现在至今0约面😭，是哪里出了问题啊，是双非学历问题还是简历问题啊😭😭求各位大佬指点一下... 查看更多](/feed/main/detail/d43283431e11418f997b84b6777973fe?sourceSSR=dynamic)
+[投了多少份简历才上岸](/creation/subject/ef20c22b8fe3472c89e6a15a995b78d9?entranceType\_var=%E5%86%85%E5%AE%B9%E6%9D%A1%E7%9B%AE)
+9188
+分享
+\* 转发到动态
+\* 复制链接
+\* 微信
+\* QQ
+\* 微博
+分享到微信
+分享给好友
+暂不保存保存图片
+\* 屏蔽该作者全部动态
+\* 关注作者
+\* 举报
+举报
+取 消确 定
+取消确定
+设置该动态仅作者可见
+取消确认举报
+指定话题只能指定一个话题
+取消确定
+指定圈子一条动态只能指定一个圈子
+取消确定
+取消确认编辑
+取消确认编辑
+[让我再面会儿吧](/users/140566097)
+03-23 13:20
+已编辑
+[武汉大学 Java](/users/140566097)
+发私信
+取消发送
+[番茄小说 后端暑期实习 二面](/discuss/865614540459761664?sourceSSR=dynamic)
+[自我介绍都没有，一上来就问实习介绍一下实习中的难点（深入拷打，觉得这个你这个方案不行巴拉巴拉）八股服务发现的原理（不会，我技术栈没写spring cloud啊，哭）java中的几种引用类型，分别有什么应用场景... 查看更多](/discuss/865614540459761664?sourceSSR=dynamic)
+![](https://static.nowcoder.com/fe/file/oss/1715049343797JOCFB.png)查看5道真题和解析
+559
+分享
+\* 转发到动态
+\* 复制链接
+\* 微信
+\* QQ
+\* 微博
+分享到微信
+分享给好友
+暂不保存保存图片
+\* 屏蔽该作者全部动态
+\* 关注作者
+\* 举报
+举报
+取 消确 定
+取消确定
+设置该动态仅作者可见
+取消确认举报
+指定话题只能指定一个话题
+取消确定
+指定圈子一条动态只能指定一个圈子
+取消确定
+取消确认编辑
+取消确认编辑
+一键发评
+项目辅导有用吗？
+接好运
+搜广推岗位真难
+AUC公式分享下
+MMOE理解了没
+评论
+点赞成功，聊一聊 >
+1
+9
+标题
+9
+分享
+\* 转发到动态
+\* 复制链接
+\* 微信
+\* QQ
+\* 微博
+分享到微信
+分享给好友
+暂不保存保存图片
+![](https://static.nowcoder.com/fe/file/oss/1713857023004LHONO.png)
+真题解析
+评论
+![]() 提到的真题
+返回内容
+招聘动态
+[查看更多](/jobs/school/schedule?pageSource=105)
+[![](https://uploadfiles.nowcoder.com/images/20260326/841502154\_1774516681374/AC9CFDDB60C48C3A6E2816F6AE1A4D8D)
+奥克斯集团
+2026春季校园招聘](/jump?type=ad&source=105&companyId=2437&url=https%3A%2F%2Fauxgroup.zhiye.com%2Fcampus%2Fjobs%3Fmemory%3D%257B%257D%26silence%3D1&entityId=13181)
+[![](https://uploadfiles.nowcoder.com/images/20260317/493612832\_1773743521024/1F8F3EDCFA669364A78018C9B6DEE90A)
+鹏芯微
+2026届校园招聘](/jump?type=ad&source=105&companyId=23046&url=https%3A%2F%2Fwww.nowcoder.com%2Fjobs%2Fhr%2F110712&entityId=13159)
+[![](https://uploadfiles.nowcoder.com/files/20260313/132429596\_1773369212144/img\_v3\_02vo\_30d43854-bf23-4c46-bade-5be23cbd8d6g.png)
+小米集团
+2026届春季校园招聘](/jump?type=ad&source=105&companyId=147&url=https%3A%2F%2Fhr.xiaomi.com%2Fcampus&entityId=13151)
+[![](https://uploadfiles.nowcoder.com/images/20250915/853289998\_1757909529106/789F239824B9345414856ECFB6C1EC60)
+厦门银行
+2026届春季校园招聘](/jump?type=ad&source=105&companyId=2932&url=https%3A%2F%2Fxmccb.zhaopin.com%2F&entityId=13149)
+[![](https://uploadfiles.nowcoder.com/images/20260305/816588511\_1772693289678/E7DE16113C90668CBA514960D0D8AFD3)
+联想
+26届补录&27届暑期实习](/jump?type=ad&source=105&companyId=958&url=https%3A%2F%2Ftalent.lenovo.com.cn%2Fposition%3FprojectType%3D1&entityId=13135)
+[![](https://uploadfiles.nowcoder.com/images/20260310/165927317\_1773125967905/B65B8BD7832771315579AA158B3A5F74)
+携程集团
+2026年春季校园招聘](/jump?type=ad&source=105&companyId=153&url=http%3A%2F%2Ft.ctrip.cn%2FgSuXOL7&entityId=13143)
+[![](https://uploadfiles.nowcoder.com/images/20260326/956063220\_1774504719917/8B0B1F87AD69AC51FE62D3E33029BC17)
+AI网申助手
+网申字段一键填写](/jump?type=ad&source=105&companyId=28854&url=https%3A%2F%2Flink.zhiyeapp.com%2Fr%2Fp8KPdaIITw&entityId=13114)
+[![](https://uploadfiles.nowcoder.com/images/20260224/853289998\_1771897997818/D6CF717DF63F64F7C3033E36D718AB2E)
+恒生电子
+2026届春季校园招聘](/jump?type=ad&source=105&companyId=810&url=https%3A%2F%2Fbsurl.cn%2Fv2%2FH3HKrKJk&entityId=13109)
+[![](https://uploadfiles.nowcoder.com/images/20260305/848581377\_1772699845902/86CC0946C2F9EC1AC24696B89ADE491A)
+27届校招宝典](/jump?type=ad&source=105&companyId=1727&url=https%3A%2F%2Flink.zhiyeapp.com%2Fr%2FxEKxW1g0pC&entityId=13136)
+[![](https://uploadfiles.nowcoder.com/images/20260226/816588511\_1772077437028/36FCF17C8A0360020292363547403613)
+滴滴
+2026届春季校招](/jump?type=ad&source=105&companyId=652&url=https%3A%2F%2Fapp.mokahr.com%2Fsu%2Fwpvoov&entityId=13112)
+![](https://static.nowcoder.com/fe/file/site/www-web/prod/1.0.477/imageAssets/fb0f8426d41a5025be30.png)
+## 全站热榜
+更多
+\* [1
+Agent面试拷打！...Agent面试拷打！
+2.2W](https://www.nowcoder.com/feed/main/detail/e810608338be4eb9bff23db1b7ed2472)
+\* [2
+AI应用开发岗，简历怎么写才能脱颖而出？...AI应用开发岗，简历怎么写才能脱颖而出？
+7983](https://www.nowcoder.com/discuss/865965308496928768)
+\* [3
+双非选手的求职的感悟...双非选手的求职的感悟
+7044](https://www.nowcoder.com/feed/main/detail/1c2f03e161114c2783389f2cc3a2a96e)
+\* [4
+面试官视角聊聊：如何避免成为“AI工具人”...面试官视角聊聊：如何避免成为“AI工具人”
+6128](https://www.nowcoder.com/discuss/866337068899655680)
+\* [5
+阿里笔试竟然考了AI提示词。。。...阿里笔试竟然考了AI提示词。。。
+6096](https://www.nowcoder.com/feed/main/detail/8a66b9baa08f407c811fb838d475ad88)
+\* [6
+美团暑期实习一面...美团暑期实习一面
+6096](https://www.nowcoder.com/feed/main/detail/69fe92685d1a4063907639e9cf0317a9)
+\* [7
+网申助手用了三周，说说真实感受（不是广告）...网申助手用了三周，说说真实感受（不是广告）
+5834](https://www.nowcoder.com/discuss/866338047447621632)
+\* [8
+快手暑期实习3.25发offer啦...快手暑期实习3.25发offer啦
+5203](https://www.nowcoder.com/feed/main/detail/2a2163d9018c49e492ca508650a70401)
+\* [9
+聊一聊一些 Agent 项目的亮点（进阶）...聊一聊一些 Agent 项目的亮点（进阶）
+4562](https://www.nowcoder.com/discuss/866061442691231744)
+\* [10
+快手后端-Java开发一面面经...快手后端-Java开发一面面经
+4036](https://www.nowcoder.com/feed/main/detail/7bd4afba29bc49c789427b5a00ced397)
+## 创作者周榜
+更多
+永泽one更新了爆文
+快手 后端开发实习生(实习)
+10W+
+YukiYukino
+天津大学 Java
+9.4W
+双非鼠鼠励志逆袭
+门头沟学院 测试开发
+8.9W
+回忆成了大问题更新了爆文
+美团 后端开发
+7.9W
+长矛战士966
+门头沟学院 Java
+7.7W
+十九栖更新了爆文
+山东大学 Java
+7.1W
+OmniStorm
+门头沟学院 golang
+5.8W
+Code\\_Agent收藏top1
+吉林农业大学 算法工程师
+5.8W
+要睡觉的驾驶员更新了爆文
+南开大学 Java
+5.7W
+每天都很焦虑更新了爆文
+门头沟学院 Java
+5.6W
+正在热议
+更多
+[#AI面会问哪些问题？#
+14679次浏览290人参与](https://www.nowcoder.com/creation/subject/2d2efadc51044b2c8ba6058b05d50fa7?entranceType\_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[#你做过最难的笔试是哪家公司#
+17242次浏览112人参与](https://www.nowcoder.com/creation/subject/127662cdad8648b9b1f18def1a2bb512?entranceType\_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[#厦门银行科技岗值不值得投#
+5158次浏览120人参与](https://www.nowcoder.com/creation/subject/ae19c9c8a46b45bb893759215e3c8c6a?entranceType\_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[#你的实习产出是真实的还是包装的？#
+14507次浏览214人参与](https://www.nowcoder.com/creation/subject/2f92dca4f67b4d558ce955cff7ea7045?entranceType\_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[#找AI工作可以去哪些公司？#
+3944次浏览87人参与](https://www.nowcoder.com/creation/subject/091e60916b214c658e0173eda4b3340d?entranceType\_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[#春招至今，你的战绩如何？#
+45374次浏览387人参与](https://www.nowcoder.com/creation/subject/6a233b563e7b446b8c8a30757e3aa732?entranceType\_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[#开放七大实习专项，百度暑期实习值得冲吗#
+9324次浏览119人参与](https://www.nowcoder.com/creation/subject/8a0b5ebef43749cc8a7fca63f9df47ea?entranceType\_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[#从事AI岗需要掌握哪些技术栈？#
+4162次浏览115人参与](https://www.nowcoder.com/creation/subject/2561abed78fb4b1da24577dbf375c5a4?entranceType\_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[#机械/制造每日一题#
+91955次浏览1491人参与](https://www.nowcoder.com/creation/subject/2d8e608ae20d434bbe87e8d6b79b1f64?entranceType\_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[#阿里笔试#
+168410次浏览1208人参与](https://www.nowcoder.com/creation/subject/78b3e7cf97af48a1a41c6d240e84439c?entranceType\_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[#春招你拿到offer了吗#
+823036次浏览9949人参与](https://www.nowcoder.com/creation/subject/354fccec027a4aea882168452a1c9994?entranceType\_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[#应届生进小公司有什么影响吗#
+132727次浏览1188人参与](https://www.nowcoder.com/creation/subject/09c14bd1da4948dab129edbcf77ac299?entranceType\_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[#长得好看会提高面试通过率吗？#
+18328次浏览192人参与](https://www.nowcoder.com/creation/subject/a6cb8b5ba2f549ffaa720eade643c8c6?entranceType\_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[#学历对求职的影响#
+656782次浏览4208人参与](https://www.nowcoder.com/creation/subject/2708d6538f27416c8fb342736fc8b3a5?entranceType\_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[#应届生第一份工作最好去大厂吗？#
+143291次浏览1214人参与](https://www.nowcoder.com/creation/subject/75b2bab233b242e6a131c5a038088d51?entranceType\_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[#沪漂/北漂你觉得哪个更苦？#
+7067次浏览122人参与](https://www.nowcoder.com/creation/subject/89d829da54634f7aac671fe71a6c3439?entranceType\_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[#一张图晒出你司的标语#
+2465次浏览36人参与](https://www.nowcoder.com/creation/subject/ae7cc612d311440ea0d1c266898831ad?entranceType\_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[#HR最不可信的一句话是\\_\\_#
+4012次浏览78人参与](https://www.nowcoder.com/creation/subject/e09c1710bf7a463e93b3d7872ec0ea20?entranceType\_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[#AI时代，哪个岗位还有“活路”#
+7980次浏览218人参与](https://www.nowcoder.com/creation/subject/3bbce0388cec42cdbcaabbd4fb88a106?entranceType\_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[#职场新人体验#
+180387次浏览1215人参与](https://www.nowcoder.com/creation/subject/0b479c7091e8445580deac7162258afe?entranceType\_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[#工作丧失热情的瞬间#
+375010次浏览2574人参与](https://www.nowcoder.com/creation/subject/4fa65ac660ab447ea2e067fbca4ebe1b?entranceType\_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[#什么专业适合考公#
+58620次浏览304人参与](https://www.nowcoder.com/creation/subject/9aaf29a01ab34b65af11c67937dae5ed?entranceType\_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)
+立即注册/登录
+\* 刷真题、补算法、看面经、得内推
+![](https://uploadfiles.nowcoder.com/app/app\_download.png)
+扫一扫，把题目装进口袋
+移动版
+\* [关于我们](/nowcoder/about)
+\* [加入我们](/nowcoder/recruitment)
+\* [意见反馈](javascript:void(0);)
+\* [企业服务](https://hr.nowcoder.com/?utm\_channel=nkweb\_homepage)
+\* [校企合作](/nowcoder/school-cooperation)
+\* [联系我们](/html/cooperation)
+\* [免责声明](/html/disclaimer)
+\* [友情链接](/html/links)
+\* [资源导航](/home/resourcemap)
+\* [付费咨询](https://newcoder.com/?type=news)
+![](https://uploadfiles.nowcoder.com/images/20180815/59\_1534321710941\_41A541F87AE349E1D829B1B0B95C955D)
+扫描二维码，进入QQ群
+![](https://static.nowcoder.com/fe/file/oss/1657164410523CWJXY.png)
+扫描二维码，关注牛客公众号
+公司地址：北京市朝阳区北苑路北美国际商务中心K1座一层-北京牛客科技有限公司
+联系方式：010-60728802
+投诉举报电话：010-57596212（朝阳人力社保局）
+牛客科技©2026 All rights reserved
+[admin@nowcoder.com](mailto:admin@nowcoder.com)
+[京ICP备14055008号-4](https://beian.miit.gov.cn)[增值电信业务经营许可证](https://uploadfiles.nowcoder.com/acts/icp.png)[营业执照](https://static.nowcoder.com/protocol/license-center.html#business)[人力资源服务许可证](https://static.nowcoder.com/protocol/license-center.html#human-resources)[![](https://static.nowcoder.com/fe/file/oss/1637234087517BBAYE.png)京公网安备 11010502036488号](http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502036488)
+![](https://uploadfiles.nowcoder.com/images/20180815/59\_1534321710941\_41A541F87AE349E1D829B1B0B95C955D)
+扫描二维码，进入QQ群
+![](https://static.nowcoder.com/fe/file/oss/1646799945943MMDZY.png)
+扫描二维码，关注牛客公众号
+每天登录，牛客都会送你一朵免费的花。
+[牛客网](https://www.nowcoder.com/simple/home)[牛客网在线编程](https://www.nowcoder.com/simple/question)[牛客网题解](https://www.nowcoder.com/simple/question/comment)[牛客企业服务](https://www.nowcoder.com/simple/hr)
+![](https://static.nowcoder.com/fe/file/oss/1688615753578AHSOY.png)![](https://static.nowcoder.com/fe/file/oss/1688615782322IEGPA.png)
+![](https://static.nowcoder.com/fe/file/oss/1689329076959EQVSW.png)我是求职者
+![](https://static.nowcoder.com/fe/file/oss/1688615533943XCPPM.png)
+![](https://static.nowcoder.com/fe/file/oss/1689329036834EOKNP.png)我是招聘方
+![](https://static.nowcoder.com/fe/file/oss/1688615569777HLTAY.png)
+校招快人一步
+\* 注册登录
+\* 密码登录
+\* 中国 +86
+\* 美国 +1
+\* 加拿大 +1
+\* 俄罗斯 +7
+\* 埃及 +20
+\* 南非 +27
+\* 希腊 +30
+\* 荷兰 +31
+\* 比利时 +32
+\* 法国 +33
+\* 西班牙 +34
+\* 匈牙利 +36
+\* 意大利 +39
+\* 罗马尼亚 +40
+\* 瑞士 +41
+\* 奥地利 +43
+\* 英国 +44
+\* 丹麦 +45
+\* 瑞典 +46
+\* 斯瓦尔巴岛 +47
+\* 波兰 +48
+\* 德国 +49
+\* 秘鲁 +51
+\* 墨西哥 +52
+\* 古巴 +53
+\* 阿根廷 +54
+\* 巴西 +55
+\* 智利 +56
+\* 哥伦比亚 +57
+\* 委内瑞拉 +58
+\* 马来西亚 +60
+\* 澳大利亚 +61
+\* 印度尼西亚 +62
+\* 菲律宾 +63
+\* 新西兰 +64
+\* 新加坡 +65
+\* 泰国 +66
+\* 日本 +81
+\* 韩国 +82
+\* 越南 +84
+\* 土耳其 +90
+\* 印度 +91
+\* 巴基斯坦 +92
+\* 阿富汗 +93
+\* 斯里兰卡 +94
+\* 缅甸 +95
+\* 伊朗 +98
+\* 南苏丹 +211
+\* 摩洛哥 +212
+\* 阿尔及利亚 +213
+\* 突尼斯 +216
+\* 利比亚 +218
+\* 冈比亚 +220
+\* 塞内加尔 +221
+\* 毛里塔尼亚 +222
+\* 马里 +223
+\* 几内亚 +224
+\* 科特迪瓦 +225
+\* 布基纳法索 +226
+\* 尼日尔 +227
+\* 多哥 +228
+\* 贝宁 +229
+\* 毛里求斯 +230
+\* 利比里亚 +231
+\* 塞拉利 +232
+\* 加纳 +233
+\* 尼日利亚 +234
+\* 乍得 +235
+\* 中非 +236
+\* 喀麦隆 +237
+\* 佛得角 +238
+\* 圣多美和普林西比 +239
+\* 赤道几内亚 +240
+\* 加蓬 +241
+\* 刚果 +242
+\* 刚果 +243
+\* 安哥拉 +244
+\* 几内亚比绍 +245
+\* 阿森松岛 +247
+\* 塞舌尔 +248
+\* 苏丹 +249
+\* 卢旺达 +250
+\* 埃塞俄比亚 +251
+\* 索马里 +252
+\* 吉布提 +253
+\* 肯尼亚 +254
+\* 坦桑尼亚 +255
+\* 乌干达 +256
+\* 布隆迪 +257
+\* 莫桑比克 +258
+\* 赞比亚 +260
+\* 马达加斯加 +261
+\* 留尼汪 +262
+\* 津巴布韦 +263
+\* 纳米尼亚 +264
+\* 马拉维 +265
+\* 莱索托 +266
+\* 博茨瓦纳 +267
+\* 斯威士兰 +268
+\* 马约特 +269
+\* 阿鲁巴 +297
+\* 法罗群岛 +298
+\* 格陵兰 +299
+\* 直布罗陀 +350
+\* 葡萄牙 +351
+\* 卢森堡 +352
+\* 爱尔兰 +353
+\* 冰岛 +354
+\* 阿尔巴尼亚 +355
+\* 马耳他 +356
+\* 塞浦路斯 +357
+\* 芬兰 +358
+\* 保加利亚 +359
+\* 立陶宛 +370
+\* 拉脱维亚 +371
+\* 爱沙尼亚 +372
+\* 摩尔多瓦 +373
+\* 亚美尼亚 +374
+\* 白俄罗斯 +375
+\* 安道尔 +376
+\* 摩纳哥 +377
+\* 圣马力诺 +378
+\* 乌克兰 +380
+\* 塞尔维亚和黑山 +381
+\* 黑山 +382
+\* 克罗地亚 +385
+\* 斯洛文尼亚 +386
+\* 波黑 +387
+\* 马其顿 +389
+\* 捷克 +420
+\* 斯洛伐克 +421
+\* 列支敦士登 +423
+\* 伯利兹 +501
+\* 危地马拉 +502
+\* 萨尔瓦多 +503
+\* 洪都拉斯 +504
+\* 尼加拉瓜 +505
+\* 哥斯达黎加 +506
+\* 巴拿马 +507
+\* 圣皮埃尔和密克隆 +508
+\* 海地 +509
+\* 瓜德罗普 +590
+\* 玻利维亚 +591
+\* 圭亚那 +592
+\* 厄瓜多尔 +593
+\* 法属圭亚那 +594
+\* 巴拉圭 +595
+\* 马提尼克 +596
+\* 苏里南 +597
+\* 乌拉圭 +598
+\* 荷属安的列斯 +599
+\* 东帝汶 +670
+\* 文莱 +673
+\* 巴布亚新几内亚 +675
+\* 汤加 +676
+\* 所罗门群岛 +677
+\* 瓦努阿图 +678
+\* 斐济 +679
+\* 帕劳 +680
+\* 库克群岛 +682
+\* 萨摩亚 +685
+\* 基里巴斯 +686
+\* 新喀里多尼亚 +687
+\* 法属波利尼西亚 +689
+\* 中国香港 +852
+\* 中国澳门 +853
+\* 柬埔寨 +855
+\* 老挝 +856
+\* 孟加拉国 +880
+\* 中国台湾 +886
+\* 马尔代夫 +960
+\* 黎巴嫩 +961
+\* 约旦 +962
+\* 叙利亚 +963
+\* 伊拉克 +964
+\* 科威特 +965
+\* 沙特阿拉伯 +966
+\* 也门 +967
+\* 阿曼 +968
+\* 巴勒斯坦 +970
+\* 阿拉伯联合酋长国 +971
+\* 以色列 +972
+\* 巴林 +973
+\* 卡塔尔 +974
+\* 不丹 +975
+\* 蒙古 +976
+\* 尼泊尔 +977
+\* 塔吉克斯坦 +992
+\* 土库曼斯坦 +993
+\* 阿塞拜疆 +994
+\* 格鲁吉亚 +995
+\* 吉尔吉斯斯坦 +996
+\* 乌兹别克斯坦 +998
+\* 巴哈马 +1242
+\* 巴巴多斯 +1246
+\* 安圭拉 +1264
+\* 安提瓜和巴布达 +1268
+\* 英属维尔京群岛 +1284
+\* 美属维尔京群岛 +1340
+\* 开曼群岛 +1345
+\* 百慕大 +1441
+\* 格林纳达 +1473
+\* 特克斯和凯科斯群岛 +1649
+\* 蒙特塞拉特 +1664
+\* 关岛 +1671
+\* 东萨摩亚 +1684
+\* 荷属圣马丁 +1721
+\* 圣卢西亚 +1758
+\* 多米尼克 +1767
+\* 圣文森特和格林纳丁斯 +1784
+\* 波多黎各 +1787
+\* 多米尼加 +1809
+\* 特立尼达和多巴哥 +1868
+\* 圣基茨和尼维斯 +1869
+\* 牙买加 +1876
+发送验证码
+注册/登录
+同意
+[《注册协议》](https://static.nowcoder.com/protocol/register.html)
+和
+[《隐私政策》](https://static.nowcoder.com/protocol/privacy-policy.html)
+未注册手机验证后自动登录
+or
+扫码登录
+![](https://static.nowcoder.com/fe/file/oss/1689128604878FSSFW.png)
+微信
+![](https://static.nowcoder.com/fe/file/oss/1689128504959WPAUF.png)
+牛客
+![](https://static.nowcoder.com/fe/file/oss/1689128414924WQVUP.png)
+QQ
+![](https://static.nowcoder.com/fe/file/oss/1689128559948AKPYS.png)
+微博
+扫码关注【牛客】即可登录
+登录或完成注册即代表你
+同意[《注册协议》](https://static.nowcoder.com/protocol/register.html)和[《隐私政策》](https://static.nowcoder.com/protocol/privacy-policy.html)
+牛客优聘APP 随时开聊

@@ -1,0 +1,215 @@
+# Source URL: https://www.nowcoder.com/discuss/514583749850357760
+# Content Length: 13285 characters
+# Extracted at: 2026-04-03 10:09:44
+#============================================================
+
+
+
+
+
+
+
+
+
+
+
+深度学习面经 - FM、FFM、DeepFM系列\_牛客网
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[![]()](https://www.nowcoder.com/)
+
+* [首页](https://www.nowcoder.com/)
+* [题库](https://www.nowcoder.com/exam/company)
+  + [公司真题](https://www.nowcoder.com/exam/company)
+  + [专项练习](https://www.nowcoder.com/exam/intelligent)
+  + [面试题库](https://www.nowcoder.com/exam/interview)
+  + [在线编程](https://www.nowcoder.com/exam/oj)
+* [面试](https://www.nowcoder.com/interview/center?entranceType=%E5%AF%BC%E8%88%AA%E6%A0%8F)
+  + [面试经验](https://www.nowcoder.com/interview/center?entranceType=%E5%AF%BC%E8%88%AA%E6%A0%8F)
+  + [AI 模拟面试](https://www.nowcoder.com/interview/ai/index?entranceType=%E5%AF%BC%E8%88%AA%E6%A0%8F)
+* [简历](https://www.zhiyeapp.com)
+* [求职](https://www.nowcoder.com/jobs/recommend/campus)  ![]()
+* [学习](https://www.nowcoder.com/courses)
+  + [基础学习课](https://www.nowcoder.com/courses?category=1)
+  + [实战项目课](https://www.nowcoder.com/courses?category=2)
+  + [求职辅导课](https://www.nowcoder.com/courses?category=3)
+  + [专栏&文章](https://www.nowcoder.com/blog/blogCenter)
+* [竞赛](https://ac.nowcoder.com)
+
+  搜索
+
+     [我要招人](https://nowpick.nowcoder.com/?channel=zz_guide_unlogin)
+
+* [![]() 
+  发布职位
+   
+  发布职位、邀约牛人](https://nowpick.nowcoder.com/?channel=zz_guide_unlogin)
+* [![]() 
+  更多企业解决方案
+   
+  AI面试、笔试、校招、雇品](https://hr.nowcoder.com?utm_channel=nkweb_homepage)
+* [![]() 
+  HR免费试用AI面试
+   
+  最新面试提效必备](https://hr.nowcoder.com/product/interview?utm_channel=nkweb_homepage_AIinterview)
+  [登录](javascript:void(0);)
+/
+[注册](javascript:void(0);)   [林小白zii](/users/646661816)   2023-07-28 23:32   香港大学 推荐算法          关注 已关注 取消关注    
+
+深度学习面经 - FM、FFM、DeepFM系列
+========================
+
+    
+
+简介：FM、FFM和DeepFM等都是用于解决推荐系统和CTR预测等问题的机器学习模型，能够进行一些特征交叉的工作，也是必备的一些知识点。下面整理了一些关于它们在面试中常问的一些知识点。
+
+### 简单描述下FM、FFM、DeepFM的联系与区别？
+
+答：FM是一种基于因子分解的模型，用于解决稀疏特征下的预测问题。它通过学习特征之间的交互关系来捕获特征的二阶组合特征。FM可以有效地处理高维稀疏数据，并且参数规模与特征数量和特征维度相关，适用于处理稀疏数据的推荐问题。
+
+FFM是FM的一种扩展，它引入了"Field"的概念，将特征分组到不同的Field中。在传统FM中，所有特征都被视为同一组，而FFM将不同Field中的特征之间的交互建模，更好地捕获了特征之间的非线性关系。FFM适用于处理大规模高维度稀疏数据，并且在处理带有高基数特征的数据时表现更优。
+
+DeepFM是将深度神经网络与FM模型相结合的一种模型。它同时考虑了FM模型的高阶特征交互和深度神经网络的非线性表示学习能力。DeepFM首先通过FM部分来学习特征的低阶交互特征，然后将原始输入和FM部分的输出送入神经网络部分，进一步学习特征的高阶组合特征。由于引入了深度神经网络，DeepFM可以更好地学习数据的抽象特征表示，适用于处理更复杂的数据模式和更大规模的数据集。
+
+### FM和LR有什么关系吗？
+
+答：我觉得它其实就是对LR这个模型做的一个有化改进，因为LR我们知道，它的每一个特征之间都是独立输出的，需要手动的交叉特征比较麻烦，而FM通过对任意的两个特征之间进行交叉来达到这个目的，从它的公式的表示上，我们也可以很容易的看出来，它的目标函数由前面的一个LR加上后面的一个两个向量vectore的内积组成的一个交叉项，就是在后面这一部分完成了特征的组合。FM的目标函数是：代表每一个特征xi可以学出一个向量vi，每一个特征xj可以学出一个向量vj。
+
+### 写一下FM的公式？它的时间复杂度是多少？是否可以做优化？
+
+答：FM的公式如下所示： ![]()
+
+<vi,vj>是输入特征i,j之间的交叉参数，vi和vj都是k维向量。 总体来说，FM的公式是一个通用的拟合方差，可以采用不同的损失函数用于解决回归、分类的问题，可以用MSE来做回归，也可以用交叉熵损失来做分类，直观上来看，FM的复杂度是O(kn^2)，但是FM可以进行化简，化简成一个和的平方 - 平方的和这样一个形式。具体如下：化简完的时间复杂度为O(kn)。 ![]()
+
+最直接的想法就是直接把FM得到的结果放进sigmoid中输出一个概率值，由此做CTR预估，事实上我们也可以做召回。由于FM模型是利用两个特征的Embedding做内积得到二阶特征交叉的权重，那么我们可以将训练好的FM特征取出离线存好，之后用来做KNN向量检索。
+
+### FM中如何处理数值型变量？如何处理multi-hot分类变量？
+
+答：FM模型与FFM模型天然为类别型特征设计，如果不处理数值型特征，以年龄为代表，那1岁和99岁的在二阶特征交叉部分得到的结果差距极大。相当于对隐向量做了缩放。 基于以上理由要对数值型特征进行离散化处理。离散化处理的方式有很多可以等距分桶，等频分桶，也可以根据业务知识分桶。
+
+### FM和多项式核SVM的区别？
+
+多项式核的SVM的公式如下： ![]()
+
+可以看到虽然和FM模型的表达式很相似。区别在于SVM的二元特征交叉参数是独立的，比如说它的交叉参数是Wij，而FM中<vi,vj>不是相互独立的，是相互影响的。多项式SVM，交叉的多个特征需要在训练集上共现才能被学习到，否则该对应的参数为0，这样的话对于测试集上的情况而言就失去了意义。因此在稀疏的条件下，共现很难，整体性能表现不佳。而FM通过向量化的交叉，可以学习到不同特征之间的交互，进而提取到更深层次的抽象意义。
+
+### 了解FFM吗？简单介绍下？
+
+答：FFM模型其实就是在FM模型的基础上，引入了Field这个概念，在fm中，一个特征x与其他的特征交叉使用的是同一种embedding。而FFM它会事先将特征按照一定的规则分为不同的field，特征x属于某一个特定的field，每个特征将会被映射成多个embedding，每个embedding对应一个field，当两个向量做特征组合的时候，用两者对应的field的embeddi
+
+
+ 
+
+剩余60%内容，订阅专栏后可继续查看/也可单篇购买
+
+ [小白机器学习面试指南](/creation/manager/columnDetail/MzxAPm) 文章被收录于专栏
+
+林小白的机器学习指南，从本人面试的机器学习算法岗位出发，对机器学习“八股文”做详细的介绍、推导；
+
+  提示购买单篇￥9.9 订阅专刊     全部评论 推荐最新楼层    ![]()
+
+暂无评论，快来抢首评~
+
+      
+
+相关推荐
+
+            昨天 17:24  [科大讯飞\_教育BG\_后端开发(准入职员工)](/users/154254042)     [我通过 vibe coding 实现了二手交易系统](/discuss/869268919914196992?sourceSSR=post)    [首先我们需要了解一下什么是&nbsp;vibe&nbsp;coding？Vibe&nbsp;Coding&nbsp;=&nbsp;用「话」指挥&nbsp;AI&nbsp;写代码，快速出原型、边跑边改，沉浸在开发心流中。Vibe：指「氛围、感觉、意图、风格、效果」——&nbsp;你要什么功能、什么风格、什么约束。Coding：由&nbsp;LLM（GPT-4/Claude/Cursor/Copilot）自动生成、修复、优化代码。你的角色：从「代码打字员」→&nbsp;产品经理&nbsp;+&nbsp;架构师&nbsp;+&nbsp;测试&nbsp;+&nbsp;验收官。二手交易系统后台项目链接https://gitee.com/zxj2022/second-hand-trading-platform#你都用vibe&nbsp;coding做过什么？#](/discuss/869268919914196992?sourceSSR=post)       点赞 评论 收藏 分享             昨天 15:39  [阿里巴巴\_淘宝\_前端](/users/790306029)     [关于优化简历](/discuss/869242536458473472?sourceSSR=post)    [之前有说过我帮忙内推的同学可以免费&nbsp;review&nbsp;简历和优化，结果发现有同学空手套白狼，沟通帮忙优化了好几点最后说过几天投递就没下文了。不用在私信我看简历了，除非有偿，兄弟们](/discuss/869242536458473472?sourceSSR=post)      [投了多少份简历才上岸](/creation/subject/ef20c22b8fe3472c89e6a15a995b78d9?entranceType_var=%E5%86%85%E5%AE%B9%E6%9D%A1%E7%9B%AE)  点赞 评论 收藏 分享             02-25 16:17  [门头沟学院 Java](/users/698598896)      [被学历歧视了，no](/feed/main/detail/0e21fc67de52464da73cd8befac1ce20?sourceSSR=post)    [年前一面通过，后面问是否考虑外包岗位，撤回的消息说的是“没办法，学历是硬性指标”，难绷那你面我干啥呢，浪费双方时间，你早说是外包岗我还接你面试干啥😂](/feed/main/detail/0e21fc67de52464da73cd8befac1ce20?sourceSSR=post)        [开工第一帖](/creation/subject/7aaa468bc75b4d2bb5414618490dd10a?entranceType_var=%E5%86%85%E5%AE%B9%E6%9D%A1%E7%9B%AE)   点赞 评论 收藏 分享             03-10 14:56  [中国人民大学 Java](/users/401290887)      [27怎么能找到实习](/feed/main/detail/90903fabd56a42ab8fa2bffcb4e17fcb?sourceSSR=post)    [求大佬们拷打简历，投了好多简历了，基本上都没面](/feed/main/detail/90903fabd56a42ab8fa2bffcb4e17fcb?sourceSSR=post)        [27届求职交流](/creation/subject/ec329fb4eae7409e92f344edd9278681?entranceType_var=%E5%86%85%E5%AE%B9%E6%9D%A1%E7%9B%AE)   点赞 评论 收藏 分享             03-27 09:50  [广西大学 算法工程师](/users/447852788)      [美团 AI Agent 开发 一面](/discuss/866980457240412160?sourceSSR=post)    [1.说一下&nbsp;Transformer&nbsp;的底层结构吧Transformer&nbsp;的核心是用自注意力代替传统序列模型里的递归结构。一个标准模块通常包含多头自注意力、前馈网络、残差连接和&nbsp;LayerNorm。自注意力负责让每个&nbsp;token&nbsp;和其他&nbsp;token&nbsp;直接交互，前馈网络负责做非线性变换，残差和归一化负责保证深层训练稳定。它真正厉害的地方不是结构复杂，而是信息传播路径短，长距离依赖更容易建模，并且天然适合并行训练。2.&nbsp;Transformer&nbsp;为什么用了&nbsp;LayerNorm&nbsp;呢因为&nbsp;BatchNorm&nbsp;依赖&nbsp;batch&nbsp;维度上的统计量，但&nbsp;NLP&nbsp;任务里句子长度不一致，线上推理时&nbsp;batch&nbsp;也经常...](/discuss/866980457240412160?sourceSSR=post)      [AI-Agent面试实战...](/creation/manager/columnDetail/0ox51k)  点赞 评论 收藏 分享      评论 点赞成功，聊一聊 >点赞 11  分享      评论   ![]()  提到的真题 
+返回内容
+  
+
+招聘动态
+
+[查看更多](/jobs/school/schedule?pageSource=105) 
+
+   [客路2026产研校招](/jump?type=ad&source=105&companyId=2722&url=https%3A%2F%2Fapp.mokahr.com%2Fcampus-recruitment%2Fklook%2F128531%23%2F&entityId=13186) [AI网申助手
+
+网申字段一键填写](/jump?type=ad&source=105&companyId=29192&url=https%3A%2F%2Flink.zhiyeapp.com%2Fr%2Fp8KPdaIITw&entityId=13114) [百度
+
+2027届暑期实习](/jump?type=ad&source=105&companyId=139&url=https%3A%2F%2Flink.youzhiwk.com%2Fr%2FqzWDWieMzj&entityId=13184) [招商银行数字金融训练营
+
+火热报名中](/jump?type=ad&source=105&companyId=674&url=https%3A%2F%2Fcmb-recruitment-mobile.paas.cmbchina.com%2FrecommendList%3FqrCodeId%3D5B6AC1B8-E9C6-4F00-BDB3-ACFB1C75D578&entityId=13183) [新华三
+
+2026届春季校园招聘](/jump?type=ad&source=105&companyId=781&url=https%3A%2F%2Fcareer.h3c.com%2Fcampus%2Fjobs&entityId=13180) [联想
+
+27届暑期实习](/jump?type=ad&source=105&companyId=958&url=https%3A%2F%2Ftalent.lenovo.com.cn%2Fposition%3FprojectType%3D2&entityId=13182) [厦门银行
+
+2026届春季校园招聘](/jump?type=ad&source=105&companyId=2932&url=https%3A%2F%2Fxmccb.zhaopin.com%2F&entityId=13149) [联想
+
+26届补录](/jump?type=ad&source=105&companyId=958&url=https%3A%2F%2Ftalent.lenovo.com.cn%2Fposition%3FprojectType%3D1&entityId=13135) [携程集团
+
+2026年春季校园招聘](/jump?type=ad&source=105&companyId=153&url=http%3A%2F%2Ft.ctrip.cn%2FgSuXOL7&entityId=13143) [27届校招宝典](/jump?type=ad&source=105&companyId=1727&url=https%3A%2F%2Flink.zhiyeapp.com%2Fr%2FxEKxW1g0pC&entityId=13136)  
+
+全站热榜
+----
+
+更多   
+
+* [1  ...   Vibe Coding开发前的 7 个关键步骤 1.1W](https://www.nowcoder.com/discuss/868467588592910336)
+* [2  ...   恒生电子笔试已燃尽 6292](https://www.nowcoder.com/feed/main/detail/7f11ac8aec8f443f95b26a74e63f35b9)
+* [3  ...   AIcoding上线了！你确定不来刷刷？ 5587](https://www.nowcoder.com/feed/main/detail/4206f38809694acbab8a4c6be890d001)
+* [4  ...   4.1 美团后端暑期实习面经 4882](https://www.nowcoder.com/feed/main/detail/dd4c904678344800b364906ee85a1684)
+* [5  ...   我放弃互联网大厂了。。 4535](https://www.nowcoder.com/feed/main/detail/55ed84adc4ee4f1790c6affb62ac3be6)
+* [6  ...   恒生电子笔试 4535](https://www.nowcoder.com/feed/main/detail/0e94c67a61a2429881be25da44095ec4)
+* [7  ...   腾讯前端暑期实习一面 3785](https://www.nowcoder.com/feed/main/detail/f7a2cace5aca45cebf948feb1c2d21c5)
+* [8  ...   必看实用VibeCoding项目 3779](https://www.nowcoder.com/discuss/868450882990440448)
+* [9  ...   京东零售平台产品与研发中心一面 3358](https://www.nowcoder.com/feed/main/detail/8380695ce76c48b59817af0b43682f2a)
+* [10  ...   笔试后没消息？主动查进度！ 3237](https://www.nowcoder.com/feed/main/detail/4d73e739663e434ebcd9174e8141dac4)
+
+ 
+
+创作者周榜
+-----
+
+更多    正在热议 更多   [# 你觉得大几开始实习最合适？ # 16014次浏览 176人参与](https://www.nowcoder.com/creation/subject/125fa26b1f7146fcb53362ee2021ab5d?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# uu们，春招你还来吗？ # 53056次浏览 314人参与](https://www.nowcoder.com/creation/subject/2b47b5c00e2c494fb096c4dccd300593?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 开放七大实习专项，百度暑期实习值得冲吗 # 36183次浏览 617人参与](https://www.nowcoder.com/creation/subject/8a0b5ebef43749cc8a7fca63f9df47ea?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 面试被问到不会的问题，你怎么应对？ # 13182次浏览 176人参与](https://www.nowcoder.com/creation/subject/7ef0441244df472e88886868665f60ca?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 面试中，你被问过哪些奇葩问题？ # 92384次浏览 899人参与](https://www.nowcoder.com/creation/subject/009a50411f4b40eeb397e09e57fef951?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# Claude Code泄露源码 # 8209次浏览 119人参与](https://www.nowcoder.com/creation/subject/a31a6afdb8b447dab69d946b3cf4c702?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 招商银行数字金融训练营 # 104641次浏览 882人参与](https://www.nowcoder.com/creation/subject/7ecad476eebf4a84a9939c9f288de8ad?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 恒生电子笔试 # 17683次浏览 135人参与](https://www.nowcoder.com/creation/subject/6a018700b8a545d0a0ba285106af450a?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 2023年不发年终奖的公司盘点 # 30357次浏览 174人参与](https://www.nowcoder.com/creation/subject/93d014ee32f8494da28ba1fc3b2c4bda?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 你都用vibe coding做过什么？ # 9769次浏览 412人参与](https://www.nowcoder.com/creation/subject/4c737019dc3946d393e89a32b8279f5c?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# AI Coding实战技巧 # 8097次浏览 177人参与](https://www.nowcoder.com/creation/subject/14061c5e54154525b0fe17a6db5311f4?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 26届春招投递记录 # 1535次浏览 25人参与](https://www.nowcoder.com/creation/subject/dffbaefc9dea41e3a6e9453d5e842c82?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 你现在一天AI几次？ # 6759次浏览 89人参与](https://www.nowcoder.com/creation/subject/8042091bde5c4b46b38f14c0ff20ec36?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 七猫笔试 # 6400次浏览 46人参与](https://www.nowcoder.com/creation/subject/e442d3818e73495592d38067e4a70784?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 做完笔试后你收到面试了吗？ # 15174次浏览 167人参与](https://www.nowcoder.com/creation/subject/def4d7f9fa824da78b597b62b704c0ad?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 四大天坑是哪四家？ # 111225次浏览 241人参与](https://www.nowcoder.com/creation/subject/8973a890c9234d76ae865328767a14ed?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 你见过哪些招聘隐形歧视？ # 11711次浏览 103人参与](https://www.nowcoder.com/creation/subject/500a3b3afae54d879b15d634474b1f97?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 机械人你知道哪些单休企业 # 101845次浏览 476人参与](https://www.nowcoder.com/creation/subject/14418f822e4d48bf98e53b0c9133132a?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# Vibe Coding 会干掉初级岗位吗？ # 12680次浏览 170人参与](https://www.nowcoder.com/creation/subject/f016413da8c24d2788709c8e71e625df?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 大厂实习和小厂实习最大的区别是什么？ # 26111次浏览 197人参与](https://www.nowcoder.com/creation/subject/6f221c8c1809443bb6d92b14b37c06d3?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 如果人生可以debug你会改哪一行? # 5820次浏览 103人参与](https://www.nowcoder.com/creation/subject/b2bac7ceb77844e88505ab2d43c39367?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 网易游戏雷火笔试 # 4159次浏览 66人参与](https://www.nowcoder.com/creation/subject/0e566b586c30438f80f9d292d218701b?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)   
+
+* 刷真题、补算法、看面经、得内推
+   ![]() 
+  扫一扫，把题目装进口袋
+   移动版
+* [关于我们](/nowcoder/about)
+* [加入我们](/nowcoder/recruitment)
+* [意见反馈](javascript:void(0);)
+* [企业服务](https://hr.nowcoder.com/?utm_channel=nkweb_homepage)
+* [校企合作](/nowcoder/school-cooperation)
+* [联系我们](/html/cooperation)
+* [免责声明](/html/disclaimer)
+* [友情链接](/html/links)
+* [资源导航](/home/resourcemap)
+* [付费咨询](https://newcoder.com/?type=news)
+
+![]() 
+扫描二维码，进入QQ群
+  ![]() 
+扫描二维码，关注牛客公众号
+    
+公司地址：北京市朝阳区北苑路北美国际商务中心K1座一层-北京牛客科技有限公司
+ 联系方式：010-60728802 投诉举报电话：010-57596212（朝阳人力社保局） 
+牛客科技©2026 All rights reserved
+[admin@nowcoder.com](mailto:admin@nowcoder.com) [京ICP备14055008号-4](https://beian.miit.gov.cn) [增值电信业务经营许可证](https://uploadfiles.nowcoder.com/acts/icp.png) [营业执照](https://static.nowcoder.com/protocol/license-center.html#business) [人力资源服务许可证](https://static.nowcoder.com/protocol/license-center.html#human-resources) [![]()京公网安备 11010502036488号](http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502036488) 
+[牛客网](https://www.nowcoder.com/simple/home)  
+
+[牛客网在线编程](https://www.nowcoder.com/simple/question)  
+
+[牛客网题解](https://www.nowcoder.com/simple/question/comment)  
+
+[牛客企业服务](https://www.nowcoder.com/simple/hr)
+
+
+

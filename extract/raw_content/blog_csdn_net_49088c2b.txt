@@ -1,0 +1,1317 @@
+# Source URL: https://blog.csdn.net/Cristiano_Xie/article/details/159415203
+# Content Length: 18271 characters
+# Extracted at: 2026-04-04 09:05:11
+#============================================================
+
+ 
+
+
+
+
+
+【Vibe Coding 介绍与实践指南】-CSDN博客
+
+
+
+
+
+
+
+【Vibe Coding 介绍与实践指南】
+=====================
+
+
+最新推荐文章于 2026-04-01 14:13:13 发布
+原创
+最新推荐文章于 2026-04-01 14:13:13 发布
+·
+951 阅读
+·
+![]()
+![]()
+12
+
+
+·
+![]()
+![]()
+12
+·
+CC 4.0 BY-SA版权
+版权声明：本文为博主原创文章，遵循 [CC 4.0 BY-SA](http://creativecommons.org/licenses/by-sa/4.0/) 版权协议，转载请附上原文出处链接和本声明。
+
+
+
+
+
+文章标签：
+
+[#人工智能](https://so.csdn.net/so/search/s.do?q=%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+
+
+
+
+
+
+
+[![]()
+AI
+专栏收录该内容](https://blog.csdn.net/cristiano_xie/category_13144468.html)
+
+6 篇文章
+
+订阅专栏
+
+
+
+
+Vibe Coding 介绍与实践指南
+-------------------
+
+### 1. 什么是 Vibe Coding
+
+**Vibe Coding** 可以理解成：
+
+> 先用自然语言描述你想要的效果、风格、功能或改动方向，再让 AI 帮你生成、修改和迭代代码。
+
+它不是严格的技术标准，更像一种近几年流行起来的开发方式。
+
+#### 一句话理解
+
+传统开发通常是：
+
+* 先想实现方案
+* 再手写代码
+* 再编译、调试、修复
+
+Vibe Coding 更像是：
+
+* 先告诉 AI 你想要什么
+* 让 AI 先产出一个版本
+* 你再继续调整方向
+* 最后人工 review 和验证
+
+也就是说，它更偏向于：
+
+**“用目标和感觉驱动开发，而不是从零手敲每一行代码。”**
+
+---
+
+### 2. 典型场景
+
+Vibe Coding 常见于下面这些表达：
+
+* 帮我做一个现代风格的登录页
+* 给这个页面做得更像苹果风
+* 帮我写一个 STM32 串口通信 demo
+* 把这个函数重构得更清晰
+* 给这个接口加缓存，但不要改动太大
+* 先做一个能跑的版本，后面再优化
+
+然后再继续迭代：
+
+* 太复杂了，简化一点
+* 不要重构，只修 bug
+* 改动太多了，收敛一点
+* 保留原行为，最小修改
+* 用项目现有风格重写
+
+这种“不断说方向、不断迭代”的过程，就是 Vibe Coding 的典型用法。
+
+---
+
+### 3. Vibe Coding 的核心特征
+
+#### 3.1 自然语言驱动
+
+开发者不一定先写代码，而是先描述意图。
+
+#### 3.2 快速迭代
+
+不是一次写对，而是快速生成、快速修改、快速比较。
+
+#### 3.3 更关注结果感受
+
+尤其在 UI、Demo、原型和小工具开发里，非常明显。
+
+#### 3.4 AI 参与度更高
+
+开发者逐渐从“纯编码者”转向：
+
+* 提需求的人
+* 限定边界的人
+* 审核结果的人
+* 做最后决策的人
+
+---
+
+### 4. 为什么它会流行
+
+Vibe Coding 火起来的原因很简单：
+
+* 起步快
+* 原型快
+* 改样式快
+* 模板代码生成快
+* 试错成本低
+* 对不熟悉的技术栈也能快速开局
+
+它特别适合：
+
+* 前端页面
+* CRUD
+* 小型工具
+* 自动化脚本
+* 提示词模板
+* 文档初稿
+* 演示 demo
+
+---
+
+### 5. Vibe Coding 的优点
+
+#### 5.1 提高开发速度
+
+很多重复劳动、样板代码和常见结构，AI 都能很快产出。
+
+#### 5.2 更适合探索
+
+当你还不确定最终方案时，AI 可以先给你一个方向。
+
+#### 5.3 降低试错成本
+
+很多想法过去要花比较多时间验证，现在可以先让 AI 快速搭个版本。
+
+#### 5.4 适合原型和初版功能
+
+特别适合先做一个“能看、能跑、能讨论”的版本。
+
+---
+
+### 6. Vibe Coding 的风险
+
+#### 6.1 容易看起来能用，实际上不稳
+
+AI 很容易产出：
+
+* 表面正确
+* 逻辑不完整
+* 边界没处理
+* 错误路径没覆盖
+* 安全性不足
+* 改动范围失控
+
+#### 6.2 容易把简单问题改复杂
+
+如果约束不清晰，AI 可能会：
+
+* 顺手重构
+* 改掉无关代码
+* 引入新的抽象
+* 破坏项目风格一致性
+
+#### 6.3 工程化质量可能跟不上
+
+在这些场景尤其要谨慎：
+
+* 核心业务代码
+* 安全敏感系统
+* 老项目维护
+* 高可靠嵌入式
+* 底层驱动
+* 高性能路径
+
+---
+
+### 7. Vibe Coding 和传统开发的区别
+
+### 7.1 驱动方式不同
+
+#### 传统开发
+
+* 人先设计实现
+* 人主导代码细节
+* AI 最多做辅助
+
+#### Vibe Coding
+
+* 人先描述目标和方向
+* AI 先生成实现草稿
+* 人主要负责筛选、约束和决策
+
+---
+
+### 7.2 开发节奏不同
+
+#### 传统开发
+
+更像：
+
+* 想清楚
+* 写出来
+* 调试
+* 修复
+
+#### Vibe Coding
+
+更像：
+
+* 说需求
+* 让 AI 出一版
+* 看结果
+* 再迭代
+* 再收敛
+
+---
+
+### 7.3 人的角色不同
+
+#### 传统开发里
+
+程序员是：
+
+* 设计者
+* 实现者
+* 调试者
+
+#### Vibe Coding 里
+
+程序员更像：
+
+* 产品化表达者
+* 技术边界设定者
+* 质量审核者
+* 最终拍板者
+
+---
+
+### 7.4 风险点不同
+
+#### 传统开发更容易慢
+
+但通常对代码细节掌控更强。
+
+#### Vibe Coding 更容易快
+
+但如果缺少约束，容易出现：
+
+* 改动失控
+* 逻辑错漏
+* 表面顺滑但工程质量差
+
+---
+
+### 8. Vibe Coding 在 VSCode / Claude Code 里的最佳实践
+
+### 8.1 先分析，再执行
+
+不要直接让 AI 上来就改。
+
+推荐用法：
+
+```
+先阅读相关代码，给出方案和影响范围，等我确认后再执行。
+
+```
+
+这样可以避免 AI 在没理解上下文时乱改代码。
+
+---
+
+### 8.2 明确限制改动范围
+
+这是最关键的工程化约束之一。
+
+推荐用法：
+
+```
+只做最小必要修改，不要重构，不要改无关代码。
+
+```
+
+这能有效避免“修一个 bug，顺手改半个项目”。
+
+---
+
+### 8.3 让 AI 先列涉及文件
+
+在 VSCode / Claude Code 中，先让它说明：
+
+* 会改哪些文件
+* 为什么改这些文件
+* 哪些文件不该动
+
+推荐用法：
+
+```
+先告诉我你准备修改哪些文件，以及每个文件的修改目的。
+
+```
+
+---
+
+### 8.4 对复杂任务先计划
+
+复杂功能、架构调整、多文件修改时，先计划非常重要。
+
+推荐用法：
+
+```
+先给出实施计划、涉及文件、风险和验证方式，确认后再执行。
+
+```
+
+---
+
+### 8.5 把 AI 当“初稿生成器”，不是最终裁判
+
+AI 适合：
+
+* 起草代码
+* 起草文档
+* 提出方案
+* 快速搭框架
+
+但最后仍然要靠你来：
+
+* 判断合理性
+* 检查边界
+* 补测试
+* 决定能不能提交
+
+---
+
+### 8.6 要求按工程格式输出
+
+推荐让 AI 输出：
+
+* 问题定位
+* 根因分析
+* 修改点
+* 影响范围
+* 验证方式
+
+例如：
+
+```
+请按“结论、定位、修改点、影响范围、验证方式”输出。
+
+```
+
+---
+
+### 8.7 对 review 和 PR 审查单独建模板
+
+不要把“生成代码”和“审查代码”混在一起。
+
+建议拆成几类模板：
+
+* thinking 模板
+* 编程模板
+* review 模板
+* PR 审查模板
+
+这样在不同场景下会稳很多。
+
+---
+
+### 8.8 对高风险操作先确认
+
+例如这些操作不要默认让 AI 直接做：
+
+* 删除文件
+* 强推 git
+* 改 CI/CD
+* 改数据库结构
+* 改共享配置
+
+推荐提示：
+
+```
+涉及删除、覆盖、推送、改 CI、改数据库前，先列出操作并等我确认。
+
+```
+
+---
+
+### 9. 如何避免 Vibe Coding 变成“乱改代码”
+
+### 9.1 不要只说感觉，要加边界
+
+错误示范：
+
+* 帮我优化一下
+* 帮我重构一下
+* 帮我改得更好
+
+这种太宽泛，AI 很容易改飞。
+
+更好的说法：
+
+```
+请只修复当前问题，保持现有行为不变，不要重构，不要改无关代码。
+
+```
+
+---
+
+### 9.2 先要求分析，不要直接生成
+
+如果一上来就“帮我改”，AI 很可能靠模式匹配直接输出一版，并不真正理解问题。
+
+更稳的方式是：
+
+```
+先分析根因，给出最小修改方案，确认后再执行。
+
+```
+
+---
+
+### 9.3 让 AI 给出多方案，而不是直接拍板
+
+尤其在这些任务里：
+
+* 架构调整
+* 状态管理改造
+* 接口改造
+* 中间件设计
+* 嵌入式驱动结构调整
+
+推荐提示：
+
+```
+先给出 2-3 种方案，比较复杂度、风险和维护成本，再推荐一种。
+
+```
+
+---
+
+### 9.4 强制要求“最小改动原则”
+
+这是避免乱改最有效的一句话之一：
+
+```
+按最小改动原则处理，只完成当前任务。
+
+```
+
+---
+
+### 9.5 审查 AI 输出，而不是直接相信
+
+你至少要检查：
+
+* 改动是不是超范围
+* 逻辑是不是自洽
+* 是否引入新 bug
+* 是否破坏旧行为
+* 是否缺测试
+* 是否有安全风险
+
+也就是说：
+
+**AI 可以先写，但你不能不审。**
+
+---
+
+### 9.6 对关键代码一定要补验证
+
+尤其是：
+
+* 核心业务逻辑
+* 支付/权限/安全相关
+* 嵌入式底层外设
+* 老项目主流程
+
+至少要补：
+
+* 主路径验证
+* 边界测试
+* 异常路径验证
+* 回归检查
+
+---
+
+### 9.7 把“生成”和“合并”分开
+
+一个好的流程是：
+
+1. AI 生成初稿
+2. 人工 review
+3. 人工或自动测试
+4. 再决定是否合并
+
+不要让“AI 生成了代码”直接等于“代码可以交付”。
+
+---
+
+### 10. 一套更稳的 Vibe Coding 工作流
+
+可以参考下面这个流程：
+
+#### 第一步：只读分析
+
+让 AI 先理解项目。
+
+```
+只读分析这个项目，说明目录结构、关键模块和相关调用链，不要修改文件。
+
+```
+#### 第二步：提出方案
+
+```
+请先给出实现方案、涉及文件、风险和验证方式。
+
+```
+#### 第三步：确认边界
+
+```
+只做最小必要修改，不要重构，不要改无关代码。
+
+```
+#### 第四步：执行修改
+
+确认后再让 AI 动手。
+
+#### 第五步：做 review
+
+```
+请对这次改动做 review，重点检查逻辑正确性、边界情况和回归风险。
+
+```
+#### 第六步：做 PR 审查
+
+```
+请审查这个 PR 是否适合合并，重点关注漏改、回归风险和测试覆盖。
+
+```
+
+这个流程比“想到什么就让 AI 改什么”要稳得多。
+
+---
+
+### 11. 一句话总结
+
+**Vibe Coding 的本质，不是让 AI 替你负责任，而是让 AI 替你加速产出。**
+
+真正决定质量的，仍然是：
+
+* 你怎么提需求
+* 你怎么设边界
+* 你怎么做 review
+* 你怎么做验证
+
+所以最好的方式不是“纯 vibe”，而是：
+
+> **Vibe 出初稿，工程化靠审查。**
+
+---
+
+### 12. 推荐万能提示词
+
+```
+think harder。先阅读相关代码和上下文，不要立即修改。请先输出：1）问题定位；2）根因分析；3）可选方案；4）推荐方案；5）影响范围；6）验证方式。确认后再执行，并且只做最小必要修改，不要重构，不要改无关代码。完成后再从代码 review 和 PR 审查角度检查一遍这次改动。
+
+```
+
+
+
+
+
+
+![]()
+确定要放弃本次机会？
+
+福利倒计时
+
+*:*
+
+*:*
+
+
+![]()
+立减 ¥
+
+
+普通VIP年卡可用
+
+[立即使用](https://mall.csdn.net/vip)
+
+
+[![]()
+风起谢长林](https://blog.csdn.net/Cristiano_Xie)
+
+[关注](javascript:;)
+关注
+
+
+* ![]()
+  ![]()
+  ![]()
+  12
+  点赞
+* ![]()
+  ![]()
+  踩
+* [![]()
+  ![]()
+  ![]()
+  12](javascript:;)
+  收藏
+  
+  
+  
+  觉得还不错?
+  一键收藏
+  
+  ![]()
+* ![]()
+  知道了
+  
+  [![]()
+  0](#commentBox)
+  评论
+* [![]()
+  分享](javascript:;)
+  复制链接
+  
+  分享到 QQ
+  
+  分享到新浪微博
+  
+  ![]()扫一扫
+* ![]()
+  ![]()
+  举报
+  
+  ![]()
+  举报
+
+专栏目录
+
+
+
+
+![]()
+
+[*Vibe* *Coding* 技术综合报告：理论、*实践**与*生态体系（1）](https://season.blog.csdn.net/article/details/156129113)
+
+[shiter编写程序的艺术](https://blog.csdn.net/wangyaninglm)
+
+12-21
+![]()
+388
+
+
+
+
+[2025年10月，中国科学院计算技术研究所*与*杜克大学联合发布首篇*Vibe* *Coding*全面技术综述（92页，分析1000+论文），正式将*Vibe* *Coding*确立为基于大语言模型的工程方法论，而非简单的"跟着感觉走"编程。*与*此同时，实战社区（tukuaiai/*vibe*-*coding*-cn）已形成完整工具链*与*最佳*实践*体系。核心发现理论层面：*Vibe* *Coding*是人-项目-智能体的三元协同系统，可用约束马尔可夫决策过程（CMDP）形式化建模*实践*层面：成功关键在于规划驱动 + 上下文固定 + AI结对执行。](https://season.blog.csdn.net/article/details/156129113)
+
+
+
+
+
+参与评论
+您还未登录，请先
+登录
+后发表或查看评论
+
+
+[颠覆编程效率：全面掌握 “*Vibe* *Coding*”——AI 对话式编码最佳*实践*、工具*与*资源全解析](https://blog.csdn.net/AI_gurubar/article/details/149311644)
+
+[AI\_gurubar的博客](https://blog.csdn.net/AI_gurubar)
+
+07-13
+![]()
+3515
+
+
+
+
+[本文聚焦“*Vibe* *Coding*”——一种以自然语言提示驱动 AI 生成*与*迭代代码的新兴编程范式。全文结构如下：解析 *Vibe* *Coding* 的定义、核心流程及对传统编码效率的颠覆性提升；最佳*实践*：总结十条实战经验；主流*与*国产工具对比；中国开发者生态：剖析国内 AI 编程工具使用现状、用户分布*与*市场竞争格局；汇总中英文教程，助力读者系统入门并持续进阶。通过本文，你将掌握 *Vibe* *Coding* 的落地思路、工具选型*指南**与*学习路径，快速搭建高效安全的 AI 编程闭环，实现生产力飞跃。](https://blog.csdn.net/AI_gurubar/article/details/149311644)
+
+
+
+[（五）*Vibe* *Coding*的最佳*实践*](https://blog.csdn.net/wumolin20130628/article/details/156265996)
+
+[wumolin20130628的博客](https://blog.csdn.net/wumolin20130628)
+
+12-25
+![]()
+435
+
+
+
+
+[遵循这些*实践*方法，可以帮助你在 *Vibe* *Coding* 项目中获得更准确、更稳定、更成熟的结果。随着不断练习这些习惯，你的构建速度会越来越快，也能更有信心地完成结构更复杂、功能更完善的应用。每一条建议都简单、可执行，无论你是刚入门的新手，还是已经将 *Vibe* *Coding* 用于实际项目，这些方法都能提升你的整体体验。尽管整个流程看起来像是在“对话”，但如果能采用一些正确的方法，往往可以获得更好的结果，减少错误，并显著缩短开发时间。只要你用清晰的步骤引导系统，并通过聚焦的后续提示不断细化和完善输出。](https://blog.csdn.net/wumolin20130628/article/details/156265996)
+
+
+
+
+[*Vibe* *Coding*：AI工程师的高效开发*实践**指南*](https://pandaa.blog.csdn.net/article/details/147754486)
+
+[这里汇聚了前沿的技术分享与实用的开发技巧，带你探索从创意到企业的技术创业之路。](https://blog.csdn.net/u012842807)
+
+05-09
+![]()
+2819
+
+
+
+
+[*Vibe* *Coding* 是一种通过*与*AI协作进行软件开发的新型编程范式。它摒弃了“一次性生成完美代码”的幻想，转而将AI视为语言编程接口（Language Programming Interface），通过逐步规划、交互优化、测试驱动的方式，实现产品的快速迭代*与*交付。核心理念AI是搭档而非工具：像管理新人工程师一样引导AI，通过明确指令、反馈迭代构建代码。语言即代码：用自然语言精确表达需求，包括输入、输出、边界条件和约束。测试驱动开发：通过测试用例引导AI生成代码，而非依赖模型的模糊猜测。](https://pandaa.blog.csdn.net/article/details/147754486)
+
+
+
+[*Vibe* *Coding* 新时代：AI 辅助编程完全*指南*](https://blog.csdn.net/bennix2006/article/details/147685471)
+
+[徐志平的专栏](https://blog.csdn.net/bennix2006)
+
+05-03
+![]()
+3266
+
+
+
+
+[在传统编程的世界里，程序员需要掌握语法、算法和框架，一行一行地编写代码。但随着*人工智能*的快速发展，一种全新的编程方式正在兴起——这就是 *Vibe* *Coding*（氛围编程）。*Vibe* *Coding* 是由 AI 研究者 Andrej Karpathy 提出的概念，核心理念是"完全投入到氛围中"（fully give in to the *vibe*s）。](https://blog.csdn.net/bennix2006/article/details/147685471)
+
+
+
+[*Vibe* *Coding* *实践**指南*：用 AI 从 Idea 到 App](https://devpress.csdn.net/v1/article/detail/159089714)
+
+[请你喝杯Java](https://blog.csdn.net/qq_51808107)
+
+03-15
+![]()
+1296
+
+
+
+
+[*Vibe* *Coding*：AI赋能的编程新范式 *Vibe* *Coding*是一种新兴的编程范式，开发者通过描述需求和意图，由AI生成完整代码。其核心工作流包括：需求描述→AI生成代码→人工微调→持续对话开发。当前工具生态可分为四类：AI IDE（如Cursor）、AI Agent编程工具（如Devin）、无代码AI Builder（如v0.dev）和AI DevOps平台（如Vercel）。这种模式使开发效率大幅提升，个人开发者1-2天即可完成传统需要1-2个月的MVP开发，显著降低了创业门槛。虽然目前仍面临复杂](https://devpress.csdn.net/v1/article/detail/159089714)
+
+
+
+[*Vibe* *Coding* 从入门到精通：工程化*实践**指南*](https://blog.csdn.net/polanpan/article/details/157218735)
+
+[破烂PAN 的博客](https://blog.csdn.net/polanpan)
+
+01-21
+![]()
+1120
+
+
+
+
+[*Vibe* *Coding*不是"让AI写代码"的简单工具，而是一种工程化的方法论。它解决了AI辅助编程中项目规模扩大后的失控问题，通过"规划先行"确保AI生成的代码质量*与*一致性。记住：不是你用不用AI，而是你有没有一套方法，能让AI在复杂项目中保持理性和一致性。本文所用示例均可在GitHub上找到：https://github.com/tukuaiai/*vibe*-*coding*-cn如何在AI时代保持开发控制权如何构建可复用的AI辅助开发流程如何将AI融入团队开发工作流。](https://blog.csdn.net/polanpan/article/details/157218735)
+
+
+
+[*Vibe* *Coding* *实践**指南*: Claude Code、Gemini CLI、Qwen Code、Codex](https://blog.csdn.net/kebijuelun/article/details/149302550)
+
+[kebijuelun的博客](https://blog.csdn.net/kebijuelun)
+
+07-27
+![]()
+5731
+
+
+
+
+[本文将*介绍*目前主流的几款 AI 编程 CLI 工具：Claude Code、Gemini CLI、Qwen Code、Codex（OpenAI），包括它们的安装使用方法、项目应用实战（主要以 Claude Code 为例）。](https://blog.csdn.net/kebijuelun/article/details/149302550)
+
+
+
+[警惕*Vibe* *Coding* ，Agentic *Coding*认知升级*与**实践*避坑*指南*](https://devpress.csdn.net/v1/article/detail/155944813)
+
+[TONGYILingma的博客](https://blog.csdn.net/TONGYILingma)
+
+12-15
+![]()
+975
+
+
+
+
+[其实我在刷 B 站的时候经常看到一些视频标题“xx AI *Coding* 产品太强了，xx 分钟开发一个 xx”，我不确定为什么大数据会给我推送这类视频，因为作为一个研发，我更关注的是如何将 AI 编程融入到我们真实开发的项目中，为业务带来价值，实际很少会有机会让我们真正从 0 到 1 构建一个新的产品，而 Qoder 的 Slogan 正好*与*我的观念契合，并且一直在朝着这个目标迭代产品，这是驱使我长期使用 Qoder 的重要因素。这种模式下，对于生产级、需要质量保障的真实应用，是巨大的不稳定因素。](https://devpress.csdn.net/v1/article/detail/155944813)
+
+
+
+[*Vibe* 编程*与* Happy *Coding*：道法术器的*实践**指南*](https://devpress.csdn.net/v1/article/detail/154839914)
+
+[伟大的大威的博客](https://blog.csdn.net/u010026928)
+
+11-14
+![]()
+842
+
+
+
+
+[《AI时代的快乐编程：*Vibe*编程*实践**指南*》 本文提出"*Vibe*编程"新理念，通过AI辅助实现快乐编程体验。核心观点包括： 编程本质是数据+脚本，AI可自动生成高质量代码 传统编程痛点（重复劳动、调试痛苦）可通过AI工具解决 倡导"All in AI"全流程覆盖，从需求分析到部署上线 推荐Python+React技术栈，适合AI时代开发需求 *实践*方法： 用自然语言描述需求替代手写代码 利用Cursor等AI编程工具辅助开发 采用Vercel等自动化部署平台 贯穿敏捷迭](https://devpress.csdn.net/v1/article/detail/154839914)
+
+
+
+[*Vibe* *Coding**实践**指南*：如何用自然语言轻松开发应用](https://blog.csdn.net/TurquoiseSea98/article/details/154477847)
+
+[TurquoiseSea98的博客](https://blog.csdn.net/TurquoiseSea98)
+
+11-06
+![]()
+443
+
+
+
+
+[上体验*Vibe* *Coding*非常便捷，无需配置开发环境即可一键生成和部署完整项目。我实际使用发现，从输入需求到获得可运行应用只需要几分钟时间，特别适合快速验证想法和教学演示。平台还支持项目在线预览和分享功能，方便团队协作和展示成果。*Vibe* *Coding*背后依赖大语言模型技术，通过自然语言理解将需求转化为可执行代码。这种开发方式特别适合快速原型设计和小型应用开发。](https://blog.csdn.net/TurquoiseSea98/article/details/154477847)
+
+
+
+[从零开始的现代 UI 设计*实践**指南*：*Vibe* *Coding* *与* Craftwork 的深度整合](https://hermit.blog.csdn.net/article/details/153918805)
+
+[lovely\_yoshino的博客](https://blog.csdn.net/lovely_yoshino)
+
+11-26
+![]()
+8588
+
+
+
+
+[本文探讨了*Vibe* *Coding*开发理念*与*Craftwork.design设计资源的整合应用。*Vibe* *Coding*作为一种AI辅助开发范式，将开发者从代码细节中解放，专注于架构设计和用户体验；而Craftwork.design则提供了专业的设计资源库，降低了设计门槛。文章详细*介绍*了如何通过五个核心阶段建立开发流程，强调迭代优化的重要性，并指出有效沟通是实现高质量UI开发的关键。这种开发*与*设计的深度融合，为现代前端开发提供了高效创新的解决方案。](https://hermit.blog.csdn.net/article/details/153918805)
+
+
+
+[*Vibe* *Coding*：AI编程的范式革命*与*未来挑战](https://blog.csdn.net/weixin_45708121/article/details/146143972)
+
+[weixin\_45708121的博客](https://blog.csdn.net/weixin_45708121)
+
+03-10
+![]()
+3283
+
+
+
+
+[从语音编码到自然对话，开发者如何拥抱“氛围编程”时代？](https://blog.csdn.net/weixin_45708121/article/details/146143972)
+
+
+
+[从 OpenClaw 到 ToClaw：AI 代理网关的产品化之路
+热门推荐](https://devpress.csdn.net/v1/article/detail/159675829)
+
+[倔强的石头的博客](https://blog.csdn.net/2302_78391795)
+
+03-31
+![]()
+1万+
+
+
+
+
+[OpenClaw 的优势在自由度*与*可扩展；代价是上手成本、维护成本，以及体验一致性更依赖个人配置。](https://devpress.csdn.net/v1/article/detail/159675829)
+
+
+
+[YOLO+ByteTrack 纯轨迹驱动方案：无快照盲区场景下的无人售货柜结算落地*指南*](https://blog.csdn.net/alspd_zhangpan/article/details/159652707)
+
+[技术分析](https://blog.csdn.net/alspd_zhangpan)
+
+03-30
+![]()
+970
+
+
+
+
+[本文提出了一种针对无快照无人售货柜场景的商品跟踪*与*结算方案。针对摄像头存在盲区、无法获取完整快照的问题，采用YOLO+ByteTrack技术实现纯轨迹驱动的结算系统。方案通过检测框分级、卡尔曼滤波预测、两阶段匹配和轨迹状态管理等优化，确保商品ID全程稳定和轨迹连续。系统定义货道陈列区和取货过渡区，基于商品轨迹状态流转实现精准的动作判定，无需依赖前后快照比对。配套提供了完整的代码实现、参数配置和调优*指南*，经商用验证可达到99.9%的结算准确率。该方案有效解决了盲区遮挡、商品移出视野等核心痛点，为无快照场景提供](https://blog.csdn.net/alspd_zhangpan/article/details/159652707)
+
+
+
+[全新跨平台AI桌面 轻量高性能，AI聊天客户端源码
+最新发布](https://devpress.csdn.net/v1/article/detail/159727593)
+
+[bailukeji的博客](https://blog.csdn.net/bailukeji)
+
+04-01
+![]()
+440
+
+
+
+
+[在当今AI技术飞速发展的时代，用户往往需要在多个AI模型和服务之间切换，过程繁琐且效率低下。我们推出的全新轻量级高性能跨平台桌面应用，正是为了解决这一核心痛点而生。它将直观易用的AI聊天界面*与*强大的AI网关管理功能深度融合，为用户提供了一个前所未有的、统一且高效的智能交互工作站。所谓“一体化”，意味着您无需再为不同的AI服务分别打开多个网页或应用。在本应用中，您可以在一个简洁的聊天窗口内，自由切换或同时调用来自OpenAI、Claude、Gemini以及众多开源模型的智能能力。](https://devpress.csdn.net/v1/article/detail/159727593)
+
+
+
+[高性能计算综述：AI融合、能效优化*与*量子计算的挑战](https://cslab.blog.csdn.net/article/details/159606805)
+
+[CS实验室](https://blog.csdn.net/qiwsir)
+
+03-29
+![]()
+987
+
+
+
+
+[高性能计算（HPC）研究综述：AI融合、能效优化*与*量子计算协同 摘要：本文系统综述了2023-2026年HPC领域的研究进展，揭示三大核心趋势：1）AI*与*HPC深度融合，混合架构（CPU+GPU/FPGA）占比达89%，容器化技术实现近原生性能；2）能效优化成为关键，液冷技术渗透率超40%，异构计算能效提升3倍；3）量子计算*与*HPC协同探索，混合架构在量子化学模拟等场景展现潜力。研究同时指出当前挑战：边缘HPC实时调度、量子-HPC边界界定及绿色计算标准统一。本文为把握HPC技术发展方向提供了系统性参考。](https://cslab.blog.csdn.net/article/details/159606805)
+
+
+
+[【论文复现】Applied Intelligence 2025：Auto-PU正例无标签学习的自动化实现*与*GPT-5.4辅助编程实战](https://zhisuanpusa.blog.csdn.net/article/details/159672790)
+
+[nmdbbzcl的博客](https://blog.csdn.net/nmdbbzcl)
+
+03-31
+![]()
+710
+
+
+
+
+[正例-无标签学习（Positive-Unlabelled Learning, PU Learning）是机器学习领域处理"只有正例标签，负例完全未知"场景的重要技术。本文基于2025年发表于Applied Intelligence的最新研究成果，详细阐述如何从零复现Auto-PU框架（包含GA-Auto-PU、BO-Auto-PU、EBO-Auto-PU三种优化器）。](https://zhisuanpusa.blog.csdn.net/article/details/159672790)
+
+
+
+[基于Q-Learning强化学习的小车倒立摆平衡控制系统matlab性能仿真](https://devpress.csdn.net/v1/article/detail/159590380)
+
+[MATLAB,verilog,python,opencv,tensorflow,caffe,C,C++](https://blog.csdn.net/aycd1234)
+
+03-29
+![]()
+220
+
+
+
+
+[本文研究了基于Q-Learning强化学习的环形轨道小车倒立摆控制问题。通过建立三维环形运动模型，将小车位置参数化为极坐标形式，摆杆动力学采用拉格朗日方程描述。算法采用ε-贪婪策略进行动作选择，设计了包含角度偏差惩罚和控制力成本的奖励函数。MATLAB仿真实现了三维可视化，展示了摆杆平衡控制过程，包括小车沿环形轨道的运动轨迹和摆杆姿态变化。实验结果表明，该Q-Learning控制器能有效维持摆杆竖直平衡，同时完成指定环形运动。研究为复杂轨迹下的倒立摆控制提供了强化学习解决方案，验证了Q-Learning在连](https://devpress.csdn.net/v1/article/detail/159590380)
+
+
+
+[悦目世界*与*Vimeo合作 打造全球化AI直播服务平台](https://blog.csdn.net/fzlhz/article/details/159638886)
+
+[fzlhz的博客](https://blog.csdn.net/fzlhz)
+
+03-30
+![]()
+216
+
+
+
+
+[在技术层面，双方将深度整合各自的技术优势，共同研发新一代AI直播解决方案。悦目文化传媒在计算机视觉、语音识别等领域的技术积累，将*与*Vimeo在视频存储、分发和播放方面的技术实力深度融合，打造技术领先的AI直播产品。Vimeo平台拥有成熟的海外市场运营经验和强大的渠道资源，其全球云计算基础设施和全球内容分发网络，能够为悦目世界AI直播系统提供强大的技术支撑和渠道保障。在合规方面，双方将高度重视数据安全和隐私保护问题，严格遵守当地法律法规和行业标准，采取有效的技术措施和管理手段，确保用户数据的安全和隐私。](https://blog.csdn.net/fzlhz/article/details/159638886)
+
+
+
+
+
+
+[![]()](https://blog.csdn.net/Cristiano_Xie)
+
+[风起谢长林](https://blog.csdn.net/Cristiano_Xie)
+
+
+博客等级
+
+![]()
+
+码龄10年
+
+
+
+[9
+原创](https://blog.csdn.net/Cristiano_Xie)
+
+62
+点赞
+
+64
+收藏
+
+0
+粉丝
+
+
+关注
+
+[私信](https://im.csdn.net/chat/Cristiano_Xie)
+
+
+
+![]()
+
+
+### 热门文章
+
+* [TCP通信机制
+  ![]()
+  1953](https://blog.csdn.net/Cristiano_Xie/article/details/120602231)
+* [【Claude Code 升级指南】
+  ![]()
+  1219](https://blog.csdn.net/Cristiano_Xie/article/details/159279438)
+* [【Vibe Coding 介绍与实践指南】
+  ![]()
+  951](https://blog.csdn.net/Cristiano_Xie/article/details/159415203)
+* [【Linux 驱动快速学习与入门方法】
+  ![]()
+  440](https://blog.csdn.net/Cristiano_Xie/article/details/159357687)
+* [【Claude Code 和 Codex 在编程中的分工与协同】
+  ![]()
+  428](https://blog.csdn.net/Cristiano_Xie/article/details/159422571)
+
+
+### 分类专栏
+
+* [![]()
+  AI](https://blog.csdn.net/cristiano_xie/category_13144468.html)
+  6篇
+* [![]()
+  Linux](https://blog.csdn.net/cristiano_xie/category_13145429.html)
+  1篇
+* [![]()
+  通信协议](https://blog.csdn.net/cristiano_xie/category_11394423.html)
+  1篇
+
+
+上一篇：
+
+[【Linux 驱动快速学习与入门方法】](https://blog.csdn.net/Cristiano_Xie/article/details/159357687)
+
+
+下一篇：
+
+[【Vibe Coding Prompt 速查版】](https://blog.csdn.net/Cristiano_Xie/article/details/159415496)
+
+
+
+### 大家在看
+
+* [用llama试用gemma-4-E2B模型量化版本](https://blog.csdn.net/l1t/article/details/159814871)
+* [VGA/DVI/HDMI三大视频接口核心差异](https://blog.csdn.net/weixin_43025343/article/details/159814821)
+* [面向对象：AI认知演进的新范式](https://blog.csdn.net/qq_30787727/article/details/159814787)
+* [佳能打印机废墨清零工具
+  ![]()
+  474](https://blog.csdn.net/weixin_46048386/article/details/159782350)
+* [树上同类节点最大连通块](https://blog.csdn.net/2301_80065123/article/details/159814383)
+
+
+### 最新文章
+
+* [【Claude Code 实现原理】](https://blog.csdn.net/Cristiano_Xie/article/details/159576865)
+* [【Claude Code 与 Codex 常用命令】](https://blog.csdn.net/Cristiano_Xie/article/details/159431763)
+* [【Claude Code 和 Codex 在编程中的分工与协同】](https://blog.csdn.net/Cristiano_Xie/article/details/159422571)
+
+
+[2026年8篇](https://blog.csdn.net/Cristiano_Xie?type=blog&year=2026&month=03)
+[2021年1篇](https://blog.csdn.net/Cristiano_Xie?type=blog&year=2021&month=10)
+
+
+
+![]()
+
+
+
+![]()
+
+· AI 阅读助手
+
+
+
+
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+
+
+![]()
+
+
+![]()
+
+· AI 阅读助手
+
+
+
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+![]()
+
+上一篇：
+
+[【Linux 驱动快速学习与入门方法】](https://blog.csdn.net/Cristiano_Xie/article/details/159357687)
+
+
+下一篇：
+
+[【Vibe Coding Prompt 速查版】](https://blog.csdn.net/Cristiano_Xie/article/details/159415496)
+
+
+
+### 分类专栏
+
+* [![]()
+  AI](https://blog.csdn.net/cristiano_xie/category_13144468.html)
+  6篇
+* [![]()
+  Linux](https://blog.csdn.net/cristiano_xie/category_13145429.html)
+  1篇
+* [![]()
+  通信协议](https://blog.csdn.net/cristiano_xie/category_11394423.html)
+  1篇
+
+展开全部 ![]()
+收起 ![]()
+
+
+
+
+
+
+### 目录
+
+
+
+
+
+
+
+
+
+
+
+
+
+评论
+![]()
+
+![]()被折叠的  条评论
+[为什么被折叠?](https://blogdev.blog.csdn.net/article/details/122245662)
+[![]()到【灌水乐园】发言](https://bbs.csdn.net/forums/FreeZone)
+
+
+查看更多评论![]()
+
+
+
+添加红包
+
+
+祝福语
+
+
+请填写红包祝福语或标题
+
+
+红包数量
+
+个
+
+红包个数最小为10个
+
+
+红包总金额
+
+元
+
+红包金额最低5元
+
+
+余额支付
+当前余额3.43元
+[前往充值 >](https://i.csdn.net/#/wallet/balance/recharge)
+
+
+需支付：10.00元
+
+取消
+确定
+
+
+
+
+![]()
+下一步
+
+![]()
+知道了
+
+
+
+![]()
+成就一亿技术人!
+
+
+
+领取后你会自动成为博主和红包主的粉丝
+规则
+
+
+
+![]()
+hope\_wisdom 发出的红包
+
+
+
+
+
+
+
+
+
+实付元
+[使用余额支付](javascript:;)
+![]()
+点击重新获取
+
+
+![]()![]()![]()扫码支付
+
+
+
+
+钱包余额
+0
+![]()
+
+抵扣说明：
+
+1.余额是钱包充值的虚拟货币，按照1:1的比例进行支付金额的抵扣。  
+ 2.余额无法直接购买下载，可以购买VIP、付费专栏及课程。
+
+
+
+
+
+[![]()余额充值](https://i.csdn.net/#/wallet/balance/recharge)
+
+![]()
+
+
+
+
+
+

@@ -1,0 +1,1179 @@
+# Source URL: https://blog.csdn.net/huhu2k/article/details/159019394
+# Content Length: 24619 characters
+# Extracted at: 2026-04-01 12:05:17
+#============================================================
+
+ 
+
+
+
+
+
+2026 开源 LLM 新标杆：Nvidia Nemotron 3 Super 架构全解析，兼顾精度与效率的 Agent 原生底座\_nemotron-3-super-CSDN博客
+
+
+
+
+
+
+
+
+2026 开源 LLM 新标杆：Nvidia Nemotron 3 Super 架构全解析，兼顾精度与效率的 Agent 原生底座
+=================================================================
+
+
+最新推荐文章于 2026-03-30 17:44:11 发布
+原创
+最新推荐文章于 2026-03-30 17:44:11 发布
+·
+914 阅读
+·
+![]()
+![]()
+14
+
+
+·
+![]()
+![]()
+12
+·
+CC 4.0 BY-SA版权
+版权声明：本文为博主原创文章，遵循 [CC 4.0 BY-SA](http://creativecommons.org/licenses/by-sa/4.0/) 版权协议，转载请附上原文出处链接和本声明。
+
+
+
+
+
+文章标签：
+
+[#人工智能](https://so.csdn.net/so/search/s.do?q=%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#深度学习](https://so.csdn.net/so/search/s.do?q=%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#机器学习](https://so.csdn.net/so/search/s.do?q=%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+
+
+
+
+
+
+
+[![]()
+AI一千问
+专栏收录该内容](https://blog.csdn.net/huhu2k/category_12901066.html)
+
+365 篇文章
+
+订阅专栏
+
+
+
+
+![]()
+
+Qwen3.5-9B
+
+文本生成
+Qwen
+Qwen3.5
+
+Qwen3.5 具备以下增强特性：
+统一的视觉-语言基础：通过在多模态 token 上进行早期融合训练，在跨代性能上与 Qwen3 持平，并在推理、编码、智能体和视觉理解等基准测试中全面超越 Qwen3-VL 模型。
+高效混合架构：结合门控 Delta 网络与稀疏混合专家（Mixture-of-Experts），实现高吞吐推理，同时保持极低的延迟和成本开销。
+可扩展的强化学习泛化能力：在百万
+
+
+
+一键部署运行
+
+
+
+![]()
+
+2026 年，开源大语言模型的竞争早已脱离了 “堆参数量、刷榜单” 的粗放式增长阶段。随着 Agentic AI、本地部署、企业级私有化应用的需求全面爆发，行业的核心痛点已经发生了根本转变：开发者与企业不再需要一个 “只有精度好看，却跑不起、用不起、延迟崩” 的纸面 SOTA 模型，而是需要一个**精度对标同级旗舰、推理吞吐拉满、延迟可控、硬件友好、能真正落地到生产级场景**的实用型模型。
+
+就在这样的行业背景下，Nvidia 推出了全新的开源权重大模型 Nemotron 3 Super (120B-A12B)，交出了一份堪称完美的答卷。它在主流基准测试中精度完全对标同级旗舰 Qwen3.5 122B 与 GPT-OSS 120B，却实现了 NVFP4 精度下较 GPT-OSS 2.2 倍、bf16 精度下较 Qwen3.5 2 倍的吞吐提升，同时通过架构级创新大幅降低了解码延迟与推理成本。
+
+它并非传统 Transformer 架构的简单堆料，而是一套融合了 Mamba-2 状态空间模型、分组查询注意力（GQA）、创新 Latent MoE 稀疏专家架构、多 Token 预测（MTP）的混合设计体系，从底层彻底解决了传统 Transformer 架构长上下文效率低、MoE 模型推理成本爆炸、自回归解码延迟高的三大核心痛点。对于正在爆发的 Agentic AI 应用（如本地运行的 OpenClaw 自主智能体），它更是堪称当前最具性价比的开源底座选择。
+
+### 一、行业痛点：传统 LLM 架构的三重瓶颈，困住了 Agent 应用的落地
+
+在拆解 Nemotron 3 Super 的架构之前，我们必须先搞清楚：为什么传统的 Transformer 架构与常规 MoE 设计，已经无法满足 2026 年的生产级需求，尤其是 Agentic AI 场景的核心诉求？
+
+当前主流开源大模型普遍面临三大无法兼顾的瓶颈：
+
+1. **长上下文效率瓶颈**：纯 Transformer 架构的自注意力机制，计算与内存复杂度随序列长度呈平方级增长。当上下文窗口拉长到 32K、64K 甚至更长时，推理吞吐会断崖式下跌，KV 缓存占用会彻底吃掉硬件显存。而 Agent 应用恰恰需要处理长周期任务规划、多轮对话上下文、海量文档与工具返回信息，传统架构根本无法支撑流畅的长上下文运行。
+2. **MoE 缩放成本瓶颈**：常规混合专家模型（MoE）通过稀疏激活实现了 “总参数量大、激活参数量小” 的设计，解决了稠密模型的训练成本问题，但推理阶段的瓶颈并未解决。传统 MoE 在全隐藏层维度完成专家路由与计算，带来了极高的内存带宽占用与节点间通信开销，最终导致推理成本并没有随稀疏激活成比例下降，大规模部署依然昂贵。
+3. **自回归解码延迟瓶颈**：传统大模型采用逐 Token 自回归解码，每生成一个 Token 都需要完成一次完整的前向传播，哪怕硬件算力有富余，也无法突破串行解码的延迟上限。而 Agent 应用需要实时人机交互、多步工具调用的流式响应，高延迟会直接毁掉用户体验，这也是本地部署 LLM 的核心痛点之一。
+
+正是这三大瓶颈，让绝大多数开源旗舰模型，最终只能停留在 “榜单跑分” 阶段，无法真正落地到高并发、长上下文、低延迟要求的生产级 Agent 场景。而 Nemotron 3 Super 的核心创新，就是从架构底层同时针对这三大痛点，给出了全链路的优化解决方案。
+
+### 二、核心架构全拆解：混合设计的集大成者，从底层重构效率平衡
+
+Nemotron 3 Super 的核心定位，是**1200 亿总参数量、单 Token 仅 120 亿激活参数的混合 Mamba-Attention-MoE 架构**，它完全跳出了标准 Transformer 的设计范式，延续了前代 Nemotron 3 Nano 的混合设计思路，并完成了架构级的核心创新，最终实现了精度与效率的双向突破。
+
+整个模型采用 88 层的混合堆叠设计，其中包含 40 层 Mamba-2 状态空间层、40 层 Latent MoE 稀疏专家层、8 层分组查询注意力（GQA）层，同时在输出端新增了多 Token 预测（MTP）模块，每一个模块都精准针对传统架构的痛点设计。
+
+#### 1. Mamba-2 层：长上下文吞吐的核心底座，线性复杂度碾压自注意力
+
+Mamba-2 状态空间模型，是 Nemotron 3 Super 实现长上下文高效推理的核心，也是整个混合架构的基础层。和传统 Transformer 的自注意力机制不同，Mamba-2 基于结构化状态空间模型（SSM），计算与内存复杂度随序列长度呈**线性增长**，彻底解决了自注意力平方级复杂度的长上下文瓶颈。
+
+在 Nemotron 3 Super 的架构中，40 层 Mamba-2 承担了绝大多数的序列建模与上下文处理工作：它可以高效处理超长序列的时序依赖，无需存储庞大的 KV 缓存，在长上下文场景下的吞吐与显存占用，相比纯 Transformer 架构有数量级的优势。
+
+而 Nvidia 的设计巧思在于，它没有完全抛弃注意力机制，而是用 8 层 GQA 注意力层作为补充 —— 用 Mamba-2 处理绝大多数的局部与时序依赖，用少量的全局注意力层处理需要跨序列全局依赖的复杂任务，既保留了 Mamba-2 的极致效率，又弥补了纯 SSM 模型在复杂逻辑推理、全局信息交互上的短板，实现了效率与效果的完美平衡。这也是为什么它能在长上下文场景保持高吞吐的同时，依然能对标纯 Transformer 旗舰模型的推理精度。
+
+#### 2. 核心创新：Latent MoE 层，彻底解决传统 MoE 的带宽与成本瓶颈
+
+如果说 Mamba-2 解决了长上下文的效率问题，那么**Latent MoE（隐空间混合专家模型）** 就是 Nemotron 3 Super 最核心的架构创新，它彻底解决了传统 MoE 模型推理带宽占用高、通信成本大的行业痛点。
+
+传统 MoE 的设计逻辑，是在完整的隐藏层维度（如 4096 维）完成专家路由、输入分发与专家计算，这意味着每一次 Token 的路由与专家计算，都需要在高维空间完成数据传输与计算，带来了极高的内存带宽占用与多节点通信开销 —— 这也是传统 MoE 模型 “激活参数量低，推理成本却降不下来” 的核心原因。
+
+而 Nemotron 3 Super 的 Latent MoE，采用了完全不同的设计范式，整个流程分为 6 步，实现了低维空间的高效专家计算：
+
+1. 输入层接收 4096 维的隐藏状态；
+2. 下投影（down-project）：将 4096 维的高维隐藏状态，压缩到 1024 维的低维隐空间；
+3. 路由层在 1024 维的低维空间，完成专家选择，为每个 Token 激活 Top-22 个专家；
+4. 将低维隐空间的输入，分发到被激活的专家中完成计算；
+5. 合并所有被激活专家的输出；
+6. 上投影（up-project）：将 1024 维的专家计算结果，重新映射回 4096 维的高维空间，输出到下一层。
+
+这种设计的核心优势，是将最消耗带宽与算力的路由、专家计算环节，全部放到了仅为原维度 1/4 的低维隐空间完成，**大幅降低了内存带宽占用与多节点通信开销**，让 MoE 的稀疏缩放真正实现了 “推理成本随激活参数量成比例下降”。同时，整个模型配置了总计 512 个专家，单 Token 仅激活 Top-22 个，既通过海量专家保证了模型的知识容量与泛化能力，又通过稀疏激活控制了单 Token 的计算量，实现了 “大模型容量，小模型推理成本” 的核心目标。
+
+#### 3. 分组查询注意力（GQA）层：全局依赖的精准补充，兼顾效果与显存效率
+
+在 Mamba-2 与 Latent MoE 之外，Nemotron 3 Super 保留了 8 层分组查询注意力（GQA）层，作为整个架构的补充。GQA 是当前主流大模型普遍采用的注意力优化方案，它介于多头注意力（MHA）与多查询注意力（MQA）之间：将多个查询头共享同一组键值头，在几乎不损失精度的前提下，大幅降低了 KV 缓存的显存占用，同时提升了长上下文推理的效率。
+
+在整个混合架构中，GQA 层的核心作用，是处理 Mamba-2 与 MoE 层难以完美覆盖的全局依赖场景，比如复杂逻辑推理、长程因果关联、跨序列信息聚合等任务，进一步补齐了模型的能力短板，确保它在复杂推理任务上的精度，完全对标同级别的纯 Transformer 旗舰模型。
+
+#### 4. 多 Token 预测（MTP）：架构级优化，直接降低解码延迟
+
+除了吞吐与长上下文效率，Nemotron 3 Super 的另一项关键优化，是在模型输出端新增了**多 Token 预测（Multi-Token Prediction, MTP）** 模块，从底层直接解决了传统自回归解码的延迟瓶颈。
+
+传统自回归解码的核心痛点，是串行生成：每生成一个 Token，都需要完成一次完整的前向传播，哪怕硬件算力有大量富余，也无法突破串行的物理限制，最终导致端到端延迟居高不下。而 MTP 技术，让模型在一次前向传播中，同时预测未来多个连续的 Token，大幅减少了解码所需的前向传播次数，直接降低了端到端的生成延迟。
+
+对于 Agentic AI 应用而言，这项优化的价值尤为关键：无论是人机实时对话，还是多步工具调用的流式响应，更低的解码延迟都意味着更流畅的用户体验，哪怕是在本地部署的场景下，也能实现接近云端 API 的交互流畅度。
+
+### 三、性能实测：精度对标旗舰，吞吐实现翻倍突破
+
+架构的创新最终要落到实际性能表现上，Nemotron 3 Super 的实测数据，完美验证了这套混合架构的设计价值 —— 它没有为了效率牺牲精度，而是在精度完全对标同级旗舰模型的前提下，实现了吞吐的翻倍提升。
+
+#### 1. 精度表现：与 Qwen3.5 122B、GPT-OSS 120B 持平
+
+从主流基准测试结果来看，Nemotron 3 Super 在知识、推理、编码、数学等核心维度，完全追平了当前同级别的开源旗舰模型：
+
+* 知识类基准（MMLU）：达到 91.4% 的准确率，与 Qwen3.5 122B、GPT-OSS 120B 处于同一水平；
+* 数学推理基准（GSM8K、MATH）：在小学数学与高等数学任务上，精度与竞品基本持平，验证了混合架构的逻辑推理能力没有短板；
+* 编码能力基准（HumanEval）：编码生成与代码理解能力，完全对标同级编码优化模型；
+* 长上下文理解基准：在长文档理解、多轮依赖任务上，凭借 Mamba-2 的线性复杂度优势，甚至实现了对纯 Transformer 竞品的反超。
+
+这意味着，Nemotron 3 Super 不是一个 “偏科的效率模型”，而是一个全维度能力拉满的通用旗舰模型，完全可以胜任企业级应用、Agent 开发、内容创作、代码开发等全场景需求。
+
+#### 2. 吞吐表现：实现 2 倍以上的领先，推理成本大幅降低
+
+相比精度的持平，Nemotron 3 Super 的吞吐表现，才是它最核心的竞争力：
+
+* 在 NVFP4 精度下，它的相对吞吐达到 GPT-OSS 120B 的 2.2 倍；
+* 在 bf16 精度下，它的相对吞吐达到 Qwen3.5 122B 的 2 倍。
+
+吞吐的翻倍，在生产级部署中意味着实打实的成本下降与体验提升：同样的硬件算力，可以承载 2 倍以上的并发请求，单 Token 推理成本直接腰斩；对于相同的并发量，只需要一半的硬件投入，就能满足部署需求。这对于中小企业、个人开发者的私有化部署、本地 Agent 运行而言，是颠覆性的成本优化。
+
+### 四、为什么它是 Agentic AI 与本地部署的绝佳开源底座？
+
+2026 年，Agentic AI 已经从概念验证走向全面落地，以 OpenClaw 为代表的本地运行自主 Agent 框架，正在成为开发者的主流选择。而 Nemotron 3 Super 的架构设计与性能表现，几乎完美适配了 Agentic AI 应用的所有核心需求，堪称当前最具性价比的本地 Agent 底座。
+
+#### 1. 完美适配 Agent 的长上下文需求
+
+Agent 的核心工作模式，是长周期的任务规划、多轮工具调用、海量上下文信息的持续积累，这对大模型的长上下文处理能力提出了极高的要求。Nemotron 3 Super 的 Mamba-2 层，凭借线性复杂度的优势，在超长上下文场景下依然能保持稳定的高吞吐，不会出现纯 Transformer 模型长上下文下吞吐暴跌、显存爆炸的问题，完全可以支撑 Agent 的长周期任务运行。
+
+#### 2. 低延迟 + 低部署成本，适配本地运行场景
+
+以 OpenClaw 为代表的本地 Agent 框架，核心诉求是在消费级 / 专业级本地硬件上，实现流畅、稳定的 Agent 运行。Nemotron 3 Super 单 Token 仅 12B 激活参数，配合 MTP 的低延迟优化、Latent MoE 的低带宽需求，哪怕是在 NVIDIA RTX PRO 5000 Blackwell 这类专业级显卡（24GB GDDR7 显存）上，也能实现高效的本地部署与流畅运行，无需依赖云端 API，彻底解决了本地 Agent 的核心痛点。
+
+#### 3. 全维度能力拉满，适配 Agent 的复杂任务需求
+
+Agent 的执行过程，需要同时具备代码生成、工具调用、逻辑推理、规划拆解、内容创作等全维度能力，Nemotron 3 Super 在所有核心基准上都对标了同级旗舰模型，没有明显的能力短板，完全可以胜任 Agent 的全流程任务需求，无需为不同的任务切换多个模型，大幅简化了 Agent 系统的架构设计。
+
+#### 4. 可控的推理成本，适配企业级规模化部署
+
+对于企业级 Agent 规模化部署而言，推理成本是核心考量因素。Nemotron 3 Super2 倍以上的吞吐优势，意味着企业可以用一半的硬件成本，承载相同的业务并发量，同时通过稀疏激活的设计，进一步降低了长周期运行的算力消耗，让企业级自主 Agent 的规模化落地，不再被高昂的推理成本束缚。
+
+### 五、行业意义：效率优先的时代，开源 LLM 的全新发展方向
+
+Nemotron 3 Super 的发布，并没有带来颠覆性的建模理论突破，却给 2026 年的开源大模型行业，指明了一个全新的、更务实的发展方向：**大模型的竞争，已经从 “纸面精度” 的内卷，转向了 “精度 - 效率 - 成本” 全链路平衡的工程化竞争**。
+
+过去几年，开源大模型的发展始终围绕 “刷榜单、堆参数量、拉长上下文窗口” 展开，却忽略了一个核心问题：绝大多数模型，最终都要落地到真实的生产场景，开发者与企业需要的，从来不是一个只能在实验室里跑分的模型，而是一个能跑得起、用得起、体验好、能解决真实问题的实用工具。
+
+而 Nemotron 3 Super 的价值，就在于它用一套成熟的混合架构设计，同时解决了传统 LLM 的三大核心痛点：
+
+* 用 Mamba-2 解决了长上下文的吞吐效率问题；
+* 用 Latent MoE 解决了稀疏缩放的推理成本问题；
+* 用 MTP 解决了自回归解码的延迟问题。
+
+它没有为了任何一个单一指标牺牲其他维度，而是实现了精度、吞吐、延迟、部署成本的全维度平衡。对于个人开发者，它让本地运行旗舰级 Agent 成为可能；对于中小企业，它让企业级私有化 Agent 部署的成本大幅降低；对于整个行业，它证明了混合架构设计的巨大潜力，为开源大模型的工程化优化，提供了一套可参考、可复用的成熟范式。
+
+在 Agentic AI 全面爆发的 2026 年，Nemotron 3 Super 的出现，无疑给整个行业注入了全新的活力。它让我们看到，开源大模型的未来，从来不是无限度的参数内卷，而是从架构底层出发，真正贴合真实场景的需求，打造兼顾能力与实用性的生产级工具。而这，才是大模型技术真正走向普惠、走向全面落地的核心方向。
+
+
+
+
+您可能感兴趣的与本文相关的镜像
+
+![]()
+
+Qwen3.5-9B
+
+文本生成
+Qwen
+Qwen3.5
+
+Qwen3.5 具备以下增强特性：
+统一的视觉-语言基础：通过在多模态 token 上进行早期融合训练，在跨代性能上与 Qwen3 持平，并在推理、编码、智能体和视觉理解等基准测试中全面超越 Qwen3-VL 模型。
+高效混合架构：结合门控 Delta 网络与稀疏混合专家（Mixture-of-Experts），实现高吞吐推理，同时保持极低的延迟和成本开销。
+可扩展的强化学习泛化能力：在百万
+
+
+
+一键部署运行
+
+
+
+
+![]()
+确定要放弃本次机会？
+
+福利倒计时
+
+*:*
+
+*:*
+
+
+![]()
+立减 ¥
+
+
+普通VIP年卡可用
+
+[立即使用](https://mall.csdn.net/vip)
+
+
+[![]()
+释迦呼呼](https://huhu2k.blog.csdn.net)
+
+[关注](javascript:;)
+关注
+
+
+* ![]()
+  ![]()
+  ![]()
+  14
+  点赞
+* ![]()
+  ![]()
+  踩
+* [![]()
+  ![]()
+  ![]()
+  12](javascript:;)
+  收藏
+  
+  
+  
+  觉得还不错?
+  一键收藏
+  
+  ![]()
+* ![]()
+  知道了
+  
+  [![]()
+  0](#commentBox)
+  评论
+* [![]()
+  分享](javascript:;)
+  复制链接
+  
+  分享到 QQ
+  
+  分享到新浪微博
+  
+  ![]()扫一扫
+* [![]()
+  打赏](javascript:;)
+  打赏
+* ![]()
+  ![]()
+  打赏
+  ![]()
+  举报
+  
+  ![]()
+  举报
+
+专栏目录
+
+
+
+
+![]()
+
+[【*LLM*】chatglm*3*的*agent*应用和微调实践](https://andyguo.blog.csdn.net/article/details/134487750)
+
+[发现问题，并解决问题，批判性思维](https://blog.csdn.net/qq_35812205)
+
+11-25
+![]()
+8534
+
+
+
+
+[知识库和微调并不是冲突的，它们是两种相辅相成的行业解决方案。开发者可以同时使用两种方案来优化模型。例如：
+使用微调的技术微调ChatGLM*3**-*6B大模型模拟客服的回答的语气和基础的客服思维。
+接着，外挂知识库将最*新*的问答数据外挂给ChatGLM*3**-*6B，不断更*新*客服回答的内容信息。
+chatglm*3*的对话格式中， 部分使用 special token 表示，无法从文本形式被 tokenizer 编码以防止注入。metadata 部分采用纯文本表示，为可选内容。
+关于glm*3*的微调：
+*与*此](https://andyguo.blog.csdn.net/article/details/134487750)
+
+
+
+
+
+参与评论
+您还未登录，请先
+登录
+后发表或查看评论
+
+
+[Kimi K2深度*解析*：*开源*万亿参数大模型，复杂场景能力强悍，为AI *Agent*而生！](https://yueliusu.blog.csdn.net/article/details/149302699)
+
+[Code\_流苏：在代码中寻诗意，在实践中觅真知](https://blog.csdn.net/qq_51646682)
+
+07-13
+![]()
+2606
+
+
+
+
+[月之暗面正式发布并*开源*了Kimi K2大模型！这是国内首个*开源*的万亿参数模型，更是专门为AI *Agent*（智能体）任务而生的强大基座。](https://yueliusu.blog.csdn.net/article/details/149302699)
+
+
+
+[OpenClaw 生态主流 AI 模型真实性能 PinchBench深度解读（基于*2026*年*3*月12日测评数据）](https://devpress.csdn.net/v1/article/detail/159045000)
+
+[aiAI](https://blog.csdn.net/coolyoung520)
+
+03-14
+![]()
+2461
+
+
+
+
+[*2026*年*3*月OpenClaw生态AI模型测评显示，Kimi K2.5以8*3*.5%综合成功率夺冠，在日历管理、代码编写等任务表现完美。Claude Opus 4.6（81.7%）擅长复杂任务，*开源*模型Qwen *3*.5（80.7%）表现亮眼。测评覆盖*3*9款模型在2*3*项任务中的成功率、速度、成本等维度，为不同场景提供选择参考：Kimi适合日常主力，Claude处理复杂工作流，Qwen满足*开源*需求，GLM*-*5（80.2%）是创意生成优选，而GPT*-*5.4（77.4%）更适合作业创作。](https://devpress.csdn.net/v1/article/detail/159045000)
+
+
+
+
+[英伟达免费*开源*大参数模型 *Nemotron* *3* *Super* *全**解析*](https://blog.csdn.net/weixin_69359007/article/details/159053278)
+
+[weixin\_69359007的博客](https://blog.csdn.net/weixin_69359007)
+
+03-14
+![]()
+1631
+
+
+
+
+[英伟达最*新**开源*大模型*Nemotron* *3* *Super*以1280亿参数（推理激活120亿）和100万Token上下文窗口成为免费*开源*领域的*新**标杆*。该模型采用MoE*架构*，支持多语言和代码生成等任务，适配消费级GPU部署，完美匹配OpenClaw等智能体框架。实测显示其在代码生成、数学推理和长文本处理等场景表现优异，响应速度快且稳定性强。横向对比Llama *3* 70B等主流*开源*模型，*Nemotron* *3* *Super*在上下文长度、部署门槛和商业友好性方面优势明显，特别适合智能体开发和复杂自动化任务。](https://blog.csdn.net/weixin_69359007/article/details/159053278)
+
+
+
+[周红伟：Qwen*3*.5*-*Plus企业级部署案例实操，Qwen*3*.5*-**3*97B*-*A17B*-*GGUF（UD*-*Q4\_K\_XL）*3*卡*全*流程部署文档（基础→API→UI）](https://blog.csdn.net/starzhou/article/details/158317376)
+
+[周红伟讲AI](https://blog.csdn.net/starzhou)
+
+02-23
+![]()
+1991
+
+
+
+
+[本部署文档，同时结合UD*-*Q4\_K\_XL量化版本的硬件适配要求*与**3*×RTX PRO 6000（96GB）的硬件特性定制，覆盖*全*流程，所有参数*与*步骤均经过实际部署验证，可直接复制执行。](https://blog.csdn.net/starzhou/article/details/158317376)
+
+
+
+[AI圈又炸了！英伟达 *Nemotron* *3* *Super* 免费开放，OpenClaw 龙虾玩家直接起飞](https://devpress.csdn.net/v1/article/detail/159129751)
+
+[seraphy11的博客](https://blog.csdn.net/seraphy11)
+
+03-16
+![]()
+506
+
+
+
+
+[一、*NVIDIA*携*Nemotron**-**3**-**Super*炸场*全*球市值一哥重磅祭出了*新*一代*开源*大模型，专门针对复杂智能体设计。这个模型拥有超大规模参数，在最*新*测试中表现非常出色，直接登上*开源*智能体排行榜第一。更令人惊讶的是，英伟达未来五年将投入用于*开源* AI 模型研发，标志着它从硬件公司正式转型为*全*栈 AI 企业。消息一出，开发者社区反响热烈。多家企业已经计划将 *Nemotron* *3* *Super* 应用于搜索、软件开发等场景。](https://devpress.csdn.net/v1/article/detail/159129751)
+
+
+
+[*NVIDIA* *Nemotron* *3* 系列模型：从*架构*到部署的完整指南](https://devpress.csdn.net/v1/article/detail/155991311)
+
+[lovely\_yoshino的博客](https://blog.csdn.net/lovely_yoshino)
+
+12-18
+![]()
+2626
+
+
+
+
+[摘要： UCloud旗下Compshare GPU算力平台提供高性价比4090算力资源，支持灵活计费方式。*NVIDIA*最*新*发布的*Nemotron* *3*系列*开源*大语言模型采用混合专家*架构*，包含不同规模版本，支持多语言处理。本文详细介绍了*Nemotron* *3*的技术*架构*、环境准备、模型下载及v*LLM*服务部署方法，帮助开发者高效构建智能体系统。平台提供20元算力金和10小时免费体验，助力AI应用开发。](https://devpress.csdn.net/v1/article/detail/155991311)
+
+
+
+[英伟达发布*Nemotron* *Super* *3*智能体模型，吞吐量提升五倍](https://devpress.csdn.net/v1/article/detail/158978284)
+
+[zhidingkeji的博客](https://blog.csdn.net/zhidingkeji)
+
+03-12
+![]()
+181
+
+
+
+
+[英伟达发布*Nemotron* *Super* *3*智能体模型，吞吐量提升五倍](https://devpress.csdn.net/v1/article/detail/158978284)
+
+
+
+[DeerFlow深度*解析*：字节跳动*开源*的超级智能体框架，重*新*定义AI *Agent*开发范式](https://devpress.csdn.net/v1/article/detail/159473673)
+
+[xyghehehehe的专栏](https://blog.csdn.net/xyghehehehe)
+
+03-25
+![]()
+1634
+
+
+
+
+[DeerFlow 2.0是字节跳动于*2026*年2月*开源*的*全*栈AI智能体框架，基于LangGraph 1.0重构，上线即登顶GitHub Trending榜首。作为OpenAI Deep Research的*开源*替代方案，DeerFlow创*新*性地将子代理、记忆系统、Docker沙箱和可扩展技能整合为统一的"*Super**Agent* Harness"，支持从分钟级到小时级的复杂任务自动化。其核心亮点包括：子代理并行调度（*效率*提升*3**-*5倍）、真实Docker沙箱执行环境、Markdown技能系统、长短期记忆机制，以及对](https://devpress.csdn.net/v1/article/detail/159473673)
+
+
+
+[最*全**开源*大语言模型（*LLM*）资源整理：涵盖*架构*、训练、推理*与*评估工具](https://wenku.csdn.net/doc/4h474unj8d)
+
+
+
+
+[所谓“最*全*的*开源**LLM*整理”，并非仅指简单罗列若干模型名称，而是系统性地涵盖从理论基础、模型*架构*设计、训练范式演进、推理优化技术、评估方法论、部署实践，到生态工具链*与*社区资源的完整知识图谱。该压缩包中所...](https://wenku.csdn.net/doc/4h474unj8d)
+
+
+
+[AI 编程*新*范式：一文彻底搞懂 *LLM*、*Agent*、MCP、Skill 是怎么协作的](https://xiabing.blog.csdn.net/article/details/157436646)
+
+[猫老板的豆](https://blog.csdn.net/x550392236)
+
+01-27
+![]()
+1888
+
+
+
+
+[本文用通俗易懂的方式*解析*了AI编程*新**架构*的核心概念。通过"三国演义"类比，文章将复杂的技术*架构*拆解为：*Agent*（军师/大脑）负责思考和决策，Skill（招式/手脚）执行具体操作，MCP（令箭/协议）作为通信标准，MCP Server（将军/身体）承载多个Skill。这套分工*架构*使AI从单纯聊天进化成能完成实际编程任务的*全*能助手，实现了关注点分离——*Agent*专注智能提升，Skill专注功能实现，MCP确保稳定连接。这正是Cursor、Claude等*新*一代AI开发工具采用的核心*架构*，标志](https://xiabing.blog.csdn.net/article/details/157436646)
+
+
+
+[智能个人助理AI *Agent*：*LLM*驱动的*全*方位生活助手](https://dreamit.blog.csdn.net/article/details/145760581)
+
+
+02-20
+![]()
+1600
+
+
+
+
+[AI *Agent*（*人工智能*代理）是一种能够感知环境、自主决策并执行任务的智能系统。它通过传感器获取信息，利用算法处理信息，并通过执行器*与*环境交互。AI *Agent*的核心目标是帮助用户完成特定任务或提供智能服务。大语言模型（Large Language Model, *LLM*）是一种基于*深度学习*的自然语言处理模型，能够理解和生成人类语言。*LLM*通过大量文本数据的训练，掌握了语言的语义、语法和上下文信息。如何高效地处理用户的输入？如何快速检索相关知识？如何优化决策算法以提高响应速度？](https://dreamit.blog.csdn.net/article/details/145760581)
+
+
+
+[AI周报实测：GPT*-*5.4 Computer Use上手体验 + *Nemotron* *3* *Super*本地部署踩坑](https://devpress.csdn.net/v1/article/detail/159314087)
+
+[baidu\_32885171的博客](https://blog.csdn.net/baidu_32885171)
+
+03-21
+![]()
+691
+
+
+
+
+[黄仁勋穿着万年不换的皮夹克，做了件所有人都没料到的事——把原定2028年才发的Feynman*架构*，提前拿出来秀了一把技术原型。这个操作本身就很耐人寻味。Blackwell是2024年发的，Vera Rubin今年下半年量产，Feynman按节奏应该是2028年的事。提前两年展示，摆明了告诉AMD和一众AI芯片公司：你们追我上一代的时候，我下下代已经做出来了。Feynman几个硬指标：台积电A16制程（1.6nm），英伟达第一次进入1nm级别。](https://devpress.csdn.net/v1/article/detail/159314087)
+
+
+
+[YOLO+ByteTrack 纯轨迹驱动方案：无快照盲区场景下的无人售货柜结算落地指南
+最新发布](https://blog.csdn.net/alspd_zhangpan/article/details/159652707)
+
+[技术分析](https://blog.csdn.net/alspd_zhangpan)
+
+03-30
+![]()
+477
+
+
+
+
+[本文提出了一种针对无快照无人售货柜场景的商品跟踪*与*结算方案。针对摄像头存在盲区、无法获取完整快照的问题，采用YOLO+ByteTrack技术实现纯轨迹驱动的结算系统。方案通过检测框分级、卡尔曼滤波预测、两阶段匹配和轨迹状态管理等优化，确保商品ID*全*程稳定和轨迹连续。系统定义货道陈列区和取货过渡区，基于商品轨迹状态流转实现精准的动作判定，无需依赖前后快照比对。配套提供了完整的代码实现、参数配置和调优指南，经商用验证可达到99.9%的结算准确率。该方案有效解决了盲区遮挡、商品移出视野等核心痛点，为无快照场景提供](https://blog.csdn.net/alspd_zhangpan/article/details/159652707)
+
+
+
+[11 类食物分类项目：迁移学习*与*半监督学习*解析*](https://devpress.csdn.net/v1/article/detail/159513731)
+
+[m0\_61102549的博客](https://blog.csdn.net/m0_61102549)
+
+03-26
+![]()
+402
+
+
+
+
+[回答本项目是基于PyTorch框架实现的11类食物图像分类任务，核心目标是实现食物图片的自动识别分类。项目采用迁移学习（VGG预训练模型微调）替代传统从零训练，同时结合半监督学习（伪标签）利用无标签数据提升模型*精度*；整体流程包括数据集读取、数据增广、模型构建、训练验证、最优模型保存，最终完成小样本下的高*精度*食物分类。回答迁移学习是复用预训练模型的通用特征，迁移到自己的小样本任务中，无需从零训练。](https://devpress.csdn.net/v1/article/detail/159513731)
+
+
+
+[基于 YOLOv8 的交通违规检测系统](https://blog.csdn.net/m0_61028090/article/details/159477550)
+
+[Michael\_Jay的博客](https://blog.csdn.net/m0_61028090)
+
+03-25
+![]()
+1018
+
+
+
+
+[本系统以 YOLOv8 为核心检测引擎，面向城市道路监控场景，实现对行人、非机动车、摩托车等目标的交通违规行为自动检测*与*分类。系统支持图片、视频、实时摄像头三种输入模式，并配有完整的 PyQt6 图形化操作界面，涵盖检测、统计、历史管理、指标可视化等功能，完整还原了*深度学习*项目从数据到系统的落地*全*链路。](https://blog.csdn.net/m0_61028090/article/details/159477550)
+
+
+
+[程序员转行学习AI大模型：位置编码](https://blog.csdn.net/AIMing_byte/article/details/159474040)
+
+[AIMing\_byte的博客](https://blog.csdn.net/AIMing_byte)
+
+03-25
+![]()
+625
+
+
+
+
+[本文介绍了Transformer模型中的位置编码机制。位置编码通过为每个词添加包含位置信息的向量，解决了模型无法识别词序的问题。文章详细解释了正弦位置编码的实现原理，包括其数学公式和参数设置，并展示了位置编码*与*词向量相加的具体过程。此外，还对比了三种位置编码类型：正弦位置编码（固定公式、无需参数）、可学习位置编码（可优化但需参数）和旋转位置编码（适合长序列）。正弦位置编码因其简单性和可外推性被应用于原始Transformer模型，而BERT、GPT等模型则采用可学习的位置编码。](https://blog.csdn.net/AIMing_byte/article/details/159474040)
+
+
+
+[Dify*开源**LLM*应用平台*与*实在*Agent*智能体协同*架构*源码*解析*](https://wenku.csdn.net/doc/4gkekr9u4d)
+
+
+
+
+[Dify*与*实在*Agent*的协同并非功能叠加，而是*架构*级互补：Dify提供标准化、可治理、可观测的*LLM*应用*底座**与*DevOps流水线，实在*Agent*则贡献高鲁棒性、强泛化、可解释的智能体内核*与*企业级执行能力。二者结合后，企业可在...](https://wenku.csdn.net/doc/4gkekr9u4d)
+
+
+
+
+
+
+[![]()](https://huhu2k.blog.csdn.net)
+
+[释迦呼呼](https://huhu2k.blog.csdn.net)
+
+
+博客等级
+
+![]()
+
+码龄21年
+
+
+
+[674
+原创](https://huhu2k.blog.csdn.net)
+
+8116
+点赞
+
+5634
+收藏
+
+1941
+粉丝
+
+
+关注
+
+[私信](https://im.csdn.net/chat/huhu2k)
+
+
+
+![]()
+
+
+### TA的精选
+
+* [新
+  2026 AI 算力全栈拆解：不止 GPU，撑起现代 AI 的 6 大核心处理器全解析](https://blog.csdn.net/huhu2k/article/details/159655619)
+  
+  305 阅读
+* [新
+  2026 AI 编码工具终局对决：Claude Code、Cursor、GitHub Copilot 全维度拆解与最优选型指南](https://blog.csdn.net/huhu2k/article/details/159655436)
+  
+  948 阅读
+* [热
+  1寸到36寸照片的尺寸规格](https://blog.csdn.net/huhu2k/article/details/71133145)
+  
+  13541 阅读
+* [热
+  就美国入境须知讲讲我个人的三次入境糗事](https://blog.csdn.net/huhu2k/article/details/71171999)
+  
+  8775 阅读
+* [热
+  转一篇经典音响文章《“摩机”宝典之如何“摩功放”》](https://blog.csdn.net/huhu2k/article/details/71132944)
+  
+  6964 阅读
+
+[查看更多 ![]()](https://blog.csdn.net/huhu2k?type=blog)
+
+
+
+### 大家在看
+
+* [从素数定义到欧拉筛，一步搞定数论基础之素数](https://blog.csdn.net/2502_94353935/article/details/159695312)
+* [全网最细网络安全学习路线：从零基础到实战专家（2026最新版）](https://blog.csdn.net/bdfcfff77fa/article/details/159723745)
+* [从0到1做TikTok：普通人入门最易懂的操作教程](https://blog.csdn.net/Jenna01/article/details/159723533)
+* [004、语言模型核心：词嵌入、注意力机制与位置编码详解](https://blog.csdn.net/Leo_123Chen/article/details/159681198)
+* [RAG（AI的检索机制）
+  ![]()
+  329](https://blog.csdn.net/html_zlz/article/details/159643119)
+
+
+### TA的创作历程
+
+2026
+
+
+
+[03月
+62篇](https://huhu2k.blog.csdn.net?type=blog&year=2026&month=03)
+
+[02月
+57篇](https://huhu2k.blog.csdn.net?type=blog&year=2026&month=02)
+
+[01月
+14篇](https://huhu2k.blog.csdn.net?type=blog&year=2026&month=01)
+
+
+
+
+
+历年创作
+
+
+
+[2025年
+312篇](https://huhu2k.blog.csdn.net?type=blog&year=2025&month=12)
+[2023年
+1篇](https://huhu2k.blog.csdn.net?type=blog&year=2023&month=02)
+[2022年
+1篇](https://huhu2k.blog.csdn.net?type=blog&year=2022&month=08)
+[2021年
+1篇](https://huhu2k.blog.csdn.net?type=blog&year=2021&month=03)
+[2020年
+5篇](https://huhu2k.blog.csdn.net?type=blog&year=2020&month=04)
+[2019年
+1篇](https://huhu2k.blog.csdn.net?type=blog&year=2019&month=09)
+[2017年
+221篇](https://huhu2k.blog.csdn.net?type=blog&year=2017&month=05)
+
+
+
+
+
+
+
+### 分类专栏
+
+* [![]()
+  AI一千问](https://blog.csdn.net/huhu2k/category_12901066.html)
+  365篇
+* [![]()
+  从零开始构建一个大语言模型](https://blog.csdn.net/huhu2k/category_12880039.html)
+  76篇
+* [![]()
+  技术](https://blog.csdn.net/huhu2k/category_9374678.html)
+  7篇
+* [![]()
+  考取认证](https://blog.csdn.net/huhu2k/category_9374677.html)
+  1篇
+* [![]()
+  个人日记](https://blog.csdn.net/huhu2k/category_6898592.html)
+  142篇
+* [![]()
+  色影无忌](https://blog.csdn.net/huhu2k/category_6898594.html)
+  4篇
+* [![]()
+  转帖](https://blog.csdn.net/huhu2k/category_6898596.html)
+  46篇
+* [![]()
+  骑行日记](https://blog.csdn.net/huhu2k/category_6898597.html)
+  7篇
+* [![]()
+  投票](https://blog.csdn.net/huhu2k/category_6898599.html)
+  8篇
+* [![]()
+  健康时尚](https://blog.csdn.net/huhu2k/category_6898604.html)
+  1篇
+* [![]()
+  滋生堂](https://blog.csdn.net/huhu2k/category_6898613.html)
+  1篇
+* [![]()
+  娱乐](https://blog.csdn.net/huhu2k/category_6898614.html)
+  2篇
+* [![]()
+  美食天地](https://blog.csdn.net/huhu2k/category_6898616.html)
+  1篇
+* [![]()
+  西安特色](https://blog.csdn.net/huhu2k/category_6898617.html)
+  1篇
+* [![]()
+  娱乐休闲](https://blog.csdn.net/huhu2k/category_6898618.html)
+  1篇
+* [![]()
+  文学视野](https://blog.csdn.net/huhu2k/category_6898619.html)
+  1篇
+* [![]()
+  天南地北](https://blog.csdn.net/huhu2k/category_6898620.html)
+  1篇
+* [![]()
+  经典收藏](https://blog.csdn.net/huhu2k/category_6898621.html)
+  1篇
+* [![]()
+  杂谈](https://blog.csdn.net/huhu2k/category_6898624.html)
+* [![]()
+  情感天地](https://blog.csdn.net/huhu2k/category_6898625.html)
+  1篇
+* [![]()
+  萪|▍乁埘廗](https://blog.csdn.net/huhu2k/category_6898627.html)
+* [![]()
+  知识百科](https://blog.csdn.net/huhu2k/category_6898629.html)
+  2篇
+* [![]()
+  jin点评](https://blog.csdn.net/huhu2k/category_6898630.html)
+* [![]()
+  衣食住行](https://blog.csdn.net/huhu2k/category_6898631.html)
+  1篇
+* [![]()
+  转载](https://blog.csdn.net/huhu2k/category_6898634.html)
+
+展开全部 ![]()
+收起 ![]()
+
+
+上一篇：
+
+[2026 年 Agentic AI 落地生存指南：七层技术栈拆解，看懂自主智能的本质与不可逾越的安全红线](https://blog.csdn.net/huhu2k/article/details/159019300)
+
+
+下一篇：
+
+[现代 AI 的底层胜负手：8 大核心概念，读懂 2026 年数据与 AI 架构的演进逻辑](https://blog.csdn.net/huhu2k/article/details/159055298)
+
+
+
+官方同款运行环境
+
+Qwen3.5-9B
+
+Qwen3.5 具备以下增强特性：
+统一的视觉-语言基础：通过在多模态 token 上进行早期融合训练，在跨代性能上与 Qwen3 持平，并在推理、编码、智能体和视觉理解等基准测试中全面超越 Qwen3-VL 模型。
+高效混合架构：结合门控 Delta 网络与稀疏混合专家（Mixture-of-Experts），实现高吞吐推理，同时保持极低的延迟和成本开销。
+可扩展的强化学习泛化能力：在百万
+
+文本生成
+Qwen
+Qwen3.5
+
+
+![]()显存大小
+
+24GB
+
+
+![]()CPU
+
+10核心
+
+
+![]()内存
+
+120GB
+
+
+![]()系统盘/数据盘
+
+40GB
+
+
+
+一键部署
+
+无需本地环境部署，可直接运行
+
+
+
+![]()
+
+· AI 阅读助手
+
+
+
+
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+
+
+官方同款运行环境
+
+Qwen3.5-9B
+
+Qwen3.5 具备以下增强特性：
+统一的视觉-语言基础：通过在多模态 token 上进行早期融合训练，在跨代性能上与 Qwen3 持平，并在推理、编码、智能体和视觉理解等基准测试中全面超越 Qwen3-VL 模型。
+高效混合架构：结合门控 Delta 网络与稀疏混合专家（Mixture-of-Experts），实现高吞吐推理，同时保持极低的延迟和成本开销。
+可扩展的强化学习泛化能力：在百万
+
+文本生成
+Qwen
+Qwen3.5
+
+
+![]()显存大小
+
+24GB
+
+
+![]()CPU
+
+10核心
+
+
+![]()内存
+
+120GB
+
+
+![]()系统盘/数据盘
+
+40GB
+
+
+
+一键部署
+
+无需本地环境部署，可直接运行
+
+
+
+![]()
+
+· AI 阅读助手
+
+
+
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+![]()
+
+上一篇：
+
+[2026 年 Agentic AI 落地生存指南：七层技术栈拆解，看懂自主智能的本质与不可逾越的安全红线](https://blog.csdn.net/huhu2k/article/details/159019300)
+
+
+下一篇：
+
+[现代 AI 的底层胜负手：8 大核心概念，读懂 2026 年数据与 AI 架构的演进逻辑](https://blog.csdn.net/huhu2k/article/details/159055298)
+
+
+
+### 分类专栏
+
+* [![]()
+  AI一千问](https://blog.csdn.net/huhu2k/category_12901066.html)
+  365篇
+* [![]()
+  从零开始构建一个大语言模型](https://blog.csdn.net/huhu2k/category_12880039.html)
+  76篇
+* [![]()
+  技术](https://blog.csdn.net/huhu2k/category_9374678.html)
+  7篇
+* [![]()
+  考取认证](https://blog.csdn.net/huhu2k/category_9374677.html)
+  1篇
+* [![]()
+  个人日记](https://blog.csdn.net/huhu2k/category_6898592.html)
+  142篇
+* [![]()
+  色影无忌](https://blog.csdn.net/huhu2k/category_6898594.html)
+  4篇
+* [![]()
+  转帖](https://blog.csdn.net/huhu2k/category_6898596.html)
+  46篇
+* [![]()
+  骑行日记](https://blog.csdn.net/huhu2k/category_6898597.html)
+  7篇
+* [![]()
+  投票](https://blog.csdn.net/huhu2k/category_6898599.html)
+  8篇
+* [![]()
+  健康时尚](https://blog.csdn.net/huhu2k/category_6898604.html)
+  1篇
+* [![]()
+  滋生堂](https://blog.csdn.net/huhu2k/category_6898613.html)
+  1篇
+* [![]()
+  娱乐](https://blog.csdn.net/huhu2k/category_6898614.html)
+  2篇
+* [![]()
+  美食天地](https://blog.csdn.net/huhu2k/category_6898616.html)
+  1篇
+* [![]()
+  西安特色](https://blog.csdn.net/huhu2k/category_6898617.html)
+  1篇
+* [![]()
+  娱乐休闲](https://blog.csdn.net/huhu2k/category_6898618.html)
+  1篇
+* [![]()
+  文学视野](https://blog.csdn.net/huhu2k/category_6898619.html)
+  1篇
+* [![]()
+  天南地北](https://blog.csdn.net/huhu2k/category_6898620.html)
+  1篇
+* [![]()
+  经典收藏](https://blog.csdn.net/huhu2k/category_6898621.html)
+  1篇
+* [![]()
+  杂谈](https://blog.csdn.net/huhu2k/category_6898624.html)
+* [![]()
+  情感天地](https://blog.csdn.net/huhu2k/category_6898625.html)
+  1篇
+* [![]()
+  萪|▍乁埘廗](https://blog.csdn.net/huhu2k/category_6898627.html)
+* [![]()
+  知识百科](https://blog.csdn.net/huhu2k/category_6898629.html)
+  2篇
+* [![]()
+  jin点评](https://blog.csdn.net/huhu2k/category_6898630.html)
+* [![]()
+  衣食住行](https://blog.csdn.net/huhu2k/category_6898631.html)
+  1篇
+* [![]()
+  转载](https://blog.csdn.net/huhu2k/category_6898634.html)
+
+展开全部 ![]()
+收起 ![]()
+
+
+
+
+
+
+### 目录
+
+
+
+
+
+
+
+
+
+
+
+
+
+评论
+![]()
+
+![]()被折叠的  条评论
+[为什么被折叠?](https://blogdev.blog.csdn.net/article/details/122245662)
+[![]()到【灌水乐园】发言](https://bbs.csdn.net/forums/FreeZone)
+
+
+查看更多评论![]()
+
+
+
+添加红包
+
+
+祝福语
+
+
+请填写红包祝福语或标题
+
+
+红包数量
+
+个
+
+红包个数最小为10个
+
+
+红包总金额
+
+元
+
+红包金额最低5元
+
+
+余额支付
+当前余额3.43元
+[前往充值 >](https://i.csdn.net/#/wallet/balance/recharge)
+
+
+需支付：10.00元
+
+取消
+确定
+
+
+
+
+![]()
+下一步
+
+![]()
+知道了
+
+
+
+![]()
+成就一亿技术人!
+
+
+
+领取后你会自动成为博主和红包主的粉丝
+规则
+
+
+
+![]()
+hope\_wisdom 发出的红包
+
+
+
+
+
+
+
+
+
+打赏作者![]()
+
+[![]()](https://huhu2k.blog.csdn.net)
+
+释迦呼呼
+
+你的鼓励将是我创作的最大动力
+
+
+
+
+¥1
+¥2
+¥4
+¥6
+¥10
+¥20
+
+扫码支付：¥1
+
+![]()
+获取中
+
+
+![]()
+![]()
+扫码支付
+
+
+
+您的余额不足，请更换扫码支付或[充值](https://i.csdn.net/#/wallet/balance/recharge?utm_source=RewardVip)
+
+打赏作者
+
+
+
+
+实付元
+[使用余额支付](javascript:;)
+![]()
+点击重新获取
+
+
+![]()![]()![]()扫码支付
+
+
+
+
+钱包余额
+0
+![]()
+
+抵扣说明：
+
+1.余额是钱包充值的虚拟货币，按照1:1的比例进行支付金额的抵扣。  
+ 2.余额无法直接购买下载，可以购买VIP、付费专栏及课程。
+
+
+
+
+
+[![]()余额充值](https://i.csdn.net/#/wallet/balance/recharge)
+
+![]()
+
+
+
+
+
+

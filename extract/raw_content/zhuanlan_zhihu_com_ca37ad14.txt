@@ -1,0 +1,160 @@
+# Source URL: https://zhuanlan.zhihu.com/p/1954266705439195820
+# Content Length: 12578 characters
+# Extracted at: 2026-03-30 13:36:15
+#============================================================
+
+![](https://zhuanlan.zhihu.com/p/1954266705439195820)
+### 2025 年 9 月 24 日，阿里云在云栖大会上正式发布 \*\*[Qwen3-VL](https://zhida.zhihu.com/search?content\_id=263458249&content\_type=Article&match\_order=1&q=Qwen3-VL&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwMjE3NjksInEiOiJRd2VuMy1WTCIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI2MzQ1ODI0OSwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.Dsdn5lip8UBVpzzdg4ImpGopSp3qprbRnR-cEO8pSTI&zhida\_source=entity)\*\* 视觉语言模型，这是 Qwen 系列迄今为止最强大的多模态模型，标志着视觉大模型从“感知”向“推理与执行”的跨越。以下从技术架构、核心能力、性能表现及应用场景等维度展开分析。
+### \*\*一、技术架构升级\*\*
+Qwen3-VL 基于 \*\*“三段式架构”\*\*（[ViT](https://zhida.zhihu.com/search?content\_id=263458249&content\_type=Article&match\_order=1&q=ViT&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwMjE3NjksInEiOiJWaVQiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNjM0NTgyNDksImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.bMWXSFpTG3jISIlQ3iiZwG6q\_9r\_2sHwF7uyH-nDezg&zhida\_source=entity) \+ [Projector](https://zhida.zhihu.com/search?content\_id=263458249&content\_type=Article&match\_order=1&q=Projector&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwMjE3NjksInEiOiJQcm9qZWN0b3IiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNjM0NTgyNDksImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.jWxFOF-ugucDwFseZdCLuTMucr1ux\_yKFk1l41h1BNQ&zhida\_source=entity) \+ [LLM](https://zhida.zhihu.com/search?content\_id=263458249&content\_type=Article&match\_order=1&q=LLM&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwMjE3NjksInEiOiJMTE0iLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNjM0NTgyNDksImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.R-TsHxQJAfGCBIzeMSEstsCo9EroCWQ8VXaTaYvxGQg&zhida\_source=entity)），结合多项创新技术实现多模态深度融合：
+1. \*\*动态分辨率与位置编码优化\*\*
+- 采用 \*\*MRoPE-Interleave\*\* 技术，交错分布时间、高度和宽度编码，提升长视频理解能力。
+- 引入 \*\*[DeepStack](https://zhida.zhihu.com/search?content\_id=263458249&content\_type=Article&match\_order=1&q=DeepStack&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwMjE3NjksInEiOiJEZWVwU3RhY2siLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNjM0NTgyNDksImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.6m74xq6EUObKlPhkkvwPNJ8ugJlVCpoNGTAtpSdr-tU&zhida\_source=entity)\*\* 机制，将视觉特征分层注入语言模型各层，增强跨模态对齐（如低层纹理与高层语义分离处理）。
+\*\*视频时序建模革新\*\*
+- 将原有 \*\*T-RoPE\*\* 升级为 \*\*文本时间戳对齐\*\*，通过“时间戳-帧”交错输入实现帧级细粒度时序建模。
+\*\*视觉编码器增强\*\*
+- 默认 Patch Size 从 14×14 提升至 16×16，减少计算冗余。
+- 集成 \*\*DeepStack-V\*\* 模块，适配 ViT 分层特征提取，增强细粒度视觉理解。
+### \*\*二、核心能力突破\*\*
+Qwen3-VL 在以下领域实现显著提升：
+1. \*\*视觉智能体（Visual Agent）\*\*
+- 支持操作手机/电脑界面（如点击按钮、填写表单），在 [OS World](https://zhida.zhihu.com/search?content\_id=263458249&content\_type=Article&match\_order=1&q=OS+World&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwMjE3NjksInEiOiJPUyBXb3JsZCIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI2MzQ1ODI0OSwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.RSNktdvuKp1-Jw3xKtcVL99T24h2pnIDykECCnk2JUA&zhida\_source=entity) 基准测试中达到 SOTA。
+- \*\*案例\*\*：上传截图后，模型可自动执行“打开微信→搜索联系人→发送消息”流程。
+\*\*视觉编程与代码生成\*\*
+- 将设计草图或视频帧直接转化为 [http://Draw.io/HTML/CSS/JS](https://link.zhihu.com/?target=http%3A//Draw.io/HTML/CSS/JS) 代码，实现“所见即所得”开发。
+- \*\*示例\*\*：手绘电商首页草图生成完整交互代码，节省 70% 前端开发时间。
+\*\*空间理解与 3D 推理\*\*
+- 2D [Grounding](https://zhida.zhihu.com/search?content\_id=263458249&content\_type=Article&match\_order=1&q=Grounding&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwMjE3NjksInEiOiJHcm91bmRpbmciLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNjM0NTgyNDksImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.d7VcawASnLSrgzEodOuwt1EqmB20KMzqAw5MMl92SsE&zhida\_source=entity) 从绝对坐标升级为相对坐标，支持遮挡关系判断；3D Grounding 实现物体方位与运动轨迹预测。
+- \*\*应用\*\*：机器人可精准判断桌上苹果的位置与距离，误差率低于 5cm。
+\*\*长上下文与视频解析\*\*
+- 原生支持 \*\*256K Token\*\* 上下文，扩展至 \*\*100 万 Token\*\*（约 2 小时长视频），支持逐秒时间戳检索。
+- \*\*测试\*\*：在 2 小时会议视频中定位“第 15 分钟穿红衣人物的动作”，准确率 99.5%。
+\*\*多语言 OCR 与复杂识别\*\*
+- 支持 32 种语言，复杂场景（模糊、倾斜文本）识别率超 70%，古籍竖排文字识别 F1 值达 94.5%。
+### \*\*三、性能评测表现\*\*
+在 46 项多模态基准测试中，Qwen3-VL 展现全面优势：
+\*\*![](https://pic2.zhimg.com/v2-0b29932f3200b785a9389598ae1474c1\_1440w.jpg)\*\*
+### \*\*四、应用场景与生态\*\*
+1. \*\*企业级应用\*\*
+- \*\*工业质检\*\*：汽车生产线检测 16 个关键部件，螺栓缺失识别率 99.7%。
+- \*\*智能客服\*\*：结合 LLM 实现多轮对话，用户意图识别准确率提升 35%。
+\*\*开发者工具\*\*
+- \*\*自动化测试\*\*：上传 UI 界面截图，自动生成测试用例与代码。
+- \*\*教育辅助\*\*：解析数学题图像并生成分步解析，覆盖 K12 到竞赛级题目。
+\*\*科研领域\*\*
+- \*\*天文观测\*\*：基于 90 万张太阳卫星图像训练的“金乌”模型，预测太阳活动准确率超 85%。
+- \*\*自动驾驶\*\*：复杂路况决策响应时间 <0.3 秒，误判率较传统方案降低 42%。
+### \*\*五、开源与部署\*\*
+1. \*\*开源信息\*\*
+- 通义千问 QwenChat 免费体验。
+- 阿里云[百炼平台 API](https://zhida.zhihu.com/search?content\_id=263458249&content\_type=Article&match\_order=1&q=%E7%99%BE%E7%82%BC%E5%B9%B3%E5%8F%B0+API&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwMjE3NjksInEiOiLnmb7ngrzlubPlj7AgQVBJIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjYzNDU4MjQ5LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.dX3b06At9LFMM6IWGPdvG\_-aLjQeiVPYyHhvCf4uhWA&zhida\_source=entity) 调用（按 token 阶梯计费）。
+- \*\*模型版本\*\*：Qwen3-VL-235B-A22B（含 Instruct 与 Thinking 双版本）。
+- \*\*访问方式\*\*：
+\*\*本地部署建议\*\*
+- \*\*显存优化\*\*：启用动态分块（ChunkFlow）与混合精度计算，10GB 显存可处理 512×512 图像。
+- \*\*硬件适配\*\*：推荐 NVIDIA A100/H100 GPU，FP16 精度下推理速度达 15 tokens/s。
+### \*\*六、总结与展望\*\*
+Qwen3-VL 的核心突破在于 \*\*从“识别”到“执行”\*\* 的范式转变：
+- \*\*技术层面\*\*：通过 DeepStack 多模态融合、时空编码优化等创新，实现细粒度视觉推理。
+- \*\*应用层面\*\*：推动 AI 在工业、教育、科研等领域的深度落地，降低自动化门槛。
+未来，随着更多尺寸版本的开源（如轻量级 Qwen-VL-Max），该模型将进一步渗透至边缘计算与移动端场景，成为多模态 AI 生态的基础设施级组件。
+好技术我们也是第一时间集成到自家系统：本地离线数字人讲PPT系统
+![](https://pic3.zhimg.com/v2-30da07a559ed8c1365d35c9f39946b0e\_1440w.jpg)
+![](https://pic2.zhimg.com/v2-6b127f20bf767c6a9a9bf080e5c023d7\_1440w.jpg)
+借助Qwen-VL-Max的强大能力，用户上传pdf文档，系统能够自动识别文档内容，生成数字人能够演讲的课件内容。
+效果演示demo：
+关于本系统的详细介绍可以参考飞书文档：
+[https://df58aaahqa.feishu.cn/wiki/Mu5nwfNrqiytllkkrWhcuGbJnPh](https://link.zhihu.com/?target=https%3A//df58aaahqa.feishu.cn/wiki/Mu5nwfNrqiytllkkrWhcuGbJnPh)
+编辑于 2025-09-24 07:32・浙江
+[文案创作没思路？腾讯ima为你提供海量爆款文案创意！\\
+\\
+腾讯ima能自动追踪热点趋势，提供专业的文案内容框架，在生成出文案的同时，还能对文案进行优化，轻松打造出一篇爆款文案查看详情腾讯ima能自动追踪热点趋势，提供专业的文案内容框架，在生成出文案的同时，还能对文案进行优化，轻松打造出一篇爆款文案 查看详情\\
+\\
+![用户头像](https://pic3.zhimg.com/v2-6bcab51aab5519d3e668f35b0a210fc3\_xl.webp?source=d6434cab)\\
+\\
+ima的广告](https://ima.qq.com/download/?webFrom=10000435&channel=10000435&cb=https%3A%2F%2Fsugar.zhihu.com%2Fplutus\_adreaper\_callback%3Fsi%3D7c850e9f-4e5b-44c2-8016-adaa5336f5a6%26os%3D3%26zid%3D1629%26zaid%3D3671183%26zcid%3D3628753%26cid%3D3628701%26event%3D\_\_EVENTTYPE\_\_%26value%3D\_\_EVENTVALUE\_\_%26ts%3D\_\_TIMESTAMP\_\_%26cts%3D\_\_TS\_\_%26mh%3D\_\_MEMBERHASHID\_\_%26adv%3D703838%26ocg%3D4%26cp%3D2500%26ocs%3D1%26aic%3D0%26atp%3D0%26ct%3D2%26ed%3DGiBNJgVzfCMmUW9XFyEvRA8xBGxJICwkOhh0FlwxKw1fY0gnWzUoISkY6onvXKClOvM%3D&spu=biz%3D0%26ci%3D3628753%26si%3D9c68600d-c341-4315-8318-99bf61cd74be%26ts%3D1774848971%26zid%3D1629)
+​赞同​​添加评论​1 ​喜欢
+​分享
+​申请转载​
+​
+![](https://pic1.zhimg.com/v2-d41c2ceaed8f51999522f903672a521f\_l.jpeg)
+未登录用户
+还没有评论，发表第一个评论吧
+关于作者
+[![咬定青松](https://pica.zhimg.com/v2-f76f3b8137d7f1d4b52241ca0adbe954\_l.jpg?source=32738c0c&needBackground=1)](https://www.zhihu.com/people/cangqing)
+[咬定青松](https://www.zhihu.com/people/cangqing)
+[回答\\
+\\
+\*\*223\*\*](https://www.zhihu.com/people/cangqing/answers) [文章\\
+\\
+\*\*239\*\*](https://www.zhihu.com/people/cangqing/posts) [关注者\\
+\\
+\*\*461\*\*](https://www.zhihu.com/people/cangqing/followers)
+​关注他​发私信
+大家都在搜
+换一换
+[张雪WSBK葡萄牙站夺冠698 万](https://www.zhihu.com/search?q=%E5%BC%A0%E9%9B%AAWSBK%E8%91%A1%E8%90%84%E7%89%99%E7%AB%99%E5%A4%BA%E5%86%A0&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[伊朗局势697 万](https://www.zhihu.com/search?q=%E4%BC%8A%E6%9C%97%E5%B1%80%E5%8A%BF&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[广州暴雨574 万](https://www.zhihu.com/search?q=%E5%B9%BF%E5%B7%9E%E6%9A%B4%E9%9B%A8&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 新
+[单依纯向李荣浩道歉512 万](https://www.zhihu.com/search?q=%E5%8D%95%E4%BE%9D%E7%BA%AF%E5%90%91%E6%9D%8E%E8%8D%A3%E6%B5%A9%E9%81%93%E6%AD%89&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[AI简历分析大师481 万](https://zhihu.com/search?q=AI%E7%AE%80%E5%8E%86%E5%88%86%E6%9E%90%E5%A4%A7%E5%B8%88&search\_type\_string=ai\_zhida&category=ai\_zhida&search\_type\_str=ai\_zhida&type=zhida) 活动
+[DeepSeek宕机12小时后恢复466 万](https://www.zhihu.com/search?q=DeepSeek%E5%AE%95%E6%9C%BA12%E5%B0%8F%E6%97%B6%E5%90%8E%E6%81%A2%E5%A4%8D&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[美以袭击伊朗451 万](https://www.zhihu.com/search?q=%E7%BE%8E%E4%BB%A5%E8%A2%AD%E5%87%BB%E4%BC%8A%E6%9C%97&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[李荣浩喊话单依纯称其强行侵权《李白》438 万](https://www.zhihu.com/search?q=%E6%9D%8E%E8%8D%A3%E6%B5%A9%E5%96%8A%E8%AF%9D%E5%8D%95%E4%BE%9D%E7%BA%AF%E7%A7%B0%E5%85%B6%E5%BC%BA%E8%A1%8C%E4%BE%B5%E6%9D%83%E3%80%8A%E6%9D%8E%E7%99%BD%E3%80%8B&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[中科大少年班学生课上往黑板扔水杯354 万](https://www.zhihu.com/search?q=%E4%B8%AD%E7%A7%91%E5%A4%A7%E5%B0%91%E5%B9%B4%E7%8F%AD%E5%AD%A6%E7%94%9F%E8%AF%BE%E4%B8%8A%E5%BE%80%E9%BB%91%E6%9D%BF%E6%89%94%E6%B0%B4%E6%9D%AF&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[张雪峰追悼会举行民众排长队送别335 万](https://www.zhihu.com/search?q=%E5%BC%A0%E9%9B%AA%E5%B3%B0%E8%BF%BD%E6%82%BC%E4%BC%9A%E4%B8%BE%E8%A1%8C%E6%B0%91%E4%BC%97%E6%8E%92%E9%95%BF%E9%98%9F%E9%80%81%E5%88%AB&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[广告\\
+\\
+![广告](https://picx.zhimg.com/v2-fbd2e5ee48a5e7341812f8bf8926918d\_720w.webp?source=d6434cab)](https://ima.qq.com/download/?webFrom=10000435&channel=10000435&cb=https%3A%2F%2Fsugar.zhihu.com%2Fplutus\_adreaper\_callback%3Fsi%3D785bd82f-f05a-44d1-8769-36bfaecafd3d%26os%3D3%26zid%3D6001%26zaid%3D3671775%26zcid%3D3629529%26cid%3D3629529%26event%3D\_\_EVENTTYPE\_\_%26value%3D\_\_EVENTVALUE\_\_%26ts%3D\_\_TIMESTAMP\_\_%26cts%3D\_\_TS\_\_%26mh%3D\_\_MEMBERHASHID\_\_%26adv%3D703838%26ocg%3D4%26cp%3D2100%26ocs%3D1%26aic%3D0%26atp%3D0%26ct%3D2%26ed%3DGiBNJgVzfCMmUW9XFyEvRA8xBGxJICwkOhh0FlwxKw1fY0gnWzUoISkY6onvXKClOvM%3D&spu=biz%3D0%26ci%3D3629529%26si%3Da8ad5123-45f1-41c5-bb5f-4053f07f7727%26ts%3D1774848972%26zid%3D6001)
+### 推荐阅读
+[![字节Seed团队开源BAGEL：统一多模态大模型(理解+生成)](https://pica.zhimg.com/v2-9fe57ac9500579ed960b5896a5b11220\_250x0.jpg?source=172ae18b)\*\*字节Seed团队开源BAGEL：统一多模态大模型(理解+生成)\*\* \\
+\\
+北方的郎发表于北方的郎](https://zhuanlan.zhihu.com/p/1910635927535059370) [\*\*多模态模型解读-Qwen3-VL\*\* \\
+\\
+Qwen3-VL — 迄今为止 Qwen 系列中最强大的视觉-语言模型。 这一代产品在各个方面都进行了全面升级：更优秀的文本理解和生成能力、更深层次的视觉感知和推理能力、扩展的上下文长度、增强的…\\
+\\
+AIDog](https://zhuanlan.zhihu.com/p/1962896341781950776) [![【多模态大模型】Qwen3-VL解剖](https://pic1.zhimg.com/v2-8c25c95f97b587d3176463a165c9047c\_250x0.jpg?source=172ae18b)\*\*【多模态大模型】Qwen3-VL解剖\*\* \\
+\\
+Plunck](https://zhuanlan.zhihu.com/p/1956306982970586546) [\*\*自回归+扩散！Salesforce开源统一多模态模型BLIP3-o，图像理解与生成全拿下\*\* \\
+\\
+OpenAI 的 GPT-4o 在图像理解、生成和编辑任务上展现了顶级性能。流行的架构猜想是： Tokens → \[Autoregressive 模型\] → \[Diffusion 模型\] → 图像像素 该混合架构将自回归与扩散模型的优…\\
+\\
+机器之心发表于机器之心](https://zhuanlan.zhihu.com/p/1908953970732400794)
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_
+打开知乎App
+在「我的页」右上角打开扫一扫
+![](https://picx.zhimg.com/v2-9e41ea16bdfbe9cf4896617ecad5b4ca.png)
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+中国 +86
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+打开知乎App
+在「我的页」右上角打开扫一扫
+![](https://picx.zhimg.com/v2-9e41ea16bdfbe9cf4896617ecad5b4ca.png)
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+中国 +86
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+![](https://static.zhihu.com/heifetz/assets/liukanshan-peek.a71ecf3e.png)登录即可查看 超5亿 专业优质内容
+超 5 千万创作者的优质提问、专业回答、深度文章和精彩视频尽在知乎。
+立即登录/注册

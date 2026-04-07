@@ -1,0 +1,591 @@
+# Source URL: https://www.cnblogs.com/know-data/p/19699608
+# Content Length: 8860 characters
+# Extracted at: 2026-03-25 11:37:07
+#============================================================
+
+
+
+
+
+
+
+
+
+
+
+
+[AI/LLM/前沿/综述] LLM Agent 综述论文文献综述 (2023-2026) - 数据知音 - 博客园
+
+
+
+
+
+
+
+
+
+
+* [![]()](https://www.cnblogs.com/)
+* [会员](https://cnblogs.vip/)
+* [周边](https://cnblogs.vip/store)
+* [新闻](https://news.cnblogs.com/)
+* [博问](https://q.cnblogs.com/)
+* [闪存](https://ing.cnblogs.com/)
+* [赞助商](https://www.cnblogs.com/cmt/p/19316348)
+* [YouClaw](https://youclaw.dev/)
+
+* ![]()
+  ![]()
+  + ![]()
+    
+    
+    所有博客
+  + ![]()
+    
+    
+    当前博客
+* [![]()](https://i.cnblogs.com/EditPosts.aspx?opt=1)
+  [![]()](https://www.cnblogs.com/my)
+  [![]()](https://msg.cnblogs.com/)
+  [![]()](javascript:void(0))
+  [![]()](https://home.cnblogs.com/)
+  [我的博客](https://www.cnblogs.com/my)
+  [我的园子](https://home.cnblogs.com/)
+  [账号设置](https://account.cnblogs.com/settings/account)
+  [会员中心](https://vip.cnblogs.com/my)
+  [简洁模式 ...](javascript:void(0))
+  [退出登录](javascript:void(0))
+  
+  
+  [注册](https://account.cnblogs.com/signup)
+  [登录](javascript:void(0);)
+
+
+[know-data](https://www.cnblogs.com/know-data)
+
+
+
+* [博客园](https://www.cnblogs.com/)
+* [首页](https://www.cnblogs.com/know-data/)
+* [新随笔](https://i.cnblogs.com/EditPosts.aspx?opt=1)
+* [联系](https://msg.cnblogs.com/send/%E6%95%B0%E6%8D%AE%E7%9F%A5%E9%9F%B3)
+* [订阅](javascript:void(0))
+* [管理](https://i.cnblogs.com/)
+
+
+
+
+[[AI/LLM/前沿/综述] LLM Agent 综述论文文献综述 (2023-2026)](https://www.cnblogs.com/know-data/p/19699608)
+=============================================================================================
+
+
+LLM Agent 综述论文文献综述 (2023-2026)
+==============================
+
+概述
+--
+
+本文献综述整理了近3年（2023-2026）关于大型语言模型(LLM) Agent的重要综述论文和相关研究工作。随着大语言模型能力的快速发展，LLM Agent已成为实现通用人工智能(AI)的关键研究方向之一。
+
+---
+
+一、核心综述论文
+--------
+
+### 1. "SoK: Agentic Skills -- Beyond Tool Use in LLM Agents" (2026年2月)
+
+**作者：** Yanna Jiang, Delong Li, Haiyu Deng, Baihe Ma, Xu Wang, Qin Wang, Guangsheng Yu
+
+**研究焦点：**
+
+* 系统性地探讨了Agent技能(Agentic Skills)的概念，超越简单的工具使用
+* 提出了可重用过程能力的框架
+* 将Agent技能定义为可调用的模块，封装了过程知识与明确的适用性条件、执行策略和终止标准
+
+**主要贡献：**
+
+* 建立了Agentic Skills的分类体系
+* 分析了技能的可复用性、组合性和可扩展性
+* 探讨了从单体语言模型到模块化、技能配备Agent的转变
+
+**应用场景：**
+
+* 长期工作流的可靠执行
+* 多Agent协作中的技能共享
+* Agent能力的模块化设计
+
+---
+
+### 2. "Memory for Autonomous LLM Agents: Mechanisms, Evaluation, and Emerging Frontiers" (2026年3月)
+
+**研究焦点：**
+
+* 自主Agent的记忆机制
+* 评估方法与新兴前沿
+
+**主要维度：**
+
+* **记忆类型：** 短期记忆、长期记忆、情景记忆、语义记忆
+* **存储机制：** 向量数据库、图谱存储、层次结构
+* **检索策略：** 相关性检索、时序检索、重要性加权
+* **评估方法：** 记忆准确性、检索效率、知识更新能力
+
+**关键挑战：**
+
+* 记忆遗忘问题
+* 幻觉现象
+* 记忆一致性维护
+* 大规模记忆的效率优化
+
+---
+
+### 3. "Cognitive Models and AI Algorithms Provide Templates for Designing Language Agents" (2026年2月)
+
+**作者：** Ryan Liu, Dilip Arumugam, Cedegao E. Zhang, Sean Escola, Xaq Pitkow, Thomas L. Griffiths
+
+**研究焦点：**
+
+* 认知模型与AI算法为语言Agent设计提供模板
+* 探讨单一大语言模型无法解决的复杂问题
+
+**核心观点：**
+
+* 借鉴人类认知科学理论指导Agent设计
+* 认知模型（如工作记忆、元认知、认知启发式）为Agent架构提供理论基础
+* 多Agent协作超越单个模型的限制
+
+**设计范式：**
+
+* 认知分层架构（工作记忆— episodic记忆— 语义记忆）
+* 元认知能力（监控、规划、反思）
+* 认知启发式策略
+
+---
+
+### 4. "The Five Ws of Multi-Agent Communication: Who Talks to Whom, When, What, and Why -- A Survey from MARL to Emergent Language and LLMs" (2026年2月)
+
+**作者：** Jingdi Chen, Hanqing Yang, Zongjun Liu, Carlee Joe-Wong
+
+**研究焦点：**
+
+* 多Agent系统中的通信机制
+* 从多智能体强化学习(MARL)到涌现语言和LLMs
+
+**核心框架：**
+
+1. **Who talks to whom:** 通信拓扑结构（中心化、去中心化、混合式）
+2. **When:** 通信触发条件（按需、周期性、事件驱动）
+3. **What:** 通信内容（状态、策略、目标、意图）
+4. **Why:** 通信目的（协调、协作、竞争、学习）
+
+**研究领域交叉：**
+
+* MARL中的通信学习
+* 涌现语言(如ALife)
+* LLM驱动的对话式通信
+
+**应用领域：**
+
+* 自动驾驶车队
+* 机器人集群
+* 协作AI助手
+* 分布式决策系统
+
+---
+
+### 5. "Toward Personalized LLM-Powered Agents: Foundations, Evaluation, and Future Directions" (2026年2月)
+
+**作者：** Yue Xu, Qian Chen, Zizhan Ma, Dongrui Liu, Wenxuan Wang, Xiting Wang, Li Xiong, Wenjie Wang
+
+**研究焦点：**
+
+* 个性化Agent的基础框架
+* 评估方法与未来方向
+
+**关键维度：**
+
+* **个性化来源：** 用户偏好、历史行为、上下文、领域知识
+* **建模方法：** 提示工程、微调、检索增强生成(RAG)
+* **评估指标：** 准确性、一致性、满意度、伦理合规性
+
+**挑战与方向：**
+
+* 跨场景的个性化迁移
+* 隐私保护与个性化权衡
+* 动态偏好建模
+* 个性化效果的量化评估
+
+---
+
+### 6. "Graph-based Agent Memory: Taxonomy, Techniques, and Applications" (2026年2月)
+
+**研究焦点：**
+
+* 基于图谱的Agent记忆系统
+* 分类法、技术和应用
+
+**关键技术：**
+
+* **图谱类型：** 知识图谱、关系图谱、时序图谱、层次图谱
+* **构建方法：** 实体提取、关系抽取、图嵌入
+* **查询操作：** 图遍历、子图匹配、图推理
+* **应用场景：** 问答系统、推荐系统、决策支持
+
+**优势：**
+
+* 结构化知识表示
+* 关系推理能力
+* 可解释性提升
+* 知识共享与复用
+
+---
+
+### 7. "Anatomy of Agentic Memory: Taxonomy and Empirical Analysis of Evaluation and System Limitations" (2026年2月)
+
+**研究焦点：**
+
+* Agent记忆的解剖学与分类
+* 评估与系统局限性的实证分析
+
+**记忆分类体系：**
+
+* 感知记忆（Sensory Memory）
+* 工作记忆（Working Memory）
+* 长期记忆：情景记忆、语义记忆、程序记忆
+* 元记忆
+
+**系统局限性：**
+
+* 容量限制
+* 检索延迟
+* 上下文窗口约束
+* 幻觉与错误传播
+
+---
+
+二、应用领域综述
+--------
+
+### 8. "Agentic AI in Healthcare & Medicine: A Seven-Dimensional Taxonomy for Empirical Evaluation of LLM-based Agents" (2026年2月)
+
+**作者：** Shubham Vatsal, Harsh Dubey, Aditi Singh
+
+**研究焦点：**
+
+* 医疗健康领域的Agent AI
+* 七维评估分类体系
+
+**评估维度：**
+
+1. **临床准确性**
+2. **可解释性**
+3. **公平性与偏见**
+4. **隐私与安全**
+5. **效率与可扩展性**
+6. **人机协作性**
+7. **伦理合规性**
+
+**应用场景：**
+
+* 诊断辅助
+* 治疗方案推荐
+* 患者监护
+* 药物研发
+* 医疗咨询
+
+---
+
+### 9. "From Secure Agentic AI to Secure Agentic Web: Challenges, Threats, and Future Directions" (2026年3月)
+
+**作者：** Zhihang Deng, Jiaping Gui, Weinan Zhang
+
+**研究焦点：**
+
+* Agent安全与Agentic Web安全
+* 挑战、威胁与未来方向
+
+**安全威胁分类：**
+
+* 提示注入攻击(Prompt Injection)
+* 供应链攻击(Supply Chain)
+* 数据泄露(Data Exfiltration)
+* 对抗性攻击(Adversarial Attacks)
+* 权限提升(Privilege Escalation)
+
+**防御策略：**
+
+* 输入验证与沙箱
+* 权限最小化
+* 审计日志
+* 安全框架与标准
+* 可验证Agent
+
+---
+
+### 10. "From Perception to Action: Spatial AI Agents and World Models" (2026年2月)
+
+**作者：** Gloria Felicia, Nolan Bryant, Handi Putra, Ayaan Gazali, Eliel Lobo, Esteban Rojas
+
+**研究焦点：**
+
+* 空间智能Agent与世界模型
+* 从感知到行动的跨越
+
+**关键能力：**
+
+* 3D结构感知
+* 对象关系推理
+* 物理约束下的行动
+* 空间记忆与映射
+
+**挑战：**
+
+* 符号域与物理域的鸿沟
+* 空间不确定性建模
+* 实时感知与决策
+* 跨模态融合
+
+---
+
+三、技术与机制相关研究
+-----------
+
+### 11. "Agent Skills for Large Language Models: Architecture, Acquisition, Security, and the Path Forward" (2026年2月)
+
+**作者：** Renjun Xu, Yang Yan
+
+**研究焦点：**
+
+* LLM Agent技能的架构、获取、安全性及发展路径
+
+**核心内容：**
+
+* 从单体模型到模块化Agent的转变
+* 技能的表示与封装
+* 技能获取：人工指定、强化学习、模仿学习、自动发现
+* 安全性考虑：技能篡改检测、执行沙箱、权限控制
+
+---
+
+### 12. "ValueFlow: Measuring the Propagation of Value Perturbations in Multi-Agent LLM Systems" (2026年2月)
+
+**研究焦点：**
+
+* 多Agent系统中价值扰动的传播测量
+
+**核心概念：**
+
+* 价值流(Value Flow)：价值观在Agent网络中的传播路径
+* 价值扰动(Value Perturbation)：价值观的偏差与放大
+* 一致性测量：多Agent价值观的对齐程度
+
+---
+
+四、评估与验证研究
+---------
+
+### 13. "SurveyLens: A Research Discipline-Aware Benchmark for Automatic Survey Generation" (2026年2月)
+
+**作者：** Beichen Guo, Zhiyuan Wen, Jia Gu, Senzhang Wang, Haochen Shi, Ruosong Yang, Shuaiqi Liu
+
+**研究焦点：**
+
+* 自动综述生成的基准测试
+* 研究领域感知
+
+**技术演进：**
+
+* 从简单流水线到多Agent协作
+* 领域知识增强
+* 质量评估指标
+
+---
+
+### 14. "Assessing the Reliability of Persona-Conditioned LLMs as Synthetic Survey Respondents" (2026年2月)
+
+**作者：** Erika Elizabeth Taday Morocho, Lorenzo Cima, Tiziano Fagni, Marco Avvenuti, Stefano Cresci
+
+**研究焦点：**
+
+* 评估Persona条件化LLM作为合成调查受访者的可靠性
+
+**研究方法：**
+
+* 将LLM生成的合成调查数据与人类调查数据进行对比
+* 评估偏差、一致性和代表性问题
+
+---
+
+### 15. "Stochastic Parrots or Singing in Harmony? Testing Five Leading LLMs for their Ability to Replicate a Human Survey with Synthetic Data" (2026年2月)
+
+**作者：** Jason Miklian, Kristian Hoelscher, John E. Katsos
+
+**研究焦点：**
+
+* 测试五大LLM复现人类调查的能力
+* 合成数据的质量与可靠性
+
+---
+
+五、研究趋势总结
+--------
+
+### 主要发展趋势
+
+1. **模块化与技能化**
+   
+   * 从单体模型向模块化Agent转变
+   * 技能的封装、复用与组合成为核心关注点
+2. **记忆系统架构**
+   
+   * 记忆机制作为Agent的核心模块
+   * 多层次、多类型记忆的协同设计
+   * 图谱化、结构化记忆的兴起
+3. **多Agent协作**
+   
+   * 通信机制与协议设计
+   * 协作策略与冲突解决
+   * 分布式智能与涌现行为
+4. **个性化与定制化**
+   
+   * 用户偏好建模与适应
+   * 个性化Agent的学习与更新
+   * 域知识注入与融合
+5. **安全性与可靠性**
+   
+   * Agent安全威胁识别
+   * 防御机制与框架
+   * 可验证与可审计Agent
+6. **跨领域应用**
+   
+   * 医疗、教育、金融等垂直领域
+   * 领域特定评估体系
+   * 场景化Agent设计
+
+### 技术挑战
+
+1. **上下文管理**
+   
+   * 长期记忆与高效检索
+   * 上下文窗口限制
+   * 信息遗忘与更新
+2. **幻觉与一致性**
+   
+   * Agent生成的幻觉问题
+   * 多轮对话的一致性维护
+   * 知识准确性的保证
+3. **评估体系**
+   
+   * 统一评估框架的缺乏
+   * 主观质量的量化
+   * 真实场景的模拟
+4. **可解释性**
+   
+   * Agent决策的透明化
+   * 推理过程的可追溯
+   * 用户信任的建立
+5. **效率与可扩展性**
+   
+   * 计算成本控制
+   * 大规模Agent部署
+   * 资源优化与调度
+
+### 未来研究方向
+
+1. **认知架构演进**
+   
+   * 更深度的认知科学借鉴
+   * 元认知能力的增强
+   * 自主学习与适应
+2. **人机协作深化**
+   
+   * 共享意图与协同决策
+   * 人类反馈的整合
+   * 信任校准与透明化
+3. **标准化与规范**
+   
+   * Agent标准与协议
+   * 伦理框架与治理
+   * 行业规范与最佳实践
+4. **新范式探索**
+   
+   * 神经符号融合
+   * 脑机接口集成
+   * 生物启发的Agent设计
+
+---
+
+六、结论
+----
+
+近3年的LLM Agent研究呈现出蓬勃发展的态势，从单一模型能力扩展到多Agent系统、记忆机制、技能封装、个性化定制等多个维度。研究者们不仅关注Agent的能力提升，越来越重视其可靠性、安全性、可解释性和道德合规性。
+
+未来的研究将进一步向认知结构深化、人机协作优化、标准化推进和新范式探索等方向发展。随着技术的成熟和应用场景的拓展，LLM Agent有望在更多领域实现广泛应用，成为连接大语言模型与实际应用的关键桥梁。
+
+---
+
+**整理时间：** 2026年3月10日  
+
+**文献来源：** arXiv、Google Scholar、ACL等学术数据库  
+
+**关键词：** LLM Agent, Survey, Review, Multi-Agent System, Memory Mechanism, Agentic Skills
+
+X 参考文献
+======
+
+
+
+
+
+posted @
+2026-03-10 23:55 
+[数据知音](https://www.cnblogs.com/know-data) 
+阅读(130) 
+评论(0) 
+ 
+[收藏](javascript:void(0)) 
+[举报](javascript:void(0))
+
+
+
+
+[刷新页面](#)[返回顶部](#top)
+
+
+
+
+
+
+[![]()](https://www.cnblogs.com/cmt/p/19735235)
+
+
+
+
+
+
+
+
+
+
+### 公告
+
+
+
+
+
+
+
+
+
+
+[博客园](https://www.cnblogs.com/)
+  ©  2004-2026
+  
+[![]()浙公网安备 33010602011771号](http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33010602011771)
+[浙ICP备2021040463号-3](https://beian.miit.gov.cn)
+
+
+
+
+
+

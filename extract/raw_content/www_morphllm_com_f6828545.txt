@@ -1,0 +1,337 @@
+# Source URL: https://www.morphllm.com/claude-code-in-cursor
+# Content Length: 17257 characters
+# Extracted at: 2026-04-05 01:05:07
+#============================================================
+
+
+How to Use Claude Code in Cursor (2026): Setup & Workflow Guide[![]()Morph](/)Product[### Morph Fast Apply
+
+Merge AI-generated code edits instantly.](/products/fastapply)[### Morph WarpGrep
+
+AI search subagent with sub-6s searches.](/products/warpgrep)[### Morph Compact
+
+Verbatim context compaction for long-running agents.](/products/compact)[### Morph Glance
+
+Auto-test your PRs with video recordings.](/products/glance)[### Morph MCP
+
+Connect Claude, Cursor, and VS Code to Morph.](/setup)[### Morph Monitor
+
+View all your org's PRs in a unified feed.](/dashboard/browser-sessions)[### Morph SDK
+
+Our SDK powering all products: OpenAI-compatible API, Anthropic & Vercel AI SDK support, and more.](https://docs.morphllm.com/sdk)[Docs](https://docs.morphllm.com/quickstart)[Pricing](/pricing)[MCP](/setup)Resources[### Blog
+
+Engineering deep dives and product updates.](/blog)[### Startup Credits
+
+Up to $10K in API credits for startups.](/startups)[### Students
+
+Free for a year with student verification.](/students)[### Contact Us
+
+Talk to the team about your use case.](/contact)[### About
+
+How we train and deploy models.](/about)[### Careers
+
+Join a small team shipping daily.](https://www.ycombinator.com/companies/morph/jobs/)[Book a Call](https://calendar.app.google/xN2RcfSYtfQERQYG8)[Sign Up / Log In](/sign-up)[Home](/)/How to Use Claude Code in Cursor: The Complete Workflow Guide
+
+How to Use Claude Code in Cursor: The Complete Workflow Guide
+=============================================================
+
+Claude Code and Cursor are complementary, not competing. Run Claude Code in Cursor's terminal for autonomous multi-file tasks while using Cursor for inline completions and quick edits. Setup, workflow patterns, and configuration.
+
+March 12, 2026 · 2 min read[Why Both Tools](#why-both-tools)[Setup Guide](#setup-guide)[Workflow Patterns](#workflow-patterns)[When to Use Which](#when-to-use-which)[Sharing Context](#sharing-context)[MCP Servers in Both](#mcp-servers)[Performance Tips](#performance-tips)[FAQ](#faq)
+
+Why Use Both Claude Code and Cursor
+-----------------------------------
+
+Cursor and Claude Code occupy different niches in the AI coding stack. Cursor is an IDE with AI woven into the editing surface: tab completions that predict your next line, inline chat for quick questions, and an agent that can make targeted changes within the editor. Claude Code is a terminal agent that plans multi-step operations, executes them autonomously, and verifies the results.
+
+The distinction maps to two modes of programming. Sometimes you're writing code interactively, line by line, and you want an AI that completes your thoughts in real time. That's Cursor. Other times you need to describe a task ("refactor all API routes to use the new auth middleware") and let an agent handle it. That's Claude Code.
+
+80%Interactive Editing (Cursor)20%Autonomous Tasks (Claude Code)5 minSetup Time
+#### The Core Insight
+
+Claude Code and Cursor aren't competitors. They're complementary tools that cover different parts of the development workflow. Running Claude Code inside Cursor's terminal gives you both capabilities in one window.
+
+Cognition (the team behind Devin) measured that coding agents spend roughly 60% of their time on search and context gathering. By pairing Claude Code's autonomous execution with Cursor's interactive editing, you keep the agent focused on what it does best while staying in control of the code through the editor.
+
+Setup Guide
+-----------
+
+### Step 1: Install Claude Code CLI
+
+Claude Code is a Node.js CLI. Install it globally so it's available in every terminal, including Cursor's.
+
+#### Install Claude Code
+
+```
+npm install -g @anthropic-ai/claude-code
+
+# Verify installation
+claude --version
+```
+### Step 2: Run Claude Code in Cursor's Terminal
+
+Open Cursor, open the integrated terminal (`Cmd+`` on Mac, `Ctrl+`` on Windows/Linux), and type `claude`. Claude Code launches in your project directory with full access to the filesystem, git, and any tools you've configured.
+
+#### Launch in Cursor's Terminal
+
+```
+# In Cursor's integrated terminal
+cd /your/project
+claude
+
+# Or start with a specific task
+claude "refactor the auth middleware to use JWT tokens"
+```
+### Step 3: Install the Claude Code Extension (Optional)
+
+For tighter integration, install the Claude Code VS Code extension in Cursor. This renders Claude Code's diffs directly in the editor instead of the terminal, giving you visual review of every change.
+
+#### Install Extension via CLI
+
+```
+# The VSIX file ships with Claude Code
+cursor --install-extension \
+  ~/.claude/local/node_modules/@anthropic-ai/claude-code/vendor/claude-code.vsix
+```
+
+Alternatively, open Cursor's command palette (`Cmd+Shift+P`), search for "Extensions: Install from VSIX", and navigate to the `claude-code.vsix` file at the path above.
+
+#### Extension vs Terminal
+
+The extension is optional. Many developers prefer running Claude Code purely in the terminal. The extension adds visual diff rendering and click-to-accept for individual changes. Try both approaches and see which fits your workflow.
+
+Workflow Patterns
+-----------------
+
+### Pattern 1: Side-by-Side Editing
+
+The most common pattern. Cursor's editor occupies the main panel. Claude Code runs in the bottom terminal. You write code in the editor with Cursor's tab completions, then switch to the terminal for bigger tasks.
+
+When Claude Code modifies files, Cursor's file watcher detects the changes instantly. You see the updated files in the editor, review the diff with `git diff` or Cursor's built-in diff view, and continue editing.
+
+### Pattern 2: Prototype in Cursor, Polish with Claude Code
+
+Write the initial implementation interactively in Cursor. Once the rough version works, hand it to Claude Code for polish: "add error handling to all API routes", "write tests for the auth module", "update all imports to use the new path aliases". Commit the working state first so you can roll back if needed.
+
+#### Prototype-Then-Polish Workflow
+
+```
+# 1. Write rough implementation in Cursor's editor
+# 2. Commit the working state
+git add -A && git commit -m "rough auth implementation"
+
+# 3. Hand off to Claude Code for polish
+claude "add comprehensive error handling and input validation
+to all routes in src/api/. Follow the error handling pattern
+in src/api/users.ts as a reference."
+```
+### Pattern 3: Claude Code for Multi-File, Cursor for Single-File
+
+Use Cursor when the change is localized: fixing a bug in one file, adding a new component, tweaking a style. Use Claude Code when the change spans many files: renaming a type across the codebase, migrating from one library to another, updating every test to use a new assertion style.
+
+### Pattern 4: Delegating via MCP
+
+With Claude Code running as an MCP server, Cursor's agent can delegate complex tasks to it. You prompt Cursor's agent with "Use Claude Code to refactor this module," and Cursor hands the task off to Claude Code via MCP. The results flow back to Cursor for review.
+
+### Interactive Editing (Cursor)
+
+Tab completions, inline chat, single-file fixes, code exploration, quick refactors. Use when you're actively writing code and thinking line by line.
+
+### Autonomous Tasks (Claude Code)
+
+Multi-file refactors, test generation, migration scripts, git operations, CI/CD debugging. Use when you can describe the task and let the agent execute.
+
+When to Use Which
+-----------------
+
+| Task | Best Tool | Why |
+| --- | --- | --- |
+| Writing a new function | Cursor | Tab completions predict your intent line by line |
+| Multi-file refactor | Claude Code | Plans the change, updates all files, verifies with tests |
+| Fixing a type error | Cursor | Inline diagnostic + quick fix in the editor |
+| Generating test suites | Claude Code | Reads implementation, writes tests, runs them to verify |
+| Exploring unfamiliar code | Cursor | Go-to-definition, hover docs, inline explanations |
+| Database migrations | Claude Code | Generates migration SQL, updates schema, modifies ORM types |
+| Tweaking CSS/styles | Cursor | Visual feedback loop with hot reload |
+| Updating 50 files for a new API | Claude Code | Autonomous execution across the entire codebase |
+| Writing a commit message | Claude Code | Reads the diff, writes a descriptive message, commits |
+| Code review prep | Cursor | Side-by-side diff view, inline comments |
+| CI/CD pipeline debugging | Claude Code | Reads logs, identifies failures, proposes fixes |
+| Quick inline docs | Cursor | Highlight function, ask for docs in inline chat |
+
+Sharing Context Between Tools
+-----------------------------
+
+Both Claude Code and Cursor read project-level configuration files. This is the key to a seamless workflow: define your conventions once, and both tools follow them.
+
+### CLAUDE.md
+
+Claude Code reads `CLAUDE.md` at the project root on every session start. It contains build commands, architecture notes, coding conventions, and any instructions you want Claude Code to follow. This file is the single most impactful thing you can do to improve Claude Code's output quality.
+
+#### Example CLAUDE.md
+
+```
+# CLAUDE.md
+
+## Commands
+bun install          # Install dependencies
+bun run dev          # Start dev server on port 3000
+bun run build        # Production build
+bun run test         # Run tests
+
+## Architecture
+- Next.js 15 App Router, React 19, TypeScript
+- Drizzle ORM with PostgreSQL
+- Tailwind CSS for styling
+
+## Conventions
+- Server components by default
+- Use server actions for mutations
+- All database access through Drizzle
+- Run `bun run typecheck:fast` before committing
+```
+### .cursorrules
+
+Cursor reads `.cursorrules` from the project root. It defines coding style, framework preferences, and patterns for Cursor's AI to follow during inline completions and agent tasks.
+
+#### Example .cursorrules
+
+```
+You are an expert in TypeScript, Next.js 15, React 19, and Tailwind CSS.
+
+Key conventions:
+- Use functional components with TypeScript interfaces
+- Prefer server components; use "use client" only when needed
+- Use Drizzle ORM for all database queries
+- Follow existing code patterns in the codebase
+```
+### AGENTS.md (Shared Standard)
+
+If you use multiple AI tools, put shared instructions in `AGENTS.md`. Both Claude Code and Cursor can reference it. Keep tool-specific config in `CLAUDE.md` and `.cursorrules`. This avoids duplication while letting each tool get instructions in its preferred format.
+
+#### Configuration Strategy
+
+* **AGENTS.md:** Universal conventions (naming, architecture, testing patterns). Both tools read this.
+* **CLAUDE.md:** Claude Code-specific instructions (build commands, verification steps, autonomous behaviors).
+* **.cursorrules:** Cursor-specific instructions (completion style, inline chat behavior, framework expertise).
+
+MCP Servers in Both Tools
+-------------------------
+
+MCP (Model Context Protocol) servers provide external context to AI tools. The same MCP server can serve both Claude Code and Cursor, giving both tools access to your database, APIs, documentation, or codebase search.
+
+### Shared MCP Configuration
+
+Configure MCP servers in your project's `.mcp.json` for Claude Code, and in `~/.cursor/mcp.json` for Cursor. Point both to the same server instances.
+
+#### MCP Configuration for Claude Code (.mcp.json)
+
+```
+{
+  "mcpServers": {
+    "warpgrep": {
+      "command": "npx",
+      "args": ["-y", "warpgrep-mcp@latest"],
+      "env": {
+        "WARPGREP_API_KEY": "your-api-key"
+      }
+    }
+  }
+}
+```
+### WarpGrep: Semantic Search for Both Tools
+
+[WarpGrep](/products/warpgrep) indexes your codebase and provides semantic search via MCP. When Claude Code needs to understand how authentication works across your app, it queries WarpGrep instead of scanning every file. When Cursor's agent needs context for a suggestion, it queries the same index.
+
+This is especially powerful for large codebases. Without semantic search, both tools waste context window tokens on irrelevant files. With WarpGrep, they find exactly the right code on the first try, leaving more context for actual reasoning.
+
+### Claude Code + WarpGrep
+
+Claude Code uses WarpGrep for autonomous planning. Before refactoring a module, it searches for all usages, dependencies, and related tests. Finds relevant code in sub-second latency instead of scanning thousands of files.
+
+### Cursor + WarpGrep
+
+Cursor's agent uses WarpGrep for contextual suggestions. When you're editing a function, it pulls in related implementations, test patterns, and usage examples. Better context means better completions.
+
+Performance Tips
+----------------
+
+### Fast Apply for Code Merging
+
+When Claude Code generates multi-file changes, those edits need to be merged into your files. [Morph Fast Apply](/products/compact) handles this at 10,500+ tokens per second. The difference is noticeable on large refactors: a 20-file change that takes seconds with standard diff resolution completes almost instantly with Fast Apply.
+
+### Keep Claude Code Focused
+
+Don't use Claude Code for tasks Cursor handles better. Quick fixes, single-line changes, and exploratory edits are faster in the editor. Reserve Claude Code for tasks that benefit from autonomous planning: anything touching 3+ files, anything requiring verification (running tests, type-checking), and anything you'd otherwise do manually across many files.
+
+### Commit Before Delegating
+
+Before handing a task to Claude Code, commit your current work. This gives you a clean rollback point if the agent's changes don't work out. It also gives Claude Code a clear baseline to work from.
+
+### Use Headless Mode for Background Tasks
+
+Claude Code supports headless mode (`claude -p "task"`) for non-interactive execution. Run long tasks in a background terminal tab in Cursor while you continue editing in the main panel. Check the results when it finishes.
+
+#### Background Task in Separate Terminal Tab
+
+```
+# Terminal Tab 1: Continue editing in Cursor
+# Terminal Tab 2: Run Claude Code headlessly
+claude -p "write unit tests for all exported functions in src/lib/"
+```
+10,500+Tokens/sec Fast Apply<6sAvg Agent Turn Latency8Parallel MCP Tool Calls
+
+Frequently Asked Questions
+--------------------------
+
+### Can I run Claude Code inside Cursor?
+
+Yes. Open Cursor's integrated terminal and type `claude`. Claude Code runs in the terminal with full access to your project. You can also install the Claude Code VS Code extension in Cursor for visual diff rendering. The extension VSIX file is at `~/.claude/local/node_modules/@anthropic-ai/claude-code/vendor/claude-code.vsix`.
+
+### Do I need to choose between Claude Code and Cursor?
+
+No. They're complementary. Cursor gives you real-time inline completions, tab suggestions, and an editor-integrated agent. Claude Code gives you autonomous multi-file execution, test generation, and git operations. Using both is more productive than using either alone.
+
+### How do I share project conventions between both tools?
+
+Put shared conventions in `AGENTS.md` at the project root. Add Claude Code-specific instructions (build commands, verification steps) to `CLAUDE.md`. Add Cursor-specific instructions (completion style, framework hints) to `.cursorrules`. Both tools read their respective config files on startup.
+
+### Will Claude Code's changes conflict with Cursor's suggestions?
+
+No. Claude Code writes directly to the filesystem. Cursor's file watcher detects the changes and updates the editor view. You see the new state immediately. If Claude Code modifies a file you're editing, Cursor shows the incoming change. There's no merge conflict because only one tool writes at a time.
+
+### Can Cursor's agent delegate tasks to Claude Code?
+
+Yes, via MCP. Run Claude Code as an MCP server and configure Cursor to use it. Then Cursor's agent can delegate complex tasks to Claude Code. The results flow back to Cursor for review. This is useful for tasks that exceed Cursor's agent capabilities, like large refactors or codebase-wide changes.
+
+### Related Guides
+
+* [Claude Code vs Cursor: Full Comparison](/comparisons/claude-code-vs-cursor)
+* [Claude Code in VS Code](/claude-code-vscode)
+* [Claude Code Extensions](/claude-code-extensions)
+* [Best MCP Servers for Claude Code](/claude-code-mcp-servers)
+* [Claude Code Best Practices](/claude-code-best-practices)
+* [Claude Code Memory Files (CLAUDE.md)](/claude-code-memory-files)
+* [Best Cursor Alternatives 2026](/comparisons/cursor-alternatives)
+### Semantic Search for Claude Code and Cursor
+
+WarpGrep's MCP server indexes your codebase and works with both Claude Code and Cursor. One semantic search layer for all your AI coding tools. Find code by meaning, not just keywords.
+
+[Try WarpGrep](/products/warpgrep)[View Docs](https://docs.morphllm.com)![]()Morph
+
+Applied research building for the future of codegen.
+
+© 2026 AutoInfra, Inc. All rights reserved.
+
+YBacked by Y Combinator
+
+* [Documentation](https://docs.morphllm.com)
+* [Blog](/blog)
+* [Trust Center](https://trust.delve.co/morph)
+* [CareersWe're Hiring!](https://www.ycombinator.com/companies/morph/jobs)
+
+* [Privacy Policy](/privacy)
+* [Terms of Service](/privacy/tos)
+* [EULA](/eula)
+* [Service Status](https://morphllm.betteruptime.com/)
+* [Book a Call](https://calendar.app.google/xN2RcfSYtfQERQYG8)

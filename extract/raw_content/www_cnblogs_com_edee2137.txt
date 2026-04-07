@@ -1,0 +1,340 @@
+# Source URL: https://www.cnblogs.com/sing1ee/p/19737250
+# Content Length: 7860 characters
+# Extracted at: 2026-03-29 12:03:18
+#============================================================
+
+
+
+
+
+
+
+
+
+
+
+
+小米 MiMo-V2 系列完全指南 2026：Pro/Omni/TTS 三大模型全面解读 - 见路非道 - 博客园
+
+
+
+
+
+
+
+
+
+
+* [![]()](https://www.cnblogs.com/)
+* [会员](https://cnblogs.vip/)
+* [周边](https://cnblogs.vip/store)
+* [新闻](https://news.cnblogs.com/)
+* [博问](https://q.cnblogs.com/)
+* [闪存](https://ing.cnblogs.com/)
+* [赞助商](https://www.cnblogs.com/cmt/p/19316348)
+* [YouClaw](https://youclaw.dev/)
+
+* ![]()
+  ![]()
+  + ![]()
+    
+    
+    所有博客
+  + ![]()
+    
+    
+    当前博客
+* [![]()](https://i.cnblogs.com/EditPosts.aspx?opt=1)
+  [![]()](https://www.cnblogs.com/my)
+  [![]()](https://msg.cnblogs.com/)
+  [![]()](javascript:void(0))
+  [![]()](https://home.cnblogs.com/)
+  [我的博客](https://www.cnblogs.com/my)
+  [我的园子](https://home.cnblogs.com/)
+  [账号设置](https://account.cnblogs.com/settings/account)
+  [会员中心](https://vip.cnblogs.com/my)
+  [简洁模式 ...](javascript:void(0))
+  [退出登录](javascript:void(0))
+  
+  
+  [注册](https://account.cnblogs.com/signup)
+  [登录](javascript:void(0);)
+
+
+[见路不走](https://www.cnblogs.com/sing1ee)
+=======================================
+
+竹杖芒鞋轻胜马，谁怕，一蓑烟雨任平生。
+
+
+[小米 MiMo-V2 系列完全指南 2026：Pro/Omni/TTS 三大模型全面解读](https://www.cnblogs.com/sing1ee/p/19737250)
+------------------------------------------------------------------------------------------
+
+小米 MiMo-V2 系列完全指南 2026：MiMo-V2-Pro、MiMo-V2-Omni、MiMo-V2-TTS — 小米 AI Agent 时代全面来袭
+================================================================================
+
+核心要点 (TL;DR)
+------------
+
+* **2026年3月18日深夜**，小米一口气发布了三款 MiMo-V2 系列大模型：**MiMo-V2-Pro**（推理 Agent）、**MiMo-V2-Omni**（全模态基座）、**MiMo-V2-TTS**（语音合成）
+* **MiMo-V2-Pro** 在 Claw-Eval 基准测试中得分 **75.7**，位列全球前三、中国第二，直逼 Claude Opus 4.6，API 成本却只有其约 20%
+* **MiMo-V2-Omni** 在 BigBench Audio（94.0）、MMAU-Pro（69.4）、FutureOmni（66.7）等多项多模态基准测试中全面领先
+* **MiMo-V2-TTS** 支持四川话、河南话、粤语、台湾腔等方言合成，可实现句中情感切换和精准歌唱音高控制
+* 三款模型均已上线 browser-based API（platform.xiaomimimo.com），通过 OpenClaw、OpenCode、KiloCode、Blackbox、Cline 可免费试用一周
+
+目录
+--
+
+1. [MiMo-V2 系列是什么](#miMo-v2-系列是什么)
+2. [MiMo-V2-Pro：重型推理 Agent](#mimo-v2-pro重型推理-agent)
+3. [MiMo-V2-Omni：全模态多模态基座](#mimo-v2-omni全模态多模态基座)
+4. [MiMo-V2-TTS：给 Agent 注入灵魂](#mimo-v2-tts给-agent-注入灵魂)
+5. [API 定价与平台可用性](#api-定价与平台可用性)
+6. [常见问题 FAQ](#常见问题-faq)
+7. [总结与建议](#总结与建议)
+
+---
+
+MiMo-V2 系列是什么
+-------------
+
+2026年3月18日深夜，小米出乎所有人意料地正式发布了自研大模型系列 **MiMo-V2**——这是小米正式进军"**AI Agent 时代**"的标志性动作。
+
+该系列由三款定位各异的模型组成：
+
+* **MiMo-V2-Pro** — 旗舰级推理与 Agent 模型
+* **MiMo-V2-Omni** — 全模态多模态基座模型
+* **MiMo-V2-TTS** — 端到端文本转语音合成模型
+
+这次发布最令人瞩目的是 benchmark 数据。MiMo-V2-Pro 在内部测试期间代号"Hunter Alpha"，测试 token 使用量突破了 **1 万亿 token** 大关。MiMo-V2-Omni 代号"Healer Alpha"，在 PinchBench 排行榜的音频、视频、视觉各个赛道全面屠榜。
+
+与传统的 App 绑定式 AI 集成不同，小米将整个 MiMo-V2 系列构建为**纯浏览器架构**，打破了地域限制，全球开发者均可通过 [官方 MiMo 平台](https://mimo.xiaomi.com/) 或 Xiaomi MiMo Studio 直接体验。
+
+---
+
+MiMo-V2-Pro：重型推理 Agent
+----------------------
+
+**MiMo-V2-Pro** 是小米的旗舰级模型，专为高强度复杂工作流设计——那种需要深度逻辑推理、多步骤任务规划、几乎不需要人工介入的任务。
+
+### 技术规格
+
+MiMo-V2-Pro 拥有 **1 万亿（1T）总参数**，推理时激活 **420亿（42B）参数**。采用创新的**混合注意力架构（Mixed-Attention Architecture）**，支持高达 **100万 tokens（1,048,576 tokens）**的超长上下文窗口，最大输出 32,000 tokens。
+
+这个超长上下文意味着开发者可以将整个代码库、长篇文档集或完整的研究档案一次性喂入一个上下文窗口——这为真正的自主编程 Agent 和研究助手打开了大门。
+
+### 基准测试表现
+
+MiMo-V2-Pro 在 OpenRouter 上以"Hunter Alpha"的代号进行测试，在正式发布前就引起了 AI 社区的广泛关注：
+
+| 基准测试 | MiMo-V2-Pro 得分 | 全球排名 |
+| --- | --- | --- |
+| Claw-Eval（平均） | **75.7** | 全球前三 |
+| Artificial Analysis Intelligence Index | **49** | 中国第二，全球第八 |
+
+在 Claw-Eval——最严格的主流 Agent 评估框架之一——MiMo-V2-Pro 位列**全球前三**，紧随 Anthropic 的 Claude Opus 4.6 之后。在 Artificial Analysis Intelligence Index 中，超越 Grok 4.20 和 Gemini 3 Flash，排名**中国第二、全球第八**。
+
+### 实际编程能力
+
+内部工程师评测显示，MiMo-V2-Pro 的编程能力——系统设计、工作流编排、优雅代码生成——与 Claude Opus 4.6 **感觉非常接近**，而 API 成本只是竞品的约 20%。
+
+模型的工具调用能力和多步骤推理经过了**SFT（监督微调）和 RL（强化学习）**的专项训练，覆盖复杂多样的 Agent 脚手架。
+
+---
+
+MiMo-V2-Omni：全模态多模态基座
+---------------------
+
+**MiMo-V2-Omni** 是小米对"无缝跨模态理解"交出的答卷。与分别处理各模态再拼接的方案不同，MiMo-V2-Omni **原生统一处理图像、视频、音频、文本输入**，作为构建 Agent 系统的统一底座。
+
+### 基准测试全面制霸
+
+在代号"Healer Alpha"下，MiMo-V2-Omni 横扫 **PinchBench 排行榜**，在多个关键领域超越 Gemini 3 Pro 和 Claude Opus 4.6：
+
+| 基准测试 | MiMo-V2-Omni 得分 | 说明 |
+| --- | --- | --- |
+| BigBench Audio（语音推理） | **94.0** | 超越所有竞品 |
+| MMAU-Pro（音频理解） | **69.4** | 登顶音频排行榜 |
+| FutureOmni（视频未来事件预测） | **66.7** | 视频类别第一 |
+
+### 真实能力
+
+真正让 MiMo-V2-Omni 与众不同的不只是数字：
+
+* **音频理解** 超越语音转写，进入环境音分类、多说话人分离、对超过10小时连续音频的深度理解领域
+* **音视频联合推理** 使模型能够对声音和视觉交汇的内容进行推理——比如视频理解需要同时考虑对话、背景音乐、环境音和视觉元素
+* **跨模态自主规划与执行**，遭遇异常时实时修正策略
+
+模型支持 **26.2万 tokens（262K）**上下文窗口，最大输出 32,000 tokens。
+
+### 为什么"全模态"很重要
+
+大多数多模态模型通过分别处理各模态再拼接的 pipeline 工作。MiMo-V2-Omni 采取了根本不同的路线——构建单一统一表示，将图像、视频、音频、文本视为同一学习框架中的一等公民。正是这种架构实现了真正的深度跨模态推理能力。
+
+---
+
+MiMo-V2-TTS：给 Agent 注入灵魂
+------------------------
+
+没有声音的 Agent 是不完整的。**MiMo-V2-TTS** 是小米自研的端到端文本转语音合成模型，基于**自研 Audio Tokenizer** 和**多码本联合建模（Multi-Codebook Joint Modeling）**架构。
+
+### 训练与质量
+
+模型在**数亿小时**音频数据上训练，并通过**多维强化学习**优化。这个规模的训练数据意味着模型接触过几乎难以想象的丰富语音模式、声学环境和说话风格。
+
+### 情感与韵律控制
+
+MiMo-V2-TTS 真正卓越之处在于**精细化多维度情感控制**：
+
+* **句中情感与语气切换** — 模型可以在单个话语内从中性切换到热情，或从专业切换到同理心
+* **精准歌唱音高控制** — 这在 TTS 系统中非常罕见，普通系统输出的歌声往往平板机械
+* **原生方言合成** — 包括四川话、河南话、粤语、台湾腔，还能说普通话——对于服务中文用户群体至关重要
+
+情感细腻度、韵律控制和方言多样性的结合，使 MiMo-V2-TTS 成为以下场景的诱人选择：
+
+* 需要表达同理心和个性的对话型 AI Agent
+* 需要自然旁白的内容创作工具
+* 服务多元语言社区的无障碍应用
+* 交互式娱乐和游戏应用
+
+### TTS 在 Agent 时代的角色
+
+小米选择在推理模型和多模态模型之外单独发布 TTS 模型，是深思熟虑的战略。在"Agent 时代"，AI 系统不只是处理信息——还需要与人类实时互动。平板机械的声音会立即打破代理和智能的沉浸感。MiMo-V2-TTS 就是小米给出的答案。
+
+---
+
+API 定价与平台可用性
+------------
+
+小米已通过 **platform.xiaomimimo.com** 立即开放 MiMo-V2 系列访问，定价策略极具竞争力：
+
+### MiMo-V2-Pro 定价
+
+| 上下文窗口 | 输入价格 | 输出价格 |
+| --- | --- | --- |
+| 最高 256K tokens | **$1.00 / 1M tokens** | **$3.00 / 1M tokens** |
+| 最高 1M tokens | **$2.00 / 1M tokens** | **$6.00 / 1M tokens** |
+
+### MiMo-V2-Omni 定价
+
+| 上下文窗口 | 输入价格 | 输出价格 |
+| --- | --- | --- |
+| 最高 256K tokens | **$0.40 / 1M tokens** | **$2.00 / 1M tokens** |
+
+> **专业提示**：$0.40/1M 输入 tokens 的 MiMo-V2-Omni 定价使其成为同性能层级中性价比最高的多模态模型之一。
+
+### 免费试用
+
+**限定期内**，开发者可通过以下主流 Agent 框架免费试用全部三款模型**长达一周**：
+
+* OpenClaw
+* OpenCode
+* KiloCode
+* Blackbox
+* Cline
+
+---
+
+常见问题 FAQ
+--------
+
+### MiMo-V2-Pro 最适合哪些场景？
+
+MiMo-V2-Pro 擅长需要工具调用、代码生成、系统设计、工作流编排的复杂多步骤推理任务。1M tokens 的上下文窗口使其特别适合整个代码库分析、长篇文档处理或综合研究档案的单次全量分析。
+
+### MiMo-V2-Pro 与 Claude Opus 4.6 相比如何？
+
+Claw-Eval 基准测试中，MiMo-V2-Pro 得分 75.7（全球前三），仅次于 Claude Opus 4.6。内部工程师评估认为其编程能力与 Claude Opus 4.6 非常接近，但 API 成本约为前沿模型的 20%。
+
+### MiMo-V2-Omni 与其他多模态模型有何本质区别？
+
+MiMo-V2-Omni 采用统一架构原生处理图像、视频、音频、文本，而非用 separate pipeline 分别处理再拼接。BigBench Audio（94.0）、MMAU-Pro（69.4）、FutureOmni（66.7）的基准测试成绩代表了其在所有感知模态上的全面领先。
+
+### MiMo-V2-TTS 支持哪些方言？
+
+MiMo-V2-TTS 原生支持普通话以外多种中文方言：四川话、河南话、粤语、台湾腔。此外还支持精准歌唱音高控制和单句内多维度情感切换。
+
+### MiMo-V2 可以免费使用吗？
+
+小米通过 OpenClaw、OpenCode、KiloCode、Blackbox、Cline 为全部三款模型提供**一周免费试用**。试用期后可在 platform.xiaomimimo.com 查看定价。MiMo-V2-Omni 性价比尤其突出。
+
+### 小米的"Agent 时代"战略是什么？
+
+小米的"Agent 时代"愿景是构建能跨模态自主执行复杂多步骤任务、无需持续人工指导的 AI 系统。Pro 主推理、Omni 主感知、TTS 主沟通——MiMo-V2 系列构成了这一战略的技术底座。
+
+---
+
+总结与建议
+-----
+
+小米 2026年3月18日的 MiMo-V2 系列发布，是近年来中国科技公司最具分量的 AI 发布之一。三款模型各司其职，覆盖 Agent 型 AI 栈的不同维度：
+
+* **MiMo-V2-Pro** 以远低于竞品的成本提供 Claude Opus 4.6 级别的推理能力，1M tokens 上下文窗口使其成为代码库级分析和自主编程 Agent 的现实选择
+* **MiMo-V2-Omni** 在音频、视频、视觉及其交叉领域创下新的基准记录，是构建多模态 Agent 的坚实底座
+* **MiMo-V2-TTS** 提供了让 Agent 真正有"存在感"的情感和韵律保真度，拥有方言合成和歌声生成等稀缺能力
+
+对于 2026 年正在评估 AI 基础设施的开发者和企业，MiMo-V2 系列值得认真评估——尤其是考虑到激进的定价策略和当前可用的免费一周试用。
+
+**立即体验**：<https://mimo.xiaomi.com/>
+
+---
+
+*本文基于 2026 年 3 月 18 日小米官方发布及基准测试数据编写。*
+
+
+
+posted on
+2026-03-19 09:42 
+[见路非道](https://www.cnblogs.com/sing1ee) 
+阅读(2269) 
+评论(0) 
+ 
+[收藏](javascript:void(0)) 
+[举报](javascript:void(0))
+
+
+
+
+[刷新页面](#)[返回顶部](#top)
+
+
+
+
+
+
+[![]()](https://www.cnblogs.com/cmt/p/19735235)
+
+
+
+
+
+
+
+
+### 导航
+
+* [博客园](https://www.cnblogs.com/)
+* [首页](https://www.cnblogs.com/sing1ee/)
+* [联系](https://msg.cnblogs.com/send/%E8%A7%81%E8%B7%AF%E9%9D%9E%E9%81%93)
+* [订阅](javascript:void(0))
+* [管理](https://i.cnblogs.com/)
+
+
+### 公告
+
+
+
+
+
+
+[博客园](https://www.cnblogs.com/)  ©  2004-2026
+  
+[![]()浙公网安备 33010602011771号](http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33010602011771)
+[浙ICP备2021040463号-3](https://beian.miit.gov.cn)
+
+
+
+
+
+
+

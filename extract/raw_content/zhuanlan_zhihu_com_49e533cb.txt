@@ -1,0 +1,160 @@
+# Source URL: https://zhuanlan.zhihu.com/p/2019756999491998217
+# Content Length: 5986 characters
+# Extracted at: 2026-03-28 22:34:48
+#============================================================
+
+![](https://zhuanlan.zhihu.com/p/2019756999491998217)
+## OpenClaw 2026.3.22⁄23 更新：重大架构升级与安全加固
+> 发布时间：2026年3月23日 版本：v2026.3.22 (重大更新) + v2026.3.23 (修复补丁)
+\* \* \*
+### 📌 版本概览
+OpenClaw 在 3 月 23 日连续发布两个版本：
+- \*\*v2026.3.22\*\*：重大架构升级，包含多个 Breaking Changes 和大量新功能
+- \*\*v2026.3.23\*\*：修复补丁，解决 v2026.3.22 发布后发现的问题
+本文将重点介绍这次更新的核心变化。
+\* \* \*
+### ⚠️ 重要变更（Breaking Changes）
+### 1\. 插件安装优先级调整
+```text
+# 旧行为：优先 npm
+openclaw plugins install 
+# 新行为：优先 ClawHub，npm 作为备选
+openclaw plugins install 
+```
+现在 `openclaw plugins install` 会优先从 ClawHub 查找包，只有 ClawHub 没有时才会回退到 npm。
+### 2\. Chrome 扩展中继已移除
+旧版 `driver: "extension"` 和 `browser.relayBindHost` 配置已被移除。请运行以下命令迁移：
+```text
+openclaw doctor --fix
+```
+### 3\. 配置环境变量重命名
+所有 `CLAWDBOT\_\*` 和 `MOLTBOT\_\*` 环境变量已重命名为 `OPENCLAW\_\*`。
+### 4\. SDK 迁移
+插件开发者需要注意：
+- `openclaw/extension-api` 已移除
+- 新的公共 SDK 路径为 `openclaw/plugin-sdk/\*`
+\* \* \*
+### ✨ 核心新功能
+### 🎯 ClawHub 集成
+全新的技能市场集成：
+```text
+# 搜索技能
+openclaw skills search 
+# 安装技能
+openclaw skills install 
+# 更新技能
+openclaw skills update 
+```
+### 🔌 多市场支持
+支持从多个市场安装插件：
+- ClawHub 市场
+- Claude 市场
+- npm 仓库
+```text
+# 从特定市场安装
+openclaw plugins install clawhub:
+openclaw plugins install claude:
+```
+### 🤖 模型更新
+- \*\*OpenAI 默认模型\*\* 升级到 `gpt-5.4`
+- 新增 `gpt-5.4-mini` 和 `gpt-5.4-nano` 支持
+- \*\*[MiniMax](https://zhida.zhihu.com/search?content\_id=271925528&content\_type=Article&match\_order=1&q=MiniMax&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ1NzMwNDQsInEiOiJNaW5pTWF4IiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjcxOTI1NTI4LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.J6F-1HBhxJO6VT0ANWOi1yQ8-RHviUUWJCJp3KCtkwk&zhida\_source=entity)\*\* 升级到 M2.7 系列模型
+- \*\*[xAI Grok](https://zhida.zhihu.com/search?content\_id=271925528&content\_type=Article&match\_order=1&q=xAI+Grok&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ1NzMwNDQsInEiOiJ4QUkgR3JvayIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI3MTkyNTUyOCwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.Yist3Jx8MMvYiS0b5WF2JIzk2xs65qKGrZJPcsnE9qE&zhida\_source=entity)\*\* 同步最新模型目录
+### 💬 [飞书](https://zhida.zhihu.com/search?content\_id=271925528&content\_type=Article&match\_order=1&q=%E9%A3%9E%E4%B9%A6&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ1NzMwNDQsInEiOiLpo57kuaYiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNzE5MjU1MjgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.SqgerS5FWDsmlNbIgKJhGLplx5JKEybuHrgD4k2DYZ8&zhida\_source=entity)增强
+飞书渠道获得大量增强：
+- \*\*交互卡片\*\*：支持审批、快捷操作等结构化卡片
+- \*\*ACP 绑定\*\*：支持 DM 和话题对话的 ACP 会话绑定
+- \*\*流式推理\*\*：`/reasoning stream` 在卡片中实时渲染思考过程
+- \*\*消息操作\*\*：支持读取、编辑、置顶等更多消息操作
+### 📱 Android 增强
+- \*\*系统暗色主题\*\*：跟随设备主题
+- \*\*短信搜索\*\*：`sms.search` 功能
+- \*\*通话记录搜索\*\*：`callLog.search` 功能
+### 🌐 新搜索提供商
+集成更多网络搜索提供商：
+- \*\*[Exa](https://zhida.zhihu.com/search?content\_id=271925528&content\_type=Article&match\_order=1&q=Exa&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ1NzMwNDQsInEiOiJFeGEiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNzE5MjU1MjgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.-XVMwvhM\_koaNnlEqMQ68WDeu\_Sw68ZsxC5wa6O3fh0&zhida\_source=entity)\*\*：高质量 AI 搜索
+- \*\*Tavily\*\*：专业搜索 API
+- \*\*[Firecrawl](https://zhida.zhihu.com/search?content\_id=271925528&content\_type=Article&match\_order=1&q=Firecrawl&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ1NzMwNDQsInEiOiJGaXJlY3Jhd2wiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNzE5MjU1MjgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.Y8vunZMeCaXW9oObUQmUoS7deUnUZmPgDPe02GuWD0Y&zhida\_source=entity)\*\*：网页抓取和搜索
+\* \* \*
+### 🔒 安全加固
+### 执行审批增强
+- 空白韩文填充字符会被转义，防止视觉欺骗
+- `time` 命令作为透明包装器处理
+- 新增 `tools.exec.strictInlineEval` 严格控制内联解释器执行
+### 网络安全
+- 远程 `file://` URL 和 UNC 路径被阻止
+- Webhook 签名验证使用恒定时间比较
+- 严格 SSRF 策略应用于远程 CDP
+### 配对安全
+- iOS 设置码绑定到目标节点配置
+- 拒绝请求超范围权限的配对请求
+\* \* \*
+### 🐛 重要修复
+v2026.3.23 修复了以下问题：
+- \*\*浏览器/MCP\*\*：修复现有会话标签页附加后的等待问题
+- \*\*ClawHub/macOS\*\*：修复 macOS 上的认证配置
+- \*\*消息工具\*\*：修复飞书文件/图片附件发送
+- \*\*Mistral 模型\*\*：降低默认 token 限制，避免 422 错误
+- \*\*子代理\*\*：修复快速完成的 worker 被误报超时的问题
+\* \* \*
+### 📥 升级建议
+```text
+# 检查当前版本
+openclaw --version
+# 升级到最新版本
+npm update -g openclaw
+# 运行修复命令
+openclaw doctor --fix
+```
+\* \* \*
+### 🔗 相关链接
+- [GitHub Release v2026.3.22](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/releases/tag/v2026.3.22)
+- [GitHub Release v2026.3.23](https://link.zhihu.com/?target=https%3A//github.com/openclaw/openclaw/releases/tag/v2026.3.23)
+- [官方文档](https://link.zhihu.com/?target=https%3A//docs.openclaw.ai/)
+- [ClawHub 技能市场](https://link.zhihu.com/?target=https%3A//clawhub.com/)
+发布于 2026-03-24 00:51・四川
+[OpenClaw](https://www.zhihu.com/topic/1999063153082913027)
+[ClawHub](https://www.zhihu.com/topic/2008674647026196891)
+[AI人工智能](https://www.zhihu.com/topic/23629993)
+​赞同 1​​添加评论​1 ​喜欢
+​分享
+​申请转载​
+​
+暂无评论
+关于作者
+[![草帽](https://pic1.zhimg.com/v2-abed1a8c04700ba7d72b45195223e0ff\_l.jpg?source=172ae18b)](https://www.zhihu.com/people/itouxin)
+[草帽](https://www.zhihu.com/people/itouxin)
+计算机软件
+[回答](https://www.zhihu.com/people/itouxin/answers) [文章](https://www.zhihu.com/people/itouxin/posts) [关注者](https://www.zhihu.com/people/itouxin/followers)
+​关注​发私信
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码

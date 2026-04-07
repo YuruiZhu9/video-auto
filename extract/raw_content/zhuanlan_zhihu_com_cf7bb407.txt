@@ -1,0 +1,240 @@
+# Source URL: https://zhuanlan.zhihu.com/p/16096611214
+# Content Length: 13662 characters
+# Extracted at: 2026-03-24 13:28:34
+#============================================================
+
+![](https://zhuanlan.zhihu.com/p/16096611214)
+![阿里开源TTS CosyVoice 再升级！语音克隆玩出新花样，支持流式输出，本地部署实测](https://picx.zhimg.com/v2-ca7dba445e4d7cbf3dd945bbb56fb09d\_720w.jpg?source=172ae18b)
+​
+目录
+最近，语音克隆领域精彩迭出！
+前段时间刚分享过升级版 FishSpeech：
+最近看到阿里开源的 CosyVoice 又发布了重大更新。
+今日分享，将介绍 CosyVoice 2.0，并带大家本地部署体验，为本地 TTS 选型提供参考。
+## 1\. CosyVoice 简介
+> 项目简介： [https://funaudiollm.github.io/cosyvoice2/](https://link.zhihu.com/?target=https%3A//funaudiollm.github.io/cosyvoice2/)
+与已有 TTS 方案相比，CosyVoice 在多语言语音生成、零样本语音生成、跨语言语音生成、富文本和自然语言细粒度控制方面，表现出色。可见之前的分享：
+\*\*相比旧版，CosyVoice 2.0 有哪些亮点？\*\*
+- \*\*离线和流式一体化建模\*\*：成功实现双向流式语音合成，目前主流方案(CosyVoice，F5-TTS，MaskGCT，GPT-SoViTs等)均不支持流式，FishSpeech 1.5 除外。
+![](https://pic3.zhimg.com/v2-120c8db4d1d2d56cf236eea5e742de78\_1440w.jpg)
+- \*\*[多语言支持](https://zhida.zhihu.com/search?content\_id=252241558&content\_type=Article&match\_order=1&q=%E5%A4%9A%E8%AF%AD%E8%A8%80%E6%94%AF%E6%8C%81&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ1MDI5MTEsInEiOiLlpJror63oqIDmlK\_mjIEiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTIyNDE1NTgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.9W\_6p7WWgH0\_UD4VozbSa8Su50HZdaWHGkVZyneXoSA&zhida\_source=entity)\*\*：中文、英文、日语、韩语等，以及多种中国方言（粤语、四川话、上海话、天津话、武汉话等）
+- \*\*[跨语言支持](https://zhida.zhihu.com/search?content\_id=252241558&content\_type=Article&match\_order=1&q=%E8%B7%A8%E8%AF%AD%E8%A8%80%E6%94%AF%E6%8C%81&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ1MDI5MTEsInEiOiLot6jor63oqIDmlK\_mjIEiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTIyNDE1NTgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.pImNXQGgJ1khNifaZtOJSAFiPLRXNdL\_USSs-StizC4&zhida\_source=entity)\*\*：支持跨语言的[零样本语音克隆](https://zhida.zhihu.com/search?content\_id=252241558&content\_type=Article&match\_order=1&q=%E9%9B%B6%E6%A0%B7%E6%9C%AC%E8%AF%AD%E9%9F%B3%E5%85%8B%E9%9A%86&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ1MDI5MTEsInEiOiLpm7bmoLfmnKzor63pn7PlhYvpmoYiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTIyNDE1NTgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.-yZdAXIgcuYIpt9y7yKVDV8sf3ecQ1hzrX\_iN8CJcxE&zhida\_source=entity)。
+- \*\*超低延迟\*\*：接收5个文字即可合成首包音频，延迟低至 150 毫秒；
+- \*\*超高精度\*\*：在[Seed-TTS评估集](https://zhida.zhihu.com/search?content\_id=252241558&content\_type=Article&match\_order=1&q=Seed-TTS%E8%AF%84%E4%BC%B0%E9%9B%86&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ1MDI5MTEsInEiOiJTZWVkLVRUU-ivhOS8sOmbhiIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI1MjI0MTU1OCwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.7WWTyAHTiFyjHpJNW2FJz71is1dBaXYsG6BjJ0niyeM&zhida\_source=entity)的硬测试集上取得最低的字符错误率。
+- \*\*音色一致性\*\*：确保零样本和跨语言语音合成的可靠语音一致性。
+- \*\*韵律和音质\*\*：在韵律、音质和情感对齐方面显著增强，[MOS评分](https://zhida.zhihu.com/search?content\_id=252241558&content\_type=Article&match\_order=1&q=MOS%E8%AF%84%E5%88%86&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ1MDI5MTEsInEiOiJNT1Por4TliIYiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTIyNDE1NTgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.ymvNChUoi\_a1lUR5V-ItsC97okNG-38EdTtP1ruY\_BQ&zhida\_source=entity)从5.4提高到5.53，接近商业化TTS水平。
+- \*\*可控音频生成\*\*：支持更精细的情感控制和方言口音调整，可模仿机器人、小猪佩奇的风格讲话。
+本次更新，预训练模型同样开源。
+\*\*下面我们实操本地部署，看看效果如何？\*\*
+## 2\. 本地部署
+> 项目地址： [https://github.com/FunAudioLLM/CosyVoice](https://link.zhihu.com/?target=https%3A//github.com/FunAudioLLM/CosyVoice)
+首先，下载项目仓库，安装环境依赖。
+```text
+git clone https://github.com/FunAudioLLM/CosyVoice
+cd fish-speech
+```
+然后，下载模型权重：
+```text
+git clone https://www.modelscope.cn/iic/CosyVoice2-0.5B.git pretrained\_models/CosyVoice2-0.5B
+```
+这里只需下载 CosyVoice 2.0 的模型权重，一个模型支持多种推理方式。
+### 2.1 模型测试
+CosyVoice 2.0 支持多种推理方式，我们一一来介绍：
+首先是模型加载：
+```text
+import os
+import sys
+sys.path.append(os.path.join(os.path.dirname(\_\_file\_\_), 'third\_party/Matcha-TTS'))
+from cosyvoice.cli.cosyvoice import CosyVoice2
+from cosyvoice.utils.file\_utils import load\_wav
+import torchaudio
+cosyvoice = CosyVoice2('pretrained\_models/CosyVoice2-0.5B', load\_jit=True, load\_onnx=False, load\_trt=False)
+print(cosyvoice.sample\_rate) # 24000
+```
+有如下几种推理方式：
+\*\*1\. 预定义音色\*\*：
+需要先将`CosyVoice-300M-SFT`模型中spk2info.pt的下载到`CosyVoice2-0.5B`权重文件夹下，测试代码如下：
+```text
+spks = cosyvoice.list\_available\_spks()
+print(spks)
+tts\_text = '收到好友从远方寄来的生日礼物，那份意外的惊喜与深深的祝福让我心中充满了甜蜜的快乐，笑容如花儿般绽放。'
+for j in cosyvoice.inference\_sft(tts\_text=tts\_text, spk\_id='中文男', stream=False):
+torchaudio.save('outputs/zero\_shot.wav', j['tts\_speech'], cosyvoice.sample\_rate)
+```
+\*\*2\. 音色克隆\*\*：
+```text
+# zero\_shot usage
+prompt\_speech\_16k = load\_wav('zero\_shot\_prompt.wav', 16000)
+prompt\_text = '希望你以后能够做的比我还好呦。'
+for j in cosyvoice.inference\_zero\_shot(tts\_text=tts\_text, prompt\_text=prompt\_text, prompt\_speech\_16k=prompt\_speech\_16k, stream=False):
+torchaudio.save('outputs/zero\_shot', j['tts\_speech'], cosyvoice.sample\_rate)
+```
+\*\*3\. 细粒度控制\*\*：
+```text
+# fine grained control, for supported control, check cosyvoice/tokenizer/tokenizer.py#L248
+tts\_text = '在他讲述那个荒诞故事的过程中，他突然[laughter]停下来，因为他自己也被逗笑了[laughter]。'
+for j in cosyvoice.inference\_cross\_lingual(tts\_text=tts\_text, prompt\_speech\_16k=prompt\_speech\_16k, stream=False):
+torchaudio.save('outputs/fine\_grained\_control.wav', j['tts\_speech'], cosyvoice.sample\_rate)
+```
+支持的`细粒度控制`提示词包括：
+![](https://picx.zhimg.com/v2-6bdcc8341e5b02ca6d45bd579aa8a3b9\_1440w.jpg)
+\*\*4\. 提示词控制\*\*：
+```text
+tts\_text = '收到好友从远方寄来的生日礼物，那份意外的惊喜与深深的祝福让我心中充满了甜蜜的快乐，笑容如花儿般绽放。'
+instruct\_text = '用四川话说这句话'
+for j in cosyvoice.inference\_instruct2(tts\_text=tts\_text, instruct\_text=instruct\_text, prompt\_speech\_16k=prompt\_speech\_16k, stream=False):
+torchaudio.save('outputs/instruct.wav', j['tts\_speech'], cosyvoice.sample\_rate)
+```
+### 2.2 服务端部署
+项目中没有提供部署代码，这里我们采用 [FastAPI](https://zhida.zhihu.com/search?content\_id=252241558&content\_type=Article&match\_order=1&q=FastAPI&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ1MDI5MTEsInEiOiJGYXN0QVBJIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjUyMjQxNTU4LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.70weMkRFpX15K9Z\_s1WJB5mf\_DV6sVV6jIZdqiBZDjs&zhida\_source=entity) 完成服务端。（ \_完整代码，可在文末自取\_）
+首先，定义一个数据模型，用于接收POST请求中的数据：
+```text
+class TTSRequest(BaseModel):
+spk\_id: Optional[str] = None # 预训练语音id
+ref\_audio: Optional[str] = None # 参考语音 base64编码的音频文件
+ref\_text: Optional[str] = None # 参考语音的文本
+ref\_tag: Optional[str] = None # 参考语音的标签
+tts\_text: Optional[str] = None # 待合成的文本
+instruct\_text: Optional[str] = None # 指令文本
+stream: Optional[bool] = False # 是否使用流式合成
+speed: Optional[float] = 1.0 # 语速
+mode: Optional[str] = 'sft' # 合成模式，默认模式为 'sft'，可选模式为 'sft' 'zero\_shot' 'cross\_lingual' 'instruct'
+```
+因为模型支持[流式输出](https://zhida.zhihu.com/search?content\_id=252241558&content\_type=Article&match\_order=1&q=%E6%B5%81%E5%BC%8F%E8%BE%93%E5%87%BA&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ1MDI5MTEsInEiOiLmtYHlvI\_ovpPlh7oiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTIyNDE1NTgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.JhQYbTryrwglsxaHTcGfzQY6JWudQW3zyjiVPCnIrrc&zhida\_source=entity)，所以我们的接口采用异步实现，以 `sft` 模式推理为例：
+```text
+@app.post("/cosyvoice")
+async def tts(request: TTSRequest):
+headers = {
+"Content-Type": "audio/pcm",
+"X-Sample-Rate": "24000", # 假设采样率是 24kHz
+"X-Channel-Count": "1" # 假设单声道
+}
+if request.mode == 'sft':
+if not request.spk\_id:
+return {'message': 'spk\_id is required for sft mode'}
+async def generate():
+for out in cosyvoice.inference\_sft(tts\_text=request.tts\_text, spk\_id=request.spk\_id, stream=request.stream, speed=request.speed):
+raw = (out['tts\_speech'].numpy() \* 32767).astype(np.int16).flatten() # 原始输出 [-1, 1] 之间的float32，需要转为 16 位 PCM
+yield raw.tobytes()
+return StreamingResponse(generate(), media\_type="audio/pcm", headers=headers)
+```
+\*\*注意：模型原始输出为 torch.tensor，需要转换为 numpy，并转成 int16 以 pcm 格式输出。\*\*
+最后，启动服务：
+```text
+export CUDA\_VISIBLE\_DEVICES=1
+nohup uvicorn server\_cosyvoice:app --host 0.0.0.0 --port 3005 > server.log 2>&1 &
+```
+### 2.3 客户端请求
+服务端成功启动后，客户端请求主要包括两个部分：
+\*\*1\. response 数据接收\*\*：重点关注下是否需要流式输出：
+```text
+def test\_tts():
+spk\_id = "中文男"
+tts\_text = "2024年12月，随着大军缓缓前进，他忍不住琢磨起了回京之后会被派到什么艰苦的地方顶缸。要知道皇帝一向就是这么干的，几乎没让他过过什么安生日子。"
+stream = True
+data = {
+"spk\_id": spk\_id,
+"tts\_text": tts\_text,
+"stream": stream,
+"speed": 1.0,
+}
+st = time.time()
+if stream:
+response = requests.post("http://localhost:3005/cosyvoice", json=data, stream=True)
+print(f"请求耗时：{time.time() - st}s")
+audio\_content = b''
+for chunk in response.iter\_content(chunk\_size=1024):
+audio\_content += chunk
+else:
+response = requests.post("http://localhost:3005/cosyvoice", json=data)
+print(f"请求耗时：{time.time() - st}s")
+audio\_content = base64.b64decode(response.content)
+pcm2wav(audio\_content)
+```
+\*\*2\. pcm 转 wav\*\*
+```text
+def pcm2wav(pcm\_data):
+with wave.open('outputs/gen\_audio.wav', "wb") as wav:
+wav.setnchannels(1) # 设置声道数
+wav.setsampwidth(2) # 设置采样宽度
+wav.setframerate(24000) # 设置采样率
+wav.writeframes(pcm\_data) # 写入 PCM 数据
+```
+## 3\. 性能实测
+### 3.1 显存占用
+实测推理显存占用情况如下：
+![](https://picx.zhimg.com/v2-b07399cf4c29a0742a39eea828dcd84d\_1440w.jpg)
+请 \*\*至少确保 4G 显存\*\*，相比上篇的 FishSpeech1.5 占用显存更低！
+### 3.2 速度测试
+TTS 中通用的速度评估指标为 rtf，也即 `推理耗时/生成音频耗时`， \*\*指标越低\*\*，代表推理速度越快！
+\*\*非流式推理：\*\*
+![](https://pic4.zhimg.com/v2-401ff36e31ca3c0f0a6d77f68b686c5b\_1440w.jpg)
+\*\*流式推理：\*\*
+![](https://pic1.zhimg.com/v2-f785d679f8f7d5ffbe3670c5081a7718\_1440w.jpg)
+相比上篇的 FishSpeech1.5，就太慢了。。。
+### 3.3 效果展示
+由于插入音频比较麻烦，这里不展示测试音频结果，感兴趣的朋友可前往官网查看： [https://funaudiollm.github.io/cosyvoice2/](https://link.zhihu.com/?target=https%3A//funaudiollm.github.io/cosyvoice2/)
+从实测体验而言，对于`数字播报`这一老大难问题，CosyVoice 2.0 会统一转换成中文进行合成，目前还没遇到翻车的现象。
+不知大家体验如何，欢迎评论区交流！
+## 写在最后
+本文分享了一款强大的语音克隆工具：CosyVoice 2.0， \*\*就生成质量而言\*\*，可谓已有开源方案中的顶流。
+如果对你有帮助，欢迎 \*\*点赞收藏\*\* 备用。
+本文`服务部署代码`已上传云盘，有需要的朋友，公众号后台回复`cosyvoice`自取！
+\* \* \*
+为方便大家交流，新建了一个 `AI 交流群`，公众号后台「联系我」，拉你进群。
+发布于 2025-01-02 19:14・上海
+[AI声音克隆](https://www.zhihu.com/topic/28985771)
+​赞同 11​​7 条评论​68 ​2
+​分享
+​申请转载​
+​
+暂无评论
+关于作者
+[![AI码上来](https://picx.zhimg.com/v2-da6dd7058b2f043cc1e2c317752a3079\_l.jpg?source=172ae18b)](https://www.zhihu.com/people/houge-ai)
+[AI码上来](https://www.zhihu.com/people/houge-ai)
+关于AI工具、实战的一切。欢迎围观公众号：猴哥的AI知识库。
+[回答](https://www.zhihu.com/people/houge-ai/answers) [文章](https://www.zhihu.com/people/houge-ai/posts) [关注者](https://www.zhihu.com/people/houge-ai/followers)
+​关注他​发私信
+大家都在搜
+换一换
+[伊朗局势546 万](https://www.zhihu.com/search?q=%E4%BC%8A%E6%9C%97%E5%B1%80%E5%8A%BF&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[黄金白银价格快速下跌463 万](https://www.zhihu.com/search?q=%E9%BB%84%E9%87%91%E7%99%BD%E9%93%B6%E4%BB%B7%E6%A0%BC%E5%BF%AB%E9%80%9F%E4%B8%8B%E8%B7%8C&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[网传B站裁员60%研发集体罢工374 万](https://www.zhihu.com/search?q=%E7%BD%91%E4%BC%A0B%E7%AB%99%E8%A3%81%E5%91%9860%25%E7%A0%94%E5%8F%91%E9%9B%86%E4%BD%93%E7%BD%A2%E5%B7%A5&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[梅姨长相与画像相似度不到30%347 万](https://www.zhihu.com/search?q=%E6%A2%85%E5%A7%A8%E9%95%BF%E7%9B%B8%E4%B8%8E%E7%94%BB%E5%83%8F%E7%9B%B8%E4%BC%BC%E5%BA%A6%E4%B8%8D%E5%88%B030%25&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[美以袭击伊朗335 万](https://www.zhihu.com/search?q=%E7%BE%8E%E4%BB%A5%E8%A2%AD%E5%87%BB%E4%BC%8A%E6%9C%97&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[「梅姨」落网供认贩卖儿童312 万](https://www.zhihu.com/search?q=%E3%80%8C%E6%A2%85%E5%A7%A8%E3%80%8D%E8%90%BD%E7%BD%91%E4%BE%9B%E8%AE%A4%E8%B4%A9%E5%8D%96%E5%84%BF%E7%AB%A5&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[特朗普称推迟5天打击伊朗发电站294 万](https://www.zhihu.com/search?q=%E7%89%B9%E6%9C%97%E6%99%AE%E7%A7%B0%E6%8E%A8%E8%BF%9F5%E5%A4%A9%E6%89%93%E5%87%BB%E4%BC%8A%E6%9C%97%E5%8F%91%E7%94%B5%E7%AB%99&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[伊朗提出停战六项条件250 万](https://www.zhihu.com/search?q=%E4%BC%8A%E6%9C%97%E6%8F%90%E5%87%BA%E5%81%9C%E6%88%98%E5%85%AD%E9%A1%B9%E6%9D%A1%E4%BB%B6&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[梅姨落网牵出9名被拐儿童240 万](https://www.zhihu.com/search?q=%E6%A2%85%E5%A7%A8%E8%90%BD%E7%BD%91%E7%89%B5%E5%87%BA9%E5%90%8D%E8%A2%AB%E6%8B%90%E5%84%BF%E7%AB%A5&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[沪指跌破 3900 点227 万](https://www.zhihu.com/search?q=%E6%B2%AA%E6%8C%87%E8%B7%8C%E7%A0%B4+3900+%E7%82%B9&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码

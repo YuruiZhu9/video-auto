@@ -1,0 +1,320 @@
+# Source URL: https://docs.openclaw.ai/zh-CN/tools/clawhub
+# Content Length: 8808 characters
+# Extracted at: 2026-04-01 12:24:58
+#============================================================
+
+
+ClawHub - OpenClaw[跳转到主要内容](#content-area)[OpenClaw home page![]()![]()](/zh-CN)![]()简体中文搜索...⌘K
+
+* [GitHub](https://github.com/openclaw/openclaw)
+* [Releases](https://github.com/openclaw/openclaw/releases)
+* [Discord](https://discord.com/invite/clawd)
+搜索...Navigation技能ClawHub[快速开始](/zh-CN)[安装](/zh-CN/install)[消息渠道](/zh-CN/channels)[代理](/zh-CN/pi)[工具](/zh-CN/tools)[模型](/zh-CN/providers)[平台](/zh-CN/platforms)[网关与运维](/zh-CN/gateway)[参考](/zh-CN/cli)[帮助](/zh-CN/help)
+##### 概览
+
+* [工具](/zh-CN/tools)
+##### 内置工具
+
+* [apply\_patch 工具](/zh-CN/tools/apply-patch)
+* [Brave Search](/zh-CN/brave-search)
+* [提升模式](/zh-CN/tools/elevated)
+* [Exec 工具](/zh-CN/tools/exec)
+* [执行审批](/zh-CN/tools/exec-approvals)
+* [Firecrawl](/zh-CN/tools/firecrawl)
+* [LLM 任务](/zh-CN/tools/llm-task)
+* [Lobster](/zh-CN/tools/lobster)
+* [Perplexity Sonar](/zh-CN/perplexity)
+* [表情回应](/zh-CN/tools/reactions)
+* [思考级别](/zh-CN/tools/thinking)
+* [Web 工具](/zh-CN/tools/web)
+##### 浏览器
+
+* [浏览器（OpenClaw 托管）](/zh-CN/tools/browser)
+* [浏览器登录](/zh-CN/tools/browser-login)
+* [浏览器故障排除](/zh-CN/tools/browser-linux-troubleshooting)
+##### 代理协作
+
+* [Agent Send](/zh-CN/tools/agent-send)
+* [子智能体](/zh-CN/tools/subagents)
+* [多智能体沙箱与工具](/zh-CN/tools/multi-agent-sandbox-tools)
+##### 技能
+
+* [创建 Skills](/zh-CN/tools/creating-skills)
+* [斜杠命令](/zh-CN/tools/slash-commands)
+* [Skills](/zh-CN/tools/skills)
+* [Skills 配置](/zh-CN/tools/skills-config)
+* [ClawHub](/zh-CN/tools/clawhub)
+* [插件](/zh-CN/tools/plugin)
+##### 扩展
+
+* [Voice Call 插件](/zh-CN/plugins/voice-call)
+* [Zalo Personal 插件](/zh-CN/plugins/zalouser)
+* [插件清单](/zh-CN/plugins/manifest)
+* [插件智能体工具](/zh-CN/plugins/agent-tools)
+* [OpenProse](/zh-CN/prose)
+##### 自动化
+
+* [Hooks](/zh-CN/automation/hooks)
+* [定时任务](/zh-CN/automation/cron-jobs)
+* [定时任务与心跳对比](/zh-CN/automation/cron-vs-heartbeat)
+* [自动化故障排查](/zh-CN/automation/troubleshooting)
+* [Webhooks](/zh-CN/automation/webhook)
+* [Gmail PubSub](/zh-CN/automation/gmail-pubsub)
+* [投票](/zh-CN/automation/poll)
+* [认证监控](/zh-CN/automation/auth-monitoring)
+##### 媒体与设备
+
+* [节点](/zh-CN/nodes)
+* [节点故障排查](/zh-CN/nodes/troubleshooting)
+* [媒体理解](/zh-CN/nodes/media-understanding)
+* [图像和媒体支持](/zh-CN/nodes/images)
+* [音频与语音消息](/zh-CN/nodes/audio)
+* [相机捕获](/zh-CN/nodes/camera)
+* [Talk 模式](/zh-CN/nodes/talk)
+* [语音唤醒](/zh-CN/nodes/voicewake)
+* [位置命令](/zh-CN/nodes/location-command)
+* [文本转语音](/zh-CN/tts)
+在此页面
+
+* [ClawHub](#clawhub)
+* [适用人群（新手友好）](#%E9%80%82%E7%94%A8%E4%BA%BA%E7%BE%A4%EF%BC%88%E6%96%B0%E6%89%8B%E5%8F%8B%E5%A5%BD%EF%BC%89)
+* [快速入门（非技术人员）](#%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8%EF%BC%88%E9%9D%9E%E6%8A%80%E6%9C%AF%E4%BA%BA%E5%91%98%EF%BC%89)
+* [安装 CLI](#%E5%AE%89%E8%A3%85-cli)
+* [在 OpenClaw 中的定位](#%E5%9C%A8-openclaw-%E4%B8%AD%E7%9A%84%E5%AE%9A%E4%BD%8D)
+* [服务功能](#%E6%9C%8D%E5%8A%A1%E5%8A%9F%E8%83%BD)
+* [CLI 命令和参数](#cli-%E5%91%BD%E4%BB%A4%E5%92%8C%E5%8F%82%E6%95%B0)
+* [智能体常用工作流](#%E6%99%BA%E8%83%BD%E4%BD%93%E5%B8%B8%E7%94%A8%E5%B7%A5%E4%BD%9C%E6%B5%81)
+* [搜索 Skills](#%E6%90%9C%E7%B4%A2-skills)
+* [下载新 Skills](#%E4%B8%8B%E8%BD%BD%E6%96%B0-skills)
+* [更新已安装的 Skills](#%E6%9B%B4%E6%96%B0%E5%B7%B2%E5%AE%89%E8%A3%85%E7%9A%84-skills)
+* [备份你的 Skills（发布或同步）](#%E5%A4%87%E4%BB%BD%E4%BD%A0%E7%9A%84-skills%EF%BC%88%E5%8F%91%E5%B8%83%E6%88%96%E5%90%8C%E6%AD%A5%EF%BC%89)
+* [从 GitHub 发布插件](#%E4%BB%8E-github-%E5%8F%91%E5%B8%83%E6%8F%92%E4%BB%B6)
+* [高级详情（技术性）](#%E9%AB%98%E7%BA%A7%E8%AF%A6%E6%83%85%EF%BC%88%E6%8A%80%E6%9C%AF%E6%80%A7%EF%BC%89)
+* [版本管理和标签](#%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%92%8C%E6%A0%87%E7%AD%BE)
+* [本地更改与注册中心版本](#%E6%9C%AC%E5%9C%B0%E6%9B%B4%E6%94%B9%E4%B8%8E%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83%E7%89%88%E6%9C%AC)
+* [同步扫描和回退根目录](#%E5%90%8C%E6%AD%A5%E6%89%AB%E6%8F%8F%E5%92%8C%E5%9B%9E%E9%80%80%E6%A0%B9%E7%9B%AE%E5%BD%95)
+* [存储和锁文件](#%E5%AD%98%E5%82%A8%E5%92%8C%E9%94%81%E6%96%87%E4%BB%B6)
+* [遥测（安装计数）](#%E9%81%A5%E6%B5%8B%EF%BC%88%E5%AE%89%E8%A3%85%E8%AE%A1%E6%95%B0%EF%BC%89)
+* [环境变量](#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F)
+技能
+
+ClawHub
+=======
+
+[​](#clawhub)ClawHub
+====================
+
+ClawHub 是 **OpenClaw 的公共 Skills 与插件注册中心**。你可以在网页应用中浏览资源，也可以使用 CLI 来搜索、安装、更新和发布 Skills / 插件。
+网站：[clawhub.ai](https://clawhub.ai)
+
+[​](#适用人群（新手友好）)适用人群（新手友好）
+--------------------------
+
+如果你想为 OpenClaw 智能体添加新功能，ClawHub 是查找和安装 Skills 的最简单方式。你不需要了解后端的工作原理。你可以：
+
+* 使用自然语言搜索 Skills。
+* 将 Skills 安装到你的工作区。
+* 之后使用一条命令更新 Skills。
+* 通过发布 Skills 来备份你自己的 Skills。
+
+[​](#快速入门（非技术人员）)快速入门（非技术人员）
+----------------------------
+
+1. 安装 CLI（参见下一节）。
+2. 搜索你需要的内容：
+   * `clawhub search "calendar"`
+3. 安装一个 Skills：
+   * `clawhub install <skill-slug>`
+4. 启动一个新的 OpenClaw 会话，以加载新 Skills。
+
+[​](#安装-cli)安装 CLI
+------------------
+
+任选其一：
+```
+npm i -g clawhub
+
+```
+
+```
+pnpm add -g clawhub
+
+```
+
+[​](#在-openclaw-中的定位)在 OpenClaw 中的定位
+------------------------------------
+
+默认情况下，CLI 会将 Skills 安装到当前工作目录下的 `./skills`。如果已配置 OpenClaw 工作区，`clawhub` 会回退到该工作区，除非你通过 `--workdir`（或 `CLAWHUB_WORKDIR`）进行覆盖。OpenClaw 从 `<workspace>/skills` 加载工作区 Skills，并会在**下一个**会话中生效。如果你已经在使用 `~/.openclaw/skills` 或内置 Skills，工作区 Skills 优先级更高。
+有关 Skills 加载、共享和权限控制的更多详情，请参阅
+[Skills](/tools/skills)。
+
+[​](#服务功能)服务功能
+--------------
+
+* **公开浏览**Skills 及其 `SKILL.md` 内容。
+* 基于嵌入向量（向量搜索）的**搜索**，而不仅仅是关键词匹配。
+* 支持语义化版本号、变更日志和标签（包括 `latest`）的**版本管理**。
+* 每个版本以 zip 格式**下载**。
+* **星标和评论**，支持社区反馈。
+* **审核**钩子，用于审批和审计。
+* **CLI 友好的 API**，支持自动化和脚本编写。
+
+[​](#cli-命令和参数)CLI 命令和参数
+------------------------
+
+全局选项（适用于所有命令）：
+
+* `--workdir <dir>`：工作目录（默认：当前目录；回退到 OpenClaw 工作区）。
+* `--dir <dir>`：Skills 目录，相对于工作目录（默认：`skills`）。
+* `--site <url>`：网站基础 URL（浏览器登录）。
+* `--registry <url>`：注册中心 API 基础 URL。
+* `--no-input`：禁用提示（非交互模式）。
+* `-V, --cli-version`：打印 CLI 版本。
+
+认证：
+
+* `clawhub login`（浏览器流程）或 `clawhub login --token <token>`
+* `clawhub logout`
+* `clawhub whoami`
+
+选项：
+
+* `--token <token>`：粘贴 API 令牌。
+* `--label <label>`：为浏览器登录令牌存储的标签（默认：`CLI token`）。
+* `--no-browser`：不打开浏览器（需要 `--token`）。
+
+搜索：
+
+* `clawhub search "query"`
+* `--limit <n>`：最大结果数。
+
+安装：
+
+* `clawhub install <slug>`
+* `--version <version>`：安装指定版本。
+* `--force`：如果文件夹已存在则覆盖。
+
+更新：
+
+* `clawhub update <slug>`
+* `clawhub update --all`
+* `--version <version>`：更新到指定版本（仅限单个 slug）。
+* `--force`：当本地文件与任何已发布版本不匹配时强制覆盖。
+
+列表：
+
+* `clawhub list`（读取 `.clawhub/lock.json`）
+
+发布 Skills：
+
+* `clawhub skill publish <path>`
+* `--slug <slug>`：Skills 标识符。
+* `--name <name>`：显示名称。
+* `--version <version>`：语义化版本号。
+* `--changelog <text>`：变更日志文本（可以为空）。
+* `--tags <tags>`：逗号分隔的标签（默认：`latest`）。
+
+发布插件：
+
+* `clawhub package publish <source>`
+* `<source>` 可以是本地文件夹、`owner/repo`、`owner/repo@ref` 或 GitHub URL。
+* `--dry-run`：只生成发布计划，不实际上传。
+* `--json`：为 CI 输出结构化 JSON。
+
+删除/恢复（仅所有者/管理员）：
+
+* `clawhub delete <slug> --yes`
+* `clawhub undelete <slug> --yes`
+
+同步（扫描本地 Skills + 发布新增/更新的 Skills）：
+
+* `clawhub sync`
+* `--root <dir...>`：额外的扫描根目录。
+* `--all`：无提示上传所有内容。
+* `--dry-run`：显示将要上传的内容。
+* `--bump <type>`：更新的版本号递增类型 `patch|minor|major`（默认：`patch`）。
+* `--changelog <text>`：非交互更新的变更日志。
+* `--tags <tags>`：逗号分隔的标签（默认：`latest`）。
+* `--concurrency <n>`：注册中心检查并发数（默认：4）。
+
+[​](#智能体常用工作流)智能体常用工作流
+----------------------
+
+### [​](#搜索-skills)搜索 Skills
+
+```
+clawhub search "postgres backups"
+
+```
+### [​](#下载新-skills)下载新 Skills
+
+```
+clawhub install my-skill-pack
+
+```
+### [​](#更新已安装的-skills)更新已安装的 Skills
+
+```
+clawhub update --all
+
+```
+### [​](#备份你的-skills（发布或同步）)备份你的 Skills（发布或同步）
+
+对于单个 Skills 文件夹：
+```
+clawhub skill publish ./my-skill --slug my-skill --name "My Skill" --version 1.0.0 --tags latest
+
+```
+
+一次扫描并备份多个 Skills：
+```
+clawhub sync --all
+
+```
+### [​](#从-github-发布插件)从 GitHub 发布插件
+
+```
+clawhub package publish your-org/your-plugin --dry-run
+clawhub package publish your-org/your-plugin
+clawhub package publish your-org/your-plugin@v1.0.0
+clawhub package publish https://github.com/your-org/your-plugin
+
+```
+
+[​](#高级详情（技术性）)高级详情（技术性）
+------------------------
+
+### [​](#版本管理和标签)版本管理和标签
+
+* 每次发布都会创建一个新的**语义化版本** `SkillVersion`。
+* 标签（如 `latest`）指向某个版本；移动标签可以实现回滚。
+* 变更日志附加在每个版本上，在同步或发布更新时可以为空。
+
+### [​](#本地更改与注册中心版本)本地更改与注册中心版本
+
+更新时会使用内容哈希将本地 Skills 内容与注册中心版本进行比较。如果本地文件与任何已发布版本不匹配，CLI 会在覆盖前询问确认（或在非交互模式下需要 `--force`）。
+### [​](#同步扫描和回退根目录)同步扫描和回退根目录
+
+`clawhub sync` 首先扫描当前工作目录。如果未找到 Skills，它会回退到已知的旧版位置（例如 `~/openclaw/skills` 和 `~/.openclaw/skills`）。这样设计是为了在不需要额外标志的情况下找到旧版 Skills 安装。
+### [​](#存储和锁文件)存储和锁文件
+
+* 已安装的 Skills 记录在工作目录下的 `.clawhub/lock.json` 中。
+* 认证令牌存储在 ClawHub CLI 配置文件中（可通过 `CLAWHUB_CONFIG_PATH` 覆盖）。
+
+### [​](#遥测（安装计数）)遥测（安装计数）
+
+当你在登录状态下运行 `clawhub sync` 时，CLI 会发送一个最小快照用于计算安装次数。你可以完全禁用此功能：
+```
+export CLAWHUB_DISABLE_TELEMETRY=1
+
+```
+
+[​](#环境变量)环境变量
+--------------
+
+* `CLAWHUB_SITE`：覆盖网站 URL。
+* `CLAWHUB_REGISTRY`：覆盖注册中心 API URL。
+* `CLAWHUB_CONFIG_PATH`：覆盖 CLI 存储令牌/配置的位置。
+* `CLAWHUB_WORKDIR`：覆盖默认工作目录。
+* `CLAWHUB_DISABLE_TELEMETRY=1`：禁用 `sync` 的遥测功能。
+[Skills 配置](/zh-CN/tools/skills-config)[插件](/zh-CN/tools/plugin)⌘I[技术支持This documentation is built and hosted on Mintlify, a developer documentation platform](https://www.mintlify.com?utm_campaign=poweredBy&utm_medium=referral&utm_source=clawdhub)

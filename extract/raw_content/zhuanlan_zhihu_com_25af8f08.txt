@@ -1,0 +1,168 @@
+# Source URL: https://zhuanlan.zhihu.com/p/466972211
+# Content Length: 13153 characters
+# Extracted at: 2026-04-03 10:35:25
+#============================================================
+
+![](https://zhuanlan.zhihu.com/p/466972211)
+本文将整理推荐系统相关的题目，并尝试给出或找到解答（不一定正确或完整）
+前18题是 [字节跳动面试难吗，应该如何应对？](https://www.zhihu.com/question/339135205/answer/2069343040) 中的面试题
+1. 推荐系统有哪些bias以及该怎么样进行debias？
+- 可参考： [bias and debias in recommendation system: a survey and future directions](https://link.zhihu.com/?target=https%3A//arxiv.org/pdf/2010.03240.pdf)
+- [iwtbs：推荐系统中的debias算法](https://zhuanlan.zhihu.com/p/369948358)
+2\. [online learning](https://zhida.zhihu.com/search?content\_id=191902451&content\_type=Article&match\_order=1&q=online+learning&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTY1MDcsInEiOiJvbmxpbmUgbGVhcm5pbmciLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoxOTE5MDI0NTEsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.KHkCUFdotwCXJZeV8yDDkQq68eCBNkcYb5VEfzrCFBY&zhida\_source=entity)是什么？为什么要用online learning？有哪些方法？
+online learning是什么?
+> online learning是进行模型实时更新的主要方法，也就是获得一个新的样本的同时更新模型。但online learning的一个附带问题是模型的稀疏性不强，为了兼顾模型训练效果和模型稀疏性，可以使用[FOBOS](https://zhida.zhihu.com/search?content\_id=191902451&content\_type=Article&match\_order=1&q=FOBOS&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTY1MDcsInEiOiJGT0JPUyIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjE5MTkwMjQ1MSwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.ju1-k-XB4DM45kygPJT0Gml-FI1exk-zqI9CmapuzEM&zhida\_source=entity)和[FTRL](https://zhida.zhihu.com/search?content\_id=191902451&content\_type=Article&match\_order=1&q=FTRL&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTY1MDcsInEiOiJGVFJMIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MTkxOTAyNDUxLCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.-MdMjk7FkZmsBV2pFe7AqKudS5kT8cdi\_Hsva5OwCpw&zhida\_source=entity)等方法。
+为什么要用online learning？
+> 为了实现模型的实时性，使之更快地抓住全局层面的新数据模式、发现新的趋势和相关性。
+有哪些方法？
+- 获得一个新的样本的同时更新模型 \+ FTRL
+- 强化学习推荐系统[DRN](https://zhida.zhihu.com/search?content\_id=191902451&content\_type=Article&match\_order=1&q=DRN&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTY1MDcsInEiOiJEUk4iLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoxOTE5MDI0NTEsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.iYG2g1H2rFzsRpGLPj-f8elwNIRnh7VsqMrer8YXmDs&zhida\_source=entity)
+3\. explore & exploit算法有哪几个？主要算法原理是什么？
+- 传统的[探索与利用](https://zhida.zhihu.com/search?content\_id=191902451&content\_type=Article&match\_order=1&q=%E6%8E%A2%E7%B4%A2%E4%B8%8E%E5%88%A9%E7%94%A8&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTY1MDcsInEiOiLmjqLntKLkuI7liKnnlKgiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoxOTE5MDI0NTEsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.q35aCx\_d3hHZtsVYHLzm48Uz0iBN1MhQ2SVvzLeGmVU&zhida\_source=entity)方法： \\epsilon -Greedy，Thompson 采样，UCB
+- 个性化的探索与利用：LinUCB
+- 基于模型的探索与利用：DRN
+4\. 推荐系统解决冷启动都有哪些方法？
+用户冷启动：
+- 参考大佬的文章： [石塔西：初来乍到：帮助新用户冷启的算法技巧](https://zhuanlan.zhihu.com/p/458843906)
+- 用其他产品，问卷调查等形式收集用户信息
+- 对比学习： [自监督预训练在监督数据量足够大的情况下还有效吗？](https://www.zhihu.com/question/512111732/answer/2340250544)
+- 探索与利用机制
+- [iwtbs：业务增长的杀手锏—推荐算法的冷启动](https://zhuanlan.zhihu.com/p/343322654)
+物品冷启动：
+- EGES
+- 给新物品一定的曝光量，快速收集新物品的信息
+- 对比学习： [自监督预训练在监督数据量足够大的情况下还有效吗？](https://www.zhihu.com/question/512111732/answer/2340250544)
+- 探索与利用机制
+- [iwtbs：业务增长的杀手锏—推荐算法的冷启动](https://zhuanlan.zhihu.com/p/343322654)
+5\. 有什么办法评估[特征有效性](https://zhida.zhihu.com/search?content\_id=191902451&content\_type=Article&match\_order=1&q=%E7%89%B9%E5%BE%81%E6%9C%89%E6%95%88%E6%80%A7&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTY1MDcsInEiOiLnibnlvoHmnInmlYjmgKciLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoxOTE5MDI0NTEsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.WipuyhdDYga3NhuW59qlLKRU6cCcpfrWSxgibVmH-x4&zhida\_source=entity)？
+- 可以用树模型（GBDT等）会天然的进行特征筛选
+- SENet或LHUC(Learn Hidden Unit Contribution）进行feature field重要性打分
+- fm算法进行feature field pair重要性打分，参考大佬的文章： [石塔西：FM：推荐算法中的瑞士军刀](https://zhuanlan.zhihu.com/p/343174108)
+6\. 线上线下不一致问题碰到过吗？什么原因引起的？怎么解决的？
+参考文章：
+- [在你做推荐系统的过程中都遇到过什么坑？](https://www.zhihu.com/question/32218407/answer/1172781649)
+- [在你做推荐系统的过程中都遇到过什么坑？](https://www.zhihu.com/question/32218407/answer/1484585138)
+- [iwtbs：推荐场景中，线上线下指标不一致是为啥](https://zhuanlan.zhihu.com/p/336959267)
+7\. transformer为什么要引入位置编码？你的场景为什么transformer建模是有效的？transformer的attention结构在你那里是引入了什么新的信息？Q，K，V表示什么含义？为什么attention计算要scaled？
+transformer为什么要引入位置编码？
+- transformer处理的是时间序列，但与rnn不同的是transformer并不包含位置信息（encoder甚至可以并行计算），所以需要引入位置编码。
+Q，K，V表示什么含义？
+- Q就是token的查询向量，K是“被查”向量，V是内容向量。查询向量 q\\_i 与“被查”向量的kj的内积相似度作为vj的注意力得分（权重），token i attends to token j；
+为什么attention计算要scaled？
+- [transformer中的attention为什么scaled?](https://www.zhihu.com/question/339723385/answer/782509914)
+8\. cvr模型中，物品曝光之后可能过一段时间用户才会发生转化行为，那么cvr样本的正例就会有延迟。那么这个转化延迟问题该怎样解决？
+- [千寻：cvr模型 转化延迟问题解决方案（一）](https://zhuanlan.zhihu.com/p/165625326)
+- [千寻：cvr模型 转化延迟问题解决方案（二）](https://zhuanlan.zhihu.com/p/360188539)
+9\. 训练样本是怎样构造的？有什么采样方法，以及为什么要做采样？如果做了[负例采样](https://zhida.zhihu.com/search?content\_id=191902451&content\_type=Article&match\_order=1&q=%E8%B4%9F%E4%BE%8B%E9%87%87%E6%A0%B7&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTY1MDcsInEiOiLotJ\_kvovph4fmoLciLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoxOTE5MDI0NTEsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.NTad0e9gxfSUXFh4pEqWEZ43FNVrrjaaMDJCnq4mKEY&zhida\_source=entity)，那么ctr要怎样进行校正？
+如果做了负例采样，那么ctr要怎样进行校正？
+- [南枫：CTR负采样矫正原理](https://zhuanlan.zhihu.com/p/69450546)
+10\. 深度学习都有哪些[optimizer](https://zhida.zhihu.com/search?content\_id=191902451&content\_type=Article&match\_order=1&q=optimizer&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTY1MDcsInEiOiJvcHRpbWl6ZXIiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoxOTE5MDI0NTEsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.Z-ht2isKDorf4ZEE8Po4LyxKzM6yY0EIKzhU8sm\_Q3c&zhida\_source=entity)？都有啥好处？可以参考： [An overview of gradient descent optimization algorithms](https://link.zhihu.com/?target=https%3A//arxiv.org/pdf/1609.04747.pdf)
+11\. 评价指标相关。auc是什么？为什么离线要用auc进行模型评估？auc是怎么计算的，写一个代码计算？其他一些排序指标比如[ndcg](https://zhida.zhihu.com/search?content\_id=191902451&content\_type=Article&match\_order=1&q=ndcg&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTY1MDcsInEiOiJuZGNnIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MTkxOTAyNDUxLCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.TsNyNqTUdm2AqolUsfEn8loUiaxD2jvuxhDYJ0sErhg&zhida\_source=entity)也了解下。
+auc是什么？
+- auc是roc曲线下包围的面积
+auc是怎么计算的
+- [婷播播：如何计算AUC](https://zhuanlan.zhihu.com/p/462734871)
+ndgc
+[Satellite：NDCG排序评估指标](https://zhuanlan.zhihu.com/p/448686098)
+12\. L1为什么具有稀疏性？L0.5和L1.5有没有稀疏性？为什么？L1和L2正则有什么区别？
+13\. 对最新的模型是否了解，比如[mmoe](https://zhida.zhihu.com/search?content\_id=191902451&content\_type=Article&match\_order=1&q=mmoe&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTY1MDcsInEiOiJtbW9lIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MTkxOTAyNDUxLCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.OYQJjU-JLs6ceMtiqjgYL7LfPjRs\_K\_U1IBFDRZnebw&zhida\_source=entity)，序列建模([din](https://zhida.zhihu.com/search?content\_id=191902451&content\_type=Article&match\_order=1&q=din&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTY1MDcsInEiOiJkaW4iLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoxOTE5MDI0NTEsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.unkvBhWHy7pmLD1i3sJAvQ78yiEwpx92wgDwYpVDEYc&zhida\_source=entity)，[tarnsformer](https://zhida.zhihu.com/search?content\_id=191902451&content\_type=Article&match\_order=1&q=tarnsformer&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTY1MDcsInEiOiJ0YXJuc2Zvcm1lciIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjE5MTkwMjQ1MSwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.ukAcgfZFF8mqP6Qz0hmVfpu\_70RChjrtsWlZITkFX6g&zhida\_source=entity)这种)。比如对mmoe，推荐系统都有哪些多任务学习的方法？mmoe的loss是怎么设计的？怎样相互平衡不同loss？为什么多任务学习在推荐/广告场景下是有效的？
+14\. 经典排序模型是否了解，如fm，deepFM，wide&deep，dcn，afm，din，mmoe等。不如现场写一个mmoe？经典召回模型是否了解，如：ann，局部敏感哈希，双塔召回？
+15\. attention机制是什么？都有哪些模型？为什么这个会在推荐/广告有效？
+attention机制是什么？
+- attention的机制是对不同的query，序列中不同token贡献的重要程度不一样，所以针对query计算每个token的权重（注意力得分），加权求和
+都有哪些模型？
+- attention推荐模型：afm，din，dien
+- attention function： [Attention? Attention!](https://link.zhihu.com/?target=https%3A//lilianweng.github.io/lil-log/2018/06/24/attention-attention.html)
+![](https://picx.zhimg.com/v2-7bc3997d56c58466a9a74537a79f89b7\_1440w.jpg)
+attention function
+16\. 对推荐系统整体认识，推荐系统都有哪些部分，每个部分都做什么？广告的话，则同样对广告系统整体的认识，广告系统都有哪些部分，每个部分都做什么，都有哪些机制策略？
+推荐系统都有哪些部分
+- 召回，粗排，精排，重排
+17\. 梯度爆炸、梯度消失等问题怎样解决？
+梯度爆炸：
+- gradient clipping
+![](https://pic4.zhimg.com/v2-badf691f4f21104d05d5810d6bc20703\_1440w.jpg)
+gradient clipping
+- Batch Normalization
+- LSTM, peephole LSTM, GRU
+梯度消失：
+- LSTM, peephole LSTM, GRU -> RNN
+- ReLU等非饱和激活函数 -> CNN
+- skip connection
+- Batch Normalization
+18\. 线上模型serving该怎么做，比如tf-serving是怎么对推荐/广告模型serving的？如果是一个很大的模型该怎么serving，分布式机器学习该怎么做？
+19\. 如何缓解过拟合
+- regularization
+- dropout
+- batch/layer normalization
+- row / column subsampling
+20\. RNN循环神经网络为什么会梯度爆炸和消失
+- [邱震宇：RNN循环神经网络—梯度爆炸和消失的简单解析](https://zhuanlan.zhihu.com/p/33594517)
+- 主要就是BPTT过程中， W^{(hh)} 参数会随着时间步连乘
+21\. 为什么transformer相比rnn更容易做深？更不容易出现梯度消失和梯度爆炸？
+- 见问题20
+- transformer中没有循环结构，并且结构中有skip connection和laryer normalization来缓解梯度消失问题
+22\. 把bert的输入序列长度减少一半，模型参数量和计算量如何变化？
+- bert参数量与输入序列的长度无关（无论序列长度固定为512还是256，参数量都是一样的），所以参数量不变
+- bert线性变换的运算量是原来的1/2， softmax(\\frac{Q\\*K^T}{\\sqrt{d\\_k}})\\*V 的运算量变为原来的1/4，由于主要的开销在于softmax(\\frac{Q\\*K^T}{\\sqrt{d\\_k}})\\*V，所以总开销变为1/4
+23\. 推荐系统的多样性
+- [iwtbs：推荐中的多样性与生态建设](https://zhuanlan.zhihu.com/p/381545437)
+24\. 召回的负样本构造
+- [iwtbs：召回模型中的负样本构造](https://zhuanlan.zhihu.com/p/358450850)
+- [石塔西：负样本为王：评Facebook的向量化召回算法](https://zhuanlan.zhihu.com/p/165064102)
+25\. 推荐大佬的文章
+- [石塔西：推荐算法的"五环之歌"](https://zhuanlan.zhihu.com/p/336643635)
+- [石塔西：万变不离其宗：用统一框架理解向量化召回](https://zhuanlan.zhihu.com/p/345378441)
+- [九老师：推荐算法三视角:矩阵，图，时间线](https://zhuanlan.zhihu.com/p/95350982)
+26\. \*\*神经网络参数如何初始化 / Dropout在forward里面怎么做 / L1和[L2正则化](https://zhida.zhihu.com/search?content\_id=191902451&content\_type=Article&match\_order=1&q=L2%E6%AD%A3%E5%88%99%E5%8C%96&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTY1MDcsInEiOiJMMuato-WImeWMliIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjE5MTkwMjQ1MSwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.ZznxoBLx6Wx3rPytVibWChji566U8Rk09r6W8PMJByw&zhida\_source=entity)的区别\*\*
+- [字节｜算法岗｜挂经｜2021｜ - 力扣（LeetCode）](https://link.zhihu.com/?target=https%3A//leetcode-cn.com/circle/discuss/To7jS7/)
+- Deeplearning.ai的教程 [Initializing neural networks](https://link.zhihu.com/?target=https%3A//www.deeplearning.ai/ai-notes/initialization/)
+- [神经网络Dropout层中为什么dropout后还需要进行rescale？](https://www.zhihu.com/question/61751133)
+- 如果p作为神经元抛弃的概率，那么训练时候神经元乘以1/(1-p)或测试时候神经元乘以(1-p)；如果p作为神经元保留的概率，那么训练时候神经元乘以1/p或测试时候神经元乘以p。
+- [L1 正则化](https://zhida.zhihu.com/search?content\_id=191902451&content\_type=Article&match\_order=1&q=L1+%E6%AD%A3%E5%88%99%E5%8C%96&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTY1MDcsInEiOiJMMSDmraPliJnljJYiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoxOTE5MDI0NTEsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.WvSxrio5TqUgiUMcho5j190cZD9skaGTkiI3w4kPzd4&zhida\_source=entity)使模型参数具有稀疏性。即很多权重参数都是0\. 优点是可以自动做特征选择。 L2正则化对防止模型过拟合效果更好，因为网络倾向去使用所有的输入特征而不是严重依赖小部分特征。
+27\. HNSW介绍
+- [Brauch：【论文笔记】HNSW （ Hierarchical Navigable Small World graphs）](https://zhuanlan.zhihu.com/p/397628955)
+编辑于 2022-02-18 01:44
+[面试](https://www.zhihu.com/topic/19552079)
+[推荐系统](https://www.zhihu.com/topic/19563024)
+​赞同 84​​添加评论​298 ​8
+​分享
+​申请转载​
+​
+暂无评论
+关于作者
+[![哈比](https://picx.zhimg.com/f449d8b3bdd2aba057cdbff554e1fc22\_l.jpg?source=172ae18b)](https://www.zhihu.com/people/qihui-wang)
+[哈比](https://www.zhihu.com/people/qihui-wang)
+[回答](https://www.zhihu.com/people/qihui-wang/answers) [文章](https://www.zhihu.com/people/qihui-wang/posts) [关注者](https://www.zhihu.com/people/qihui-wang/followers)
+​关注他​发私信
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码

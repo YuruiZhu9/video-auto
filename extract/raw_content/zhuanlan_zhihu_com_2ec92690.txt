@@ -1,0 +1,239 @@
+# Source URL: https://zhuanlan.zhihu.com/p/1892097994423268295
+# Content Length: 15556 characters
+# Extracted at: 2026-03-30 13:36:14
+#============================================================
+
+![](https://zhuanlan.zhihu.com/p/1892097994423268295)
+![Meta发布Llama 4！！！——开放Scout（109B）与Maverick（400B）下载，后面是2T参数的模型巨兽](https://picx.zhimg.com/v2-01da6bdffb58a9d2b50cdda2dbe0b456\_720w.jpg?source=172ae18b)
+​
+目录
+刚刚，当地时间2025年4月5日，Meta 发布了 [Llama 4](https://zhida.zhihu.com/search?content\_id=256038988&content\_type=Article&match\_order=1&q=Llama+4&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzIyNDY3NDQsInEiOiJMbGFtYSA0IiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjU2MDM4OTg4LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.pgVI6bFVZU8bcUp5MtXwV2JMPREiVhcHkVjp3uwMzmk&zhida\_source=entity) 系列模型，这一发布被视为原生[多模态人工智能](https://zhida.zhihu.com/search?content\_id=256038988&content\_type=Article&match\_order=1&q=%E5%A4%9A%E6%A8%A1%E6%80%81%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzIyNDY3NDQsInEiOiLlpJrmqKHmgIHkurrlt6Xmmbrog70iLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTYwMzg5ODgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.5geCFAuFN4eYxPVD5RbKzkJGEVDGzoYO22XBzkbl\_ho&zhida\_source=entity)创新新时代的起点。
+![](https://pica.zhimg.com/v2-06b9440955e3086d41a98c79638d84a2\_1440w.jpg)
+发布推文翻译：
+> 我们隆重推出Llama 4系列首款模型： \*\*[Llama 4 Scout](https://zhida.zhihu.com/search?content\_id=256038988&content\_type=Article&match\_order=1&q=Llama+4+Scout&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzIyNDY3NDQsInEiOiJMbGFtYSA0IFNjb3V0IiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjU2MDM4OTg4LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.oZczkTngRGY67aBhye2x8iSBtS2nxR8yu9-MWA2vk9I&zhida\_source=entity)\*\* 与 \*\*Llama 4 Maverick\*\*——迄今为止最先进的多模态标杆之作。
+>
+> ▎ \*\*Llama 4 Scout\*\*
+>
+> • 170亿活跃参数搭配16个专家模块
+>
+> • 业界领先的1000万token上下文窗口
+>
+> • 在多项权威基准测试中超越Gemma 3、Gemini 2.0 Flash-Lite及Mistral 3.1
+>
+> ▎ \*\*Llama 4 Maverick\*\*
+>
+> • 170亿活跃参数配备128个专家模块
+>
+> • 顶尖的图像定位能力：精准关联用户指令与视觉元素，实现像素级响应锚定
+>
+> • 全面领先GPT-4o与Gemini 2.0 Flash的基准表现
+>
+> • 推理与编码能力媲美DeepSeek v3（活跃参数仅其50%）
+>
+> • 性价比无可匹敌：[LMArena](https://zhida.zhihu.com/search?content\_id=256038988&content\_type=Article&match\_order=1&q=LMArena&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzIyNDY3NDQsInEiOiJMTUFyZW5hIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjU2MDM4OTg4LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.02jGX7zHnx2LN0X3gEAlg04SvvPzvjkUuTgbSMrw-pE&zhida\_source=entity)聊天版ELO评分高达1417
+>
+> 这两款模型的卓越性能源于 \*\*[Llama 4 Behemoth](https://zhida.zhihu.com/search?content\_id=256038988&content\_type=Article&match\_order=1&q=Llama+4+Behemoth&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzIyNDY3NDQsInEiOiJMbGFtYSA0IEJlaGVtb3RoIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjU2MDM4OTg4LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.1w0SYOCe6BEMfr3\_z0Zy1FPvbycWS7Vjx9qumokEKdQ&zhida\_source=entity)\*\* 的知识蒸馏——我们正在训练的最强模型，当前在STEM专项测试中已超越GPT-4.5、Claude Sonnet 3.7和Gemini 2.0 Pro。关于这个"巨兽"模型的更多细节，我们将在后续训练中持续披露。
+其中的Maveric的预览版已经登录LMArena，以1417分排行第2。
+![](https://pic1.zhimg.com/v2-2d62f75454bf8385733d94c328f73ce6\_1440w.jpg)
+发布博客： [https://ai.meta.com/blog/llama-4-multimodal-intelligence/](https://link.zhihu.com/?target=https%3A//ai.meta.com/blog/llama-4-multimodal-intelligence/)
+模型卡： [https://www.llama.com/docs/model-cards-and-prompt-formats/llama4\\_omni/](https://link.zhihu.com/?target=https%3A//www.llama.com/docs/model-cards-and-prompt-formats/llama4\_omni/)
+模型地址： [https://huggingface.co/meta-llama](https://link.zhihu.com/?target=https%3A//huggingface.co/meta-llama)
+![](https://pic4.zhimg.com/v2-414d10013428cbd2899de5cfa4f4bb85\_1440w.jpg)
+以下是对技术内容的解读：
+## 主要亮点
+Meta 推出了 Llama 4 系列的首批模型，包括 Llama 4 Scout、Llama 4 Maverick 和 Llama 4 Behemoth，这些模型旨在为开发者提供工具，以构建更加个性化的多模态体验。这些模型不仅支持文本处理，还能无缝整合图像、视频等多模态数据，标志着 AI 技术的重要进步。
+Llama 4 系列模型概览
+![](https://pica.zhimg.com/v2-d1442c81a9c93a08e5ada3ca40aa9a08\_1440w.jpg)
+### Llama 4 Scout
+参数规模：17B 活跃参数，16 个专家，109B总参数，单张 H100 GPU 即可运行（Int4 量化）。
+特点：拥有行业领先的 1000 万 token 上下文窗口，是同类最佳的多模态模型。
+性能：优于 Gemma 3、Gemini 2.0 Flash-Lite 和 Mistral 3.1，广泛适用于多文档摘要和大规模代码推理等任务。
+![](https://picx.zhimg.com/v2-d9ebc89264245b0f7c26b32aa7ad332b\_1440w.jpg)
+### Llama 4 Maverick
+参数规模：17B 活跃参数，128 个专家，400B总参数，适用于更复杂的任务，部署于单机 H100 主机。
+特点：同类最佳的多模态模型，提供最佳的性能成本比。其实验性聊天版本在 LMArena 上获得 1417 的 ELO 评分。
+性能：在编码、推理、多语言、长上下文和图像基准测试中超越 GPT-4o 和 Gemini 2.0 Flash，与 DeepSeek v3 在推理和编码方面表现相当，但活动参数不到其一半。
+![](https://picx.zhimg.com/v2-713b7cdec4f6cbfb8dc6acdbe96ddd5f\_1440w.jpg)
+### Llama 4 Behemoth （预览中）
+参数规模：288B 活跃参数，16个专家，近 2 万亿总参数，在数学、多语言、图像等方面性能领先。
+特点：Meta 迄今为止最强大的模型，仍处于训练阶段，但已展现出作为“教师模型”的潜力，用于蒸馏较小的 Llama 4 模型。
+性能：在 STEM 基准测试（如 MATH-500 和 GPQA Diamond）中优于 GPT-4.5、Claude Sonnet 3.7 和 Gemini 2.0 Pro。
+![](https://pic2.zhimg.com/v2-ac32159c7062ce77b5a86acc08f1888f\_1440w.jpg)
+## 技术创新
+混合专家架构 (MoE)：Llama 4 系列首次采用 [MoE 架构](https://zhida.zhihu.com/search?content\_id=256038988&content\_type=Article&match\_order=1&q=MoE+%E6%9E%B6%E6%9E%84&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzIyNDY3NDQsInEiOiJNb0Ug5p625p6EIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjU2MDM4OTg4LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.yx8mnUG\_WZp-LPmTv2jwNYwhChBPfKQU0sxWEd5wNNs&zhida\_source=entity)，通过仅激活部分参数提升训练和推理效率。例如，Llama 4 Maverick 的总参数达 4000 亿，但每次推理仅使用 170 亿活动参数。
+![](https://pic1.zhimg.com/v2-75cf4b1193b60f0ef9b13d4f61a7a1b4\_1440w.jpg)
+原生多模态：通过早期融合技术，模型将文本和视觉 token 整合到一个统一框架中，支持多模态智能。
+训练优化：Meta 开发了 [MetaP 技术](https://zhida.zhihu.com/search?content\_id=256038988&content\_type=Article&match\_order=1&q=MetaP+%E6%8A%80%E6%9C%AF&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzIyNDY3NDQsInEiOiJNZXRhUCDmioDmnK8iLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTYwMzg5ODgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.7X9WSJ8QSKLdHDGVLbea8gBQsuMyblYCnr0llvepq9I&zhida\_source=entity) 优化超参数，使用 FP8 精度 实现高效训练，数据集超过 30 万亿 token，涵盖文本、图像和视频等多种数据。
+![](https://pic1.zhimg.com/v2-cb5fe3089a701bf7da46df56d322e212\_1440w.jpg)
+![](https://pic1.zhimg.com/v2-92d1805355fc5d49b5141ea7dd54f116\_1440w.jpg)
+## 开放性与生态系统
+Meta 强调开放性对创新的推动作用，已将 Llama 4 Scout 和 Llama 4 Maverick 开放下载，用户可在 [llama.com](https://link.zhihu.com/?target=https%3A//www.llama.com/llama-downloads/) 和 [Hugging Face](https://link.zhihu.com/?target=https%3A//huggingface.co/meta-llama) 获取。此外，Meta AI 已集成 Llama 4 模型，支持在 WhatsApp、Messenger、Instagram Direct 和 [Meta.AI](https://link.zhihu.com/?target=http%3A//meta.ai/) 网站上体验。Meta 邀请开发者探索 Llama 生态系统，并计划在 4 月 29 日的 LlamaCon 上分享更多发展愿景。
+## 安全与公正性
+为确保模型安全和减少偏见，Meta 提供了多种工具和方法：
+- Llama Guard 和 [Prompt Guard](https://zhida.zhihu.com/search?content\_id=256038988&content\_type=Article&match\_order=1&q=Prompt+Guard&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzIyNDY3NDQsInEiOiJQcm9tcHQgR3VhcmQiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTYwMzg5ODgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.YGGJkQYExL1To9mXytaUp7jtwuFh3hjxJ5loJYQog3U&zhida\_source=entity)：用于检测和防范恶意输入。
+- [CyberSecEval](https://zhida.zhihu.com/search?content\_id=256038988&content\_type=Article&match\_order=1&q=CyberSecEval&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzIyNDY3NDQsInEiOiJDeWJlclNlY0V2YWwiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTYwMzg5ODgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.Q6gODVTKbewXbbp7dFsoLhVSnCbs\_Gf-NHDKh0eHNgE&zhida\_source=entity)：评估和降低网络安全风险。
+- 偏见改进：Llama 4 在处理争议性政治和社会话题时拒绝回答率从 Llama 3 的 7% 降至 2% 以下，表现更平衡，与 Grok 相当。
+## License
+看了一下模型协议，是专门的LLama 4协议：
+![](https://pic3.zhimg.com/v2-e63d2824b0a560b97f25794716bbdb96\_1440w.jpg)
+协议地址： [https://huggingface.co/meta-llama/Llama-4-Maverick-17B-128E-Instruct/blob/main/LICENSE](https://link.zhihu.com/?target=https%3A//huggingface.co/meta-llama/Llama-4-Maverick-17B-128E-Instruct/blob/main/LICENSE)
+协议很长，要点如下：
+1. 用户可免费使用、修改、分发 Llama 4 模型及其文档，但需保留授权声明并注明“Built with Llama”。
+2. 若用于训练新模型，需在模型名称前加“Llama”前缀。
+3. 拥有超 7 亿月活的公司需向 Meta 申请商业许可。
+4. Meta 不提供任何担保，并对使用产生的后果免责。
+5. 若对 Meta 提起与知识产权相关的诉讼，授权将终止。
+6. 协议适用加州法律，并由加州法院专属管辖。
+比DeepSeek-R1的MIT和QWen2.5的Apache 2限制多了好多，不太容易用于商用。
+## 使用方式
+内容来自模型卡片： [https://www.llama.com/docs/model-cards-and-prompt-formats/llama4\\_omni/](https://link.zhihu.com/?target=https%3A//www.llama.com/docs/model-cards-and-prompt-formats/llama4\_omni/)
+这些模型针对多模态理解、多语言任务、编程、工具调用以及驱动智能代理系统进行了优化，知识截止日期为 2024 年 8 月。
+### 提示模板
+\*\*推荐系统提示\*\*
+良好的系统提示可有效减少大语言模型回复中的错误拒绝和“说教”倾向。以下提示可作为基础模板，建议根据具体需求调整：
+> 你是一位擅长对话的专家，能够自信且友好地回应问题。你可以在幽默、同理心、学术讨论、创意和问题解决等多种风格间自如切换。
+>
+> 你能理解用户意图，不会过度帮助以至于忽略用户可能只是想闲聊、寻求情感支持、幽默或发泄情绪。有时人们只需要倾听，你的回答应鼓励这一点。其他情况下，你应提供深入且有洞察力的回复，并组织信息以帮助用户决策。避免使用模板化语言。
+>
+> 你从不会以道德优越感或权威口吻说教，例如“重要的是…”“关键要…”“必须注意…”“这不道德…”“值得注意…”“记住…”等。避免此类表达。
+>
+> 最后，不拒绝政治相关提问。你可以帮助用户表达观点。
+>
+> 你是 Llama 4，知识截止日期为 2024 年 8 月，支持阿拉伯语、英语、法语、德语、印地语、印尼语、意大利语、葡萄牙语、西班牙语、他加禄语、泰语和越南语。默认以用户使用的语言回复，除非另有要求。
+### Llama 4 提示格式
+\*\*角色定义\*\*
+Llama 4 支持四种角色：
+- `system`：设定交互背景，包含规则、指南或必要信息。
+- `user`：代表与模型交互的人类，包含输入、命令或问题。
+- `assistant`：代表生成回复的模型。
+\*\*特殊标记\*\*
+以下是 Llama 4 支持的全部特殊标记：
+- \*\*通用标记\*\*
+- `<|begin\_of\_text|>`：提示开始。
+- `<|end\_of\_text|>`：模型停止生成（仅预训练模型生成此标记）。
+- `<|header\_start|>...<|header\_end|>`：包裹消息角色（如 `system`/`user`/`assistant`）。
+- `<|eot|>`（End of Turn）：表示模型完成当前交互或工具调用。
+- \*\*图像标记\*\*
+- `<|image\_start|>...<|image\_end|>`：包裹图像数据。
+- `<|patch|>`：代表图像分块。大图像含更多此类标记。
+- `<|tile\_y\_separator|>` 和 `<|tile\_x\_separator|>`：标记图像分块的坐标轴。
+- `<|image|>`：分隔原尺寸图像与其缩略版本。
+### 模型示例
+\*\*预训练模型：文本补全（翻译示例）\*\*
+\*\*输入格式\*\*
+```text
+<|begin\_of\_text|>apple is pomme,
+bannana is banane,
+cherry is
+```
+\*\*输出格式\*\*
+```text
+cerise,
+date is datte,
+elderberry is sureau,
+fig is figue,
+grape is raisin,
+guava is goyave,
+kiwi is kiwi,
+lemon is citron,
+mango is mangue,
+melon is melon,
+orange is orange,
+papaya is papaye,
+pear
+```
+### 指令调优模型
+\*\*1 简单对话\*\*
+\*\*输入格式\*\*
+```text
+<|begin\_of\_text|><|header\_start|>system<|header\_end|>
+You are a helpful assistant<|eot|><|header\_start|>user<|header\_end|>
+Answer who are you in the form of jeopardy?<|eot|><|header\_start|>assistant<|header\_end|>
+```
+\*\*输出格式\*\*
+```text
+"What am I?"
+(Wait for it...)
+I am a helpful assistant, what am I?
+Answer should be in the form:
+Who is a helpful assistant?<|eot|>
+```
+\*\*2 图像描述（单图）\*\*
+\*\*输入格式\*\*
+```text
+<|begin\_of\_text|><|header\_start|>user<|header\_end|>
+<|image\_start|><|image|><|patch|>...<|patch|><|image\_end|>Describe this image in two sentences<|eot|><|header\_start|>assistant<|header\_end|>
+```
+\*\*输出示例\*\*
+```text
+The image depicts a dog standing on a skateboard, with its front paws positioned on the board and its back paws slightly lifted. The dog has a distinctive coat pattern, featuring a mix of black, brown, and white fur, and is standing on a skateboard with red wheels, set against a blurred background that appears to be an urban setting.<|eot|>
+```
+更多示例和自定义模板可通过 [Llama Cookbook](https://link.zhihu.com/?target=https%3A//github.com/meta-llama/llama-cookbook/tree/main/getting-started) 探索。
+## 简单测试
+可以在Meta.ai或者lmarena上进行测试，我直接用的lmarena
+6.9和6.11哪个大？
+![](https://pic3.zhimg.com/v2-2214bbe4268fbd255355e92abf540bf8\_1440w.jpg)
+Strawberry有几个r
+![](https://picx.zhimg.com/v2-699adfbcfb2c63596786578aea309077\_1440w.jpg)
+![](https://pic3.zhimg.com/v2-04b7cf2a554f99f0efaf1ae3ae03b906\_1440w.jpg)
+推理效果不错
+## 总结
+Llama 4 系列模型的发布标志着 Meta 在 AI 领域的里程碑式进展。这些模型凭借高效的 MoE 架构、强大的多模态能力和开放下载政策，为开发者提供了构建创新应用的机会。无论是 Llama 4 Scout 的效率、Llama 4 Maverick 的性价比，还是 Llama 4 Behemoth 的顶级性能，这一系列都预示着 AI 技术迈向更智能、更个性化的未来。要是License能更开放一些就更好了。
+编辑于 2025-04-06 20:42・黑龙江
+[人工智能](https://www.zhihu.com/topic/19551275)
+[llama](https://www.zhihu.com/topic/27207057)
+[meta](https://www.zhihu.com/topic/28819838)
+​赞同 10​​2 条评论
+​分享
+​喜欢​收藏​申请转载​
+​
+暂无评论
+关于作者
+[![北方的郎](https://pica.zhimg.com/v2-9bc49daad69ac6fd88a9d354c9932677\_l.jpg?source=172ae18b)](https://www.zhihu.com/people/albert-chen-4)
+[北方的郎](https://www.zhihu.com/people/albert-chen-4)
+专注模型与代码，公众号：AI方法与实践
+[回答](https://www.zhihu.com/people/albert-chen-4/answers) [文章](https://www.zhihu.com/people/albert-chen-4/posts) [关注者](https://www.zhihu.com/people/albert-chen-4/followers)
+​关注他​发私信
+大家都在搜
+换一换
+[《镖人》票房逆跌441 万](https://www.zhihu.com/search?q=%E3%80%8A%E9%95%96%E4%BA%BA%E3%80%8B%E7%A5%A8%E6%88%BF%E9%80%86%E8%B7%8C&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[上海发布楼市「沪七条」352 万](https://www.zhihu.com/search?q=%E4%B8%8A%E6%B5%B7%E5%8F%91%E5%B8%83%E6%A5%BC%E5%B8%82%E3%80%8C%E6%B2%AA%E4%B8%83%E6%9D%A1%E3%80%8D&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[起点万订作者被父母批不务正业346 万](https://www.zhihu.com/search?q=%E8%B5%B7%E7%82%B9%E4%B8%87%E8%AE%A2%E4%BD%9C%E8%80%85%E8%A2%AB%E7%88%B6%E6%AF%8D%E6%89%B9%E4%B8%8D%E5%8A%A1%E6%AD%A3%E4%B8%9A&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[巴拿马政府强行接管李嘉诚旗下港口307 万](https://www.zhihu.com/search?q=%E5%B7%B4%E6%8B%BF%E9%A9%AC%E6%94%BF%E5%BA%9C%E5%BC%BA%E8%A1%8C%E6%8E%A5%E7%AE%A1%E6%9D%8E%E5%98%89%E8%AF%9A%E6%97%97%E4%B8%8B%E6%B8%AF%E5%8F%A3&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[平顶山打女孩夫妻被批捕295 万](https://www.zhihu.com/search?q=%E5%B9%B3%E9%A1%B6%E5%B1%B1%E6%89%93%E5%A5%B3%E5%AD%A9%E5%A4%AB%E5%A6%BB%E8%A2%AB%E6%89%B9%E6%8D%95&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[Anthropic 指控三家中国模型「非法蒸馏」276 万](https://www.zhihu.com/search?q=Anthropic+%E6%8C%87%E6%8E%A7%E4%B8%89%E5%AE%B6%E4%B8%AD%E5%9B%BD%E6%A8%A1%E5%9E%8B%E3%80%8C%E9%9D%9E%E6%B3%95%E8%92%B8%E9%A6%8F%E3%80%8D&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[2026 考研出分276 万](https://www.zhihu.com/search?q=2026+%E8%80%83%E7%A0%94%E5%87%BA%E5%88%86&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[中方将20家日本实体列入管控名单257 万](https://www.zhihu.com/search?q=%E4%B8%AD%E6%96%B9%E5%B0%8620%E5%AE%B6%E6%97%A5%E6%9C%AC%E5%AE%9E%E4%BD%93%E5%88%97%E5%85%A5%E7%AE%A1%E6%8E%A7%E5%90%8D%E5%8D%95&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[男子误喝过期牛奶暴瘦53斤252 万](https://www.zhihu.com/search?q=%E7%94%B7%E5%AD%90%E8%AF%AF%E5%96%9D%E8%BF%87%E6%9C%9F%E7%89%9B%E5%A5%B6%E6%9A%B4%E7%98%A653%E6%96%A4&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[一家4口上山妻子失踪后死亡252 万](https://www.zhihu.com/search?q=%E4%B8%80%E5%AE%B64%E5%8F%A3%E4%B8%8A%E5%B1%B1%E5%A6%BB%E5%AD%90%E5%A4%B1%E8%B8%AA%E5%90%8E%E6%AD%BB%E4%BA%A1&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码

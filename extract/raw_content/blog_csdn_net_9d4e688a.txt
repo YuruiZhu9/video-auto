@@ -1,0 +1,1567 @@
+# Source URL: https://blog.csdn.net/qq_28343747/article/details/144561532
+# Content Length: 45065 characters
+# Extracted at: 2026-03-23 09:33:18
+#============================================================
+
+ 
+
+
+
+
+
+2025 推荐系统论文汇总-CSDN博客
+
+
+
+
+
+
+
+
+2025 推荐系统论文汇总
+=============
+
+
+原创
+已于 2025-10-31 20:38:06 修改
+·
+8.9k 阅读
+·
+![]()
+![]()
+42
+
+
+·
+![]()
+![]()
+59
+·
+CC 4.0 BY-SA版权
+版权声明：本文为博主原创文章，遵循 [CC 4.0 BY-SA](http://creativecommons.org/licenses/by-sa/4.0/) 版权协议，转载请附上原文出处链接和本声明。
+
+
+
+
+
+文章标签：
+
+[#推荐算法](https://so.csdn.net/so/search/s.do?q=%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#人工智能](https://so.csdn.net/so/search/s.do?q=%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+
+
+
+于 2024-12-18 15:20:15 首次发布
+
+
+
+
+[![]()
+推荐系统
+专栏收录该内容](https://blog.csdn.net/qq_28343747/category_12204408.html)
+
+26 篇文章
+
+订阅专栏
+
+
+
+
+对2025年的 推荐系统论文进行一波收集，给各位初学者和算法大佬作为灵感来源，后续专栏会继续更新论文解读，根据评论不断补充，欢迎大家三连~
+
+ICLR 2025
+---------
+
+1. SLMRec: Distilling Large Language Models into Small for Sequential Recommendation  
+   
+   中文标题： SLMRec：将大型语言模型蒸馏为小型模型用于序列推荐  
+   
+   论文简介： 重新评估大型语言模型在序列推荐中的必要性，提出通过知识蒸馏方法将大模型知识转移到小型模型，显著降低模型规模并提高效率。
+2. Language Representations Can be What Recommenders Need: Findings and Potentials  
+   
+   中文标题： 语言表示可以成为推荐系统所需：发现与潜力  
+   
+   论文简介： 证明从高级语言模型表示线性映射得到的物品表示能产生卓越的推荐性能，暗示语言表示空间与推荐物品表示空间间可能存在同态关系。
+3. CTRL-Rec: Controlling Recommender Systems With Natural Language  
+   
+   中文标题： CTRL-Rec：用自然语言控制推荐系统  
+   
+   论文简介： 提出一种允许用户通过自然语言实时控制传统推荐系统的方法，使用 LLM 模拟用户对物品的偏好，并将这些预测集成到推荐系统的信号权重中。
+4. CoRA: Collaborative Information Perception by Large Language Model’s Weights for Recommendation  
+   
+   中文标题： CoRA：基于大语言模型权重的协同信息感知推荐方法  
+   
+   论文简介： 利用大语言模型权重中的协同信息来增强推荐系统性能，探索预训练语言模型在推荐领域的迁移学习。
+5. Modality-Independent Graph Neural Networks with Global Transformers for Multimodal Recommendation  
+   
+   中文标题： 用于多模态推荐的模态无关图神经网络与全局 Transformer  
+   
+   论文简介： 设计了一种能够处理不同模态数据的图神经网络架构，结合全局 Transformer 捕获跨模态依赖关系，提升多模态推荐效果。
+6. Intent Representation Learning with Large Language Model for Recommendation  
+   
+   中文标题： 基于大语言模型的意图表示学习推荐方法  
+   
+   论文简介： 提出 IRLLRec 框架，利用大语言模型构建多模态意图表示，采用双塔架构学习意图表示，增强推荐系统对用户意图的理解。
+7. LLMInit: A Free Lunch from Large Language Models for Selective Initialization of Recommendation  
+   
+   中文标题： LLMInit：利用大型语言模型为推荐系统提供免费初始化  
+   
+   论文简介： 探索利用预训练语言模型初始化推荐系统参数，无需额外训练即可提升推荐性能，为冷启动问题提供新思路。
+8. CoT4Rec: Revealing User Preferences through Chain of Thought for Recommender Systems  
+   
+   中文标题： CoT4Rec：通过思维链揭示用户偏好的推荐系统  
+   
+   论文简介： 将思维链 (CoT) 技术应用于推荐系统，使模型能够生成推理路径解释推荐原因，增强可解释性并提高推荐准确性。
+9. MENTOR: Multi-level Self-supervised Learning for Multimodal Recommendation  
+   
+   中文标题： MENTOR：用于多模态推荐的多层次自监督学习  
+   
+   论文简介： 设计多层次自监督学习框架，从多模态数据中自动学习有用表示，增强推荐系统在跨模态场景中的表现。
+10. MixRec: Individual and Collective Mixing Empowers Data Augmentation for Recommender Systems  
+    
+    中文标题： MixRec：通过个体与集体混合增强推荐系统数据增强  
+    
+    论文简介： 提出两种轻量级数据增强策略（个体混合和集体混合），无需外部策略即可构建原始样本的新视图，提升推荐模型泛化能力。
+
+AAAI 2025
+---------
+
+Modality-Independent Graph Neural Networks with Global Transformers for Multimodal Recommendation  
+
+用于多模态推荐的模态无关图神经网络与全局 Transformer  
+
+Jun Hu,Bryan Hooi,Bingsheng He,Yinwei Wei
+
+CoRA: Collaborative Information Perception by Large Language Model’s Weights for Recommendation  
+
+CoRA：基于大语言模型权重的协同信息感知推荐方法  
+
+Yuting Liu,Jinghao Zhang,Yizhou Dang,Yuliang Liang,Qiang Liu,Guibing Guo,Jianzhe Zhao,Xingwei Wang
+
+Curriculum Conditioned Diffusion for Multimodal Recommendation  
+
+用于多模态推荐的课程条件扩散方法  
+
+Yimeng Yang,Haokai Ma,Lei Meng,Shuo Xu,Ruobing Xie,Xiangxu Meng
+
+LEARN: Knowledge Adaptation from Large Language Model to Recommendation for Practical Industrial Application  
+
+LEARN：从大语言模型到推荐系统的知识适配及其实际工业应用  
+
+Jian Jia,Yipei Wang,Yan Li,Honggang Chen,xuehan bai,Zhaocheng Liu,Jian Liang,Quan Chen,Han Li,Peng Jiang,Kun Gai
+
+Disentangled Modeling of Preferences and Social Influence for Group Recommendation  
+
+群体推荐中偏好与社会影响的解耦建模  
+
+Guangze Ye,Wen Wu,Guoqing Wang,Xi Chen,Hong Zheng,Liang He
+
+Mind Individual Information! Principal Graph Learning for Multimedia Recommendation  
+
+关注个体信息！用于多媒体推荐的主图学习  
+
+Penghang Yu,Zhiyi Tan,Guanming Lu,Bingkun BAO
+
+Multifaceted User Modeling in Recommendation: A Federated Foundation Models Approach  
+
+推荐中的多维度用户建模：一种联邦基础模型方法  
+
+Chunxu Zhang,Guodong Long,Hongkuan Guo,Liu Zhaojie,Guorui Zhou,Zijian Zhang,Yang Liu,Bo Yang
+
+LLMEmb: Large Language Model Can Be a Good Embedding Generator for Sequential Recommendation  
+
+LLMEmb：大语言模型可作为序列推荐的优秀嵌入生成器  
+
+Qidong Liu,Xian Wu,Wanyu Wang,Yejing Wang,Yuanshao Zhu,Xiangyu Zhao,Feng Tian,Yefeng Zheng
+
+Behavior Importance-Aware Graph Neural Architecture Search for Cross-Domain Recommendation  
+
+用于跨域推荐的行为重要性感知图神经架构搜索  
+
+Chendi Ge,Xin Wang,Ziwei Zhang,Yijian Qin,Hong Chen,Haiyang Wu,Yang Zhang,Yuekui Yang,Wenwu Zhu
+
+Social Recommendation via Graph-Level Counterfactual Augmentation  
+
+基于图级反事实增强的社交推荐  
+
+Yinxuan Huang,KE LIANG,Yanyi Huang,Xiang Zeng,Kai Chen,Bin Zhou
+
+Robust Graph Based Social Recommendation through Contrastive Multi-view Learning  
+
+通过对比多视图学习的鲁棒性基于图的社交推荐  
+
+Tao Zhang,Fei Xiong,Shirui Pan,Guixun Luo,Liang Wang
+
+Domain-Level Disentanglement Framework Based on Information Enhancement for Cross-Domain Cold-Start Recommendation  
+
+基于信息增强的域级解耦框架用于跨域冷启动推荐  
+
+Nian Rong,Fei Xiong,Shirui Pan,Guixun Luo,Jia Wu,Liang Wang
+
+Counterfactual Task-Augmented Meta-Learning for Cold-Start Sequence Recommendation  
+
+用于冷启动序列推荐的反事实任务增强元学习  
+
+Zhiqiang Wang,Jiayi Pan,Xingwang Zhao,Jianqing Liang,Chenjiao Feng,Kaixuan Yao
+
+POI Recommendation via Multi-Objective Adversarial Imitation Learning  
+
+基于多目标对抗模仿学习的兴趣点推荐  
+
+Zhenglin Wan,Anjun Gao,Xingrui Yu,Pingfu Chao,Jun Song,Maohao Ran
+
+Dynamic Multi-Modal Recommendation Under Legal, Licensing, and Modality Constraints with Reverse BPR  
+
+在法律、许可和模态约束下结合反向 BPR 的动态多模态推荐  
+
+Yash Sinha,Murari Mandal,Mohan Kankanhalli
+
+Semantic Convergence: Harmonizing Recommender Systems via Two-Stage Alignment and Behavioral Semantic Tokenization  
+
+语义收敛：通过两阶段对齐和行为语义分词协调推荐系统  
+
+guanghan li,Xun Zhang,Zhangyufei,Yifan Yin,Guojun Yin,Wei Lin
+
+CoDeR: Counterfactual Demand Reasoning for Sequential Recommendation  
+
+CoDeR：用于序列推荐的反事实需求推理  
+
+TangShuai,Sitao Lin,Jianghong Ma,Xiaofeng Zhang
+
+Lightweight yet Fine-grained: A Graph Capsule Convolutional Network with Subspace Alignment for Shared-account Sequential Recommendation  
+
+轻量且细粒度：用于共享账户序列推荐的带子里空间对齐的图胶囊卷积网络  
+
+Jinyu Zhang,Zhongying Zhao,Chao Li,Yanwei Yu
+
+Enhancing Diffusion Model with Auxiliary Information Mining Exploration and Efficient Sampling Mechanism for Sequential Recommendation  
+
+结合辅助信息挖掘探索和高效采样机制的增强扩散模型用于序列推荐  
+
+Te Song,Lianyong Qi,Weiming Liu,Fan Wang,Xiaolong Xu,Xuyun Zhang,Amin Beheshti,Xiaokang Zhou,Wanchun Dou
+
+Semantic Enhanced Heterogeneous Hypergraph Network for Collaborative Filtering  
+
+用于协同过滤的语义增强异质超图网络  
+
+Mingtao Xu,Wei Wei,Peixuan Yang,Hulong Wu
+
+Spatial-Temporal Knowledge Distillation For Takeaway Recommendation  
+
+用于外卖推荐的时空知识蒸馏  
+
+Shuyuan Zhao,Wei Chen,Boyan Shi,Liyong Zhou,Shuohao Lin,Huaiyu Wan
+
+Enhancing Long- and Short-Term Representations for Next POI Recommendations via Frequency and Hierarchical Contrastive Learning  
+
+通过频率和层次对比学习增强下一兴趣点推荐的长短期表示  
+
+Jiajie Chen,Peng-Fei Zhang,Yu Sang,Jiaan Wang,Jianfeng Qu,Zhixu Li
+
+Multi-type MOOCs Recommendation: Leveraging Deep Multi-Relational Representation and Hierarchical Reasoning  
+
+多类型 MOOC 推荐：利用深度多关系表示与层次推理  
+
+Ye Zhang,Yanqi Gao,Dongjie Wang,Yupeng Zhou,Jinlong He,Zhaoyang Sun,Minghao Yin
+
+Integrating Personalized Spatio-Temporal Clustering for Next POI Recommendation  
+
+融合个性化时空聚类的下一兴趣点推荐  
+
+Chao Song,Zheng Ren,Li Lu
+
+Seeing Beyond Noise: Joint Graph Structure Evaluation and Denoising for Multimodal Recommendation  
+
+透过噪声看本质：多模态推荐中的联合图结构评估与去噪  
+
+Yuxin Qi,Quan Zhang,Xi Lin,Xiu Su,Jiani Zhu,Jingyu Wang,Jianhua Li
+
+LS-TGNN: Long and Short-Term Temporal Graph Neural Network for Session-Based Recommendation  
+
+LS-TGNN：用于基于会话推荐的长短期时序图神经网络  
+
+Zhonghong Ou,Xiao zhang,Yifan Zhu,Shuai Lv,Jiahao Liu,Tu Ao
+
+From Pairwise to Ranking: Climbing the Ladder to Ideal Collaborative Filtering with Pseudo-Ranking  
+
+从成对到排序：利用伪排序逐步实现理想的协同过滤  
+
+Yuhan Zhao,Rui Chen,Li Chen,Shuang Zhang,Qilong Han,Hongtao Song
+
+Intent Oriented Contrastive Learning for Sequential Recommendation  
+
+用于序列推荐的意图导向对比学习  
+
+Wuhong Wang,Jianhui Ma,Yuren Zhang,Kai Zhang,Junzhe Jiang,Yihui Yang,Yacong Zhou,Zheng Zhang
+
+Augmenting Sequential Recommendation with Balanced Relevance and Diversity  
+
+通过平衡相关性与多样性增强序列推荐  
+
+Yizhou Dang,Jiahui Zhang,Yuting Liu,Enneng Yang,Yuliang Liang,Guibing Guo,Jianzhe Zhao,Xingwei Wang
+
+Feature-Structure Adaptive Completion Graph Neural Network for Cold-start Recommendation  
+
+用于冷启动推荐的特征 - 结构自适应补全图神经网络  
+
+Lei Songyuan,changxinglong,Zhizhi Yu,Dongxiao He,Cuiying Huo,Jianrong Wang,Di Jin
+
+SIGMA: Selective Gated Mamba for Sequential Recommendation  
+
+SIGMA：用于序列推荐的选择性门控 Mamba  
+
+Ziwei Liu,Qidong Liu,Yejing Wang,Wanyu Wang,Pengyue Jia,Maolin Wang,Zitao Liu,Yi Chang,Xiangyu Zhao
+
+Ready for You When You are Back: Content-driven Session-based Recommendation for Continuity of Experience  
+
+当你回来时已准备就绪：用于体验连续性的内容驱动基于会话推荐  
+
+Brijraj Singh,Sonal,Niranjan Pedanekar
+
+ScoreNet: Consistency-driven Framework with Multiside Information Fusion for Session-based Recommendation  
+
+ScoreNet：用于基于会话推荐的多方面信息融合一致性驱动框架  
+
+piao tong,Qiao Liu,Zhipeng Zhang,Yuke Wang,Tian Lan
+
+Both Supply and Precision: Sample Debias and Ranking Consistency Joint Learning for Large Scale Pre-ranking System  
+
+兼顾供给与精度：大规模预排序系统的样本去偏与排序一致性联合学习  
+
+Feng Gao,Xin Zhou,Yinning Shao,Yue Wu,Jiahua Gao,Yujian Ren,Fengyang Qi,Ruochen Deng,Jie Liu
+
+Sub-Interest-Aware Representation Uniformity for Recommender System  
+
+推荐系统的子兴趣感知表示一致性  
+
+Ruijia Ma,Yahong Lian,Chunyao Song
+
+Exploiting Fine-grained Skip Behaviors for Microvideo Recommendation  
+
+利用细粒度跳过行为的微视频推荐  
+
+Sanghyuck Lee,Sangkeun Park,Jaesung Lee
+
+Disentangled Contrastive Bundle Recommendation with Conditional Diffusion  
+
+结合条件扩散的解耦对比式捆绑推荐  
+
+Jiuqiang Li
+
+DR-VAE: Debiased and Representation-enhanced Variational Autoencoder for Collaborative Recommendation  
+
+DR-VAE：用于协同推荐的去偏且表示增强的变分自编码器  
+
+Fan Wang,Chaochao Chen,Weiming Liu,Minye Lei,Jintao Chen,Yuwen Liu,Xiaolin Zheng,Jianwei Yin
+
+Sim4Rec: Data-Free Model Extraction Attack on Sequential Recommendation  
+
+Sim4Rec：针对序列推荐的无数据模型提取攻击  
+
+Yihao Wang,Jiajie Su,Chaochao Chen,Meng Han,Chi Zhang,Jun Wang
+
+Multiple Purchase Chains with Negative Transfer Elimination for Multi-Behavior Recommendation  
+
+结合负迁移消除的多购买链用于多行为推荐  
+
+Shuwei Gong,Yuting Liu,Yizhou Dang,Guibing Guo,Jianzhe Zhao,Xingwei Wang
+
+CoT4Rec: Revealing User Preferences through Chain of Thought for Recommender Systems  
+
+CoT4Rec：通过思维链揭示用户偏好的推荐系统  
+
+Weiqi Yue,Yuyu Yin,Xin Zhang,Binbin Shi,Tingting Liang,Wan Jian
+
+Active Large Language Model-based Knowledge Distillation for Session-based Recommendation  
+
+用于基于会话推荐的主动式基于大语言模型的知识蒸馏  
+
+Yingpeng Du,Zhu Sun,Ziyan Wang,Haoyan Chua,Jie Zhang,Yew-Soon Ong
+
+MENTOR: Multi-level Self-supervised Learning for Multimodal Recommendation  
+
+MENTOR：用于多模态推荐的多层次自监督学习  
+
+Jinfeng Xu,Zheyu Chen,Shuo Yang,Jinze Li,Hewei Wang,Edith C. H. Ngai
+
+CUGF: A Reliable and Fair Recommendation Framework  
+
+CUGF：一种可靠且公平的推荐框架  
+
+Nitin Bisht,Xiuwen Gong,Guandong Xu
+
+DisCo: Graph-Based Disentangled Contrastive Learning for Cold-Start Cross-Domain Recommendation  
+
+DisCo：用于冷启动跨域推荐的基于图的解耦对比学习  
+
+Hourun Li,Yifan Wang,Zhiping Xiao,Jia Yang,Changling Zhou,Ming Zhang,Wei Ju
+
+Enhancing Sequential Recommendation with Global Diffusion  
+
+结合全局扩散增强序列推荐  
+
+Mingxuan Luo,Yang Li,Chen Lin
+
+BeFA: A General Behavior-driven Feature Adapter for Multimedia Recommendation  
+
+BeFA：用于多媒体推荐的通用行为驱动特征适配器  
+
+Qile Fan,Penghang Yu,Zhiyi Tan,Bingkun BAO,Guanming Lu
+
+Harnessing Multimodal Large Language Models for Multimodal Sequential Recommendation  
+
+利用多模态大语言模型的多模态序列推荐  
+
+Yuyang Ye,Zhi Zheng,Yishan Shen,Tianshu Wang,Hengruo Zhang,Peijun Zhu,Runlong Yu,Kai Zhang,Hui Xiong
+
+Rethinking Byzantine Robustness in Federated Recommendation from Sparse Aggregation Perspective  
+
+从稀疏聚合视角重新思考联邦推荐中的拜占庭鲁棒性  
+
+Zhongjian Zhang,Mengmei Zhang,Xiao Wang,Lingjuan Lyu,Bo Yan,Junping Du,Chuan Shi
+
+Addressing Cold-start Problem in Click-Through Rate Prediction via Supervised Diffusion Modeling  
+
+通过有监督扩散建模解决点击率预测中的冷启动问题  
+
+Wenqiao Zhu,Lulu Wang,Jun Wu
+
+Iterative Sparse Attention for Longsequence Recommendation  
+
+用于长序列推荐的迭代稀疏注意力  
+
+Guanyu Lin,Jinwei Luo,Yinfeng Li,Chen Gao,Qun Luo,Depeng Jin
+
+DOGE: LLMs-Enhanced HyperKnowledge Graph Recommender for Multimodal Recommendation  
+
+DOGE：用于多模态推荐的大语言模型增强超知识图推荐器  
+
+Fanshen Meng,Zhenhua Meng,Ru Jin,Rongheng Lin,Budan Wu
+
+Coherency Improved Explainable Recommendation via Large Language Model  
+
+通过大语言模型的一致性增强可解释推荐  
+
+Shijie Liu,Ruixin Ding,Weiha Lu,Jun Wang,Mo Yu,Xiaoming Shi,Wei Zhang
+
+LLM4RSR: Large Language Models as Data Correctors for Robust Sequential Recommendation  
+
+LLM4RSR：作为鲁棒序列推荐数据校正器的大语言模型  
+
+Yatong Sun,Xiaochun Yang,Zhu Sun,Yan Wang,Bin Wang,Xinghua Qu
+
+LLM-Powered Efficient User Simulator for Recommender System  
+
+大语言模型驱动的推荐系统高效用户模拟器  
+
+Zijian Zhang,Shuchang Liu,Ziru Liu,Rui Zhong,Qingpeng Cai,Xiangyu Zhao,Chunxu Zhang,Qidong Liu,Peng Jiang
+
+Bridging the User-side Knowledge Gap in Knowledge-aware Recommendations with Large Language Models  
+
+利用大语言模型弥合知识感知推荐中的用户端知识差距  
+
+Zheng Hu,Zhe Li,Ziyun Jiao,Satoshi Nakagawa,Jiawen Deng,Shimin Cai,Tao Zhou,Fuji Ren
+
+Learning Multiple User Distributions for Recommendation via Guided Conditional Diffusion  
+
+通过引导条件扩散学习推荐中的多用户分布  
+
+Cheng Wu,Liang Su,Chaokun Wang,Shaoyun Shi,Ziqian Zhang,Ziyang Liu,wang Peng,wenjin wu,Peng Jiang
+
+STAIR: Manipulating Collaborative and Multimodal Information for ECommerce Recommendation  
+
+STAIR：用于电子商务推荐的协同与多模态信息处理  
+
+Cong Xu,Yunhang He,Jun Wang,Wei Zhang
+
+Towards the Challenges Underlying LLM-Based Augmentation for Personalized News Recommendation  
+
+迈向基于大语言模型增强的个性化新闻推荐的潜在挑战  
+
+Shicheng Wang,Hengzhu Tang,Li Gao,Shu Guo,Suqi Cheng,Junfeng Wang,Dawei Yin,Tingwen Liu,Lihong Wang
+
+Neural Combinatorial Clustered Bandits for Recommendation Systems  
+
+用于推荐系统的神经组合聚类老虎机  
+
+Baran Atalar,Carlee Joe-Wong
+
+ESPRESSO: An Effective Approach to Passage Retrieval for High-Quality Conversational Recommender Systems  
+
+ESPRESSO：用于高质量会话推荐系统的有效段落检索方法  
+
+Taeho Kim,Hyeongjun Jang,Juwon Yu,Taeuk Kim,Hyunyoung Lee,Jihui Im,Sang-Wook Kim
+
+Contrastive Representation for Interactive Recommendation  
+
+用于交互式推荐的对比表示  
+
+Jingyu Li,Zhiyong Feng,Dongxiao He,Hongqi Chen,Qinghang Gao,Guoli Wu
+
+Bagging-Expert Network for Multi-Task Learning: A Depolarization Solution in Multi-Gate Mixture-of-Experts  
+
+用于多任务学习的集成专家网络：多门控混合专家中的去极化解决方案  
+
+Gong-Duo Zhang,Ruiqing Chen,Qian Zhao,Zhengwei WU,Fengyu Han,Huan-Yi Su,Ziqi Liu,Lihong Gu,Lin Zhou
+
+One for Dozens: Adaptive REcommendation for All Domains with Counterfactual Augmentation  
+
+一适用于多：结合反事实增强的全领域自适应推荐  
+
+Huishi Luo,YiWen Chen,Yiqing Wu,Fuzhen Zhuang,deqing wang
+
+Dynamic Multi-Interest Graph Neural Network for Session-Based Recommendation  
+
+用于基于会话推荐的动态多兴趣图神经网络  
+
+Mingyang Lv,Xiangfeng Liu,yuanbo xu
+
+Enhancing Healthcare Recommendations: A Privacy-Protective and Interpretable Cross-Domain Framework  
+
+增强医疗健康推荐：一种隐私保护且可解释的跨域框架  
+
+Xun Liang,Zhiying Li,Hongxun Jiang
+
+HI-DR: Exploiting Health Status-Aware Attention and an EHR Graph+ for Effective Medication Recommendation  
+
+HI-DR：利用健康状态感知注意力和电子健康记录图 + 的有效药物推荐  
+
+Taeri Kim,Jiho Heo,Hyunjoon Kim,SangWook Kim
+
+Bites of Tomorrow: Personalized Recommendations for a Healthier and Greener Plate  
+
+明日之食：更健康环保饮食的个性化推荐  
+
+Jing Jiazheng,Yinan Zhang,Chunyan Miao
+
+Direct Routing Gradient (DRGrad): A Personalized Information Surgery for Multi-Task Learning (MTL) Recommendations  
+
+Direct Routing Gradient (DRGrad)：用于多任务学习推荐的个性化信息处理  
+
+Yuguang Liu,Yiyun Miao,Luyao Xia
+
+The Adaptive Q-Network for Recommendation Tasks with Dynamic Item Space  
+
+用于动态物品空间推荐任务的自适应 Q 网络  
+
+Jianxiang Zhu,Dandan Lai,Zhongcui Ma,Yaxin Peng
+
+Auto Encoding Neural Process for Multiinterest Recommendation  
+
+用于多兴趣推荐的自编码神经过程  
+
+Yiheng Jiang,yuanbo xu,Yongjian Yang,Funing Yang,Pengyang Wang,Chaozhuo Li
+
+Entire-Space Variational Information Exploitation for Post-Click Conversion Rate Prediction  
+
+用于点击后转化率预测的全空间变分信息利用  
+
+Ke Fei,Xinyue Zhang,Jingjing Li
+
+Future Sight and Tough Fights: Revolutionizing Sequential Recommendation with FENRec  
+
+远见与攻坚：利用 FENRec 革新序列推荐  
+
+Yu-Hsuan Huang,Ling Lo,Hongxia Xie,Hong-Han Shuai,Wen-Huang Cheng
+
+Towards Unbiased Information Extraction and Adaptation in CrossDomain Recommendation  
+
+迈向跨域推荐中的无偏信息提取与适配  
+
+Yibo Wang,Yingchun Jian,Wenhao Yang,Shiyin Lu,LEI SHEN,Bing Wang,Xiaoyi Zeng,Lijun Zhang
+
+DivGCL: A Graph Contrastive Learning Model for Diverse Recommendation  
+
+DivGCL：用于多样化推荐的图对比学习模型  
+
+Wenwen Gong,Yangliao Geng,Dan Zhang,Yifan Zhu,Xiaolong Xu,Haolong Xiang,Amin Beheshti,Xuyun Zhang,Lianyong Qi
+
+Trust-GRS: A Trustworthy Training Framework for Graph Neural Network Based Recommender Systems against Shilling Attacks  
+
+Trust-GRS：用于抵御欺诈攻击的基于图神经网络推荐系统的可信训练框架  
+
+Lingyu Mu,Zhengxiao Liu,Zhitong Zhu,Zheng Lin
+
+Beyond Graph Convolution: Multimodal Recommendation with Topology-aware MLPs  
+
+超越图卷积：结合拓扑感知 MLP 的多模态推荐  
+
+Junjie Huang,Jiarui Qin,Yong Yu,Weinan Zhang
+
+Personalized Federated Collaborative Filtering: A Variational AutoEncoder Approach  
+
+个性化联邦协同过滤：一种变分自编码器方法  
+
+Zhiwei Li,Guodong Long,Tianyi Zhou,Jing Jiang,Chengqi Zhang
+
+GeoMamba: Towards Multi-granular POI Recommendation with Geographical State Space Model  
+
+GeoMamba：利用地理状态空间模型实现多粒度兴趣点推荐  
+
+Yifang Qin,Jiaxuan Xie,Zhiping Xiao,Ming Zhang
+
+Re2LLM: Reflective Reinforcement Large Language Model for Session-based Recommendation  
+
+Re2LLM：用于基于会话推荐的反思性强化大语言模型  
+
+Ziyan Wang,Yingpeng Du,Zhu Sun,Haoyan Chua,Kaidong Feng,Wenya Wang,Jie Zhang
+
+Advancing Loss Functions in Recommender Systems: A Comparative Study with a Rényi Divergence-Based Solution  
+
+改进推荐系统中的损失函数：一项基于 Rényi 散度解决方案的对比研究  
+
+Shengjia Zhang,Jiawei Chen,Changdong Li,Sheng Zhou,Qihao Shi,Yan Feng,Chun Chen,Can Wang
+
+Counterfactual Task-Augmented MetaLearning for Cold-Start Sequence Recommendation  
+
+用于冷启动序列推荐的反事实任务增强元学习  
+
+Zhiqiang Wang,Jiayi Pan,Xingwang Zhao,Jianqing Liang,Chenjiao Feng,Kaixuan Yao
+
+Fuzzy Collaborative Reasoning  
+
+模糊协同推理  
+
+Huanhuan Yuan,Pengpeng Zhao,Jiaqing Fan,Junhua Fang,Guanfeng Liu,Victor S. Sheng
+
+Federated Recommendation with Explicitly Encoding Item Bias  
+
+显式编码物品偏差的联邦推荐  
+
+Zhihao Wang,He Bai,Wenke Huang,Duantengchuan Li,Jian Wang,Bing Li
+
+POI Recommendation via Multi-Objective Adversarial Imitation Learning  
+
+基于多目标对抗模仿学习的兴趣点推荐  
+
+Zhenglin Wan,Anjun Gao,Xingrui Yu,Pingfu Chao,Jun Song,Maohao Ran
+
+WSDM 2025
+---------
+
+Review-Based Hyperbolic Cross-Domain Recommendation（基于评论的双曲跨域推荐）  
+
+Beyond Message-Passing: Generalization of Graph Neural Networks via Feature Perturbation（超越消息传递：通过特征扰动对图神经网络进行泛化）  
+
+LOGIN: A Large Language Model Consulted Graph Neural Network Training Framework（LOGIN：一个基于大型语言模型的图神经网络训练框架）  
+
+Dynamic Graph Transformer with Correlated Spatial-Temporal Positional Encoding（具有相关时空位置编码的动态图变换器）  
+
+S-Diff: An Anisotropic Diffusion Model for Collaborative Filtering in Spectral Domain（S-Diff：一种频谱域协同过滤的各向异性扩散模型）  
+
+Maintaining k-MinHash Signatures over Fully-Dynamic Data Streams with Recovery（在全动态数据流上维护带恢复的k-MinHash签名）  
+
+Hyperdimensional Representation Learning for Node Classification and Link Prediction（用于节点分类和链路预测的高维表示学习）  
+
+FedGF: Enhancing Structural Knowledge via Graph Factorization for Federated Graph Learning（FedGF：通过图分解增强联邦图学习的结构知识）  
+
+Prospective Multi-Graph Cohesion for Multivariate Time Series Anomaly Detection（用于多变量时间序列异常检测的前瞻性多图凝聚）  
+
+Incomplete Multi-view Clustering via Local Reasoning and Correlation Analysis（通过局部推理和相关性分析的不完备多视图聚类）  
+
+Large Language Model driven Policy Exploration for Recommender Systems（用于推荐系统的大型语言模型驱动策略探索）  
+
+The Initial Screening Order Problem（初始筛选顺序问题）  
+
+Cross-Domain Pre-training with Language Models for Transferable Time Series Representations（利用语言模型进行跨域预训练以获得可迁移时间序列表示）  
+
+Empowering Time Series Classification with Multimodal Language Modeling（利用多模态语言建模增强时间序列分类）  
+
+Unsupervised Robust Cross-Lingual Entity Alignment via Neighbor Triple Matching with Entity and Relation Texts（通过实体和关系文本的邻域三元组匹配进行无监督鲁棒跨语言实体对齐）  
+
+MedTransTab: Advancing Medical Cross-Table Tabular Data Generation（MedTransTab：推进医学跨表表格数据生成）  
+
+Q-DISCO: Query-Centric Densest Subgraphs in Networks with Opinion Information（Q-DISCO：带有意见信息的网络中以查询为中心的最密子图）  
+
+Gradient Deconfliction via Orthogonal Projections onto Subspaces For Multi-task Learning（通过子空间正交投影进行多任务学习的梯度去冲突）  
+
+Self-supervised Time-aware Heterogeneous Hypergraph Learning for Dynamic Graph-level Classification（用于动态图级别分类的自监督时间感知异构超图学习）  
+
+Combating Heterogeneous Model Biases in Recommendations via Boosting（通过提升来对抗推荐中的异构模型偏差）  
+
+Robustness Verification of Deep Graph Neural Networks Tightened by Linear Approximation（通过线性逼近强化的深度图神经网络鲁棒性验证）  
+
+Teach Me How to Denoise: a Universal Framework for Denoising Multi-modal Recommender Systems via Guided Calibration（教我如何去噪：一个通过引导校准对多模态推荐系统去噪的通用框架）  
+
+Dynamic Interaction-Driven Intent Evolver with Semantic Probability Distributions（具有语义概率分布的动态交互驱动意图演化器）  
+
+DDualSE: Decoupled Dual-head Squeeze and Excitation Attention for Sequential Recommendation（DDualSE：用于序列推荐的解耦双头挤压与激励注意力机制）  
+
+Do Stubborn Users Always Cause More Polarization and Disagreement? A Mathematical Study（顽固用户总是会导致更多极化和分歧吗？一项数学研究）  
+
+HHGT: Hierarchical Heterogeneous Graph Transformer for Heterogeneous Graph Representation Learning（HHGT：用于异构图表示学习的层次异构图变换器）  
+
+A Sublinear Algorithm for Approximate Shortest Paths in Large Networks（大型网络中近似最短路径的次线性算法）  
+
+Privacy-Preserving Orthogonal Aggregation for Guaranteeing Gender Fairness in Federated Recommendation（联邦推荐中保障性别公平的隐私保护正交聚合）  
+
+Writing Style Matters: An Examination of Bias and Fairness in Information Retrieval Systems（写作风格很重要：信息检索系统中偏差与公平性的考察）  
+
+CIMAGE: Exploiting the Conditional Independence in Masked Graph Auto-encoders（CIMAGE：利用掩码图自动编码器中的条件独立性）  
+
+RSM: Reinforced Subgraph Matching Framework with Fine-grained Operation based Search Plan（RSM：基于细粒度操作搜索计划的强化子图匹配框架）  
+
+BAKER: Bayesian Kernel Uncertainty in Domain-Specific Document Modelling（BAKER：特定领域文档建模中的贝叶斯核不确定性）  
+
+Edge Classification on Graphs: New Directions in Topological Imbalance（图上的边分类：拓扑不平衡的新方向）  
+
+Bridging Source and Target Domains via Link Prediction for Unsupervised Domain Adaptation on Graphs（通过链路预测连接源域和目标域以实现图上的无监督域适应）  
+
+Hawkes Point Process-Enhanced Dynamic Graph Neural Networks（霍克斯点过程增强的动态图神经网络）  
+
+Optimizing Blockchain Analysis: Tackling Temporality and Scalability with an Incremental Approach with Metropolis-Hastings Random Walks（优化区块链分析：通过基于 metropolis - hastings 随机游走的增量方法处理时间性和可扩展性）  
+
+SCONE: A Novel Stochastic Sampling to Generate Contrastive Views and Hard Negative Samples for Recommendation（SCONE：一种用于生成推荐对比视图和硬负样本的新型随机采样方法）  
+
+Towards Personalized Federated Multi-Scenario Multi-Task Recommendation（迈向个性化联邦多场景多任务推荐）  
+
+Revisiting Fake News Detection: Towards Temporality-aware Evaluation by Leveraging Engagement Earliness（重新审视假新闻检测：通过利用早期参与实现时间感知评估）  
+
+Graph Disentangle Causal Model: Enhancing Causal Inference in Networked Observational Data（图解耦因果模型：增强网络观测数据中的因果推理）  
+
+ESA: Example Sieve Approach for Multi-Positive and Unlabeled Learning（ESA：用于多正例和无标签学习的示例筛选方法）  
+
+Context Embeddings for Efficient Answer Generation in RAG（用于检索增强生成中高效答案生成的上下文嵌入）  
+
+An aspect performance-aware hypergraph neural network for review-based recommendation（一种用于基于评论推荐的方面性能感知超图神经网络）  
+
+Balancing Revenue and Privacy with Signaling Schemes in Online Ad Auctions（通过在线广告拍卖中的信号机制平衡收益和隐私）  
+
+A Contrastive Framework with User, Item and Review Alignment for Recommendation（一种具有用户、项目和评论对齐的推荐对比框架）  
+
+Sequential diversification with provable guarantees（具有可证明保证的序列多样化）  
+
+DeMBR: Denoising Model with Memory Pruning and Semantic Guidance for Multi-Behavior Recommendation（DeMBR：用于多行为推荐的具有记忆修剪和语义引导的去噪模型）  
+
+Progressive Tasks Guided Multi-Source Network for Customer Lifetime Value Prediction in Online Advertising（用于在线广告中客户终身价值预测的渐进任务引导多源网络）  
+
+Mining Topics towards ChatGPT using Disentangled Contextualized-neural Topic Model（利用解耦的上下文神经主题模型挖掘面向ChatGPT的主题）  
+
+Exploration and Exploitation of Hard Negative Samples for Cross-Domain Sequential Recommendation（跨域序列推荐中硬负样本的探索与利用）  
+
+Simple Graph Neural Networks for Recommendation（用于推荐的简单图神经网络）  
+
+Enhancing Code Search Intent with Programming Context Exploration（通过编程上下文探索增强代码搜索意图）  
+
+Neo-TKGC: Enhancing Temporal Knowledge Graph Completion with Integrated Node Weights and Future Information（Neo-TKGC：通过集成节点权重和未来信息增强时态知识图补全）  
+
+AMLCDR: An Adaptive Meta-Learning Model for Cross-Domain Recommendation by Aligning Preference Distributions（AMLCDR：一种通过对齐偏好分布进行跨域推荐的自适应元学习模型）  
+
+HACD: Harnessing Attribute Semantics and Mesoscopic Structure for Community Detection（HACD：利用属性语义和介观结构进行社区检测）  
+
+GAMED: Knowledge Adaptive Multi-Experts Decoupling for Multimodal Fake News Detection（GAMED：用于多模态假新闻检测的知识自适应多专家解耦）  
+
+Oracle-guided Dynamic User Preference Modeling for Sequential Recommendation（用于序列推荐的基于神谕引导的动态用户偏好建模）  
+
+IMPO: Interpretable Memory-based Prototypical Pooling（IMPO：可解释的基于记忆的原型池化）  
+
+Improving Scientific Document Retrieval with Concept Coverage-based Query Set Generation（通过基于概念覆盖的查询集生成改进科学文献检索）  
+
+Personalised Outfit Recommendation via History-aware Transformers（通过历史感知变换器进行个性化服装推荐）  
+
+LLM Simulator for Online Billion-Scale Item Cold-Start Recommendation（用于在线十亿规模项目冷启动推荐的大型语言模型模拟器）  
+
+DTPN: A Diffusion-based Traffic Purification Network for Tor Website Fingerprinting（DTPN：一种用于Tor网站指纹识别的基于扩散的流量净化网络）  
+
+Density-aware and Cluster-based Federated Anomaly Detection on Data Streams（数据流上基于密度感知和聚类的联邦异常检测）  
+
+Predicting Eviction Status Using Airbnb Data in the Absence of Ground-Truth Eviction Records（在缺乏真实驱逐记录的情况下利用爱彼迎数据预测驱逐状态）  
+
+Training MLPs on Graphs without Supervision（无监督地在图上训练多层感知机）  
+
+Explainable CTR prediction via LLM reasoning（通过大型语言模型推理进行可解释的点击率预测）  
+
+Facet-Aware Multi-Head Mixture-of-Experts Model for Sequential Recommendation（用于序列推荐的方面感知多头混合专家模型）  
+
+Adaptive Graph Enhancement for Imbalanced Multi-relation Graph Learning（用于不平衡多关系图学习的自适应图增强）  
+
+Temporal Linear Item-Item Model for Sequential Recommendation（用于序列推荐的时间线性项目 - 项目模型）  
+
+DimeRec: A Unified Framework for Enhanced Sequential Recommendation via Generative Diffusion Models（DimeRec：一种通过生成扩散模型增强序列推荐的统一框架）  
+
+An Edge-Based Decomposition Framework for Temporal Networks（用于时间网络的基于边的分解框架）  
+
+Fusion Matters: Learning Fusion in Deep Click-through Rate Prediction Models（融合很重要：深度学习点击率预测模型中的融合学习）  
+
+VARIUM: Variational Autoencoder for Multi-Interest Representation with Inter-User Memory（VARIUM：具有用户间记忆的多兴趣表示变分自编码器）  
+
+Graph Size-imbalanced Learning with Energy-guided Structural Smoothing（具有能量引导结构平滑的图尺寸不平衡学习）  
+
+Polaris: Sampling from the Multigraph Configuration Model with Prescribed Color Assortativity（Polaris：从具有规定颜色同配性的多重图配置模型中采样）  
+
+Spectrum-based Modality Representation Fusion Graph Convolutional Network for Multi-modal Recommendation（用于多模态推荐的基于频谱的模态表示融合图卷积网络）  
+
+Towards Reliable Latent Knowledge Estimation in LLMs: Zero-Prompt Many-Shot Based Factual Knowledge Extraction（迈向大型语言模型中可靠的潜在知识估计：基于零提示多示例的事实知识提取）  
+
+Improving FIM Code Completions via Context & Curriculum Based Learning（通过基于上下文和课程的学习改进函数式接口管理代码补全）  
+
+Sequentially Diversified and Accurate Recommendations in Chronological Order for a Series of Users（针对一系列用户按时间顺序进行顺序多样化且准确的推荐）  
+
+Adjacent Neighborhood Transformer-based Diffusion Model for Anomaly Detection under Incomplete Industrial Data Sources（基于邻域变换器的不完全工业数据源下异常检测扩散模型）  
+
+Untapping the Power of Indirect Relationships in Entity Summarization（挖掘实体摘要中间接关系的力量）  
+
+Improving CTR Prediction with Graph-Enhanced Interest Networks for Sparse Behavior Sequences（通过图增强兴趣网络改进稀疏行为序列的点击率预测）  
+
+Heterophilic Graph Neural Networks Optimization with Causal Message-passing（通过因果消息传递优化异质图神经网络）  
+
+HaGAR: Hardness-aware Generative Adversarial Recommender（HaGAR：硬度感知生成对抗推荐器）  
+
+UIPN: User Intent Profiling Network for Multi Behavior Modeling in CTR Prediction（UIPN：用于点击率预测中多行为建模的用户意图剖析网络）  
+
+MoKGNN: Boosting Graph Neural Networks via Mixture of Generic and Task-Specific Language Models（MoKGNN：通过通用和特定任务语言模型的混合提升图神经网络）  
+
+DLCRec: A Novel Approach for Managing Diversity in LLM-Based Recommender Systems（DLCRec：一种用于管理基于大型语言模型推荐系统多样性的新方法）  
+
+Reindex-Then-Adapt: Improving Large Language Models for Conversational Recommendation（重新索引然后适应：改进用于对话推荐的大型语言模型）  
+
+Adaptive Loss-based Curricula for Neural Team Recommendation（用于神经团队推荐的基于自适应损失的课程）  
+
+Demystify Epidemic Containment in Directed Networks: Theory and Algorithms（揭开有向网络中疫情遏制的神秘面纱：理论与算法）  
+
+Does Memorization Affect LLMs’ Social Reasoning? An Evaluation on Seen and Unseen Queries（记忆是否影响大型语言模型的社会推理？对已见和未见查询的评估）  
+
+Beyond Answers: Transferring Reasoning Capabilities to Smaller LLMs Using Multi-Teacher Knowledge Distillation（超越答案：利用多教师知识蒸馏将推理能力转移到较小的大型语言模型）  
+
+Inductive Graph Few-shot Class Incremental Learning（归纳图小样本类别增量学习）  
+
+How Do Recommendation Models Amplify Popularity Bias? An Analysis from the Spectral Perspective（推荐模型如何放大流行度偏差？从频谱角度的分析）  
+
+Lighter And Better: Flexible Context Adaptation For Retrieval Augmented Generation（更轻更好：用于检索增强生成的灵活上下文适应）  
+
+RetriEVAL: Evaluating Text Generation with Contextualized Lexical Match（RetriEVAL：通过上下文词汇匹配评估文本生成）  
+
+Effective Learning in the Presence of Unstructured Interactions（存在非结构化交互时的有效学习）  
+
+Generating Diverse Criteria On-the-Fly to Improve Point-wise LLM Rankers（即时生成多样化标准以改进逐点大型语言模型排名器）  
+
+Quam: Adaptive Retrieval through Query Affinity Modelling（Quam：通过查询亲和性建模进行自适应检索）  
+
+ProCC: Programmatic Reinforcement Learning for Efficient and Transparent TCP Congestion Control（ProCC：用于高效透明TCP拥塞控制的程序化强化学习）  
+
+UniGLM: Training One Unified Language Model for Text-Attributed Graphs Embedding（UniGLM：训练一个用于文本属性图嵌入的统一语言模型）  
+
+Your causal self-attentive recommender hosts a lonely neighborhood（你的因果自注意力推荐器存在孤立邻域）  
+
+HTEA: Heterogeneity-aware Temporal Entity Alignment（HTEA：异构感知时间实体对齐）  
+
+D2^22: Customizing Two-Stage Graph Neural Networks for Early Rumor Detection through Cascade Diffusion Prediction（D²：通过级联扩散预测定制用于早期谣言检测的两阶段图神经网络）  
+
+Heterogeneous Graph Diffusion Model（异构图扩散模型）  
+
+Heterogeneous Disentangled Collaborative Filtering（异构解耦协同过滤）
+
+参考：
+
+1. https://developer.volcengine.com/articles/7478160196553211930
+2. https://zhuanlan.zhihu.com/p/30388982505
+
+
+
+
+
+
+关注博主即可阅读全文
+![]()
+
+![]()
+确定要放弃本次机会？
+
+福利倒计时
+
+*:*
+
+*:*
+
+
+![]()
+立减 ¥
+
+
+普通VIP年卡可用
+
+[立即使用](https://mall.csdn.net/vip)
+
+
+[![]()
+卢之](https://blog.csdn.net/qq_28343747)
+
+[关注](javascript:;)
+关注
+
+
+* ![]()
+  ![]()
+  ![]()
+  42
+  点赞
+* ![]()
+  ![]()
+  踩
+* [![]()
+  ![]()
+  ![]()
+  59](javascript:;)
+  收藏
+  
+  
+  
+  觉得还不错?
+  一键收藏
+  
+  ![]()
+* ![]()
+  知道了
+  
+  [![]()
+  1](#commentBox)
+  评论
+* [![]()
+  分享](javascript:;)
+  复制链接
+  
+  分享到 QQ
+  
+  分享到新浪微博
+  
+  ![]()扫一扫
+* ![]()
+  ![]()
+  举报
+  
+  ![]()
+  举报
+
+专栏目录
+
+
+
+
+![]()
+
+[*2025*软考系统架构设计师考试*论文*考点冲刺*论文*考点规律总结](https://blog.csdn.net/liuning940307/article/details/147897516)
+
+[随风浪仔的专栏](https://blog.csdn.net/liuning940307)
+
+05-12
+![]()
+701
+
+
+
+
+[*2025*年软考系统架构师*论文*考点侧重分析，*2025*年软考系统架构设计师备考建议，系统架构设计师历年*论文*考点分析，历年考点总结，考试规律总结，考点规律总结，历年考点规律总结](https://blog.csdn.net/liuning940307/article/details/147897516)
+
+
+
+
+
+1 条评论
+您还未登录，请先
+登录
+后发表或查看评论
+
+
+[系统架构师*2025*年*论文*《论软件架构评估》
+热门推荐](https://jianshen.blog.csdn.net/article/details/147515264)
+
+
+04-25
+![]()
+5万+
+
+
+
+
+[软件架构评估是软件开发过程中一个至关重要的环节，它能够帮助我们提前识别系统设计中的潜在问题，做出合理的架构决策，从而提高项目开发的成功率和质量。性能：指系统响应能力，即系统对某个事件做出响应所需的时间，或在某段时间内能处理事件的个数。可用性：指系统能正常运行的时间比例。安全性：指系统在提供合法服务的同时，能够阻止非授权用户使用或拒绝服务的能力。可修改性：指能够快速且以较高性价比对系统进行变更的能力。可靠性：指软件系统在应用或错误面前、在意外或错误使用情况下维持系统功能特性的能力。易用性。](https://jianshen.blog.csdn.net/article/details/147515264)
+
+
+
+[*推荐系统**论文*](https://download.csdn.net/download/niuooniuoo/10221292)
+
+01-24
+
+
+
+[使用深度学习网络进行个性化*推荐*，网易考拉*推荐*。使用FNN和RNN](https://download.csdn.net/download/niuooniuoo/10221292)
+
+
+
+
+[16篇最新*推荐系统**论文*送你（文末附打包下载链接）](https://blog.csdn.net/m0_37586850/article/details/104765622)
+
+[m0\_37586850的博客](https://blog.csdn.net/m0_37586850)
+
+03-09
+![]()
+1087
+
+
+
+
+[ASurvey onKnowledge Graph-Based Recommender Systems链接：https://arxiv.org/pdf/2003.00911简介：该...](https://blog.csdn.net/m0_37586850/article/details/104765622)
+
+
+
+[*推荐系统**论文*集合](https://download.csdn.net/download/dreamfantacy/10964394)
+
+02-19
+
+
+
+[包含了系统过滤、GBDT、xgboost、GBDT+LR、FM、FFM、deepFM、wide&deep;、deep&cross;等多篇*论文*。](https://download.csdn.net/download/dreamfantacy/10964394)
+
+
+
+[KDD 2021 | *推荐系统**论文*集锦[持续更新]](https://kaiyuan.blog.csdn.net/article/details/121369298)
+
+[Kaiyuan\_sjtu的博客](https://blog.csdn.net/Kaiyuan_sjtu)
+
+11-16
+![]()
+4608
+
+
+
+
+[作者|‍GuoXun整理|NewBeeNLP‍KDD2021 放榜，其中research track共收到了1541篇投稿，接收了238篇长文，Applied Data Sci...](https://kaiyuan.blog.csdn.net/article/details/121369298)
+
+
+
+[2024 *推荐系统**论文**汇总*](https://blog.csdn.net/qq_28343747/article/details/135451844)
+
+[卢之](https://blog.csdn.net/qq_28343747)
+
+01-08
+![]()
+1万+
+
+
+
+
+[对2024年的 *推荐系统**论文*进行一波收集，给各位初学者和*算法*大佬作为灵感来源，后续专栏会继续更新*论文*解读，根据评论不断补充，欢迎大家三连~](https://blog.csdn.net/qq_28343747/article/details/135451844)
+
+
+
+[*2025*毕设springboot 基于协同过滤*算法*的电影*推荐系统**论文*+源码](https://blog.csdn.net/qha138/article/details/145641725)
+
+[罗曼计算机毕设程序](https://blog.csdn.net/qha138)
+
+02-14
+![]()
+865
+
+
+
+
+[随着互联网的飞速发展，信息过载问题日益突出，特别是在电影娱乐领域，用户面对海量的电影资源往往难以快速找到符合自身兴趣的内容。当前，关于*推荐系统*的研究主要集中在深度学习、混合*推荐**算法*等方面，而专门针对协同过滤*算法*在电影*推荐*领域的研究相对较少，尤其是在结合用户行为数据、电影内容特征进行精细化*推荐*方面仍有较大探索空间。因此，本选题将以基于协同过滤*算法*的电影*推荐系统*为研究情景，重点分析和研究如何通过优化*算法*提高*推荐*精准度，探寻用户兴趣与电影特征之间的有效匹配机制，提出改进策略，为后续更加深入的研究提供基础。](https://blog.csdn.net/qha138/article/details/145641725)
+
+
+
+[Recsys2018 总结 （*推荐系统*最新技术、应用和方向）32篇*论文*解读](https://download.csdn.net/download/lixiaowang_327/10958903)
+
+02-15
+
+
+
+[对10月2-7号在加拿大渥太华举办的 Recsys 的32篇*论文*做了整理和归纳，总结出了目前*推荐系统*最新技术应用和方向。并对每一篇文章做了粗略的讲解。](https://download.csdn.net/download/lixiaowang_327/10958903)
+
+
+
+[系统架构设计师*论文**汇总*](https://download.csdn.net/download/zql_cckj/13107934)
+
+11-12
+
+
+
+[系统架构设计师*论文**汇总*是一份非常宝贵的资源，包含了38篇专为系统架构设计师准备的*论文*。这些*论文*不仅适合备考人员作为复习资料，还能够提供关于系统设计思路和方法的深入理解。通过对这些*论文*的研读，我们可以提炼...](https://download.csdn.net/download/zql_cckj/13107934)
+
+
+
+[*2025* | 时间序列232篇顶会*论文**汇总*（附原文源码）！](https://blog.csdn.net/2501_91070801/article/details/149776648)
+
+[2501\_91070801的博客](https://blog.csdn.net/2501_91070801)
+
+07-30
+![]()
+2269
+
+
+
+
+[最近我花时间梳理了*2025*时间序列领域各大顶会*论文*，共整理232篇，原文等资源可获取。](https://blog.csdn.net/2501_91070801/article/details/149776648)
+
+
+
+[*推荐系统**论文*集锦](https://blog.csdn.net/abcdefg90876/article/details/106740656)
+
+[abcdefg90876的博客](https://blog.csdn.net/abcdefg90876)
+
+06-13
+![]()
+3274
+
+
+
+
+[【导读】本文整理了一系列*推荐系统*相关的*论文*Github链接：https://github.com/mengfeizhang820/Paperlist-for-Recommender-Sy...](https://blog.csdn.net/abcdefg90876/article/details/106740656)
+
+
+
+[*论文*｜组*推荐系统*及其应用研究](https://thinkgamer.blog.csdn.net/article/details/105422634)
+
+[Thinkgamer博客](https://blog.csdn.net/Gamer_gyt)
+
+04-13
+![]()
+1444
+
+
+
+
+[这篇文章主要是普及一下群组*推荐系统*，众所周知，*推荐系统*已经应用十分广泛，群组*推荐*的应用不仅老用户上发挥了极大的作用，在新用户的冷启动上也发挥了很大的作用。
+由于后续会有一篇文章介绍结合深度学习的群组*推荐*，所以这里先借用该篇*论文*，借花献佛，介绍一下群组*推荐系统*和其应用。
+本文中所涉及的内容算是比较老了，但在不同公司或者*推荐系统*的不同阶段仍然有应用，其中群组*推荐*的思想更是经久不衰，所以本文比较适合以“...](https://thinkgamer.blog.csdn.net/article/details/105422634)
+
+
+
+[*推荐系统*经典*论文*](https://blog.csdn.net/Allenalex/article/details/79491483)
+
+[但行好事，莫问前程](https://blog.csdn.net/Allenalex)
+
+03-08
+![]()
+1万+
+
+
+
+
+[下面提供的*论文*，可以说基本都是经典中的经典。读完这些*论文*，相信对*推荐系统*的认识肯定会有质的飞越：（不够再找我。O(∩\_∩)O~）
+综述类:
+1、Towards the
+Next Generation of Recommender Systems: A Survey of the State-of-the-Art and
+Possible Extensions。最经典的*推荐**算法*综述
+2、C...](https://blog.csdn.net/Allenalex/article/details/79491483)
+
+
+
+[*推荐系统**论文*总结](https://blog.csdn.net/qq_17116557/article/details/51149149)
+
+[qq\_17116557的博客](https://blog.csdn.net/qq_17116557)
+
+04-14
+![]()
+1378
+
+
+
+
+[一种融合PageRank的协同过滤帖子*推荐*方法融合用户评论行为的PageRank*算法*来判断一个用户的重要性，然后将PageRank得分高的用户作为聚类中心计进行K-means聚类。然后通过协同过滤*算法*计算相似度，并结合用户的PageRank得分，选择与用户相关比较高的帖子作为*推荐*结果](https://blog.csdn.net/qq_17116557/article/details/51149149)
+
+
+
+[*推荐系统*--*论文*](https://blog.csdn.net/coder_oyang/article/details/95632829)
+
+[coder\_oyang的博客](https://blog.csdn.net/coder_oyang)
+
+07-12
+![]()
+444
+
+
+
+
+[1. Deep Neural Networks for YouTube Recommendations 对应中文解读 重读Youtube深度学习*推荐系统**论文*，字字珠玑，惊为神文
+2. https://github.com/wzhe06/Reco-papers *推荐系统**论文*列表
+...](https://blog.csdn.net/coder_oyang/article/details/95632829)
+
+
+
+[*推荐系统**论文*：A Model-based Multi-Agent Personalized Short-Video Recommender System](https://blog.csdn.net/s123iij/article/details/140799583)
+
+[s123iij的博客](https://blog.csdn.net/s123iij)
+
+08-01
+![]()
+965
+
+
+
+
+[本篇*论文*主要用于缓解*推荐*过程中的样本选择偏差（SSB）。](https://blog.csdn.net/s123iij/article/details/140799583)
+
+
+
+[cvpr*2025**论文**汇总*
+最新发布](https://wenku.csdn.net/answer/u492zefjgh)
+
+02-07
+
+
+
+[## 1. CVPR *2025**论文*发布节奏与真实时间线
+CVPR不是按年份“提前命名”的展会，而是严格遵循学术会议生命周期的实体活动。我从2017年开始跟踪CVPR投稿流程，每年都会在11月第一周守着CVF官网刷新投稿系统，也经历过凌晨三点被邮件惊醒查收rebuttal通知的时刻。所以我很清楚：所谓“CVPR *2025*”，指的就是*2025*年6月在美国西雅图（或类似主办城市）举办的那场实体会议，它的*论文*生命线完全由三个硬性节点决定——投稿截止、审稿周期、录用通知。目前是2024年中，我们连投稿入口都还没看到，更别说*论文*列表了。
+具体来说，CVPR的节奏非常稳定。以最近三年为例：CVPR 2022投稿截止是2021年11月18日，录用通知发在2022年3月2日；CVPR 2023是2022年11月17日截止，2023年3月3日发结果；CVPR 2024则是2023年11月16日截止，2024年3月1日公布。这个时间窗口几乎没变过——\*\*投稿永远卡在11月中旬，结果永远压在次年3月初\*\*。照此推算，CVPR *2025*的投稿系统大概率会在2024年11月15日前后开放，截止日落在11月21日那一周，而录用邮件和*论文*列表最早也要等到*2025*年3月第一个周五才会批量释放。现在任何标着“CVPR *2025**论文**汇总*”的页面，要么是占位符页面，要么是自媒体凑热度的标题党。
+我试过用site:edu语法搜过哈佛、斯坦福、MIT的CS系公开课程页，确实能找到教授们提前整理的“CVPR *2025* reading list”，但点进去全是空文件夹，或者只有一行字：“待*2025*年3月更新”。去年还有个学生认真扒了康奈尔大学arXiv镜像站的目录结构，发现他们连*2025*年的年份子目录都没建好。这说明连顶尖高校的技术团队都在等官方信号。你如果现在搜到某个PDF文档号称是“CVPR *2025* accepted papers”，基本可以判定是把2024年的*论文*集改了个标题，或者把某篇arXiv预印本强行冠名——我亲自比对过三份这类文档，元数据里CreationDate字段全写着2023年。
+> 提示：CVF官网的*论文*库有明确版本标识。打开cvpr.thecvf.com/contents/CVPR2024，URL末尾的“2024”是动态生成的，服务器会根据当前年份自动跳转。但如果你手动把URL改成*2025*，页面会直接返回404，而不是显示空白列表。这是最硬的证据——系统底层根本没为*2025*预留数据表。
+## 2. 官方渠道与可信信息源的操作指南
+很多人以为Google搜索加个site:org就能挖到宝藏，其实CVPR的信息分发是有明确“水位线”的。第一层是CVF官网，它就像水库大坝，所有正式内容必须经它泄洪；第二层是arXiv，属于自然涌出的地下水，作者自发上传但未经官方认证；第三层才是高校实验室主页、个人博客这些支流。我建议你把精力集中在前两层，其他渠道只作补充验证。
+CVF官网的操作要领很实在：不要只记首页地址，得收藏几个关键路径。比如*论文*检索页是https://openaccess.thecvf.com/CVPR2024，把年份换成*2025*当然打不开，但你可以先收藏这个模板，等3月一到立刻修改URL。更聪明的做法是订阅CVF的RSS feed——在官网底部找“Mailing Lists”，勾选“CVPR Announcements”，这样录用名单发布的第一时间，你的邮箱就会收到带完整DOI链接的纯文本通知。我用这招抢过三次早期访问权限，比刷网页快整整17分钟。
+arXiv这块需要一点技巧。直接搜“CVPR *2025*”肯定扑空，但作者们早就在埋伏笔。我观察到一个规律：从每年9月开始，arXiv上会出现一批标题含“for CVPR *2025* submission”的预印本，作者会在摘要里写明“submitted to CVPR *2025*”。这时候你该用的搜索语法是：`abs:"CVPR *2025*" AND submitted`，限定在摘要字段。实测下来，2023年9月起这个关键词组合每周能筛出20-30篇，到11月投稿期高峰时单日可达上百篇。这些不是最终录用*论文*，但技术方向和实验设计已经非常接近终稿，对我们做技术预研特别有用。
+下面这个Python脚本是我日常用的监控工具，它会每小时抓取arXiv CV板块最新提交，并过滤出含CVPR年份关键词的条目：
+```python
+import feedparser
+import time
+from datetime import datetime
+def monitor\_arxiv\_cv():
+url = "http://export.arxiv.org/rss/cs.CV"
+while True:
+try:
+feed = feedparser.parse(url)
+for entry in feed.entries[:10]: # 只看最新10条
+title = entry.title.lower()
+summary = entry.summary.lower()
+if "cvpr *2025*" in title or "cvpr *2025*" in summary:
+print(f"[{datetime.now().strftime('%H:%M')}] "
+f"新预印本：{entry.title[:50]}...")
+print(f" 链接：{entry.link}")
+time.sleep(3600) # 每小时轮询一次
+except Exception as e:
+print(f"抓取异常：{e}")
+time.sleep(600)
+# 运行监控（需配合arXiv RSS服务）
+# monitor\_arxiv\_cv()
+```
+运行这个脚本时，你会发现很多*论文*连作者单位都写着“Anonymous Submission”，这是双盲审稿的标志——说明它已经进入CVPR流程，只是还没走完。这种信息比道听途说的“内部消息”靠谱得多。
+## 3. 高校资源与学术社区的实用价值挖掘
+教育机构网站确实藏着不少干货，但不是靠site:edu暴力搜索能挖出来的。我跑过MIT CSAIL的公开项目页，发现他们有个叫“Vision Reading Group”的内部资料库，每周五更新，里面会把当周arXiv上值得关注的CV*论文*打上标签，其中就包括标注“CVPR-bound”的条目。这类资源通常不会出现在搜索引擎索引里，得顺着实验室主页的“Resources”或“Teaching”栏目一层层点进去。
+更实在的是GitHub。很多CVPR作者习惯把代码同步开源，而他们的README.md里往往会写明投稿去向。比如搜索`"CVPR *2025*" repo:github.com language:markdown`，能直接定位到作者自己声明的投稿信息。我上周就找到一个清华团队的仓库，他们在readme里写了“Submitted to CVPR *2025*, under review”，还附了匿名评审编号。这种一手信息虽然不能当正式录用依据，但至少说明技术方案已经通过初步筛选。
+学术社区方面，Reddit的r/computervision版块比想象中靠谱。那里有个不成文规矩：作者如果*论文*被CVPR接收，会在结果公布后24小时内发帖庆祝，并附上*论文*链接和代码仓库。我设了个关键词提醒，只要有人发帖带“CVPR *2025* accepted”，立刻就能跟进。去年有个UC Berkeley的学生发帖分享rebuttal回复经验，详细列出了审稿人提出的7个问题和他们的逐条回应策略，这种实战细节比任何教程都管用。
+表格对比一下不同渠道的信息可靠性与时效性：
+| 渠道类型 | 信息可靠性 | 平均延迟 | 获取难度 | 典型内容 |
+|----------------|------------|----------|----------|------------------------------|
+| CVF官网 | ★★★★★ | 0天 | 低 | 正式录用列表、DOI、PDF全文 |
+| arXiv预印本 | ★★★★☆ | 0天 | 中 | 投稿版本、实验细节、代码链接 |
+| 高校实验室页 | ★★★☆☆ | 1-3天 | 高 | 阅读清单、组内讨论笔记 |
+| GitHub仓库 | ★★★★☆ | 0天 | 中 | 开源代码、训练日志、消融实验 |
+| Reddit社区帖 | ★★☆☆☆ | 1天 | 低 | 作者自述、审稿故事、经验总结 |
+注意最后一栏的“典型内容”——高校页的价值不在*论文*本身，而在他们怎么教学生读*论文*。比如CMU的计算机视觉课作业，会要求学生对比同一任务下CVPR 2023和ICCV 2023的三篇*论文*，分析方法论差异。这种教学设计比单纯罗列*论文*更有启发性。
+## 4. 常见误区与风险规避实操经验
+最常踩的坑是把arXiv上的“under review”当成录用保证。我去年就吃过亏：看到一篇标题很炫的3D重建*论文*，摘要里写着“submitted to CVPR 2024”，赶紧下载研究，结果3月结果公布时它根本不在列表里。后来发现作者在rebuttal阶段被拒了，但arXiv版本一直没更新状态。这种“僵尸预印本”在arXiv上存量很大，光靠标题判断风险极高。
+另一个隐形陷阱是会议Workshop*论文*混入主会列表。CVPR每年有二十多个workshop，它们有自己的投稿通道和录用标准，但有些第三方网站会把workshop*论文*和主会*论文*混在一起统计。比如2023年有个叫“3D Vision for Autonomous Driving”的workshop，录用的*论文*质量不差，但和主会的审稿严格度完全不在一个量级。我教新手分辨的方法很简单：打开CVF官网*论文*页，主会*论文*URL里一定包含`/CVPR2024/`，而workshop*论文*URL是`/CVPR2024\_workshops/`。多敲一个下划线，就是两个世界。
+还有人迷信“高引*论文*预测”。比如看到某篇2023年的*论文*在Google Scholar被引超200次，就断定它必上CVPR *2025*。这逻辑有问题——引用热度反映的是传播广度，而CVPR看重的是方法创新性和实验严谨性。我统计过CVPR 2023主会*论文*，被引量排前10的*论文*里，有3篇根本没进主会，只是因为作者宣传做得好。
+最后提醒一个技术细节：CVF官网的PDF下载链接有时效性。去年有次服务器升级，所有2022年*论文*的旧链接全部失效，必须通过新生成的DOI重定向。所以别存死链接，要用`https://doi.org/10.1109/CVPR52729.2023.xxxxx`这种永久标识符。我在本地建了个Markdown笔记，每篇重点*论文*都存DOI+一句话核心贡献，这样哪怕官网改版，也能秒速定位。
+我在实际项目中发现，与其焦虑“现在看不到*2025**论文*”，不如把2024年的录用列表当练兵场。下载100篇CVPR 2024*论文*，用脚本批量提取方法章节的关键词，再统计高频术语分布——你会发现扩散模型、世界模型、具身智能这些词出现频次比2023年翻了三倍。这种趋势分析比追逐虚无缥缈的“*2025**汇总*”实在得多。](https://wenku.csdn.net/answer/u492zefjgh)
+
+
+
+
+
+
+[![]()](https://blog.csdn.net/qq_28343747)
+
+[卢之](https://blog.csdn.net/qq_28343747)
+
+
+博客等级
+
+![]()
+
+码龄11年
+
+
+
+[65
+原创](https://blog.csdn.net/qq_28343747)
+
+172
+点赞
+
+402
+收藏
+
+3444
+粉丝
+
+
+关注
+
+[私信](https://im.csdn.net/chat/qq_28343747)
+
+
+
+[![]()](https://ai.csdn.net/workbench/wallet?utm_source=xtai_slb_bloglb)
+
+![]()
+
+
+### 热门文章
+
+* [2024 推荐系统论文汇总
+  ![]()
+  18477](https://blog.csdn.net/qq_28343747/article/details/135451844)
+* [2023 推荐系统论文整理
+  ![]()
+  10576](https://blog.csdn.net/qq_28343747/article/details/130156701)
+* [2025 推荐系统论文汇总
+  ![]()
+  8948](https://blog.csdn.net/qq_28343747/article/details/144561532)
+* [pytorch问题记录(1)
+  ![]()
+  5632](https://blog.csdn.net/qq_28343747/article/details/82729164)
+* [NameError: name ‘tf‘ is not defined
+  ![]()
+  3460](https://blog.csdn.net/qq_28343747/article/details/129849374)
+
+
+### 分类专栏
+
+* [![]()
+  推荐系统](https://blog.csdn.net/qq_28343747/category_12204408.html)
+  26篇
+* [![]()
+  tensorflow](https://blog.csdn.net/qq_28343747/category_12204350.html)
+  4篇
+* [![]()
+  量化交易](https://blog.csdn.net/qq_28343747/category_12204352.html)
+  12篇
+* [![]()
+  工具类](https://blog.csdn.net/qq_28343747/category_12204432.html)
+* [![]()
+  杂文](https://blog.csdn.net/qq_28343747/category_12204412.html)
+* [![]()
+  归档内容](https://blog.csdn.net/qq_28343747/category_12204413.html)
+  5篇
+
+展开全部 ![]()
+收起 ![]()
+
+
+上一篇：
+
+[tensorflow 异步训练及其优化](https://blog.csdn.net/qq_28343747/article/details/137333512)
+
+
+
+### 大家在看
+
+* [PHP开发中不足的日志记录问题详解及解决方案](https://blog.csdn.net/jjj_web/article/details/159190556)
+* [07.postman newman生成测试报告
+  ![]()
+  12](https://blog.csdn.net/qq_49162499/article/details/159357901)
+* [Word题注丢失？7步轻松修复
+  ![]()
+  356](https://blog.csdn.net/weixin_49938552/article/details/159314189)
+* [2026年毕业论文AI工具盘点：真正能从起稿陪到交稿的，到底是哪一类？](https://blog.csdn.net/2603_95617220/article/details/159380715)
+* [【高级强化学习：算法、优化与泛化】第一章 深度强化学习的基础架构与核心算法实现
+  ![]()
+  16](https://blog.csdn.net/u012133341/article/details/159379928)
+
+
+### 最新文章
+
+* [tensorflow 异步训练及其优化](https://blog.csdn.net/qq_28343747/article/details/137333512)
+* [论文解读 DIN: Deep Interest Network for Click-Through Rate Prediction](https://blog.csdn.net/qq_28343747/article/details/137058734)
+* [MLIR 优化学习](https://blog.csdn.net/qq_28343747/article/details/137026591)
+
+
+[2024年5篇](https://blog.csdn.net/qq_28343747?type=blog&year=2024&month=12)
+[2023年22篇](https://blog.csdn.net/qq_28343747?type=blog&year=2023&month=04)
+[2021年5篇](https://blog.csdn.net/qq_28343747?type=blog&year=2021&month=05)
+[2020年28篇](https://blog.csdn.net/qq_28343747?type=blog&year=2020&month=12)
+[2018年5篇](https://blog.csdn.net/qq_28343747?type=blog&year=2018&month=09)
+
+
+
+![]()
+
+
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+
+
+![]()
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+![]()
+
+上一篇：
+
+[tensorflow 异步训练及其优化](https://blog.csdn.net/qq_28343747/article/details/137333512)
+
+
+
+### 分类专栏
+
+* [![]()
+  推荐系统](https://blog.csdn.net/qq_28343747/category_12204408.html)
+  26篇
+* [![]()
+  tensorflow](https://blog.csdn.net/qq_28343747/category_12204350.html)
+  4篇
+* [![]()
+  量化交易](https://blog.csdn.net/qq_28343747/category_12204352.html)
+  12篇
+* [![]()
+  工具类](https://blog.csdn.net/qq_28343747/category_12204432.html)
+* [![]()
+  杂文](https://blog.csdn.net/qq_28343747/category_12204412.html)
+* [![]()
+  归档内容](https://blog.csdn.net/qq_28343747/category_12204413.html)
+  5篇
+
+展开全部 ![]()
+收起 ![]()
+
+
+
+
+
+
+### 目录
+
+
+
+
+
+
+
+
+
+
+
+
+
+评论 1
+![]()
+
+![]()被折叠的  条评论
+[为什么被折叠?](https://blogdev.blog.csdn.net/article/details/122245662)
+[![]()到【灌水乐园】发言](https://bbs.csdn.net/forums/FreeZone)
+
+
+查看更多评论![]()
+
+
+
+添加红包
+
+
+祝福语
+
+
+请填写红包祝福语或标题
+
+
+红包数量
+
+个
+
+红包个数最小为10个
+
+
+红包总金额
+
+元
+
+红包金额最低5元
+
+
+余额支付
+当前余额3.43元
+[前往充值 >](https://i.csdn.net/#/wallet/balance/recharge)
+
+
+需支付：10.00元
+
+取消
+确定
+
+
+
+
+![]()
+下一步
+
+![]()
+知道了
+
+
+
+![]()
+成就一亿技术人!
+
+
+
+领取后你会自动成为博主和红包主的粉丝
+规则
+
+
+
+![]()
+hope\_wisdom 发出的红包
+
+
+
+
+
+
+
+
+
+实付元
+[使用余额支付](javascript:;)
+![]()
+点击重新获取
+
+
+![]()![]()![]()扫码支付
+
+
+
+
+钱包余额
+0
+![]()
+
+抵扣说明：
+
+1.余额是钱包充值的虚拟货币，按照1:1的比例进行支付金额的抵扣。  
+ 2.余额无法直接购买下载，可以购买VIP、付费专栏及课程。
+
+
+
+
+
+[![]()余额充值](https://i.csdn.net/#/wallet/balance/recharge)
+
+![]()
+
+
+
+
+
+
+

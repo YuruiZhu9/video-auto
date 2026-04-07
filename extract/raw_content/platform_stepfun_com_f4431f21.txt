@@ -1,0 +1,298 @@
+# Source URL: https://platform.stepfun.com/docs/guide/video_chat
+# Content Length: 10963 characters
+# Extracted at: 2026-03-14 11:51:55
+#============================================================
+
+
+视频理解开发指南[Skip to Content](#nextra-skip-nav)[![]()     开放平台···首页文档中心体验中心繁星计划阶跃星辰官网](#)`CTRL K`![]()     开放平台···首页文档中心体验中心繁星计划阶跃星辰官网`CTRL K`
+
+* 开始使用
+  + [基本介绍](/docs/zh/overview/concept)
+  + [快速开始](/docs/zh/overview/quickstart)
+  + [常见问题](/docs/zh/overview/qa)
+  + [更新通知](https://wvixbzgc0u7.feishu.cn/docx/TXWndkVzvoas81xi4NccXNfMnWh?from=message&source_type=message)
+  + [联系我们](/docs/zh/overview/qrcode)
+* 模型列表
+  + [模型能力总览](/docs/zh/llm/modeloverview)
+  + [语言大模型](/docs/zh/llm/text)
+  + [实时语音互动模型](/docs/zh/llm/realtime)
+  + [视觉理解大模型](/docs/zh/llm/vision)
+  + [推理大模型](/docs/zh/llm/reasoning)
+  + [语音大模型](/docs/zh/llm/audio)
+  + [生图改图模型](/docs/zh/llm/image)
+  + [Model Lab](/docs/zh/llm/model-lab)
+* API 文档
+  + Chat
+    - [创建Chat](/docs/zh/api-reference/chat/chat-completion-create)
+    - [Chat非流响应](/docs/zh/api-reference/chat/object)
+    - [Chat流式响应](/docs/zh/api-reference/chat/streaming)
+  + Realtime
+    - [创建 Chat](/docs/zh/api-reference/realtime/chat)
+  + Image
+    - [文生图](/docs/zh/api-reference/images/image)
+    - [图生图](/docs/zh/api-reference/images/image2image)
+    - [图片编辑](/docs/zh/api-reference/images/edits)
+  + Audio
+    - [语音合成](/docs/zh/api-reference/audio/create_audio)
+    - [音色复刻](/docs/zh/api-reference/audio/create_voice)
+    - [语音转写](/docs/zh/api-reference/audio/transcriptions)
+    - [流式语音合成](/docs/zh/api-reference/audio/ws_audio)
+    - [查询音色](/docs/zh/api-reference/audio/list_voice)
+    - [语音识别](/docs/zh/api-reference/audio/asr)
+    - [流式语音识别](/docs/zh/api-reference/audio/asr-stream)
+  + Models
+    - [获取Model列表](/docs/zh/api-reference/models/list)
+    - [查询Model对象](/docs/zh/api-reference/models/retrieve)
+    - [Model对象](/docs/zh/api-reference/models/object)
+  + Files
+    - [上传文件](/docs/zh/api-reference/files/create)
+    - [获取文件列表](/docs/zh/api-reference/files/list)
+    - [获取文件信息](/docs/zh/api-reference/files/retrieve)
+    - [获取文件内容](/docs/zh/api-reference/files/retrieve_content)
+    - [删除文件](/docs/zh/api-reference/files/delete)
+    - [文件对象](/docs/zh/api-reference/files/object)
+  + Vector Store
+    - [创建知识库](/docs/zh/api-reference/vector-stores/create)
+    - [查看知识库列表](/docs/zh/api-reference/vector-stores/list)
+    - [获取知识库详情](/docs/zh/api-reference/vector-stores/retrieve)
+    - [删除知识库](/docs/zh/api-reference/vector-stores/delete)
+    - [将文件添加到知识库](/docs/zh/api-reference/vector-stores/create_file)
+    - [查看知识库中的文件](/docs/zh/api-reference/vector-stores/list_file)
+    - [将文件从知识库中移除](/docs/zh/api-reference/vector-stores/delete_file)
+    - [知识库对象](/docs/zh/api-reference/vector-stores/object)
+    - [知识库文件对象](/docs/zh/api-reference/vector-stores/vector_store_file_object)
+  + Account
+    - [获取账户信息](/docs/zh/api-reference/accounts/get)
+  + [Toolcall](/docs/zh/api-reference/tool-call)
+  + [计算token数](/docs/zh/api-reference/token-count)
+  + [错误码](/docs/zh/api-reference/error-codes)
+  + Search
+    - [Search](/docs/zh/api-reference/Search/search)
+* 定价计费
+  + [计费介绍](/docs/zh/pricing/intro)
+  + [定价与限速](/docs/zh/pricing/details)
+* 开发指南
+  + [从 OpenAI 迁移至阶跃星辰](/docs/zh/guide/openai)
+  + [推理模型最佳实践](/docs/zh/guide/reasoning)
+  + [实时对话开发指南](/docs/zh/guide/realtime)
+  + [图片理解最佳实践](/docs/zh/guide/image_chat)
+  + [视频理解最佳实践](/docs/zh/guide/video_chat)
+  + [图片生成最佳实践](/docs/zh/guide/image_generate)
+  + [音频合成最佳实践](/docs/zh/guide/tts)
+  + [多轮对话上下文管理](/docs/zh/guide/multiple_round)
+  + [文件解析最佳实践](/docs/zh/guide/doc_parser)
+  + [JSON Mode 使用建议](/docs/zh/guide/json_mode)
+  + [流式输出更丝滑](/docs/zh/guide/stream)
+  + [Prompt 缓存最佳实践](/docs/zh/guide/prompt_cache)
+  + [Prompt 优化实践](/docs/zh/guide/prompt)
+  + [Tool Call 使用建议](/docs/zh/guide/tool_call)
+  + [网络搜索使用建议](/docs/zh/guide/web_search)
+  + [自动上下文切换模型](/docs/zh/guide/context_mode)
+  + [知识库使用指南](/docs/zh/guide/retrieval)
+  + [异常事件处理建议](/docs/zh/guide/exception)
+  + [故障排查指南](/docs/zh/guide/troubleshooting)
+  + [语音对话开发指南](/docs/zh/guide/audio_chat)
+
+Light中文
+
+* 开始使用
+  + [基本介绍](/docs/zh/overview/concept)
+  + [快速开始](/docs/zh/overview/quickstart)
+  + [常见问题](/docs/zh/overview/qa)
+  + [更新通知](https://wvixbzgc0u7.feishu.cn/docx/TXWndkVzvoas81xi4NccXNfMnWh?from=message&source_type=message)
+  + [联系我们](/docs/zh/overview/qrcode)
+* 模型列表
+  + [模型能力总览](/docs/zh/llm/modeloverview)
+  + [语言大模型](/docs/zh/llm/text)
+  + [实时语音互动模型](/docs/zh/llm/realtime)
+  + [视觉理解大模型](/docs/zh/llm/vision)
+  + [推理大模型](/docs/zh/llm/reasoning)
+  + [语音大模型](/docs/zh/llm/audio)
+  + [生图改图模型](/docs/zh/llm/image)
+  + [Model Lab](/docs/zh/llm/model-lab)
+* API 文档
+  + Chat
+    - [创建Chat](/docs/zh/api-reference/chat/chat-completion-create)
+    - [Chat非流响应](/docs/zh/api-reference/chat/object)
+    - [Chat流式响应](/docs/zh/api-reference/chat/streaming)
+  + Realtime
+    - [创建 Chat](/docs/zh/api-reference/realtime/chat)
+  + Image
+    - [文生图](/docs/zh/api-reference/images/image)
+    - [图生图](/docs/zh/api-reference/images/image2image)
+    - [图片编辑](/docs/zh/api-reference/images/edits)
+  + Audio
+    - [语音合成](/docs/zh/api-reference/audio/create_audio)
+    - [音色复刻](/docs/zh/api-reference/audio/create_voice)
+    - [语音转写](/docs/zh/api-reference/audio/transcriptions)
+    - [流式语音合成](/docs/zh/api-reference/audio/ws_audio)
+    - [查询音色](/docs/zh/api-reference/audio/list_voice)
+    - [语音识别](/docs/zh/api-reference/audio/asr)
+    - [流式语音识别](/docs/zh/api-reference/audio/asr-stream)
+  + Models
+    - [获取Model列表](/docs/zh/api-reference/models/list)
+    - [查询Model对象](/docs/zh/api-reference/models/retrieve)
+    - [Model对象](/docs/zh/api-reference/models/object)
+  + Files
+    - [上传文件](/docs/zh/api-reference/files/create)
+    - [获取文件列表](/docs/zh/api-reference/files/list)
+    - [获取文件信息](/docs/zh/api-reference/files/retrieve)
+    - [获取文件内容](/docs/zh/api-reference/files/retrieve_content)
+    - [删除文件](/docs/zh/api-reference/files/delete)
+    - [文件对象](/docs/zh/api-reference/files/object)
+  + Vector Store
+    - [创建知识库](/docs/zh/api-reference/vector-stores/create)
+    - [查看知识库列表](/docs/zh/api-reference/vector-stores/list)
+    - [获取知识库详情](/docs/zh/api-reference/vector-stores/retrieve)
+    - [删除知识库](/docs/zh/api-reference/vector-stores/delete)
+    - [将文件添加到知识库](/docs/zh/api-reference/vector-stores/create_file)
+    - [查看知识库中的文件](/docs/zh/api-reference/vector-stores/list_file)
+    - [将文件从知识库中移除](/docs/zh/api-reference/vector-stores/delete_file)
+    - [知识库对象](/docs/zh/api-reference/vector-stores/object)
+    - [知识库文件对象](/docs/zh/api-reference/vector-stores/vector_store_file_object)
+  + Account
+    - [获取账户信息](/docs/zh/api-reference/accounts/get)
+  + [Toolcall](/docs/zh/api-reference/tool-call)
+  + [计算token数](/docs/zh/api-reference/token-count)
+  + [错误码](/docs/zh/api-reference/error-codes)
+  + Search
+    - [Search](/docs/zh/api-reference/Search/search)
+* 定价计费
+  + [计费介绍](/docs/zh/pricing/intro)
+  + [定价与限速](/docs/zh/pricing/details)
+* 开发指南
+  + [从 OpenAI 迁移至阶跃星辰](/docs/zh/guide/openai)
+  + [推理模型最佳实践](/docs/zh/guide/reasoning)
+  + [实时对话开发指南](/docs/zh/guide/realtime)
+  + [图片理解最佳实践](/docs/zh/guide/image_chat)
+  + [视频理解最佳实践](/docs/zh/guide/video_chat)
+  + [图片生成最佳实践](/docs/zh/guide/image_generate)
+  + [音频合成最佳实践](/docs/zh/guide/tts)
+  + [多轮对话上下文管理](/docs/zh/guide/multiple_round)
+  + [文件解析最佳实践](/docs/zh/guide/doc_parser)
+  + [JSON Mode 使用建议](/docs/zh/guide/json_mode)
+  + [流式输出更丝滑](/docs/zh/guide/stream)
+  + [Prompt 缓存最佳实践](/docs/zh/guide/prompt_cache)
+  + [Prompt 优化实践](/docs/zh/guide/prompt)
+  + [Tool Call 使用建议](/docs/zh/guide/tool_call)
+  + [网络搜索使用建议](/docs/zh/guide/web_search)
+  + [自动上下文切换模型](/docs/zh/guide/context_mode)
+  + [知识库使用指南](/docs/zh/guide/retrieval)
+  + [异常事件处理建议](/docs/zh/guide/exception)
+  + [故障排查指南](/docs/zh/guide/troubleshooting)
+  + [语音对话开发指南](/docs/zh/guide/audio_chat)
+中文
+
+On This Page
+
+* [视频理解 Hello World](#视频理解-hello-world)
+* [视频理解价格预估](#视频理解价格预估)
+* [注意事项](#注意事项)
+* [常见问题](#常见问题)
+* [使用 Files API 加速视频理解](#使用-files-api-加速视频理解)
+* [ffmpeg 视频切割操作指南](#ffmpeg-视频切割操作指南)
+* [切分视频文件](#切分视频文件)
+* [将其他格式转换为 MP4 格式](#将其他格式转换为-mp4-格式)
+
+[反馈问题](https://wvixbzgc0u7.feishu.cn/share/base/form/shrcnS5wNfqqIVGYPvCbcqq9y0b)Scroll to top[开发指南](/docs/zh/guide/openai)视频理解最佳实践
+
+视频理解开发指南
+========
+
+阶跃星辰 step-1o-turbo-vision 模型支持视频理解能力，开发者可以在对话上下文中传入一个视频链接，模型将会自动读取视频中的内容，并基于视频中的内容进行理解，回答用户提出的问题或参与整个上下文的生成。
+
+视频理解 Hello World
+----------------
+
+通过 [Chat API](/docs/zh/api-reference/chat/chat-completion-create)，在 `user message` 中传入 `video_url` 格式的视频链接，并写入你希望模型做的事情，即可让大模型理解视频内容，并基于视频内容来完成生成。
+
+> 暂不支持本地视频文件上传，仅支持网络视频链接。且视频链接需为可直接访问的 mp4 视频地址。
+
+比如，如下是一个简单的基于视频写游记的例子：
+
+```
+curl --location 'https://api.stepfun.com/v1/chat/completions' \
+--header 'Content-Type: application/json' \
+--header "Authorization: Bearer $SETP_API_KEY" \
+--data '{
+    "model": "step-1o-turbo-vision",
+    "messages": [
+        {
+            "role": "user",
+            "content": [
+                {
+                    "type": "video_url",
+                    "video_url": {
+                        "url": "https://static-openapi.stepfun.com/static/platform-web/vipcase/case1.mp4"
+                    }
+                },
+                {
+                    "type": "text",
+                    "text": "你是一个文案专家，你善于通过视频分析内容里面的风景和拍摄者的风格，然后以此为基础创作文案，请根据上传的视频写一段文案，要求充满诗意和浪漫，要求文字极简。"
+                }
+            ]
+        }
+    ],
+    "max_tokens": 1024
+}'
+```
+
+大模型会生成如下文字返回给你：
+
+> 在夕阳的余晖中，他们相依相偎，静享这一刻的宁静与美好。酒杯中的液体在微风中轻轻摇曳，仿佛在诉说着他们甜蜜的时光。这一刻，世界仿佛静止，只有他们的心跳声在回响。
+
+你可以参考上述 cURL 的用法，修改 Prompt 并改成你自己想要实现的目标，来让大模型帮助你完成任务。
+
+视频理解价格预估
+--------
+
+视频理解模型的价格会受到 Prompt 长度和视频长度的影响，视频越长，价格越高。这里有一些不同长度的视频在 step-1o-turbo-vision 下的价格预估供你参考。
+
+| 视频分辨率 | 视频长度 | 输入 token | 预估输入价格 |
+| --- | --- | --- | --- |
+| 3840x2160 | 00:14 | 5238 | 0.013095 元 |
+| 4096x2160 | 01:02 | 24064 | 0.06016元 |
+
+[引入 Prompt 缓存降低费用](/docs/guide/prompt_cache)
+
+注意事项
+----
+
+* 在使用时，强烈建议将视频放在指令前，这样可以让大模型获得更好的效果。
+* 视频存在下载和审核的过程，耗时较长，因此在设计产品时，可设计相应的等待交互，帮助用户降低焦虑。
+* step-1o-turbo-vision 模型暂时只支持 1 个小于 128MB 的 MP4 视频文件 URL，如果你需要上传更大的视频或其他格式，可以使用 [ffmpeg](https://www.ffmpeg.org/) 将视频切割为多个小于 128MB 的 MP4 视频，具体操作方式可参考下方说明。
+* 由于视频文件需要从你的服务器下载到阶跃星辰的服务器，所以下载速度将会直接影响最终返回的速度，你可以将视频文件放在可被高速访问的地址（如对象存储），以便于阶跃星辰服务器下载视频用于视频理解。
+
+常见问题
+----
+
+### 使用 Files API 加速视频理解
+
+在使用视频理解时，如果传入的是外部的 URL，阶跃星辰的服务器将会请求外部 URL，获取视频内容并进行生成。生成的速度将会受到视频下载速度的影响，因此，我们推荐将视频放置在 CDN 或具有较大下载带宽的对象存储上，以便于对视频进行更快的下载。但如果你的视频需要重复使用，比如用来做 Few-shot,则可以考虑将视频使用阶跃星辰 Files API 上传至阶跃星辰文件存储服务上，以避免重复下载，产生持续的流量消耗。
+
+![]()
+
+你可以调用[上传文件](/docs/zh/api-reference/files/create) API，并传入文件，选择 **purpose 为 storage**，上传完成后所获取的 File ID 则可以在对话过程中使用。在拿到 File ID 后，你需要在 File ID 前拼上 `stepfile://`，用于标注这个图片从阶跃星辰文件服务中获取，后续模型在推进推理时，将会从阶跃星辰文件存储服务上获取文件，从而降低下载文件所需的时间，提升整体推理的时延。
+
+ffmpeg 视频切割操作指南
+---------------
+
+### 切分视频文件
+
+当你要处理的适配文件大于 128MB 时，你可以使用 ffmpeg 将视频切割为多个视频，并**通过模型将视频内容总结后，作为上下文传递在对话中**，以便于使用完整的视频进行对话。如：将 sample.mp4 切分成若干个 120 秒的视频文件。
+
+```
+ffmpeg -i sample.mp4 -acodec copy -f segment -segment_time 120 -vcodec copy -reset_timestamps 1 -map 0 output_time_%d.mp4
+```
+### 将其他格式转换为 MP4 格式
+
+当你需要将视频从其他格式转换为 MP4 格式时，可以通过 ffmpeg 命令进行转换。如：将 sample.mkv 转换为 sample.mp4 格式可用如下命令：
+
+```
+ffmpeg -i sample.mkv -codec copy sample.mp4
+```
+Last updated on 2026年3月13日[图片理解最佳实践](/docs/zh/guide/image_chat)[图片生成最佳实践](/docs/zh/guide/image_generate)
+
+---
+
+2026 © 阶跃星辰开放平台

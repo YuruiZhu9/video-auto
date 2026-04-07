@@ -1,0 +1,1319 @@
+# Source URL: https://blog.csdn.net/shaobingj126/article/details/159647186
+# Content Length: 30217 characters
+# Extracted at: 2026-03-30 20:36:04
+#============================================================
+
+ 
+
+
+
+
+
+【前沿解析】2026年3月30日：AI推理能力与国产模型的双重突破——OpenAI o3/o4-mini推理优化与阿里Qwen3.5-Max-Preview盲测登顶重塑全球AI竞争格局-CSDN博客
+
+
+
+
+
+
+
+【前沿解析】2026年3月30日：AI推理能力与国产模型的双重突破——OpenAI o3/o4-mini推理优化与阿里Qwen3.5-Max-Preview盲测登顶重塑全球AI竞争格局
+============================================================================================
+
+
+原创
+[![]()](https://mall.csdn.net/vip)
+于 2026-03-30 13:58:55 发布
+·
+183 阅读
+·
+![]()
+![]()
+6
+
+
+·
+![]()
+![]()
+0
+
+
+
+文章标签：
+
+[#人工智能](https://so.csdn.net/so/search/s.do?q=%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+
+
+
+
+
+
+
+**摘要**：本文深入解析2026年3月29日至30日AI领域的双重突破。OpenAI深夜发布全新推理模型o3和o4-mini，在ARC-AGI测试中得分暴涨10倍，实现推理时计算与自然语言程序搜索创新；阿里巴巴通义千问Qwen3.5-Max-Preview在权威盲测平台LMArena登顶国产大模型榜首，超越GPT-5.4、Claude 4.5等海外旗舰模型，展示MoE架构与成本效率优势。本文涵盖技术原理、架构设计、代码实现及产业影响分析，为开发者提供全面的技术参考。
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+**关键词**：OpenAI o3, o4-mini, 推理优化, 阿里巴巴Qwen3.5-Max-Preview, LMArena盲测, MoE架构, ARC-AGI测试, 国产大模型
+
+### 一、引言：AI领域迎来双重里程碑
+
+2026年3月的最后一周，人工智能领域再次迎来密集的技术爆破。就在3月29日深夜，OpenAI突袭式发布全新推理模型o3和o4-mini，专门针对ARC-AGI这类"反刷榜"测试进行优化，在ARC-AGI-3测试中得分从GPT-5.4的0.26%直接飙升至2.8%，实现10倍突破。几乎同一时间，全球权威大模型盲测平台LMArena发布最新榜单，阿里巴巴通义千问Qwen3.5-Max-Preview以1464分的综合成绩强势登顶国产大模型榜首，首次在匿名盲测中超越OpenAI GPT-5.4、Anthropic Claude 4.5等海外顶流旗舰模型。
+
+这两大事件在24小时内连续发生，标志着AI技术发展进入了新的阶段：**推理能力深度优化与国产模型全面崛起**。OpenAI o3系列展示了"慢思考"AI的潜力，通过推理时计算和自然语言程序搜索实现了质的飞跃；阿里Qwen3.5-Max-Preview则用实战证明，国产大模型不仅在技术指标上追赶国际先进水平，更在真实用户体验中获得超越性认可。
+
+在当前AI技术发展的关键节点，这两大突破具有深远意义：
+
+**技术层面**：o3的突破揭示了AI从"记忆型"向"思考型"演进的技术路径，解决了传统大模型在复杂逻辑推理上的短板。同时，Qwen3.5的成功展示了通过架构创新（MoE）实现性能与成本平衡的可能性。
+
+**产业层面**：国产模型在权威盲测中的登顶，标志着中国AI产业从"跟跑"到"并跑"甚至"领跑"的历史性跨越。这将重塑全球AI产业格局，推动技术多元化和生态多样化发展。
+
+**战略层面**：在AI技术成为国家核心竞争力的大背景下，国产模型的崛起为数据安全、技术自主可控提供了坚实基础，具有重要的战略价值。
+
+本文将深入分析这两大技术突破的技术原理、实现方案和产业影响，为读者提供全面的技术视角和市场洞察。
+
+### 二、技术背景：AI推理能力的发展脉络
+
+#### 2.1 从快思考到慢思考的演进
+
+AI推理能力的发展经历了三个阶段：
+
+1. **基于规则推理**（1970s-1990s）：依赖专家系统与符号逻辑，推理过程透明但泛化能力有限
+2. **统计机器学习**（2000s-2010s）：通过数据驱动学习模式识别，实现端到端预测但可解释性差
+3. **大语言模型推理**（2020s至今）：基于Transformer架构的生成式AI，融合知识记忆与逻辑推理
+
+#### 2.2 ARC-AGI测试的革命性意义
+
+ARC-AGI（Abstract Reasoning Corpus for Artificial General Intelligence）测试由François Chollet于2019年提出，旨在评估AI系统的抽象推理能力而非记忆能力。其核心特点是：
+
+* **抗刷榜设计**：题目不断更新，防止针对性优化
+* **抽象模式识别**：需要理解深层规则而非表面特征
+* **人类基准明确**：与人类表现对比标准清晰
+
+传统大模型在ARC-AGI测试中表现惨淡，GPT-5.4在ARC-AGI-3上仅得0.26%，暴露出AI推理能力的根本短板。OpenAI o3的突破正是在这一关键测试上实现的质变。
+
+#### 2.3 国产大模型的技术演进路径
+
+中国大模型技术的发展呈现出独特的技术路径：
+
+1. **追赶阶段**（2020-2023）：以中文理解优化为核心，重点提升在C-Eval等中文基准上的表现
+2. **并行阶段**（2024-2025）：在通用能力上实现与GPT-4等国际领先模型的并跑，MoE架构等创新开始涌现
+3. **超越阶段**（2026至今）：在特定领域和真实用户场景中实现超越，Qwen3.5-Max-Preview的登顶标志着这一阶段的开始
+
+### 三、OpenAI o3/o4-mini：推理优化的技术突破
+
+#### 3.1 核心性能数据
+
+根据OpenAI官方发布的数据：
+
+| 模型版本 | ARC-AGI-1得分 | ARC-AGI-3得分 | 推理时间 | 成本对比 |
+| --- | --- | --- | --- | --- |
+| GPT-5.4 | ≈68% | 0.26% | 0.5秒 | 基准 |
+| o3（高推理版） | 87.5% | 2.8% | 30-60秒 | 50-100倍 |
+| o3（低推理版） | 75.7% | 未公布 | 10-20秒 | 20-30倍 |
+| o4-mini | >50% | 未公布 | 3-5秒 | 5-10倍 |
+
+#### 3.2 技术创新解析
+
+##### 3.2.1 推理时计算（Inference-time Computing）
+
+传统大模型采用"快思考"模式：基于预训练的知识库直接生成答案，类似于凭记忆答题。o3引入了"慢思考"机制，其核心原理可归纳为以下几点：
+
+1. **计算资源重分配**：将训练阶段的部分计算任务转移到推理阶段，实现动态优化
+2. **多路径探索**：对复杂问题生成多个推理路径，并行验证逻辑一致性
+3. **自我修正循环**：建立反馈机制，对初步结论进行验证和修正
+
+```
+# 传统快思考：直接生成答案
+def fast_thinking(question):
+    return model.generate(question, max_tokens=100)
+
+# o3慢思考：多步推理过程
+def slow_thinking(question):
+    # 第一步：问题分解
+    sub_problems = decompose_problem(question)
+    
+    # 第二步：逐步推理
+    reasoning_steps = []
+    for sub_problem in sub_problems:
+        # 生成推理路径
+        reasoning_path = generate_reasoning_path(sub_problem)
+        # 验证逻辑一致性
+        if verify_logical_consistency(reasoning_path):
+            reasoning_steps.append(reasoning_path)
+    
+    # 第三步：综合答案
+    final_answer = synthesize_answer(reasoning_steps)
+    return final_answer
+
+# 推理时计算的核心算法实现
+class InferenceTimeComputing:
+    def __init__(self, base_model, compute_budget=100):
+        self.base_model = base_model
+        self.compute_budget = compute_budget  # 推理阶段计算预算
+        self.reasoning_cache = {}
+        
+    def solve_with_compute(self, problem):
+        # 检查缓存
+        if problem in self.reasoning_cache:
+            return self.reasoning_cache[problem]
+        
+        # 初始快速回答
+        initial_answer = self.base_model(problem)
+        
+        # 分配计算资源进行深度推理
+        reasoning_paths = self.explore_reasoning_paths(problem, self.compute_budget)
+        
+        # 验证和选择最佳路径
+        best_path = self.select_best_path(reasoning_paths)
+        
+        if best_path.confidence > initial_answer.confidence:
+            final_answer = best_path.answer
+            # 应用自我修正
+            final_answer = self.self_correction(final_answer)
+        else:
+            final_answer = initial_answer
+            
+        # 缓存结果
+        self.reasoning_cache[problem] = final_answer
+        
+        return final_answer
+    
+    def explore_reasoning_paths(self, problem, budget):
+        paths = []
+        # 并行探索多个推理路径
+        for i in range(min(10, budget // 10)):
+            path = self.generate_alternative_path(problem)
+            paths.append(path)
+            
+        return paths
+    
+    def select_best_path(self, paths):
+        # 基于逻辑一致性和证据支持度选择
+        best_path = None
+        max_score = -1
+        
+        for path in paths:
+            score = self.evaluate_reasoning_path(path)
+            if score > max_score:
+                max_score = score
+                best_path = path
+                
+        return best_path
+
+```
+##### 3.2.2 自然语言程序搜索（Natural Language Program Search）
+
+o3引入的创新方法是：先生成"解题程序"，再用程序解决问题。这种方法实现了真正的泛化能力，而非特定题目的记忆。
+
+```
+输入问题：找出序列模式 1, 4, 9, 16, ?
+
+传统方法：直接回答"25"
+o3方法：生成解题程序：
+  1. 识别序列为平方数：1², 2², 3², 4²
+  2. 下一个应是5² = 25
+  3. 返回结果25
+  
+然后将此程序应用于新问题：
+  输入：找出序列模式 1, 8, 27, 64, ?
+  应用程序：识别为立方数：1³, 2³, 3³, 4³
+  下一个应为5³ = 125
+
+```
+
+自然语言程序搜索的技术实现：
+
+```
+import re
+from typing import List, Dict, Any
+import sympy
+import ast
+
+class NaturalLanguageProgramSearcher:
+    """自然语言程序搜索系统"""
+    
+    def __init__(self):
+        self.program_library = {}
+        self.similarity_threshold = 0.7
+        
+    def learn_program(self, examples: List[Dict[str, Any]]):
+        """从示例中学习程序"""
+        for example in examples:
+            problem = example['problem']
+            solution = example['solution']
+            
+            # 提取解题步骤
+            steps = self.extract_solution_steps(solution)
+            
+            # 抽象为通用程序
+       
+```
+
+
+
+
+![]()
+最低0.47元/天 解锁文章
+![]()
+
+
+![]()
+确定要放弃本次机会？
+
+福利倒计时
+
+*:*
+
+*:*
+
+
+![]()
+立减 ¥
+
+
+普通VIP年卡可用
+
+[立即使用](https://mall.csdn.net/vip)
+
+
+[![]()
+bing.shao](https://blog.csdn.net/shaobingj126)
+
+[关注](javascript:;)
+关注
+
+
+* ![]()
+  ![]()
+  ![]()
+  6
+  点赞
+* ![]()
+  ![]()
+  踩
+* [![]()
+  ![]()
+  ![]()
+  0](javascript:;)
+  收藏
+  
+  
+  
+  觉得还不错?
+  一键收藏
+  
+  ![]()
+* ![]()
+  知道了
+  
+  [![]()
+  0](#commentBox)
+  评论
+* [![]()
+  分享](javascript:;)
+  复制链接
+  
+  分享到 QQ
+  
+  分享到新浪微博
+  
+  ![]()扫一扫
+* [![]()
+  打赏](javascript:;)
+  打赏
+* ![]()
+  ![]()
+  打赏
+  ![]()
+  举报
+  
+  ![]()
+  举报
+
+专栏目录
+
+
+
+
+![]()
+
+[*OpenAI* o*3**-**mini*全面*解析*：最新免费*推理**模型*重磅发布](https://blog.csdn.net/weixin_46074689/article/details/145414319)
+
+[AI智能体研究](https://blog.csdn.net/weixin_46074689)
+
+02-01
+![]()
+4778
+
+
+
+
+[在智能水平*与*o1*-**mini*相当的前提下，o*3**-**mini*实现了更快的响应速度和更高的效率。在A/B*测*试中，o*3**-**mini*的响应速度比o1*-**mini*快2*4*%，平均响应时间仅为7*.*7秒，而o1*-**mini*为10*.*16秒。*OpenAI* o*3**-**mini*以其高效的*推理**能力*、卓越的STEM表现和灵活的应用场景，仍然是当前*人工智能*领域的领头羊。对于ChatGPT Plus和Team用户，每*日*消息限制从o1*-**mini*的*5*0条提升至o*3**-**mini*的1*5*0条，而Pro用户则可无限制地访问o*3**-**mini*。](https://blog.csdn.net/weixin_46074689/article/details/145414319)
+
+
+
+
+
+参与评论
+您还未登录，请先
+登录
+后发表或查看评论
+
+
+[*OpenAI*重返巅峰：o*3**与*o*4**-**mini*引领*AI**推理*新时代](https://blog.csdn.net/weixin_46074689/article/details/147340650)
+
+[AI智能体研究](https://blog.csdn.net/weixin_46074689)
+
+04-18
+![]()
+1223
+
+
+
+
+[这些评*测*数据清晰地表明，o*3*系列在整体性能上领先市场，而o*4**-**mini*系列则在保持高性能的同时实现了*模型*小型化的重大*突破*，尤其在编程和数学等技术领域表现出色，为资源受限场景提供了高性价比的解决方案。例如，面对"加州今*年*夏天的能源使用相比去*年*如何"这样的问题，*模型*会自行拆解任务：先用搜索工具获取公共能源数据，然后用Python工具载入数据、计算趋势，接着生成图表，最后用自然语言结合图表解释预*测*结果。相比之下，o*4**-**mini*作为"小型版本"，其参数量可能较小，但通过架构*优化*实现了惊人的性能。](https://blog.csdn.net/weixin_46074689/article/details/147340650)
+
+
+
+[卷炸了！*OpenAI* 重磅发布 o*3*/o*4**-**mini*：*AI* *推理**能力*新标杆，程序员的挑战*与*机遇？](https://blog.csdn.net/m0_66917422/article/details/147306114)
+
+[m0\_66917422的博客](https://blog.csdn.net/m0_66917422)
+
+04-17
+![]()
+1093
+
+
+
+
+[关于 o*3* 的命名，还有一个有趣的花絮。据说最初可能考虑过 O2，但为了避免*与*英国电信公司 O2 产生商标冲突，最终选择了 o*3*。Sam Altman 也在 X (原 Twitter) 上打趣道：“我们真不擅长起名字”。而 o*4**-**mini* 的出现，则清晰地表明 *OpenAI* 的战略并非只追求“更高、更快、更强”，同时也开始注重“多快好省”，关注*模型*的效率和成本效益，以适应更广泛的落地应用需求。一周内密集发布多个*模型*，展现了 *OpenAI* 在激烈*竞争*下的决心和强大的研发实力。](https://blog.csdn.net/m0_66917422/article/details/147306114)
+
+
+
+
+[号称“*OpenAI*迄今为止最强*模型*”，o*3*/o*4**-**mini*真实*能力*究竟如何？](https://devpress.csdn.net/v1/article/detail/147350439)
+
+[2401\_84204413的博客](https://blog.csdn.net/2401_84204413)
+
+04-19
+![]()
+1140
+
+
+
+
+[网友们的第一波实*测*已新鲜出炉。，即使遇上首位全职提示词工程师Riley Goodside的“刻意刁难”，也顺利过关：可以看到，面对藏在一堆玩具里的手绘图表，它也能通过图像识别和*推理**能力*正确解答。而作为一款专为快速、经济高效的*推理*而*优化*的小*模型*，在数学*能力*方面堪称强悍——用时2分*5**5*秒，解决了最新的欧拉问题，并且该网友强调：至今只有1*5*个人能够在*30*分钟内解决它。*与*此同时，*OpenAI*内部技术人员也表示，o*3*的出现让他第一次萌生了将*模型*称为通用*人工智能*（AGI）的念头。](https://devpress.csdn.net/v1/article/detail/147350439)
+
+
+
+[MLMs之*OpenAI* o系列：*OpenAI* o*3*/o*4**-**mini*的简介、安装和使用方法、案例应用之详细攻略](https://yunyaniu.blog.csdn.net/article/details/147349912)
+
+[头部AI社区如有邀博主AI主题演讲请私信—心比天高，仗剑走天涯，保持热爱，奔赴向梦想！低调，专注，谦虚，自律，反思，成长，还算比较正能量的博主，公益免费传播…内心特别想在AI界做出一些可以推进历史进程影响力的技术(兴趣使然，有点小情怀，也有点使命感呀](https://blog.csdn.net/qq_41185868)
+
+04-19
+![]()
+1619
+
+
+
+
+[​
+MLMs之*OpenAI* o系列：*OpenAI* o*3*/o*4**-**mini*的简介、安装和使用方法、案例应用之详细攻略
+目录
+*OpenAI* o*3* 和 o*4**-**mini* 简介
+*OpenAI* o*3* 和 o*4**-**mini* 安装和使用方法
+*OpenAI* o*3* 和 o*4**-**mini* 案例应用
+*OpenAI* o*3* 和 o*4**-**mini* 简介
+202*5**年**4*月16*日*，*OpenAI* o*3* 和 o*4**-**mini* 是 *OpenAI* 最新发布的 o 系列*模型*，旨在提升 ChatGPT 的*推理**能力*和工具使用*能力*。它们是目前](https://yunyaniu.blog.csdn.net/article/details/147349912)
+
+
+
+[*OpenAI*发布新一代*推理**模型*O*3*和O*3* *Mini*：*能力**与*性能的*双重**突破*](https://tangyipeng.blog.csdn.net/article/details/144625992)
+
+[weixin\_41496173的博客](https://blog.csdn.net/weixin_41496173)
+
+12-21
+![]()
+1228
+
+
+
+
+[202*4**年*12月21*日*，*OpenAI*通过一场特别活动正式宣布了其新一代*推理**模型*O*3*及其轻量化版本O*3* *Mini*。这标志着*AI**推理**能力*和效率的又一次飞跃。本文将围绕发布会中的关键内容，详细介绍O*3*和O*3* *Mini*的核心*能力*、性能表现、以及面向公众安全*测*试的相关计划。](https://tangyipeng.blog.csdn.net/article/details/144625992)
+
+
+
+[*OpenAI* 王炸 o*3*/o*4**-**mini*，打通自主工具+视觉思考。](https://blog.csdn.net/lythinking/article/details/147306560)
+
+[lythinking的博客](https://blog.csdn.net/lythinking)
+
+04-17
+![]()
+1173
+
+
+
+
+[总而言之，o*3* 和 o*4**-**mini* 的发布，标志着 *OpenAI* 在*模型*智能和 Agent *能力*上的又一次重要迭代，特别是赋予了 *AI* 灵活组合使用多种工具和“带着图像思考”的*能力*。根据社区反馈，实际限制可能如下： 使用 ChatGPT Plus、团队或企业帐户，您每周可以使用 o*3* 访问 *5*0 条消息，每天可以使用 o*4**-**mini* 访问 1*5*0 条消息，每天可以使用 o*4**-**mini**-*high 访问 *5*0 条消息。因为效率高，o*4**-**mini* 的调用额度比 o*3* 高得多，适合需要大量*推理*的高并发场景。](https://blog.csdn.net/lythinking/article/details/147306560)
+
+
+
+[*OpenAI*震撼发布o*3*/o*4**-**mini*：视觉*推理*巅峰*与*自主工具调用的革命性*突破*](https://dongfangyou.blog.csdn.net/article/details/147292402)
+
+[东方佑](https://blog.csdn.net/weixin_32759777)
+
+04-17
+![]()
+859
+
+
+
+
+[o*3*/o*4**-**mini*的发布，不仅是*OpenAI*技术实力的体现，更是*AI*迈向“理解世界”关键一步。当*模型*开始用图像思考、自主调用工具，我们离构建真正“社会智能”的*AI*又近了一步。正如*OpenAI*所言：“引擎盖下的*AI*，仅通过预*测*token和强化学习，已能完成令人惊叹的事。刷新了编程、数学、视觉*推理*的SOTA，在复杂任务中展现“天才水平”。未来，*AI*不仅能“看图说话”，更能像人类一样思考、*推理*、解决问题，甚至创造价值。随着Codex CLI的开源和社区生态的繁荣，我们或许正站在。，为开发者带来革命性体验。](https://dongfangyou.blog.csdn.net/article/details/147292402)
+
+
+
+[*OpenAI* o*3*/o*4**-**mini* 发布：开启 *AI* *推理**与*智能体新纪元](https://blog.csdn.net/weixin_43836266/article/details/147312308)
+
+[weixin\_43836266的博客](https://blog.csdn.net/weixin_43836266)
+
+04-17
+![]()
+1183
+
+
+
+
+[我们正在见证 *AI* 从一个对话伙伴，逐渐演变为一个能够更自主、更深入地理解世界、并能实际“动手”解决复杂问题的智能体。未来，更加无缝的人机交互、更主动的工具调用、更强大的跨领域问题解决*能力*，值得我们共同期待。这意味着 o*3* *与* o*4**-**mini* 被特别训练用于在生成回应前进行更深入、更周密的。令人欣喜的是，更强的*能力*并未必然带来更高的成本。🔑 向开发者开放，后者提供了更丰富的控制选项和未来内置工具的潜力。这不仅仅是一次常规的*模型*迭代，更代表了 *AI* 在。，预示着一个更加智能、更能干的 *AI* 时代的到来。](https://blog.csdn.net/weixin_43836266/article/details/147312308)
+
+
+
+[【翻译】*OpenAI* o*3**-**mini*系统卡 (202*5**年*1月*3*1*日**OpenAI*发布) 【上】](https://blog.csdn.net/PiPiQ_Blog/article/details/145434474)
+
+[PiPiQ\_Blog的博客](https://blog.csdn.net/PiPiQ_Blog)
+
+02-04
+![]()
+1396
+
+
+
+
+[*OpenAI* o *模型*系列采用大规模强化学习进行训练，使用思维链进行*推理*。这些先进的*推理**能力*为提高我们*模型*的安全性和稳健性提供了新的途径。特别是，我们的*模型*可以通过审慎协调，在响应潜在不安全提示时根据上下文*推理*我们的安全政策。这使得 *OpenAI* o*3**-**mini* 在某些风险基准上的表现*与*最先进的水平相当，例如产生非法建议、选择刻板的回应和屈服于已知的越狱。在回答之前训练*模型*融入思维链有可能带来巨大的好处，同时也会增加因智力增强而产生的潜在风险。](https://blog.csdn.net/PiPiQ_Blog/article/details/145434474)
+
+
+
+[*与**OpenAI* API兼容的客户端，支持显示思想链*-*DeepSeek*-*R1、*OpenAI* o*3*/o*4**-**mini*等](https://download.csdn.net/download/UI_837483/91825905)
+
+08-31
+
+
+
+[该客户端是基于React开发的现代聊天应用，能*与**AI**模型*交互，不仅展示*模型*响应，还可可视化响应背后的思维过程，助用户理解*AI*结论的推导逻辑。 Node*.*js（v1*4*及以上版本）、npm或yarn。 应用可通过设置面板配置，支持多*.**.**.*](https://download.csdn.net/download/UI_837483/91825905)
+
+
+
+[11 类食物分类项目：迁移学习*与*半监督学习*解析*](https://devpress.csdn.net/v1/article/detail/159513731)
+
+[m0\_61102549的博客](https://blog.csdn.net/m0_61102549)
+
+03-26
+![]()
+371
+
+
+
+
+[回答本项目是基于PyTorch框架实现的11类食物图像分类任务，核心目标是实现食物图片的自动识别分类。项目采用迁移学习（VGG预训练*模型*微调）替代传统从零训练，同时结合半监督学习（伪标签）利用无标签数据提升*模型*精度；整体流程包括数据集读取、数据增广、*模型*构建、训练验证、最优*模型*保存，最终完成小样本下的高精度食物分类。回答迁移学习是复用预训练*模型*的通用特征，迁移到自己的小样本任务中，无需从零训练。](https://devpress.csdn.net/v1/article/detail/159513731)
+
+
+
+[基于 YOLOv8 的交通违规检*测*系统](https://blog.csdn.net/m0_61028090/article/details/159477550)
+
+[Michael\_Jay的博客](https://blog.csdn.net/m0_61028090)
+
+03-25
+![]()
+893
+
+
+
+
+[本系统以 YOLOv8 为核心检*测*引擎，面向城市道路监控场景，实现对行人、非机动车、摩托车等目标的交通违规行为自动检*测**与*分类。系统支持图片、视频、实时摄像头三种输入模式，并配有完整的 PyQt6 图形化操作界面，涵盖检*测*、统计、历史管理、指标可视化等功能，完整还原了深度学习项目从数据到系统的落地全链路。](https://blog.csdn.net/m0_61028090/article/details/159477550)
+
+
+
+[程序员转行学习*AI*大*模型*：位置编码](https://blog.csdn.net/AIMing_byte/article/details/159474040)
+
+[AIMing\_byte的博客](https://blog.csdn.net/AIMing_byte)
+
+03-25
+![]()
+503
+
+
+
+
+[本文介绍了Transformer*模型*中的位置编码机制。位置编码通过为每个词添加包含位置信息的向量，解决了*模型*无法识别词序的问题。文章详细解释了正弦位置编码的实现原理，包括其数学公式和参数设置，并展示了位置编码*与*词向量相加的具体过程。此外，还对比了三种位置编码类型：正弦位置编码（固定公式、无需参数）、可学习位置编码（可*优化*但需参数）和旋转位置编码（适合长序列）。正弦位置编码因其简单性和可外推性被应用于原始Transformer*模型*，而BERT、GPT等*模型*则采用可学习的位置编码。](https://blog.csdn.net/AIMing_byte/article/details/159474040)
+
+
+
+[高性能计算综述：*AI*融合、能效*优化**与*量子计算的挑战
+最新发布](https://cslab.blog.csdn.net/article/details/159606805)
+
+[CS实验室](https://blog.csdn.net/qiwsir)
+
+03-29
+![]()
+459
+
+
+
+
+[高性能计算（HPC）研究综述：*AI*融合、能效*优化**与*量子计算协同 摘要：本文系统综述了202*3**-**2026**年*HPC领域的研究进展，揭示三大核心趋势：1）*AI**与*HPC深度融合，混合架构（CPU+GPU/FPGA）占比达89%，容器化技术实现近原生性能；2）能效*优化*成为关键，液冷技术渗透率超*4*0%，异构计算能效提升*3*倍；*3*）量子计算*与*HPC协同探索，混合架构在量子化学模拟等场景展现潜力。研究同时指出当前挑战：边缘HPC实时调度、量子*-*HPC边界界定及绿色计算标准统一。本文为把握HPC技术发展方向提供了系统性参考。](https://cslab.blog.csdn.net/article/details/159606805)
+
+
+
+[建筑领域问题解决进入大*模型*时代：一站式知识图谱问答方案*解析*](https://devpress.csdn.net/v1/article/detail/159431794)
+
+[superice\_的博客](https://blog.csdn.net/superice_)
+
+03-24
+![]()
+410
+
+
+
+
+[建筑行业需要知识图谱*与*大*模型*结合的方案，根本原因在于：建筑业务中的很多问题都不是简单的信息查询，而是涉及规范条款、项目阶段、责任角色、设备状态、历史案例和处理路径的复杂关系判断。传统文档问答可以帮助企业“找到资料”，但很难进一步完成关系分析、依据追溯和流程衔接。知识图谱、图数据库*与*大*模型*结合，则更适合构建面向建筑业务的问题解决体系。](https://devpress.csdn.net/v1/article/detail/159431794)
+
+
+
+[计算机视觉、YOLO算法*模型*训练、无人机监*测*人员密集自动识别](https://devpress.csdn.net/v1/article/detail/159431311)
+
+[Welcome to My blog](https://blog.csdn.net/gps666666)
+
+03-24
+![]()
+587
+
+
+
+
+[摘要：本文详细介绍了使用YOLOv8训练无人机人员检*测**模型*的完整流程。首先需要配备NVIDIA显卡的电脑，安装Python、YOLO和LabelImg等工具。数据采集需*5*00+张真实无人机照片，包含不同高度、密度和环境场景。使用LabelImg标注时需统一使用YOLO格式和"person"标签。训练通过配置文件和一键脚本自动完成，生成best*.*pt*模型*文件。最后可将训练好的*模型*直接替换原有*模型*，并可通过持续添加新数据*优化**模型*效果。整个过程强调数据质量和标注准确性对*模型*性能的决定性影响。](https://devpress.csdn.net/v1/article/detail/159431311)
+
+
+
+[光谱指纹*与*智慧育种：从种子检*测*到品质筛选的技术革新](https://blog.csdn.net/wayho/article/details/159535528)
+
+[wayho的博客](https://blog.csdn.net/wayho)
+
+03-27
+![]()
+372
+
+
+
+
+[从“看见”到“看懂”，光谱相机正在为育种打开一扇全新的“透视之眼”。文章讲透了高光谱技术如何通过“光学指纹”无损检*测*种子活力、精准鉴别品种，让种苗分选准确率超9*5*%。当育种从经验判断走向数据驱动，源头精准才能真正落地。](https://blog.csdn.net/wayho/article/details/159535528)
+
+
+
+[基于Q*-*Learning强化学习的小车倒立摆平衡控制系统matlab性能仿真](https://devpress.csdn.net/v1/article/detail/159590380)
+
+[MATLAB,verilog,python,opencv,tensorflow,caffe,C,C++](https://blog.csdn.net/aycd1234)
+
+03-29
+![]()
+189
+
+
+
+
+[本文研究了基于Q*-*Learning强化学习的环形轨道小车倒立摆控制问题。通过建立三维环形运动*模型*，将小车位置参数化为极坐标形式，摆杆动力学采用拉格朗*日*方程描述。算法采用ε*-*贪婪策略进行动作选择，设计了包含角度偏差惩罚和控制力成本的奖励函数。MATLAB仿真实现了三维可视化，展示了摆杆平衡控制过程，包括小车沿环形轨道的运动轨迹和摆杆姿态变化。实验结果表明，该Q*-*Learning控制器能有效维持摆杆竖直平衡，同时完成指定环形运动。研究为复杂轨迹下的倒立摆控制提供了强化学习解决方案，验证了Q*-*Learning在连](https://devpress.csdn.net/v1/article/detail/159590380)
+
+
+
+
+
+
+
+
+
+
+[![]()](https://blog.csdn.net/shaobingj126)
+
+[bing.shao](https://blog.csdn.net/shaobingj126)
+
+
+博客等级
+
+![]()
+
+码龄18年
+
+
+
+[726
+原创](https://blog.csdn.net/shaobingj126)
+
+8213
+点赞
+
+6033
+收藏
+
+900
+粉丝
+
+
+关注
+
+[私信](https://im.csdn.net/chat/shaobingj126)
+
+
+
+[![]()](https://ai.csdn.net/workbench/wallet?utm_source=xtai_slb_bloglb)
+
+![]()
+
+
+### 热门文章
+
+* [大型网站架构之分布式消息队列
+  ![]()
+  167947](https://blog.csdn.net/shaobingj126/article/details/50585035)
+* [Div里面载入另一个页面的实现(取代框架)（AJax）
+  ![]()
+  87235](https://blog.csdn.net/shaobingj126/article/details/23676759)
+* [js动态控制表单的tr，td的显示和隐藏
+  ![]()
+  79631](https://blog.csdn.net/shaobingj126/article/details/6524815)
+* [shell 数组长度
+  ![]()
+  72547](https://blog.csdn.net/shaobingj126/article/details/7395570)
+* [PHP 的 exec()函数以及获取其返回值
+  ![]()
+  68744](https://blog.csdn.net/shaobingj126/article/details/6461721)
+
+
+### 分类专栏
+
+* [![]()
+  AI](https://blog.csdn.net/shaobingj126/category_13037442.html)
+  256篇
+* [![]()
+  具身智能](https://blog.csdn.net/shaobingj126/category_13133539.html)
+  1篇
+* [![]()
+  芯片](https://blog.csdn.net/shaobingj126/category_13061639.html)
+* [![]()
+  云原生-微服务/Microservices](https://blog.csdn.net/shaobingj126/category_13028057.html)
+  29篇
+* [![]()
+  消息队列](https://blog.csdn.net/shaobingj126/category_13040434.html)
+  8篇
+* [![]()
+  数据库](https://blog.csdn.net/shaobingj126/category_13036761.html)
+  31篇
+* [![]()
+  安全](https://blog.csdn.net/shaobingj126/category_13038086.html)
+  4篇
+* [![]()
+  直播](https://blog.csdn.net/shaobingj126/category_13046489.html)
+  12篇
+* [![]()
+  量子计算](https://blog.csdn.net/shaobingj126/category_13054138.html)
+  1篇
+* [![]()
+  分布式](https://blog.csdn.net/shaobingj126/category_13033606.html)
+  4篇
+* [![]()
+  算法](https://blog.csdn.net/shaobingj126/category_13043005.html)
+  6篇
+* [![]()
+  Nginx+Openresty](https://blog.csdn.net/shaobingj126/category_10052143.html)
+  1篇
+* [![]()
+  Ajax技术](https://blog.csdn.net/shaobingj126/category_684564.html)
+  1篇
+* [![]()
+  Android](https://blog.csdn.net/shaobingj126/category_820876.html)
+* [![]()
+  Apache服务器技术](https://blog.csdn.net/shaobingj126/category_684562.html)
+  15篇
+* [![]()
+  AsWing Book](https://blog.csdn.net/shaobingj126/category_684565.html)
+* [![]()
+  C & C++](https://blog.csdn.net/shaobingj126/category_684566.html)
+  2篇
+* [![]()
+  CSS](https://blog.csdn.net/shaobingj126/category_836835.html)
+  3篇
+* [![]()
+  FLASH/Flex技术](https://blog.csdn.net/shaobingj126/category_684567.html)
+  2篇
+* [![]()
+  FreeBSD](https://blog.csdn.net/shaobingj126/category_684559.html)
+  26篇
+* [![]()
+  HTML技术](https://blog.csdn.net/shaobingj126/category_812701.html)
+  14篇
+* [![]()
+  JavaScirpt技术](https://blog.csdn.net/shaobingj126/category_684568.html)
+  46篇
+* [![]()
+  Linux](https://blog.csdn.net/shaobingj126/category_695107.html)
+  115篇
+* [![]()
+  Nginx服务器技术](https://blog.csdn.net/shaobingj126/category_684738.html)
+  20篇
+* [![]()
+  PHP+MySQL技术](https://blog.csdn.net/shaobingj126/category_684569.html)
+  157篇
+* [![]()
+  Shell编程](https://blog.csdn.net/shaobingj126/category_820875.html)
+  29篇
+* [![]()
+  SqlServer](https://blog.csdn.net/shaobingj126/category_699436.html)
+  6篇
+* [![]()
+  SVN技术](https://blog.csdn.net/shaobingj126/category_684570.html)
+  1篇
+* [![]()
+  Unix](https://blog.csdn.net/shaobingj126/category_695108.html)
+  2篇
+* [![]()
+  Windows](https://blog.csdn.net/shaobingj126/category_695119.html)
+  5篇
+* [![]()
+  XML技术](https://blog.csdn.net/shaobingj126/category_684571.html)
+  3篇
+* [![]()
+  在线编辑器](https://blog.csdn.net/shaobingj126/category_684723.html)
+  1篇
+* [![]()
+  安全技术](https://blog.csdn.net/shaobingj126/category_700978.html)
+  4篇
+* [![]()
+  技术大杂烩](https://blog.csdn.net/shaobingj126/category_684745.html)
+  10篇
+* [![]()
+  数据库技术](https://blog.csdn.net/shaobingj126/category_684573.html)
+  12篇
+* [![]()
+  法律常识](https://blog.csdn.net/shaobingj126/category_694331.html)
+  1篇
+* [![]()
+  英语学习](https://blog.csdn.net/shaobingj126/category_684574.html)
+  2篇
+* [![]()
+  软件测试](https://blog.csdn.net/shaobingj126/category_684572.html)
+  1篇
+* [![]()
+  随笔](https://blog.csdn.net/shaobingj126/category_684575.html)
+  27篇
+* [![]()
+  通信](https://blog.csdn.net/shaobingj126/category_858116.html)
+  3篇
+* [![]()
+  模板引擎](https://blog.csdn.net/shaobingj126/category_892893.html)
+  1篇
+* [![]()
+  黑客技术](https://blog.csdn.net/shaobingj126/category_892999.html)
+  2篇
+* [![]()
+  JAVA](https://blog.csdn.net/shaobingj126/category_901460.html)
+  1篇
+* [![]()
+  Amoeba](https://blog.csdn.net/shaobingj126/category_904354.html)
+  3篇
+* [![]()
+  负载均衡](https://blog.csdn.net/shaobingj126/category_904357.html)
+  13篇
+* [![]()
+  Asterisk+IPPBX+CallCenter](https://blog.csdn.net/shaobingj126/category_1224479.html)
+  7篇
+* [![]()
+  硬件](https://blog.csdn.net/shaobingj126/category_1240218.html)
+  2篇
+* [![]()
+  perl](https://blog.csdn.net/shaobingj126/category_1304170.html)
+  2篇
+* [![]()
+  sqlite](https://blog.csdn.net/shaobingj126/category_1659145.html)
+* [![]()
+  Yii-BootStrap](https://blog.csdn.net/shaobingj126/category_1659149.html)
+  4篇
+* [![]()
+  技术架构方案](https://blog.csdn.net/shaobingj126/category_5697685.html)
+  47篇
+* [![]()
+  前端Bootstrap,Jquery](https://blog.csdn.net/shaobingj126/category_6097376.html)
+* [![]()
+  前端Bootstrap](https://blog.csdn.net/shaobingj126/category_6097378.html)
+  1篇
+* [![]()
+  GoLang](https://blog.csdn.net/shaobingj126/category_6932212.html)
+  127篇
+
+展开全部 ![]()
+收起 ![]()
+
+
+上一篇：
+
+[Golang实现SafeClaw原生安全AI智能体平台：企业级内生防护与高效量产系统](https://blog.csdn.net/shaobingj126/article/details/159613098)
+
+
+下一篇：
+
+[【前沿解析】2026年3月31日：中国AI Token调用量历史性超越美国与OpenClaw 3.22底层架构重构——AI产业格局的双重转折点](https://blog.csdn.net/shaobingj126/article/details/159647246)
+
+
+
+### 最新评论
+
+* [Golang实现SafeClaw原生安全AI智能体平台：企业级内生防护与高效量产系统](https://blog.csdn.net/shaobingj126/article/details/159613098#comments_39349401)
+  
+  [CSDN-Ada助手:](https://blog.csdn.net/community_717) 
+  恭喜你这篇博客进入【CSDN每天值得看】榜单，全部的排名请看 https://bbs.csdn.net/topics/620265800。
+
+
+### 大家在看
+
+* [【ROS2小白入门】从 ROS 1 到 ROS 2 的跨越：实战重构机器人底盘 Manager 节点](https://blog.csdn.net/weixin_41533008/article/details/159654806)
+* [构建可扩展 Rust 项目：从模块化到 Workspace 工程化实践
+  ![]()
+  120](https://blog.csdn.net/github_28443763/article/details/159619044)
+* [每周一个开源项目 #4：ChatGPT-Next-Web 增强版](https://blog.csdn.net/zangshichang/article/details/159654988)
+* [揭秘JVM创世过程之两种语言首席外交官JavaCalls
+  ![]()
+  1](https://blog.csdn.net/wuminyu/article/details/159654109)
+* [基于深度学习yolo目标检测算法+大模型DeepSeek的垃圾分类检测系统 智慧城市垃圾分拣系统 垃圾识别分类系统
+  ![]()
+  64](https://blog.csdn.net/qq1309399183/article/details/159616521)
+
+
+### 最新文章
+
+* [【前沿解析】2026年3月31日：中国AI Token调用量历史性超越美国与OpenClaw 3.22底层架构重构——AI产业格局的双重转折点](https://blog.csdn.net/shaobingj126/article/details/159647246)
+* [Golang实现SafeClaw原生安全AI智能体平台：企业级内生防护与高效量产系统](https://blog.csdn.net/shaobingj126/article/details/159613098)
+* [【前沿解析】2026年3月29日：AI推理效率双重突破——谷歌TurboQuant内存压缩与RWKV-6开源重构大模型部署范式](https://blog.csdn.net/shaobingj126/article/details/159612955)
+
+
+2026
+[03月
+60篇](https://blog.csdn.net/shaobingj126?type=blog&year=2026&month=03)
+
+[02月
+51篇](https://blog.csdn.net/shaobingj126?type=blog&year=2026&month=02)
+
+[01月
+63篇](https://blog.csdn.net/shaobingj126?type=blog&year=2026&month=01)
+
+
+[2025年279篇](https://blog.csdn.net/shaobingj126?type=blog&year=2025&month=12)
+[2021年1篇](https://blog.csdn.net/shaobingj126?type=blog&year=2021&month=04)
+[2020年1篇](https://blog.csdn.net/shaobingj126?type=blog&year=2020&month=05)
+[2018年1篇](https://blog.csdn.net/shaobingj126?type=blog&year=2018&month=05)
+[2017年2篇](https://blog.csdn.net/shaobingj126?type=blog&year=2017&month=05)
+[2016年21篇](https://blog.csdn.net/shaobingj126?type=blog&year=2016&month=11)
+[2015年12篇](https://blog.csdn.net/shaobingj126?type=blog&year=2015&month=12)
+[2014年14篇](https://blog.csdn.net/shaobingj126?type=blog&year=2014&month=06)
+[2013年44篇](https://blog.csdn.net/shaobingj126?type=blog&year=2013&month=12)
+[2012年96篇](https://blog.csdn.net/shaobingj126?type=blog&year=2012&month=12)
+[2011年183篇](https://blog.csdn.net/shaobingj126?type=blog&year=2011&month=12)
+[2010年79篇](https://blog.csdn.net/shaobingj126?type=blog&year=2010&month=07)
+
+
+
+![]()
+
+
+
+![]()
+
+· AI 阅读助手
+
+
+
+
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+
+
+![]()
+
+
+![]()
+
+· AI 阅读助手
+
+
+
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+![]()
+
+上一篇：
+
+[Golang实现SafeClaw原生安全AI智能体平台：企业级内生防护与高效量产系统](https://blog.csdn.net/shaobingj126/article/details/159613098)
+
+
+下一篇：
+
+[【前沿解析】2026年3月31日：中国AI Token调用量历史性超越美国与OpenClaw 3.22底层架构重构——AI产业格局的双重转折点](https://blog.csdn.net/shaobingj126/article/details/159647246)
+
+
+
+### 分类专栏
+
+* [![]()
+  AI](https://blog.csdn.net/shaobingj126/category_13037442.html)
+  256篇
+* [![]()
+  具身智能](https://blog.csdn.net/shaobingj126/category_13133539.html)
+  1篇
+* [![]()
+  芯片](https://blog.csdn.net/shaobingj126/category_13061639.html)
+* [![]()
+  云原生-微服务/Microservices](https://blog.csdn.net/shaobingj126/category_13028057.html)
+  29篇
+* [![]()
+  消息队列](https://blog.csdn.net/shaobingj126/category_13040434.html)
+  8篇
+* [![]()
+  数据库](https://blog.csdn.net/shaobingj126/category_13036761.html)
+  31篇
+* [![]()
+  安全](https://blog.csdn.net/shaobingj126/category_13038086.html)
+  4篇
+* [![]()
+  直播](https://blog.csdn.net/shaobingj126/category_13046489.html)
+  12篇
+* [![]()
+  量子计算](https://blog.csdn.net/shaobingj126/category_13054138.html)
+  1篇
+* [![]()
+  分布式](https://blog.csdn.net/shaobingj126/category_13033606.html)
+  4篇
+* [![]()
+  算法](https://blog.csdn.net/shaobingj126/category_13043005.html)
+  6篇
+* [![]()
+  Nginx+Openresty](https://blog.csdn.net/shaobingj126/category_10052143.html)
+  1篇
+* [![]()
+  Ajax技术](https://blog.csdn.net/shaobingj126/category_684564.html)
+  1篇
+* [![]()
+  Android](https://blog.csdn.net/shaobingj126/category_820876.html)
+* [![]()
+  Apache服务器技术](https://blog.csdn.net/shaobingj126/category_684562.html)
+  15篇
+* [![]()
+  AsWing Book](https://blog.csdn.net/shaobingj126/category_684565.html)
+* [![]()
+  C & C++](https://blog.csdn.net/shaobingj126/category_684566.html)
+  2篇
+* [![]()
+  CSS](https://blog.csdn.net/shaobingj126/category_836835.html)
+  3篇
+* [![]()
+  FLASH/Flex技术](https://blog.csdn.net/shaobingj126/category_684567.html)
+  2篇
+* [![]()
+  FreeBSD](https://blog.csdn.net/shaobingj126/category_684559.html)
+  26篇
+* [![]()
+  HTML技术](https://blog.csdn.net/shaobingj126/category_812701.html)
+  14篇
+* [![]()
+  JavaScirpt技术](https://blog.csdn.net/shaobingj126/category_684568.html)
+  46篇
+* [![]()
+  Linux](https://blog.csdn.net/shaobingj126/category_695107.html)
+  115篇
+* [![]()
+  Nginx服务器技术](https://blog.csdn.net/shaobingj126/category_684738.html)
+  20篇
+* [![]()
+  PHP+MySQL技术](https://blog.csdn.net/shaobingj126/category_684569.html)
+  157篇
+* [![]()
+  Shell编程](https://blog.csdn.net/shaobingj126/category_820875.html)
+  29篇
+* [![]()
+  SqlServer](https://blog.csdn.net/shaobingj126/category_699436.html)
+  6篇
+* [![]()
+  SVN技术](https://blog.csdn.net/shaobingj126/category_684570.html)
+  1篇
+* [![]()
+  Unix](https://blog.csdn.net/shaobingj126/category_695108.html)
+  2篇
+* [![]()
+  Windows](https://blog.csdn.net/shaobingj126/category_695119.html)
+  5篇
+* [![]()
+  XML技术](https://blog.csdn.net/shaobingj126/category_684571.html)
+  3篇
+* [![]()
+  在线编辑器](https://blog.csdn.net/shaobingj126/category_684723.html)
+  1篇
+* [![]()
+  安全技术](https://blog.csdn.net/shaobingj126/category_700978.html)
+  4篇
+* [![]()
+  技术大杂烩](https://blog.csdn.net/shaobingj126/category_684745.html)
+  10篇
+* [![]()
+  数据库技术](https://blog.csdn.net/shaobingj126/category_684573.html)
+  12篇
+* [![]()
+  法律常识](https://blog.csdn.net/shaobingj126/category_694331.html)
+  1篇
+* [![]()
+  英语学习](https://blog.csdn.net/shaobingj126/category_684574.html)
+  2篇
+* [![]()
+  软件测试](https://blog.csdn.net/shaobingj126/category_684572.html)
+  1篇
+* [![]()
+  随笔](https://blog.csdn.net/shaobingj126/category_684575.html)
+  27篇
+* [![]()
+  通信](https://blog.csdn.net/shaobingj126/category_858116.html)
+  3篇
+* [![]()
+  模板引擎](https://blog.csdn.net/shaobingj126/category_892893.html)
+  1篇
+* [![]()
+  黑客技术](https://blog.csdn.net/shaobingj126/category_892999.html)
+  2篇
+* [![]()
+  JAVA](https://blog.csdn.net/shaobingj126/category_901460.html)
+  1篇
+* [![]()
+  Amoeba](https://blog.csdn.net/shaobingj126/category_904354.html)
+  3篇
+* [![]()
+  负载均衡](https://blog.csdn.net/shaobingj126/category_904357.html)
+  13篇
+* [![]()
+  Asterisk+IPPBX+CallCenter](https://blog.csdn.net/shaobingj126/category_1224479.html)
+  7篇
+* [![]()
+  硬件](https://blog.csdn.net/shaobingj126/category_1240218.html)
+  2篇
+* [![]()
+  perl](https://blog.csdn.net/shaobingj126/category_1304170.html)
+  2篇
+* [![]()
+  sqlite](https://blog.csdn.net/shaobingj126/category_1659145.html)
+* [![]()
+  Yii-BootStrap](https://blog.csdn.net/shaobingj126/category_1659149.html)
+  4篇
+* [![]()
+  技术架构方案](https://blog.csdn.net/shaobingj126/category_5697685.html)
+  47篇
+* [![]()
+  前端Bootstrap,Jquery](https://blog.csdn.net/shaobingj126/category_6097376.html)
+* [![]()
+  前端Bootstrap](https://blog.csdn.net/shaobingj126/category_6097378.html)
+  1篇
+* [![]()
+  GoLang](https://blog.csdn.net/shaobingj126/category_6932212.html)
+  127篇
+
+展开全部 ![]()
+收起 ![]()
+
+
+
+
+
+
+### 目录
+
+
+
+
+
+
+
+
+
+
+
+
+
+评论
+![]()
+
+![]()被折叠的  条评论
+[为什么被折叠?](https://blogdev.blog.csdn.net/article/details/122245662)
+[![]()到【灌水乐园】发言](https://bbs.csdn.net/forums/FreeZone)
+
+
+查看更多评论![]()
+
+
+
+添加红包
+
+
+祝福语
+
+
+请填写红包祝福语或标题
+
+
+红包数量
+
+个
+
+红包个数最小为10个
+
+
+红包总金额
+
+元
+
+红包金额最低5元
+
+
+余额支付
+当前余额3.43元
+[前往充值 >](https://i.csdn.net/#/wallet/balance/recharge)
+
+
+需支付：10.00元
+
+取消
+确定
+
+
+
+
+![]()
+下一步
+
+![]()
+知道了
+
+
+
+![]()
+成就一亿技术人!
+
+
+
+领取后你会自动成为博主和红包主的粉丝
+规则
+
+
+
+![]()
+hope\_wisdom 发出的红包
+
+
+
+
+
+
+
+
+
+打赏作者![]()
+
+[![]()](https://blog.csdn.net/shaobingj126)
+
+bing.shao
+
+你的鼓励将是我创作的最大动力
+
+
+
+
+¥1
+¥2
+¥4
+¥6
+¥10
+¥20
+
+扫码支付：¥1
+
+![]()
+获取中
+
+
+![]()
+![]()
+扫码支付
+
+
+
+您的余额不足，请更换扫码支付或[充值](https://i.csdn.net/#/wallet/balance/recharge?utm_source=RewardVip)
+
+打赏作者
+
+
+
+
+实付元
+[使用余额支付](javascript:;)
+![]()
+点击重新获取
+
+
+![]()![]()![]()扫码支付
+
+
+
+
+钱包余额
+0
+![]()
+
+抵扣说明：
+
+1.余额是钱包充值的虚拟货币，按照1:1的比例进行支付金额的抵扣。  
+ 2.余额无法直接购买下载，可以购买VIP、付费专栏及课程。
+
+
+
+
+
+[![]()余额充值](https://i.csdn.net/#/wallet/balance/recharge)
+
+![]()
+
+
+
+
+
+

@@ -1,0 +1,654 @@
+# Source URL: https://arxiv.org/html/2602.05474v5
+# Content Length: 27140 characters
+# Extracted at: 2026-03-26 11:34:45
+#============================================================
+
+
+
+LLM-driven Multimodal Recommendation
+
+
+
+
+
+
+
+
+
+
+##### Report GitHub Issue
+
+×
+
+Title:
+
+Content selection saved. Describe the issue below:
+
+Description:
+
+
+Submit without GitHub
+Submit in GitHub
+
+
+
+[![]()
+Back to arXiv](/)
+
+
+[Why HTML?](https://info.arxiv.org/about/accessible_HTML.html)
+[Report Issue](#)
+
+[Back to Abstract](/abs/2602.05474v5)
+
+[Download PDF](/pdf/2602.05474v5)
+
+
+
+
+
+
+
+1. [Abstract](#abstract1)
+2. [I Introduction](#S1)
+3. [II Methodology](#S2)
+   1. [II-A Model Optimization](#S2.SS1)
+4. [III EXPERIMENTS](#S3)
+   1. [III-A Baselines.](#S3.SS1)
+   2. [III-B Performance Comparison](#S3.SS2)
+   3. [III-C Noise Robustness Analysis](#S3.SS3)
+5. [IV CONCLUSION](#S4)
+6. [References](#bib)
+
+
+[License: CC BY 4.0](https://info.arxiv.org/help/license/index.html#licenses-available)
+arXiv:2602.05474v5 [cs.IR] 13 Mar 2026
+
+LLM-driven Multimodal Recommendation
+††thanks:
+==============================================
+
+Yicheng Di
+
+
+###### Abstract
+
+As a paradigm that delves into the deep-seated drivers of user behavior, motivation-based recommendation systems have emerged as a prominent research direction in the field of personalized information retrieval. Unlike traditional approaches that primarily rely on surface-level interaction signals, these systems aim to uncover the intrinsic psychological factors that shape users’ decision-making processes and content preferences. By modeling motivation, recommender systems can better interpret not only what users choose, but why they make such choices, thereby enhancing both the interpretability and the persuasive power of recommendations. However, existing studies often simplify motivation as a latent variable learned implicitly from behavioral data, which limits their ability to capture the semantic richness inherent in user motivations. In particular, heterogeneous information such as review texts—which often carry explicit motivational cues—remains underexplored in current motivation modeling frameworks. Extensive experiments conducted on three real-world datasets demonstrate the effectiveness of the proposed LMMRec framework. The results show that LMMRec consistently outperforms a range of competitive baselines across multiple evaluation metrics, achieving a relative improvement of 4.98% in optimal performance. This gain underscores the advantages of integrating large language model-derived semantic priors into multimodal motivation modeling, particularly in enhancing cross-modal alignment and mitigating semantic drift. The findings validate the framework’s capacity to capture fine-grained motivational signals and underscore its potential as a model-agnostic solution for recommendation tasks.
+
+
+I Introduction
+--------------
+
+In recent years, the landscape of recommendation system research has undergone a significant paradigm shift, transitioning from the modeling of surface-level interaction signals toward a deeper exploration of users’ latent motivational structures [[43](#bib.bib32), [39](#bib.bib33), [16](#bib.bib37)]. This evolution is driven by the growing demand for interpretability in AI systems, as understanding the ”why” behind user choices is increasingly recognized as essential for building trustworthy and persuasive recommender systems [[42](#bib.bib34), [12](#bib.bib38), [41](#bib.bib35)]. Motivation disentanglement has emerged as a pivotal technical pathway in this context, aiming to decompose the complex interplay of psychological and contextual factors that drive user behavior [[40](#bib.bib36), [17](#bib.bib39), [15](#bib.bib40)]. By isolating these implicit drivers from historical interactions, researchers seek to uncover the cognitive mechanisms that underpin decision-making processes, thereby enhancing both the transparency and the effectiveness of recommendation algorithms [[11](#bib.bib41), [13](#bib.bib42), [1](#bib.bib43), [14](#bib.bib44)].
+
+
+Several pioneering works have laid the groundwork for this line of inquiry. For instance, ComiRec [[2](#bib.bib8)] introduces a multi-interest extraction framework that disentangles user interaction sequences into a set of dynamically evolving motivational vectors. This approach allows the model to capture the multifaceted nature of user preferences, reflecting how interests shift across different temporal and contextual windows. In a complementary vein, DisenGCN [[26](#bib.bib9)] leverages the power of graph convolutional networks to separate latent semantic factors within node representations. By achieving disentanglement at the representation level, this method enhances the model’s capacity to distinguish between distinct motivational dimensions, such as the desire for novelty versus the need for reliability. Collectively, these studies, along with a growing body of subsequent research [[49](#bib.bib47), [48](#bib.bib48), [47](#bib.bib49), [51](#bib.bib7)], have demonstrated that explicit motivation modeling can lead to more robust, interpretable, and adaptable recommendation systems.
+
+
+Despite these notable advancements, a critical examination of the existing literature reveals a persistent limitation: the overwhelming reliance on structured interaction data [[10](#bib.bib45), [7](#bib.bib46)]. Most current models operate within the confines of behavioral sequences, treating motivations as latent variables to be inferred solely from clicks, purchases, or views [[9](#bib.bib59), [19](#bib.bib60), [37](#bib.bib61)]. This approach, while effective to a degree, inherently neglects the rich, unstructured semantic information that users naturally generate [[20](#bib.bib62), [31](#bib.bib63), [33](#bib.bib64)]. Modalities such as review texts, search queries, and social media posts contain a wealth of explicit and implicit motivational cues [[34](#bib.bib65), [32](#bib.bib66), [18](#bib.bib67), [36](#bib.bib68)]. For example, a product review may articulate not only satisfaction but also the specific need that prompted the purchase, such as durability for outdoor use or aesthetic appeal for gifting [[38](#bib.bib69), [23](#bib.bib70), [35](#bib.bib71)]. Similarly, a search history can reveal an evolving intent, moving from broad exploration to targeted comparison [[30](#bib.bib72), [22](#bib.bib73), [21](#bib.bib74)]. This linguistic data serves as a direct window into the user’s cognitive state, offering a level of detail that interaction logs alone cannot provide [[27](#bib.bib10), [46](#bib.bib11), [50](#bib.bib12), [5](#bib.bib50), [4](#bib.bib51), [6](#bib.bib52), [44](#bib.bib53)].
+
+
+The failure to integrate these heterogeneous data sources results in models with significant semantic blind spots [[45](#bib.bib75)]. When motivation is modeled exclusively from behavior, the system may capture \*what\* a user does but remains largely ignorant of \*why\*. This limitation becomes particularly pronounced in complex decision-making scenarios where user intent is nuanced and context-dependent [[8](#bib.bib76)]. The reliance on behavioral data alone leads to a form of semantic sparsity, where the rich tapestry of human motivation is reduced to a sequence of discrete actions. Consequently, the models’ ability to generalize across contexts or to provide genuinely insightful recommendations is fundamentally constrained.
+
+
+This identified gap underscores a pressing challenge for the research community: how to move beyond unimodal behavioral modeling and effectively harness multimodal heterogeneous information. Achieving this requires not merely the concatenation of different data types, but a sophisticated approach to fine-grained motivation disentanglement and cross-modal semantic alignment. The core difficulty lies in establishing correspondences between the structured signals of interaction and the unstructured expressions of natural language, ensuring that the motivational factors inferred from behavior are meaningfully grounded in the semantic content provided by users. It is precisely in response to this complex challenge that we propose LMMRec, a large language model-driven, multimodal recommendation framework. LMMRec is designed to bridge the gap between behavioral and semantic modalities, injecting deep linguistic understanding into the motivation modeling process to achieve a more holistic and accurate representation of user intent.
+
+
+
+II Methodology
+--------------
+
+### II-A Model Optimization
+
+Finally, the model is optimized end-to-end through multi-task joint learning, with the overall objective function defined as follows:
+
+|  | ℒ=ℒM​C​S′+γ​ℒI​C​M+‖Φ‖22,\mathcal{L}=\mathcal{L}\_{MCS}^{\prime}+\gamma\mathcal{L}\_{ICM}+\parallel\Phi\parallel\_{2}^{2},\ |  | (1) |
+| --- | --- | --- | --- |
+
+where ‖Φ‖22\|\Phi\|\_{2}^{2} denotes the L2\mathrm{L}\_{2} regularization term over all trainable parameters in the model.
+
+
+
+
+III EXPERIMENTS
+---------------
+
+### III-A Baselines.
+
+We compare LMMRec with the following model-agnostic baselines: UIST [[25](#bib.bib26)], ONCE [[24](#bib.bib27)], and AutoGraph [[29](#bib.bib28)]. Representative base models WeightedGCL [[3](#bib.bib29)] and PolyCF [[28](#bib.bib30)] are selected to evaluate the performance gains of the baselines compared to their respective base models in a model-agnostic manner.
+
+
+![]()
+
+
+![]()
+
+
+
+Figure 1: Comparing performance on the Yelp dataset with varying noise levels using PolyCE as the basic model.
+
+
+
+
+### III-B Performance Comparison
+
+Specifically, in the two groups of experiments based on WeightedGCL and PolyCF, LMMRec consistently achieves improvements in both Recall and NDCG metrics, with particularly notable gains of up to 4.17% and 4.98% on the Yelp and Steam datasets, respectively. In contrast, UIST, ONCE, and AutoGraph improve model performance to some extent but yield limited overall gains. This performance advantage primarily stems from the deep semantic representation capability of the large language model introduced in LMMRec for motivation semantic modeling, enabling it to extract more interpretable and discriminative motivation features from the textual perspective. Meanwhile, the dual-encoder architecture and cross-modal alignment strategy effectively mitigate the semantic gap between text and interaction signals, facilitating consistent modeling in the high-level semantic space.
+
+
+
+### III-C Noise Robustness Analysis
+
+We evaluate the robustness of LMMRec to data noise by adding nonexistent interactions to the original training data, with noise levels ranging from 5% to 30% relative to the training set size. On the Yelp dataset, we compare the performance of the original PolyCE model with those enhanced by UIST, ONCE, AutoGraph, and LMMRec under different noise conditions. As shown in Fig. [1](#S3.F1), all model-agnostic enhancement methods exhibit varying degrees of performance degradation as the noise ratio increases, indicating the general impact of noise on interactive recommendation models. However, LMMRec consistently outperforms other methods across all noise levels, demonstrating its superior robustness. This is attributed to the Motivation Coordination Strategy’s consistency constraint in contrastive learning and the Interaction-text Correspondence Method’s mitigation of cross-modal semantic shift, enabling LMMRec to stably capture effective motivation signals under high noise conditions and avoid overfitting to spurious interaction features.
+
+
+
+
+IV CONCLUSION
+-------------
+
+To enhance the modeling capability of recommendation systems for users’ deep behavioral motivations, this paper proposes LLM-driven Multimodal Recommendation. The framework fully leverages the semantic priors and reasoning abilities of LLMs to characterize latent motivation features of users and items from both textual and interaction perspectives, achieving fine-grained modeling at the motivation level. Future work will further explore LLM-based causal motivation modeling and adaptive fusion mechanisms to extend the framework’s applicability in open-domain recommendation and complex interaction scenarios.
+
+
+New content is being updated.
+
+
+
+References
+----------
+
+* [1]
+  J. Bao, Y. Di, S. Shen, R. Hu, and Y. Liu (2026)
+  
+  Personalized semi-decentralized federated recommender.
+  
+  Information Processing & Management 63 (2),  pp. 104360.
+  
+  Cited by: [§I](#S1.p1.1).
+* [2]
+  Y. Cen, J. Zhang, X. Zou, C. Zhou, H. Yang, and J. Tang (2020)
+  
+  Controllable multi-interest framework for recommendation.
+  
+  In Proceedings of the 26th ACM SIGKDD international conference on knowledge discovery & data mining,
+  
+   pp. 2942–2951.
+  
+  Cited by: [§I](#S1.p2.1).
+* [3]
+  Z. Chen, J. Xu, Y. Wei, and Z. Peng (2025)
+  
+  Squeeze and excitation: a weighted graph contrastive learning for collaborative filtering.
+  
+  In Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval,
+  
+   pp. 2769–2773.
+  
+  Cited by: [§III-A](#S3.SS1.p1.1).
+* [4]
+  Y. Dang, Y. Liu, E. Yang, G. Guo, L. Jiang, J. Zhao, and X. Wang (2025)
+  
+  Efficient and adaptive recommendation unlearning: a guided filtering framework to erase outdated preferences.
+  
+  ACM Transactions on Information Systems 43 (2),  pp. 1–25.
+  
+  Cited by: [§I](#S1.p3.1).
+* [5]
+  Y. Dang, Y. Liu, E. Yang, M. Huang, G. Guo, J. Zhao, and X. Wang (2025)
+  
+  Data augmentation as free lunch: exploring the test-time augmentation for sequential recommendation.
+  
+  In Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval,
+  
+   pp. 1466–1475.
+  
+  Cited by: [§I](#S1.p3.1).
+* [6]
+  Y. Dang, E. Yang, Y. Liu, G. Guo, L. Jiang, J. Zhao, and X. Wang (2024)
+  
+  Data augmentation for sequential recommendation: a survey.
+  
+  arXiv preprint arXiv:2409.13545.
+  
+  Cited by: [§I](#S1.p3.1).
+* [7]
+  Y. Di, J. Fan, R. Zhang, S. Shen, J. Bao, R. Hu, and Y. Liu (2025)
+  
+  Global perception federated recommender system for click-through rate prediction.
+  
+  In 2025 IEEE International Conference on Multimedia and Expo (ICME),
+  
+   pp. 1–6.
+  
+  Cited by: [§I](#S1.p3.1).
+* [8]
+  Y. Di, Y. Liu, Z. Chen, and J. Guo (2026)
+  
+  SRSUPM: sequential recommender system based on user psychological motivation.
+  
+  arXiv preprint arXiv:2602.08667.
+  
+  Cited by: [§I](#S1.p4.1).
+* [9]
+  Y. Di and Y. Liu (2023)
+  
+  MFPCDR: a meta-learning-based model for federated personalized cross-domain recommendation.
+  
+  Applied Sciences 13 (7),  pp. 4407.
+  
+  Cited by: [§I](#S1.p3.1).
+* [10]
+  Y. Di, S. Shen, J. Bao, and Y. Liu (2025)
+  
+  Trustworthy recommendation for consumer electronics using hypernetworks.
+  
+  In ICASSP 2025-2025 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP),
+  
+   pp. 1–5.
+  
+  Cited by: [§I](#S1.p3.1).
+* [11]
+  Y. Di, H. Shi, J. Fan, J. Bao, G. Huang, and Y. Liu (2025)
+  
+  Efficient federated recommender system based on slimify module and feature sharpening module.
+  
+  Knowledge and Information Systems,  pp. 1–34.
+  
+  Cited by: [§I](#S1.p1.1).
+* [12]
+  Y. Di, H. Shi, R. Ma, H. Gao, Y. Liu, and W. Wang (2025)
+  
+  Fedrl: a reinforcement learning federated recommender system for efficient communication using reinforcement selector and hypernet generator.
+  
+  ACM Transactions on Recommender Systems 4 (1),  pp. 1–31.
+  
+  Cited by: [§I](#S1.p1.1).
+* [13]
+  Y. Di, H. Shi, R. Ma, Y. Liu, and W. Wang (2025)
+  
+  Fine-grained global modeling learning for personalized federated sequential recommender.
+  
+  In ICASSP 2025-2025 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP),
+  
+   pp. 1–5.
+  
+  Cited by: [§I](#S1.p1.1).
+* [14]
+  Y. Di, H. Shi, K. H. Syed, R. Ma, H. Guan, Y. Liu, and R. Buyya (2025)
+  
+  PIFGSR: pluggable framework for information fusion using generative artificial intelligence (genai) in recommender systems.
+  
+  Information Fusion,  pp. 104004.
+  
+  Cited by: [§I](#S1.p1.1).
+* [15]
+  Y. Di, H. Shi, Q. Wang, S. Jia, J. Bao, and Y. Liu (2025)
+  
+  Federated cross-domain recommendation system based on bias eliminator and personalized extractor.
+  
+  Knowledge and Information Systems 67 (3),  pp. 2935–2965.
+  
+  Cited by: [§I](#S1.p1.1).
+* [16]
+  Y. Di, H. Shi, X. Wang, R. Ma, and Y. Liu (2025)
+  
+  Federated recommender system based on diffusion augmentation and guided denoising.
+  
+  ACM Transactions on Information Systems 43 (2),  pp. 1–36.
+  
+  Cited by: [§I](#S1.p1.1).
+* [17]
+  Y. Di, X. Wang, H. Shi, C. Fan, R. Zhou, R. Ma, and Y. Liu (2025)
+  
+  Personalized consumer federated recommender system using fine-grained transformation and hybrid information sharing.
+  
+  IEEE Transactions on Consumer Electronics.
+  
+  Cited by: [§I](#S1.p1.1).
+* [18]
+  J. Fan, Y. Di, J. Bao, L. Li, and X. Pan (2025)
+  
+  Synchronous inhibition and activation for weakly supervised semantic segmentation of pathology images.
+  
+  In International Conference on Medical Image Computing and Computer-Assisted Intervention,
+  
+   pp. 583–592.
+  
+  Cited by: [§I](#S1.p3.1).
+* [19]
+  J. Fan, T. Lv, Y. Di, L. Li, and X. Pan (2024)
+  
+  Pathmamba: weakly supervised state space model for multi-class segmentation of pathology images.
+  
+  In International Conference on Medical Image Computing and Computer-Assisted Intervention,
+  
+   pp. 500–509.
+  
+  Cited by: [§I](#S1.p3.1).
+* [20]
+  J. Fan, Q. Sun, Y. Di, J. Bao, T. Lv, Y. Liu, X. Hu, L. Li, X. Cui, and X. Pan (2025)
+  
+  DIPathMamba: a domain-incremental weakly supervised state space model for pathology image segmentation.
+  
+  Medical Image Analysis 103,  pp. 103563.
+  
+  Cited by: [§I](#S1.p3.1).
+* [21]
+  J. Fan, X. Yu, Y. Di, T. Lv, R. Zhang, J. Bao, Y. Liu, L. Li, and X. Pan (2025)
+  
+  A foundation model for rock thin-section images analysis.
+  
+  Communications Engineering.
+  
+  Cited by: [§I](#S1.p3.1).
+* [22]
+  Z. Hong, N. Dong, Y. Di, X. Xu, R. Hu, Y. Shao, R. Ling, Y. Wang, J. Wang, Z. Zhang, et al. (2026)
+  
+  StyMam: a mamba-based generator for artistic style transfer.
+  
+  arXiv preprint arXiv:2601.12954.
+  
+  Cited by: [§I](#S1.p3.1).
+* [23]
+  L. Huang, Z. Tao, X. Pei, J. Bao, Y. Di, and Y. Liu (2024)
+  
+  Hierarchy knowledge-aware contrastive learning for recommendation..
+  
+  In SEKE,
+  
+   pp. 398–404.
+  
+  Cited by: [§I](#S1.p3.1).
+* [24]
+  Q. Liu, N. Chen, T. Sakai, and X. Wu (2024)
+  
+  Once: boosting content-based recommendation with both open-and closed-source large language models.
+  
+  In Proceedings of the 17th ACM International Conference on Web Search and Data Mining,
+  
+   pp. 452–461.
+  
+  Cited by: [§III-A](#S3.SS1.p1.1).
+* [25]
+  Q. Liu, H. Hu, J. Wu, J. Zhu, M. Kan, and X. Wu (2024)
+  
+  Discrete semantic tokenization for deep ctr prediction.
+  
+  In Companion Proceedings of the ACM Web Conference 2024,
+  
+   pp. 919–922.
+  
+  Cited by: [§III-A](#S3.SS1.p1.1).
+* [26]
+  J. Ma, P. Cui, K. Kuang, X. Wang, and W. Zhu (2019)
+  
+  Disentangled graph convolutional networks.
+  
+  In International conference on machine learning,
+  
+   pp. 4212–4221.
+  
+  Cited by: [§I](#S1.p2.1).
+* [27]
+  Z. Pan, N. Zhang, W. Gao, S. Liu, and G. Li (2024)
+  
+  Less is more: label recommendation for weakly supervised point cloud semantic segmentation.
+  
+  In Proceedings of the AAAI Conference on Artificial Intelligence,
+  
+  Vol. 38,  pp. 4397–4405.
+  
+  Cited by: [§I](#S1.p3.1).
+* [28]
+  Y. Qin, W. Ju, Y. Gu, Z. Qiao, Z. Xiao, and M. Zhang (2025)
+  
+  Polycf: towards optimal spectral graph filters for collaborative filtering.
+  
+  ACM Transactions on Information Systems 43 (4),  pp. 1–28.
+  
+  Cited by: [§III-A](#S3.SS1.p1.1).
+* [29]
+  R. Shan, J. Lin, C. Zhu, B. Chen, M. Zhu, K. Zhang, J. Zhu, R. Tang, Y. Yu, and W. Zhang (2025)
+  
+  An automatic graph construction framework based on large language models for recommendation.
+  
+  In Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V. 2,
+  
+   pp. 4806–4817.
+  
+  Cited by: [§III-A](#S3.SS1.p1.1).
+* [30]
+  S. Shen, X. Song, H. Ding, X. Cui, Z. Xie, H. Huang, and G. Dong (2026)
+  
+  Data-driven soft sensing for raw milk ethanol stability prediction.
+  
+  Sensors 26 (3),  pp. 903.
+  
+  Cited by: [§I](#S1.p3.1).
+* [31]
+  H. Shi, Y. Di, X. Ruan, M. Liao, Q. Zhang, R. Ma, and H. Guan (2025)
+  
+  Efficient federated recommender system with adaptive model pruning and momentum-based batch adjustment.
+  
+  ACM Transactions on Recommender Systems 3 (3),  pp. 1–23.
+  
+  Cited by: [§I](#S1.p3.1).
+* [32]
+  X. Song, J. Bao, Y. Di, and Y. Li (2023)
+  
+  Msam: cross-domain recommendation based on multi-layer self-attentive mechanism.
+  
+  In International conference on intelligent computing,
+  
+   pp. 319–332.
+  
+  Cited by: [§I](#S1.p3.1).
+* [33]
+  Z. Tao, L. Huang, J. Bao, Y. Di, and Y. Liu (2024)
+  
+  Deeper graph contrastive learning with attention mechanism for recommendation.
+  
+  In 2024 International Joint Conference on Neural Networks (IJCNN),
+  
+   pp. 1–8.
+  
+  Cited by: [§I](#S1.p3.1).
+* [34]
+  Q. Wang, Y. Di, L. Huang, G. Wang, and Y. Liu (2024)
+  
+  Tecdr: cross-domain recommender system based on domain knowledge transferor and latent preference extractor.
+  
+  IEICE TRANSACTIONS on Information and Systems 107 (5),  pp. 704–713.
+  
+  Cited by: [§I](#S1.p3.1).
+* [35]
+  Q. Wang, Y. Di, and Y. Liu (2023)
+  
+  CADCN: a click-through rate prediction model based on feature importance.
+  
+  In Proceedings of the 2023 4th International Conference on Computing, Networks and Internet of Things,
+  
+   pp. 240–246.
+  
+  Cited by: [§I](#S1.p3.1).
+* [36]
+  S. Wang, Y. Di, J. Bao, Z. Jiang, H. Shi, R. Ma, X. Gao, Z. Song, H. Yuan, Y. Liu, et al. (2026)
+  
+  Reinforcement learning based data weight optimization for sequential recommendation.
+  
+  IEEE Transactions on Consumer Electronics.
+  
+  Cited by: [§I](#S1.p3.1).
+* [37]
+  Y. Wang, W. Zheng, Z. Liu, J. Wang, H. Shi, M. Gu, and Y. Di (2023)
+  
+  A federated network intrusion detection system with multi-branch network and vertical blocking aggregation.
+  
+  Electronics 12 (19),  pp. 4049.
+  
+  Cited by: [§I](#S1.p3.1).
+* [38]
+  F. Yu, Y. Liu, Y. Di, X. Wang, and Y. Fang (2025)
+  
+  PrivRec: privacy-preserving cross-domain recommendation with enhanced learning strategies.
+  
+  In 2025 International Joint Conference on Neural Networks (IJCNN),
+  
+   pp. 1–9.
+  
+  Cited by: [§I](#S1.p3.1).
+* [39]
+  W. Yuan, L. Qu, L. Cui, Y. Tong, X. Zhou, and H. Yin (2024)
+  
+  Hetefedrec: federated recommender systems with model heterogeneity.
+  
+  In 2024 IEEE 40th International Conference on Data Engineering (ICDE),
+  
+   pp. 1324–1337.
+  
+  Cited by: [§I](#S1.p1.1).
+* [40]
+  W. Yuan, C. Yang, L. Qu, Q. V. Hung Nguyen, G. Ye, and H. Yin (2025)
+  
+  Ptf-fsr: a parameter transmission-free federated sequential recommender system.
+  
+  ACM Transactions on Information Systems 43 (2),  pp. 1–24.
+  
+  Cited by: [§I](#S1.p1.1).
+* [41]
+  W. Yuan, C. Yang, L. Qu, Q. V. H. Nguyen, J. Li, and H. Yin (2024)
+  
+  Hide your model: a parameter transmission-free federated recommender system.
+  
+  In 2024 IEEE 40th International Conference on Data Engineering (ICDE),
+  
+   pp. 611–624.
+  
+  Cited by: [§I](#S1.p1.1).
+* [42]
+  W. Yuan, C. Yang, G. Ye, T. Chen, Q. V. H. Nguyen, and H. Yin (2025)
+  
+  FELLAS: enhancing federated sequential recommendation with llm as external services.
+  
+  ACM Transactions on Information Systems 43 (6),  pp. 1–24.
+  
+  Cited by: [§I](#S1.p1.1).
+* [43]
+  W. Yuan, H. Yin, F. Wu, S. Zhang, T. He, and H. Wang (2023)
+  
+  Federated unlearning for on-device recommendation.
+  
+  In Proceedings of the sixteenth ACM international conference on web search and data mining,
+  
+   pp. 393–401.
+  
+  Cited by: [§I](#S1.p1.1).
+* [44]
+  G. Zhang, G. Yuan, D. Cheng, L. Liu, J. Li, and S. Zhang (2025)
+  
+  Mitigating propensity bias of large language models for recommender systems.
+  
+  ACM Transactions on Information Systems 43 (6),  pp. 1–26.
+  
+  Cited by: [§I](#S1.p3.1).
+* [45]
+  R. Zhang, J. Hu, Y. Di, J. Bao, J. Fan, and Y. Liu (2025)
+  
+  Attention-enhanced transferable task offloading via auxiliary learning in mobile edge computing.
+  
+  IEEE Internet of Things Journal 13 (2),  pp. 2360–2372.
+  
+  Cited by: [§I](#S1.p4.1).
+* [46]
+  X. Zhang, B. Xu, Z. Ren, X. Wang, H. Lin, and F. Ma (2024)
+  
+  Disentangling id and modality effects for session-based recommendation.
+  
+  In Proceedings of the 47th international ACM SIGIR conference on research and development in information retrieval,
+  
+   pp. 1883–1892.
+  
+  Cited by: [§I](#S1.p3.1).
+* [47]
+  Z. Zhang, J. Sun, J. Chen, L. Zhao, B. Ji, Z. Lan, G. Li, W. Xing, and D. Xu (2023)
+  
+  Caster: cartoon style transfer via dynamic cartoon style casting.
+  
+  Neurocomputing 556,  pp. 126654.
+  
+  Cited by: [§I](#S1.p2.1).
+* [48]
+  Z. Zhang, Q. Zhang, H. Lin, W. Xing, J. Mo, S. Huang, J. Xie, G. Li, J. Luan, L. Zhao, et al. (2024)
+  
+  Towards highly realistic artistic style transfer via stable diffusion with step-aware and layer-aware prompt.
+  
+  arXiv preprint arXiv:2404.11474.
+  
+  Cited by: [§I](#S1.p2.1).
+* [49]
+  Z. Zhang, Q. Zhang, W. Xing, G. Li, L. Zhao, J. Sun, Z. Lan, J. Luan, Y. Huang, and H. Lin (2024)
+  
+  Artbank: artistic style transfer with pre-trained diffusion model and implicit style prompt bank.
+  
+  In Proceedings of the AAAI conference on artificial intelligence,
+  
+  Vol. 38,  pp. 7396–7404.
+  
+  Cited by: [§I](#S1.p2.1).
+* [50]
+  Z. Zhang, S. Liu, Z. Liu, R. Zhong, Q. Cai, X. Zhao, C. Zhang, Q. Liu, and P. Jiang (2025)
+  
+  Llm-powered user simulator for recommender system.
+  
+  In Proceedings of the AAAI Conference on Artificial Intelligence,
+  
+  Vol. 39,  pp. 13339–13347.
+  
+  Cited by: [§I](#S1.p3.1).
+* [51]
+  C. Zuo, X. Zhang, L. Yan, and Z. Zhang (2024)
+  
+  GUGEN: global user graph enhanced network for next poi recommendation.
+  
+  IEEE Transactions on Mobile Computing.
+  
+  Cited by: [§I](#S1.p2.1).
+
+
+
+
+Experimental support, please
+[view the build logs](./2602.05474v5/__stdout.txt)
+for errors. Generated by
+[L
+A
+T
+E
+
+xml](https://math.nist.gov/~BMiller/LaTeXML/).
+
+Instructions for reporting errors
+---------------------------------
+
+We are continuing to improve HTML versions of papers, and your feedback helps enhance accessibility and mobile
+support. To report errors in the HTML that will help us improve conversion and rendering, choose any of the
+methods listed below:
+
+* Click the "Report Issue" (
+  
+  ) button, located in the page header.
+
+**Tip:** You can select the relevant text first, to include it in your report.
+
+Our team has already identified [the following issues](https://github.com/arXiv/html_feedback/issues). We appreciate your time reviewing and reporting rendering errors we
+may not have found yet. Your efforts will help us improve the HTML versions for all readers, because disability
+should not be a barrier to accessing research. Thank you for your continued support in championing open access for
+all.
+
+Have a free development cycle? Help support accessibility at arXiv! Our collaborators at LaTeXML maintain a [list of packages that need conversion](https://github.com/brucemiller/LaTeXML/wiki/Porting-LaTeX-packages-for-LaTeXML), and welcome [developer contributions](https://github.com/brucemiller/LaTeXML/issues).
+
+
+
+BETA
+
+
+

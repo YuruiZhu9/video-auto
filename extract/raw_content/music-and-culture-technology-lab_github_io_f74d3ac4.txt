@@ -1,0 +1,327 @@
+# Source URL: https://music-and-culture-technology-lab.github.io/omnizart-doc/
+# Content Length: 10489 characters
+# Extracted at: 2026-03-16 19:41:05
+#============================================================
+
+
+
+
+OMNIZART: MUSIC TRANSCRIPTION MADE EASY
+
+
+
+
+
+
+
+
+
+
+
+omnizart
+
+[Contents](#sound-samples)
+
+[Command Line Interface](#sound-samples)
+
+[API Reference](#sound-samples)
+
+
+
+
+
+[Contents](#sound-samples)
+
+[Command Line Interface](#sound-samples)
+
+[API Reference](#sound-samples)
+
+Quick search
+
+
+
+
+
+
+
+[Contents](#sound-samples)
+
+* [Quick Start](quick-start.html)
+* [Tutorial](tutorial.html)
+* [Demonstration](demo.html)
+
+[Command Line Interface](#sound-samples)
+
+* [omnizart music](music/cli.html)
+* [omnizart drum](drum/cli.html)
+* [omnizart chord](chord/cli.html)
+* [omnizart vocal](vocal/cli.html)
+* [omnizart vocal-contour](vocal-contour/cli.html)
+* [omnizart beat](beat/cli.html)
+* [omnizart patch-cnn](patch-cnn/cli.html)
+
+[API Reference](#sound-samples)
+
+* [Music Transcription](music/api.html)
+* [Drum Transcription](drum/api.html)
+* [Chord Transcription](chord/api.html)
+* [Vocal Transcription](vocal/api.html)
+* [Vocal-Contour Transcription](vocal-contour/api.html)
+* [Patch-CNN Transcription](patch-cnn/api.html)
+* [Beat Transcription](beat/api.html)
+* [Feature](feature.html)
+* [Models](models.html)
+* [Training](training.html)
+* [Base Classes](base.html)
+* [Constants](constants.html)
+* [Utilities](utils.html)
+
+
+
+* [Docs](#) »
+* OMNIZART: MUSIC TRANSCRIPTION MADE EASY
+
+* [Quick Start →](quick-start.html)
+
+---
+
+
+OMNIZART: MUSIC TRANSCRIPTION MADE EASY[¶](#omnizart-music-transcription-made-easy)
+===================================================================================
+
+![]()
+
+Omnizart is a Python library and a streamlined solution for automatic music transcription.
+This library gathers the research outcomes from [Music and Cultural Technology Lab](https://sites.google.com/view/mctl/home),
+analyzing polyphonic music and transcribes
+**musical notes of instruments** [[WCS20](#id8)],
+**chord progression** [[CS19](#id9)],
+**drum events** [[WWS20](#id10)],
+**frame-level vocal melody** [[LS18](#id11)],
+**note-level vocal melody** [[HS20](#id13)], and
+**beat** [[CS20](#id12)].
+
+Omnizart provides the main functionalities that construct the life-cycle of deep learning-based music transcription,
+covering from *dataset downloading*, *feature pre-processing*, *model training*, to *transcription* and *sonification*.
+Pre-trained checkpoints are also provided for the immediate usage of transcription. The paper can be found from
+[Journal of Open Source Software (JOSS)](https://doi.org/10.21105/joss.03391).
+
+Demonstration[¶](#demonstration)
+--------------------------------
+
+### Colab[¶](#colab)
+
+Play with the [Colab notebook](https://bit.ly/OmnizartColab) to transcribe your favorite song almost immediately!
+
+
+### Replicate web demo[¶](#replicate-web-demo)
+
+Transcribe music with [Replicate web UI](https://replicate.com/breezewhite/omnizart).
+
+
+### Sound samples[¶](#sound-samples)
+
+Original song
+
+Chord transcription
+
+Your browser does not support the `audio` element.
+
+Drum transcription
+
+Your browser does not support the `audio` element.
+
+Note-level vocal transcription
+
+Your browser does not support the `audio` element.
+
+Frame-level vocal transcription
+
+Your browser does not support the `audio` element.
+
+Source files can be downloaded [here](https://drive.google.com/file/d/15VqHearznV9L83cyl61ccACsXXJ4vBHo/view?usp=sharing).
+You can use *Audacity* to open the files.
+
+Contents
+
+* [Quick Start](quick-start.html)
+  + [Colab](quick-start.html#colab)
+  + [Installation](quick-start.html#installation)
+  + [CLI](quick-start.html#cli)
+* [Tutorial](tutorial.html)
+  + [Core](tutorial.html#core)
+  + [Utility](tutorial.html#utility)
+* [Demonstration](demo.html)
+  + [葬予規路火烌猶在 - 柯拉琪 Collage](demo.html#collage)
+  + [Last Stardust Piano Ver. - Animenz](demo.html#last-stardust-piano-ver-animenz)
+  + [Self Spiral - The Surrealist](demo.html#self-spiral-the-surrealist)
+  + [Question Everything - Dreamshade](demo.html#question-everything-dreamshade)
+  + [Cosmo Funk - Snail’s House](demo.html#cosmo-funk-snail-s-house)
+
+Command Line Interface
+
+* [omnizart music](music/cli.html)
+  + [transcribe](music/cli.html#transcribe)
+  + [generate-feature](music/cli.html#generate-feature)
+  + [train-model](music/cli.html#train-model)
+* [omnizart drum](drum/cli.html)
+  + [transcribe](drum/cli.html#transcribe)
+  + [generate-feature](drum/cli.html#generate-feature)
+  + [train-model](drum/cli.html#train-model)
+* [omnizart chord](chord/cli.html)
+  + [transcribe](chord/cli.html#transcribe)
+  + [generate-feature](chord/cli.html#generate-feature)
+  + [train-model](chord/cli.html#train-model)
+* [omnizart vocal](vocal/cli.html)
+  + [transcribe](vocal/cli.html#transcribe)
+  + [generate-feature](vocal/cli.html#generate-feature)
+  + [train-model](vocal/cli.html#train-model)
+* [omnizart vocal-contour](vocal-contour/cli.html)
+  + [transcribe](vocal-contour/cli.html#transcribe)
+  + [generate-feature](vocal-contour/cli.html#generate-feature)
+  + [train-model](vocal-contour/cli.html#train-model)
+* [omnizart beat](beat/cli.html)
+  + [transcribe](beat/cli.html#transcribe)
+  + [generate-feature](beat/cli.html#generate-feature)
+  + [train-model](beat/cli.html#train-model)
+* [omnizart patch-cnn](patch-cnn/cli.html)
+  + [transcribe](patch-cnn/cli.html#transcribe)
+  + [generate-feature](patch-cnn/cli.html#generate-feature)
+  + [train-model](patch-cnn/cli.html#train-model)
+
+API Reference
+
+* [Music Transcription](music/api.html)
+  + [Feature Storage Format](music/api.html#feature-storage-format)
+  + [App](music/api.html#app)
+  + [Dataset](music/api.html#dataset)
+  + [Inference](music/api.html#module-omnizart.music.inference)
+  + [Loss Functions](music/api.html#module-omnizart.music.losses)
+  + [Labels](music/api.html#module-omnizart.music.labels)
+  + [Prediction](music/api.html#module-omnizart.music.prediction)
+  + [Settings](music/api.html#settings)
+* [Drum Transcription](drum/api.html)
+  + [Feature Storage Format](drum/api.html#feature-storage-format)
+  + [App](drum/api.html#app)
+  + [Dataset](drum/api.html#dataset)
+  + [Inference](drum/api.html#module-omnizart.drum.inference)
+  + [Labels](drum/api.html#module-omnizart.drum.labels)
+  + [Prediction](drum/api.html#module-omnizart.drum.prediction)
+  + [Settings](drum/api.html#settings)
+* [Chord Transcription](chord/api.html)
+  + [Feature Storage Format](chord/api.html#feature-storage-format)
+  + [App](chord/api.html#app)
+  + [Feature](chord/api.html#module-omnizart.chord.features)
+  + [Dataset](chord/api.html#dataset)
+  + [Inference](chord/api.html#module-omnizart.chord.inference)
+  + [Settings](chord/api.html#settings)
+* [Vocal Transcription](vocal/api.html)
+  + [Feature Storage Format](vocal/api.html#feature-storage-format)
+  + [App](vocal/api.html#app)
+  + [Dataset](vocal/api.html#dataset)
+  + [Inference](vocal/api.html#module-omnizart.vocal.inference)
+  + [Labels](vocal/api.html#module-omnizart.vocal.labels)
+  + [Prediction](vocal/api.html#module-omnizart.vocal.prediction)
+  + [Settings](vocal/api.html#settings)
+* [Vocal-Contour Transcription](vocal-contour/api.html)
+  + [Feature Storage Format](vocal-contour/api.html#feature-storage-format)
+  + [App](vocal-contour/api.html#module-omnizart.vocal_contour.app)
+  + [Inference](vocal-contour/api.html#module-omnizart.vocal_contour.inference)
+  + [Loss Functions](vocal-contour/api.html#module-omnizart.music.losses)
+  + [Settings](vocal-contour/api.html#settings)
+* [Patch-CNN Transcription](patch-cnn/api.html)
+  + [Feature Storage Format](patch-cnn/api.html#feature-storage-format)
+  + [App](patch-cnn/api.html#app)
+  + [Dataset](patch-cnn/api.html#dataset)
+  + [Inference](patch-cnn/api.html#module-omnizart.patch_cnn.inference)
+  + [Labels](patch-cnn/api.html#labels)
+  + [Settings](patch-cnn/api.html#settings)
+* [Beat Transcription](beat/api.html)
+  + [Feature Storage Format](beat/api.html#feature-storage-format)
+  + [App](beat/api.html#app)
+  + [Dataset](beat/api.html#dataset)
+  + [Inference](beat/api.html#module-omnizart.beat.inference)
+  + [Loss Functions](beat/api.html#loss-functions)
+  + [Features](beat/api.html#module-omnizart.beat.features)
+  + [Prediction](beat/api.html#module-omnizart.beat.prediction)
+  + [Settings](beat/api.html#settings)
+* [Feature](feature.html)
+  + [CFP](feature.html#module-omnizart.feature.cfp)
+  + [HCFP](feature.html#module-omnizart.feature.hcfp)
+  + [CQT](feature.html#module-omnizart.feature.cqt)
+  + [Beat Tracking](feature.html#module-omnizart.feature.beat_for_drum)
+* [Models](models.html)
+  + [U-Net](models.html#module-omnizart.models.u_net)
+  + [Tensor2Tensor](models.html#module-omnizart.models.t2t)
+  + [Spectral Normalization Model](models.html#module-omnizart.models.spectral_norm_net)
+  + [Chord Transformer](models.html#module-omnizart.models.chord_model)
+  + [Pyramid Net](models.html#module-omnizart.models.pyramid_net)
+  + [Utils](models.html#module-omnizart.models.utils)
+* [Training](training.html)
+  + [Training](training.html#id1)
+  + [Callbacks](training.html#module-omnizart.callbacks)
+* [Base Classes](base.html)
+  + [Transcription](base.html#transcription)
+  + [Label](base.html#label)
+  + [Dataset Loader](base.html#dataset-loader)
+* [Constants](constants.html)
+  + [Feature](constants.html#feature)
+  + [Datasets](constants.html#datasets)
+  + [Midi](constants.html#midi)
+* [Utilities](utils.html)
+  + [Remote](utils.html#module-omnizart.remote)
+  + [Utility Functions](utils.html#module-omnizart.utils)
+
+
+
+References[¶](#references)
+--------------------------
+
+
+CS19
+
+T.-P. Chen and L. Su. Harmony transformer: incorporating chord segmentation into harmony recognition. In *ISMIR*. 2019.
+
+
+CS20
+
+Y.-C. Chuang and L. Su. Beat and downbeat tracking of symbolic music data using deep recurrent neural networks. In *APSIPA ASC*. 2020.
+
+
+HS20
+
+J.-Y. Hsu and L. Su. Vocano: transcribing singing vocal notes in polyphonic music using source separation and semi-supervised learning. In *(Under Review)*. 2020.
+
+
+LS18
+
+W.-T. Lu and L. Su. Vocal melody extraction with semantic segmentation and audio-symbolic domain transfer learning. In *ISMIR*. 2018.
+
+
+WWS20
+
+I.-C. Wei, C.-W. Wu, and L. Su. Improving automatic drum transcription using large-scale audio-to-midi aligned data. In *ICASSP (Under Review)*. 2020.
+
+
+WCS20
+
+Y.-T Wu, B. Chen, and L. Su. Multi-instrument automatic music transcription with self-attention-based instance segmentation. In *TASLP*. 2020.
+
+
+
+
+
+
+
+* [Quick Start →](quick-start.html)
+
+© Copyright 2020, MCTLab.
+  
+
+Created using [Sphinx](http://sphinx-doc.org/) 4.3.1 with [Press Theme](https://github.com/schettino72/sphinx_press_theme) 0.8.0.
+
+
+
+
+
+

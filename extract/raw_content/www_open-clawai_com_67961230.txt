@@ -1,0 +1,458 @@
+# Source URL: https://www.open-clawai.com/zh/tutorials/multi-agent
+# Content Length: 8056 characters
+# Extracted at: 2026-03-07 22:31:27
+#============================================================
+
+
+OpenClaw 多代理路由教程 - 运行多个隔离 AI 代理[Skip to main content](#main-content)[🦞OpenClaw Guide](/zh)[什么是 OpenClaw?](/zh/what-is-openclaw)[安装](/zh/install)[教程](/zh/tutorials)[工具](/zh/tools)[价格](/zh/pricing)[案例](/zh/showcase)[博客](/zh/blog)搜索...`⌘K`中文[立即开始](/zh/install)SearchToggle menu
+
+1. [首页](/zh)
+2. [教程](/zh/tutorials)
+3. 多代理设置
+教程
+
+多代理路由
+=====
+
+在单个网关上运行多个隔离的代理，用于工作/家庭分离、家庭共享或不同的 AI 个性。
+
+中级20 分钟阅读2026年1月本页内容[1. 什么是多代理？](#what-is)[2. 关键概念](#key-concepts)[3. 分步设置](#step-by-step)[4. 配置示例](#config-examples)[5. 绑定优先级](#binding-priority)[6. 安全和沙盒](#security)
+
+1.什么是多代理路由？
+-----------
+
+多代理路由让您可以在单个 OpenClaw 网关上运行多个隔离的 AI 代理。每个代理都有自己的身份、记忆和配置 - 但共享相同的基础设施。
+
+### 每个代理具有：
+
+独立身份
+
+单独的名称、个性和系统提示
+
+隔离记忆
+
+独立的对话历史和上下文
+
+自定义工具
+
+每个代理不同的工具权限
+
+渠道绑定
+
+将特定渠道路由到特定代理
+
+### 常见用例
+
+💼
+#### 工作/家庭分离
+
+将工作 Slack 与个人 Telegram 分开。不同的个性，不同的记忆。
+
+👨‍👩‍👧
+#### 家庭共享
+
+每个家庭成员都有自己的代理，带有个性化的回复和私人记忆。
+
+🎭
+#### 不同个性
+
+用于电子邮件的专业助手，用于 Discord 的休闲朋友，用于头脑风暴的创意写作者。
+
+📱
+#### 多账户
+
+使用隔离的代理处理多个 WhatsApp 号码或 Telegram 账户。
+
+2.关键概念
+------
+
+工作空间
+
+每个代理都在一个 '工作空间' 中 - 一个包含其配置、记忆和文件的目录。
+
+```
+~/openclaw/agents/work/
+├── AGENTS.md    # Define sub-agents and their specialties
+├── SOUL.md      # Agent personality and communication style
+├── USER.md      # Information about the user
+└── skills/      # Agent-specific skills
+```
+
+* soul.md— 代理个性和系统提示
+* user.md— 用户偏好和上下文
+* memory/— 对话历史和事实
+* skills/— 此代理的自定义技能
+### 重要提示
+
+代理共享相同的网关进程和 API 密钥。要实现真正的隔离（单独的 API 密钥、单独的进程），请运行多个网关实例。
+
+* - 所有代理共享速率限制
+* - API 费用合并计算
+* - 崩溃会影响所有代理
+渠道绑定
+
+绑定根据渠道、用户或群组将传入消息路由到正确的代理。
+
+```
+// Example: Route WhatsApp business account to work agent
+{
+  "bindings": [{
+    "agent": "work",
+    "channel": "whatsapp",
+    "accountId": "business-account-id"
+  }]
+}
+```
+
+3.分步设置
+------
+
+1
+### 创建新代理
+
+为新代理创建工作空间目录：
+
+$
+```
+openclaw agents add work
+```
+
+这将创建一个具有独立工作空间目录的新代理。
+
+2
+### 配置工作空间
+
+创建代理的个性和用户文件：
+
+soul.md - 代理个性：
+
+```
+# Work Assistant Soul
+
+You are a professional work assistant. Be formal, concise,
+and focused on productivity. Avoid casual language.
+
+## Communication Style
+- Use professional language
+- Be direct and efficient
+- Focus on actionable items
+- Respect work-life boundaries
+```
+
+user.md - 用户上下文：
+
+```
+# User Profile - Work Context
+
+- Role: Software Engineer at Acme Corp
+- Working hours: 9 AM - 6 PM PST
+- Key projects: Project Alpha, Customer Portal
+- Slack workspace: acme-corp.slack.com
+```
+3
+### 设置渠道绑定
+
+在 openclaw.json 中将渠道路由到您的新代理：
+
+```
+{
+  "agents": {
+    "default": {
+      "workspace": "~/openclaw/agents/default",
+      "agentDir": "~/openclaw/state/default"
+    },
+    "work": {
+      "workspace": "~/openclaw/agents/work",
+      "agentDir": "~/openclaw/state/work"
+    }
+  },
+  "bindings": [
+    {
+      "agent": "work",
+      "channel": "whatsapp",
+      "accountId": "work-phone-id"
+    },
+    {
+      "agent": "work",
+      "channel": "slack",
+      "teamId": "T123ACMECORP"
+    }
+  ],
+  "defaultAgent": "default"
+}
+```
+
+绑定告诉 OpenClaw 哪个代理应该处理来自每个渠道的消息。
+
+4
+### 配置安全（可选）
+
+为代理设置沙盒模式和工具限制：
+
+```
+{
+  "agents": {
+    "work": {
+      "workspace": "~/openclaw/agents/work",
+      "agentDir": "~/openclaw/state/work",
+      "sandbox": "all",
+      "tools": {
+        "allow": ["calendar", "email", "notes"],
+        "deny": ["shell", "browser"]
+      }
+    },
+    "home": {
+      "workspace": "~/openclaw/agents/home",
+      "agentDir": "~/openclaw/state/home",
+      "sandbox": "non-main",
+      "tools": {
+        "allow": ["*"],
+        "deny": []
+      }
+    }
+  }
+}
+```
+5
+### 验证设置
+
+重启 OpenClaw 并测试您的多代理设置：
+
+$
+```
+openclaw agents list
+```
+$
+```
+openclaw agents test --channel whatsapp --from +1234567890
+```
+
+4.配置示例
+------
+
+📱两个 WhatsApp 号码
+
+将不同的 WhatsApp 号码路由到不同的代理：
+
+```
+{
+  "agents": {
+    "personal": { "workspace": "~/.openclaw/personal" },
+    "business": { "workspace": "~/.openclaw/business" }
+  },
+  "bindings": [
+    { "channel": "whatsapp:+1234567890", "agent": "personal" },
+    { "channel": "whatsapp:+0987654321", "agent": "business" }
+  ]
+}
+```
+🤖每个渠道不同的模型
+
+工作使用 GPT-4，个人使用 Claude：
+
+```
+{
+  "agents": {
+    "work": {
+      "workspace": "~/.openclaw/work",
+      "model": "gpt-4o"
+    },
+    "personal": {
+      "workspace": "~/.openclaw/personal",
+      "model": "claude-3-5-sonnet-20241022"
+    }
+  }
+}
+```
+👥特定群组的代理
+
+不同 Discord 服务器或 Slack 工作空间的不同代理：
+
+```
+{
+  "bindings": [
+    { "channel": "discord", "guild": "gaming-server-id", "agent": "gaming-buddy" },
+    { "channel": "discord", "guild": "work-server-id", "agent": "work-assistant" },
+    { "channel": "slack", "workspace": "company-workspace", "agent": "work-assistant" }
+  ]
+}
+```
+👨‍👩‍👧‍👦家庭共享
+
+每个家庭成员通过 Telegram 用户 ID 获得自己的代理：
+
+```
+{
+  "agents": {
+    "dad": { "workspace": "~/.openclaw/dad" },
+    "mom": { "workspace": "~/.openclaw/mom" },
+    "kids": { "workspace": "~/.openclaw/kids", "sandbox": "all" }
+  },
+  "bindings": [
+    { "channel": "telegram", "userId": "123456", "agent": "dad" },
+    { "channel": "telegram", "userId": "789012", "agent": "mom" },
+    { "channel": "telegram", "userId": "345678", "agent": "kids" }
+  ]
+}
+```
+
+5.绑定优先级
+-------
+
+当多个绑定可能匹配时，OpenClaw 使用最具体的一个：
+
+1. 1
+   
+   用户特定
+   
+   带有 userId 的绑定首先匹配
+   
+   `{ "channel": "telegram", "userId": "123", "agent": "personal" }`
+2. 2
+   
+   群组特定
+   
+   带有 group/guild/workspace 的绑定其次匹配
+   
+   `{ "channel": "discord", "guild": "abc", "agent": "gaming" }`
+3. 3
+   
+   渠道特定
+   
+   仅渠道的绑定最后匹配
+   
+   `{ "channel": "telegram", "agent": "default" }`
+### 示例
+
+如果您有 'telegram'（默认）和 'telegram + userId:123'（个人）的绑定，来自用户 123 的消息会转到 'personal'，其他所有消息转到 'default'。
+
+6.安全和沙盒
+-------
+
+使用沙盒模式和工具策略控制每个代理可以做什么。
+
+沙盒模式
+
+根据信任级别限制代理功能：
+
+`"sandbox": "off"`完全访问
+
+代理可以使用所有工具。用于受信任的个人代理。
+
+`"sandbox": "non-main"`受限
+
+仅限制文件/shell 访问到工作空间目录。
+
+`"sandbox": "all"`严格
+
+无文件系统或 shell 访问。仅限聊天和网页。
+
+工具策略
+
+精细控制代理可以使用哪些工具：
+
+```
+{
+  "agents": {
+    "restricted": {
+      "workspace": "~/openclaw/agents/restricted",
+      "agentDir": "~/openclaw/state/restricted",
+      "tools": {
+        // Only allow these specific tools
+        "allow": ["calendar", "notes", "reminders"],
+        // Explicitly block dangerous tools
+        "deny": ["shell", "filesystem", "browser", "email"]
+      }
+    },
+    "trusted": {
+      "workspace": "~/openclaw/agents/trusted",
+      "agentDir": "~/openclaw/state/trusted",
+      "tools": {
+        // Allow everything except...
+        "allow": ["*"],
+        "deny": ["shell"]  // Still block shell for safety
+      }
+    }
+  }
+}
+```
+工作空间访问
+
+默认情况下，代理只能访问其工作空间目录中的文件。这可以防止一个代理读取另一个代理的记忆或文件。
+
+```
+{
+  "agents": {
+    "work": {
+      "workspace": "~/openclaw/agents/work",
+      "agentDir": "~/openclaw/state/work",
+      "filesystem": {
+        // Only allow access to these directories
+        "allowedPaths": [
+          "~/Documents/Work",
+          "~/Projects",
+          "/tmp"
+        ],
+        // Block access to sensitive areas
+        "blockedPaths": [
+          "~/.ssh",
+          "~/.aws",
+          "~/Documents/Personal"
+        ]
+      }
+    }
+  }
+}
+```
+
+多代理已就绪！
+-------
+
+您现在拥有用于不同用例的隔离代理。
+
+[创建自定义技能](/zh/features/skills)[连接更多渠道](/zh/integrations)[配置生成器](/zh/tools/config-generator)
+
+有问题？ [加入 Discord](https://discord.gg/openclaw) 或 [提交 GitHub Issue](https://github.com/openclaw/openclaw/discussions)
+
+[🦞OpenClaw 指南](/zh)
+
+OpenClaw 非官方资源中心 - 教程、新闻和案例展示，助你充分发挥自托管 AI 助手的潜力。
+
+[𝕏](https://x.com/openclawai)[GH](https://github.com/openclaw/openclaw)[DC](https://discord.gg/openclaw)
+### 指南
+
+* [安装](/zh/install)
+* [macOS 设置](/zh/install/macos)
+* [Windows 设置](/zh/install/windows)
+* [Linux 设置](/zh/install/linux)
+* [Docker 设置](/zh/install/docker)
+### 资源
+
+* [工具](/zh/tools)
+* [常见问题](/zh/faq)
+* [安全指南](/zh/security)
+* [API 价格](/zh/pricing)
+* [AI 模型](/zh/models)
+* [替代方案](/zh/alternatives)
+* [故障排除](/zh/troubleshooting)
+### 新闻
+
+* [最新新闻](/zh/news)
+* [案例展示](/zh/showcase)
+* [更新](/zh/news?category=updates)
+* [安全警报](/zh/news?category=security)
+### 官方
+
+* [GitHub ↗](https://github.com/openclaw/openclaw)
+* [官方网站 ↗](https://openclaw.ai)
+* [Discord ↗](https://discord.gg/openclaw)
+
+© 2026 OpenClaw 指南。与官方 OpenClaw 项目无关。
+
+[关于我们](/zh/about)[联系我们](/zh/contact)[隐私政策](/zh/privacy)[服务条款](/zh/terms)
+
+Cookie 偏好设置
+
+我们使用必要 Cookie 保障网站功能。分析和广告 Cookie 仅在你同意后加载。 [隐私政策](/zh/privacy)
+
+拒绝可选项全部同意

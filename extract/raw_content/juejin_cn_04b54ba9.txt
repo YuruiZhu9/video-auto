@@ -1,0 +1,241 @@
+# Source URL: https://juejin.cn/post/7615229750573531145
+# Content Length: 14251 characters
+# Extracted at: 2026-04-06 05:03:26
+#============================================================
+
+# 2026年用OpenClaw“小龙虾”狠狠搞钱的5种方法！(超级干货)
+[扬帆社](https://juejin.cn/user/1841036886024812/posts)
+2026-03-10
+588
+阅读5分钟
+关注
+最近AI圈彻底被一只“小龙虾”刷屏了。作为2026年最火的开源AI智能体框架，OpenClaw（本地优先、能直接接管键鼠和系统API）已经从极客圈的玩具，变成了实打实的“搞钱利器”。
+在掘金社区，咱们不谈虚的，直接拆解普通开发者和搞机玩家如何利用这波红利变现。以下5个落地方法，哪怕你只跑通一个，也能快速建立起自己的睡后收入闭环。
+### 1\. 赚信息差：“代养虾”部署与云端托管服务
+最近大厂门口排长队“领龙虾”的新闻大家都看了，圈外人对这种“能干实事”的AI助理需求极大，但绝大多数人根本搞不定服务器配置、环境搭建和模型密钥注入。这就是最典型的技术信息差。
+\*\*操作教程\*\*
+1. 准备一台云服务器，例如阿里云轻量应用服务器（建议2核2G以上）或AWS EC2（推荐ap-southeast-1区域）。
+2. 在镜像市场选择预配置的OpenClaw应用镜像，或手动拉取开源框架完成基础安装。
+3. 配置网络安全组，放行特定端口， \*\*切记遵循最小权限原则\*\*，不要把所有端口暴露在公网，防止客户系统被入侵。
+4. 获取配对Code，通过SSH将公钥写入`authorized\_keys`，打通直连。
+![](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/d2efa8bb4dc8479f8041af373919f971~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5oms5biG56S-:q75.awebp?rk3s=f64ab15b&x-expires=1774965518&x-signature=UiR6D6KB74zqDWkHB%2BQl9WqP6v4%3D)
+\*\*变现路径\*\*
+在闲鱼、小红书或本地社群接单，收取单次“上门/远程安装费”（目前市价几百到上千不等）。对于小白客户，还可以按月收取云端环境的维护和算力托管费，积少成多。
+### 2\. 打造“数字分身”：私域社群与咨询自动化运营
+OpenClaw不仅能在本地跑，还能无缝接入WhatsApp、Telegram甚至国内常用的办公通讯软件。做这行十多年，每天在北京面见各种来访者，处理海量的关系与情感咨询诉求，个人精力早就到了瓶颈。现在我直接让它接管了前端的私域接待。来访者发来长篇大论的倾诉，智能体能在瞬间提取出核心诉求，完成初期的情绪安抚，并自动在本地生成结构化的客户档案。
+\*\*操作教程\*\*
+1. 在OpenClaw后台配置多渠道通讯整合（Multi-channel Integration），将Agent账号拉入工作群或设为客服分身。
+2. 编写系统级Prompt与Workflow，赋予Agent读取特定窗口聊天记录和总结关键信息的权限。
+3. 设定本地文件API权限，让其自动将生成的摘要以结构化表格格式存入指定的本地工作目录。
+\*\*变现路径\*\*
+![](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/99b5173b7ae347c9a28a61b66c59ef05~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5oms5biG56S-:q75.awebp?rk3s=f64ab15b&x-expires=1774965518&x-signature=lt7eksrgwzjYDE0OdOShcNL6esc%3D)
+一方面可以大幅提高单人接单的并发量，直接增加主业收入；另一方面，可以将这套跑通的自动化SOP打包成行业解决方案，按年费卖给律师、心理师等同样重度依赖私域咨询的同行。
+### 3\. 数据淘金：挂机自动化采集与清洗
+结合近期爆火的“最强外挂”Scrapling，OpenClaw彻底解决了传统爬虫动不动就被真人验证卡住、或者被封IP的小黑屋痛点。
+\*\*操作教程\*\*
+1. 在OpenClaw的扩展目录下安装并加载Scrapling Skill。
+2. 调用其内置的StealthyFetcher（隐身获取器），让智能体完美模拟最新版浏览器的指纹和操作行为。
+3. 下达自然语言指令，例如：“帮我抓取某电商平台前10页的竞品价格，跳过所有验证码，把乱码洗干净后存入D盘的Excel里。”
+\*\*变现路径\*\*
+成为“数据供应商”。为电商卖家爬取竞品定价，为实体店爬取本地商户线索，或者为内容创作者提供垂直爆款素材库。清洗好的干净数据包，本身就是高价值的数字资产。
+### 4\. 卖水人生：开发垂直场景Skill（技能插件）
+现在的OpenClaw生态就像早期的App Store，急需各类垂直插件来填补空白。只要你会写点Python，这就是一片蓝海。
+\*\*操作教程\*\*
+1. 研读官方的Skill API文档，了解其参数传递和系统调用规范。
+2. 瞄准一个高频痛点写成执行脚本。比如，针对自媒体人的“一键多平台分发与排版同步”脚本，或者针对财务的“发票批量自动验真与ERP入账”脚本。
+3. 将脚本封装成标准Skill格式，提交到开源社区或插件市场。
+\*\*变现路径\*\*
+采用“基础功能免费 \+ 高级功能订阅制”的SaaS模式。一旦你的Skill被某个群体高频使用，或者被大V推荐，就能形成非常稳定的现金流。
+### 5\. 系统级外包：为中小微企业定制RPA工作流
+以往的聊天机器人只能“动嘴”，但OpenClaw能直接接管键鼠权限。对于很多还在用纯人工做报表、填表单的传统企业来说，这简直是降维打击。
+\*\*操作教程\*\*
+1. 寻找重度依赖电脑机械操作的传统小微企业（如代账公司、传统外贸、小型工厂）。
+2. 在他们的办公主机上以受限权限账户运行OpenClaw服务。
+3. 设定跨系统的业务指令流：例如“每天下午5点，自动打开内部系统导出当日销售数据，对比桌面上的库存表，生成预警邮件发送给采购部。”
+\*\*变现路径\*\*
+以“企业数字化升级”的名义接单。不卖软件，只卖“工作流交付”。按交付的节点数量或替老板省下的人力成本来报价，单笔客单价轻松破万。
+\*\*可以关注我的公众号扬帆财智，我建立了副业交流群，大家一起交流~\*\*
+标签：
+[后端](https://juejin.cn/tag/%E5%90%8E%E7%AB%AF)
+评论 0
+![avatar](https://lf-web-assets.juejin.cn/obj/juejin-web/xitu\_juejin\_web/58aaf1326ac763d8a1054056f3b7f2ef.svg)
+0/ 1000
+标点符号、链接等不计算在有效字数内
+Ctrl + Enter
+发送
+登录 / 注册即可发布评论！
+暂无评论数据
+![](https://lf-web-assets.juejin.cn/obj/juejin-web/xitu\_juejin\_web/c12d6646efb2245fa4e88f0e1a9565b7.svg)点赞
+![](https://lf-web-assets.juejin.cn/obj/juejin-web/xitu\_juejin\_web/336af4d1fafabcca3b770c8ad7a50781.svg)评论
+![](https://lf-web-assets.juejin.cn/obj/juejin-web/xitu\_juejin\_web/3d482c7a948bac826e155953b2a28a9e.svg)
+收藏
+加个关注，精彩更新不错过~
+![avatar](https://lf-web-assets.juejin.cn/obj/juejin-web/xitu\_juejin\_web/58aaf1326ac763d8a1054056f3b7f2ef.svg)
+关注
+为你推荐
+[OpenClaw 为什么突然爆火？程序员开始“养龙虾”的真正原因](https://juejin.cn/post/7615811980864962595 "OpenClaw 为什么突然爆火？程序员开始“养龙虾”的真正原因")
+[最近一段时间，程序员圈子里越来越多人开始“养龙虾”了，从技术社群到朋友圈，随处可见有人分享自己“养龙虾”的经历。](https://juejin.cn/post/7615811980864962595)
+- [程序员大华](https://juejin.cn/user/3507878440995946)
+- 18天前
+- 1.4k
+- 6
+- 1
+[AI编程](https://juejin.cn/tag/AI%E7%BC%96%E7%A8%8B "AI编程")
+[刚刚，微信终于能用 OpenClaw 了！安卓 iOS 都行，附保姆级教程](https://juejin.cn/post/7620619040085164059 "刚刚，微信终于能用 OpenClaw 了！安卓 iOS 都行，附保姆级教程")
+[微信官方推出了 OpenClaw 小龙虾接入微信的插件「微信 ClawBot」，直接杀死了比赛，手把手教你怎么使用](https://juejin.cn/post/7620619040085164059)
+- [程序员鱼皮](https://juejin.cn/user/2444938365386621)
+- 5天前
+- 1.2k
+- 14
+- 3
+[AI编程](https://juejin.cn/tag/AI%E7%BC%96%E7%A8%8B "AI编程") [AIGC](https://juejin.cn/tag/AIGC "AIGC") [人工智能](https://juejin.cn/tag/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD "人工智能")
+![刚刚，微信终于能用 OpenClaw 了！安卓 iOS 都行，附保姆级教程](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/aba58fbcdf93418bbaa7fcb3d83b4f19~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg56iL5bqP5ZGY6bG855qu:q75.awebp?rk3s=f64ab15b&x-expires=1775400632&x-signature=NyIvoXqfwA6QVp6uRu4BmGcPovQ%3D)
+[上个视频爆了！2026年AI“白嫖”终极指南：这6个渠道，帮你省下几万块算力费（附OpenClaw独家配置）](https://juejin.cn/post/7605912122628997158 "上个视频爆了！2026年AI“白嫖”终极指南：这6个渠道，帮你省下几万块算力费（附OpenClaw独家配置）")
+[兄弟们，上期发的那个“2026 年免费生产级 AI 大集合”的视频，没想到直接爆了！ 看来大家和我的痛点都是一样的：官方的 AI 实在太贵了！ ChatGPT、Claude 动不动就是 20 美金/月](https://juejin.cn/post/7605912122628997158)
+- [土木AI提效大古](https://juejin.cn/user/631559566683771)
+- 1月前
+- 372
+- 2
+- 评论
+[OpenAI](https://juejin.cn/tag/OpenAI "OpenAI")
+![上个视频爆了！2026年AI“白嫖”终极指南：这6个渠道，帮你省下几万块算力费（附OpenClaw独家配置）](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/ed134db934f542d6bb7a357ce6131be6~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5Zyf5pyoQUnmj5DmlYjlpKflj6Q=:q75.awebp?rk3s=f64ab15b&x-expires=1775400632&x-signature=GQZx%2FMVnMwzgITlLnSMRm1OSsbg%3D)
+[QClaw 使用教程 & 亲测体验：腾讯亲儿子版“龙虾”，微信一句话就能远程操控电脑！（附完整截图+0门槛部署）](https://juejin.cn/post/7618146400049184810 "QClaw 使用教程 & 亲测体验：腾讯亲儿子版“龙虾”，微信一句话就能远程操控电脑！（附完整截图+0门槛部署）")
+[大家好，我是 BUG猿，专注 AI 大模型本地部署、省钱白嫖、实用工具踩坑的程序员。最近腾讯电脑管家悄然放出了 QClaw（官方定位：随时随地，微信一下，QClaw帮你高效干活），直接把火爆的开源 O](https://juejin.cn/post/7618146400049184810)
+- [BUG猿](https://juejin.cn/user/1065853635016811)
+- 11天前
+- 2.1k
+- 点赞
+- 评论
+[后端](https://juejin.cn/tag/%E5%90%8E%E7%AB%AF "后端")
+![QClaw 使用教程 & 亲测体验：腾讯亲儿子版“龙虾”，微信一句话就能远程操控电脑！（附完整截图+0门槛部署）](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/61a16fecd4554c6abbec0e6f0febf24c~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAgQlVH54y\_:q75.awebp?rk3s=f64ab15b&x-expires=1775400632&x-signature=fjYVBokDekh3vEgVmACLc1k8Sjo%3D)
+[OpenClaw Windows一键部署包](https://juejin.cn/post/7618978878229102646 "OpenClaw Windows一键部署包")
+[OpenClaw（小龙虾）Windows 一键部署保姆级教程 \| 10分钟养出你的数字员工（2026最新版）](https://juejin.cn/post/7618978878229102646)
+- [用户75152469454](https://juejin.cn/user/3282504832785210)
+- 8天前
+- 159
+- 1
+- 2
+[人工智能](https://juejin.cn/tag/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD "人工智能")
+![OpenClaw Windows一键部署包](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/ef47a48c9a26481cba1e2654cb44b040~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg55So5oi3NzUxNTI0Njk0NTQ=:q75.awebp?rk3s=f64ab15b&x-expires=1775400632&x-signature=NHRTIlJG0KmGGQS59o2bPSH%2F9xk%3D)
+[再见小龙虾（OpenClaw），卸载指南](https://juejin.cn/post/7615625505724268594 "再见小龙虾（OpenClaw），卸载指南")
+[拜拜了小龙虾，工作的Windows电脑上先卸载了，家里的个人不怎么用的笔记本还养着 以目前的情况在工作电脑上，释放它的全能力就是定时炸弹 关键跟他沟通做东西干活，不停烧token，可都是钱啊，几十块的](https://juejin.cn/post/7615625505724268594)
+- [草帽lufei](https://juejin.cn/user/501033035632093)
+- 18天前
+- 679
+- 点赞
+- 评论
+[Agent](https://juejin.cn/tag/Agent "Agent")
+![再见小龙虾（OpenClaw），卸载指南](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/74e9a1352b814f07b0fbc5a0ebac74d1~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg6I2J5bi9bHVmZWk=:q75.awebp?rk3s=f64ab15b&x-expires=1775400632&x-signature=E%2Fzi01XDz04N%2Box96lUO0HgNOHo%3D)
+[刚刚，微信终于能用 OpenClaw 了！安卓 iOS 都行，附保姆级教程](https://juejin.cn/post/7621784210572820521 "刚刚，微信终于能用 OpenClaw 了！安卓 iOS 都行，附保姆级教程")
+[大家好，我是程序员鱼皮。 几天前，微信官方推出了 OpenClaw 小龙虾接入微信的插件「微信 ClawBot」，直接杀死了 “争夺养虾入口” 的比赛！ 但是刚开始只有 IOS 苹果手机才能用，我还跟](https://juejin.cn/post/7621784210572820521)
+- [用户93991234457](https://juejin.cn/user/2754741086465579)
+- 1天前
+- 29
+- 1
+- 评论
+[AI编程](https://juejin.cn/tag/AI%E7%BC%96%E7%A8%8B "AI编程")
+[OpenClaw 引爆 Agent 新范式：星链4SAPI 如何成为智能体的“上帝之手”](https://juejin.cn/post/7617255637370273835 "OpenClaw 引爆 Agent 新范式：星链4SAPI 如何成为智能体的“上帝之手”")
+[​ 2026年3月，中国AI圈被一个名为 OpenClaw 的开源项目拖入了一场猝不及防的“闪电战”。这个被开发者戏称为“AI小龙虾”的智能体框架，在 GitHub 上狂揽数十万 Star，并迅速引发](https://juejin.cn/post/7617255637370273835)
+- [用户24882211827](https://juejin.cn/user/1118635170729435)
+- 13天前
+- 33
+- 点赞
+- 评论
+[架构](https://juejin.cn/tag/%E6%9E%B6%E6%9E%84 "架构") [人工智能](https://juejin.cn/tag/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD "人工智能")
+[OpenClaw 在中国爆火：5 个真实案例揭秘普通人如何用 AI Agent 搞钱](https://juejin.cn/post/7616340145881841702 "OpenClaw 在中国爆火：5 个真实案例揭秘普通人如何用 AI Agent 搞钱")
+[中国用户用 OpenClaw 硬核搞钱的 5 个真实案例 引言：从"玩龙虾"到"龙虾打工" 2026 年开年最火的技术现象，不是某个大厂发布的新模型，而是一个开源项目——OpenClaw。 4 个月，](https://juejin.cn/post/7616340145881841702)
+- [陈少波AI应用笔记](https://juejin.cn/user/2596398241940827)
+- 16天前
+- 439
+- 点赞
+- 评论
+[人工智能](https://juejin.cn/tag/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD "人工智能")
+![OpenClaw 在中国爆火：5 个真实案例揭秘普通人如何用 AI Agent 搞钱](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/1373d5dc6ed54a0d91d07417ca76274e~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg6ZmI5bCR5rOiQUnlupTnlKjnrJTorrA=:q75.awebp?rk3s=f64ab15b&x-expires=1775400632&x-signature=na1avqdFvWZ01WR9z2ouRu3fe4o%3D)
+[2026 AI实测：别卷OpenClaw了！向量引擎才是普通人真正能用的顶级模型自由](https://juejin.cn/post/7621211737485115444 "2026 AI实测：别卷OpenClaw了！向量引擎才是普通人真正能用的顶级模型自由")
+[一、前言：今年AI圈最魔幻的一幕——人人都在谈Agent，90%的人根本用不明白 不知道你有没有发现，2026年的AI圈特别魔幻。 前几个月还在疯狂聊多模态，一转眼，所有人都在聊 OpenClaw。](https://juejin.cn/post/7621211737485115444)
+- [向量引擎](https://juejin.cn/user/4250051439237593)
+- 3天前
+- 11
+- 点赞
+- 评论
+[人工智能](https://juejin.cn/tag/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD "人工智能") [API](https://juejin.cn/tag/API "API") [前端](https://juejin.cn/tag/%E5%89%8D%E7%AB%AF "前端")
+![2026 AI实测：别卷OpenClaw了！向量引擎才是普通人真正能用的顶级模型自由](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/63ac1d1b448645028e5eb17616dd3bf9~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5ZCR6YeP5byV5pOO:q75.awebp?rk3s=f64ab15b&x-expires=1775400632&x-signature=yPRaUUHM9KGFWuMdTBszrgPLujI%3D)
+[虾搞现场直击｜200+开发者“钳”聚燃爆杭州，第二期OpenClaw「虾搞」数据库活动上海站开启报名！](https://juejin.cn/post/7619168121782714420 "虾搞现场直击｜200+开发者“钳”聚燃爆杭州，第二期OpenClaw「虾搞」数据库活动上海站开启报名！")
+[第二期OpenClaw「虾搞」数据库活动上海站来啦！更有全新升级的 Skills 分享环节，带你解锁安全、企业级 Claw 的高阶玩法！欢迎观看直播](https://juejin.cn/post/7619168121782714420)
+- [数据Cool](https://juejin.cn/user/274219877541161)
+- 9天前
+- 16
+- 点赞
+- 评论
+[数据库](https://juejin.cn/tag/%E6%95%B0%E6%8D%AE%E5%BA%93 "数据库") [线下活动](https://juejin.cn/tag/%E7%BA%BF%E4%B8%8B%E6%B4%BB%E5%8A%A8 "线下活动")
+[从0到1复刻“龙虾员工”：用OpenClaw+百度DuClaw在1天内搭建可报销的AI助理](https://juejin.cn/post/7616765969831936006 "从0到1复刻“龙虾员工”：用OpenClaw+百度DuClaw在1天内搭建可报销的AI助理")
+[最近技术圈有个段子特别火：说现在的程序员分为两类，一类是已经在"养虾"的，另一类是正在查"怎么养虾"教程的。这里的"虾"，指的就是那个在GitHub上狂揽23万+ Stars、被奥地利老铁Peter](https://juejin.cn/post/7616765969831936006)
+- [人工智能AI技术](https://juejin.cn/user/219558057357038)
+- 14天前
+- 312
+- 点赞
+- 评论
+[人工智能](https://juejin.cn/tag/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD "人工智能")
+![从0到1复刻“龙虾员工”：用OpenClaw+百度DuClaw在1天内搭建可报销的AI助理](https://p9-juejin-sign.byteimg.com/tos-cn-i-k3u1fbpfcp/618819eaa9f6457ea96cc364b1f74de4~tplv-k3u1fbpfcp-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5Lq65bel5pm66IO9QUnmioDmnK8=:q75.awebp?rk3s=f64ab15b&x-expires=1775400632&x-signature=24ifIQvUYmdB%2FCSKIQ41%2FDrXGek%3D)
+[OpenClaw（小龙虾）Windows 11 一键部署教程｜2026 最新版｜零代码・免配置・解压即用](https://juejin.cn/post/7620390613742157865 "OpenClaw（小龙虾）Windows 11 一键部署教程｜2026 最新版｜零代码・免配置・解压即用")
+[OpenClaw（小龙虾）是 2026 年最火的本地 AI 自动化智能体，不需要联网、不需要云端账号、不需要付费，就能让 AI 帮你自动完成电脑操作](https://juejin.cn/post/7620390613742157865)
+- [用户75152469454](https://juejin.cn/user/3282504832785210)
+- 5天前
+- 58
+- 点赞
+- 评论
+[人工智能](https://juejin.cn/tag/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD "人工智能")
+![OpenClaw（小龙虾）Windows 11 一键部署教程｜2026 最新版｜零代码・免配置・解压即用](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/a55dc6d36e6744a1a503446b4c66c2f2~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg55So5oi3NzUxNTI0Njk0NTQ=:q75.awebp?rk3s=f64ab15b&x-expires=1775400632&x-signature=yTwx3EqquGenKO3dA4ltRvy6hYQ%3D)
+[OpenClaw（小龙虾） 和 Claude Code 的核心区别是什么？](https://juejin.cn/post/7616308247709777939 "OpenClaw（小龙虾） 和 Claude Code 的核心区别是什么？")
+[对比了开源AI智能体框架OpenClaw（小龙虾）与 Claude Code。OpenClaw以用户友好著称，支持浏览器和通讯应用交互，提供开箱即用的体验；而ClaudeCode更专注于专业工作需求。](https://juejin.cn/post/7616308247709777939)
+- [ClaudeCode中文](https://juejin.cn/user/1980677509618745)
+- 16天前
+- 967
+- 点赞
+- 评论
+[Claude](https://juejin.cn/tag/Claude "Claude") [AI编程](https://juejin.cn/tag/AI%E7%BC%96%E7%A8%8B "AI编程")
+![OpenClaw（小龙虾） 和 Claude Code 的核心区别是什么？](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/5eb18bb332144284b142d2737f2fcd55~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAgQ2xhdWRlQ29kZeS4reaWhw==:q75.awebp?rk3s=f64ab15b&x-expires=1775400632&x-signature=t9%2BS%2BH3qMN9Tz2ElVi07J1BKeW4%3D)
+[【深度】OpenClaw 爆火背后的安全陷阱：某知名车企“养龙虾”爆雷，企业如何构建 AI Agent 安全治理体系？](https://juejin.cn/post/7616696042243915786 "【深度】OpenClaw 爆火背后的安全陷阱：某知名车企“养龙虾”爆雷，企业如何构建 AI Agent 安全治理体系？")
+[针对近期某知名车企因 OpenClaw“养龙虾”（AI Agent）引发的内部安全事件，本文深度解析 AI 智能体在信息侦察、员工无意识投喂及权限失控方面的三大致命风险。](https://juejin.cn/post/7616696042243915786)
+- [瑞华智策](https://juejin.cn/user/2561223760288764)
+- 14天前
+- 53
+- 点赞
+- 评论
+[人工智能](https://juejin.cn/tag/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD "人工智能")
+![【深度】OpenClaw 爆火背后的安全陷阱：某知名车企“养龙虾”爆雷，企业如何构建 AI Agent 安全治理体系？](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/e15dd8fe9fc44eda84470d1a42374e71~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg55Ge5Y2O5pm6562W:q75.awebp?rk3s=f64ab15b&x-expires=1775400632&x-signature=6ehyAh%2BLdkLW%2B%2BQcMRQWXXeXy7I%3D)
+收藏成功！
+已添加到「」， 点击更改
+- 微信
+![](https://juejin.cn/post/7615229750573531145)微信扫码分享
+- 新浪微博
+- QQ
+![image](https://lf-web-assets.juejin.cn/obj/juejin-web/xitu\_juejin\_web/img/cartoon.31472f0.png)
+AI代码助手上线啦
+选中代码，体验AI替你一键快速解读代码
+立即体验
+APP内打开
+- ![下载掘金APP](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2ad212d53ccd44569d10317171664bae~tplv-k3u1fbpfcp-jj:90:0:0:0:q75.avis)下载APP
+下载APP
+- ![微信扫一扫](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9f4933cc8fdb411cba89904f14a3ec0a~tplv-k3u1fbpfcp-jj:90:0:0:0:q75.avis)微信扫一扫
+微信公众号
+- [新浪微博](https://weibo.com/xitucircle)
+温馨提示
+当前操作失败，如有疑问，可点击申诉
+前往申诉我知道了
+![](https://lf-web-assets.juejin.cn/obj/juejin-web/xitu\_juejin\_web/img/MaskGroup.13dfc4f.png)选择你感兴趣的技术方向
+后端
+前端
+Android
+iOS
+人工智能
+开发工具
+代码人生
+阅读
+跳过
+上一步
+至少选择1个分类
+![](https://lf-web-assets.juejin.cn/obj/juejin-web/xitu\_juejin\_web/8867e249c23a7c0ea596c139befc04d7.svg)
+沉浸阅读
+确定屏蔽该用户
+屏蔽后，对方将不能关注你、与你产生任何互动，无法查看你的主页

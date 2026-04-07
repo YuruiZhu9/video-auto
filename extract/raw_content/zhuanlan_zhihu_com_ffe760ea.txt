@@ -1,0 +1,154 @@
+# Source URL: https://zhuanlan.zhihu.com/p/602942392
+# Content Length: 20598 characters
+# Extracted at: 2026-04-05 10:08:43
+#============================================================
+
+![](https://zhuanlan.zhihu.com/p/602942392)
+\*\*9本电子书在文末自取\*\*
+1、常用的[特征选择](https://zhida.zhihu.com/search?content\_id=222119584&content\_type=Article&match\_order=1&q=%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUxODIyODQsInEiOiLnibnlvoHpgInmi6kiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjIxMTk1ODQsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.cID5oetV4KCymdPfB05wvHwGRsapwGX7Xm1OS95AF6U&zhida\_source=entity)方式有哪些？
+Filter:[过滤法](https://zhida.zhihu.com/search?content\_id=222119584&content\_type=Article&match\_order=1&q=%E8%BF%87%E6%BB%A4%E6%B3%95&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUxODIyODQsInEiOiLov4fmu6Tms5UiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjIxMTk1ODQsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.KXAX17jNaHUTpMEjs32xaOM4yL9DTC61tJ-NCBspOlI&zhida\_source=entity),按照发散性或者相关性对各个特征进行行行评分,设定阈值或者待选择阈值的个数,选择特征。
+Wrapper:包装法,根据目[目标函数](https://zhida.zhihu.com/search?content\_id=222119584&content\_type=Article&match\_order=1&q=%E7%9B%AE%E6%A0%87%E5%87%BD%E6%95%B0&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUxODIyODQsInEiOiLnm67moIflh73mlbAiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjIxMTk1ODQsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.N67EyEt7UFVMnME3oVNifdBZuqKZA\_kpuYbx1ztQTRs&zhida\_source=entity)(通常是预测效果评分),每次选择若干干特征,或者排除若干干特征。
+Embedded:嵌入入法,先使用用某些机器器学习的[算法](https://zhida.zhihu.com/search?content\_id=222119584&content\_type=Article&match\_order=1&q=%E7%AE%97%E6%B3%95&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUxODIyODQsInEiOiLnrpfms5UiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjIxMTk1ODQsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.UAL\_K6hpJlHP0GEE0UmfVOm9qPJa8WOQmEJyfccGgpk&zhida\_source=entity)和模型进行行行训练,得到各个特征的[权值系数](https://zhida.zhihu.com/search?content\_id=222119584&content\_type=Article&match\_order=1&q=%E6%9D%83%E5%80%BC%E7%B3%BB%E6%95%B0&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUxODIyODQsInEiOiLmnYPlgLzns7vmlbAiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjIxMTk1ODQsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.sOiTXhRuUzYvUGKyN66cjU2Jf\_oWSlwh4R30MQCOts0&zhida\_source=entity),根据系数从大大到小小选择特征。类似于Filter方方法,但是是通过训练来确定特征的优劣。
+## 2、[特征交叉](https://zhida.zhihu.com/search?content\_id=222119584&content\_type=Article&match\_order=1&q=%E7%89%B9%E5%BE%81%E4%BA%A4%E5%8F%89&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUxODIyODQsInEiOiLnibnlvoHkuqTlj4kiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjIxMTk1ODQsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.HkWSUQ85ns129dE3D3NqLS3dqTRGHOH6oRmqdNX4tKU&zhida\_source=entity)(特征组合)方式有哪些?
+1.Dense[特征组合](https://zhida.zhihu.com/search?content\_id=222119584&content\_type=Article&match\_order=2&q=%E7%89%B9%E5%BE%81%E7%BB%84%E5%90%88&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUxODIyODQsInEiOiLnibnlvoHnu4TlkIgiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjIxMTk1ODQsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MiwiemRfdG9rZW4iOm51bGx9.KnWf2tCKuY4xH0B3jSVTDkHs4iEw\_D0PYz3oQguSHSc&zhida\_source=entity)
+将一个特征与其本身或其他特征相乘(称为特征组合)(二阶或者高阶)；
+两个特征相除；
+对连续特征进行分桶,以分为多个区间分箱。
+2.ID特征之间的组合
+[笛卡尔积](https://zhida.zhihu.com/search?content\_id=222119584&content\_type=Article&match\_order=1&q=%E7%AC%9B%E5%8D%A1%E5%B0%94%E7%A7%AF&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUxODIyODQsInEiOiLnrJvljaHlsJTnp68iLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjIxMTk1ODQsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.ZTbDz4qXtRvEiAYm61BjDLO3Q3E6q0bVHYk-hqShK5U&zhida\_source=entity):假如拥有一个特征A,A有两个可能值{A1,A2}。拥有一个[特征B](https://zhida.zhihu.com/search?content\_id=222119584&content\_type=Article&match\_order=1&q=%E7%89%B9%E5%BE%81B&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUxODIyODQsInEiOiLnibnlvoFCIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjIyMTE5NTg0LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.\_wui3geu5OM5TSkqw9tgWnFQfqtdU8iGn\_bUe4TdK8U&zhida\_source=entity),存在{B1,B2}等可能值。然后,A&B之间的[交叉特征](https://zhida.zhihu.com/search?content\_id=222119584&content\_type=Article&match\_order=1&q=%E4%BA%A4%E5%8F%89%E7%89%B9%E5%BE%81&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUxODIyODQsInEiOiLkuqTlj4nnibnlvoEiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjIxMTk1ODQsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.0X04lXx2MH64NxT\_Ldidv6xkMfVRWAMspzlrWtCJwKw&zhida\_source=entity)
+如下:{(A1,B1),(A1,B2),(A2,B1),(A2,B2)},比如[经纬度](https://zhida.zhihu.com/search?content\_id=222119584&content\_type=Article&match\_order=1&q=%E7%BB%8F%E7%BA%AC%E5%BA%A6&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUxODIyODQsInEiOiLnu4\_nuqzluqYiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjIxMTk1ODQsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.U9QT8tZ21P6CKUaLdb0nf5FU9zaVKRZJV78qdtnWRn8&zhida\_source=entity),一个更好地诠释好的交叉特征的实例是类似于([经度](https://zhida.zhihu.com/search?content\_id=222119584&content\_type=Article&match\_order=1&q=%E7%BB%8F%E5%BA%A6&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUxODIyODQsInEiOiLnu4\_luqYiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjIxMTk1ODQsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.qB5l3qSkViDKhSqNGtNpBUNc6cPE3qE3d58OpQTe818&zhida\_source=entity),纬度)。一
+个相同的经度对应了地图上很多的地方,纬度也是一样。但是一旦你将经度和纬度组合到一起,它们就代表了地理上特定的一块区域,区域中每一部分是拥有着类似的特性。
+## 3、什么是DSSM?有什么优缺点？
+DSSM（Deep Structured Semantic Models）的原理很简单，通过搜索引擎里 Query 和 Title 的海量的点击[曝光日志](https://zhida.zhihu.com/search?content\_id=222119584&content\_type=Article&match\_order=1&q=%E6%9B%9D%E5%85%89%E6%97%A5%E5%BF%97&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUxODIyODQsInEiOiLmm53lhYnml6Xlv5ciLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjIxMTk1ODQsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.--XCAb6SnNwf5siZLbN\_scGBNDdXY8PTwhZyyDiRwUE&zhida\_source=entity)，用 DNN 把 Query 和 Title 表达为低纬[语义向量](https://zhida.zhihu.com/search?content\_id=222119584&content\_type=Article&match\_order=1&q=%E8%AF%AD%E4%B9%89%E5%90%91%E9%87%8F&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUxODIyODQsInEiOiLor63kuYnlkJHph48iLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjIxMTk1ODQsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.avr4LOPBBgkJAk5\_Ybzy37C98j9RkUqZF5oHLGrw2P4&zhida\_source=entity)，并通过 cosine 距离来计算两个语义向量的距离，最终训练出语义相似度模型。该模型既可以用来预测两个句子的语义相似度，又可以获得某句子的低纬语义向量表达。
+优点:DSSM 用[字向量](https://zhida.zhihu.com/search?content\_id=222119584&content\_type=Article&match\_order=1&q=%E5%AD%97%E5%90%91%E9%87%8F&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUxODIyODQsInEiOiLlrZflkJHph48iLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjIxMTk1ODQsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.I6cA7nYDskNEv3bobwYQ-Jg7xuKDYpGmeAJGXqWOKqQ&zhida\_source=entity)作为输入既可以减少切词的依赖，又可以提高模型的范化能力，因为每个汉字所能表达的语义是可以复用的。另一方面，传统的输入层是用 Embedding 的方式（如 Word2Vec 的[词向量](https://zhida.zhihu.com/search?content\_id=222119584&content\_type=Article&match\_order=1&q=%E8%AF%8D%E5%90%91%E9%87%8F&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUxODIyODQsInEiOiLor43lkJHph48iLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjIxMTk1ODQsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.K9aCQdpflNrVWUEGEnr4MRVZ22igezBI1rcdNEpyQi4&zhida\_source=entity)）或者主题模型的方式（如 LDA 的[主题向量](https://zhida.zhihu.com/search?content\_id=222119584&content\_type=Article&match\_order=1&q=%E4%B8%BB%E9%A2%98%E5%90%91%E9%87%8F&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUxODIyODQsInEiOiLkuLvpopjlkJHph48iLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjIxMTk1ODQsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.PdUYLT6onIHAU63J19zpcrvCupP21aV6iRSnlIwhvHc&zhida\_source=entity)）来直接做词的映射，再把各个词的向量累加或者拼接起来，由于 Word2Vec 和 LDA 都是无监督的训练，这样会给整个模型引入误差，DSSM 采用统一的有监督训练，不需要在中间过程做无监督模型的映射，因此精准度会比较高。
+缺点：DSSM 采用[词袋模型](https://zhida.zhihu.com/search?content\_id=222119584&content\_type=Article&match\_order=1&q=%E8%AF%8D%E8%A2%8B%E6%A8%A1%E5%9E%8B&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUxODIyODQsInEiOiLor43ooovmqKHlnosiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjIxMTk1ODQsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.0Vzq34DcfU97LjvhpXXhRKONyHVtawcdNeyF21KagjU&zhida\_source=entity)（BOW），因此丧失了语序信息和上下文信息。另一方面，DSSM 采用弱监督、端到端的模型，预测结果不可控。
+## 4、介绍下Wide&Deep模型的Wide和Deep部分。
+Wide&Deep模型的主要思路正如其名，把单输入层的Wide部分和经过多层[感知机](https://zhida.zhihu.com/search?content\_id=222119584&content\_type=Article&match\_order=1&q=%E6%84%9F%E7%9F%A5%E6%9C%BA&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUxODIyODQsInEiOiLmhJ\_nn6XmnLoiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjIxMTk1ODQsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.R6bDRTHvLl5pEv07tvHK0eVLtMyR8gMhqsGqzhj0ebQ&zhida\_source=entity)的Deep部分连接起来，一起输入最终的输出层。其中Wide部分的主要作用是让模型具有记忆性（Memorization），单层的Wide部分善于处理大量稀疏的id类特征，便于让模型直接“记住”用户的大量历史信息；Deep部分的主要作用是让模型具有“[泛化性](https://zhida.zhihu.com/search?content\_id=222119584&content\_type=Article&match\_order=1&q=%E6%B3%9B%E5%8C%96%E6%80%A7&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUxODIyODQsInEiOiLms5vljJbmgKciLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjIxMTk1ODQsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.599BNUsugrpKVOYZIxH-Q8H-ys7YG9Gug158RIQBNt8&zhida\_source=entity)”（Generalization），利用DNN表达能力强的特点，挖掘藏在特征后面的数据模式。最终利用LR输出层将Wide部分和Deep部分组合起来，形成统一的模型。Wide&Deep对之后模型的影响在于——大量深度学习模型采用了两部分甚至多部分组合的形式，利用不同[网络结构](https://zhida.zhihu.com/search?content\_id=222119584&content\_type=Article&match\_order=1&q=%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUxODIyODQsInEiOiLnvZHnu5znu5PmnoQiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjIxMTk1ODQsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.ZmQFLADD8QDpSDfjFyGB4L5wH-QOAYjX2-Dr7Y77KP8&zhida\_source=entity)挖掘不同的信息后进行组合，充分利用和结合了不同网络结构的特点。
+## 5、FNN与Deep Crossing的区别。
+FNN相比Deep Crossing的创新在于使用FM的[隐层向量](https://zhida.zhihu.com/search?content\_id=222119584&content\_type=Article&match\_order=1&q=%E9%9A%90%E5%B1%82%E5%90%91%E9%87%8F&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUxODIyODQsInEiOiLpmpDlsYLlkJHph48iLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjIxMTk1ODQsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.T71PdtHRoTntPstVcH1f-IS\_0Dp4yLeNxl\_PzwpLWz0&zhida\_source=entity)作为user和item的Embedding，从而避免了完全从随机状态训练Embedding。由于id类特征大量采用one-hot的[编码方式](https://zhida.zhihu.com/search?content\_id=222119584&content\_type=Article&match\_order=1&q=%E7%BC%96%E7%A0%81%E6%96%B9%E5%BC%8F&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUxODIyODQsInEiOiLnvJbnoIHmlrnlvI8iLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjIxMTk1ODQsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.eeImsprxxxyetC140FjvcgkX9ssPdE0Cjd9psYHoors&zhida\_source=entity)，导致其维度极大，向量极稀疏，所以Embedding层与输入层的连接极多，梯度下降的效率很低，这大大增加了模型的训练时间和Embedding的不稳定性，使用pre train的方法完成[Embedding层](https://zhida.zhihu.com/search?content\_id=222119584&content\_type=Article&match\_order=2&q=Embedding%E5%B1%82&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUxODIyODQsInEiOiJFbWJlZGRpbmflsYIiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyMjIxMTk1ODQsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MiwiemRfdG9rZW4iOm51bGx9.FVqOng\_VvLW08MaKf2DOD973EjAotRrUl4vLzjpn53g&zhida\_source=entity)的训练，无疑是降低深度学习模型复杂度和训练不稳定性的有效工程经验。
+## 6、推荐系统常用的评价指标有哪些？
+![](https://pica.zhimg.com/v2-bfe0692ed4237c9765e517c3997dc348\_1440w.jpg)
+\* \* \*
+\*\*↓ ↓ ↓以下9本书电子版免费领，直接送 ，想要哪本私我下说声，我发你↓ ↓ ↓\*\*
+![](https://pic2.zhimg.com/v2-0a5fe70ec27429f710d0363d38f7c8e5\_1440w.jpg)
+![](https://pica.zhimg.com/v2-8a10f12f95cf49aaddc4821a9268cb84\_1440w.jpg)
+《2022年Q3最新大厂面试题》电子书，部分截图如下：
+![](https://picx.zhimg.com/v2-182968b847d9819a5734d0293157d813\_1440w.jpg)
+发布于 2023-02-02 05:53・北京
+[推荐系统](https://www.zhihu.com/topic/19563024)
+[推荐算法](https://www.zhihu.com/topic/19580544)
+[算法工程师](https://www.zhihu.com/topic/19656756)
+[![图片](https://picx.zhimg.com/v2-f65722ce25c730a95fcdabe66f285b94\_bh.webp?source=d6434cab)\\
+\\
+多知识任务还在排队做？腾讯ima同步处理省时间\\
+\\
+微信文件一键转存至腾讯ima知识库，让你想用的时候随时都能用，还能对知识库里的文件进行深层次解析哦查看详情微信文件一键转存至腾讯ima知识库，让你想用的时候随时都能用，还能对知识库里的文件进行深层次解析哦 查看详情\\
+\\
+![用户头像](https://pic3.zhimg.com/v2-6bcab51aab5519d3e668f35b0a210fc3\_xl.webp?source=d6434cab)\\
+\\
+ima的广告](https://ima.qq.com/download/?webFrom=10000435&channel=10000435&cb=https%3A%2F%2Fsugar.zhihu.com%2Fplutus\_adreaper\_callback%3Fsi%3Da0f0d6f1-3e42-4480-a092-56d8accbbbf7%26os%3D3%26zid%3D1629%26zaid%3D3691187%26zcid%3D3655421%26cid%3D3655421%26event%3D\_\_EVENTTYPE\_\_%26value%3D\_\_EVENTVALUE\_\_%26ts%3D\_\_TIMESTAMP\_\_%26cts%3D\_\_TS\_\_%26mh%3D\_\_MEMBERHASHID\_\_%26adv%3D703838%26ocg%3D4%26cp%3D2500%26ocs%3D1%26aic%3D0%26atp%3D0%26ct%3D2%26ed%3DGiBNJgVzfCMmUW9XFyEvRA8xBGxJICwkOhh0FlwxKw1fY0gnWzUoISkYdBJEOSgNWnINfg90bnF-HGdRBWd-CU0qVy9RJ2dwG6SoutFHgyI%3D&spu=biz%3D0%26ci%3D3655421%26si%3De3c21c53-a6cc-49fb-b1a4-f7b13c002ef4%26ts%3D1775009485%26zid%3D1629)
+赞同 5​​2 条评论​22 ​1
+​分享
+​申请转载​
+​
+![](https://pic1.zhimg.com/v2-d41c2ceaed8f51999522f903672a521f\_l.jpeg)
+未登录用户
+2 条评论
+默认
+最新
+[![空空儿是运气王](https://picx.zhimg.com/v2-fbff153bd31b5aafaa086885d4f6e113\_l.jpg?source=06d4cd63)](https://www.zhihu.com/people/6fe0c67a4e0579de2136cd707b95b585)
+[空空儿是运气王](https://www.zhihu.com/people/6fe0c67a4e0579de2136cd707b95b585)
+你好，请问电子书可以发我下么，感谢
+2023-03-06 · 上海
+​回复​喜欢
+[![七月在线 七仔](https://pic1.zhimg.com/v2-cd34bbd00d9979ac0b390edbcab49dd3\_l.jpg?source=06d4cd63)](https://www.zhihu.com/people/df4bdff852df84e5c9917d7f396bba95)
+[七月在线 七仔](https://www.zhihu.com/people/df4bdff852df84e5c9917d7f396bba95)
+作者
+私我一下哈，改规则了，我不能主动私你
+2023-03-07 · 北京
+​回复​喜欢
+关于作者
+[![七月在线 七仔](https://picx.zhimg.com/v2-cd34bbd00d9979ac0b390edbcab49dd3\_l.jpg?source=32738c0c&needBackground=1)](https://www.zhihu.com/people/julyedu.com)
+[七月在线 七仔](https://www.zhihu.com/people/julyedu.com)
+集AI大模型教育、应用开发、机器人解决方案一体的科技公司
+[回答\\
+\\
+\*\*193\*\*](https://www.zhihu.com/people/julyedu.com/answers) [文章\\
+\\
+\*\*931\*\*](https://www.zhihu.com/people/julyedu.com/posts) [关注者\\
+\\
+\*\*186,153\*\*](https://www.zhihu.com/people/julyedu.com/followers)
+​关注​发私信
+大家都在搜
+换一换
+[伊朗局势506 万](https://www.zhihu.com/search?q=%E4%BC%8A%E6%9C%97%E5%B1%80%E5%8A%BF&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[鞠婧祎被实名举报偷税漏税410 万](https://www.zhihu.com/search?q=%E9%9E%A0%E5%A9%A7%E7%A5%8E%E8%A2%AB%E5%AE%9E%E5%90%8D%E4%B8%BE%E6%8A%A5%E5%81%B7%E7%A8%8E%E6%BC%8F%E7%A8%8E&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[意大利连续3届无缘世界杯384 万](https://www.zhihu.com/search?q=%E6%84%8F%E5%A4%A7%E5%88%A9%E8%BF%9E%E7%BB%AD3%E5%B1%8A%E6%97%A0%E7%BC%98%E4%B8%96%E7%95%8C%E6%9D%AF&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[李荣浩喊话单依纯称其强行侵权《李白》358 万](https://www.zhihu.com/search?q=%E6%9D%8E%E8%8D%A3%E6%B5%A9%E5%96%8A%E8%AF%9D%E5%8D%95%E4%BE%9D%E7%BA%AF%E7%A7%B0%E5%85%B6%E5%BC%BA%E8%A1%8C%E4%BE%B5%E6%9D%83%E3%80%8A%E6%9D%8E%E7%99%BD%E3%80%8B&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[张雪机车 WSBK葡萄牙站夺冠308 万](https://www.zhihu.com/search?q=%E5%BC%A0%E9%9B%AA%E6%9C%BA%E8%BD%A6+WSBK%E8%91%A1%E8%90%84%E7%89%99%E7%AB%99%E5%A4%BA%E5%86%A0&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[Claude Code 源码泄露300 万](https://www.zhihu.com/search?q=Claude+Code+%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[张雪峰追悼会举行民众排长队送别289 万](https://www.zhihu.com/search?q=%E5%BC%A0%E9%9B%AA%E5%B3%B0%E8%BF%BD%E6%82%BC%E4%BC%9A%E4%B8%BE%E8%A1%8C%E6%B0%91%E4%BC%97%E6%8E%92%E9%95%BF%E9%98%9F%E9%80%81%E5%88%AB&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[兰州大学考研初试401分被刷274 万](https://www.zhihu.com/search?q=%E5%85%B0%E5%B7%9E%E5%A4%A7%E5%AD%A6%E8%80%83%E7%A0%94%E5%88%9D%E8%AF%95401%E5%88%86%E8%A2%AB%E5%88%B7&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[瑞幸新品喝一半发现椰肉变紫268 万](https://www.zhihu.com/search?q=%E7%91%9E%E5%B9%B8%E6%96%B0%E5%93%81%E5%96%9D%E4%B8%80%E5%8D%8A%E5%8F%91%E7%8E%B0%E6%A4%B0%E8%82%89%E5%8F%98%E7%B4%AB&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[鞠婧祎收入明细234 万](https://www.zhihu.com/search?q=%E9%9E%A0%E5%A9%A7%E7%A5%8E%E6%94%B6%E5%85%A5%E6%98%8E%E7%BB%86&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[广告\\
+\\
+![广告](https://pic2.zhimg.com/v2-928d7c3dfbed9279848e2866b2c9dbfc.webp?source=d6434cab)\\
+\\
+![广告](https://picx.zhimg.com/v2-c1b62e54dfe0ab396ead3746089b8c5b.webp?source=d6434cab)\\
+\\
+![广告](https://picx.zhimg.com/v2-6d1986925d2611de34ef6354e0e29105.webp?source=d6434cab)](https://ima.qq.com/download/?webFrom=10000435&channel=10000435&cb=https%3A%2F%2Fsugar.zhihu.com%2Fplutus\_adreaper\_callback%3Fsi%3D52aa3e75-4211-48ad-a919-f727b6ed223a%26os%3D3%26zid%3D6001%26zaid%3D3671861%26zcid%3D3629647%26cid%3D3629647%26event%3D\_\_EVENTTYPE\_\_%26value%3D\_\_EVENTVALUE\_\_%26ts%3D\_\_TIMESTAMP\_\_%26cts%3D\_\_TS\_\_%26mh%3D\_\_MEMBERHASHID\_\_%26adv%3D703838%26ocg%3D4%26cp%3D2500%26ocs%3D1%26aic%3D0%26atp%3D0%26ct%3D2%26ed%3DGiBNJgVzfCMmUW9XFyEvRA8xBGxJICwkOhh0FlwxKw1fY0gnWzUoISkYdBJEOSgNWnINfg90bnF-HGdRBWd-CU0qVy9RJ2dwG6SoutFHgyI%3D&spu=biz%3D0%26ci%3D3629647%26si%3Dfc1e9612-175d-4208-b4bc-3f29d7c67d2f%26ts%3D1775009486%26zid%3D6001)
+### 推荐阅读
+[\*\*一位算法工程师从30+场秋招面试中总结出的语义分割超强面经（含答案）\*\* \\
+\\
+本文首发于极市平台，作者：灯会，转载须经授权并注明来源作者灯会为21届中部985研究生，凭借自己整理的面经，去年在腾讯优图暑期实习，七月份将入职百度cv算法工程师。在去年灰飞烟灭的算…\\
+\\
+极市平台发表于极市平台](https://zhuanlan.zhihu.com/p/374517360) [![Deep High Resolution Net（HRNet）代码分析及网络架构](https://pic1.zhimg.com/v2-e39d6a5de89dcaf631911681ba86703f\_250x0.jpg?source=172ae18b)\*\*Deep High Resolution Net（HRNet）代码分析及网络架构\*\* \\
+\\
+itsAndy](https://zhuanlan.zhihu.com/p/152594622) [\*\*一位算法工程师从30+场秋招面试中总结出的目标检测算法面经（含答案）\*\* \\
+\\
+本文首发于极市平台，作者：灯会，转载须经授权并注明来源作者灯会为21届中部985研究生，凭借自己整理的面经，去年在腾讯优图暑期实习，七月份将入职百度cv算法工程师。在去年灰飞烟灭的算…\\
+\\
+极市平台发表于极市平台](https://zhuanlan.zhihu.com/p/374017926) [\*\*深度学习笔试面试之循环神经网络(RNN)、门控循环单元（GRU）、长短期记忆(LSTM)\*\* \\
+\\
+微信公众号：数学建模与人工智能QInzhengk/Math-Model-and-Machine-Learning (github.com)循环神经网络(RNN)1. 什么是RNN循环神经网络（Recurrent Neural Network, RNN）是一类以序列（sequ…\\
+\\
+我有一个创业梦](https://zhuanlan.zhihu.com/p/394426898)
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_
+打开知乎App
+在「我的页」右上角打开扫一扫
+![](https://picx.zhimg.com/v2-9e41ea16bdfbe9cf4896617ecad5b4ca.png)
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+中国 +86
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+打开知乎App
+在「我的页」右上角打开扫一扫
+![](https://picx.zhimg.com/v2-9e41ea16bdfbe9cf4896617ecad5b4ca.png)
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+中国 +86
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+![](https://static.zhihu.com/heifetz/assets/liukanshan-peek.a71ecf3e.png)登录即可查看 超5亿 专业优质内容
+超 5 千万创作者的优质提问、专业回答、深度文章和精彩视频尽在知乎。
+立即登录/注册

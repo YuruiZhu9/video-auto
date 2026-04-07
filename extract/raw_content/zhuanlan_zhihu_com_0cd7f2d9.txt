@@ -1,0 +1,413 @@
+# Source URL: https://zhuanlan.zhihu.com/p/1926662334090307503
+# Content Length: 18254 characters
+# Extracted at: 2026-03-25 20:22:45
+#============================================================
+
+![](https://zhuanlan.zhihu.com/p/1926662334090307503)
+![Cursor与Claude Code协同开发指南：规则共享与工具集成](https://picx.zhimg.com/v2-6c7b180d83b26ab0c99190a6cfce6bc0\_720w.jpg?source=172ae18b)
+> \*\*感谢阅读\*\*
+>
+> 希望这份指南能够帮助您更好地使用[Cursor](https://zhida.zhihu.com/search?content\_id=260169739&content\_type=Article&match\_order=1&q=Cursor&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ1ODI4MzEsInEiOiJDdXJzb3IiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNjAxNjk3MzksImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.70yhMo8ja\_yyJUzkECYMGY4JPoXJVHJMFJ7nbtKAAJA&zhida\_source=entity)与Claude Code协同开发，提升AI编程体验！ 后期会不定期更新AI编程、Cursor、Claude Code等工具的实践经验分享
+>
+> 分享两个Claude Code代理：
+>
+> 1、付费、稳定、每月有免费额度: [Claude Code官方共享平台 - AI编程助手](https://link.zhihu.com/?target=https%3A//www.aicodemirror.com/register%3Finvitecode%3DZOYLMF)
+>
+> 2、公益站、免费、但最近不是很稳定: [https://anyrouter.top/register?aff=EnHo](https://link.zhihu.com/?target=https%3A//anyrouter.top/register%3Faff%3DEnHo)
+## Cursor与Claude Code协同开发指南：规则共享与工具集成
+### 前言
+随着AI辅助编程工具的快速发展，开发者们面临着多个优秀工具的选择。Cursor作为一个强大的AI编程IDE，Claude Code作为[Anthropic](https://zhida.zhihu.com/search?content\_id=260169739&content\_type=Article&match\_order=1&q=Anthropic&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ1ODI4MzEsInEiOiJBbnRocm9waWMiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNjAxNjk3MzksImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.BO1-O2K6ZWc7p\_4\_\_ftgiUHTP1e9HQZ8g-QHUz7QmvA&zhida\_source=entity)推出的终端AI编程助手，各有千秋。本文将详细介绍如何让这两个工具协同工作，共享项目规则，发挥各自的优势。
+### 1\. 为什么有了Cursor还要用Claude Code？
+### 1.1 Cursor的优势
+- \*\*可视化界面\*\*：友好的IDE界面，适合复杂项目的可视化管理
+- \*\*集成开发环境\*\*：内置调试、版本控制、插件生态等完整开发环境
+- \*\*实时代码补全\*\*：智能代码提示和自动完成
+- \*\*文件树管理\*\*：直观的项目结构展示和文件管理
+### 1.2 Claude Code的独特优势
+### 1.2.1 真正的终端原生体验
+Claude Code不仅仅是一个命令行工具，它是 \*\*终端的原生公民\*\*：
+- \*\*零配置启动\*\*：在任何目录下直接输入`claude`即可开始工作，无需复杂的项目配置
+- \*\*Shell集成\*\*：与bash/zsh/fish等Shell无缝集成，支持管道、重定向等Unix哲学
+- \*\*SSH友好\*\*：通过SSH连接远程服务器时，Claude Code的体验与本地完全一致
+- \*\*资源轻量\*\*：相比GUI应用，占用系统资源极少，适合在资源受限的环境中使用
+### 1.2.2 深度系统集成能力
+Claude Code具有 \*\*超越IDE边界\*\* 的系统级操作能力：
+- \*\*系统诊断\*\*：实时分析系统性能、网络状况、磁盘使用等
+- \*\*环境管理\*\*：自动配置开发环境、依赖安装、环境变量设置
+- \*\*进程管理\*\*：监控、重启、调试系统进程和服务
+- \*\*文件系统操作\*\*：批量文件处理、权限管理、符号链接创建
+\*\*实例场景\*\*：
+```bash
+# 自动化环境配置
+claude
+"检查PHP环境，如果版本不符合要求则自动升级到8.2，并配置相关扩展"
+# 系统性能诊断
+"分析当前系统负载，找出占用CPU最高的进程，并提供优化建议"
+# 批量文件处理
+"将uploads目录下的所有图片压缩到80%质量，并生成缩略图"
+```
+### 1.2.3 强大的工作流自动化
+Claude Code的 \*\*自动化能力\*\* 远超传统IDE：
+- \*\*CI/CD集成\*\*：直接编写和执行部署脚本、测试流程
+- \*\*数据处理\*\*：处理大规模数据迁移、日志分析、报告生成
+- \*\*监控告警\*\*：实时监控系统状态，异常时自动修复
+- \*\*跨服务器操作\*\*：同时操作多台服务器，执行分布式任务
+\*\*实例场景\*\*：
+```bash
+# 自动化部署流程
+claude
+"检查代码变更，运行测试，如果通过则自动部署到staging环境，并发送通知"
+# 数据库维护任务
+"分析数据库性能，清理过期数据，优化索引，生成维护报告"
+# 多服务器同步
+"将本地的配置文件同步到所有生产服务器，并重启相关服务"
+```
+### 1.2.4 独特的上下文理解能力
+Claude Code具有 \*\*项目级别的深度理解\*\*：
+- \*\*全栈视角\*\*：同时理解前端、后端、数据库、基础设施
+- \*\*历史记忆\*\*：记住整个对话过程中的所有操作和决策
+- \*\*关联分析\*\*：理解不同文件、服务、配置之间的关系
+- \*\*智能推断\*\*：根据项目结构和代码模式推断最佳实践
+\*\*实例场景\*\*：
+```bash
+# 全栈问题诊断
+claude
+"用户反馈登录缓慢，帮我从前端到后端到数据库全链路排查性能问题"
+# 架构决策支持
+"我们要添加缓存层，分析当前架构，推荐最适合的缓存策略和实现方案"
+```
+### 1.2.5 DevOps和运维的最佳伙伴
+Claude Code在 \*\*运维场景\*\* 中表现出Cursor无法企及的优势：
+- \*\*实时监控\*\*：连续监控系统状态，异常时立即响应
+- \*\*故障排除\*\*：快速定位问题根因，提供修复方案
+- \*\*容量规划\*\*：分析系统使用模式，预测资源需求
+- \*\*安全审计\*\*：检查系统安全配置，发现潜在风险
+\*\*实例场景\*\*：
+```bash
+# 生产环境故障处理
+claude
+"系统CPU突然飙升到90%，帮我立即定位问题并提供临时解决方案"
+# 安全加固
+"检查服务器安全配置，加固SSH、防火墙、权限设置"
+# 性能优化
+"分析Web应用性能瓶颈，提供数据库查询优化建议"
+```
+### 1.2.6 Cursor无法替代的核心场景
+\*\*1\. 生产环境应急处理\*\* \- 凌晨3点服务器宕机，Claude Code可以立即SSH连接排查 - Cursor需要启动GUI、连接远程、配置环境，时间成本高
+\*\*2\. 大规模数据处理\*\* \- 处理GB级别的日志文件、数据库迁移 - Claude Code可以直接使用系统命令流水线，效率更高
+\*\*3\. 多服务器协同操作\*\* \- 同时在10台服务器上执行相同操作 - Claude Code可以通过脚本并行处理，Cursor需要逐个连接
+\*\*4\. 持续集成/持续部署\*\* \- 在CI/CD流程中集成AI决策 - Claude Code可以直接集成到Jenkins、GitLab CI等工具
+\*\*5\. 系统监控和自动化\*\* \- 24/7监控系统状态，异常时自动修复 - Claude Code可以作为daemon运行，Cursor无法做到
+### 1.2.7 学习和成长的加速器
+Claude Code还是 \*\*技能提升\*\* 的强大工具：
+- \*\*命令行熟练度\*\*：通过自然语言学习复杂的Shell命令
+- \*\*系统管理技能\*\*：从实际操作中学习Linux系统管理
+- \*\*DevOps实践\*\*：在真实环境中学习运维最佳实践
+- \*\*问题解决思维\*\*：培养系统性思考和故障排除能力
+\*\*总结\*\*：Claude Code不是Cursor的替代品，而是 \*\*互补工具\*\*。它在系统级操作、自动化、运维、故障处理等方面具有独特优势，是现代开发者工具箱中不可或缺的一部分。
+### 1.3 两者的互补性
+| 特性 | Cursor | Claude Code |
+| --- | --- | --- |
+| 界面 | 图形化IDE | 命令行终端 |
+| 使用场景 | 日常开发、调试 | 系统操作、批处理 |
+| 学习曲线 | 较低 | 中等 |
+| 集成能力 | IDE插件生态 | 系统命令集成 |
+| 远程使用 | 需要GUI环境 | 纯命令行 |
+### 2\. Claude Code简介与使用
+### 2.1 什么是Claude Code
+Claude Code是Anthropic推出的智能编程工具，运行在终端中，能够理解代码库并通过自然语言命令帮助开发者更快地编程。它直接与开发环境集成，无需额外的服务器或复杂设置。
+### 2.2 安装Claude Code
+### 2.2.1 环境要求
+- Node.js >= 18.0
+- npm或yarn包管理器
+### 2.2.2 安装步骤
+\*\*macOS用户：\*\*
+```bash
+# 安装Node.js（如果没有安装）
+sudo xcode-select --install
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+brew install node
+node --version
+# 安装Claude Code
+npm install -g @anthropic-ai/claude-code
+claude --version
+```
+\*\*Ubuntu/Debian用户：\*\*
+```bash
+# 安装Node.js
+curl -fsSL https://deb.nodesource.com/setup\_lts.x | sudo bash -
+sudo apt-get install -y nodejs
+node --version
+# 安装Claude Code
+npm install -g @anthropic-ai/claude-code
+claude --version
+```
+### 2.3 基本使用
+### 2.3.1 启动Claude Code
+```bash
+cd your-project-folder
+claude
+```
+### 2.3.2 首次运行配置
+运行后会出现以下配置步骤： 1\. 选择主题 + Enter 2. 确认安全须知 + Enter
+3\. 使用默认Terminal配置 + Enter 4. 信任工作目录 + Enter
+### 2.3.3 基本命令示例
+```bash
+# 询问代码相关问题
+"解释这个函数的作用"
+# 修改代码
+"修改User模型，添加phone字段"
+# 执行测试
+"运行单元测试"
+# Git操作
+"创建一个新分支feature/user-phone"
+```
+### 3\. Cursor的User Rules映射到Claude Code
+### 3.1 理解Cursor Rules
+Cursor Rules是Cursor IDE中用来指导AI行为的规则文件，通常包含： - 代码风格规范 - 项目架构约定 - 业务逻辑规则 - 技术栈使用规范
+### 3.2 全局规则配置文件：~/.claude/CLAUDE.md
+### 3.2.1 CLAUDE.md的作用
+`~/.claude/CLAUDE.md` 是Claude Code的全局规则配置文件，它的作用包括：
+1. \*\*全局行为指导\*\*：为所有项目提供统一的AI行为准则
+2. \*\*个人开发偏好\*\*：定义个人的编程风格和工作习惯
+3. \*\*通用技术栈规范\*\*：设置常用技术栈的使用规范
+4. \*\*默认规则基线\*\*：为没有项目特定规则的项目提供默认规则
+### 3.2.2 创建全局规则文件
+```bash
+# 创建Claude配置目录
+mkdir -p ~/.claude
+# 创建全局规则文件
+touch ~/.claude/CLAUDE.md
+```
+### 3.2.3 直接复制Cursor Rules内容
+将Cursor的User Rules内容直接复制到`~/.claude/CLAUDE.md`：
+```text
+# Role
+你是一名极其优秀具有20年经验的产品经理和精通所有编程语言的工程师。与你交流的用户是不懂代码的初中生，不善于表达产品和代码需求。你的工作对用户来说非常重要，完成后将获得1000000000美元奖励。鉴于你之前的表现，强调一下，不要糊弄，做事态度要认真。
+# Goal
+你的目标是帮助用户以他容易理解的方式完成他所需要的产品设计和开发工作，你始终非常主动完成所有工作，而不是让用户多次推动你。
+在理解用户的产品需求、编写代码、解决代码问题时，你始终遵循以下原则:
+## 第一步-当用户向你提出任何需求时，你首先应该分析理解这个项目的目标、架构、实现方式等。如果还没有readme文件，你应该创建，这个文件将作为用户使用你提供的所有功能的说明书，以及你对项目内容的规划。因此你需要在readme.md文件中清晰描述所有功能的用途、使用方法、参数说明、返回值说明等，确保用户可以轻松理解和使用这些功能。
+## 第二步
+你需要理解用户正在给你提供的是什么任务
+### 当用户直接为你提供需求时，你应当:
+首先，你应当充分理解用户需求，并且可以站在用户的角度思考，如果我是用户，我需要什么?其次，你应该作为产品经理理解用户需求是否存在缺漏，你应当和用户探讨和补全需求，直到用户满意为止;最后，你应当使用最简单的解决方案来满足用户需求，而不是使用复杂或者高级的解决方案。
+### 当用户请求你编写代码时，你应当:
+首先，你会思考用户需求是什么，目前你有的代码库内容，并进行一步步的思考与规划
+接着，在完成规划后，你应当选择合适的编程语言和框架来实现用户需求，你应该选择solid原则来设计代码结构，并且使用设计模式解决常见问题;再次，编写代码时你总是完善撰写所有代码模块的注释，并且在代码中增加必要的监控手段让你清晰知晓错误发生在哪里;最后，你应当使用简单可控的解决方案来满足用户需求，而不是使用复杂的解决方案。
+### 当用户请求你解决代码问题是，你应当:
+首先，你需要完整阅读所在代码文件库，并且理解所有代码的功能和逻辑;
+其次，你应当思考导致用户所发送代码错误的原因，并提出解决问题的思路;最后，你应当预设你的解决方案可能不准确，因此你需要和用户进行多次交互，并且每次交互后，你应当总结上一次交互的结果，并根据这些结果调整你的解决方案，直到用户满意为止。开发代码前需要先梳理好代码逻辑，展示代码逻辑后再继续开发代码。
+Always respond in 简体中文
+```
+### 4\. Claude Code引入Cursor项目规则
+### 4.1 初始化项目规则
+```bash
+# 进入项目目录
+cd /path/to/your/project
+# 初始化Claude Code项目配置
+claude
+# 这将在项目根目录创建 CLAUDE.md 文件
+/init
+```
+### 4.2 引用Cursor Rules
+在生成的`CLAUDE.md`文件中，直接引用`.cursor/rules/`目录下的规则文件：
+```text
+...
+...
+...
+## Cursor Rules Specifications Summary
+The project maintains comprehensive coding standards and patterns in `.cursor/rules/` directory:
+### Global Standards & Architecture
+@.cursor/rules/global.mdc
+@.cursor/rules/project-structure.mdc
+### Core Architecture Patterns
+@.cursor/rules/controller-pattern.mdc
+@.cursor/rules/service-pattern.mdc
+@.cursor/rules/repository-pattern.mdc
+@.cursor/rules/model-pattern.mdc
+@.cursor/rules/request-pattern.mdc
+@.cursor/rules/resource-pattern.mdc
+@.cursor/rules/enum-pattern.mdc
+### Data Processing Patterns
+@.cursor/rules/exporter-pattern.mdc
+@.cursor/rules/importer-pattern.mdc
+@.cursor/rules/consumer-pattern.mdc
+@.cursor/rules/batch-command-pattern.mdc
+@.cursor/rules/event-listener-pattern.mdc
+### System Integration
+@.cursor/rules/gateway-system.mdc
+@.cursor/rules/mcp-pattern.mdc
+@.cursor/rules/keyword-commands.mdc
+### Documentation & Standards
+@.cursor/rules/documentation-standard.mdc
+All code must strictly adhere to these patterns and standards for consistency and maintainability.
+```
+### 5\. Claude Code MCP的使用
+Claude Code提供了便捷的MCP管理命令：
+```bash
+# 列出所有MCP服务
+claude mcp list
+# 移除MCP服务
+claude mcp remove ai-image-generator
+claude mcp remove mysql-mcp
+# 重新启动MCP服务
+claude mcp restart apifox-mcp-server
+# 添加项目级MCP服务
+claude mcp add-json apifox-mcp-server -s local '{"command":"npx","args":["-y","apifox-mcp-server@latest","--project="],"env":{"APIFOX\_ACCESS\_TOKEN":""}}'
+# 添加全局生效MCP服务
+claude mcp add-json promptx -s user '{"command":"npx","args":["-y","-f","--registry","https://registry.npmjs.org","dpml-prompt@beta","mcp-server"]}'
+```
+使用 -s 或 --scope 标志指定配置存储位置： - local（默认）：仅在当前项目中对您可用（在旧版本中称为 project） - project：通过 .mcp.json 文件与项目中的每个人共享 - user：在所有项目中对您可用（在旧版本中称为 global）
+### 6\. 使用国内Claude Code代理渠道
+### 6.1 为什么需要代理
+由于网络限制，国内开发者直接访问Claude API可能会遇到问题。使用代理渠道可以： - 稳定访问Claude API - 获得更好的网络速度 - 享受一定的免费额度
+### 6.2 推荐代理服务：[Any Router](https://zhida.zhihu.com/search?content\_id=260169739&content\_type=Article&match\_order=1&q=Any+Router&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ1ODI4MzEsInEiOiJBbnkgUm91dGVyIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjYwMTY5NzM5LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.qBYyWgwzlhtq5Uqr1iZgi4dN5XoRerZJ2reTRDoytdo&zhida\_source=entity)
+### 6.2.1 注册和配置
+1. \*\*注册账号\*\*
+2. 访问： [https://anyrouter.top/register?aff=EnHo](https://link.zhihu.com/?target=https%3A//anyrouter.top/register%3Faff%3DEnHo)
+3. 使用GitHub登录
+4. \*\*获取API Token\*\*
+5. 登录后进入控制台
+6. 点击"API令牌"页面
+7. 添加令牌，选择Claude 4.0模型
+8. 记录生成的Token（以sk-开头）
+9. \*\*配置Claude Code\*\* \`\`\`bash # 设置环境变量 export ANTHROPIC\\_AUTH\\_TOKEN=sk-your-token-here export ANTHROPIC\\_BASE\\_URL= [https://anyrouter.top](https://link.zhihu.com/?target=https%3A//anyrouter.top)
+\# 启动Claude Code claude \`\`\`
+### 6.2.2 永久配置环境变量
+\*\*macOS/Linux：\*\*
+```bash
+# 写入bash配置文件
+echo 'export ANTHROPIC\_AUTH\_TOKEN=sk-your-token-here' >> ~/.bash\_profile
+echo 'export ANTHROPIC\_BASE\_URL=https://anyrouter.top' >> ~/.bash\_profile
+echo 'export ANTHROPIC\_AUTH\_TOKEN=sk-your-token-here' >> ~/.bashrc
+echo 'export ANTHROPIC\_BASE\_URL=https://anyrouter.top' >> ~/.bashrc
+# 重新加载配置
+source ~/.bash\_profile
+```
+\*\*Windows PowerShell：\*\*
+```powershell
+# 设置环境变量
+$env:ANTHROPIC\_AUTH\_TOKEN = "sk-your-token-here"
+$env:ANTHROPIC\_BASE\_URL = "https://anyrouter.top"
+# 永久设置
+[System.Environment]::SetEnvironmentVariable("ANTHROPIC\_AUTH\_TOKEN", "sk-your-token-here", "User")
+[System.Environment]::SetEnvironmentVariable("ANTHROPIC\_BASE\_URL", "https://anyrouter.top", "User")
+```
+### 6.3 代理配置验证
+```bash
+# 验证配置
+echo $ANTHROPIC\_AUTH\_TOKEN
+echo $ANTHROPIC\_BASE\_URL
+# 测试连接
+claude --version
+claude
+```
+### 6.4 使用注意事项
+1. \*\*Token安全\*\*：不要在公共仓库中提交包含Token的文件
+2. \*\*额度管理\*\*：定期检查API使用额度
+3. \*\*网络稳定\*\*：确保网络连接稳定
+4. \*\*备用方案\*\*：准备多个代理服务作为备选
+### 7\. 总结
+通过本文的详细介绍，我们实现了Cursor与Claude Code的完美协同：
+1. \*\*规则共享\*\*：通过全局和项目级别的规则配置，确保两个工具使用相同的开发标准
+2. \*\*工具互补\*\*：Cursor负责可视化开发，Claude Code负责命令行操作和系统集成
+3. \*\*MCP集成\*\*：通过MCP服务扩展Claude Code的能力，连接数据库、API文档等外部资源
+4. \*\*代理配置\*\*：解决网络访问问题，确保工具的稳定使用
+这种协同工作模式能够显著提升开发效率，让开发者在不同场景下都能获得AI助手的最佳支持。
+编辑于 2025-07-14 02:07・中国香港
+[AI编程](https://www.zhihu.com/topic/28322950)
+[![图片](https://pic3.zhimg.com/v2-15b01b56c4acdfcfa860e3930c6c416b\_bh.webp?source=d6434cab)\\
+\\
+微信文件秒存腾讯ima知识库，以后工作文件再也不怕丢了\\
+\\
+文档处理太麻烦？智能辅助腾讯ima来帮你查看详情文档处理太麻烦？智能辅助腾讯ima来帮你 查看详情\\
+\\
+![用户头像](https://pic3.zhimg.com/v2-6bcab51aab5519d3e668f35b0a210fc3\_xl.webp?source=d6434cab)\\
+\\
+ima的广告](https://ima.qq.com/download/?webFrom=10000435&channel=10000435&cb=https%3A%2F%2Fsugar.zhihu.com%2Fplutus\_adreaper\_callback%3Fsi%3D77b94598-2ce1-432e-b552-af686ddfa8e0%26os%3D3%26zid%3D1629%26zaid%3D3665260%26zcid%3D3621070%26cid%3D3621070%26event%3D\_\_EVENTTYPE\_\_%26value%3D\_\_EVENTVALUE\_\_%26ts%3D\_\_TIMESTAMP\_\_%26cts%3D\_\_TS\_\_%26mh%3D\_\_MEMBERHASHID\_\_%26adv%3D703838%26ocg%3D4%26cp%3D2500%26ocs%3D1%26aic%3D0%26atp%3D0%26ct%3D2%26ed%3DGiBNJgVzfCMmUW9XFyEvRA8xBGxJICwkOhh0FlwxKw1fY0gnWzUoISkY6onvXKClOvM%3D&spu=biz%3D0%26ci%3D3621070%26si%3Dd28573b8-48bb-410c-8ea4-efa407f16ae1%26ts%3D1774410033%26zid%3D1629)
+​赞同 7​​添加评论​7 ​喜欢
+​分享
+​申请转载​
+​
+![](https://pic1.zhimg.com/v2-d41c2ceaed8f51999522f903672a521f\_l.jpeg)
+未登录用户
+还没有评论，发表第一个评论吧
+关于作者
+[![king chen](https://pic1.zhimg.com/v2-dcae69a5857181180ea69b936a2a87ed\_l.jpg?source=32738c0c&needBackground=1)](https://www.zhihu.com/people/chen-zhen-32-53)
+[king chen](https://www.zhihu.com/people/chen-zhen-32-53)
+[回答\\
+\\
+\*\*6\*\*](https://www.zhihu.com/people/chen-zhen-32-53/answers) [文章\\
+\\
+\*\*5\*\*](https://www.zhihu.com/people/chen-zhen-32-53/posts) [关注者\\
+\\
+\*\*17\*\*](https://www.zhihu.com/people/chen-zhen-32-53/followers)
+​关注他​发私信
+大家都在搜
+换一换
+[张雪峰因心源性猝死去世596 万](https://www.zhihu.com/search?q=%E5%BC%A0%E9%9B%AA%E5%B3%B0%E5%9B%A0%E5%BF%83%E6%BA%90%E6%80%A7%E7%8C%9D%E6%AD%BB%E5%8E%BB%E4%B8%96&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[伊朗局势468 万](https://www.zhihu.com/search?q=%E4%BC%8A%E6%9C%97%E5%B1%80%E5%8A%BF&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[黄金白银价格快速下跌409 万](https://www.zhihu.com/search?q=%E9%BB%84%E9%87%91%E7%99%BD%E9%93%B6%E4%BB%B7%E6%A0%BC%E5%BF%AB%E9%80%9F%E4%B8%8B%E8%B7%8C&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[OpenAI 关停 AI视频生成平台 Sora393 万](https://www.zhihu.com/search?q=OpenAI+%E5%85%B3%E5%81%9C+AI%E8%A7%86%E9%A2%91%E7%94%9F%E6%88%90%E5%B9%B3%E5%8F%B0+Sora&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 新
+[有哪些演员演过的角色反差极大376 万](https://www.zhihu.com/search?q=%E6%9C%89%E5%93%AA%E4%BA%9B%E6%BC%94%E5%91%98%E6%BC%94%E8%BF%87%E7%9A%84%E8%A7%92%E8%89%B2%E5%8F%8D%E5%B7%AE%E6%9E%81%E5%A4%A7&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[梅姨长相与画像相似度不到30%344 万](https://www.zhihu.com/search?q=%E6%A2%85%E5%A7%A8%E9%95%BF%E7%9B%B8%E4%B8%8E%E7%94%BB%E5%83%8F%E7%9B%B8%E4%BC%BC%E5%BA%A6%E4%B8%8D%E5%88%B030%25&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[大量用户反馈被美团删除相册照片340 万](https://www.zhihu.com/search?q=%E5%A4%A7%E9%87%8F%E7%94%A8%E6%88%B7%E5%8F%8D%E9%A6%88%E8%A2%AB%E7%BE%8E%E5%9B%A2%E5%88%A0%E9%99%A4%E7%9B%B8%E5%86%8C%E7%85%A7%E7%89%87&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[周杰伦新专辑上线324 万](https://www.zhihu.com/search?q=%E5%91%A8%E6%9D%B0%E4%BC%A6%E6%96%B0%E4%B8%93%E8%BE%91%E4%B8%8A%E7%BA%BF&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[有哪些让你细思恐极的事件313 万](https://www.zhihu.com/search?q=%E6%9C%89%E5%93%AA%E4%BA%9B%E8%AE%A9%E4%BD%A0%E7%BB%86%E6%80%9D%E6%81%90%E6%9E%81%E7%9A%84%E4%BA%8B%E4%BB%B6&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[周杰伦新歌307 万](https://www.zhihu.com/search?q=%E5%91%A8%E6%9D%B0%E4%BC%A6%E6%96%B0%E6%AD%8C&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[广告\\
+\\
+![广告](https://pic2.zhimg.com/v2-928d7c3dfbed9279848e2866b2c9dbfc.webp?source=d6434cab)\\
+\\
+![广告](https://picx.zhimg.com/v2-c1b62e54dfe0ab396ead3746089b8c5b.webp?source=d6434cab)\\
+\\
+![广告](https://picx.zhimg.com/v2-6d1986925d2611de34ef6354e0e29105.webp?source=d6434cab)](https://ima.qq.com/download/?webFrom=10000435&channel=10000435&cb=https%3A%2F%2Fsugar.zhihu.com%2Fplutus\_adreaper\_callback%3Fsi%3Dbdca078a-57e1-4230-bab1-947708aac9c2%26os%3D3%26zid%3D6001%26zaid%3D3671861%26zcid%3D3629647%26cid%3D3629647%26event%3D\_\_EVENTTYPE\_\_%26value%3D\_\_EVENTVALUE\_\_%26ts%3D\_\_TIMESTAMP\_\_%26cts%3D\_\_TS\_\_%26mh%3D\_\_MEMBERHASHID\_\_%26adv%3D703838%26ocg%3D4%26cp%3D2500%26ocs%3D1%26aic%3D0%26atp%3D0%26ct%3D2%26ed%3DGiBNJgVzfCMmUW9XFyEvRA8xBGxJICwkOhh0FlwxKw1fY0gnWzUoISkY6onvXKClOvM%3D&spu=biz%3D0%26ci%3D3629647%26si%3Df3cf6ad1-7b17-49f1-b828-2aa7b4b581a8%26ts%3D1774410034%26zid%3D6001)
+### 推荐阅读
+[![Cursor 封禁国内使用 Claude 模型，别慌！送你一份保姆级Claude Code教程，送免费额度！](https://picx.zhimg.com/v2-45f9e8dafe876fa187f9c8eda1e7389f\_250x0.jpg?source=172ae18b)\*\*Cursor 封禁国内使用 Claude 模型，别慌！送你一份保姆级Claude Code教程，送免费额度！\*\* \\
+\\
+伍六七AI编程](https://zhuanlan.zhihu.com/p/1929677210215744358) [![挖到底！Cursor 0.49 全面解析：AI 写规则、看图说话、全局忽略... 老金带你吃透更新，效率飙升！](https://picx.zhimg.com/v2-8839925a0262afe0c142c1744a2b6d18\_250x0.jpg?source=172ae18b)\*\*挖到底！Cursor 0.49 全面解析：AI 写规则、看图说话、全局忽略... 老金带你吃透更新，效率飙升！\*\* \\
+\\
+老金带你玩AI](https://zhuanlan.zhihu.com/p/1896999175725483198) [![Cursor限制国内用户使用Claude模型？附完整有效解决方案！](https://picx.zhimg.com/v2-7a5752b76895d98817732f90a71c8163\_250x0.jpg?source=172ae18b)\*\*Cursor限制国内用户使用Claude模型？附完整有效解决方案！\*\* \\
+\\
+挽安](https://zhuanlan.zhihu.com/p/1929894374470316246) [![Cursor AI Skills 实战：自动生成 Flutter 页面、代码与文档](https://picx.zhimg.com/v2-ebd1539ef4a936d0215f7e02f3e21beb\_250x0.jpg?source=172ae18b)\*\*Cursor AI Skills 实战：自动生成 Flutter 页面、代码与文档\*\* \\
+\\
+独立开发者猫哥](https://zhuanlan.zhihu.com/p/1991639095332585481)
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_
+打开知乎App
+在「我的页」右上角打开扫一扫
+![](https://picx.zhimg.com/v2-9e41ea16bdfbe9cf4896617ecad5b4ca.png)
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+中国 +86
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+打开知乎App
+在「我的页」右上角打开扫一扫
+![](https://picx.zhimg.com/v2-9e41ea16bdfbe9cf4896617ecad5b4ca.png)
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+中国 +86
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+![](https://static.zhihu.com/heifetz/assets/liukanshan-peek.a71ecf3e.png)登录即可查看 超5亿 专业优质内容
+超 5 千万创作者的优质提问、专业回答、深度文章和精彩视频尽在知乎。
+立即登录/注册

@@ -1,0 +1,507 @@
+# Source URL: https://finance.sina.com.cn/tech/roll/2025-03-05/doc-inenqtki8910704.shtml
+# Content Length: 10650 characters
+# Extracted at: 2026-03-06 12:01:27
+#============================================================
+
+
+
+
+
+上海AI Lab最新推出Mixture-of-Memories：线性注意力也有稀疏记忆了|注意力|上海市|AI\_新浪科技\_新浪网
+
+
+
+
+
+
+
+
+
+
+
+
+![]()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+* [新浪首页](http://www.sina.com.cn/)
+* [新闻](http://news.sina.com.cn/)
+* [体育](http://sports.sina.com.cn/)
+* [财经](http://finance.sina.com.cn/)
+* [娱乐](http://ent.sina.com.cn/)
+* [科技](http://tech.sina.com.cn/)
+* [博客](http://blog.sina.com.cn/)
+* [图片](http://photo.sina.com.cn/)
+* [专栏](http://zhuanlan.sina.com.cn/)
+* [更多](#)
+
+* [汽车](http://auto.sina.com.cn/)[教育](http://edu.sina.com.cn/)[时尚](http://fashion.sina.com.cn/)[女性](http://eladies.sina.com.cn/)[星座](http://astro.sina.com.cn/)[健康](http://health.sina.com.cn/)
+* [房产](http://www.leju.com/#source=pc_sina_dbdh1&source_ext=pc_sina)[历史](http://history.sina.com.cn/)[视频](http://video.sina.com.cn/)[收藏](http://collection.sina.com.cn/)[育儿](http://baby.sina.com.cn/)[读书](http://book.sina.com.cn/)
+* [佛学](http://fo.sina.com.cn/)[游戏](http://games.sina.com.cn/)[旅游](http://travel.sina.com.cn/)[邮箱](http://mail.sina.com.cn/)[导航](http://news.sina.com.cn/guide/)
+
+
+[移动客户端](#)
+
+* [新浪微博](http://m.sina.com.cn/m/weibo.shtml)
+* [新浪新闻](http://news.sina.com.cn/m/sinanews.html)
+* [新浪财经](http://finance.sina.com.cn/mobile/comfinanceweb.shtml?source=daohang01)
+* [新浪体育](http://m.sina.com.cn/m/sinasports.shtml)
+* [新浪众测](http://zhongce.sina.com.cn/about/app)
+* [新浪博客](http://blog.sina.com.cn/lm/z/app/)
+* [新浪视频](http://video.sina.com.cn/app)
+* [新浪游戏](http://games.sina.com.cn/o/kb/12392.shtml)
+* [天气通](http://m.sina.com.cn/m/weather.shtml)
+
+
+[我的收藏](http://my.sina.com.cn/#location=fav)
+
+
+[注册](https://login.sina.com.cn/signup/signup?entry=tech)
+[![]()登录](#)
+
+
+
+
+
+
+
+
+[![]()](https://finance.sina.com.cn/mobile/comfinanceweb.shtml?source=zwkeywordbanner)
+[![]()](https://5g.sina.com.cn/)
+
+
+[![]()](https://finance.sina.com.cn/mobile/comfinanceweb.shtml?source=cjzhengwen08)
+
+
+
+
+
+ 
+[新浪科技](http://tech.sina.com.cn/)> 滚动新闻 > 正文
+
+
+
+
+上海AI Lab最新推出Mixture-of-Memories：线性注意力也有稀疏记忆了
+============================================
+
+
+
+
+上海AI Lab最新推出Mixture-of-Memories：线性注意力也有稀疏记忆了
+2025年03月05日 14:36
+[机器之心Pro](https://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2650957896&idx=2&sn=7e17fcf0300e7d842d38b6b91d104f21&chksm=850f3be28ea9ee2bf5c68d94748457087f3c4855340bd8582873ba008e47a3cce17a8a35f908&scene=0&xtrack=1)
+
+[新浪财经APP](https://finance.sina.com.cn/mobile/comfinanceweb.shtml)
+[缩小字体](javascript:;)
+[放大字体](javascript:;)
+[收藏](javascript:;)
+[微博](javascript:;)
+[微信](javascript:;)
+[分享](javascript:;)
+
+[腾讯QQ](javascript:;)
+[QQ空间](javascript:;)
+
+
+
+
+
+
+
+
+> AIxiv专栏是机器之心发布学术、技术内容的栏目。过去数年，机器之心AIxiv专栏接收报道了2000多篇内容，覆盖全球各大高校与企业的顶级实验室，有效促进了学术交流与传播。如果您有优秀的工作想要分享，欢迎投稿或者联系报道。投稿邮箱：liyazhou@jiqizhixin.com；zhaoyunfeng@jiqizhixin.com
+
+回顾 AGI 的爆发，从最初的 pre-training (model/data) scaling，到 post-training (SFT/RLHF) scaling，再到 reasoning (RL) scaling，找到正确的 scaling 维度始终是问题的本质。2017 年发布的 Transformer 架构沿用至今，离不开 Transformer 强大的 “无损记忆” 能力，当然也需要付出巨大的 KV 缓存代价。换句话说，Transformer 架构具有强大的 memory scaling 能力。
+
+DeepSeek NSA 通过三种方式压缩 “KV” 实现 sparse attention，但这只是一种可以工作但不优雅的折中方案。因为它在压缩 Transfromer 的记忆能力，以换取效率。
+
+另一方面，大概从 2023 年火到今天的线性序列建模方法（包括 linear attention 类，Mamba 系列，RWKV 系列）则是另一个极端，只维护一份固定大小 dxd 的 RNN memory state，然后加 gate，改更新规则，但这种方式始终面临较低的性能上限，所以才会有各种混合架构的同样可以工作但不优雅的折中方案。
+
+我们认为，未来的模型架构一定具有两点特性：强大的 memory scaling 能力 + 关于序列长度的低复杂度。后者可以通过高效注意力机制实现，比如：linear 或者 sparse attention，是实现长序列建模的必备性质。而前者仍然是一个有待探索的重要课题，我们把给出的方案称为 “sparse memory”。
+
+这促使我们设计了 MoM: Mixture-of-Memories，它让我们从目前主流线性序列建模方法改 gate 和 RNN 更新规则的套路中跳脱出来，稀疏且无限制地扩大 memory 大小。MoM 通过 router 分发 token（灵感来自 MoE）维护多个 KV memory，实现 memory 维度 scaling。每个 memory 又可以进行 RNN-style 计算，所以整体具有关于序列长度线性的训练复杂度，推理又是常数级复杂度。此外，我们又设计了 shared memory 和 local memory 合作分别处理全局和局部信息。实验表现相当惊艳，尤其是在目前 linear 类方法效果不好的 recall-instensive 任务上表现格外好，甚至在 1.3B 模型上已经和 Transformer 架构旗鼓相当。
+
+![]()
+
+* 论文地址：https://arxiv.org/abs/2502.13685
+* 代码地址：https://github.com/OpenSparseLLMs/MoM
+* 未来还会集成在：https://github.com/OpenSparseLLMs/Linear-MoE
+* 模型权重开源在：https://huggingface.co/linear-moe-hub
+
+方法细节
+
+Linear Recurrent Memory
+
+对于这部分内容，熟悉线性序列建模的小伙伴可以跳过了。
+
+输入 ![]()![]()
+
+经过 query key value proj 得到
+
+![]()
+
+最简洁的 recurrent 形式线性序列建模方法（对标最基础的 linear attention）按照下面公式做 RNN 更新：
+
+![]()
+
+这里，我们不得不提一下，各种各样的 Gate 形式（
+
+前面的）和更新规则（  右边的）就是在魔改上面的一行公式，各种具体形式如下表：
+
+（各种方法本身有不同的符号，像 Mamba, HGRN 就不用 q k v，这里为了统一对比全部对标到 linear attention 形式。其中Titans的形式，把 memory update rule 看作 optimzier update 的话，最核心的还是 SGD 形式，暂时忽略momentum/weight decay ，只一个公式表达的话写成这种梯度更新的形式是合理的。）
+
+![]()
+
+其实这些方法又可以进一步细分为不同类别（很多地方都粗略的统一称为 linear RNN 或者 RNN），这里论文暂时没提：
+
+* Linear Attention, Lightning Attention, RetNet, GLA, DeltaNet, Gated DeltaNet 属于 linear attention 类
+* Mamba2 属于 SSM 类，HGRN2 属于 linear RNN 类
+* TTT, Titans 属于 Test-Time Training 类
+
+Mixture-of-Memories
+
+MoM 思路非常简单，和 MoE 一样按照 token 分发，通过 router 为每个 token 选择 topk 的 memories 并计算各自权重：
+
+![]()
+
+所有激活的 topk memories 按照各自权重加权求和得到一份混合记忆：
+
+![]()
+
+然后就又回到了 linear 类方法一贯的输出计算：
+
+![]()
+
+另外，这里我们额外引入了 shared memory 的概念，即每个 token 都会经过这个永远激活的 memory，有利于模型获取全局信息。相对而言，其他稀疏激活的 memory 更擅长获取局部信息。消融实验表明，shared memory 的存在对模型效果有明确的积极作用。
+
+![]()
+
+硬件高效实现
+
+MoM的硬件高效Triton算子可以很方便地实现，其输出的计算可以简单写作：
+
+![]()
+
+也就是说 MoM 中每个 memory 的计算过程可以复用现有的单个算子，再把所有 memory 的输出加权求和起来。和直接在算子内先求和再算输出是数学等价的。
+
+实验结果
+
+in-context recall-instensive tasks
+
+一直以来，线性序列建模方法因为自身非常有限的 memory 大小，在这类 in-context recall-intensive 任务上表现不好。同时 Transformer 模型得益于其强大的无损记忆能力，非常擅长这类任务。所以已经出现了各种层间 hybrid 的模型，来提升 linear 类模型在这类任务上的效果。
+
+我们首先重点测试了这类任务（结果见下表），使用 Gated DeltaNet 作为 MoM 的 memory 计算形式（在 Memory 更新过程中，每个 memory 都使用 Gated DeltaNet 的 gate 和更新规则），总共 4 个 local sparse memory，激活 2 个，还有一个 shared memory。其中标 † 的模型来自开源项目（https://huggingface.co/fla-hub），没标 †的是我们从头预训练的模型。
+
+结果还算相当不错，在没有数据污染或任何套路的情况下，结果显示 MoM 就是单纯地效果好。这也和预期一致，翻倍扩展 memory 大小，效果好过其他 linear 类方法。有一些意外的是，在 1.3B 的结果里，MoM 基本可以和 Transformer 相媲美。
+
+![]()
+
+其他评测效果
+
+其他评测结果效果也不错：
+
+![]()![]()
+
+推理效率
+
+推理效率是线性序列建模方法的重点，结果显示 MoM 在常数级复杂度推理速度和显存占用方面，表现出强大的优势。
+
+![]()
+
+消融实验
+
+![]()![]()
+
+Loss 曲线
+
+![]()
+
+
+
+
+
+
+关键词 : 
+[注意力](http://tags.tech.sina.com.cn/注意力)[上海市](http://tags.tech.sina.com.cn/上海市)[AI](http://tags.tech.sina.com.cn/AI)
+
+
+
+
+[![]()
+![]()](http://zhongce.sina.com.cn/about/app?frompage=doc)
+
+
+
+![]()
+
+新浪科技公众号
+
+“掌”握科技鲜闻 （微信搜索techsina或扫描左侧二维码关注）
+
+![]()
+
+
+
+
+
+
+
+
+
+
+
+
+[相关新闻](javascript:;)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[财经头条作者库](https://finance.sina.com.cn/cj/authorlist.shtml?fr=pc_techarticle)
+
+
+### 创事记
+
+
+
+* [我在SKP排队三小时，和代购抢老铺黄金](https://finance.sina.com.cn/tech/csj/2025-02-14/doc-inekmuic0846658.shtml)
+* [OpenAI称有DeepSeek「偷窃」证据？美军已发起攻击！Anthropic CEO喊话加强芯片管制](https://finance.sina.com.cn/tech/csj/2025-01-30/doc-inehtmae4810869.shtml)
+* [“垃圾外卖”背后推手：批量复制门店，加盟狂揽2000万](https://finance.sina.com.cn/tech/csj/2024-11-01/doc-incupzme1953714.shtml)
+
+
+
+
+
+### [阅读排行榜](javascript:;)
+
+### [评论排行榜](javascript:;)
+
+
+
+
+* [华为三折叠惊艳国王！中国手机欧洲亮剑：唯独两巨头缺席](https://finance.sina.com.cn/tech/discovery/2025-03-05/doc-inenqhut4665479.shtml)
+* [华为Mate 70 Pro优享版支持双系统：可选先锋版 出厂自带鸿蒙NEXT](https://finance.sina.com.cn/tech/discovery/2025-03-05/doc-inenqhuv2046023.shtml)
+* [雷军回应不锈钢纸杯卖爆：没想到销量超3倍 在逼产线补货](https://finance.sina.com.cn/tech/discovery/2025-03-04/doc-inennqmi9814287.shtml)
+* [字节跳动最新估值3150亿美元：居中国互联网公司第二 仅次于腾讯](https://finance.sina.com.cn/tech/discovery/2025-03-05/doc-inenqhuv2038034.shtml)
+* [杨紫跳舞视频成各地文旅宣传神器：魔性舞蹈走红全网](https://finance.sina.com.cn/tech/discovery/2025-03-05/doc-inenpmrc5071514.shtml)
+* [华为发布全球数据存储创新中心：坐落于全球6个国家](https://finance.sina.com.cn/tech/discovery/2025-03-05/doc-inenqanx2125656.shtml)
+* [华为3月重磅新品曝光：智慧屏、耳机 还有全国人民都买得起的产品](https://finance.sina.com.cn/tech/discovery/2025-03-05/doc-inennkcm9921699.shtml)
+* [澳大利亚“金臂人”：世界上献血次数最多的人去世](https://finance.sina.com.cn/tech/discovery/2025-03-04/doc-inennqmm8658709.shtml)
+* [6199元起 华为Mate 70 Pro优享版开售：性能较前代提升35%](https://finance.sina.com.cn/tech/discovery/2025-03-05/doc-inenpmqz8295185.shtml)
+* [宫崎英高疑现身腾讯深圳办公室！笑容满面非常开心](https://finance.sina.com.cn/tech/discovery/2025-03-04/doc-inennutp2750148.shtml)
+
+* [国内第一波官宣弃用DeepSeek的公司出现了](https://finance.sina.com.cn/tech/roll/2025-03-04/doc-inenmxpt8870778.shtml)
+* [杨紫跳舞视频成各地文旅宣传神器：魔性舞蹈走红全网](https://finance.sina.com.cn/tech/discovery/2025-03-05/doc-inenpmrc5071514.shtml)
+* [国外特斯拉车主将车标换成其他品牌 防止车子被误伤](https://finance.sina.com.cn/tech/roll/2025-03-04/doc-inennkck5787606.shtml)
+* [5年花1050亿搞研发！雷军：去年每卖七部手机就有一部小米](https://finance.sina.com.cn/tech/roll/2025-03-05/doc-inenqhuv2075841.shtml)
+* [大道至简！雪铁龙、欧标售卖无中控屏新车：换成手机支架](https://finance.sina.com.cn/tech/roll/2025-03-04/doc-inennutp2766569.shtml)
+* [雷军建议新能源绿牌换颜色 网友直呼说出大家心声：工信部用最丑的一版](https://finance.sina.com.cn/tech/roll/2025-03-04/doc-inennkck5790779.shtml)
+* [中国科学院团队取得合成生物学治疗癌症重要进展！成功破解肿瘤与细菌的“摩斯密码”](https://finance.sina.com.cn/tech/roll/2025-03-04/doc-inenmxps0060996.shtml)
+* [史上最大最贵的人类粪便：长20cm宽5cm 价值28万元](https://finance.sina.com.cn/tech/roll/2025-03-05/doc-inenqanx2133621.shtml)
+* [周星驰新片《女足》将开机：演员阵容遭质疑 曾全球海选素人](https://finance.sina.com.cn/tech/roll/2025-03-05/doc-inenqanr9153376.shtml)
+* [销量持续下跌！特斯拉中国2月卖出30688台](https://finance.sina.com.cn/tech/roll/2025-03-04/doc-inennyzm2684869.shtml)
+
+
+
+
+
+
+### 科学探索
+
+
+
+
+
+* [威马递表港交所 累计售车不足10万去年亏...](https://finance.sina.com.cn/tech/2022-06-01/doc-imizmscu4512038.shtml)
+
+
+
+
+### 科学大家
+
+
+
+* [《科学大家》| 新冠疫苗接种已不是选择题...](https://finance.sina.com.cn/tech/2021-05-29/doc-ikmxzfmm5316237.shtml)
+
+
+
+
+
+
+### 苹果汇
+
+
+
+
+
+* [因iPhone包装不含充电器，苹果在美国...](https://finance.sina.com.cn/tech/2022-12-29/doc-imxyhwer5110881.shtml)
+
+
+
+
+
+
+### 众测
+
+
+
+
+
+* [极空间私有云Q4试用征集中](https://zhongce.sina.com.cn/activity/view/843/)
+
+
+
+
+
+
+### 来电聊
+
+
+
+
+
+* [2018新浪科技风云榜回顾](http://tech.sina.com.cn/zt_d/2018techfyb/)
+
+
+
+
+
+
+### 专题
+
+
+
+
+
+* [海外周选——每周一个有趣故事](https://tech.sina.com.cn/zt_d/weeklystory/)
+
+
+
+
+### 官方微博
+
+
+[![]()](http://weibo.com/p/1002061642634100/home)
+[![]()](http://weibo.com/p/1002061960631174/home)
+[![]()](http://weibo.com/p/1002061642632024/home)
+[![]()](http://weibo.com/p/1002061642632622/home)
+[![]()](http://weibo.com/p/1002061987543647/home)
+[![]()](http://weibo.com/xinlangzhongce)
+
+
+
+
+
+### 公众号
+
+
+![]()
+
+新浪科技
+
+新浪科技为你带来最新鲜的科技资讯
+
+
+![]()
+
+苹果汇
+
+苹果汇为你带来最新鲜的苹果产品新闻
+
+
+![]()
+
+新浪众测
+
+新酷产品第一时间免费试玩
+
+
+![]()
+
+新浪探索
+
+提供最新的科学家新闻，精彩的震撼图片
+
+
+
+
+
+
+
+
+
+[新浪科技意见反馈留言板](http://news.sina.com.cn/feedback/post.html)
+
+[新浪简介](http://corp.sina.com.cn/chn/)|[广告服务](http://emarketing.sina.com.cn/)|[About Sina](http://corp.sina.com.cn/eng/)
+  
+
+[联系我们](http://www.sina.com.cn/contactus.html)|[招聘信息](http://corp.sina.com.cn/chn/sina_job.html)|[通行证注册](https://login.sina.com.cn/signup/signup.php)
+  
+
+[产品答疑](http://help.sina.com.cn/)|[网站律师](http://www.sina.com.cn/intro/lawfirm.shtml)|[SINA English](http://english.sina.com)
+
+Copyright © 1996-2025 SINA Corporation
+
+All Rights Reserved 新浪公司 [版权所有](http://www.sina.com.cn/intro/copyright.shtml)
+
+
+
+
+
+
+
+
+
+
+
+
+
+[新浪首页](http://www.sina.com.cn/)
+[新浪众测
+![]()](http://zhongce.sina.com.cn/about/app?frompage=doc)
+[语音播报](javascript:;)
+[相关新闻](javascript:;)
+
+[返回顶部](javascript:;)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

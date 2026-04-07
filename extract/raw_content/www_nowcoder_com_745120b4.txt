@@ -1,0 +1,176 @@
+# Source URL: https://www.nowcoder.com/discuss/386280607280623616
+# Content Length: 13000 characters
+# Extracted at: 2026-04-01 10:09:48
+#============================================================
+
+
+
+
+
+
+
+
+
+
+
+推荐系统/算法工程师面试经验之一\_牛客网
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[![]()](https://www.nowcoder.com/)
+
+* [首页](https://www.nowcoder.com/)
+* [题库](https://www.nowcoder.com/exam/company)
+  + [公司真题](https://www.nowcoder.com/exam/company)
+  + [专项练习](https://www.nowcoder.com/exam/intelligent)
+  + [面试题库](https://www.nowcoder.com/exam/interview)
+  + [在线编程](https://www.nowcoder.com/exam/oj)
+* [面试](https://www.nowcoder.com/interview/center?entranceType=%E5%AF%BC%E8%88%AA%E6%A0%8F)
+  + [面试经验](https://www.nowcoder.com/interview/center?entranceType=%E5%AF%BC%E8%88%AA%E6%A0%8F)
+  + [AI 模拟面试](https://www.nowcoder.com/interview/ai/index?entranceType=%E5%AF%BC%E8%88%AA%E6%A0%8F)
+* [简历](https://www.zhiyeapp.com)
+* [求职](https://www.nowcoder.com/jobs/recommend/campus)  ![]()
+* [学习](https://www.nowcoder.com/courses)
+  + [基础学习课](https://www.nowcoder.com/courses?category=1)
+  + [实战项目课](https://www.nowcoder.com/courses?category=2)
+  + [求职辅导课](https://www.nowcoder.com/courses?category=3)
+  + [专栏&文章](https://www.nowcoder.com/blog/blogCenter)
+* [竞赛](https://ac.nowcoder.com)
+
+  搜索
+
+     [我要招人](https://nowpick.nowcoder.com/?channel=zz_guide_unlogin)
+
+* [![]() 
+  发布职位
+   
+  发布职位、邀约牛人](https://nowpick.nowcoder.com/?channel=zz_guide_unlogin)
+* [![]() 
+  更多企业解决方案
+   
+  AI面试、笔试、校招、雇品](https://hr.nowcoder.com?utm_channel=nkweb_homepage)
+* [![]() 
+  HR免费试用AI面试
+   
+  最新面试提效必备](https://hr.nowcoder.com/product/interview?utm_channel=nkweb_homepage_AIinterview)
+  [登录](javascript:void(0);)
+/
+[注册](javascript:void(0);)   [小白如何搭建推荐系统](/users/931277964)   2022-08-08 22:21   上海交通大学 Python          关注 已关注 取消关注    
+
+推荐系统/算法工程师面试经验之一
+================
+
+     这篇文章本来是要写推荐系统从0-1该如何做，但是发现牛客网上大家更关心的是面试的经验。所以这篇文章就写我做面试官的经验吧。    **自我介绍篇（前面一篇文章，已经自我介绍过了，再啰嗦一下）：**    **我09年在上交读的计算机方向，13年毕业，大四的时候花了4个月时间复习考研，跨考了本校的应用经济学方向，然后又读了3年，16年毕业。   之所以读经济学，是因为那时候听说搞金融的钱多；结果15年股市泡沫破了之后，就没打算在金融方向找工作了。   那时候，人工智能刚起来没多久，我还不是很了解，当时我的目标是做一个数据分析师。毕业之后，在某央企做了半年的数据分析师，然后换到互联网行业。   本来没有什么规划的，去了一个非常小的不知名的app公司。说来运气也好，当时带着我的老大是百度T8出来的，也是我的校友。他主要是做数据库和大数据这块的，由他直接带，这个成长速度是很快的。   之后跟着老大去了一家发展不错的互联网公司(都不是大厂)，然后上市了。在股价最高的时候，我选择了跳槽。因为这个时候，出去谈薪水是非常有优势的。总共工作至今6年时间，换了好几份工作，当然薪水涨得也很快。   说到面试官，我从工作第二年就开始陆陆续续面试了，社招和校招都经历过。面试过的人，应该有100~200个左右（也不是很多，推荐领域的人偏少）。我自己作为面试官，心理也在发生变化，也是逐步成长的过程：  
+
+1. 当我自己还是小白的时候，我看到那些写在期望薪资比我自己高的时候，就有一种莫名的感觉，就想证明一下这个人不行，所以经常会问一些很刁钻的问题。那个时候，公司的面试规范什么的也都没有，对方要是答得不好，基本上是过不了我这关的。其实这是一种很不自信的反应。- 进步一成长之后，我就没有这么苛刻了。但是，问题一般都会稍微复杂一些。同时，如果简历上有自己不懂的，基本上也不会去问。- 至于现在，公司有面试规范了。而且，我基本上不会问太复杂的问题，如果遇到简历上自己不太懂的，事先会去查一下。然后面试的时候，我会让候选人讲一下，其实我并不在乎他讲的对不对，但是一定要敢讲，同时逻辑思路要强。
+
+  上面是我自己作为面试官的一些变化，下面我给即将秋招或社招的小伙伴们提一些建议：  
+
+1. 对于即将毕业的应届毕业生，宗旨是不要给自己设限，清楚自己的性格，适合做什么。- 要有自己的职业规划，至少在1-2年内的规划是要有的，1-2年会改变很多你之前的想法。比如，之前一直认为想做数据分析师，但是1-2年的时间，见识过很多其他领域的技能，觉得自己又更适合这块等。- 要敢于变换职场赛道，但是一定要选择适合自己的，如果不喜欢写代码，一定不要勉强自己。找个适合自己的方向，也一样能有很大的成就。- 找个自己认为能赚到钱的职业方向，大家出来都是赚钱的，适合自己的并能最大程度赚钱才是王道。- 敢于跳出舒适圈，拔高自己的天花板，比如从开始的数据分析，到大数据知识，到推荐知识，不断地跳出一个领域进阶到下个领域，才能逐渐的成长，有更多收获。- 中厂或者大厂，都有自己的面试规范，所以基本都是问简历上的内容，由浅及深。- 技术型简历，不要太花里胡哨。对于做技术的人来说，简历花里胡哨，并没有什么优势。- 自己不会的东西和没做过的东西，不要写在简历上。面试官一般会对着简历问，一般不会超过简历太多。如果这个东西没有做过，或者不会，我们是很容易发现的。这个时候面试的预期会大打折扣。- 简历不要写的太泛，不要让面试官觉得你什么都会，简历要写的能调起面试官的兴趣。一般公司有规定，面试官至少得要面试半个小时以上。如果，面试官找不到可以问的点，那么，他一定会问他懂的问题，这个时候，你就GG了。
+  这期讲的都比较泛的东西，实质的不多。从下期开始就主要讲推荐系统工程师/算法工程师面试的经验。   后面，就打个小广告，推荐系统从0-1如何开发，会在微信公众号上推出。微信公众号当前正在建设阶段，下期会给大家推出微信公众号名称。**     
+ [#面试经验#](/creation/subject/ccfbd335a0e6418d9c47e47d41e78dc0)[#推荐算法工程师#](/creation/subject/4b774c7e81894af6b43d442304b6bb73)[#机器学习#](/creation/subject/1d21b7f0279f49f9bdb350c0e103df4f)   提示 订阅专刊     全部评论 推荐最新楼层  [烟花再美也只是瞬间](/users/237567144)      厦门大学 算法工程师             楼主给了信心，原本以为毕业没能去大厂人生就毁了，没想到不会 点赞 回复 分享   [发布于 2022-08-23 01:35](/discuss/comment/13974058)  福建      [理想汽车—内推官](/users/816881525)      理想汽车\_研发工程师            {"pureText":"","imgs":[{"src":"https://uploadfiles.nowcoder.com/images/20220818/816881525\_1660784027172/94FDF9AD1F873772CAA11E53655CE375","alt":"9AZV81vHehYYIVv9hAoCwbugx2LnEONV.jpg","width":"1440.0","height":"2433.0"}]} 点赞 回复 分享   [发布于 2022-08-18 08:53](/discuss/comment/13903239)  江苏      [我就不介绍了](/users/84474601)      西华大学 Java             算法太难搞了 点赞 回复 分享   [发布于 2022-08-09 14:40](/discuss/comment/13796095)          ![]()
+
+暂无评论，快来抢首评~
+
+      
+
+相关推荐
+
+            03-26 15:56  [科大讯飞\_教育BG\_后端开发(准入职员工)](/users/154254042)     [那场笔试，开始自我怀疑](/discuss/866710175892238336?sourceSSR=post)    [秋招笔试里，最难的当属美团。算法题刁钻晦涩，计算机网络、操作系统考点极深，还有大量场景设计与逻辑推理。作为后端学生，做完只觉基础漏洞百出，也让我更清楚差距，之后针对性补了不少薄弱知识点。也可能美团那会我是第一次做的第一家笔试。#你做过最难的笔试是哪家公司#](/discuss/866710175892238336?sourceSSR=post)       点赞 评论 收藏 分享             03-26 20:26  [广州大学 前端工程师](/users/486531239)      [双非某网安小厂前端面试面经](/discuss/866777974618537984?sourceSSR=post)    [面试官说八股招过来的存在能力不足的现象，此次面试以项目面为主，加粗的是我没准备好怎么回答合适的自我介绍，提到实习带来的成长介绍公式编辑器的动机、调研、技术栈的确定、数据结构设计、渲染器设计有没有想过优化构建速度（这个真没有）；继续介绍数据结构的扩展问题、可扩展导出逻辑带入变量值、给出计算结果（我觉得这个需求不是一个公式编辑器该做的）；内置公式模板（这个难度不高）；看目录结构设计、对&nbsp;Taro&nbsp;API&nbsp;的跨端封装、配置文件；代码生成脚本日志记录器需求、展示已经存储的字段；打开&nbsp;UI长列表有没有做性能优化（这个&nbsp;Flutter&nbsp;内置）；让你做一个原生性能优化怎么做（提出一个分&nbsp;chunk&nbsp;请求与加...](/discuss/866777974618537984?sourceSSR=post)     ![]()查看18道真题和解析  点赞 评论 收藏 分享             03-30 23:51  [门头沟学院 C++](/users/264448196)      [实习](/feed/main/detail/cb37e1639a7444c2a6fb9e4fe683fb2a?sourceSSR=post)    [这个简历能去找实习了吗](/feed/main/detail/cb37e1639a7444c2a6fb9e4fe683fb2a?sourceSSR=post)          点赞 评论 收藏 分享             昨天 18:29  [中央美术学院附属中等美术学校 Java](/users/861232472)      [3月总结-AI时代我们该咋办](/discuss/868560631983570944?sourceSSR=post)    [2.28&nbsp;考研分数出来就感觉有点悬进复试有点难&nbsp;于是开始准备春招，寒假其实也在学一点开发的东西和准备简历。但欠缺的东西还是很多。3.6&nbsp;经过几天的思考和情况观测，感觉在复试线边缘准备开始投递春招和准备复试开始也是很焦虑吧，不知道未来在哪里，到底要去干啥，一直背八股了解项目。中间过程最难受的就是做测评吧，非常消耗时间而且好多家都是一样的题目，感觉像吃了shi一样。到目前为止投了大概500+，实际简历到hr手中的可能100左右，面试6家企业，这周还有四家，已经oc&nbsp;2个外包。具体面筋可以看我主页，我也是第一次面试吧从3月中旬收到第一家开始，感觉也是非常紧张，最后反问面试官也说我有点紧张，加强一下表...](/discuss/868560631983570944?sourceSSR=post)      [26届求职交流](/creation/subject/9a859bbe44794d749542e6920a6bbe3e?entranceType_var=%E5%86%85%E5%AE%B9%E6%9D%A1%E7%9B%AE)  点赞 评论 收藏 分享      评论 点赞成功，聊一聊 >3 10  分享      评论   ![]()  提到的真题 
+返回内容
+  
+
+招聘动态
+
+[查看更多](/jobs/school/schedule?pageSource=105) 
+
+   [百度
+
+2027届暑期实习](/jump?type=ad&source=105&companyId=139&url=https%3A%2F%2Flink.youzhiwk.com%2Fr%2FqzWDWieMzj&entityId=13184) [招商银行数字金融训练营
+
+火热报名中](/jump?type=ad&source=105&companyId=674&url=https%3A%2F%2Fcmb-recruitment-mobile.paas.cmbchina.com%2FrecommendList%3FqrCodeId%3D5B6AC1B8-E9C6-4F00-BDB3-ACFB1C75D578&entityId=13183) [米哈游2026校园招聘
+
+应届生春招&全年实习生专项](/jump?type=ad&source=105&companyId=1055&url=https%3A%2F%2Fcampus.mihoyo.com%2F%3FchannelToken%3Dxzad2ecbb9-e39543eca1cf-0b401e8d13fb&entityId=13125) [新华三
+
+2026届春季校园招聘](/jump?type=ad&source=105&companyId=781&url=https%3A%2F%2Fcareer.h3c.com%2Fcampus%2Fjobs&entityId=13180) [联想
+
+27届暑期实习](/jump?type=ad&source=105&companyId=958&url=https%3A%2F%2Ftalent.lenovo.com.cn%2Fposition%3FprojectType%3D2&entityId=13182) [奥克斯集团
+
+2026春季校园招聘](/jump?type=ad&source=105&companyId=2437&url=https%3A%2F%2Fauxgroup.zhiye.com%2Fcampus%2Fjobs%3Fmemory%3D%257B%257D%26silence%3D1&entityId=13181) [厦门银行
+
+2026届春季校园招聘](/jump?type=ad&source=105&companyId=2932&url=https%3A%2F%2Fxmccb.zhaopin.com%2F&entityId=13149) [联想
+
+26届补录](/jump?type=ad&source=105&companyId=958&url=https%3A%2F%2Ftalent.lenovo.com.cn%2Fposition%3FprojectType%3D1&entityId=13135) [携程集团
+
+2026年春季校园招聘](/jump?type=ad&source=105&companyId=153&url=http%3A%2F%2Ft.ctrip.cn%2FgSuXOL7&entityId=13143) [27届校招宝典](/jump?type=ad&source=105&companyId=1727&url=https%3A%2F%2Flink.zhiyeapp.com%2Fr%2FxEKxW1g0pC&entityId=13136)  
+
+全站热榜
+----
+
+更多   
+
+* [1  ...   27届暑期实习腾讯PCG前端面经 3289](https://www.nowcoder.com/discuss/867749382026817536)
+* [2  ...   美团暑期前端一面面经 2811](https://www.nowcoder.com/feed/main/detail/f741684299fa4e65b9a67bc9c1960931)
+* [3  ...   被笔试耽误了一天day16（为什么携程第三题始终是0呢 2692](https://www.nowcoder.com/feed/main/detail/4e32e59cee3c4c1f8e3f8807cfe3f455)
+* [4  ...   入职互联网厂大半年，我觉得ai时代学历更加重要了 1944](https://www.nowcoder.com/discuss/867824288634630144)
+* [5  ...   3.29 pdd笔试 1557](https://www.nowcoder.com/discuss/867808274140168192)
+* [6  ...   京东后端面经 1380](https://www.nowcoder.com/feed/main/detail/361f23c46399492b81cd824ac6e81a44)
+* [7  ...   暑期进展 1374](https://www.nowcoder.com/discuss/867802836489289728)
+* [8  ...   还上啥班 直接创业了？ 1169](https://www.nowcoder.com/discuss/867825345360060416)
+* [9  ...   3.29携程笔试 1164](https://www.nowcoder.com/feed/main/detail/0726597c0d3340d4bdfcf4a033ad4fb5)
+* [10  ...   拼多多笔试A了3道 1031](https://www.nowcoder.com/feed/main/detail/6a79f4b0f65549e2810dc67d89a62952)
+
+ 
+
+创作者周榜
+-----
+
+更多    正在热议 更多   [# 你觉得大几开始实习最合适？ # 4848次浏览 50人参与](https://www.nowcoder.com/creation/subject/125fa26b1f7146fcb53362ee2021ab5d?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 金融银行求职进展汇总 # 329701次浏览 1814人参与](https://www.nowcoder.com/creation/subject/b2a5104f65304a0fa1d02b13aa6d6479?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 招商银行数字金融训练营 # 44774次浏览 673人参与](https://www.nowcoder.com/creation/subject/7ecad476eebf4a84a9939c9f288de8ad?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 大厂实习和小厂实习最大的区别是什么？ # 12937次浏览 85人参与](https://www.nowcoder.com/creation/subject/6f221c8c1809443bb6d92b14b37c06d3?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 你都用vibe coding做过什么？ # 2075次浏览 61人参与](https://www.nowcoder.com/creation/subject/4c737019dc3946d393e89a32b8279f5c?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 如果人生可以debug你会改哪一行? # 2437次浏览 54人参与](https://www.nowcoder.com/creation/subject/b2bac7ceb77844e88505ab2d43c39367?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 开放七大实习专项，百度暑期实习值得冲吗 # 22493次浏览 441人参与](https://www.nowcoder.com/creation/subject/8a0b5ebef43749cc8a7fca63f9df47ea?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# AI Coding实战技巧 # 1601次浏览 43人参与](https://www.nowcoder.com/creation/subject/14061c5e54154525b0fe17a6db5311f4?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# Vibe Coding 会干掉初级岗位吗？ # 4387次浏览 82人参与](https://www.nowcoder.com/creation/subject/f016413da8c24d2788709c8e71e625df?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 你见过哪些招聘隐形歧视？ # 2907次浏览 34人参与](https://www.nowcoder.com/creation/subject/500a3b3afae54d879b15d634474b1f97?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 做完笔试后你收到面试了吗？ # 4443次浏览 54人参与](https://www.nowcoder.com/creation/subject/def4d7f9fa824da78b597b62b704c0ad?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 面试被问到不会的问题，你怎么应对？ # 4469次浏览 37人参与](https://www.nowcoder.com/creation/subject/7ef0441244df472e88886868665f60ca?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 牛友の3月总结 # 8508次浏览 83人参与](https://www.nowcoder.com/creation/subject/70d2191c20a3434282cdf988bcddd8d1?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 你现在一天AI几次？ # 1332次浏览 44人参与](https://www.nowcoder.com/creation/subject/8042091bde5c4b46b38f14c0ff20ec36?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 七猫笔试 # 5726次浏览 37人参与](https://www.nowcoder.com/creation/subject/e442d3818e73495592d38067e4a70784?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 选完offer后，你后悔学本专业吗 # 66664次浏览 262人参与](https://www.nowcoder.com/creation/subject/4b3f4eb7f2a449aa9a1b359e93003b09?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 实习学到最有价值的工作习惯 # 66856次浏览 541人参与](https://www.nowcoder.com/creation/subject/af40d46216d842d2aabcdf773ed6f7d3?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 哪些公司真双非友好？ # 71424次浏览 305人参与](https://www.nowcoder.com/creation/subject/a811ad6b5c8a413fa3c975b54049adef?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 最难的技术面是哪家公司？ # 71750次浏览 1066人参与](https://www.nowcoder.com/creation/subject/34cd846f24b048b2b4109aa8b08bf6fd?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 你认为小厂实习有用吗？ # 133444次浏览 720人参与](https://www.nowcoder.com/creation/subject/36a7990c7e5c4ba4945c56c4fdc73487?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 快手工作体验 # 321774次浏览 2933人参与](https://www.nowcoder.com/creation/subject/30b760b114654efab0394ac4c21de243?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 找AI工作可以去哪些公司？ # 25225次浏览 1079人参与](https://www.nowcoder.com/creation/subject/091e60916b214c658e0173eda4b3340d?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)   
+
+* 刷真题、补算法、看面经、得内推
+   ![]() 
+  扫一扫，把题目装进口袋
+   移动版
+* [关于我们](/nowcoder/about)
+* [加入我们](/nowcoder/recruitment)
+* [意见反馈](javascript:void(0);)
+* [企业服务](https://hr.nowcoder.com/?utm_channel=nkweb_homepage)
+* [校企合作](/nowcoder/school-cooperation)
+* [联系我们](/html/cooperation)
+* [免责声明](/html/disclaimer)
+* [友情链接](/html/links)
+* [资源导航](/home/resourcemap)
+* [付费咨询](https://newcoder.com/?type=news)
+
+![]() 
+扫描二维码，进入QQ群
+  ![]() 
+扫描二维码，关注牛客公众号
+    
+公司地址：北京市朝阳区北苑路北美国际商务中心K1座一层-北京牛客科技有限公司
+ 联系方式：010-60728802 投诉举报电话：010-57596212（朝阳人力社保局） 
+牛客科技©2026 All rights reserved
+[admin@nowcoder.com](mailto:admin@nowcoder.com) [京ICP备14055008号-4](https://beian.miit.gov.cn) [增值电信业务经营许可证](https://uploadfiles.nowcoder.com/acts/icp.png) [营业执照](https://static.nowcoder.com/protocol/license-center.html#business) [人力资源服务许可证](https://static.nowcoder.com/protocol/license-center.html#human-resources) [![]()京公网安备 11010502036488号](http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502036488) 
+[牛客网](https://www.nowcoder.com/simple/home)  
+
+[牛客网在线编程](https://www.nowcoder.com/simple/question)  
+
+[牛客网题解](https://www.nowcoder.com/simple/question/comment)  
+
+
+

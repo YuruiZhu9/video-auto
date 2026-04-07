@@ -1,0 +1,233 @@
+# Source URL: https://funaudiollm.github.io/cosyvoice3/
+# Content Length: 25132 characters
+# Extracted at: 2026-03-28 08:13:15
+#============================================================
+
+
+
+
+
+
+CosyVoice3.0
+
+
+CosyVoice 3: Towards In-the-wild Speech Generation via Scaling-up and Post-training
+-----------------------------------------------------------------------------------
+
+[[Paper](pdf/CosyVoice3_0.pdf)]
+
+  
+
+FunAudioLLM Team
+
+**SpeechLab@Tongyi, Alibaba Group**
+
+**Abstract:**
+
+In our prior works, we introduced a scalable streaming speech synthesis model, CosyVoice 2, which integrates a large language model (LLM) and a chunk-aware flow matching (FM) model, and achieves low-latency bi-streaming speech synthesis and human-parity quality. Despite these advancements, CosyVoice 2 exhibits limitations in language coverage, domain diversity, data volume, text formats, and post-training techniques. In this paper, we present CosyVoice 3, an improved model designed for zero-shot multilingual speech synthesis in the wild, surpassing its predecessor in content consistency, speaker similarity, and prosody naturalness. Key features of CosyVoice 3 include:
+
+**A novel speech tokenizer** to improve prosody naturalness, developed via supervised multi-task training, including automatic speech recognition, speech emotion recognition, language identification, audio event detection, and speaker analysis.
+
+**A new differentiable reward model** for post-training applicable not only to CosyVoice 3 but also to other LLM-based speech synthesis models.
+
+**Dataset Size Scaling:** Training data is expanded from ten thousand hours to one million hours, encompassing 9 languages and 18 Chinese dialects across various domains and text formats.
+
+**Model Size Scaling:** Model parameters are increased from 0.5 billion to 1.5 billion, resulting in enhanced performance on our multilingual benchmark due to the larger model capacity.
+
+These advancements contribute significantly to the progress of speech synthesis in the wild.
+
+![]()
+
+Content Consistency
+
+
+![]()
+
+Content Consistency
+
+
+
+
+**Contents**
+
+* [Zero-shot In-context Generation](#Zero-shot In-context Generation)
+* [Mixed-lingual In-context Generation](#Mixed-lingual In-context Generation)
+* [Emotionally Expressive Voice Generation](#Emotionally Expressive Voice Generation)
+* [Chinese dialect Voice Generation](#Chinese dialect Voice Generation)
+* [Cross-lingual In-context Generation](#Cross-lingual In-context Generation)
+* [Post-training](#Post-training)
+* [Hotfix Capability](#Hotfix Capability)
+* [Instructed Voice Generation](#Instructed Voice Generation)
+* [Target Speaker Fine-tune Models](#Target Speaker Fine-tune Models)
+
+
+
+
+Zero-shot In-context Generation
+-------------------------------
+
+| Language | Prompt | Text | CosyVoice 2.0 | CosyVoice 3.0-0.5B | CosyVoice 3.0-1.5B |
+| --- | --- | --- | --- | --- | --- |
+| ZH | Your browser does not support the audio element.转任福建路转运判官。 | 这个记者俱乐部将成为该部门发放资讯的唯一渠道。 | Your browser does not support the audio element. | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| HARD-ZH | Your browser does not support the audio element.在中国鸦片泛滥的年代，不同材质的烟枪甚至成为了身份和地位的象征。 | 八百标兵奔北坡，北坡炮兵并排跑，炮兵怕把标兵碰，标兵怕碰炮兵炮。 | Your browser does not support the audio element. | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| EN | Your browser does not support the audio element.There is no lock but a golden key will open it. | Butler tranquilizes Holly with a hypodermic dart gun. | Your browser does not support the audio element. | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| HARD-EN | Your browser does not support the audio element.And there were dunes, rocks, and plants that insisted on living where survival seemed impossible. | Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair. Fuzzy Wuzzy wasn't very fuzzy, was he? | Your browser does not support the audio element. | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| JA | Your browser does not support the audio element.来週、美容院で髪を切ろうと思っています。 | 結合することができないから矛盾するというのである。 | Your browser does not support the audio element. | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| KO | Your browser does not support the audio element.그들이 집까지 왔을 때는 어슬어슬한 황혼이었다. | 동혁은 환자의 머리맡을 떠나지 않았다. | Your browser does not support the audio element. | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| DE | Your browser does not support the audio element.Zieht euch bitte draußen die Schuhe aus. | Die Gemeinde liegt im Westerwald im Einzugsbereich der Westerwälder Seenplatte. | Not supported | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| ES | Your browser does not support the audio element.Durante unos años, enseñó Física e Historia en el colegio de nobles de Parma. | En el horizonte, un sol radiante, símbolo del nacimiento de la nación. | Not supported | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| FR | Your browser does not support the audio element.Ce dernier a évolué tout au long de l'histoire romaine. | De manière informelle, la capacité d'un modèle de classification correspond à sa complexité. | Not supported | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| IT | Your browser does not support the audio element.Fin dall'inizio la sede episcopale è stata immediatamente soggetta alla Santa Sede. | Il suo primo utilizzo è stato in Vietnam da parte dell'esercito statunitense. | Not supported | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| RU | Your browser does not support the audio element.Неожиданно катастрофа приобрела глобальные масштабы. | Таким образом, мы услышим от них более сфокусированные и полезные выступления. | Not supported | Your browser does not support the audio element. | Your browser does not support the audio element. |
+
+
+
+Mixed-lingual In-context Generation
+-----------------------------------
+
+| Prompt | Text | CosyVoice 2.0 | CosyVoice 3.0-0.5B | CosyVoice 3.0-1.5B |
+| --- | --- | --- | --- | --- |
+| Your browser does not support the audio element.今天我们看到模型的本质，其实在很多时候是今天把我们人类的知识能够有效的聚集起来。能够成为今天我们一个重要的一个智慧体，去帮助我们的业务的开发，帮助我们去解决行业的知识。今天我们实际上是从一个信息时代，真正进入到了一个智能时代。在智能时代里面一个重要的一个环节就是模型变得无处不在，也是模型所代表的知识体系。 | 听客户反馈说我们的cosyvoice的声音复刻能力，音色相似度比较高，我也来试一试，大家听听这句话像我说的吗？ | Your browser does not support the audio element. | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| 晚上去超市买了很多水果，还有一些美味的アイスクリーム。 | Your browser does not support the audio element. | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| 今天晚饭吃了韩国泡菜찌개，味道真的很好。 | Your browser does not support the audio element. | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| I can't wait to try the new 비빔밥 restaurant downtown this weekend! | Your browser does not support the audio element. | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| Tomorrow, I'm planning to go shopping for a new テレビ at the electronics store. | Your browser does not support the audio element. | Your browser does not support the audio element. | Your browser does not support the audio element. |
+
+
+
+Emotionally Expressive Voice Generation
+---------------------------------------
+
+| Emotion | Prompt | Text | CosyVoice 2.0 | CosyVoice 3.0-0.5B | CosyVoice 3.0-1.5B |
+| --- | --- | --- | --- | --- | --- |
+| Happy | Your browser does not support the audio element.Great, yeah. I mean, it has been great, too. You know, some of these people must have seen me play before because they were requesting a bunch of my songs. | I actually managed to grab tickets to Eason Chan’s concert! It’s amazing! I can’t wait to hear his voice live! | Your browser does not support the audio element. | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| Your browser does not support the audio element.终于去看运动会啦,舒畅啊! | 等到七月底项目结束,我就可以申请休年假了,好期待哦! | Your browser does not support the audio element. | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| Sad | Your browser does not support the audio element.Born once every 100 years, dies in flames. | The research institute won’t renew my contract, so I have to go back to my country. I don’t even have a job anymore. | Your browser does not support the audio element. | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| Your browser does not support the audio element.红了鼻头的小丑,眼泪止不住的流,流到嘴边咽下悲伤。 | 原来父皇什么都知道了,我真笨。 | Your browser does not support the audio element. | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| Fearful | Your browser does not support the audio element.I... I'm really nervous about getting my hair cut here... What if it doesn't turn out the way I want? I... I don't know if I can go through with it. | I’m too scared to be here alone, can you stay with me? | Your browser does not support the audio element. | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| Your browser does not support the audio element.不断进步的科技，是不是会让医生不再需要人类来担任呢？ | 求你了，别再说那些吓人的话，我真的快撑不住了。 | Your browser does not support the audio element. | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| Angry | Your browser does not support the audio element.The boy, O'brien, was specially maltreated. | I told you, stop nagging, alright? Haven’t you nagged enough in this lifetime? | Your browser does not support the audio element. | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| Your browser does not support the audio element.受到处罚你可不能怨别人,知道吗,臭小子! | 老喜欢出阴招,使手段,太不厚道了! | Your browser does not support the audio element. | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| Surprised | Your browser does not support the audio element.I can't believe it— the lions just broke out of their enclosure and are walking around freely! | What did you just say? Is this really true? I can’t believe it at all! | Your browser does not support the audio element. | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| Your browser does not support the audio element.真的吗？！每个人居然真的都有权利追求自己的幸福？！这真是太不可思议了！ | 我怎么听着像在做梦一样，怎么可能会发生这样的事？ | Your browser does not support the audio element. | Your browser does not support the audio element. | Your browser does not support the audio element. |
+
+
+
+Chinese dialect Voice Generation
+--------------------------------
+
+| Dialect | Prompt | Text | CosyVoice 2.0 | CosyVoice 3.0-0.5B | CosyVoice 3.0-1.5B |
+| --- | --- | --- | --- | --- | --- |
+| Cantonese | Your browser does not support the audio element.但系，好明显唔系啦。 | 各方面令到一啲行业咧嗰个营运咧系受较为大影响嘅，比如教育啊，即系补习社啊。 | Your browser does not support the audio element. | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| Dongbei | Your browser does not support the audio element.我媳妇说：“啥？玩愣？你说啥？我没听清，你再说一遍。” | 但是，没事的时候呢，我们一起来回忆回忆，想一想过去的我们。 | Your browser does not support the audio element. | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| Tianjin | Your browser does not support the audio element.就问问，这锣是哪儿的人告诉是天津的。 | 地方志都没有，就凭脑子记，有些不是那么准确的，有些个就遗忘。这就随时代呀，都都在改变。嗯，这是很正常的事。 | Your browser does not support the audio element. | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| Sichuan | Your browser does not support the audio element.此次新增的两列车，是整个增车项目的首批。 | 目前，由于小张不配合，导致交警没有对事故划分责任。 | Your browser does not support the audio element. | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| Shanghai | Your browser does not support the audio element.没钞票侬凭啥爱我？ | 侬为啥背上炸药包？ | Your browser does not support the audio element. | Your browser does not support the audio element. | Your browser does not support the audio element. |
+
+
+
+Cross-lingual In-context Generation
+-----------------------------------
+
+| Gender | Prompt | Lang1 | Lang2 | Lang3 | Lang4 |
+| --- | --- | --- | --- | --- | --- |
+| Male | Your browser does not support the audio element.至今为止，元气火箭总共发行了两张专辑。 | Your browser does not support the audio element.アラバマ シュー ノ サイダイ トシ ワ バーミングハム デ アル。 | Your browser does not support the audio element.바람은 파도 소리처럼 쏴아쏴아 하고 머리 맡에서 뒤설렌다. | Your browser does not support the audio element.Неожиданно катастрофа приобрела глобальные масштабы. | Your browser does not support the audio element.De manière informelle, la capacité d'un modèle de classification correspond à sa complexité. |
+| Your browser does not support the audio element.Hey look, a flying pig! | Your browser does not support the audio element.アラバマ シュー ノ サイダイ トシ ワ バーミングハム デ アル。 | Your browser does not support the audio element.바람은 파도 소리처럼 쏴아쏴아 하고 머리 맡에서 뒤설렌다. | Your browser does not support the audio element.Неожиданно катастрофа приобрела глобальные масштабы. | Your browser does not support the audio element.De manière informelle, la capacité d'un modèle de classification correspond à sa complexité. |
+| Your browser does not support the audio element.コノ リョーリ ワ カテー デ ツクレ マス。 | Your browser does not support the audio element.至今为止，元气火箭总共发行了两张专辑。 | Your browser does not support the audio element.Hey look, a flying pig! | Your browser does not support the audio element.Неожиданно катастрофа приобрела глобальные масштабы. | Your browser does not support the audio element.De manière informelle, la capacité d'un modèle de classification correspond à sa complexité. |
+| Your browser does not support the audio element.그리고 일이 손에 붙지를 않고 툭하면 실이 끊어지곤 하였다. | Your browser does not support the audio element.至今为止，元气火箭总共发行了两张专辑。 | Your browser does not support the audio element.Hey look, a flying pig! | Your browser does not support the audio element.Неожиданно катастрофа приобрела глобальные масштабы. | Your browser does not support the audio element.De manière informelle, la capacité d'un modèle de classification correspond à sa complexité. |
+| Female | Your browser does not support the audio element.我说你这只大鸟，真是不讲理，我对你做什么了呀，你就要吞了我！ | Your browser does not support the audio element.アラバマ シュー ノ サイダイ トシ ワ バーミングハム デ アル。 | Your browser does not support the audio element.바람은 파도 소리처럼 쏴아쏴아 하고 머리 맡에서 뒤설렌다. | Your browser does not support the audio element.Неожиданно катастрофа приобрела глобальные масштабы. | Your browser does not support the audio element.De manière informelle, la capacité d'un modèle de classification correspond à sa complexité. |
+| Your browser does not support the audio element.I am the ghost of Christmas present. You have never seen anything like me before. | Your browser does not support the audio element.アラバマ シュー ノ サイダイ トシ ワ バーミングハム デ アル。 | Your browser does not support the audio element.바람은 파도 소리처럼 쏴아쏴아 하고 머리 맡에서 뒤설렌다. | Your browser does not support the audio element.Неожиданно катастрофа приобрела глобальные масштабы. | Your browser does not support the audio element.De manière informelle, la capacité d'un modèle de classification correspond à sa complexité. |
+| Your browser does not support the audio element.マイトシ カゾク デ リョコー ニ イキ マス。 | Your browser does not support the audio element.至今为止，元气火箭总共发行了两张专辑。 | Your browser does not support the audio element.Hey look, a flying pig! | Your browser does not support the audio element.Неожиданно катастрофа приобрела глобальные масштабы. | Your browser does not support the audio element.De manière informelle, la capacité d'un modèle de classification correspond à sa complexité. |
+| Your browser does not support the audio element.나는 털썩 그 자리에 주저앉고 말았습니다. | Your browser does not support the audio element.至今为止，元气火箭总共发行了两张专辑。 | Your browser does not support the audio element.Hey look, a flying pig! | Your browser does not support the audio element.Неожиданно катастрофа приобрела глобальные масштабы. | Your browser does not support the audio element.De manière informelle, la capacité d'un modèle de classification correspond à sa complexité. |
+
+
+
+Post-training
+-------------
+
+| Prompt | Text | without Post-training | with Post-training |
+| --- | --- | --- | --- |
+| Your browser does not support the audio element.于是蒲将军随属项羽。 | 阿胶也是把**笛膜**贴在笛子上的常用胶种之一。 | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| Your browser does not support the audio element.After a week of losses in the midterm election, Bush told an audience about the expansion of trade in Asia. | There is a surcharge for having more than 2 passengers, **so this** option might be more expensive than necessary. | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| Your browser does not support the audio element.無事で安心したよ。 | それは自己矛盾的に自己自身を**形成していくと**考えられる世界であるすなわち生命の世界であるのである | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| Your browser does not support the audio element.할아버지께서 돌아가시면 저도 죽겠습니다. | **원주의** 어머니만 남겨두고 다 내보낸 뒤에 **목걸이를** 안으로 걸어 버렸다 | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| Your browser does not support the audio element.В информационных сообщениях всего лишь кратко описана политическая ситуация в одной стране. | Примером может служить посещение, фотографирование и изучение орангутангов **в** Борнео. | Your browser does not support the audio element. | Your browser does not support the audio element. |
+
+
+
+Hotfix Capability
+-----------------
+
+| Text | Before fix | Text | After fix |
+| --- | --- | --- | --- |
+| 高管也通过电话、短信、微信等方式对报道**给**予好评。 | Your browser does not support the audio element. | 高管也通过电话、短信、微信等方式对报道**[j][ǐ]**予好评。 | Your browser does not support the audio element. |
+| I resented being treated as an **invalid**. That's a file name in **invalid** format. | Your browser does not support the audio element. | I resented being treated as an **[IH1][N][V][AH0][L][IH0][D]**. That's a file name in **[IH2][N][V][AE1][L][AH0][D]** format. | Your browser does not support the audio element. |
+| 我买了一台美**的**空调and **wind** the clock. | Your browser does not support the audio element. | 我买了一台美**[d][ì]**空调and **[W][AY1][N][D]** the clock. | Your browser does not support the audio element. |
+| Her handwriting is **minute**并且很整洁，说明她**好**干净。 | Your browser does not support the audio element. | Her handwriting is **[M][AY0][N][UW1][T]**并且很整洁，说明她**[h][ào]**干净。 | Your browser does not support the audio element. |
+
+
+
+Instructed Voice Generation
+---------------------------
+
+| Prompt | Emotion-A | Emotion-B | Style-A | Style-B |
+| --- | --- | --- | --- | --- |
+| 中立Your browser does not support the audio element.出来野餐不要再用一次性木筷，因为这是浪费木材。 | 生气Your browser does not support the audio element.这片土地是我们的！我再也不能忍受外来的侵略者了！他们必须得到应有的惩罚！ | 伤心Your browser does not support the audio element.这里一片荒凉，没有水，也没有生机，孤独感和无助让我心如刀割。 | 粤语Your browser does not support the audio element.好少咯，一般系放嗰啲国庆啊，中秋嗰啲可能会咯。 | 细粒度控制Your browser does not support the audio element.[breath]因为他们那一辈人[breath]在乡里面住的要**习惯**一点，[breath]邻居都很活络，[breath]嗯，都很熟**悉**。[breath] |
+| 生气Your browser does not support the audio element.刚才还好好的，一眨眼又消失了，真的是要气死我了。 | 恐惧Your browser does not support the audio element.我...我不知道哪里可能会有危险。要小心，我... 我害怕谁会突然冒出来！ | 高兴Your browser does not support the audio element.在这辽阔的戈壁上，有种无拘无束、自由自在的快乐！人生啊，真美好！ | 重庆话Your browser does not support the audio element.硬是清早八晨的四五点钟爬起来就从那窗户跳出去，哎哟那个当时肯定是当场死亡啦不用说了，那个啷个整嘛？ | 轻声Your browser does not support the audio element.现代科技让世界变得更加紧密相连。 |
+| 高兴Your browser does not support the audio element.能和大家在一起，我好开心啊。 | 惊讶Your browser does not support the audio element.哇，这个湖怎么可以这么美，真是让人难以置信！ | 生气Your browser does not support the audio element.这个废弃的矿区什么都没有留下！尽是些破败和危险，荒唐至极！我真是不明白为什么会有人对这种地方感兴趣！ | 西安话Your browser does not support the audio element.么啥经验知道么，么租过房因为西安之前租房在西安租房不是贵么。 | 小猪佩奇Your browser does not support the audio element.哦乔治，不管什么东西，你怎么总是说是恐龙啊。 |
+| 伤心Your browser does not support the audio element.Dogs are sitting by the door. | AngryYour browser does not support the audio element.I'm furious at these thorns for snagging my clothes while I'm just trying to pick these berries! | FearfulYour browser does not support the audio element.I'm not sure if I can handle this. I'm really worried about what might happen. We need to be very cautious. | FastYour browser does not support the audio element.Standing on the peak of the mountain, I can see the vast landscape spreading out in front of me, the valleys deep below, rivers winding their way through the terrain, and small villages dotting the landscape, all under a sky that stretches far into the horizon. | SoftYour browser does not support the audio element.The crowd's cheer is a gentle hum, filling the night air with excitement and anticipation. |
+
+
+
+Target Speaker Fine-tune Models
+-------------------------------
+
+### Chinese and English
+
+| Speaker | Text | Generated |
+| --- | --- | --- |
+| longcheng | 真不好意思，从小至今，他还从来没有被哪一位异性朋友亲吻过呢。 | Your browser does not support the audio element. |
+| longhua | I'm never more aware of a room's acoustics than when I'm trying to enjoy a snack I have no intention of sharing. | Your browser does not support the audio element. |
+| longshu | Technology has made it easier to learn new languages。通过apps和online courses，anyone can start learning中文或者其他语言。 | Your browser does not support the audio element. |
+| longbella | 电影和音乐是了解一个国家culture很好的窗口。Watching movies and listening to songs in different languages can be both entertaining and educational。 | Your browser does not support the audio element. |
+
+### Minority Language
+
+| Language | Text | Longwan | Longshu |
+| --- | --- | --- | --- |
+| ZH | 我们将为全球城市的可持续发展贡献力量。 | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| EN | These include various sports events including soccer, basketball, and volleyball tournaments. | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| DE | Üben sich deren Figuren zumeist im passiven Beobachten, erscheinen Pflanzen und Tieren hingegen als wesentliche Akteure des Geschehens. | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| ES | La lucha por el podio la protagonizaban ahora estos tres pilotos. | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| FR | Il sera donc difficile de voir le mammouth d'antan déambuler dans la toundra russe. | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| IT | Non mi sono per niente annoiato, ogni scena era come se fosse nuova, che film fantastico. | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| JA | 兄はここに入っていました。 | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| KO | 거기엔철학도있어야 하고. | Your browser does not support the audio element. | Your browser does not support the audio element. |
+| RU | По его словам, чтобы снизить число нарушений на выборах, надо навести порядок с выдачей открепительных, а также с практикой досрочного голосования. | Your browser does not support the audio element. | Your browser does not support the audio element. |
+
+### Instruct ability transfer
+
+| Style and Text | Generated |
+| --- | --- |
+| &ltsad>这真是令人痛心的消息，我们的心要与所有受到影响的人在一起。</sad> | Your browser does not support the audio element. |
+| &ltsurprised>天啊，这里居然什么都没有！怎么会这么荒凉？</surprised> | Your browser does not support the audio element. |
+| &ltangry>这片竹林就是我的家！不要试图破坏它，否则我绝不会对你们手下留情！</angry> | Your browser does not support the audio element. |
+| &ltfearful>“这些健康理念……就是，我不知道，我是说，呃……真的有点难理解……可能不太适合我吧？”</fearful> | Your browser does not support the audio element. |
+| &ltfast>您能先给我提供一下订单编号吗，先生？</fast> | Your browser does not support the audio element. |
+| &ltslow>但并不是每一位写手都可以与网站签约。</slow> | Your browser does not support the audio element. |
+| &ltpeppa>你好，我是佩奇。</peppa> | Your browser does not support the audio element. |
+| &ltpeppa>哦这就是我想要跟你说的事情，我们是这么说的，在泥坑里面跳来跳去。</peppa> | Your browser does not support the audio element. |
+| &ltrobot>您输入的手机号码未绑定宽带。</robot> | Your browser does not support the audio element. |
+
+
+
+Disclaimer
+----------
+
+The content provided above is for academic purposes only and is intended to demonstrate technical capabilities. Some examples are sourced from the internet. If any content infringes on your rights, please contact us to request its removal.
+
+
+
+
+
+

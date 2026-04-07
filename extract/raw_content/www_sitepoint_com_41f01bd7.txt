@@ -1,0 +1,221 @@
+# Source URL: https://www.sitepoint.com/prompt-engineering-for-web-development/
+# Content Length: 22054 characters
+# Extracted at: 2026-04-05 09:06:35
+#============================================================
+
+Prompt Engineering for Web Development — SitePoint
+![](https://s3.sitepoint.com/images/avatars/default-50x50.jpg)
+[Premium](/premium/pricing/?ref\_source=sitepoint&ref\_medium=topnav)[Library](/premium/library/)[Community](/community/)[Save on SaaS](/premium/save-on-saas/)[Jobs](https://jobs.sitepoint.com/)
+Tools
+Tutorials
+[Blog](/blog/)
+Cancel
+[Login](/premium/sign-in/)[Start Free Trial](/premium/pricing/?ref\_source=sitepoint&ref\_medium=topnav)
+[Premium](/premium/pricing/?ref\_source=sitepoint&ref\_medium=topnav)
+[Library](/premium/library/)
+[Community](/community/)
+[Save on SaaS](/premium/save-on-saas/)
+[Developer Jobs](https://jobs.sitepoint.com/)
+Tutorials
+Tools
+Blog
+[Login](/premium/sign-in/)[Start Free Trial](/premium/pricing/?ref\_source=sitepoint&ref\_medium=topnav)
+[![](/images/ads/clawpilot/hellobar-desktop.png)](https://clawpilot.ai/openclaw-on-slack?utm\_source=sitepoint&utm\_medium=hellobar)
+Table of Contents
+\* [You Get What You Give](#h-you-get-what-you-give)
+\* [Code Organization & Reuse](#h-code-organization-reuse)
+\* [Good Prompt, Bad Prompt](#h-good-prompt-bad-prompt)
+\* [Advanced Example: Complex Custom WP CLI Commands](#h-advanced-example-complex-custom-wp-cli-commands)
+\* [AI Prompt for WordPress Code Generation](#h-ai-prompt-for-wordpress-code-generation)
+\* [The Cost of Easy](#h-the-cost-of-easy)
+\* [Conclusion](#h-conclusion)
+\* [Blog](/blog/)/
+\* [Web](/web/)/
+\* [Prompt Engineering for Web Development](/prompt-engineering-for-web-development/)
+Table of Contents
+\* [You Get What You Give](#h-you-get-what-you-give)
+\* [Code Organization & Reuse](#h-code-organization-reuse)
+\* [Good Prompt, Bad Prompt](#h-good-prompt-bad-prompt)
+\* [Advanced Example: Complex Custom WP CLI Commands](#h-advanced-example-complex-custom-wp-cli-commands)
+\* [AI Prompt for WordPress Code Generation](#h-ai-prompt-for-wordpress-code-generation)
+\* [The Cost of Easy](#h-the-cost-of-easy)
+\* [Conclusion](#h-conclusion)
+# Prompt Engineering for Web Development
+[![](https://uploads.sitepoint.com/wp-content/uploads/2025/03/1741365467kevin-leary-wordpress-developer.jpg)](/author/kevinleary/)
+[Kevin Leary](/author/kevinleary/)
+Published in
+[Web](/web/)·
+March 7, 2025
+·Updated: March 7, 2025
+Share this article
+![](https://uploads.sitepoint.com/wp-content/uploads/2025/03/1741119237Prompt-engineering--1024x538.jpg)
+SitePoint Premium
+\*\*Stay Relevant and Grow Your Career in Tech\*\*
+\* Premium Results
+\* Publish articles on SitePoint
+\* Daily curated jobs
+\* Learning Paths
+\* Discounts to dev tools
+[Start Free Trial](https://www.sitepoint.com/premium/pricing/)
+7 Day Free Trial. Cancel Anytime.
+In the coming years there will undoubtedly be a shift in how all code is written. Understanding how large learning models (LLM’s) work, and how to best interact with them through a prompt will be a critical skill to have. Many developers and non-developers are doing this now because it’s incredibly valuable to have the ability to generate code on demand.
+I’ve been experimenting with code generation for the past 2 years, and over the past 6 months, it’s taken a large leap forward. I expect this will become a common pattern as time goes on, but even as models advance there will always be fundamental core concepts for interacting with an AI prompt like ChatGPT or Claude.
+This has become known as prompt engineering, and I’ll share some of the approaches and techniques I’ve found particularly beneficial while generating PHP, SASS, JS, and HTML code for WordPress sites. The same concepts can easily apply to any other CMS, or development framework as well.
+![](https://uploads.sitepoint.com/wp-content/uploads/2025/03/1741115211prompt-engineering-claude-1024x591.jpg)
+## You Get What You Give
+The most important rule to remember when interacting with an AI prompt for code generation is that the quality of the input you provide is directly related to the quality of the output. Always remember you’re not describing a task to a person, which may sound obvious but it’s a new concept that we don’t even realize we do.
+When you ask an AI like ChatGPT or Anthropic’s Claude to write code, you have to be super clear. A human can guess what you mean, ask questions, and fix mistakes on their own. An AI won’t do that.
+It only follows the words you type. If you leave something out, the AI won’t know it’s missing. You might know and infer things that assume a basic understanding of certain aspects of WordPress. Things that you’d never include when describing a task to another person.
+### For a Person
+```
+Can you modify post titles so that blog posts have 'Prefix: ' before them, but pages stay the same? Make sure it's properly escaped to avoid security issues
+```
+### For an AI Prompt
+```
+write a WordPress function that modifies all post titles using built-in functions using the\_title filter to add 'Prefix: ' before the title. This will only be applied to posts (not pages)
+```
+This is a very rudimentary example, and in no way would I consider the AI prompt above to be a good one. But when compared to the request to a person some key aspects will result in a far better answer:
+\* Mentioning WordPress provides the prompt with an important contextual detail
+\* Using built-in functions tells the model where to focus first to find solutions
+\* Providing `the\_title filter` hook tells the model precisely where and how to execute this code in the best way possible
+Together these three aspects drastically narrow down the focus of the model, allowing it to focus far more attention on the core task at hand. The result is a higher quality output in comparison.
+## Code Organization & Reuse
+The first step towards writing highly effective AI prompts for generating code is to have a firm grasp on the systems, tools, APIs, and approaches that are best for achieving the ideal end result.
+Well-crafted prompts that generate code, whether for WordPress or any other programming framework or language, make good use of the current codebase in the simplest ways possible.
+AI-generated code can quickly get out of hand if each function or block of code operates independent of all others. You’ll find yourself with a codebase that’s riddled with redundancy, making it bloated, less testable, and generally much more difficult to work with.
+In the coming years I predict that clean, organized code will be a major advantage that’s rarely seen. By nature, AI will not re-use aspects of your existing codebase if it isn’t aware of them.
+Eventually, the input context size will become large enough to accept an entire codebase as input, and that will help. But even then your codebase will need to be well organized and understandable. Having a D.R.Y (Don’t repeat yourself) mindset is and always will be at the crux of solid programming, whether it’s crafted by humans or AI.
+It’s entirely possible to generate code with little to no subject area knowledge, but the results are much more likely to cause problems in the future. An AI-fueled codebase that’s been built piecemeal will be more prone to bugs, and harder to understand. Most important though, these issues will continue to compound as time goes on.
+My largest recommendation for all developers is to keep simplicity and organization at the forefront as more and more code becomes generated by AI.
+## Good Prompt, Bad Prompt
+When [prompt instructions](https://platform.openai.com/docs/guides/prompt-engineering) are too vague you’ll most likely get a partially complete answer containing instructions on how to fill in gaps. This is typically much less useful in most cases.
+Here are a few examples of prompts that result in less-than-ideal code generation output:
+### Bad Prompt
+```
+provide code to make an api request to get my latest posts on reddit
+i want it to be shown on my website as a list
+```
+Providing this instruction to a designer/developer might be enough to make it a reality the way you’d expect, but not an AI prompt. It is far too vague and lacks enough contextual information for AI to reliably create quality code output.
+\* No mention of WordPress is provided, so it’s likely that the code provided won’t be possible to use on your WP site. It may be Python or server-side JavaScript.
+\* No context to work with the Reddit API is provided, so its likely that you won’t get working code back and will instead be given instructions on how to code it
+\* No details about the type of content to pull in from Reddit: comments, posts or both? Specific subreddit or all subreddits?
+\* No details about the output you want, so it may provide a recommendation for a plugin or software that can be used instead of code
+If your AI prompt does provide PHP, which is unlikely but could happen depending on previous conversations you’ve had, it still won’t be code that is all that useful. It won’t use any internal WP functions like `wp\_remote\_post` and `wp\_remote\_retreive\_body` and will instead use raw PHP code to make requests with cURL.
+The resulting syntax will be much more likely to fail in certain hosting environments, and will also be harder for developers and prompt engineers to understand and value in the future.
+Because there is no context provided about the request itself, no working code will be provided. Ultimately it’s going to fall short of expectations, and will require a good amount of follow-up to get closer to a final product.
+While it is possible and sometimes advantageous to use follow-up prompts while generating code, I recommend trying to \*\*get as close to final as possible with the first prompt\*\*. Long conversations with AI that go back and forth often result in more confusion, inaccuracy, and ultimately frustration.
+### Good Prompt
+Now for an example of a much better prompt, that will result in significantly better results.
+```
+create a wordpress function that will make an API request using wp\_remote\_post() to {REDDIT API URL} using the API key {YOUR API-KEY} to generate a list of my most recent posts and comments. I always use my reddit handle, {YOUR REDDIT-USERNAME}. the function will have the following optional arguments:
+- $limit (integer) defaults to 20, but accepts a number between 1 and 100. if an invalid value is provided return a WP\_Error mentioning the issue
+- $subreddits (array) defaults to [], accepts an array of strings containing specific subreddits to include posts and comments from. when provided it will set the appropriate API parameter(s), otherwise all posts and comments are included
+- $type (string) defaults 'posts', but can also be passed as 'comments'. the value of this parameter determines the type of reddit content we want to list, posts or comments, and will set the appropriate API parameters/arguments to filter the returned results
+the response returned by wp\_remote\_post() will be checked for errors, and if a non-successful response was received back a detailed WP\_Error will be returned with relevant information about the error.
+any arguments passed to the function will be validated for errors to verify the formats and types are correct. when issues are found a relevant WP\_Error will be returned.
+when a successful 200 response is received back from the API request the response body will be extracted with built-in WP core functions (wp\_remote\_retreive\_\*) and restricted to pro ide a collection of associative arrays, each one containing the following properties/keys:
+- type: comment|message
+- subject: title/subject of the thread
+- content: either post or comment text depending on the value of type, which can support any HTML returned by the API
+- published\_on: ISO datetime when the content was published
+subreddit
+- url: to either the post or a hashed URL directly to comment
+this data will populate an HTML template based on this Emmet structure:
+div.reddit-feed>article.reddit-feed\_\_item>h2.reddit-feed\_\_title+p.reddit-feed\_\_byline+div.reddit-feed\_\_content
+the template will:
+- provide a byline like this: "X days ago at /r/{subreddit}" where the subreddit is a link to the subreddit, and the days ago uses the WP human time diff function
+- use wp\_trim\_words() to shorten any lengthy content beyond 120 words, adding a ellipses when shortened
+- link the h2 title to either the comment or post URL on reddit
+- the \_\_item will have a bem modifier identifying the type as either --post or --comment
+also provide SASS/SCSS code to style the template in the following ways:
+- the top level container will have a top and bottom margin between 20px and 40px, using clamp() with a viewport width measurement rule to adapt based on screen widths between 600px and 1680px
+- each item will have a 20px bottom margin and bottom padding, with a 1.5px border-bottom that's 20% black
+- the last item will have no bottom border, no padding and no margin
+- the h2 will have a margin only ln the bottom of 10px, and will be 1.3x the font-size of the body font-size
+- the byline will have a margin only on the bottom of 20px, and will be 0.9x the font-size of the body font-size. all text will be colored 60% black, including the subreddit link which will be identified as a link with only an underline
+- the content and any HTML within it will have no margins
+once the final code has been created review it as a whole to identify any syntax or functional issues to get it as close to production ready as possible
+```
+## Advanced Example: Complex Custom WP CLI Commands
+Putting all this into practice might look something like the following example, which shows how to create a complex, detailed prompt to create a robust set of custom WP CLI commands that will provide ways to:
+\* Generate an SEO report for the entire site
+\* Safely create a new post from a markdown file
+\* Find and report any broken links within post content and any ACF custom fields
+To do this we need to provide our AI prompt with many specific details, and it can be very helpful to do this in an outline format. When done well, this will generate code at least 10x faster than it would typically take to write from scratch.
+It’s a great example of how powerful AI can be when used properly for code generation, but it’s also pretty clear that to be truly effective you do need a fairly deep level of knowledge programming with WordPress in order to mention specific functions and approaches. While you can generate code without this knowledge, the quality will be substantially better, and less prone to errors if you do.
+## AI Prompt for WordPress Code Generation
+Create a PHP class for me to add into an existing WordPress functionality plugin.
+\* The namespace of the class will be Kevinlearynet
+\* The class name will be `WP\_CLI`
+\* the class will use a singleton pattern, and will be placed in a single file when used
+\* It will add 3 custom WP CLI commands to our WordPress site:
++ wp kevinlearynet create-post-from-markdown
++ wp kevinlearynet list-seo-metadata
++ wp kevinlearynet find-broken-links
+\* Each command will be a single class method that uses underscores and lowercase letters in its name
+\* All commands will provide real-time output where needed to report on any successful actions or errors as they occur
+\* All commands will provide a final summary when complete, or details about any errors that have occurred and why.
+\* Creating a post from markdown will:
++ $title argument is optional, defaults to the H1 in markdown
++ $markdown argument is required, if missing or not valid markdown syntax an error message is provided and the script is halted
++ $slug argument is optional, defaults to slugified version of the title, using the WP `sanitize\_title()` function
++ if an existing post is found with the same slug or title an error message is provided and the script is halted
++ when a post is successfully created a URL to its edit view in the WP admin is provided in the success output
++ $status argument is optional, defaults to draft but can be set to any valid post\\_status string
+\* Listing SEO metadata command will:
++ output will use the WP CLI table format containing columns for post title, url, date published, seo title, seo description
++ use a custom `WP\_Query` to get posts included in the output, with the following default parameters:
+- post\\_type is page or post
+- posts\\_per\\_page is 500
++ to seo title and seo description will be pulled from either the rank math or yoast seo plugin depending on which is installed and active. if neither is available an error message will be returned and the script will be halted
++ accept all of the parameters available to the built-in WP CLI post list command will be allowed for filtering the `WP\_Query` that selects posts included in the table
+\* Finding broken links command will:
++ accept all of the parameters available to the built-in WP CLI post list command will be allowed for filtering the `WP\_Query` that selects posts included in the table
++ use a custom `WP\_Query` to get posts included in the output, with the following default parameters:
+- post\\_type is page or post
+- posts\\_per\\_page is -1
++ find all links in the\\_content or any ACF custom fields for each post returned by the custom query
++ verify all links are valid and do not return an error using the built-in wp\\_http\\_get function
++ considers anything not a 200 response to be broken, even 301s and 302s
++ when one or more broken links are found they will be an error message mentioning the number of broken links found, and also a WP CLI table format with columns for:
+- link location (the content or ACF field name)
+- url
+- http response
++ errors provided during the scripts runtime will not halt or end the script, they will only be output and the script will continue processing the next post
++ when no broken links are found output the total number of successfully tested links
++ output results one by one as the script runs
+\* once complete, test and verify the entire class to confirm there are no errors and that the class is production ready
+\* add a PHP docblock to the class containing:
++ title: Custom WP CLI Commands
++ description: Adds custom CLI functionality for fast publishing of markdown content, rapid SEO analysis, and testing content and custom fields for broken links
+\* add php docblock comments to each method in the class, each with a title and short, concise description of what it does
+\* use inline comments sparingly within all methods
+\* include necessary use statements for working within the Kevinlearynet namespace
+## The Cost of Easy
+There’s no doubt about it, AI code generation makes programming faster and accessible to more people. This is in many ways a very good thing. If more people understand how programming and code work, it’ll be easier to work together and speak the same language. At least in theory.
+I suspect that the reality may be different though. ChatGPT and other LLMs make it possible for people to write code that does things without really understanding how it works.
+In many ways this is dangerous, and it makes me think of the many poorly architected, frankenstein-like WordPress “applications” I’ve inherited over the years. I’ve seen countless sites hacked together in a make-it-work fashion that crumble in the long run.
+It’s a classic case of saving money upfront and paying dearly for it in the long run. This lesson will probably apply to AI code generation and many other areas as well. I could of course be way off here, only time will tell.
+## Conclusion
+While it is more difficult and time-consuming to document a prompt in this way, the rewards are well worth it. The ability to write quality prompts that result in precise, effective generated code will be a [critical skill for developers](https://sitepoint.com/ai-tips-for-web-developers-and-their-careers/) to have in the coming years.
+Beyond this, it will still be very important to be fluent in the language you’re working with and to take the time to know your codebase inside and out.
+AI code generation will continue to revolutionize the way websites and applications are built, and I suspect codebases will expand rapidly as a result. Knowing the best ways to architect, build, and ultimately design good systems will be a skill that continues to be in demand for some time.
+Close
+[![](https://uploads.sitepoint.com/wp-content/uploads/2025/03/1741365467kevin-leary-wordpress-developer.jpg)Kevin Leary](/author/kevinleary/)
+Kevin Leary is a [WordPress development consultant](https://www.kevinleary.net/services/wordpress-consultant/?utm\_source=sitepoint&utm\_medium=referral&utm\_campaign=guest\_authorship&utm\_content=author\_biography) in Boston, Massachusetts. He specializes in custom websites for mid-to-large-sized businesses and has extensive experience working with enterprise WordPress organizations.
+[![](/\_next/image/?url=%2Fimages%2Fads%2Fclawpilot%2Fsidead.png&w=640&q=75)](https://clawpilot.ai/openclaw-on-slack?utm\_source=sitepoint&utm\_medium=sidead)
+Stuff we do
+[Premium](/premium/library/)[Newsletters](/newsletters/)[Learning paths](/premium/library/paths/)[Library](/premium/library/)[Forums](/community/)
+Contact
+[Contact us](/contact-us/)[FAQ](/faq/)[Publish your book with us](mailto:support@sitepoint.com?subject=I'd like to publish my book on SitePoint)[Write an article with us](/write-for-us/)[Advertise](/partnerships/)
+About
+[Our story](/about-us/)[Corporate memberships](/premium-for-teams/)[Start free trial](/premium/pricing/?ref\_source=sitepoint&unlock=true&ref\_medium=hp-footer)[Login](/premium/sign-in/)
+Connect
+[RSS](/sitepoint.rss)[Facebook](https://www.facebook.com/sitepoint)[Instagram](https://www.instagram.com/sitepointdotcom/?hl=en)[Twitter (X)](https://twitter.com/sitepointdotcom)
+Subscribe to our newsletter
+Get the freshest news and resources for developers, designers and digital creators in your inbox each week
+Subscribe
+© 2000 – 2026 SitePoint Pty. Ltd.
+Back to top
+This site is protected by reCAPTCHA and the Google[Privacy Policy](https://policies.google.com/privacy)and[Terms of Service](https://policies.google.com/terms)apply.
+[Privacy Policy](/privacy-policy/)[Terms of Service](/legals/)

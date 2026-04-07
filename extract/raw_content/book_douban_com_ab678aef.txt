@@ -1,0 +1,545 @@
+# Source URL: https://book.douban.com/subject/35888775/
+# Content Length: 19352 characters
+# Extracted at: 2026-03-30 13:36:51
+#============================================================
+
+
+
+Designing Machine Learning Systems (豆瓣)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[登录/注册](https://accounts.douban.com/passport/login?source=book)
+
+[下载豆瓣客户端](https://www.douban.com/doubanapp/app?channel=top-nav)
+[豆瓣 6.0 全新发布](https://www.douban.com/doubanapp/app?channel=qipao)
+[×](javascript: void 0;)
+
+豆瓣
+
+扫码直接下载
+
+[iPhone](https://www.douban.com/doubanapp/redirect?channel=top-nav&direct_dl=1&download=iOS)
+·
+[Android](https://www.douban.com/doubanapp/redirect?channel=top-nav&direct_dl=1&download=Android)
+
+
+
+* [豆瓣](https://www.douban.com)
+* [读书](https://book.douban.com)
+* [电影](https://movie.douban.com)
+* [音乐](https://music.douban.com)
+* [播客](https://www.douban.com/podcast/)
+* [同城](https://www.douban.com/location)
+* [小组](https://www.douban.com/group)
+* [阅读](https://read.douban.com/?dcs=top-nav&dcm=douban)
+* [FM](https://fm.douban.com/?from_=shire_top_nav)
+* [时间](https://time.douban.com/?dt_time_source=douban-web_top_nav)
+* [豆品](https://market.douban.com/?utm_campaign=douban_top_nav&utm_source=douban&utm_medium=pc_web)
+
+
+
+
+[豆瓣读书](https://book.douban.com)
+
+搜索：
+
+
+
+
+
+
+
+
+
+* [购书单](https://book.douban.com/cart/)
+* [电子图书](https://read.douban.com/ebooks/?dcs=book-nav&dcm=douban)
+* [2025年度榜单](https://book.douban.com/annual/2025/?fullscreen=1&dt_from=navigation)
+* [2025年度报告](https://c9.douban.com/app/standbyme-2025/?autorotate=false&fullscreen=true&hidenav=true&monitor_screenshot=true&dt_from=web_navigation)
+
+
+
+
+Designing Machine Learning Systems
+==================================
+
+An Iterative Process for Production-Ready Applications
+------------------------------------------------------
+
+[![]()](https://img1.doubanio.com/view/subject/l/public/s34240549.jpg)
+
+ 作者:
+[Chip Huyen](/search/Chip%20Huyen)
+  
+
+出版社: O’Reilly  
+
+出版年: 2022-6-28  
+
+ISBN: 9781098107963  
+
+页数: 386  
+
+装帧: Paperback  
+
+定价: USD 59.99  
+
+
+
+豆瓣评分
+
+ **8.7** 
+
+[81人评价](comments)
+
+
+
+
+5星
+
+
+46.9%
+  
+
+4星
+
+
+38.3%
+  
+
+3星
+
+
+13.6%
+  
+
+2星
+
+
+1.2%
+  
+
+1星
+
+
+0.0%
+  
+
+
+
+
+评价:
+ [![]()](https://www.douban.com/accounts/passport/login?source=book) [![]()](https://www.douban.com/accounts/passport/login?source=book) [![]()](https://www.douban.com/accounts/passport/login?source=book) [![]()](https://www.douban.com/accounts/passport/login?source=book) [![]()](https://www.douban.com/accounts/passport/login?source=book) 
+
+
+
+
+
+
+
+* ![]() 
+  [写笔记](https://book.douban.com/annotation/write?sid=35888775)
+* ![]() [写书评](https://book.douban.com/subject/35888775/new_review)
+* ![]()
+  [加入购书单](https://www.douban.com/accounts/passport/login?source=book)
+  已在[购书单](https://book.douban.com/cart)
+* [分享到](#)
+
+[推荐](https://www.douban.com/accounts/register?reason=collect)
+
+
+
+  
+
+
+内容简介
+ · · · · · ·
+-----------------
+
+Machine learning systems are both complex and unique. They are complex because they consist of many different components and involve many different stakeholders. They are unique because they are data-dependent, and data varies wildly from one use case to the next.
+
+This book takes a holistic approach to designing machine learning systems that are reliable, scalable, maintainable...
+
+[(展开全部)](javascript:void(0))
+
+
+
+Machine learning systems are both complex and unique. They are complex because they consist of many different components and involve many different stakeholders. They are unique because they are data-dependent, and data varies wildly from one use case to the next.
+
+This book takes a holistic approach to designing machine learning systems that are reliable, scalable, maintainable, and adaptive to changing environments and business requirements. It considers each design decision — e.g. how to create training data, what features to include, how to deploy, what to monitor, how often to retrain your model — in the context of how it can help the system as a whole achieve its objectives. The iterative framework laid out in this book is illustrated using actual case studies and backed by ample references.
+
+Examples of the scenarios that this book will be able to help you tackle.
+
+You have been given a business problem and a lot of raw data. You want to engineer this data and choose the right metrics to solve this problem.
+
+Your initial models perform well in offline experiments and you want to deploy them.
+
+You have little feedback on how your models are performing after your models are deployed, and you want to figure out a way to quickly detect, debug, and address any issue your models might run into in production.
+
+The process of developing, evaluating, deploying, and updating models for your team has been mostly manual, slow, and error-prone. You want to automate and improve this process.
+
+Each machine learning use case in your organization has been deployed using its own workflow, and you want to lay down the foundation (e.g. model store, feature store, monitoring tools) that can be shared and reused across use cases.
+
+You're worried that there might be biases in your machine learning systems and you want to make your systems responsible!
+
+Read less
+
+
+
+
+
+作者简介
+ · · · · · ·
+-----------------
+
+Chip Huyen (https://huyenchip.com) is a co-founder of Claypot AI, a platform for real-time machine learning. Through her work at NVIDIA, Netflix, and Snorkel AI, she has helped some of the world's largest organizations develop and deploy machine learning systems. She teaches CS 329S: Machine Learning Systems Design at Stanford, whose lecture notes this book is based on.
+
+LinkedI...
+
+[(展开全部)](javascript:void(0))
+
+
+
+Chip Huyen (https://huyenchip.com) is a co-founder of Claypot AI, a platform for real-time machine learning. Through her work at NVIDIA, Netflix, and Snorkel AI, she has helped some of the world's largest organizations develop and deploy machine learning systems. She teaches CS 329S: Machine Learning Systems Design at Stanford, whose lecture notes this book is based on.
+
+LinkedIn included her among Top Voices in Software Development (2019) and Top Voices in Data Science & AI (2020). She is also the author of four bestselling Vietnamese books, including the series Xach ba lo len va Di (Pack Your Bag and Go). She also runs a Discord server on MLOps with over 6,000 members (https://discord.com/invite/Mw77HPrgjF).
+
+
+
+
+
+
+
+
+喜欢读"Designing Machine Learning Systems"的人也喜欢
+ · · · · · ·
+---------------------------------------------------------
+
+[![]()](https://book.douban.com/subject/35135282/)
+
+[Machine Learning Design Patterns](https://book.douban.com/subject/35135282/)
+7.7
+
+
+[![]()](https://book.douban.com/subject/34868263/)
+
+[Architecting for Scale, 2nd Edition](https://book.douban.com/subject/34868263/)
+
+
+
+[![]()](https://book.douban.com/subject/35568115/)
+
+[Machine Learning Engineering in A...](https://book.douban.com/subject/35568115/)
+
+
+
+[![]()](https://book.douban.com/subject/34701070/)
+
+[API Design Patterns](https://book.douban.com/subject/34701070/)
+
+
+
+[![]()](https://book.douban.com/subject/34875997/)
+
+[Chaos Engineering](https://book.douban.com/subject/34875997/)
+
+
+
+
+[![]()](https://book.douban.com/subject/36808317/)
+
+[Build a Large Language Model (Fr...](https://book.douban.com/subject/36808317/)
+9.2
+
+
+[![]()](https://book.douban.com/subject/36871245/)
+
+[AI Engineering](https://book.douban.com/subject/36871245/)
+
+
+
+[![]()](https://book.douban.com/subject/34796016/)
+
+[Building Secure and Reliable Syst...](https://book.douban.com/subject/34796016/)
+
+
+
+[![]()](https://book.douban.com/subject/30218049/)
+
+[Distributed Algorithms: An Intuitive ...](https://book.douban.com/subject/30218049/)
+
+
+
+[![]()](https://book.douban.com/subject/34842704/)
+
+[Data Pipelines with Apache Airflow](https://book.douban.com/subject/34842704/)
+
+
+
+
+
+
+[我来说两句](https://www.douban.com/register?reason=review)
+
+短评
+ · · · · · ·
+ (
+[全部 38 条](https://book.douban.com/subject/35888775/comments/)
+)
+----------------------------------------------------------------------------------
+
+
+[热门](https://book.douban.com/subject/35888775/comments?sort=score)
+
+
+* ### 0 有用 [Bis](https://www.douban.com/people/82302421/) [2023-02-20 04:11:42](/comment/3698171399) 加拿大
+  
+  曾经邀请chip来做consulting，这本书写的很好，讲了技术又没讲。 把topic走了一遍，给了link，真的需要可以自己去深入研究。就是chip他们好像不赚钱😅
+* ### 1 有用 [WALL·E](https://www.douban.com/people/lizhe05/) [2024-04-28 22:02:36](/comment/4172945048) 美国
+  
+  还是浅了点， 而且没有一手搭系统、调系统以及解决实际问题的经验的话书中的内容没法真正的吸收
+* ### 0 有用 [铬天青](https://www.douban.com/people/149896062/) [2025-08-06 14:39:03](/comment/4597489414) 美国
+  
+  书是好书，但是定位有些尴尬。没有ML经验的人可能会觉得铺天盖地的概念overwhelming，有经验的人又会觉得这本书是个大杂烩不够深入。总的来看，比较适合拿来考前复习。
+* ### 0 有用 [Ginger](https://www.douban.com/people/sugarvillage/) [2023-03-21 03:20:53](/comment/3721438185) 加拿大
+  
+  写作语言比较平实易懂，内容比较浅显。
+* ### 0 有用 [Nova](https://www.douban.com/people/casa_nova/) [2023-01-18 20:56:47](/comment/3392331073) 阿联酋
+  
+  终于出版了，刚翻完第一章，写得很扎实，讲解了很多工业界的实际问题。有点 Designing Data-Intensive Applications 的风范。
+
+
+
+
+[我要写书评](new_review)
+
+Designing Machine Learning Systems的书评 · · · · · ·
+( [全部 1 条](reviews) )
+-----------------------------------------------------------------------
+
+
+[热门](javascript:;;)
+[只看本版本的评论](/subject/35888775/reviews?version=1)
+
+[![]()](https://www.douban.com/people/sugarvillage/)
+[Ginger](https://www.douban.com/people/sugarvillage/)
+
+2023-03-21 03:43:51
+
+[correction contribution](https://book.douban.com/review/15052321/)
+-------------------------------------------------------------------
+
+Figure 4-11的题注The model trained with focal loss (FL) shows reduced loss values compared to the model trained with cross entropy loss (CE).是错的，它不是比较FL和CL的差别的。而是说在FL的调制下，随着modulating factor（gamma）的增大，横轴右端的p大的部分，也...
+ ([展开](javascript:;))
+
+
+
+[0回应](https://book.douban.com/review/15052321/#comments)
+[收起](javascript:;;)
+
+
+
+
+
+
+>
+[更多书评
+1篇](reviews)
+
+
+
+
+论坛
+ · · · · · ·
+---------------
+
+[在这本书的论坛里发言](https://www.douban.com/register?reason=discuss)
+
+
+
+
+当前版本有售
+ · · · · · ·
+-------------------
+
+* [京东商城](https://book.douban.com/link2/?lowest=67000&pre=0&vendor=jingdong&srcpage=subject&price=67000&pos=1&url=https%3A%2F%2Funion-click.jd.com%2Fjdc%3Fe%3Disbn9781098107963uid%26p%3DJF8BASAJK1olXQ4FUFldCEwTBl8IGloRWQcCU1tVDUMRBF9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWAmsMGlsSWA4HXFhaFxJSXzI4T1pOWnlBUSc9DSlqWg9QTwR2WgR4ElJROEwSBGkPElgSbQYGVVpZOHsXAl9JdV8TWwYDZFxdCUoSA2cPGFolXQAEUVdeCEIXAGsJGmsVVQIyjd7q3umF2vGCztOCbTYyV24FShhIC2kBG1odVAYDUlZaCg9PVl84G2sWbVhsVVlbCEweUGhmRwRHDgVJVwQzC0geA2wNE1IlXwcDVlxtOHt2fWxbEztLJg5fVAwHUBhtRm0JfC12G0FsVio-eDMQUA5bEz1yOUR-PycvOEsnA2kIGWs&cntvendor=1&srcsubj=35888775&type=bkbuy&subject=35888775)
+  
+  [670.00元](https://book.douban.com/link2/?lowest=67000&pre=0&vendor=jingdong&srcpage=subject&price=67000&pos=1&url=https%3A%2F%2Funion-click.jd.com%2Fjdc%3Fe%3Disbn9781098107963uid%26p%3DJF8BASAJK1olXQ4FUFldCEwTBl8IGloRWQcCU1tVDUMRBF9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWAmsMGlsSWA4HXFhaFxJSXzI4T1pOWnlBUSc9DSlqWg9QTwR2WgR4ElJROEwSBGkPElgSbQYGVVpZOHsXAl9JdV8TWwYDZFxdCUoSA2cPGFolXQAEUVdeCEIXAGsJGmsVVQIyjd7q3umF2vGCztOCbTYyV24FShhIC2kBG1odVAYDUlZaCg9PVl84G2sWbVhsVVlbCEweUGhmRwRHDgVJVwQzC0geA2wNE1IlXwcDVlxtOHt2fWxbEztLJg5fVAwHUBhtRm0JfC12G0FsVio-eDMQUA5bEz1yOUR-PycvOEsnA2kIGWs&cntvendor=1&srcsubj=35888775&type=bkbuy&subject=35888775)
+  
+  [购买纸质书](https://book.douban.com/link2/?lowest=67000&pre=0&vendor=jingdong&srcpage=subject&price=67000&pos=1&url=https%3A%2F%2Funion-click.jd.com%2Fjdc%3Fe%3Disbn9781098107963uid%26p%3DJF8BASAJK1olXQ4FUFldCEwTBl8IGloRWQcCU1tVDUMRBF9MRANLAjZbERscSkAJHTdNTwcKBlMdBgABFksWAmsMGlsSWA4HXFhaFxJSXzI4T1pOWnlBUSc9DSlqWg9QTwR2WgR4ElJROEwSBGkPElgSbQYGVVpZOHsXAl9JdV8TWwYDZFxdCUoSA2cPGFolXQAEUVdeCEIXAGsJGmsVVQIyjd7q3umF2vGCztOCbTYyV24FShhIC2kBG1odVAYDUlZaCg9PVl84G2sWbVhsVVlbCEweUGhmRwRHDgVJVwQzC0geA2wNE1IlXwcDVlxtOHt2fWxbEztLJg5fVAwHUBhtRm0JfC12G0FsVio-eDMQUA5bEz1yOUR-PycvOEsnA2kIGWs&cntvendor=1&srcsubj=35888775&type=bkbuy&subject=35888775)
+
+[+ 加入购书单](https://www.douban.com/accounts/passport/login?source=book)
+
+
+
+
+
+这本书的其他版本
+ · · · · · ·
+ (
+[全部3](https://book.douban.com/works/1150855)
+)
+-----------------------------------------------------------------------
+
+* [东南大学出版社 （2022）](https://book.douban.com/subject/36103388/)
+  暂无评分 2人读过
+  
+  
+  [展开有售 (2)](javascript:void(0);)
+  
+  - [京东商城](https://book.douban.com/link2/?pre=0&vendor=jingdong&srcpage=subject&price=8650&pos=1&url=https%3A%2F%2Funion-click.jd.com%2Fjdc%3Fe%3Disbn9787576602241uid%26p%3DJF8BARwJK1olXw8KUFdZD0oXAV8IGVkcWQcGVm4ZVxNJXF9RXh5UHw0cSgYYXBcIWDoXSQVJQwYAVldZCU8VHDZNRwYlAkNhVFpYXU90dhFDWzxeX0YFACc5aEcbM2gNHF0SVAUFZF5ZCU8TM18IGmtHM9604ob4uVfDqeDdk8wlXwYDVVtdAEwUAl8IHV0QVAMKVV5cCk8SM28AH2vM3bHU9syElsHCi_g4K2sWbV5ABwFVDkIRB2kPHFoWXgMCEAYIOHsXM2w4RTUUWgNWBF1UCSVLXD1LExIWCmgBUVheD0kWAl8KGloXXzYyZAM2CktpCj9IWTJnFHZ6UDctbkMTUWxLfzUXAQ9_HTldCkNVagZVUg9pX18yVG5dDksVMw&srcsubj=35888775&type=bkbuy&subject=35888775)
+    
+    [86.50元](https://book.douban.com/link2/?pre=0&vendor=jingdong&srcpage=subject&price=8650&pos=1&url=https%3A%2F%2Funion-click.jd.com%2Fjdc%3Fe%3Disbn9787576602241uid%26p%3DJF8BARwJK1olXw8KUFdZD0oXAV8IGVkcWQcGVm4ZVxNJXF9RXh5UHw0cSgYYXBcIWDoXSQVJQwYAVldZCU8VHDZNRwYlAkNhVFpYXU90dhFDWzxeX0YFACc5aEcbM2gNHF0SVAUFZF5ZCU8TM18IGmtHM9604ob4uVfDqeDdk8wlXwYDVVtdAEwUAl8IHV0QVAMKVV5cCk8SM28AH2vM3bHU9syElsHCi_g4K2sWbV5ABwFVDkIRB2kPHFoWXgMCEAYIOHsXM2w4RTUUWgNWBF1UCSVLXD1LExIWCmgBUVheD0kWAl8KGloXXzYyZAM2CktpCj9IWTJnFHZ6UDctbkMTUWxLfzUXAQ9_HTldCkNVagZVUg9pX18yVG5dDksVMw&srcsubj=35888775&type=bkbuy&subject=35888775)
+    
+    [购买纸质书](https://book.douban.com/link2/?pre=0&vendor=jingdong&srcpage=subject&price=8650&pos=1&url=https%3A%2F%2Funion-click.jd.com%2Fjdc%3Fe%3Disbn9787576602241uid%26p%3DJF8BARwJK1olXw8KUFdZD0oXAV8IGVkcWQcGVm4ZVxNJXF9RXh5UHw0cSgYYXBcIWDoXSQVJQwYAVldZCU8VHDZNRwYlAkNhVFpYXU90dhFDWzxeX0YFACc5aEcbM2gNHF0SVAUFZF5ZCU8TM18IGmtHM9604ob4uVfDqeDdk8wlXwYDVVtdAEwUAl8IHV0QVAMKVV5cCk8SM28AH2vM3bHU9syElsHCi_g4K2sWbV5ABwFVDkIRB2kPHFoWXgMCEAYIOHsXM2w4RTUUWgNWBF1UCSVLXD1LExIWCmgBUVheD0kWAl8KGloXXzYyZAM2CktpCj9IWTJnFHZ6UDctbkMTUWxLfzUXAQ9_HTldCkNVagZVUg9pX18yVG5dDksVMw&srcsubj=35888775&type=bkbuy&subject=35888775)
+  - [中图网](https://book.douban.com/link2/?pre=0&vendor=bookschina&srcpage=subject&price=9800&pos=2&url=http%3A%2F%2Fwww.bookschina.com%2Funion%2Fubook.asp%3Fadservice%3D354872%26tourl%3Dhttp%3A%2F%2Fwww.bookschina.com%2F8944046.htm&srcsubj=35888775&type=bkbuy&subject=35888775)
+    
+    [98.00元](https://book.douban.com/link2/?pre=0&vendor=bookschina&srcpage=subject&price=9800&pos=1&url=http%3A%2F%2Fwww.bookschina.com%2Funion%2Fubook.asp%3Fadservice%3D354872%26tourl%3Dhttp%3A%2F%2Fwww.bookschina.com%2F8944046.htm&srcsubj=35888775&type=bkbuy&subject=35888775)
+    
+    [购买纸质书](https://book.douban.com/link2/?pre=0&vendor=bookschina&srcpage=subject&price=9800&pos=1&url=http%3A%2F%2Fwww.bookschina.com%2Funion%2Fubook.asp%3Fadservice%3D354872%26tourl%3Dhttp%3A%2F%2Fwww.bookschina.com%2F8944046.htm&srcsubj=35888775&type=bkbuy&subject=35888775)
+* [中国电力出版社 （2024）](https://book.douban.com/subject/36812994/)
+  暂无评分
+  
+  
+  [展开有售 (2)](javascript:void(0);)
+  
+  - [京东商城](https://book.douban.com/link2/?pre=0&vendor=jingdong&srcpage=subject&price=6400&pos=1&url=https%3A%2F%2Funion-click.jd.com%2Fjdc%3Fe%3Disbn9787519886288uid%26p%3DJF8BARwJK1olXw8KUFdZD0oXAV8IHl4UWAACUW4ZVxNJXF9RXh5UHw0cSgYYXBcIWDoXSQVJQwYHUV9YDksSHDZNRwYlOl5AADggTE90BGxIaxpUW3p0ICNYTkcbM2gNHF0SVAUFZF5ZCU8TM18IGmtHM9604ob4uVfDqeDdk8wlXwYDVVtdAEwUAl8IHV0QVAQLXVlbC0sXM28AH2vM3bHU9syElsHCi_g4K2sWbV5ABwFVDkIRB28AElISXg8LEAYIOHsXM2w4RTUUWgIGVQoKCSVLXD1VEgNPBWgBVldbAU0RAV8KGloXXzYyZAINSShzYwpYSSdsDQJCVwcZQA1KQyprQDUXAE1wUzY-f01FehZUHAVhL0MyVG5dDksVMw&srcsubj=35888775&type=bkbuy&subject=35888775)
+    
+    [64.00元](https://book.douban.com/link2/?pre=0&vendor=jingdong&srcpage=subject&price=6400&pos=1&url=https%3A%2F%2Funion-click.jd.com%2Fjdc%3Fe%3Disbn9787519886288uid%26p%3DJF8BARwJK1olXw8KUFdZD0oXAV8IHl4UWAACUW4ZVxNJXF9RXh5UHw0cSgYYXBcIWDoXSQVJQwYHUV9YDksSHDZNRwYlOl5AADggTE90BGxIaxpUW3p0ICNYTkcbM2gNHF0SVAUFZF5ZCU8TM18IGmtHM9604ob4uVfDqeDdk8wlXwYDVVtdAEwUAl8IHV0QVAQLXVlbC0sXM28AH2vM3bHU9syElsHCi_g4K2sWbV5ABwFVDkIRB28AElISXg8LEAYIOHsXM2w4RTUUWgIGVQoKCSVLXD1VEgNPBWgBVldbAU0RAV8KGloXXzYyZAINSShzYwpYSSdsDQJCVwcZQA1KQyprQDUXAE1wUzY-f01FehZUHAVhL0MyVG5dDksVMw&srcsubj=35888775&type=bkbuy&subject=35888775)
+    
+    [购买纸质书](https://book.douban.com/link2/?pre=0&vendor=jingdong&srcpage=subject&price=6400&pos=1&url=https%3A%2F%2Funion-click.jd.com%2Fjdc%3Fe%3Disbn9787519886288uid%26p%3DJF8BARwJK1olXw8KUFdZD0oXAV8IHl4UWAACUW4ZVxNJXF9RXh5UHw0cSgYYXBcIWDoXSQVJQwYHUV9YDksSHDZNRwYlOl5AADggTE90BGxIaxpUW3p0ICNYTkcbM2gNHF0SVAUFZF5ZCU8TM18IGmtHM9604ob4uVfDqeDdk8wlXwYDVVtdAEwUAl8IHV0QVAQLXVlbC0sXM28AH2vM3bHU9syElsHCi_g4K2sWbV5ABwFVDkIRB28AElISXg8LEAYIOHsXM2w4RTUUWgIGVQoKCSVLXD1VEgNPBWgBVldbAU0RAV8KGloXXzYyZAINSShzYwpYSSdsDQJCVwcZQA1KQyprQDUXAE1wUzY-f01FehZUHAVhL0MyVG5dDksVMw&srcsubj=35888775&type=bkbuy&subject=35888775)
+  - [中图网](https://book.douban.com/link2/?pre=0&vendor=bookschina&srcpage=subject&price=7170&pos=2&url=http%3A%2F%2Fwww.bookschina.com%2Funion%2Fubook.asp%3Fadservice%3D354872%26tourl%3Dhttp%3A%2F%2Fwww.bookschina.com%2F9274268.htm&srcsubj=35888775&type=bkbuy&subject=35888775)
+    
+    [71.70元](https://book.douban.com/link2/?pre=0&vendor=bookschina&srcpage=subject&price=7170&pos=1&url=http%3A%2F%2Fwww.bookschina.com%2Funion%2Fubook.asp%3Fadservice%3D354872%26tourl%3Dhttp%3A%2F%2Fwww.bookschina.com%2F9274268.htm&srcsubj=35888775&type=bkbuy&subject=35888775)
+    
+    [购买纸质书](https://book.douban.com/link2/?pre=0&vendor=bookschina&srcpage=subject&price=7170&pos=1&url=http%3A%2F%2Fwww.bookschina.com%2Funion%2Fubook.asp%3Fadservice%3D354872%26tourl%3Dhttp%3A%2F%2Fwww.bookschina.com%2F9274268.htm&srcsubj=35888775&type=bkbuy&subject=35888775)
+
+以下书单推荐
+ · · · · · ·
+ (
+[全部](https://book.douban.com/subject/35888775/doulists)
+)
+--------------------------------------------------------------------------------
+
+* [学习AI & Big Data](https://www.douban.com/doulist/1735666/)
+  (视界)
+* [To be a better developer](https://www.douban.com/doulist/44644719/)
+  (Nova)
+* [T](https://www.douban.com/doulist/112553217/)
+  (dhcn)
+* [数据科学书单 Data Science](https://www.douban.com/doulist/111324653/)
+  (濯希)
+* [数据科学](https://www.douban.com/doulist/153395944/)
+  (Silver)
+
+谁读这本书?
+ · · · · · ·
+-------------------
+
+[![]()](https://www.douban.com/people/4033248/)
+[邵钏](https://www.douban.com/people/4033248/)  
+
+ 3月21日 读过 
+
+  
+
+
+  
+
+
+
+[![]()](https://www.douban.com/people/Benjamin15105/)
+[伏邮](https://www.douban.com/people/Benjamin15105/)  
+
+ 3月18日 想读 
+  
+
+
+  
+
+
+
+[![]()](https://www.douban.com/people/187557852/)
+[派大星](https://www.douban.com/people/187557852/)  
+
+ 3月15日 想读 
+  
+
+
+  
+
+
+
+[![]()](https://www.douban.com/people/179196400/)
+[Tate](https://www.douban.com/people/179196400/)  
+
+ 3月15日 想读 
+  
+
+
+  
+
+
+> [33人在读](https://book.douban.com/subject/35888775/comments?status=N)
+
+> [84人读过](https://book.douban.com/subject/35888775/comments?status=P)
+
+> [506人想读](https://book.douban.com/subject/35888775/comments?status=F)
+
+
+
+
+二手市场
+ · · · · · ·
+-----------------
+
+* [在豆瓣转让](https://www.douban.com/register?reason=secondhand-offer&cat=book)
+  有506人想读，手里有一本闲着?
+
+订阅关于Designing Machine Learning Systems的评论:   
+ [feed: rss 2.0](https://book.douban.com/feed/subject/35888775/reviews)
+
+
+
+
+
+
+© 2005－2026 douban.com, all rights reserved 北京豆网科技有限公司
+
+
+[关于豆瓣](https://www.douban.com/about)
+· [在豆瓣工作](https://www.douban.com/jobs)
+· [联系我们](https://www.douban.com/about?topic=contactus)
+· [法律声明](https://www.douban.com/about/legal)
+· [帮助中心](https://help.douban.com/?app=book)
+· [图书馆合作](https://book.douban.com/library_invitation)
+· [移动应用](https://www.douban.com/doubanapp/)
+
+
+
+
+
+
+

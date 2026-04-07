@@ -1,0 +1,942 @@
+# Source URL: https://blog.csdn.net/kakaZhui/article/details/158261818
+# Content Length: 17086 characters
+# Extracted at: 2026-03-21 12:04:41
+#============================================================
+
+ 
+
+
+
+
+
+Qwen3.5：原生多模态智能体\_qwen3.5系列-CSDN博客
+
+
+
+
+
+
+
+
+Qwen3.5：原生多模态智能体
+================
+
+
+最新推荐文章于 2026-03-18 23:49:13 发布
+原创
+最新推荐文章于 2026-03-18 23:49:13 发布
+·
+383 阅读
+·
+![]()
+![]()
+3
+
+
+·
+![]()
+![]()
+0
+
+
+
+文章标签：
+
+[#人工智能](https://so.csdn.net/so/search/s.do?q=%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#Agent](https://so.csdn.net/so/search/s.do?q=Agent&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#LLM](https://so.csdn.net/so/search/s.do?q=LLM&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#Qwen](https://so.csdn.net/so/search/s.do?q=Qwen&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#AIGC](https://so.csdn.net/so/search/s.do?q=AIGC&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+
+
+
+
+
+
+
+[![]()
+DeepSeek前线：解密前沿LLM技术+小白入门
+同时被 3 个专栏收录![]()](https://blog.csdn.net/kakazhui/category_12887577.html)
+
+117 篇文章
+¥59.90
+¥99.00
+
+
+订阅专栏
+![]()超级会员免费看
+
+
+[![]()
+大模型Agent入门与代码实战](https://blog.csdn.net/kakazhui/category_12956887.html)
+
+88 篇文章
+¥49.90
+¥99.00
+
+
+订阅专栏
+![]()超级会员免费看
+
+
+[![]()
+前沿多模态大模型：论文与实战](https://blog.csdn.net/kakazhui/category_12905842.html)
+
+71 篇文章
+¥49.90
+¥99.00
+
+
+订阅专栏
+![]()超级会员免费看
+
+
+
+
+[![]()
+ModelEngine·创作计划征文活动
+10w+人浏览
+3.8k人参与
+
+![]()](https://activity.csdn.net/writing?id=11016)
+
+![]()
+
+### **摘要**
+
+今天一起看下最新发布的Qwen3.5 系列模型，旗舰模型 Qwen3.5-397B-A17B 以 397B 总参数、仅 17B 激活参数的超稀疏 MoE 架构，在推理、编码、多模态理解与智能体任务上达到sota，同时将推理成本降低约 60%。我们从架构设计、注意力机制创新、训练流程、强化学习算法、推理优化及工程实现等维度，对 Qwen3.5 的核心技术进行分析。
+
+---
+
+### 一、模型定位与演进脉络
+
+Qwen3.5 是通义千问系列从"语言模型"向"原生多模态智能体基础模型"跨越的关键节点。其演进路径清晰呈现了三个阶段的技术积累：
+
+```
+Qwen2.5 (2024.09)     Dense 架构 / GQA / 29种语言 / 纯文本
+       │
+       ▼
+Qwen3 (2025.04)       MoE 架构 / 235B-A22B / 119种语言 / Thinking+Non-Thinking
+       │
+       ▼
+Qwen3-Next (2025.09)  混合注意力 / Gated DeltaNet / 80B-A3B / GSPO / MTP
+       │
+       ▼
+Qwen3.5 (2026.02)     原生视觉-语言融合 / 397B-A17B / 201种语言 / 视觉智能体
+
+```
+
+Qwen
+
+
+
+
+
+
+
+[了解本专栏](https://blog.csdn.net/kakazhui/category_12887577.html)
+![]()
+![]()
+订阅专栏 解锁全文
+![]()
+超级会员免费看
+
+![]()
+
+![]()
+确定要放弃本次机会？
+
+福利倒计时
+
+*:*
+
+*:*
+
+
+![]()
+立减 ¥
+
+
+普通VIP年卡可用
+
+[立即使用](https://mall.csdn.net/vip)
+
+
+[![]()
+kakaZhui](https://blog.csdn.net/kakaZhui)
+
+[关注](javascript:;)
+关注
+
+
+* ![]()
+  ![]()
+  ![]()
+  3
+  点赞
+* ![]()
+  ![]()
+  踩
+* [![]()
+  ![]()
+  ![]()
+  0](javascript:;)
+  收藏
+  
+  
+  
+  觉得还不错?
+  一键收藏
+  
+  ![]()
+* ![]()
+  知道了
+  
+  [![]()
+  0](#commentBox)
+  评论
+* [![]()
+  分享](javascript:;)
+  复制链接
+  
+  分享到 QQ
+  
+  分享到新浪微博
+  
+  ![]()扫一扫
+* [![]()
+  打赏](javascript:;)
+  打赏
+* ![]()
+  ![]()
+  打赏
+  ![]()
+  举报
+  
+  ![]()
+  举报
+
+专栏目录
+
+[订阅专栏](javascript:;)
+
+
+
+
+![]()
+
+[【深度学习新浪潮】*Qwen**3**.**5*-*3*97B-A17B 深度解析与工程部署实战：超大MoE模型的推理加速与落地](https://blog.csdn.net/agito_cheung/article/details/158236041)
+
+
+02-20
+![]()
+1151
+
+
+
+
+[*Qwen**3**.**5*-*3*97B-A17B是当前开源社区综合能力最强、部署效率最高的超大模型，其MoE架构彻底解决了“大模型难部署、慢、贵”的痛点。](https://blog.csdn.net/agito_cheung/article/details/158236041)
+
+
+
+
+
+参与评论
+您还未登录，请先
+登录
+后发表或查看评论
+
+
+[*Qwen**3**.**5* 开源全解析：从 0*.*8B 到 *3*97B，代际升级 + 全场景选型指南](https://blog.csdn.net/2501_93651177/article/details/158774276)
+
+[2501\_93651177的博客](https://blog.csdn.net/2501_93651177)
+
+03-07
+![]()
+871
+
+
+
+
+[2026年除夕夜，阿里通义千问发布*Qwen**3**.**5*开源模型家族，覆盖0*.*8B到*3*97B参数规模。相比*Qwen**3*，*Qwen**3**.**5*实现四大突破：采用稀疏MoE+门控线性注意力架构，显存占用降低60%；*原生**多模态*支持201种语言；上下文扩展至1M tokens；强化*Agent*生产级能力。提供8个参数版本，满足从端侧到云端不同场景需求，如0*.*8B适合物联网、*3*97B适合科研核心系统。全*系列*采用Apache2*.*0协议开源，大幅降低AI部署门槛，推动大模型普惠化应用。](https://blog.csdn.net/2501_93651177/article/details/158774276)
+
+
+
+[*Qwen**3**多模态**智能体*（*Agent*）开发实战：自主任务规划与执行](https://blog.csdn.net/weixin_30995917/article/details/158526640)
+
+[weixin\_30995917的博客](https://blog.csdn.net/weixin_30995917)
+
+03-01
+![]()
+219
+
+
+
+
+[本文介绍了如何在星图GPU平台上自动化部署🎨 Class *Qwen**3**:* *多模态*对话视觉黑板报镜像，以开发具备自主任务规划与执行能力的*多模态**智能体*。该镜像的核心应用场景是，用户只需提供一张图片和自然语言指令（如“制作汇报黑板报”），*智能体*便能自动分析图像、规划步骤并调用工具完成图文内容的创意合成。](https://blog.csdn.net/weixin_30995917/article/details/158526640)
+
+
+
+
+[*Qwen* *3**.**5*在 除夕夜发布，超低价格的*3*97B总参数模型](https://wesee.blog.csdn.net/article/details/158156839)
+
+[学知不足，业精于勤。](https://blog.csdn.net/dong123dddd)
+
+02-18
+![]()
+1682
+
+
+
+
+[阿里云发布新一代大语言模型*Qwen* *3**.**5*，采用混合注意力机制和稀疏MoE架构，总参数*3*97B但仅激活17B，宣称性能媲美Gemini *3*，API价格仅为后者的1/18。官方测试显示其在数学和代码能力上显著提升，但开源社区反馈两极分化：开发者认可其性价比和开源策略，但也指出其通用知识下降、*多模态*体验不稳定等问题。技术分析显示MoE架构有效降低了推理成本，但知识-能力平衡仍是挑战。与GPT-*5**.*2等闭源模型相比，*Qwen* *3**.**5*在价格和开源方面优势明显，但在复杂推理和实时性上仍有差距。](https://wesee.blog.csdn.net/article/details/158156839)
+
+
+
+[*Qwen**3**.**5*：面向*原生**多模态**智能体*的新一代大模型](https://blog.csdn.net/m0_47999117/article/details/158425748)
+
+[m0\_47999117的博客](https://blog.csdn.net/m0_47999117)
+
+02-26
+![]()
+1193
+
+
+
+
+[阿里巴巴通义千问团队于2026年除夕发布*Qwen**3**.**5*-*3*97B-A17B大模型，这是一款具有*3*970亿参数但仅激活170亿参数的*原生**多模态*大语言模型。其创新架构结合Gated DeltaNet和Gated Attention混合注意力机制，以及极稀疏MoE设计，实现了高效推理与强大性能的统一。该模型支持2*5*6K长上下文、201种语言，并在*多模态*理解、*智能体*任务和代码能力方面表现突出，尤其在视觉推理（MathVista 90*.**3*）、文档处理（OmniDocBench 90*.*8）和终端编程（Terminal](https://blog.csdn.net/m0_47999117/article/details/158425748)
+
+
+
+[周红伟：全网首篇，*Qwen**3**.**5*训练技术架构揭秘，*智能体*实操案例，深度应用，*Qwen**3**.**5*：迈向*原生**多模态**智能体*](https://devpress.csdn.net/v1/article/detail/158313862)
+
+[周红伟讲AI](https://blog.csdn.net/starzhou)
+
+02-23
+![]()
+1777
+
+
+
+
+[*Qwen**3**.**5* 凭借高效的混合架构与*原生**多模态*推理，为通用数字*智能体*奠定了坚实基础。下一阶段的重点将从模型规模转向系统整合：构建具备跨会话持久记忆的*智能体*、面向真实世界交互的具身接口、自我改进机制，目标是能够长期自主运行、逻辑一致的系统，将当前以任务为边界的助手升级为可持续、可信任的伙伴。](https://devpress.csdn.net/v1/article/detail/158313862)
+
+
+
+[*Qwen**3**.**5*：开启*智能体*时代，收藏这份国产大模型学习指南！](https://devpress.csdn.net/v1/article/detail/158182227)
+
+[Trb701012的博客](https://blog.csdn.net/Trb701012)
+
+02-18
+![]()
+757
+
+
+
+
+[*Qwen**3**.**5*代表了大模型技术向*智能体*能力的重大转型，通过*原生**多模态*融合、强推理和工具执行构建新一代AI基础设施。其核心创新包括：Gated Delta Networks提升推理效率，实现动态计算路径选择；Sparse MoE架构扩展知识容量至*3*97B参数；统一的*多模态*架构实现文本、图像、视频、音频的深度融合。不同于传统拼接式*多模态*方案，*Qwen**3**.**5*从底层设计就强调感知-推理-执行的闭环能力，标志着AI从语言模型向可执行任务的数字行动者演进。该技术突破展现了国产大模型在*智能体*领域提供完整解决方案的能力，推](https://devpress.csdn.net/v1/article/detail/158182227)
+
+
+
+[从零部署*Qwen**3**.**5*-9B：*原生**多模态*吊打120B模型，笔记本可运行](https://devpress.csdn.net/v1/article/detail/158692406)
+
+[人工智能AI技术](https://blog.csdn.net/jiangjunshow)
+
+03-05
+![]()
+1704
+
+
+
+
+[*Qwen**3**.**5*-9B的开源，标志着"小模型"时代真的来了。以前我们总觉得模型越大越好，现在发现，只要架构够先进、训练够充分，90亿参数也能干出百亿级的活。这就像是内燃机技术的进步，不需要把排量从2*.*0L扩到4*.*0L，也能榨出同样的马力。对于普通开发者来说，这意味着什么？你可以在自己的电脑上拥有一个接近GPT-4级别智力的AI，不用联网、不用付费、不用担心隐私泄露。想怎么微调就怎么微调，想接入什么软件就接入什么软件。](https://devpress.csdn.net/v1/article/detail/158692406)
+
+
+
+[Emu*3**.**5*：*原生**多模态*世界模型，开启*多模态*学习新纪元](https://devpress.csdn.net/v1/article/detail/154347981)
+
+[Liudef06的博客](https://blog.csdn.net/Liudef06)
+
+11-03
+![]()
+4778
+
+
+
+
+[Emu*3**.**5*模型](https://devpress.csdn.net/v1/article/detail/154347981)
+
+
+
+[阿里*Qwen**3**.**5*发布：仅17B激活的高效率、高性能*原生**多模态*](https://devpress.csdn.net/v1/article/detail/158284738)
+
+[SuaniCommunity的博客](https://blog.csdn.net/SuaniCommunity)
+
+02-22
+![]()
+1037
+
+
+
+
+[开年第一篇文章献给“源神”阿里！阿里除夕发布了拥有 *3*97B 参数的视觉语言模型，单次推理仅激活 17B 参数，性能直接比肩万亿规模的前沿大模型。这款名为 *Qwen**3**.**5*-*3*97B-A17B 的开源权重模型打破了视觉与语言的隔离，通过底层混合架构与异步强化学习框架实现了效率与泛化能力的跨越。](https://devpress.csdn.net/v1/article/detail/158284738)
+
+
+
+[*人工智能*基于混合注意力与MoE稀疏化的*多模态*大模型：*Qwen**3**.**5*架构创新与*智能体*应用](https://download.csdn.net/download/m0_47999117/92743352)
+
+03-18
+
+
+
+[内容概要：本文介绍了阿里巴巴通义千问团队于2026年发布的*Qwen**3**.**5**系列*大模型，重点阐述了其作为*原生**多模态**智能体*的技术创新与性能突破。该模型采用混合架构，融合线性注意力（Gated Delta Networks）与门控注意力*.**.**.*](https://download.csdn.net/download/m0_47999117/92743352)
+
+
+
+[CUDA1*3*+SGLang 焕新 *Qwen**3**.**5*-27B-FP8 推理！Miniconda 环境保姆级部署](https://blog.csdn.net/2501_93651177/article/details/158702462)
+
+[2501\_93651177的博客](https://blog.csdn.net/2501_93651177)
+
+03-05
+![]()
+531
+
+
+
+
+[本文介绍了在CUDA1*3*环境下使用SGLang部署*Qwen**3**.**5*-27B-FP8量化大模型的完整流程。主要内容包括：1）通过Miniconda创建Python*3**.*10虚拟环境；2）安装适配CUDA1*3*的SGLang推理框架；*3*）部署*Qwen**3**.**5*-27B-FP8模型并启动推理服务；4）通过OpenAI兼容API调用模型；*5*）提供长文本处理、性能调优等高级优化方案。该方案支持262k上下文长度、*多模态*理解、工具调用等功能，具有高吞吐、低延迟的特点，适合开发者快速落地大模型应用。](https://blog.csdn.net/2501_93651177/article/details/158702462)
+
+
+
+[Spring AI 面试题](https://devpress.csdn.net/v1/article/detail/159084183)
+
+[Rsun2018的博客](https://blog.csdn.net/yang_guang3)
+
+03-15
+![]()
+434
+
+
+
+
+[Spring AI 是 Spring 官方推出的AI 应用开发框架，目标是简化 Java 开发者接入大模型、向量数据库、RAG、函数调用等能力，提供统一 API、模型无关、开箱即用的体验。Retrieval-Augmented Generation 检索增强生成先从外部知识库检索相关内容，把内容拼到提示词里，再让大模型回答，解决幻觉、知识过时、无业务数据问题。提示词模板，支持变量替换，让提示词可复用、可管理。Spring AI 是 Spring 官方的 AI 开发框架，通过统一抽象屏蔽大模型差异，提供。](https://devpress.csdn.net/v1/article/detail/159084183)
+
+
+
+[RTX*5*060显卡+windows CUDA12*.*8+cuDNN8*.*9*.*7+pytorch安装](https://blog.csdn.net/xingeaihaozhe/article/details/159156316)
+
+[xingeaihaozhe](https://blog.csdn.net/xingeaihaozhe)
+
+03-17
+![]()
+1221
+
+
+
+
+[NVIDIA 驱动安装及环境搭建](https://blog.csdn.net/xingeaihaozhe/article/details/159156316)
+
+
+
+[竞争红海里用AI破局：从这*3*个高频、重复、有数据的业务环节入手](https://devpress.csdn.net/v1/article/detail/159215611)
+
+[TImCheng0609的博客](https://blog.csdn.net/TImCheng0609)
+
+03-18
+![]()
+345
+
+
+
+
+[经过复盘各行业标杆企业实践发现，采购库存管理、财务流程处理、客户服务响应，是所有企业共有的核心环节，均具备“高频、重复、数据可追溯”特点，也是AI落地成本最低、见效最快的领域。目前，格力、中国平安等企业的财务岗位中，已有不少认证员工，凭借扎实的AI应用能力，快速掌握财务AI工具，助力流程优化。对于红海企业而言，AI并非遥不可及，无需盲目跟风投入，只需立足业务、聚焦核心，循序渐进推进AI落地，借助认证培育适配人才，就能在同质化竞争中突围，实现可持续增长。二是成本高企，人工与运营成本攀升，利润增速放缓；](https://devpress.csdn.net/v1/article/detail/159215611)
+
+
+
+[OpenCV图像透视变换：自动矫正倾斜的发票
+最新发布](https://blog.csdn.net/2201_75420345/article/details/159215612)
+
+[2201\_75420345的博客](https://blog.csdn.net/2201_75420345)
+
+03-18
+![]()
+990
+
+
+
+
+[本文介绍了利用OpenCV实现文档图像自动矫正的方法。通过透视变换技术，可将倾斜拍摄的文档照片转换为正面矩形视图。核心步骤包括：图像预处理（灰度化、二值化）、轮廓检测（获取最大轮廓）、多边形近似（提取四个顶点）以及透视变换。重点讲解了顶点排序算法和透视变换矩阵的计算原理，并提供了完整的Python代码实现。该方法能有效解决文档拍摄畸变问题，提升OCR识别准确率。注意事项包括顶点近似精度调整、最大轮廓筛选条件等，确保算法鲁棒性。该技术可广泛应用于发票扫描、名片识别等场景。](https://blog.csdn.net/2201_75420345/article/details/159215612)
+
+
+
+[*智能体*设计模式详解 B#9：学习和适应 (Learning and Adaptation)](https://blog.csdn.net/BeyaNG/article/details/159171944)
+
+[业务项目的博客](https://blog.csdn.net/BeyaNG)
+
+03-17
+![]()
+782
+
+
+
+
+[模式速查
+- 核心假设：系统行为策略可基于反馈信号（显式/隐式）动态优化，实现长期性能提升与个性化。
+- 关键约束：必须设置学习速率限制与置信度阈值，防止策略震荡或过拟合噪声。
+- 失败主因：恶意反馈“毒化”系统 + 局部最优收敛 + 版本管理缺失导致回滚困难。
+- 升级信号：用户偏好随时间演变、需从错误中自动修复、多租户需定制化行为时。
+- 首选框架：在线提示模板更新 / 规则引擎热修 → 强化学习 (RLHF/RLAIF) 微调。](https://blog.csdn.net/BeyaNG/article/details/159171944)
+
+
+
+[对话即操作：2026年人机交互界面的终极形态预测](https://blog.csdn.net/JXSJHF/article/details/159201450)
+
+[JXSJHF的博客](https://blog.csdn.net/JXSJHF)
+
+03-18
+![]()
+335
+
+
+
+
+[不同于以往需手动输入指令、点击操作的模式，未来的交互无需复杂步骤，一句自然对话就能触发完整操作闭环——无论是调度办公软件处理文件，还是操控智能家居调节环境，AI代理都会像S级员工一样，自主拆解任务、执行操作，仅在关键环节等待人类确认，让交互更高效省心。对话不再是简单的指令传递，而是人与智能的平等沟通，输入框的消失、主动代理的崛起，都在让技术隐于幕后。这种形态打破了传统界面的束缚，以自然对话为核心，让技术真正适配人类习惯，实现“所想即所得”的便捷体验，重构人与智能设备的相处模式。](https://blog.csdn.net/JXSJHF/article/details/159201450)
+
+
+
+[前沿科技一——*5*G/6G](https://blog.csdn.net/thank3194003824/article/details/159054779)
+
+[thank3194003824的博客](https://blog.csdn.net/thank3194003824)
+
+03-15
+![]()
+1008
+
+
+
+
+[6G，即第六代移动通信技术，是通感算智深度融合、空天地一体全域覆盖的新一代移动信息网络。它并非*5*G技术的简单升级，而是旨在深度融合物理世界、生物世界与数字世界的革命性跃迁。](https://blog.csdn.net/thank3194003824/article/details/159054779)
+
+
+
+[*原生**多模态*模型的数据](https://wenku.csdn.net/answer/642ntcxc30)
+
+01-10
+
+
+
+[### *原生**多模态*模型的数据处理
+在*原生**多模态*模型中，数据处理的关键在于能够有效地将不同类型的输入（如图像、音频、视频和文本）转化为统一的表示形式以便于后续处理。对于AnyGPT而言，所有模态的数据均被分词成离散的标记(tokens)，并进一步送入大型语言模型(*LLM*)进行自回归的*多模态*理解和生成处理[^1]。
+#### 数据格式
+为了使不同的媒体类型适应同一套框架下的训练流程，通常会采用标准化的方法来定义每种媒介对应的编码方式：
+- \*\*文本\*\*：可以直接利用已有的字典映射到特定ID；
+- \*\*图片/视频帧\*\*：通过视觉特征提取器获取固定长度向量作为代表；
+- \*\*声音片段\*\*：经由声学模型转换为频谱图或其他紧凑表达；
+这些经过初步加工的信息单元最终会被组装成为适合喂给下游任务使用的张量结构——即所谓的embedding层所接受的形式[^4]。
+#### 数据集的选择与准备
+构建高质量的数据集合是实现高性能多感官理解系统的基石之一。理想情况下，应当选取那些覆盖广泛领域且具备足够多样性的资源来进行训练。具体做法可能包括但不限于以下几个方面：
+- 收集来自互联网公开渠道或者授权合作伙伴处获得的真实世界样本；
+- 对采集回来的内容实施必要的清理工作以去除噪声干扰项；
+- 组织内部人员按照既定标准完成对部分素材的人工审核校验；
+- 利用自动化脚本批量生产合成实例用于扩充语料库规模；
+值得注意的是，在实际应用过程中还需要特别关注版权归属问题以及隐私保护措施等方面的要求[^*3*]。
+```python
+import torch
+from transformers import AutoTokenizer, CLIPProcessor
+tokenizer = AutoTokenizer*.*from\_pretrained("openai/clip-vit-base-patch*3*2")
+processor = CLIPProcessor*.*from\_pretrained("openai/clip-vit-base-patch*3*2")
+text\_inputs = tokenizer(["a photo of a cat", "an image with two dogs"], padding=True, truncation=True, return\_tensors="pt")
+image\_input = processor(images=[Image*.*open("cat*.*jpg"), Image*.*open("dogs*.*png")], return\_tensors="pt")
+combined\_embeddings = model(\*\*{\*\*text\_inputs, \*\*image\_input})
+```](https://wenku.csdn.net/answer/642ntcxc30)
+
+
+
+
+
+
+[![]()](https://blog.csdn.net/kakaZhui)
+
+[kakaZhui](https://blog.csdn.net/kakaZhui)
+
+
+博客等级
+
+![]()
+
+码龄1年
+
+
+
+[417
+原创](https://blog.csdn.net/kakaZhui)
+
+4245
+点赞
+
+2970
+收藏
+
+1500
+粉丝
+
+
+关注
+
+[私信](https://im.csdn.net/chat/kakaZhui)
+
+
+
+[![]()](https://ai.csdn.net/workbench/wallet?utm_source=xtai_slb_bloglb)
+
+![]()
+
+
+### 热门文章
+
+* [【实战】如何使用DeepSeek批量创作短视频
+  ![]()
+  21693](https://blog.csdn.net/kakaZhui/article/details/145462663)
+* [Google langextract：基于llm的非结构文档信息提取工具
+  ![]()
+  9907](https://blog.csdn.net/kakaZhui/article/details/149937380)
+* [【读代码】深度解析 context-engineering-intro：开源上下文工程实践原理与应用
+  ![]()
+  9192](https://blog.csdn.net/kakaZhui/article/details/150402012)
+* [【实战】短视频制作：deepseek文案+剪映图文成片
+  ![]()
+  8739](https://blog.csdn.net/kakaZhui/article/details/145461511)
+* [【RAG优化之上下文管理】：深度解析复杂查询
+  ![]()
+  6385](https://blog.csdn.net/kakaZhui/article/details/149711843)
+
+
+### 分类专栏
+
+* [![]()
+  大模型实践之知识库RAG
+  
+  付费](https://blog.csdn.net/kakazhui/category_12887576.html)
+  70篇
+* [![]()
+  大模型Agent入门与代码实战
+  
+  付费](https://blog.csdn.net/kakazhui/category_12956887.html)
+  88篇
+* [![]()
+  DeepSeek前线：解密前沿LLM技术+小白入门
+  
+  付费](https://blog.csdn.net/kakazhui/category_12887577.html)
+  117篇
+* [![]()
+  前沿多模态大模型：论文与实战
+  
+  付费](https://blog.csdn.net/kakazhui/category_12905842.html)
+  71篇
+* [![]()
+  大模型工作流实战: 智能BI 视频批量生产
+  
+  付费](https://blog.csdn.net/kakazhui/category_12903434.html)
+  13篇
+* [![]()
+  30天零基础python数据分析\_完结（习题见资源下载）](https://blog.csdn.net/kakazhui/category_12913949.html)
+  26篇
+* [![]()
+  电商数据挖掘：Python+大语言模型 (LLM) 重塑](https://blog.csdn.net/kakazhui/category_12960321.html)
+  14篇
+
+展开全部 ![]()
+收起 ![]()
+
+
+上一篇：
+
+[MiniMax新年SOTA：MiniMax-M2.5与Linear Attention架构](https://blog.csdn.net/kakaZhui/article/details/158211858)
+
+
+下一篇：
+
+[为Agent应用而生的Qwen3.5](https://blog.csdn.net/kakaZhui/article/details/158261937)
+
+
+
+### 大家在看
+
+* [协同过滤算法 微信小程序的电影推荐系统](https://blog.csdn.net/qq_840612233/article/details/159316575)
+* [《QGIS快速入门与应用基础》230：添加图例工具](https://blog.csdn.net/LuckyHanMo/article/details/159314157)
+* [PYTHON学习笔记5（列表、元组、字典、集合）](https://blog.csdn.net/k15631487292/article/details/159245608)
+* [《QGIS快速入门与应用基础》229：多地图框添加（对比地图）](https://blog.csdn.net/LuckyHanMo/article/details/159314050)
+* [2026最新Windows系统重装教程](https://blog.csdn.net/2501_91025807/article/details/159315296)
+
+
+### 最新文章
+
+* [Kimi新架构得马斯克点赞：解析注意力残差Attention Residuals](https://blog.csdn.net/kakaZhui/article/details/159216151)
+* [颠覆RAG的benchmark：LMEB如何定义Agent中超长文本的长程依赖关系](https://blog.csdn.net/kakaZhui/article/details/159201484)
+* [TTS新高度：Fish Audio S2](https://blog.csdn.net/kakaZhui/article/details/159086374)
+
+
+2026
+[03月
+10篇](https://blog.csdn.net/kakaZhui?type=blog&year=2026&month=03)
+
+[02月
+16篇](https://blog.csdn.net/kakaZhui?type=blog&year=2026&month=02)
+
+[01月
+18篇](https://blog.csdn.net/kakaZhui?type=blog&year=2026&month=01)
+
+
+[2025年368篇](https://blog.csdn.net/kakaZhui?type=blog&year=2025&month=12)
+[2024年5篇](https://blog.csdn.net/kakaZhui?type=blog&year=2024&month=10)
+
+
+
+![]()
+
+
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+
+
+![]()
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+![]()
+
+上一篇：
+
+[MiniMax新年SOTA：MiniMax-M2.5与Linear Attention架构](https://blog.csdn.net/kakaZhui/article/details/158211858)
+
+
+下一篇：
+
+[为Agent应用而生的Qwen3.5](https://blog.csdn.net/kakaZhui/article/details/158261937)
+
+
+
+### 分类专栏
+
+* [![]()
+  大模型实践之知识库RAG
+  
+  付费](https://blog.csdn.net/kakazhui/category_12887576.html)
+  70篇
+* [![]()
+  大模型Agent入门与代码实战
+  
+  付费](https://blog.csdn.net/kakazhui/category_12956887.html)
+  88篇
+* [![]()
+  DeepSeek前线：解密前沿LLM技术+小白入门
+  
+  付费](https://blog.csdn.net/kakazhui/category_12887577.html)
+  117篇
+* [![]()
+  前沿多模态大模型：论文与实战
+  
+  付费](https://blog.csdn.net/kakazhui/category_12905842.html)
+  71篇
+* [![]()
+  大模型工作流实战: 智能BI 视频批量生产
+  
+  付费](https://blog.csdn.net/kakazhui/category_12903434.html)
+  13篇
+* [![]()
+  30天零基础python数据分析\_完结（习题见资源下载）](https://blog.csdn.net/kakazhui/category_12913949.html)
+  26篇
+* [![]()
+  电商数据挖掘：Python+大语言模型 (LLM) 重塑](https://blog.csdn.net/kakazhui/category_12960321.html)
+  14篇
+
+展开全部 ![]()
+收起 ![]()
+
+
+
+
+
+
+### 目录
+
+
+
+
+
+
+
+
+
+
+
+
+
+评论
+![]()
+
+![]()被折叠的  条评论
+[为什么被折叠?](https://blogdev.blog.csdn.net/article/details/122245662)
+[![]()到【灌水乐园】发言](https://bbs.csdn.net/forums/FreeZone)
+
+
+查看更多评论![]()
+
+
+
+添加红包
+
+
+祝福语
+
+
+请填写红包祝福语或标题
+
+
+红包数量
+
+个
+
+红包个数最小为10个
+
+
+红包总金额
+
+元
+
+红包金额最低5元
+
+
+余额支付
+当前余额3.43元
+[前往充值 >](https://i.csdn.net/#/wallet/balance/recharge)
+
+
+需支付：10.00元
+
+取消
+确定
+
+
+
+
+![]()
+下一步
+
+![]()
+知道了
+
+
+
+![]()
+成就一亿技术人!
+
+
+
+领取后你会自动成为博主和红包主的粉丝
+规则
+
+
+
+![]()
+hope\_wisdom 发出的红包
+
+
+
+
+
+
+
+
+
+打赏作者![]()
+
+[![]()](https://blog.csdn.net/kakaZhui)
+
+kakaZhui
+
+你的鼓励将是我创作的最大动力
+
+
+
+
+¥1
+¥2
+¥4
+¥6
+¥10
+¥20
+
+扫码支付：¥1
+
+![]()
+获取中
+
+
+![]()
+![]()
+扫码支付
+
+
+
+您的余额不足，请更换扫码支付或[充值](https://i.csdn.net/#/wallet/balance/recharge?utm_source=RewardVip)
+
+打赏作者
+
+
+
+
+实付元
+[使用余额支付](javascript:;)
+![]()
+点击重新获取
+
+
+![]()![]()![]()扫码支付
+
+
+
+
+钱包余额
+0
+![]()
+
+抵扣说明：
+
+1.余额是钱包充值的虚拟货币，按照1:1的比例进行支付金额的抵扣。  
+ 2.余额无法直接购买下载，可以购买VIP、付费专栏及课程。
+
+
+
+
+
+[![]()余额充值](https://i.csdn.net/#/wallet/balance/recharge)
+
+![]()
+
+
+
+
+
+

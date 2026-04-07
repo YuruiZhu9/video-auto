@@ -1,0 +1,60 @@
+# Source URL: https://clawhub.ai/kn70pywhg0fyz996kpa8xj89s57yhv26/summarize
+# Content Length: 5775 characters
+# Extracted at: 2026-03-31 06:56:43
+#============================================================
+
+# Summarize
+Summarize URLs or files with the summarize CLI (web, PDFs, images, audio, YouTube).
+⭐ 280 · 59.3k · 1.2k current installs · 1.2k all-time installs
+by![](https://avatars.githubusercontent.com/u/58493?v=4)Peter Steinberger· [@steipete](https://clawhub.ai/u/steipete)
+Security Scan
+VirusTotalVirusTotal
+Benign
+[View report →](https://www.virustotal.com/gui/file/4d22716892c10ca837337b7e43afbb22e38b047570bcb39d46b122bc41aedbaf)
+OpenClawOpenClaw
+Benign
+high confidence
+The skill is internally consistent with its stated purpose — it is an instruction-only wrapper that expects the external 'summarize' CLI and standard LLM provider API keys — nothing obviously out of scope or malicious was found.Details ▾
+ℹ
+Purpose & Capability
+The name/description (summarize URLs/files/YouTube) matches what the instructions do: call the external 'summarize' CLI and send content to LLM providers. However, registry metadata listed no required binaries while the SKILL.md metadata declares a required 'summarize' binary and a brew install entry — this mismatch should be verified (the skill will only work if the external CLI is present or installed).
+✓
+Instruction Scope
+Runtime instructions simply show how to invoke the summarize CLI, specify provider API keys, and optional fallback tokens (FIRECRAWL/APIFY). The SKILL.md does not instruct the agent to read unrelated files, network endpoints, or system credentials beyond the declared CLI/config and provider keys.
+ℹ
+Install Mechanism
+There is no packaged install in the registry, but the SKILL.md metadata suggests installing a brew formula from steipete/tap/summarize. Installing from a third‑party brew tap is common but carries more trust risk than an official/tapped formula — verify the tap and formula source before installing.
+✓
+Credentials
+Requested environment variables are API keys for LLM providers (OPENAI\\_API\\_KEY, ANTHROPIC\\_API\\_KEY, XAI\\_API\\_KEY, GEMINI\\_API\\_KEY) and optional service keys (FIRECRAWL\\_API\\_KEY, APIFY\\_API\\_TOKEN). These are proportionate to a tool that extracts content and forwards it to models/fallback services. The skill also references a user config file (~/.summarize/config.json), which is expected.
+✓
+Persistence & Privilege
+Skill is instruction-only, does not request permanent presence (always:false), and does not claim to modify other skills or system-wide settings. Normal autonomous invocation is allowed by platform defaults.
+Assessment
+This skill is an instruction-only wrapper that expects the external 'summarize' CLI. Before installing/using it: (1) ensure you have or trust the 'summarize' binary — SKILL.md suggests installing via brew from steipete/tap (review that tap/formula source on GitHub to confirm it’s legitimate); (2) be aware the CLI will send file/URL content to whichever model provider you configure, so only use provider API keys you trust and avoid sending sensitive content; (3) optional FIRECRAWL/APIFY tokens enable fallback extraction services — those services will receive URLs/content, so review their policies; (4) note the small metadata mismatch (registry showed no required binaries while SKILL.md lists the summarize binary) — verify that the agent/platform will not attempt unexpected installs and that you control any API keys used. If you want higher assurance, inspect the brew formula and the summarize CLI source before granting network keys.
+Like a lobster shell, security has layers — review code before you run it.
+Current version \*\*v1.0.0\*\*
+[Download zip](https://wry-manatee-359.convex.site/api/v1/download?slug=summarize)
+latestv1.0.0
+### Runtime requirements
+🧾 Clawdis
+\*\*Bins\*\* summarize
+### Install
+\*\*Install summarize (brew)\*\*
+Bins: summarize
+`brew install steipete/tap/summarize`
+FilesCompareVersions
+Loading file viewer…
+## Comments
+Sign in to comment.
+\*\*@blkirk\*\*
+summarize: The arm64 architecture is required for this software.
+Error: summarize: An unsatisfied requirement failed this build.
+\*\*@imrasalghul\*\*
+The linhui1010 account is spreading malware.
+\*\*@tka30308\*\*
+Why does it show "install failed (exit 1): Error: summarize: An unsatisfied requirement failed this build." when I tried to install it via gateway dashboard? I have brew on my wsl.
+\*\*@SHANHU123\*\*
+如何进行安装
+\*\*@maxvisionai\*\*
+(TLDR: add npm command and better description) This seems as good of a strawman to prop up and punch on as any, so I'll post here. Look I have had to explain to less technical folk about how the OpenClaw onslaught is actually a hype train (pi+cron) and that anyone using agents for YEARS now had exactly the same capabilities if we wanted, and I don't think it much matters to the public or the stock market (or OpenAI). When setting up a new OpenClaw for a friend "see, here, it's not a big deal" one of the first steps is setting up some skills. THIS WAS THE FIRST ONE. Summarize. Yes, any agent could bootstrap and make their own, but tracking down your codebase for this I see it is actually GOOD WORK. One couldn't tell from this page! This page makes it look like you pass whatever input to gemini for a summary. Read it over yourself with beginners mind and you'll see what I mean. Further, it only shows the brew command - and dude I have (rightfully so) looked down my nose at mac users for somwhere around 40 years (trying to remember when that one-button-mouse first appeared..) - but listen, you have a cross-platform \`npm i -g @steipete/summarize\` as well, but one wouldn't know that from this page! I mean, I'm going to install and use this myself - slide extraction and ocr from a video!? (among many other features) Rarely needed but when I do, this is awesome. The stats say this has only been installed 400 times TOTAL EVER. If that is true, it's basically a secret.

@@ -1,0 +1,287 @@
+# Source URL: https://github.com/inclusionAI/dInfer
+# Content Length: 18492 characters
+# Extracted at: 2026-03-23 12:02:21
+#============================================================
+
+[Skip to content](https://github.com/inclusionAI/dInfer#start-of-content)
+You signed in with another tab or window. [Reload](https://github.com/inclusionAI/dInfer) to refresh your session.You signed out in another tab or window. [Reload](https://github.com/inclusionAI/dInfer) to refresh your session.You switched accounts on another tab or window. [Reload](https://github.com/inclusionAI/dInfer) to refresh your session.Dismiss alert
+{{ message }}
+[inclusionAI](https://github.com/inclusionAI)/ \*\*[dInfer](https://github.com/inclusionAI/dInfer)\*\* Public
+- [Notifications](https://github.com/login?return\_to=%2FinclusionAI%2FdInfer) You must be signed in to change notification settings
+- [Fork\\
+35](https://github.com/login?return\_to=%2FinclusionAI%2FdInfer)
+- [Star\\
+374](https://github.com/login?return\_to=%2FinclusionAI%2FdInfer)
+dInfer: An Efficient Inference Framework for Diffusion Language Models
+### License
+[Apache-2.0 license](https://github.com/inclusionAI/dInfer/blob/master/LICENSE)
+[374\\
+stars](https://github.com/inclusionAI/dInfer/stargazers) [35\\
+forks](https://github.com/inclusionAI/dInfer/forks) [Branches](https://github.com/inclusionAI/dInfer/branches) [Tags](https://github.com/inclusionAI/dInfer/tags) [Activity](https://github.com/inclusionAI/dInfer/activity)
+[Star](https://github.com/login?return\_to=%2FinclusionAI%2FdInfer)
+[Notifications](https://github.com/login?return\_to=%2FinclusionAI%2FdInfer) You must be signed in to change notification settings
+# inclusionAI/dInfer
+master
+[\*\*5\*\* Branches](https://github.com/inclusionAI/dInfer/branches) [\*\*1\*\* Tag](https://github.com/inclusionAI/dInfer/tags)
+[Go to Branches page](https://github.com/inclusionAI/dInfer/branches)[Go to Tags page](https://github.com/inclusionAI/dInfer/tags)
+Go to file
+Code
+Open more actions menu
+## Folders and files
+| Name | Name | Last commit message | Last commit date |
+| --- | --- | --- | --- |
+| ## Latest commit  
+![莫愚](https://github.githubassets.com/images/gravatars/gravatar-user-420.png?size=40)![兆惠](https://github.githubassets.com/images/gravatars/gravatar-user-420.png?size=40)  
+莫愚  
+and  
+兆惠  
+[PullRequest: 137 fix ctx = mp.get\\_context('spawn') to enable mbpp eva…](https://github.com/inclusionAI/dInfer/commit/bad702c99d3a551c7d1322535b52a44ea08ca366)  
+Open commit details  
+4 days agoDec 23, 2025  
+[bad702c](https://github.com/inclusionAI/dInfer/commit/bad702c99d3a551c7d1322535b52a44ea08ca366) · 4 days agoDec 23, 2025  
+## History  
+[88 Commits](https://github.com/inclusionAI/dInfer/commits/master/)   
+Open commit details  
+[View commit history for this file.](https://github.com/inclusionAI/dInfer/commits/master/) |
+| [assets](https://github.com/inclusionAI/dInfer/tree/master/assets "assets") | [assets](https://github.com/inclusionAI/dInfer/tree/master/assets "assets") | | |
+| [benchmarks](https://github.com/inclusionAI/dInfer/tree/master/benchmarks "benchmarks") | [benchmarks](https://github.com/inclusionAI/dInfer/tree/master/benchmarks "benchmarks") | | |
+| [configs](https://github.com/inclusionAI/dInfer/tree/master/configs "configs") | [configs](https://github.com/inclusionAI/dInfer/tree/master/configs "configs") | | |
+| [evaluations](https://github.com/inclusionAI/dInfer/tree/master/evaluations "evaluations") | [evaluations](https://github.com/inclusionAI/dInfer/tree/master/evaluations "evaluations") | | |
+| [python/dinfer](https://github.com/inclusionAI/dInfer/tree/master/python/dinfer "This path skips through empty directories") | [python/dinfer](https://github.com/inclusionAI/dInfer/tree/master/python/dinfer "This path skips through empty directories") | | |
+| [tests](https://github.com/inclusionAI/dInfer/tree/master/tests "tests") | [tests](https://github.com/inclusionAI/dInfer/tree/master/tests "tests") | | |
+| [tools](https://github.com/inclusionAI/dInfer/tree/master/tools "tools") | [tools](https://github.com/inclusionAI/dInfer/tree/master/tools "tools") | | |
+| [LICENSE](https://github.com/inclusionAI/dInfer/blob/master/LICENSE "LICENSE") | [LICENSE](https://github.com/inclusionAI/dInfer/blob/master/LICENSE "LICENSE") | | |
+| [README.md](https://github.com/inclusionAI/dInfer/blob/master/README.md "README.md") | [README.md](https://github.com/inclusionAI/dInfer/blob/master/README.md "README.md") | | |
+| [setup.py](https://github.com/inclusionAI/dInfer/blob/master/setup.py "setup.py") | [setup.py](https://github.com/inclusionAI/dInfer/blob/master/setup.py "setup.py") | | |
+| View all files |
+## Repository files navigation
+[![dInfer](https://github.com/inclusionAI/dInfer/raw/master/assets/logo.svg)](https://github.com/inclusionAI/dInfer/blob/master/assets/logo.svg)
+#### [![License: MIT](https://camo.githubusercontent.com/a549a7a30bacba7bfceebdc207a8e86c3f2c02995a2527640dca30048fd2b64e/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4c6963656e73652d417061636865253230322e302d626c75652e737667)](https://github.com/inclusionAI/dInfer/blob/master/LICENSE)[![HuggingFace: Models](https://camo.githubusercontent.com/acf827b9d6d2d66b42830b8597c61bb77ce097081f0513eac31b804f69969c5e/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f48756767696e67466163652d4d6f64656c732d79656c6c6f77)](https://huggingface.co/inclusionAI/LLaDA-MoE-7B-A1B-Instruct)[![Technical Report: Arxiv](https://camo.githubusercontent.com/621cd241da40e88d1392af1380af85aaa03f21bf7d67ae61ff2c660dab98bab0/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f546563686e6963616c2532305265706f72742d41727869762d726564)](https://arxiv.org/abs/2510.08666)
+[Permalink: ](https://github.com/inclusionAI/dInfer#)
+## Introduction
+[Permalink: Introduction](https://github.com/inclusionAI/dInfer#introduction)
+dInfer is an efficient and extensible inference framework for dLLMs. As illustrated in the following architecture, it modularizes inference into four components:
+\_model\_, \_diffusion iteration manager\_, \_decoder\_ and \_KV-cache manager\_. It provides well-designed APIs for
+flexible algorithms combinations in each component. It now supports batched inference for improved throughput.
+[![dInfer v0.1 architecture](https://github.com/inclusionAI/dInfer/raw/master/assets/Framework2.png)](https://github.com/inclusionAI/dInfer/blob/master/assets/Framework2.png)
+\*\*Figure\*\*: Overall Architecture of dInfer
+dInfer supports multiple dLLM variants, including LLaDA, LLaDA-MoE and LLaDA2.
+## News
+[Permalink: News](https://github.com/inclusionAI/dInfer#news)
+\*\*\[2025/12/21\]\*\* release v0.2. The major features of this release can be found [here](https://github.com/inclusionAI/dInfer/releases/tag/v0.2.0).
+\*\*\[2025/12/10\]\*\* Support and speed up the formal version of block diffusion LLMs (LLaDA2-mini and LLaDA2-flash). Support quant versions of LLaDA2-mini and LLaDA2-flash.
+\*\*\[2025/11/15\]\*\* Support the inference on block diffusion LLMs (LLaDA2-mini-preview and LLaDA2-flash-preview).
+\*\*\[2025/10/10\]\*\* Release the first version of the dInfer framework.
+## Contents
+[Permalink: Contents](https://github.com/inclusionAI/dInfer#contents)
+- [Supported Models](https://github.com/inclusionAI/dInfer#supported-models)
+- [Quick Start](https://github.com/inclusionAI/dInfer#quick-start)
+- [Benchmark Results](https://github.com/inclusionAI/dInfer#benchmark-results)
+## Supported Models
+[Permalink: Supported Models](https://github.com/inclusionAI/dInfer#supported-models)
+dInfer supports multiple diffusion language model variants with different architectures and sizes. Below are the HuggingFace model links and their corresponding implementation files:
+| Model | Size | Implementation | HuggingFace Link |
+| --- | --- | --- | --- |
+| LLaDA2.0-mini | 16B | [LLaDA2MoeModelLM](https://github.com/inclusionAI/dInfer/blob/master/python/dinfer/model/modeling\_llada2\_moe.py) | [inclusionAI/LLaDA2.0-mini](https://huggingface.co/inclusionAI/LLaDA2.0-mini) |
+| LLaDA2.0-flash | 100B | [LLaDA2MoeModelLM](https://github.com/inclusionAI/dInfer/blob/master/python/dinfer/model/modeling\_llada2\_moe.py) | [inclusionAI/LLaDA2.0-flash](https://huggingface.co/inclusionAI/LLaDA2.0-flash) |
+| LLaDA2.0-mini-preview | 16B | [LLaDA2MoeModelLM](https://github.com/inclusionAI/dInfer/blob/master/python/dinfer/model/modeling\_llada2\_moe.py) | [inclusionAI/LLaDA2.0-mini-preview](https://huggingface.co/inclusionAI/LLaDA2.0-mini-preview) |
+| LLaDA2.0-flash-preview | 100B | [LLaDA2MoeModelLM](https://github.com/inclusionAI/dInfer/blob/master/python/dinfer/model/modeling\_llada2\_moe.py) | [inclusionAI/LLaDA2.0-flash-preview](https://huggingface.co/inclusionAI/LLaDA2.0-flash-preview) |
+| LLaDA-MoE-7B-A1B-Base | 7B | [LLaDAMoeModelLM](https://github.com/inclusionAI/dInfer/blob/master/python/dinfer/model/modeling\_fused\_olmoe.py) | [inclusionAI/LLaDA-MoE-7B-A1B-Base](https://huggingface.co/inclusionAI/LLaDA-MoE-7B-A1B-Base) |
+| LLaDA-MoE-7B-A1B-Instruct | 7B | [LLaDAMoeModelLM](https://github.com/inclusionAI/dInfer/blob/master/python/dinfer/model/modeling\_fused\_olmoe.py) | [inclusionAI/LLaDA-MoE-7B-A1B-Instruct](https://huggingface.co/inclusionAI/LLaDA-MoE-7B-A1B-Instruct) |
+| LLaDA-8B-Base | 8B | [LLaDAModelLM](https://github.com/inclusionAI/dInfer/blob/master/python/dinfer/model/modeling\_llada.py) | [GSAI-ML/LLaDA-8B-Base](https://huggingface.co/GSAI-ML/LLaDA-8B-Base) |
+| LLaDA-8B-Instruct | 8B | [LLaDAModelLM](https://github.com/inclusionAI/dInfer/blob/master/python/dinfer/model/modeling\_llada.py) | [GSAI-ML/LLaDA-8B-Instruct](https://huggingface.co/GSAI-ML/LLaDA-8B-Instruct) |
+| LLaDA-1.5 | 8B | [LLaDAModelLM](https://github.com/inclusionAI/dInfer/blob/master/python/dinfer/model/modeling\_llada.py) | [GSAI-ML/LLaDA-1.5](https://huggingface.co/GSAI-ML/LLaDA-1.5) |
+## Quick Start
+[Permalink: Quick Start](https://github.com/inclusionAI/dInfer#quick-start)
+### Install dInfer
+[Permalink: Install dInfer](https://github.com/inclusionAI/dInfer#install-dinfer)
+```
+git clone https://github.com/inclusionAI/dInfer.git
+cd dInfer
+pip install .
+```
+To use it with vLLM backend (it works with LLaDA and LLaDA-MoE), please install vLLM.
+```
+pip install vllm==0.10.2
+```
+To use it with SGLang backend (it works with LLaDA2), please install SGLang.
+```
+pip install sglang==0.5.3.post1
+```
+### Convert to FusedMoE (LLaDA-MoE only)
+[Permalink: Convert to FusedMoE (LLaDA-MoE only)](https://github.com/inclusionAI/dInfer#convert-to-fusedmoe-llada-moe-only)
+To run LLaDA-MoE model downloaded from HuggingFace, we need to first convert it to a format supported by dInfer. dInfer provides a script `tools/transfer.py` for the format conversion.
+#### 1) Download and Convert
+[Permalink: 1) Download and Convert](https://github.com/inclusionAI/dInfer#1-download-and-convert)
+```
+pip install -U huggingface\_hub hf\_transfer
+export HF\_HUB\_ENABLE\_HF\_TRANSFER=1
+# Download Instruct checkpoint
+hf download inclusionAI/LLaDA-MoE-7B-A1B-Instruct \
+--repo-type model \
+--local-dir /path/to/LLaDA-MoE-7B-A1B-Instruct
+# Convert to FusedMoE
+python -m tools.transfer \
+--input /path/to/LLaDA-MoE-7B-A1B-Instruct \
+--output /path/to/LLaDA-MoE-7B-A1B-Instruct-fused
+```
+#### 2) Load the model
+[Permalink: 2) Load the model](https://github.com/inclusionAI/dInfer#2-load-the-model)
+```
+from dinfer.model import AutoModelForCausalLM
+from transformers import AutoTokenizer
+m = "/path/to/LLaDA-MoE-7B-A1B-Instruct-fused"
+tok = AutoTokenizer.from\_pretrained(m, trust\_remote\_code=True)
+model = AutoModelForCausalLM.from\_pretrained(m, trust\_remote\_code=True, torch\_dtype="bfloat16")
+```
+### Run Inference
+[Permalink: Run Inference](https://github.com/inclusionAI/dInfer#run-inference)
+#### Benchmark (speed only)
+[Permalink: Benchmark (speed only)](https://github.com/inclusionAI/dInfer#benchmark-speed-only)
+Measure throughput (TPS) only; predictions are saved under `--output\_dir` with no automatic scoring.
+- \*\*LLaDA2 model\*\*
+- LLaDA2-flash Dataset profiling (threshold decoder, TP across 4 GPUs):
+```
+python benchmarks/benchmark\_dataset\_sglang.py \
+--model\_name inclusionAI/LLaDA2.0-flash \
+--dataset dataset\_path \
+--gen\_len 2048 \
+--block\_length 32 \
+--gpu 0,1,2,3 \
+--output\_dir runs/llada2\_flash \
+--use\_tp \
+--parallel\_decoding threshold \
+--threshold 0.9 \
+--cache prefix \
+--use\_bd
+```
+- LLaDA2-mini Dataset profiling (threshold decoder, TP across 4 GPUs):
+```
+python benchmarks/benchmark\_dataset\_sglang.py \
+--model\_name inclusionAI/LLaDA2.0-mini \
+--dataset dataset\_path \
+--gen\_len 2048 \
+--block\_length 32 \
+--gpu 0,1,2,3 \
+--output\_dir runs/llada2\_mini \
+--use\_tp \
+--parallel\_decoding threshold \
+--threshold 0.9 \
+--cache prefix \
+--use\_bd
+```
+- \*\*LLaDA, LLaDA1.5 and LLaDA-MoE model\*\*
+- LLaDA-MoE Dataset profiling (threshold decoder, TP across 4 GPUs):
+```
+python benchmarks/benchmark\_dataset.py \
+--model\_name inclusionAI/LLaDA-MoE-7B-A1B-Instruct \
+--model\_type llada\_moe \
+--dataset dataset\_path \
+--gen\_len 1024 \
+--block\_length 64 \
+--gpu 0,1,2,3 \
+--output\_dir runs/llada\_moe\_threshold \
+--use\_tp \
+--parallel\_decoding threshold \
+--threshold 0.8 \
+--cache dual \
+--prefix\_look 16 \
+--after\_look 16 \
+--warmup\_times 4 \
+--cont\_weight 0.3
+```
+- LLaDA Single-sample profiling (threshold decoder, TP across 4 GPUs):
+```
+python benchmarks/benchmark.py \
+--model\_name GSAI-ML/LLaDA-8B-Instruct \
+--model\_type llada \
+--gen\_len 2048 \
+--block\_length 32 \
+--gpu 0,1,2,3 \
+--use\_tp \
+--parallel\_decoding threshold \
+--threshold 0.9 \
+--cache prefix
+```
+- LLaDA, LLaDA1.5, LLaDA-MoE can use benchmark\\_dataset.py and benchmark.py.
+#### Evaluation with lm-eval (speed + accuracy)
+[Permalink: Evaluation with lm-eval (speed + accuracy)](https://github.com/inclusionAI/dInfer#evaluation-with-lm-eval-speed--accuracy)
+- Built on HuggingFace `lm-eval-harness` to compute TPS and benchmark scores.
+- Tasks provided:
+- `gsm8k\_llada`: math reasoning.
+- `mbpp\_sanitized\_llada`: sanitized Python code generation.
+- For more examples and comprehensive instructions, see [our quickstart guide](https://github.com/inclusionAI/dInfer/blob/master/evaluations/eval\_guide.md).
+## Benchmark Results
+[Permalink: Benchmark Results](https://github.com/inclusionAI/dInfer#benchmark-results)
+### The inference speed (TPS) on LLaDA-MoE
+[Permalink: The inference speed (TPS) on LLaDA-MoE](https://github.com/inclusionAI/dInfer#the-inference-speed-tps-on-llada-moe)
+dInfer delivers over 1,100 TPS at batch size 1 on HumanEval and on average 800+ TPS across six benchmarks on a single node with 8×H800 GPUs.
+[![dInfer v0.1 speedup](https://github.com/inclusionAI/dInfer/raw/master/assets/dinfer\_tps.png)](https://github.com/inclusionAI/dInfer/blob/master/assets/dinfer\_tps.png)
+\*\*Figure\*\*: Benchmark results on LLaDA-MoE
+\*\*Speedup comparisons:\*\*
+- 10× faster than Fast-dLLM while maintaining accuracy
+- 2-3× faster than Qwen2.5-3B on vLLM (LLaDA-MoE) with comparable quality
+### The inference speed (TPS) on LLaDA2-flash-CAP
+[Permalink: The inference speed (TPS) on LLaDA2-flash-CAP](https://github.com/inclusionAI/dInfer#the-inference-speed-tps-on-llada2-flash-cap)
+The inference speed is measured on LLaDA2-flash-CAP (with 100B parameters) on 8 H20 GPUs (parallel decoding threshold=0.95, generation length=1000).
+| Benchmark | batch size = 1 | batch size = 32 |
+| --- | --- | --- |
+| openai\\_humaneval | 753.10 | 2558.51 |
+| gsm8k | 591.90 | 2111.79 |
+| IFEval | 222.60 | 931.89 |
+| CruxEval-O | 562.90 | 1967.08 |
+| mbpp | 773.00 | 2262.45 |
+| AVG | 580.70 | 1966.34 |
+## Limitations
+[Permalink: Limitations](https://github.com/inclusionAI/dInfer#limitations)
+- \*\*Block Diffusion\*\*: Not supported on LLaDA Dense/MoE models (use `--use\_bd` with LLaDA2 only)
+## Contact us
+[Permalink: Contact us](https://github.com/inclusionAI/dInfer#contact-us)
+- Wechat Group
+[![Wechat Group](https://github.com/inclusionAI/dInfer/raw/master/assets/Wechat.JPG)](https://github.com/inclusionAI/dInfer/blob/master/assets/Wechat.JPG)
+## Citation
+[Permalink: Citation](https://github.com/inclusionAI/dInfer#citation)
+```
+@article{dinfer,
+title={dInfer: An Efficient Inference Framework for Diffusion Language Models},
+author={Yuxin Ma, Lun Du, Lanning Wei, Kun Chen, Qian Xu, Kangyu Wang, Guofeng Feng, Guoshan Lu, Lin Liu, Xiaojing Qi, Xinyuan Zhang, Zhen Tao, Haibo Feng, Ziyun Jiang, Ying Xu, Zenan Huang, Yihong Zhuang, Haokai Xu, Jiaqi Hu, Zhenzhong Lan, Junbo Zhao, Jianguo Li, Da Zheng},
+year={2025},
+journal={arXiv preprint arXiv:2510.08666}
+}
+```
+## About
+dInfer: An Efficient Inference Framework for Diffusion Language Models
+### Resources
+[Readme](https://github.com/inclusionAI/dInfer#readme-ov-file)
+### License
+[Apache-2.0 license](https://github.com/inclusionAI/dInfer#Apache-2.0-1-ov-file)
+### Uh oh!
+There was an error while loading. [Please reload this page](https://github.com/inclusionAI/dInfer).
+[Activity](https://github.com/inclusionAI/dInfer/activity)
+[Custom properties](https://github.com/inclusionAI/dInfer/custom-properties)
+### Stars
+[\*\*374\*\*\\
+stars](https://github.com/inclusionAI/dInfer/stargazers)
+### Watchers
+[\*\*2\*\*\\
+watching](https://github.com/inclusionAI/dInfer/watchers)
+### Forks
+[\*\*35\*\*\\
+forks](https://github.com/inclusionAI/dInfer/forks)
+[Report repository](https://github.com/contact/report-content?content\_url=https%3A%2F%2Fgithub.com%2FinclusionAI%2FdInfer&report=inclusionAI+%28user%29)
+## [Releases\ 1](https://github.com/inclusionAI/dInfer/releases)
+[v0.2.0\\
+Latest\\
+\\
+last weekDec 21, 2025](https://github.com/inclusionAI/dInfer/releases/tag/v0.2.0)
+## [Packages\ 0](https://github.com/orgs/inclusionAI/packages?repo\_name=dInfer)
+No packages published
+## [Contributors\ 4](https://github.com/inclusionAI/dInfer/graphs/contributors)
+- [![@zheng-da](https://avatars.githubusercontent.com/u/70481?s=64&v=4)](https://github.com/zheng-da)[\*\*zheng-da\*\* Da Zheng](https://github.com/zheng-da)
+- [![@lundu28](https://avatars.githubusercontent.com/u/43340650?s=64&v=4)](https://github.com/lundu28)[\*\*lundu28\*\* Lun Du](https://github.com/lundu28)
+- [![@rwang5203](https://avatars.githubusercontent.com/u/11150595?s=64&v=4)](https://github.com/rwang5203)[\*\*rwang5203\*\* Richard Wang](https://github.com/rwang5203)
+- [![@xuqianmamba](https://avatars.githubusercontent.com/u/60861262?s=64&v=4)](https://github.com/xuqianmamba)[\*\*xuqianmamba\*\* Qian Xu](https://github.com/xuqianmamba)
+## Languages
+- [Python99.2%](https://github.com/inclusionAI/dInfer/search?l=python)
+- [Shell0.8%](https://github.com/inclusionAI/dInfer/search?l=shell)
+You can’t perform that action at this time.

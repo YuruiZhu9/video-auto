@@ -1,0 +1,114 @@
+# Source URL: https://fugumt.com/fugumt/paper_check/2603.25027v1
+# Content Length: 7406 characters
+# Extracted at: 2026-03-28 11:35:39
+#============================================================
+
+
+
+
+
+Fugu-MT 論文翻訳(概要): Hyena Operator for Fast Sequential Recommendation
+
+
+
+[Fugu-MT: arxivの論文翻訳](https://fugumt.com/fugumt/paper/index.html)
+
+
+* [最新論文要約](https://fugumt.com/fugumt/paper/)
+* [表示をカスタマイズ](https://fugumt.com/fugumt/paper/show.html)
+* [日付別の要約一覧](https://fugumt.com/fugumt/paper/summary/index.html)
+* [VRモードで確認](https://fugumt.com/fugumt/paper/vr/index.html)
+* [AIで論文検索](https://fugumt.com/ai_search/)
+
+
+#### 論文の概要: Hyena Operator for Fast Sequential Recommendation
+
+* arxiv url: <http://arxiv.org/abs/2603.25027v1>
+* Date: Thu, 26 Mar 2026 04:47:58 GMT
+* ステータス: 翻訳完了
+* システム内更新日: 2026-03-27 20:52:48.106276
+* Title: Hyena Operator for Fast Sequential Recommendation
+* Title（参考訳）: 高速シーケンスレコメンデーションのためのハイエナ演算子
+* Authors: Jiahao Liu, Lin Li, Zhiyuan Li, Kaixi Hu, Kaize Shi, Jingling Yuan,
+* Abstract要約: 逐次レコメンデーションモデル(特に注意に基づくモデル)は、強い精度であるが2次複雑さを実現する。
+  Hyenaのようなサブクワッド演算子は、言語モデリングにおける効率的な代替手段を提供する。
+  疎長なユーザシーケンスの表現能力に制限があるため,Hyenaは推奨する課題に直面している,と我々は主張する。
+  本稿では,カーネルパラメータ化と畳み込みを統合する新しいレコメンデータであるHyenaRecを提案する。
+* 参考スコア（独自算出の注目度）: 35.53585245910816
+* License: http://arxiv.org/licenses/nonexclusive-distrib/1.0/
+* Abstract: Sequential recommendation models, particularly those based on attention, achieve strong accuracy but incur quadratic complexity, making long user histories prohibitively expensive. Sub-quadratic operators such as Hyena provide efficient alternatives in language modeling, but their potential in recommendation remains underexplored. We argue that Hyena faces challenges in recommendation due to limited representation capacity on sparse, long user sequences. To address these challenges, we propose HyenaRec, a novel sequential recommender that integrates polynomial-based kernel parameterization with gated convolutions. Specifically, we design convolutional kernels using Legendre orthogonal polynomials, which provides a smooth and compact basis for modeling long-term temporal dependencies. A complementary gating mechanism captures fine-grained short-term behavioral bursts, yielding a hybrid architecture that balances global temporal evolution with localized user interests under sparse feedback. This construction enhances expressiveness while scaling linearly with sequence length. Extensive experiments on multiple real-world datasets demonstrate that HyenaRec consistently outperforms Attention-, Recurrent-, and other baselines in ranking accuracy. Moreover, it trains significantly faster (up to 6x speedup), with particularly pronounced advantages on long-sequence scenarios where efficiency is maintained without sacrificing accuracy. These results highlight polynomial-based kernel parameterization as a principled and scalable alternative to attention for sequential recommendation.
+* Abstract（参考訳）: 逐次レコメンデーションモデル(特に注意に基づくモデル)は、強い正確さと不正確な二次的な複雑さを達成し、長いユーザー履歴を違法に高価にしている。
+  Hyenaのようなサブクワッドレート演算子は、言語モデリングにおいて効率的な代替手段を提供するが、推奨される可能性はまだ未検討である。
+  疎長なユーザシーケンスの表現能力に制限があるため,Hyenaは推奨する課題に直面している,と我々は主張する。
+  これらの課題に対処するため、多項式ベースのカーネルパラメータ化とゲート畳み込みを統合する新しいシーケンシャルレコメンデータであるHyenaRecを提案する。
+  具体的には,Regendre直交多項式を用いて畳み込みカーネルを設計し,長期的時間的依存関係をモデル化するためのスムーズでコンパクトな基礎を提供する。
+  相補的なゲーティング機構は、微粒な短期的行動バーストを捕捉し、グローバルな時間的進化と、スパースフィードバックの下での局所的なユーザ関心のバランスをとるハイブリッドアーキテクチャを生成する。
+  この構造は、配列長を線形にスケーリングしながら表現性を向上する。
+  複数の実世界のデータセットに対する大規模な実験により、HyenaRecは、ランキング精度において、アテンション、リカレント、その他のベースラインを一貫して上回っていることが示された。
+  さらに、より高速(最大6倍のスピードアップ)で、特に精度を犠牲にすることなく効率を維持できる長周期シナリオにおいて顕著な利点がある。
+  これらの結果は、多項式ベースのカーネルパラメータ化を、シーケンシャルなレコメンデーションのための注意の代わりに、原則的でスケーラブルな代替手段として強調する。
+
+#### 関連論文リスト
+
+* **FuXi-Linear: Unleashing the Power of Linear Attention in Long-term Time-aware Sequential Recommendation** [86.55349738440087]  
+  FuXi-Linearは、効率的なロングシーケンスレコメンデーションのために設計された線形複雑度モデルである。
+  提案手法では, 時間的データを用いて周期的注意重みを独立に計算し, 時間的信号と意味的信号のクロストークを防ぐ時間的保持チャネルと, 学習可能なカーネルを介して線形複雑度内で位置情報を統合する線形位置決めチャネルの2つの重要な要素を紹介する。
+    
+  [論文](http://arxiv.org/abs/2602.23671v1)  [参考訳（メタデータ）](https://fugumt.com/fugumt/paper_check/2602.23671v1) (2026-02-27T04:38:28Z)
+* **HyTRec: A Hybrid Temporal-Aware Attention Architecture for Long Behavior Sequential Recommendation** [5.1321456889159425]  
+  HyTRecは、短期的なインテントスパイクから長期的な安定した好みを分離するハイブリッドアテンションアーキテクチャを特徴とするモデルである。
+  提案手法は,産業規模で1万のインタラクションを含む正確な検索能力を復元する。
+  産業規模データセットの実証的な結果から,我々のモデルが線形推論速度を維持し,強いベースラインを上回っているという優位性が確認された。
+    
+  [論文](http://arxiv.org/abs/2602.18283v1)  [参考訳（メタデータ）](https://fugumt.com/fugumt/paper_check/2602.18283v1) (2026-02-20T15:11:40Z)
+* **GEMs: Breaking the Long-Sequence Barrier in Generative Recommendation with a Multi-Stream Decoder** [54.64137490632567]  
+  本稿では,長期的履歴からユーザのシーケンスをキャプチャする新しい統一フレームワークを提案する。
+  GEM(Generative Multi-streamer)は、ユーザのシーケンスを3つのストリームに分割する。
+  大規模産業データセットに対する大規模な実験により、GEMは推奨精度において最先端の手法を大幅に上回っていることが示された。
+    
+  [論文](http://arxiv.org/abs/2602.13631v1)  [参考訳（メタデータ）](https://fugumt.com/fugumt/paper_check/2602.13631v1) (2026-02-14T06:42:56Z)
+* **Gated Rotary-Enhanced Linear Attention for Long-term Sequential Recommendation** [14.581838243440922]  
+  Gated Rotary Enhanced Linear Attention (RecGRELA) を用いた長期連続勧告モデルを提案する。
+  具体的には、長距離依存性を効率的にモデル化するロータリー強化線形注意(RELA)モジュールを提案する。
+  また,RELAのためのSiLUベースのGatedメカニズムを導入し,ユーザの行動が短期的,局所的,あるいは長期的嗜好の真の変化を示すかどうかをモデルに示す。
+    
+  [論文](http://arxiv.org/abs/2506.13315v2)  [参考訳（メタデータ）](https://fugumt.com/fugumt/paper_check/2506.13315v2) (2025-06-16T09:56:10Z)
+* **FutureFill: Fast Generation from Convolutional Sequence Models** [20.70601085553854]  
+  FutureFillは畳み込み演算子に基づく任意のシーケンス予測アルゴリズムのための汎用的な高速生成法である。
+  深部畳み込みシーケンス予測モデルから生成する際の有効性を示す。
+    
+  [論文](http://arxiv.org/abs/2410.03766v3)  [参考訳（メタデータ）](https://fugumt.com/fugumt/paper_check/2410.03766v3) (2024-10-02T15:22:08Z)
+* **Sparser is Faster and Less is More: Efficient Sparse Attention for Long-Range Transformers** [58.5711048151424]  
+  SPARSEK Attention(SPARSEK Attention)は、計算およびメモリ障害を克服するために設計された、新しいスパースアテンション機構である。
+  提案手法では,各クエリに対して一定数のKVペアを選択するために,スコアリングネットワークと差別化可能なトップkマスク演算子であるSPARSEKを統合する。
+  実験結果から,SPARSEK注意は従来のスパースアテンション法よりも優れていた。
+    
+  [論文](http://arxiv.org/abs/2406.16747v1)  [参考訳（メタデータ）](https://fugumt.com/fugumt/paper_check/2406.16747v1) (2024-06-24T15:55:59Z)
+* **Conditional Denoising Diffusion for Sequential Recommendation** [62.127862728308045]  
+  GAN(Generative Adversarial Networks)とVAE(VAE)の2つの顕著な生成モデル
+  GANは不安定な最適化に苦しむ一方、VAEは後続の崩壊と過度に平らな世代である。
+  本稿では,シーケンスエンコーダ,クロスアテンティブデノナイジングデコーダ,ステップワイズディフューザを含む条件付きデノナイジング拡散モデルを提案する。
+    
+  [論文](http://arxiv.org/abs/2304.11433v1)  [参考訳（メタデータ）](https://fugumt.com/fugumt/paper_check/2304.11433v1) (2023-04-22T15:32:59Z)
+* **Learning Sequence Representations by Non-local Recurrent Neural Memory** [61.65105481899744]  
+  教師付きシーケンス表現学習のためのNon-local Recurrent Neural Memory (NRNM)を提案する。
+  我々のモデルは長距離依存を捉えることができ、潜伏した高レベル特徴を我々のモデルで抽出することができる。
+  我々のモデルは、これらのシーケンスアプリケーションごとに特別に設計された他の最先端の手法と比較して好意的に比較する。
+    
+  [論文](http://arxiv.org/abs/2207.09710v1)  [参考訳（メタデータ）](https://fugumt.com/fugumt/paper_check/2207.09710v1) (2022-07-20T07:26:15Z)
+* **Flexible Triggering Kernels for Hawkes Process Modeling** [11.90725359131405]  
+  近年、ホークスプロセスのモデリングのためのエンコーダ・デコーダ構造は、トランスフォーマーにインスパイアされたアーキテクチャを用いている。
+  複雑な(多層化)アテンション構造をトリガーカーネルに置き換えることで、歴史的イベントシーケンスの効率的で汎用的なエンコーディングを導入する。
+    
+  [論文](http://arxiv.org/abs/2202.01869v1)  [参考訳（メタデータ）](https://fugumt.com/fugumt/paper_check/2202.01869v1) (2022-02-03T22:02:22Z)
+
+関連論文リストは本サイト内にある論文のタイトル・アブストラクトから自動的に作成しています。
+
+
+指定された論文の情報です。  
+
+本サイトの運営者は本サイト（すべての情報・翻訳含む）の品質を保証せず、本サイト（すべての情報・翻訳含む）を使用して発生したあらゆる結果について一切の責任を負いません。
+
+
+
+

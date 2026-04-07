@@ -1,0 +1,362 @@
+# Source URL: https://www.bentoml.com/blog/navigating-the-world-of-open-source-large-language-models
+# Content Length: 34357 characters
+# Extracted at: 2026-04-02 13:09:59
+#============================================================
+
+
+The Best Open-Source LLMs in 2026
+
+* Product 
+  + [**Bento Inference Platform**
+    
+    Full control without the complexity. Self-host anywhere. Serve any model. Optimize for performance.
+    
+    Book a Demo](https://www.bentoml.com/contact)
+  + [**BentoML Open-Source**
+    
+    The most flexible way to serve AI/ML models and custom inference pipelines in production
+    
+    GitHub](https://github.com/bentoml)
+* [Pricing](https://www.modular.com/pricing?utm_source=bentoml_pricing)
+* [Docs](https://docs.bentoml.com/)
+* Learn 
+  + [Blog](/blog)
+  + [LLM Inference Handbook](/llm)
+  + [LLM Performance Explorer](/llm-perf)
+  + [Featured Examples](https://docs.bentoml.com/en/latest/examples/overview.html)
+* [Customers](/customers)
+[Log In](https://cloud.bentoml.com)[Sign UpSign Up](https://console.modular.com/signup?utm_source=bentoml_signup)
+
+* Product 
+  + [Bento Inference Platform](https://www.bentoml.com/contact)
+  + [BentoML Open-Source](https://github.com/bentoml)
+* [Pricing](https://www.modular.com/pricing?utm_source=bentoml_pricing)
+* [Docs](https://docs.bentoml.com/)
+* Learn 
+  + [Blog](/blog)
+  + [LLM Inference Handbook](/llm)
+  + [LLM Performance Explorer](/llm-perf)
+  + [Featured Examples](https://docs.bentoml.com/en/latest/examples/overview.html)
+* [Customers](/customers)
+[Log In](https://cloud.bentoml.com)[Sign Up](https://console.modular.com/signup?utm_source=bentoml_signup)ModelsModels
+
+The Best Open-Source LLMs in 2026
+=================================
+
+Explore the best open-source LLMs and find answers to common FAQs about performance, inference optimization, and self-hosted deployment.
+
+### Authors
+
+![]()Sherlock Xu
+### Last Updated
+
+March 4, 2026
+### Share
+
+![]()
+
+The rapid rise of large language models (LLMs) has transformed how we build modern AI applications. They now power everything from customer support chatbots to complex LLM agents that can reason, plan, and take actions across tools.
+
+For many AI teams, closed-source options like GPT-5.3 and Opus 4.6 are convenient. With just a simple API call, you can prototype an AI product in minutes — no GPUs to manage and no infrastructure to maintain. However, this convenience comes with [trade-offs](https://www.bentoml.com/llm/llm-inference-basics/serverless-vs-self-hosted-llm-inference): vendor lock-in, limited customization, unpredictable pricing and performance, and ongoing concerns about data privacy.
+
+That’s why open-source LLMs have become so important. They let developers self-host models privately, fine-tune them with domain-specific data, and optimize inference performance for their unique workloads.
+
+In this post, we’ll explore the best open-source LLMs. After that, we’ll answer some of the FAQs teams have when evaluating LLMs for production use.
+
+What are open-source LLMs?[#](#what%20are%20open-source%20llms%3F)
+------------------------------------------------------------------
+
+Generally speaking, open-source LLMs are models whose architecture, code, and weights are publicly released so anyone can download them, run them locally, fine-tune them, and deploy them in their own infrastructure. They give teams full control over inference, customization, data privacy, and long-term costs.
+
+However, the term “open-source LLM” is often used loosely. Many models are openly available, but their licensing falls under **open weights**, not traditional open source.
+
+Open weights here means the model parameters are published and free to download, but the license may not meet the Open Source Initiative (OSI) definition of open source. These models sometimes have restrictions, such as commercial-use limits, attribution requirements, or conditions on how they can be redistributed.
+
+The OSI [highlights the key differences](https://opensource.org/ai/open-weights):
+
+| **Feature** | **Open Weights** | **Open Source** |
+| --- | --- | --- |
+| **Weights & Biases** | Released | Released |
+| **Training code** | Not shared | Fully shared |
+| **Intermediate checkpoints** | Withheld | Nice to have |
+| **Training dataset** | Not shared or disclosed | Released (when legally allowed) |
+| **Training data composition** | Partially disclosed or not disclosed | Fully disclosed |
+
+Both categories allow developers to self-host models, inspect their behaviors, and fine-tune them. The main differences lie in licensing freedoms and how much of the model’s training pipeline is disclosed.
+
+We won’t dive too deeply into the licensing taxonomy in this post. For the purposes of this guide, every model listed can be freely downloaded and self-hosted, which is what most teams care about when evaluating open-source LLMs for production use.
+
+Qwen3.5-397B-A17B[#](#qwen3.5-397b-a17b)
+----------------------------------------
+
+Alibaba has been one of the most active contributors to the open-source LLM ecosystem with its Qwen series. [Qwen3.5-397B-A17B](https://huggingface.co/Qwen/Qwen3.5-397B-A17B) is the latest flagship model from the family. It combines a large MoE architecture with multimodal reasoning and ultra-long context support, making it one of the most capable open models for agentic and multimodal workloads. Compared with the earlier Qwen3-Max generation, the model delivers 8.6×–19× higher decoding throughput, improving serving efficiency for large-scale deployments.
+
+A major focus of Qwen3.5 is multimodal reasoning. Unlike earlier models that bolt vision onto a text backbone, Qwen3.5 integrates vision and language earlier in the architecture. This enables the model to reason across text, images, video, and documents within a unified framework. It is able to call tools such as code interpreters and image search during multimodal reasoning.
+
+Why should you use Qwen3.5-397B-A17B:
+
+* **State-of-the-art performance**. The model shows strong capabilities across instruction following, reasoning, coding, agentic, and multilingual tasks. In many benchmarks, it performs competitively with frontier closed-source models such as GPT-5.2 and Claude 4.5 Opus.
+* **Ultra-long context**. The model supports a 262K token native context window, extendable up to over 1 million tokens. This makes it a perfect choice for systems like AI agents, RAG, and long-term conversations.
+  
+  However, running such long sequences can require around 1 TB of GPU memory when accounting for model weights, KV cache, and activation memory. If you encounter OOM errors, consider reducing the context length while keeping at least 128K tokens to preserve reasoning performance (Note: Qwen3.5 models run in thinking mode by default).
+* **Global language coverage**. Qwen3.5 expands multilingual coverage to over 200 languages and dialects.
+
+The Qwen3.5 family also includes a wide range of models beyond the flagship.
+
+* The medium model series (e.g., Qwen3.5-35B-A3B, Qwen3.5-122B-A10B, and Qwen3.5-27B) focuses on improving capability without simply increasing parameter counts. For example, Qwen3.5-35B-A3B already surpasses Qwen3-235B-A22B-2507, demonstrating how architectural improvements, higher-quality data, and scaled reinforcement learning can outperform much larger models.
+* Small models (0.8B, 2B, 4B, and 9B) are designed for resource-constrained environments. These models share the same Qwen3.5 foundation, including multimodal capabilities and improved RL training, and support lightweight deployments such as edge inference, compact agents, and mobile applications.
+
+DeepSeek-V3.2[#](#deepseek-v3.2)
+--------------------------------
+
+DeepSeek came to the spotlight during the “DeepSeek moment” in early 2025, when its R1 model demonstrated ChatGPT-level reasoning at significantly lower training costs. The latest release, [DeepSeek-V3.2](https://huggingface.co/deepseek-ai/DeepSeek-V3.2), builds on the V3 and R1 series and is now one of the best open-source LLMs for reasoning and agentic workloads. It focuses on combining frontier reasoning quality with improved efficiency for long-context and tool-use scenarios.
+
+At the core of DeepSeek-V3.2 are three main ideas:
+
+* **DeepSeek Sparse Attention (DSA)**. A sparse attention mechanism that significantly reduces compute for long-context inputs while preserving model quality.
+* **Scaled reinforcement learning**. A high-compute RL pipeline that pushes reasoning performance into GPT-5 territory. The DeepSeek-V3.2-Speciale variant surpasses GPT-5 and reaches Gemini-3.0-Pro-level reasoning on benchmarks such as AIME and HMMT 2025.
+* **Large-scale agentic task synthesis**. A data pipeline that blends reasoning with tool use. DeepSeek built 1,800+ distinct environments and 85,000+ agent tasks across search, coding, and multi-step tool-use to drive the RL process.
+
+Why should you use DeepSeek-V3.2:
+
+* **Frontier-level reasoning with better efficiency**. Designed to balance strong reasoning with shorter, more efficient outputs, DeepSeek-V3.2 delivers top-tier performance on reasoning tasks while keeping inference costs in check. It works well for everyday tasks too, including chat, Q&A, and general agent workflows.
+* **Built for agents and tool use**. DeepSeek-V3.2 is the first in the series to integrate thinking directly into tool-use. It supports tool calls in both thinking and non-thinking modes.
+  
+  ![]()
+* **Specialized deep-reasoning variant**. DeepSeek-V3.2-Speciale is a high-compute variant tuned specifically for complex reasoning tasks like Olympiad-style math. It is ideal when raw reasoning performance matters more than latency or tool use, though it does not support tool calling currently. Note that it requires more token usage and cost relative to DeepSeek-V3.2.
+* **Fully open-source**. Released under the permissive MIT License, DeepSeek-V3.2 is free to use for commercial, academic, and personal projects. It's an attractive option for teams building self-hosted LLM deployments, especially those looking to avoid vendor lock-in.
+
+If you’re building LLM agents or reasoning-heavy applications, DeepSeek-V3.2 is one of the first models you should evaluate. For deployment, you can pair it with high-performance runtimes like [vLLM](https://docs.vllm.ai/projects/recipes/en/latest/DeepSeek/DeepSeek-V3_2.html) to get efficient serving out of the box.
+
+Also note that DeepSeek-V3.2 requires substantial compute resources. Running it efficiently requires multi-GPU setups, like 8 NVIDIA H200 (141GB of memory) GPUs.
+
+Learn more about other [DeepSeek models like V3.1 and R1 and their differences](https://www.bentoml.com/blog/the-complete-guide-to-deepseek-models-from-v3-to-r1-and-beyond).
+
+[Deploy DeepSeek-V3.2Deploy DeepSeek-V3.2](https://www.modular.com/models/deepseek-v3-2?utm_source=bentoml_blog)
+
+MiMo-V2-Flash[#](#mimo-v2-flash)
+--------------------------------
+
+[MiMo-V2-Flash](https://huggingface.co/XiaomiMiMo/MiMo-V2-Flash) is an ultra-fast open-source LLM from Xiaomi built for reasoning, coding, and agentic workflows. It’s a MoE model with 309B total parameters but only 15B active per token, giving it a strong balance of capability and serving efficiency. The model supports an ultra-long 256K context window and a hybrid “thinking” mode, so you can enable deeper reasoning only when needed.
+
+A key reason behind MiMo-V2-Flash’s price-performance profile is the hybrid attention design. In a normal transformer, each new token can look at every previous token (global attention). That’s great for quality, but for long contexts it costs a lot of compute and it forces the model to keep a lot of KV cache.
+
+MiMo takes a different approach. Most layers only attend to the latest 128 tokens using sliding-window attention, and only 1 out of every 6 layers performs full global attention (a 5:1 local-to-global ratio). This avoids paying the full long-context cost at every layer and delivers nearly a 6× reduction in KV-cache storage and attention computation for long [prompts](https://www.bentoml.com/llm/getting-started/prompt-engineering).
+
+Why should you use MiMo-V2-Flash:
+
+* **Top-tier coding agent performance**. MiMo-V2-Flash outperforms open-source LLMs like DeepSeek-V3.2 and Kimi-K2 on software-engineering benchmarks, but with roughly 1/2-1/3x their total parameters. The results are even competitive with leading closed-source models like GPT-5.
+* **Serious inference efficiency**. Xiaomi positions MiMo-V2-Flash for high-throughput serving, citing around 150 tokens/sec and very aggressive pricing ($0.10 per million input tokens and $0.30 per million output tokens)
+* **Built for agents and tool use**. The model is trained explicitly for agentic and tool-calling workflows, spanning code debugging, terminal operations, web development, and general tool use.
+  
+  A major part of this comes from their post-training strategy, Multi-Teacher Online Policy Distillation (MOPD). Instead of relying only on static fine-tuning data, MiMo learns from multiple domain-specific teacher models through dense, token-level rewards on its own rollouts. This allows the model to efficiently acquire strong reasoning and agentic behavior. For details, check out [their technical report](https://github.com/XiaomiMiMo/MiMo-V2-Flash/blob/main/paper.pdf).
+
+Kimi-K2.5[#](#kimi-k2.5)
+------------------------
+
+[Kimi-K2.5](https://huggingface.co/moonshotai/Kimi-K2.5) is a MoE model optimized for agentic workloads, with 1 trillion total parameters (32B activated). It is a native multimodal model built on top of Kimi-K2-Base, trained through continued pretraining on approximately 15 trillion mixed vision and text tokens.
+
+A core design insight behind Kimi-K2.5 is that text and vision should be optimized together from the start, rather than treating vision as a late-stage add-on to a text backbone. Specifically, Kimi-K2.5 performs early vision fusion and maintains a constant vision–text mixing ratio throughout the entire training process. Under a fixed total token budget, it consistently yields better results than late fusion or vision-heavy adapters.
+
+This multimodal joint training methodology is the key extension that turns Kimi-K2 into Kimi-K2.5. On top of this foundation, Kimi-K2.5 integrates:
+
+* Instant and Thinking modes to balance latency and reasoning depth
+* Strong tool use and multi-step planning
+* Support for both conversational and fully agentic workflows
+
+Why should you use Kimi-K2.5:
+
+* **Strong all-around performance**. Kimi-K2.5 performs competitively across agentic tasks, coding benchmarks, and multimodal evaluations. It’s a versatile choice when you want one model to cover many workloads.
+  
+  ![]()
+  
+  Image Source: [Kimi-K2.5 Research Paper](https://arxiv.org/abs/2602.02276)
+* **Coding with vision**. Kimi-K2.5 is positioned as one of the strongest open-source models for software engineering and front-end work. It extends that into image/video-to-code, visual debugging, and UI reconstruction from visual specs.
+* **Agent Swarm**. Kimi-K2.5 can self-direct an orchestrated swarm of up to 100 sub-agents, executing up to 1,500 tool calls. Moonshot reports up to 4.5× faster completion versus single-agent execution on complex tasks. This is trained with Parallel-Agent Reinforcement Learning (PARL) to reduce “serial collapse” and make parallelism actually happen in practice. Note that Agent Swarm is currently in beta on [Kimi.com](http://kimi.com/).
+* **Long context support**. With a 256K token context window, Kimi-K2.5 works well for long agent traces, large documents, and multi-step planning tasks.
+
+Note that Kimi-K2.5 is released under [a modified MIT license](https://huggingface.co/moonshotai/Kimi-K2.5/blob/main/LICENSE). The sole modification: If you use it in a commercial product or service with 100M+ monthly active users or USD 20M+ monthly revenue, you must prominently display “Kimi K2.5” in the product’s user interface.
+
+[Deploy Kimi-2.5Deploy Kimi-2.5](https://www.modular.com/models/kimi-k2-5?utm_source=bentoml_blog)
+
+GLM-5[#](#glm-5)
+----------------
+
+[GLM-5](https://huggingface.co/zai-org/GLM-5) is the latest flagship open-source LLM from Zhipu AI, designed for complex systems engineering and long-horizon agentic tasks. It builds on the GLM-4 series by scaling both model capacity and training data and introducing architectural improvements for large-context reasoning.
+
+Compared with GLM-4.5, GLM-5 scales from 355B parameters (32B active) to 744B parameters (40B active) and expands pretraining data from 23 trillion to 28.5 trillion tokens. The model also integrates DeepSeek Sparse Attention (DSA), which significantly reduces compute costs for long-context workloads while preserving strong reasoning performance.
+
+Why should you use GLM-5:
+
+* **Frontier-level coding performance**. GLM-5 achieves state-of-the-art scores among open-source models on software engineering benchmarks such as SWE-bench and Terminal Bench. In many real-world development tasks, it approaches the reliability and execution depth of models like Claude Opus 4.5.
+* **Built for complex agent workflows**. GLM-5 focuses heavily on long-horizon agent tasks such as web browsing, tool orchestration, and terminal-based coding environments.
+* **Scaled reinforcement learning**. A key part of GLM-5’s training pipeline is **Slime**, an asynchronous reinforcement learning framework designed to improve training efficiency and enable more frequent post-training iterations. Slime powers the RL training behind the GLM-5 and GLM-4 series, and also supports other open models such as Qwen3 and DeepSeek-V3.
+
+If your application involves reasoning, coding, and agentic tasks together, GLM-5 is a strong candidate. For teams with limited resources, GLM-4.5-Air FP8 is a more practical choice, which fits on a single H200.
+
+In addition, I also recommend [GLM-4.7-Flash](https://huggingface.co/zai-org/GLM-4.7-Flash). It’s a lightweight 30B MoE model with strong agentic performance and better serving efficiency (e.g., for local coding and agentic tasks).
+
+[Deploy GLM-5Deploy GLM-5](https://www.modular.com/models/glm-5?utm_source=bentoml_blog)
+
+MiniMax-M2.5[#](#minimax-m2.5)
+------------------------------
+
+[MiniMax-M2.5](https://huggingface.co/MiniMaxAI/MiniMax-M2.5) is the latest frontier text model developed by MiniMax, trained with reinforcement learning across hundreds of thousands of complex real-world environments. It’s built for productive agent work (coding, tools/search, and office deliverables), with strong speed-to-cost economics
+
+Why should you use MiniMax-M2.5:
+
+* **Exceptional multi-language programming**. Trained across 10+ programming languages and 200K+ real-world environments, MiniMax-M2.5 performs well across the full development lifecycle, from system design and feature planning to implementation and debugging.
+* **High speed and low cost**. MiniMax-M2.5 runs at up to ~100 tokens per second, nearly twice that of other frontier models. According to MiniMax, running the model continuously costs about **$1/hour at 100 tokens/sec** (or **$0.30/hour at 50 tokens/sec**).
+* **Better office task performance**. MiniMax-M2.5 is trained with input from domain experts in finance, law, and social sciences, incorporating real professional workflows into its training data. This helps the model produce more structured, practical outputs for workplace scenarios such as Word, PowerPoint, and Excel financial modeling.
+
+Note that MiniMax M2.5 is released under a modified MIT license. The only restriction is that if you use the model (or derivative works) in your commercial product, you must explicitly display the name “MiniMax M2.5” in the user interface.
+
+[Deploy MiniMax-2.5Deploy MiniMax-2.5](https://www.modular.com/models/minimax-m2-5?utm_source=bentoml_blog)
+
+gpt-oss-120b[#](#gpt-oss-120b)
+------------------------------
+
+[gpt‑oss‑120b](https://huggingface.co/openai/gpt-oss-120b) is OpenAI’s most capable open-source LLM to date. With 117B total parameters and a Mixture-of-Experts (MoE) architecture, it rivals proprietary models like o4‑mini. More importantly, it’s fully open-weight and available for commercial use.
+
+OpenAI trained the model with a mix of reinforcement learning and lessons learned from its frontier models, including o3. The focus was on making it strong at reasoning, efficient to run, and practical for real-world use. The training data was mostly English text, with a heavy emphasis on STEM, coding, and general knowledge. For tokenization, OpenAI used an expanded version of the tokenizer that also powers o4-mini and GPT-4o.
+
+The release of gpt‑oss marks OpenAI’s first fully open-weight LLMs since GPT‑2. It has already seen adoption from early partners like Snowflake, Orange, and AI Sweden for fine-tuning and secure on-premises deployment.
+
+Why should you use gpt‑oss‑120b:
+
+* **Excellent performance**. gpt‑oss‑120b matches or surpasses o4-mini on core benchmarks like AIME, MMLU, TauBench, and HealthBench (even outperforms proprietary models like OpenAI o1 and GPT‑4o).
+* **Efficient and flexible deployment**. Despite its size, gpt‑oss‑120b can run on a single 80GB GPU (e.g., [NVIDIA H100](https://www.bentoml.com/blog/nvidia-data-center-gpus-explained-a100-h200-b200-and-beyond) or [AMD MI300X](https://www.bentoml.com/blog/amd-data-center-gpus-mi250x-mi300x-mi350x-and-beyond)). It's optimized for local, on-device, or cloud inference via partners like vLLM, llama.cpp and Ollama.
+* **Adjustable reasoning levels**. It supports low, medium, and high reasoning modes to balance speed and depth.
+  
+  + Low: Quick responses for general use.
+  + Medium: Balanced performance and latency
+  + High: Deep and detailed analysis.
+* **Permissive license**. gpt‑oss‑120b is released under the Apache 2.0 license, which means you can freely use it for commercial applications. This makes it a good choice for teams building custom LLM inference pipelines.
+
+---
+
+Now let’s take a quick look at some of the FAQs around LLMs.
+
+What is the best open-source LLM now?[#](#what%20is%20the%20best%20open-source%20llm%20now%3F)
+----------------------------------------------------------------------------------------------
+
+If you’re looking for a single name, the truth is: there isn’t one. The “best” open-source LLM always depends on your use case, compute budget, and priorities.
+
+That said, if you really want some names, here are commonly recommended open-source LLMs for different use cases.
+
+* **Reasoning**: DeepSeek-V3.2-Speciale
+* **Coding assistants**: GLM-5, MiniMax-M2.5
+* **Agentic workflows**: MiMo-V2-Flash, Kimi-K2.5
+* **General chat**: Qwen3.5-397B-A17B, DeepSeek-V3.2
+* **Story writing & creative tasks**: Qwen3.5-397B-A17B
+* **OpenClaw**: Kimi-K2.5, MiniMax-M2.5
+
+These suggestions are for reference only. Use these as starting points, not canonical answers. The “best” model is the one that fits your product requirements, works within your compute constraints, and can be optimized for your specific tasks.
+
+The open-source LLM space is evolving quickly. New releases often outperform older models within months. In other words, what feels like the best today might be outdated tomorrow.
+
+If you are looking for models that can run in resource-constraint environments, take at look at the [top small language models (SLMs)](https://www.bentoml.com/blog/the-best-open-source-small-language-models).
+
+Instead of chasing the latest winner, it’s better to focus on using a [flexible inference platform](https://www.bentoml.com/blog/how-to-vet-inference-platforms) that makes it easy to switch between frontier open-source models. This way, when a stronger model is released, you can adopt it quickly as needed and apply the inference optimization techniques you need for your workload.
+
+Why should I choose open-source LLMs over proprietary LLMs?[#](#why%20should%20i%20choose%20open-source%20llms%20over%20proprietary%20llms%3F)
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+The decision between open-source and proprietary LLMs depends on your goals, budget, and deployment needs. Open-source LLMs often stand out in the following areas:
+
+* **Customization**. You can fine-tune open-source LLMs for your own data and workloads. Additionally, you can apply inference optimization techniques such as speculative decoding, prefix caching and prefill-decode disaggregation for your performance targets. Such custom optimizations are not possible with proprietary models.
+* **Data security**. Open-source LLMs can be run locally, or within a private cloud infrastructure, giving users more control over data security. By contrast, proprietary LLMs require you to send data to the provider’s servers, which can raise privacy concerns.
+* **Cost-effectiveness**. While open-source LLMs may require investment in infrastructure, they eliminate recurring API costs. With proper LLM inference optimization, you can often achieve a better price-performance ratio than relying on commercial APIs.
+* **Community and collaboration**. Open-source projects benefit from broad community support. This includes continuous improvements, bug fixes, new features, and shared best practices driven by global contributors.
+* **No vendor lock-in**. Using open-source LLMs means you don’t rely on a single provider’s roadmap, pricing, or availability.
+
+How big is the gap between open-source and proprietary LLMs?[#](#how%20big%20is%20the%20gap%20between%20open-source%20and%20proprietary%20llms%3F)
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+The gap between open-source and proprietary LLMs has narrowed dramatically, but it is not uniform across all capabilities. In some areas, open-source models are now competitive or even leading. In others, proprietary frontier models still hold a meaningful advantage.
+
+[According to Epoch AI](https://epoch.ai/data-insights/open-weights-vs-closed-weights-models), open-weight models now trail the SOTA proprietary models by only about three months on average.
+
+![]()
+
+Here is a summary of the current gap:
+
+| **Use case** | **Gap size** | **Notes** |
+| --- | --- | --- |
+| **Coding assistants & agents** | Small | Open models like GLM-5 or Kimi-K2.5 are already strong |
+| **Math & reasoning** | Small | DeepSeek-V3.2-Speciale reaches GPT-5-level performance |
+| **General chat** | Small | Open models increasingly match Sonnet / GPT-5-level quality |
+| **Multimodal (image/video)** | Moderate–Large | Closed models currently lead in both performance and refinement |
+| **Extreme long-context + high reliability** | Moderate | Proprietary LLMs maintain more stable performance at scale |
+
+How to differentiate my LLM application[#](#how%20to%20differentiate%20my%20llm%20application)
+----------------------------------------------------------------------------------------------
+
+As open-source LLMs close the gap with proprietary ones, you no longer gain an big edge by switching to the latest frontier model. Real differentiation now comes from how well you adapt the model and inference pipeline to your product, focusing on performance, cost, and domain relevance.
+
+One of the most effective ways is to fine-tune a smaller open-source model on your proprietary data. [Fine-tuning](https://bentoml.com/llm/getting-started/llm-fine-tuning) lets you encode domain expertise, user behavior patterns, and brand voice, which cannot be replicated by generic frontier models. Smaller models are also far cheaper to serve, improving margins without sacrificing quality.
+
+To get meaningful gains:
+
+* Build a high-quality, task-focused dataset based on your actual user interactions
+* Identify the workflows where specialization has the biggest impact
+* Fine-tune small models that can outperform larger models on your specific tasks
+* Optimize inference for latency, throughput, and cost (see the next FAQ for details)
+
+Note that this is something you can’t easily do with proprietary models behind serverless APIs due to data security and privacy concerns.
+
+How can I optimize LLM inference performance?[#](#how%20can%20i%20optimize%20llm%20inference%20performance%3F)
+--------------------------------------------------------------------------------------------------------------
+
+One of the biggest benefits of self-hosting open-source LLMs is the flexibility to apply inference optimization for your specific use case. Frameworks like vLLM and SGLang already provide built-in support for inference techniques such as [continuous batching](https://www.bentoml.com/llm/inference-optimization/static-dynamic-continuous-batching) and [speculative decoding](https://www.bentoml.com/llm/inference-optimization/speculative-decoding).
+
+But as models get larger and more complex, single-node optimizations are no longer enough. The KV cache grows quickly, GPU memory becomes a bottleneck, and longer-context tasks such as agentic workflows stretch the limits of a single GPU.
+
+That’s why [LLM inference is shifting toward distributed architectures](https://bentoml.com/llm/llm-inference-basics/distributed-inference). Optimizations like [prefix caching](https://www.bentoml.com/llm/inference-optimization/prefix-caching), [KV cache offloading](https://www.bentoml.com/llm/inference-optimization/kv-cache-offloading), [data/tensor parallelism](https://www.bentoml.com/llm/inference-optimization/data-tensor-pipeline-expert-hybrid-parallelism), and [prefill–decode disaggregation](https://www.bentoml.com/llm/inference-optimization/prefill-decode-disaggregation) are increasingly necessary. While some frameworks support these features, they often require careful tuning to fit into your existing infrastructure. As new models are released, these optimizations may need to be revisited.
+
+At Bento, we help teams build and scale AI applications with these optimizations in mind. You can bring your preferred inference backend and easily apply the optimization techniques for best price-performance ratios. Leave the infrastructure tuning to us, so you can stay focused on building applications.
+
+What should I consider when deploying LLMs in production?[#](#what%20should%20i%20consider%20when%20deploying%20llms%20in%20production%3F)
+------------------------------------------------------------------------------------------------------------------------------------------
+
+Deploying LLMs in production can be a nuanced process. Here are some strategies to consider:
+
+1. **Model size**: Balance accuracy with speed and cost. Smaller models typically deliver faster responses and lower GPU costs, while larger models can provide more nuanced reasoning and higher-quality outputs. Always benchmark against your workload before committing.
+2. **GPUs**: LLM workloads depend heavily on GPU memory and bandwidth. For enterprises to self-host LLMs (especially in data centers), [NVIDIA A100, H200, B200](https://www.bentoml.com/blog/nvidia-data-center-gpus-explained-a100-h200-b200-and-beyond) or [AMD MI300X, MI350X, MI355X](https://www.bentoml.com/blog/amd-data-center-gpus-mi250x-mi300x-mi350x-and-beyond) are common choices. Similarly, benchmark your model on the hardware you plan to use. Tools like [llm-optimizer](https://www.bentoml.com/blog/announcing-llm-optimizer) can quickly help find the best configuration.
+3. **Scalability**: Your deployment strategy should support [autoscaling](https://www.bentoml.com/blog/scaling-ai-model-deployment) up or down based on demand. More importantly, it must happen with fast cold starts or your user experience suffers.
+4. **LLM-specific observability**: Apart from traditional monitoring, logging and tracing, also track [inference metrics](https://www.bentoml.com/llm/inference-optimization/llm-inference-metrics) such as Time to First Token (TTFT), Inter-Token Latency (ITL), and token throughput.
+5. **Deployment patterns**: How you deploy LLMs shapes everything from latency and scalability to privacy and cost. Each pattern suits different operational needs for enterprises: [BYOC](https://www.bentoml.com/llm/infrastructure-and-operations/bring-your-own-cloud), [multi-cloud and cross-region](https://www.bentoml.com/llm/infrastructure-and-operations/multi-cloud-and-cross-region-inference), [on-prem and hybrid](https://www.bentoml.com/llm/infrastructure-and-operations/on-prem-llms)
+
+Final thoughts[#](#final%20thoughts)
+------------------------------------
+
+The rapid growth of open-source LLMs has given teams more control than ever over how they build AI applications. They are closing the gap with proprietary ones while offering unmatched flexibility.
+
+At Bento, we help AI teams unlock the full potential of self-hosted LLMs. By combining the best open-source models with tailored inference optimization, you can focus less on infrastructure complexity and more on building AI products that deliver real value.
+
+To learn more about self-hosting LLMs:
+
+* [Read our LLM Inference Handbook](https://www.bentoml.com/llm/)
+* Benchmark and optimize LLM performance with [llm-optimizer](https://www.bentoml.com/blog/announcing-llm-optimizer)
+* [Join our community forum](https://forum.modular.com/c/bento/31?utm_source=bentoml_blog) to connect with other builders
+* [Schedule a call with us](https://www.modular.com/request-demo?utm_source=bentoml_blog) to discuss your LLM use case
+* [Sign up for our inference platform](https://console.modular.com/signup?utm_source=bentoml_blog) and deploy your first LLM in the cloud
+
+Subscribe to our newsletter
+---------------------------
+
+Stay updated on AI infrastructure, inference techniques, and performance optimization.
+
+Subscribe
+### Products
+
+[Bento Inference Platform](https://cloud.bentoml.com/)[BentoML Open-Source](https://github.com/bentoml/BentoML)[OpenLLM](https://github.com/bentoml/OpenLLM)[LLM-Optimizer](https://github.com/bentoml/llm-optimizer)[Comfy-Pack](https://github.com/bentoml/comfy-pack)
+### Resources
+
+[Documentation](https://docs.bentoml.com/)[Blog](/blog)[LLM Inference Handbook](/llm)[LLM Performance Explorer](/llm-perf)[Example Projects](https://docs.bentoml.com/en/latest/examples/overview.html)[AI Infrastructure Report](/2024-ai-infra-report)
+### Company
+
+[Careers](https://www.modular.com/company/careers)[Privacy Policy](/privacy)[LinkedIn](https://www.linkedin.com/company/modular-ai/)[X](https://x.com/Modular)
+### Join our community
+
+[GitHub](https://github.com/modular/modular)[Discord](https://discord.gg/modular)[Forum](https://forum.modular.com/c/bento/31)

@@ -1,0 +1,246 @@
+# Source URL: https://www.cursor-ide.com/blog/cursor-claude-code-plugin
+# Content Length: 13286 characters
+# Extracted at: 2026-03-25 20:22:50
+#============================================================
+
+
+Cursor Claude Code插件怎么用：内置 Claude、Anthropic API Key、Claude Code 三种路径怎么选 - Cursor IDE 博客[Cursor IDE爱好者社区](/)[官方网站](https://cursor.sh)AI编程工具14分钟
+
+Cursor Claude Code插件怎么用：内置 Claude、Anthropic API Key、Claude Code 三种路径怎么选
+=======================================================================
+
+如果你现在还把“Cursor 里的 Claude”当成一个插件开关，后面的安装、付费和工作流判断大概率都会混乱。本文基于 2026-03-19 官方资料，拆解 Cursor 内置 Claude、Anthropic API Key 和 Claude Code 三种路径的真实边界。
+
+### Nano Banana Pro
+
+4K图像官方2折
+
+Google Gemini 3 Pro Image · AI图像生成
+
+已服务 10万+ 开发者$0.24/张$0.05/张免费测试限时特惠·企业级稳定·支付宝/微信支付Gemini 3原生模型国内直连20ms延迟4K超清2048px30s出图极速响应![]()AI工作流分析师·IDE 与 Agent 工具顾问更新于 2026年3月19日
+
+很多人搜“Cursor Claude Code 插件”，其实不是要再看一篇泛泛的 AI 编程功能盘点，而是已经准备开始用 Cursor，却在第一步就卡住了：我到底该在 Cursor 里直接选 Claude 模型，还是填写 Anthropic API Key，还是干脆把 Claude Code 跑在 Cursor 的终端或 IDE 集成里？
+
+这个问题之所以比 2025 年更容易让人绕晕，不是因为选项变少了，而是因为选项更多了。Cursor 自己有内置模型与计费表面，也支持你带自己的 Anthropic key；Anthropic 这边则把 Claude Code 明确做成终端里的 agentic coding tool，并提供对 Cursor 这类 VS Code forks 的 IDE 集成。你如果把这三件事都叫成“插件”，后面看到的所有教程都会互相打架。
+
+这篇更新版不再写“300% 提效”“某个代理更快”之类无法稳定复核的 benchmark，而是把真正影响决策的部分拆开说清楚：哪条路径最省事，哪条路径最容易控账单，哪条路径最适合多文件 agentic 工作流，以及它们会不会让你重复付费。
+
+![]()
+
+TL;DR
+-----
+
+> * **只想在 Cursor 里开箱即用，优先要稳定体验而不是自己管账单**：先看 `Cursor 内置 Claude`。它最适合多数日常编辑与问答场景，而且 Tab Completion 这类 specialized features 仍然由 Cursor 自己托管（Cursor API Keys Docs，2026-03-19 验证）。
+> * **想自己控制 Anthropic 模型选择和 API 账单**：用 `Cursor Settings > Models` 里的 Anthropic API Key，但要记住 custom API keys 只覆盖 standard chat models，不能替代所有内置特性（Cursor API Keys Docs，2026-03-19 验证）。
+> * **你真正需要的是多文件改动、跑命令、读 diff、持续迭代的 agentic workflow**：把 `Claude Code` 跑在 Cursor 里更合理。Anthropic 当前文档把它定义为终端里的 coding tool，并明确支持在 Cursor 这类 fork 中通过集成终端触发 IDE 集成（Anthropic Claude Code Docs，2026-03-19 验证）。
+> * **别把三种路径的账算成一张账**：Cursor 计划、Anthropic API、Claude Pro/Max / Claude Code 是不同表面，是否会重复付费取决于你实际选哪条路径，而不是只看“都在用 Claude”。
+
+先别把 Cursor 里的 Claude 当成一个按钮
+---------------------------
+
+如果你先把产品面拆开，后面的选择其实没有想象中复杂。
+
+第一层是 `Cursor 内置 Claude`。这是最容易被误解的一层，因为它看起来像“我在 Cursor 里选了 Claude，所以我已经在用 Claude Code 或 Anthropic API 了”。但从产品边界上看，这只是 Cursor 提供的一种模型使用入口。你依旧活在 Cursor 的体验和计费体系里，Auto 模式、模型路由、specialized features 这些东西仍由 Cursor 控制（Cursor Models / Usage Docs，2026-03-19 验证）。
+
+第二层是 `Cursor + Anthropic API Key`。这不是另一个“插件”，而是 BYOK。它的核心价值是让你直接用自己的 Anthropic key 调用标准聊天模型，账单更清晰、模型选择更自由。但 Cursor 官方也写得很直白：custom API keys 只适用于 standard chat models，像 Tab Completion 这类需要 specialized models 的能力，还是会继续走 Cursor 内置模型（Cursor API Keys Docs，2026-03-19 验证）。
+
+第三层是 `Claude Code`。Anthropic 当前对它的定义已经很明确：它是终端里的 agentic coding tool，不是 Cursor 模型列表里的一个别名（Anthropic Claude Code overview，2026-03-19 验证）。你可以在 Cursor 的集成终端里直接运行 `claude`，也可以让它把 IDE integration 装进 Cursor 这类 VS Code forks。它更像一个能读文件、改文件、跑命令、做多步迭代的编程 agent，而不是单次补全模型。
+
+所以，这篇文章真正要帮你解决的，不是“能不能在 Cursor 里看到 Claude”，而是下面这句更现实的话：**你现在需要的是编辑器内置 AI、自己控账单的模型接入，还是能持续操作代码库的 agent？**
+
+三种路径怎么选：先看这张决策矩阵
+----------------
+
+先给一句短结论。
+
+如果你现在还在熟悉 Cursor，或者只是想把日常问答、局部改写、简单生成先跑起来，`路径 A：内置 Claude` 通常是最稳的起点。它少配置、少上下文切换，也最不容易因为“我改了一个 key，为什么 Tab 不工作了”而把问题越搞越多。
+
+如果你已经明确希望自己决定 Anthropic 模型和 API 花费，希望把 Cursor 里的聊天成本从团队或个人 API 账单里分离出来，`路径 B：Anthropic API Key` 会更适合。但你要接受一个现实：BYOK 不是全替代，它是“标准聊天模型自己付费”，不是“Cursor 全能力都改成你的 key”。
+
+如果你真正想要的是“让 AI 自己读仓库、跑命令、分步骤执行重构或调试”，那你比较的对象就不再只是模型，而是工作流本身。到了这一层，`路径 C：Claude Code in Cursor` 往往更对题，因为它的核心不是补全，而是 agentic execution。
+
+![]()
+
+下面这张矩阵可以直接拿去做你的第一轮选择：
+
+| 路径 | 最适合谁 | 你主要在买什么 | 最强场景 | 最大边界 | 一句话建议 |
+| --- | --- | --- | --- | --- | --- |
+| 内置 Claude | 想先快速用起来的人 | Cursor 体验与内置模型入口 | 日常编辑、聊天问答、少量生成与改写 | 账单和能力边界主要由 Cursor 决定 | 先求稳、先上手，默认从这里开始 |
+| Anthropic API Key | 想自己控账单和模型的人 | 你的 Anthropic API 调用权 | 标准聊天模型、清晰的 API 费用管理 | 不能替代所有 specialized features | 你关心“谁来付 API 费”时选它 |
+| Claude Code | 需要多文件 agentic workflow 的人 | 终端里的 Claude agent 与 IDE integration | 多步重构、读 diff、跑命令、仓库级任务 | 学习曲线和权限感更强，不是单纯编辑器聊天 | 你关心“它能不能自己动手做完”时选它 |
+
+这张表的重点不在于给出唯一正确答案，而在于把“模型”和“工作流”拆开。很多旧文章会把“Claude 很强”和“我应该怎么在 Cursor 里接入 Claude”混为一谈，但对实际使用者来说，决定体验差异的通常不是模型名字，而是**谁掌控工作流、谁掌控账单、谁负责 specialized features**。
+
+如果你还没法确定自己属于哪一列，可以先问自己三个问题：
+
+1. 我最在意的是开箱即用，还是账单可控？
+2. 我主要是局部编辑，还是让 AI 处理多文件任务？
+3. 我想解决的是“在编辑器里更顺手”，还是“让 agent 自己推进任务”？
+
+这三个问题答完，大部分人已经能排除掉一条路径了。
+
+路径 A：直接用 Cursor 内置 Claude，适合想要最省事的人
+-----------------------------------
+
+如果你的核心目标是“今天就开始用，不想先搭配置栈”，内置 Claude 依然是最省心的入口。它的优势不在于参数最多，而在于最少引入额外概念：你不需要先处理 Anthropic key、也不需要先理解 Claude Code 的 agent 模型，更不需要在一开始就把编辑器和终端 agent 绑成一套组合拳。
+
+这条路径最适合三类开发者。第一类是刚从 VS Code 或其他 IDE 迁移到 Cursor 的人，你最缺的不是模型，而是稳定的新工作流。第二类是以编辑器内操作为主的人，例如日常问答、局部重构、帮你改一段函数、生成一个小组件或解释某段代码。第三类是你其实并不想“研究 Claude”，你只是想先让 Cursor 的 AI 能力顺滑地融入现有习惯。
+
+它的最大价值，在于你几乎不需要先理解底层账单结构就能获得稳定体验。Cursor 当前的模型和 usage 文档强调，Auto 会根据当前任务和可靠性选择 premium model；而且即便你后面切到 BYOK，Tab Completion 这类依赖 specialized models 的能力，依旧是 Cursor 自己托管的（Cursor Models / API Keys Docs，2026-03-19 验证）。换句话说，如果你最看重的是“编辑器里那层丝滑体验”，内置 Claude 通常比你一开始就折腾 BYOK 更接近目标。
+
+这条路径也有明显边界。你对具体 Anthropic 模型的可控度不如直接走自己的 API；你看到的是 Cursor 抽象过的体验，而不是 Anthropic 原生产品面。更关键的是，如果你真正想做的是多文件自动化修改、持续跑命令、边测试边迭代，内置 Claude 的价值会开始被 Claude Code 这类 agent workflow 超过。
+
+一个实用判断是：**如果你现在还在问“哪个入口更适合我”，先从内置 Claude 开始通常不会错；如果你已经在问“账单到底是谁出”或“为什么它不能替我把整个任务跑完”，那说明你快走到路径 B 或 C 了。**
+
+如果你之后还要横向比较 Cursor 和其他 IDE 型工具的差异，可以继续看我们的 [Cursor vs GitHub Copilot 对比](/blog/cursor-vs-github-copilot-ultimate-comparison-2025)，但在这篇里，重点先是把 Cursor 内部三条 Claude 路径看清。
+
+路径 B：在 Cursor 里填写 Anthropic API Key，适合想自己控模型和账单的人
+-------------------------------------------------
+
+路径 B 的核心吸引力，是把“谁来为 Anthropic 模型付费”这件事拉回你自己手里。Cursor 当前官方文档写得很直接：在 `Cursor Settings > Models` 里输入并验证 API keys 之后，Cursor 会用你的 key 直接调用对应供应商；对 Anthropic 来说，这意味着你可以直接使用 Anthropic API 上可用的 Claude models（Cursor API Keys Docs，2026-03-19 验证）。
+
+这条路径特别适合两类人。第一类是你需要更明确地管理 Anthropic 成本，可能是团队统一报销、单独追踪、或者想和 Cursor 计划拆账。第二类是你已经对 Anthropic 模型本身有明确偏好，不想完全跟随 Cursor 的默认路由，而是更在意自己到底用了哪一代 Claude。
+
+但这里最容易被忽视的一句限制，恰恰是最重要的一句限制：custom API keys 只对 standard chat models 生效，像 Tab Completion 这类 specialized features 仍然要走 Cursor 自己的内置模型（Cursor API Keys Docs，2026-03-19 验证）。这意味着，路径 B 不是“把 Cursor 整个 Anthropic 能力替换成你的 key”，而是“让标准聊天模型部分改走你的 key”。
+
+这会直接影响你的预期。如果你以为填了 Anthropic key 之后，Cursor 整套体验都变成“纯 Anthropic 计费”，你后面大概率会困惑：为什么有些地方还是像在走 Cursor 的体验层？答案不是配置错了，而是产品边界本来就不是全替换。
+
+所以路径 B 适合的是一种更具体的目标：**你希望在 Cursor 里继续工作，但标准聊天模型的账单、模型选择和 Anthropic API 权限由你自己掌控。** 如果你的真实诉求是“我需要的是 agent 能力，不是聊天窗口的模型归属”，那路径 C 更对题。
+
+如果你已经明确需要 Anthropic API 接入细节、模型选型或更细的 key 配置思路，可以配合看我们的 [Cursor Claude 4 API 集成完整指南](/blog/cursor-claude-4-api-integration-complete-guide-2025)。但这篇更新版想强调的是：**BYOK 是一条账单和控制权路径，不是一条“什么都更强”的路径。**
+
+路径 C：把 Claude Code 跑在 Cursor 里，适合多文件 agentic 工作流
+------------------------------------------------
+
+如果你现在最想解决的问题，不是“编辑器里能不能多一个 Claude”，而是“我能不能让它自己把这件事一步步做完”，那么你大概率已经不在比较模型，而是在比较 agent workflow。
+
+Anthropic 当前把 Claude Code 定义为终端里的 agentic coding tool（Anthropic Claude Code overview，2026-03-19 验证）。这一定义非常关键，因为它解释了为什么 Claude Code 和 Cursor 内置 Claude 不是一回事。前者的强项是读代码库、改文件、跑命令、做多步操作；后者更像在编辑器里提供 AI 能力层。你当然可以都用，但它们承担的职责不同。
+
+更重要的是，Anthropic 当前文档已经把 Cursor 放进 Claude Code 的 IDE integration 语境里，而且不是模糊支持，而是直接给出 `Install for Cursor` 的扩展入口；该扩展同时包含 CLI，若你需要 CLI-only feature，再在 Cursor 集成终端里运行 `claude` 即可（Anthropic IDE integrations，2026-03-19 验证）。这跟旧文章里那种“打开 Features -> AI Models -> Enable Claude”完全不是一条产品线。
+
+这条路径最适合的，是多文件重构、跨目录修改、跑测试、读日志、需要 agent 自己循环推进的工作。它也适合那些已经习惯在终端里工作，希望把 Cursor 更多当成可视化编辑器、diff viewer 和文件树的人。反过来，如果你只是希望在一段代码旁边快速问一句“这里怎么改”，Claude Code 往往不是最轻的入口。
+
+Claude Code 当前 setup 的基础要求，重点已经不是 `Node.js 18+` 这种旧路径，而是支持的系统与账号边界：`macOS 13+`、`Windows 10 1809+`、`Ubuntu 20.04+`、`Debian 10+`、`Alpine Linux 3.19+`、`4GB+ RAM` 与 supported locations；Windows 还需要 `Git for Windows`（Anthropic setup docs，2026-03-19 验证）。安装本身并不复杂，官方当前主推的起点是原生安装器：
+
+```
+bash复制
+```
+curl -fsSL https://claude.ai/install.sh | bash
+claude
+
+```
+
+```
+
+如果你看到旧教程还把 `npm install -g @anthropic-ai/claude-code` 当成主路径，先停一下。Anthropic 当前 setup 文档已经把 npm 安装标成 deprecated，native install 才是推荐路径；Homebrew 与 WinGet 也可用，但需要你自己升级（Anthropic setup docs，2026-03-19 验证）。
+
+首次运行时，你再按 Anthropic 当前支持的认证路径完成授权。官方现在明确写的是：Claude Code 需要 `Pro`、`Max`、`Teams`、`Enterprise` 或 `Console` 账号，免费 Claude.ai 计划不包含 Claude Code；如果你走组织级路线，也可以改接 Bedrock、Vertex AI 或 Microsoft Foundry（Anthropic setup docs，2026-03-19 验证）。这也是为什么你不能简单说“Claude Code 就等于 API key”，因为它的认证和使用面本来就不止一种。
+
+路径 C 真正值得你投入的前提，是你愿意承认：**你现在的问题已经不是编辑器补全，而是把 AI 当成一个能推进任务的执行者。** 如果这一点还没有发生，先用路径 A 或 B 反而更有效率。
+
+安装与排错顺序：按你选中的路径操作，不要三套配置一起上
+---------------------------
+
+这类文章最容易害人的地方，是把三条路径都写成“建议全部配置好，以后备用”。现实里，这种做法只会让你更快失去对问题的定位能力。
+
+更稳的顺序是：先选路径，再做最小配置，然后只排该路径上的故障。比如你选的是内置 Claude，那第一件事不是研究 Anthropic key，而是确认你当前 Cursor 计划、模型选择和日常编辑体验是否已经满足你的需求。你选的是 BYOK，那就先在 `Cursor Settings > Models` 验证 key 是否可用，再确认你需要的确实是 standard chat model 入口，而不是 specialized feature。你选的是 Claude Code，那就先确认自己走的是 `Cursor 扩展 + CLI` 还是 `CLI 为主`，再把系统要求、账号权限与集成终端跑通。
+
+对路径 C 来说，最常见的误解不是安装失败，而是“我以为它应该像编辑器聊天一样工作”。事实上，Claude Code 的优势来自终端 agent 模型，所以你要把排错重点放在本机环境、认证、仓库权限和任务表达上，而不是把它当成一个会自动接管全部 Cursor AI 体验的按钮。
+
+对路径 B 来说，最常见的误解则是“我填了 Anthropic key，为什么某些 Cursor 功能还是不像纯 API 调用”。这个问题的答案通常就藏在官方那句最容易被忽略的话里：specialized features 仍由 Cursor 自己托管（Cursor API Keys Docs，2026-03-19 验证）。
+
+真正实用的排错逻辑，应该像这样：
+
+1. 先确认你走的是哪一条路径，不要三条一起试。
+2. 只验证这条路径最关键的一层能力。
+3. 能跑起来之后，再决定是否需要叠加第二条路径。
+
+大多数混乱并不是技术栈太复杂，而是你还没定义清楚自己在解决哪一个问题。
+
+我的推荐：不同角色该怎么选
+-------------
+
+如果你希望我把前面的所有内容压缩成更具体的建议，我会按角色来给。
+
+如果你是第一次认真把 Cursor 用进日常开发，而且你更关心“今天就能顺手写代码”，先选内置 Claude。原因不是它绝对最强，而是它最少引入额外变量。你应该先建立稳定的编辑器 AI 习惯，再决定是否需要更细的账单控制或更强的 agent workflow。
+
+如果你是已经有 Anthropic API 预算、想清楚地区与支付链路、并且很在意模型归属和成本归因的人，选 Anthropic API Key。你选择的不是“更先进”，而是“更清楚”。尤其在团队场景里，知道哪部分是 Cursor 计划、哪部分是 Anthropic API，经常比“哪个看起来更全能”更重要。
+
+如果你已经频繁遇到多文件修改、跑测试、逐步修复、读 diff 这种场景，而且你真正想提升的是任务推进能力而不是单次补全速度，那么直接上 Claude Code 更值得。Anthropic 当前甚至专门给 Claude Code 单列了成本文档，并提到团队通过 API 使用 Sonnet 4 时，平均成本大约在 `$100-200/开发者/月` 的量级，但波动很大（Anthropic Claude Code costs，2026-03-19 验证）。这类数字不应该被你当成“固定月费”，而应该被你理解成：当工作流升级成 agent，成本模型也会跟着改变。
+
+如果你属于“我既想要编辑器里的顺滑体验，也想在复杂任务里放大 agent 能力”的混合型用户，我更推荐的顺序是：**先 A，再 C；或者 A + B；不要一开始就 A + B + C 全开。** 真正高效的工作流不是把所有开关都打开，而是让每一层只承担它最擅长的部分。
+
+费用到底算哪一张账：别把 Cursor 计划、Anthropic API 和 Claude Code 混为一谈
+-------------------------------------------------------
+
+很多人之所以越研究越乱，不是因为技术太复杂，而是因为把三类费用入口都叫成了“Claude 费用”。
+
+第一张账是 `Cursor 计划`。Cursor 当前个人计划的公开 usage 表面，不再是旧文章里常见的“固定多少次 Claude 调用”，而是 Pro 含 `$20` API agent usage、Pro Plus 含 `$70`、Ultra 含 `$400`，而你的实际消耗会跟所选模型及使用方式一起变化（Cursor Pricing / Usage Docs，2026-03-19 验证）。这意味着，今天再用“500 次 Claude + 无限 GPT-4”来估算 Cursor 成本，已经明显不够准确。
+
+第二张账是 `Anthropic API`。如果你走路径 B，用的是自己的 Anthropic API Key，那么你的核心参考值应该是 Anthropic 当前 API 定价，而不是 Cursor 旧时代的 request 配额。以 Claude Sonnet 4 为例，当前基础价格是输入 `$3/MTok`、输出 `$15/MTok`，Prompt Caching 还有独立的 cache write / hit 价格（Anthropic Pricing Docs，2026-03-19 验证）。
+
+第三张账是 `Claude Pro / Max / Claude Code`。这张账最容易被误解，因为很多人会把“我在用 Claude Code”直接等同于“我一定在走 Anthropic API key”。Anthropic 当前 setup 文档其实给了多种认证路径，包括 Claude App Pro/Max，这说明 Claude Code 的接入表面本来就不是单一 API key 模式（Anthropic setup docs，2026-03-19 验证）。
+
+![]()
+
+你真正要防的，不是“选错最便宜的一条”，而是“为同一类需求开了两套入口，却以为它们在互相替代”。下面这张表可以帮助你快速判断：
+
+| 你的真实需求 | 优先看的费用入口 | 是否容易重复付费 | 更稳的做法 |
+| --- | --- | --- | --- |
+| 主要想在 Cursor 里顺滑编辑、问答、补全 | Cursor 计划 | 中 | 先只开 Cursor 路径，别急着叠 Anthropic key |
+| 主要想把标准聊天模型改走自己的 Anthropic 账单 | Anthropic API | 中 | 只在确认需要 BYOK 时再加 key，并接受 specialized features 不全走你的 key |
+| 主要想用 agent 跑多文件任务 | Claude Code 的认证路径 | 高 | 先确认 Claude Code 走哪种认证，再决定是否还需要 Cursor 计划或 BYOK |
+| 想同时兼顾编辑器体验和复杂任务 | Cursor 计划 + Claude Code | 高 | 明确谁负责日常编辑、谁负责 agent 任务，不要模糊分工 |
+
+如果你只需要一个最短判断，我给你的版本是：
+
+* **先想工作流，再想模型。**
+* **先想谁出账，再想哪个入口更强。**
+* **先跑通一条路，再决定是否叠第二条。**
+
+这三句看起来很朴素，但它们比“哪家更便宜”更能避免你在一周后重做配置。
+
+FAQ
+---
+
+### Cursor 里选了 Claude 模型，还需要再装 Claude Code 吗？
+
+不一定。若你的需求主要是编辑器内问答、改写、补全，内置 Claude 往往已经够用。只有当你明确需要多文件 agentic workflow，例如让 AI 持续改代码、跑命令、读 diff、迭代修复时，Claude Code 的价值才会明显高于单纯的内置模型入口。
+
+### 在 Cursor 里填了 Anthropic API Key，Tab Completion 也会走我的 key 吗？
+
+按 Cursor 当前官方文档，不会。custom API keys 只覆盖 standard chat models，像 Tab Completion 这类 specialized features 仍然走 Cursor built-in models（Cursor API Keys Docs，2026-03-19 验证）。这也是为什么路径 B 适合“自己控标准聊天模型账单”，但不适合被理解成“全量替换 Cursor AI”。
+
+### Claude Code 一定要用 Anthropic API Key 才能在 Cursor 里跑吗？
+
+也不一定。Anthropic 当前 setup 文档写的是：Claude Code 可以走 `Pro / Max / Teams / Enterprise / Console` 账号，也可以接 Bedrock、Vertex AI 或 Microsoft Foundry；反过来，免费 Claude.ai 计划并不包含 Claude Code（Anthropic setup docs，2026-03-19 验证）。所以你要先确认自己准备怎么认证，而不是默认只有 API key 这一条路。
+
+### 我已经买了 Cursor 计划，还值得再配 Anthropic API Key 吗？
+
+只有当你明确想把标准聊天模型账单独立出来，或者你确实需要自己控制 Anthropic API 调用时，这件事才有意义。否则，很多人只是把配置复杂度翻倍，却没有得到同样数量级的收益。对多数个人开发者来说，先把内置 Claude 用顺，再决定是否上 BYOK，通常更稳。
+
+### Claude Code 和 Cursor 内置 Claude 会冲突吗？
+
+更准确地说，它们容易“职责重叠”，不一定是技术冲突。冲突往往来自你没有定义清楚谁负责什么。若你让 Cursor 继续承担编辑器内的日常 AI 体验，同时让 Claude Code 负责仓库级 agent 任务，两者可以互补；如果你希望它们都来做同一类事情，体验就会变得混乱。
+
+### 如果我在中国大陆或支付受限地区，应该先研究哪条路径？
+
+先确认官方 supported locations 和你实际能走通的支付链路，再决定是研究 Cursor 计划、Anthropic API，还是 Claude Code 的认证路径。不要一开始就看“哪个更便宜”，却把地区与支付可用性放到最后。路径能不能走通，本身就是选择的一部分。
+
+如果你想先把 Cursor 的基础使用习惯建立起来，可以再读 [Cursor 使用指南](/blog/cursor-usage-guide)。如果你真正卡在 Anthropic 官方支付和接入限制，而不是 Cursor 的选择逻辑，本博客里关于 Claude 充值与接入路径的文章会更对题。
+
+[Cursor](/blog/tag?tag=Cursor)[Claude Code](/blog/tag?tag=Claude%20Code)[Anthropic API](/blog/tag?tag=Anthropic%20API)[AI 编程](/blog/tag?tag=AI%20%E7%BC%96%E7%A8%8B)[IDE 工作流](/blog/tag?tag=IDE%20%E5%B7%A5%E4%BD%9C%E6%B5%81)
+
+推荐阅读
+----
+
+[返回博客列表](/blog)
+### ChatGPT Plus 限时特惠
+
+热销2,847 人已升级官方价格¥180/月限时优惠¥158/月立省 ¥22 (节省12%)4.91200+ 好评99.8%成功率3分钟平均开通24h在线客服立即升级 GPT-5官方安全•正规发票[Cursor IDE爱好者社区](/)[官方网站](https://cursor.sh)
+
+本站是技术爱好者创建的非官方社区，与 Cursor 官方无任何关联
+
+© 2026 Cursor IDE 爱好者社区
+
+

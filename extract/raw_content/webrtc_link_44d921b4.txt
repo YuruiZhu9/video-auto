@@ -1,0 +1,408 @@
+# Source URL: https://webrtc.link/zh/articles/ffmpeg-whisper-speech-to-text/
+# Content Length: 10182 characters
+# Extracted at: 2026-03-25 11:56:24
+#============================================================
+
+
+ FFmpeg Whisper 教程：一行命令实现视频自动生成字幕（支持中英文） | WebRTC.link
+
+     [跳转到主内容](#main-content)       [![]()   WebRTC.link 实时通信技术聚合](/zh)        [首页](/zh)   [文章](/zh/articles/1)   [分类](/zh/categories)   [关于](/zh/about)         [RSS](/zh/rss.xml)    中文       [中文](/zh/articles/ffmpeg-whisper-speech-to-text/) [English](/en/articles/ffmpeg-whisper-speech-to-text/)                [首页](/zh)   [文章](/zh/articles/1)   [分类](/zh/categories)   [关于](/zh/about)                                           
+### 文章目录
+
+                                  
+
+1. [首页](/zh)
+2. /
+3. [文章](/zh/articles)
+ 
+
+FFmpeg Whisper 教程：一行命令实现视频自动生成字幕（支持中英文）
+=======================================
+
+       实战教程       精选       11 分钟   |         2025年11月25日              ![]()    
+
+想给视频加字幕？以前要么花钱找人听写，要么用各种在线工具来回折腾。现在好了，FFmpeg 8.x 直接内置了 Whisper 语音识别，一行命令就能把视频里的语音转成 SRT 字幕文件，中文英文都支持，效果还相当不错。
+
+这个 `whisper` 滤镜用的是 OpenAI 的 Whisper 模型，识别准确率很高。最爽的是不用装一堆乱七八糟的依赖，下载个 FFmpeg 和模型文件就能用。
+
+能干啥？
+----
+
+简单说就是：**视频/音频进去，文字出来**。具体来讲：
+
+* **语音转文字**：把视频里说的话变成文本，准确率挺高
+* **多语言通吃**：中文、英语、日语、韩语…99 种语言随便选
+* **输出格式灵活**：SRT 字幕、JSON、纯文本，想要啥格式都行
+* **GPU 加速**：有显卡的话速度飞快，没有也能用 CPU 跑
+* **智能断句**：配合 VAD 语音检测，自动识别说话停顿，字幕分段更自然
+* **实时转录**：甚至可以接麦克风实时转文字
+
+开始之前
+----
+
+### 第一步：下载 FFmpeg
+
+放心，不用编译，直接下载就能用：
+
+* **版本要求**：FFmpeg 8.x（这个版本才内置了 whisper 滤镜）
+* **下载地址**：[FFmpeg 官方下载页面](https://ffmpeg.org/download.html)
+* **就这么简单**：下载解压，完事儿。不需要装 Python，不需要编译 whisper.cpp
+
+### 第二步：下载语音识别模型
+
+模型文件是核心，用官方脚本下载最方便：
+
+**Windows 用户**：
+
+```
+# 下载模型下载脚本
+curl -O https://raw.githubusercontent.com/ggml-org/whisper.cpp/master/models/download-ggml-model.cmd
+
+# 使用脚本下载模型（例如下载 base 模型）
+download-ggml-model.cmd base
+
+```
+
+**Linux/macOS 用户**：
+
+```
+# 下载模型下载脚本
+wget https://raw.githubusercontent.com/ggml-org/whisper.cpp/master/models/download-ggml-model.sh
+chmod +x download-ggml-model.sh
+
+# 使用脚本下载模型（例如下载 base 模型）
+./download-ggml-model.sh base
+
+```
+> **小提示**：模型文件会下载到当前目录，建议先建个 `models` 文件夹再下载，省得文件散落一地。
+
+参数详解
+----
+
+下面这些参数看着多，但常用的就那几个，别被吓到：
+
+| 参数 | 类型 | 说明 | 默认值 |
+| --- | --- | --- | --- |
+| **`model`** | 字符串 | **(必填)** 指定下载好的 whisper.cpp 模型文件的完整路径（例如 `./models/ggml-base.bin`）。支持的模型格式：`.bin` 文件，必须是 whisper.cpp 兼容格式 | 无 |
+| `language` | 字符串 | 转录使用的语言代码。设置为 `auto` 可自动检测语言。支持的语言：`en`（英语）、`zh`（中文）、`ja`（日语）、`es`（西班牙语）等。使用正确的语言代码可提高转录准确性 | `auto` |
+| `queue` | 整数 | 设置处理前排队的音频片段数量（秒）。**小数值（1-3）**：处理频率高，延迟低，但可能降低转录质量并增加 CPU 消耗；**大数值（10-20）**：质量更好，但延迟高（不适合实时流）。建议配合 `vad_model` 使用较大的队列值以获得最佳效果 | `3` |
+| `use_gpu` | 布尔值 | 是否启用 GPU 加速处理。`true`：使用 GPU 加速（需要 CUDA 支持）；`false`：仅使用 CPU 处理 | `true` |
+| `gpu_device` | 整数 | 指定使用的 GPU 设备索引。`0`：第一个 GPU 设备；`1`：第二个 GPU 设备，以此类推。仅在 `use_gpu=true` 时有效 | `0` |
+| `destination` | 字符串 | 转录结果的输出目标。**文件路径**：保存到本地文件（如 `output.srt`）；**URL**：发送到 HTTP 服务（如 `http://localhost:3000`）；**空值**：结果作为 info 消息输出到日志。结果同时写入帧元数据 `lavfi.whisper.text`。如果目标文件已存在，将被覆盖 | 无 |
+| `format` | 字符串 | 转录结果的输出格式。`text`：纯文本格式，仅包含转录文本；`srt`：标准字幕格式，包含时间戳；`json`：JSON 格式，包含详细的转录信息和时间戳 | `text` |
+| `vad_model` | 字符串 | Silero VAD（语音活动检测）模型文件的完整路径。推荐使用：`./models/ggml-silero-v5.1.2.bin`。启用后可智能分割音频队列，提高转录质量。建议配合较大的 `queue` 参数（如 20）使用 | 无 |
+| `vad_threshold` | 浮点数 | VAD 语音检测的敏感度阈值。范围：`0.0` - `1.0`。较低值：更敏感，可能检测到更多语音；较高值：更严格，仅检测明显的语音 | `0.5` |
+| `vad_min_speech_duration` | 浮点数 | VAD 检测到的最小语音持续时间（秒）。短于此时间的语音片段将被忽略，有助于过滤短暂的噪音或口吃 | `0.1` |
+| `vad_min_silence_duration` | 浮点数 | VAD 检测到的最小静音持续时间（秒）。用于确定语音片段的边界，较大值可能导致长句被分割 | `0.5` |
+
+模型怎么选？
+------
+
+模型越大越准，但也越慢越吃内存。根据你的需求选：
+
+| 模型名称 | 大小 | 特点 | 推荐用途 |
+| --- | --- | --- | --- |
+| `tiny` | ~39MB | 最小最快 | 实时转录、资源受限环境 |
+| `tiny.en` | ~39MB | 英语专用版本 | 英语实时转录 |
+| `base` | ~142MB | 平衡性能 | 一般用途推荐 |
+| `base.en` | ~142MB | 英语专用版本 | 英语转录推荐 |
+| `small` | ~466MB | 较高准确性 | 高质量转录 |
+| `small.en` | ~466MB | 英语专用版本 | 英语高质量转录 |
+| `medium` | ~1.5GB | 高准确性 | 专业转录 |
+| `medium.en` | ~1.5GB | 英语专用版本 | 英语专业转录 |
+| `large-v3` | ~3.1GB | 最高准确性 | 最高质量转录 |
+| `large-v3-turbo` | ~3.1GB | 优化版大模型 | 平衡质量与速度 |
+
+**量化版本是啥？** 就是压缩过的模型，体积小、跑得快，但准确率会稍微降一点点：
+
+* `q5_0`, `q5_1`：5 位量化，体积小一半，速度快不少
+* `q8_0`：8 位量化，质量和速度的折中选择
+
+**我的建议**：新手直接用 `base` 模型，够用了。追求质量用 `medium`，追求速度用 `tiny`。
+
+下载模型
+----
+
+```
+# 下载推荐的 base 模型
+download-ggml-model.cmd base
+
+# 下载英语专用模型
+download-ggml-model.cmd base.en
+
+# 下载到指定目录
+download-ggml-model.cmd base ./models
+
+# 下载高质量模型
+download-ggml-model.cmd large-v3
+
+```
+
+实战演练
+----
+
+说了这么多，直接上手试试吧！
+
+### 最简单的用法：生成 SRT 字幕
+
+把视频 `input.mp4` 里的语音转成字幕文件，就这一行：
+
+```
+ffmpeg -i input.mp4 -vn -af "whisper=model=ggml-base.bin:language=auto:queue=3:destination=output.srt:format=srt" -f null -
+
+```
+
+看不懂？没关系，解释一下：
+
+* `-vn`：告诉 FFmpeg “我不要视频，只处理音频”
+* `-f null -`：不输出文件，字幕直接写到 `destination` 指定的位置
+* `model=ggml-base.bin`：用哪个模型，填你下载的模型文件名
+
+### 进阶玩法：发送到 HTTP 服务
+
+做实时字幕系统？可以把转录结果直接推到你的服务器：
+
+```
+ffmpeg -i input.mp4 -vn -af "whisper=model=ggml-base.bin:language=auto:queue=3:destination=http\://localhost\:3000:format=json" -f null -
+
+```
+### 想要更准？加上 VAD 语音检测
+
+VAD（Voice Activity Detection）能自动识别哪里在说话、哪里是静音，让字幕断句更自然：
+
+```
+# 首先下载 VAD 模型
+wget https://raw.githubusercontent.com/ggml-org/whisper.cpp/master/models/for-tests-silero-v5.1.2-ggml.bin
+
+# 使用 VAD 进行高质量转录
+ffmpeg -i input.mp4 -vn -af "whisper=model=ggml-medium-q5_0.bin:language=auto:queue=20:destination=output.srt:format=srt:vad_model=for-tests-silero-v5.1.2-ggml.bin:vad_threshold=0.6" -f null -
+
+```
+### 骚操作：实时麦克风转录（Linux）
+
+边说边转文字，做会议记录神器：
+
+```
+ffmpeg -loglevel warning -f pulse -i default -af 'highpass=f=200,lowpass=f=3000,whisper=model=ggml-medium-q5_0.bin:language=en:queue=10:destination=-:format=json:vad_model=for-tests-silero-v5.1.2-ggml.bin' -f null -
+
+```
+### 多语言视频？自动识别！
+
+不知道视频是啥语言？设置 `language=auto` 让它自己判断：
+
+```
+ffmpeg -i multilang_video.mp4 -vn -af "whisper=model=ggml-medium-q5_0.bin:language=auto:queue=15:destination=transcript.json:format=json:use_gpu=true" -f null -
+
+```
+### 没显卡？CPU 也能跑
+
+没有 NVIDIA 显卡也没关系，加个 `use_gpu=false` 就行，就是慢点：
+
+```
+ffmpeg -i input.mp4 -vn -af "whisper=model=ggml-medium-q5_0.bin:language=zh:queue=5:destination=output.srt:format=srt:use_gpu=false" -f null -
+
+```
+
+高级玩法：实时字幕烧录
+-----------
+
+除了生成字幕文件，还能把识别出的文字实时”烧”到视频画面上。原理是 whisper 滤镜会把转录文本写入帧元数据（`lavfi.whisper.text`），然后用 `drawtext` 滤镜读取并渲染。
+
+### 边识别边显示字幕
+
+```
+ffmpeg -i input.mp4 -af "whisper=model=ggml-base.en.bin:language=en" -vf "drawtext=text='%{metadata\:lavfi.whisper.text}':fontsize=24:fontcolor=white:x=10:y=h-th-10" output_with_subtitles.mp4
+
+```
+
+跑得慢？这样优化
+--------
+
+### 选对模型很重要
+
+* **要速度**：用 `tiny` 或 `base`，秒出结果
+* **要质量**：用 `medium` 或 `large-v3`，慢但准
+* **折中方案**：用量化版本如 `medium-q5_0`，又快又准
+
+### 有显卡一定要用
+
+GPU 加速效果非常明显，特别是大模型：
+
+* 确保装了 CUDA 驱动
+* 命令里加 `use_gpu=true`（其实默认就是开的）
+* 多张显卡可以用 `gpu_device=1` 指定用哪张
+
+### queue 参数怎么调？
+
+* **做直播/实时转录**：设小点，`queue=1` 到 `queue=3`，延迟低
+* **处理本地视频**：设大点，`queue=15` 到 `queue=20`，配合 VAD 效果更好
+
+遇到问题？
+-----
+
+常见坑和解决方法：
+
+* **报错找不到模型**：检查 `model=` 后面的路径对不对，建议用绝对路径
+* **GPU 报错**：加 `use_gpu=false` 先用 CPU 跑，确认是不是显卡驱动问题
+* **内存爆了**：换个小模型，或者把 `queue` 调小
+* **识别不准**：换大模型，或者指定正确的 `language` 参数
+
+支持哪些语言？
+-------
+
+Whisper 号称支持 99 种语言，常用的都没问题：
+
+| 语言代码 | 语言名称 | 语言代码 | 语言名称 |
+| --- | --- | --- | --- |
+| `zh` | 中文 | `en` | 英语 |
+| `ja` | 日语 | `ko` | 韩语 |
+| `es` | 西班牙语 | `fr` | 法语 |
+| `de` | 德语 | `ru` | 俄语 |
+| `it` | 意大利语 | `ar` | 阿拉伯语 |
+| `pt` | 葡萄牙语 | `hi` | 印地语 |
+
+> **小技巧**：虽然 `language=auto` 能自动识别语言，但如果你知道视频是啥语言，直接指定（比如 `language=zh`）识别效果会更好。
+
+写在最后
+----
+
+FFmpeg + Whisper 这套组合拳真的很香，以前要花钱或者折腾半天的事情，现在一行命令搞定。赶紧下载试试吧！
+
+相关资源
+----
+
+* [FFmpeg Whisper 滤镜官方文档](https://ffmpeg.org/ffmpeg-filters.html#toc-whisper-1)
+* [Whisper.cpp 项目地址](https://github.com/ggml-org/whisper.cpp)
+    
+### 标签
+
+ 
+#FFmpeg 
+#Whisper 
+#语音识别 
+#字幕生成 
+#视频转文字 
+#音视频处理              
+#### 版权声明
+
+本文由 WebRTC.link 创作，采用 CC BY-NC-SA 4.0 许可协议。本站转载文章会注明来源以及作者。如果您需要转载，请注明出处以及作者。
+
+             
+### 评论区
+
+Giscus
+
+评论由 Giscus 驱动，基于 GitHub Discussions
+
+         
+### 分享文章
+
+       
+#### FFmpeg Whisper 教程：一行命令实现视频自动生成字幕（支持中英文）
+
+详解 FFmpeg 8.x 内置 Whisper 滤镜，无需安装额外依赖，一行命令将视频/音频转录为 SRT 字幕。支持中文、英语等 99 种语言，GPU 加速处理。附模型下载、参数配置、实战示例。
+
+ #FFmpeg#Whisper#语音识别            Twitter       Facebook       LinkedIn       WeChat       Weibo       Telegram       Email       复制链接      
+#### 扫码分享到微信
+
+  
+
+使用微信扫描二维码分享
+
+          
+### 分享文章
+
+       
+#### FFmpeg Whisper 教程：一行命令实现视频自动生成字幕（支持中英文）
+
+详解 FFmpeg 8.x 内置 Whisper 滤镜，无需安装额外依赖，一行命令将视频/音频转录为 SRT 字幕。支持中文、英语等 99 种语言，GPU 加速处理。附模型下载、参数配置、实战示例。
+
+ #FFmpeg#Whisper#语音识别            Twitter       Facebook       LinkedIn       WeChat       Weibo       Telegram       Email       复制链接      
+#### 扫码分享到微信
+
+  
+
+使用微信扫描二维码分享
+
+             
+### 精选文章
+
+精选      1   
+#### [WebRTC 前端接入终极指南：如何用 ZWPlayer 一行代码实现毫秒级超低延迟直播？](/zh/articles/zwplayer-webrtc-ultimate-guide)
+
+             2月25日       7 分钟           2   
+#### [FFmpeg Whisper 教程：一行命令实现视频自动生成字幕（支持中英文）](/zh/articles/ffmpeg-whisper-speech-to-text)
+
+             11月25日       11 分钟           3   
+#### [WebRTC-Streamer 教程：用浏览器播放 RTSP/RTMP/本地采集的实时流](/zh/articles/webrtc-streamer-stream-rtsp-to-webrtc)
+
+             11月17日       19 分钟           4   
+#### [CrossDesk：轻量级跨平台远程桌面软件 - 基于 MiniRTC 的自托管解决方案](/zh/articles/crossdesk-self-hosted-remote-desktop)
+
+             10月22日       12 分钟             [查看全部精选文章](/zh/articles/featured/1/)         
+### 演示 Demo
+
+LIVE      •  
+#### 基础摄像头访问
+
+展示如何使用 getUserMedia API 获取摄像头和麦克风
+
+  媒体获取   [体验](/zh/demos/gum)        •  
+#### PTZ 摄像头控制
+
+控制支持 PTZ 功能的摄像头进行平移、倾斜和缩放
+
+  媒体获取   [体验](/zh/demos/pan-tilt-zoom)        •  
+#### 屏幕共享
+
+使用 getDisplayMedia API 进行屏幕共享
+
+  媒体获取   [体验](/zh/demos/getdisplaymedia)         [查看更多演示](/zh/demos)         
+### RTC相关项目
+
+NEW      1  
+#### [WebRTC-Streamer 教程：用浏览器播放 RTSP/RTMP/本地采集的实时流](/zh/articles/webrtc-streamer-stream-rtsp-to-webrtc)
+
+ 19 分钟 • 2025/11/17     2  
+#### [CrossDesk：轻量级跨平台远程桌面软件 - 基于 MiniRTC 的自托管解决方案](/zh/articles/crossdesk-self-hosted-remote-desktop)
+
+ 12 分钟 • 2025/10/22     3  
+#### [go2rtc教程：全能流媒体转换神器，统一管理所有摄像头协议](/zh/articles/go2rtc-ultimate-streaming-solution)
+
+ 8 分钟 • 2025/5/30     4  
+#### [RecordRTC：浏览器端录音/录屏的靠谱工具（项目概览与上手）](/zh/articles/recordrtc-overview)
+
+ 6 分钟 • 2025/4/6                       WebRTC.link
+
+实时通信技术聚合平台
+
+ 
+
+WebRTC.link 致力于为开发者提供最全面的WebRTC技术资源
+
+  
+#### 快速链接
+
+* [文章](/zh/articles)
+* [分类](/zh/categories)
+* [关于](/zh/about)
+  
+#### 资源
+
+* [RSS订阅](/zh/rss.xml)
+* [Sitemap](/sitemap-index.xml)
+     快速链接    
+
+* [文章](/zh/articles)
+* [分类](/zh/categories)
+* [关于](/zh/about)
+   资源    
+
+* [RSS订阅](/zh/rss.xml)
+* [Sitemap](/sitemap-index.xml)
+     
+
+© 2026 WebRTC.link. 版权所有.
+
+       
+ 

@@ -1,0 +1,259 @@
+# Source URL: https://blog.xiaban.run/posts/2025/openai-whisper/
+# Content Length: 19193 characters
+# Extracted at: 2026-04-06 12:09:26
+#============================================================
+
+
+ 使用 yt-dlp + ffmpeg + whisper 下载提取并识别语音文本 - 下班就跑
+
+
+
+
+          [下班就跑](/)    [主页](/)  [归档](/archive/)  [开源](/open-source/)  [Demo](/demo/)  [关于](/about/)  [友链](/links/)  [GitHub](https://github.com/SublimeCT/blog.xiaban.run)                    [主页](/)  [归档](/archive/)  [开源](/open-source/)  [Demo](/demo/)  [关于](/about/)  [友链](/links/)  [GitHub](https://github.com/SublimeCT/blog.xiaban.run)           ![]()         [青岛红树林度假世界 | 拍摄地](https://maps.app.goo.gl/sGPWMG3ZdFCFAEXh8)      [![]()](/about/)   Ryan  回首向来萧瑟处,归去,也无风雨也无晴   [GitHub](https://github.com/SublimeCT)        分类   [技术   2](/archive/?category=%E6%8A%80%E6%9C%AF)  [教程   29](/archive/?category=%E6%95%99%E7%A8%8B)  [旅行   3](/archive/?category=%E6%97%85%E8%A1%8C)  [探索   2](/archive/?category=%E6%8E%A2%E7%B4%A2)  [Examples   4](/archive/?category=Examples)  [Guides   1](/archive/?category=Guides)         更多      标签    [阿里邮箱](/archive/?tag=%E9%98%BF%E9%87%8C%E9%82%AE%E7%AE%B1)  [阿里云](/archive/?tag=%E9%98%BF%E9%87%8C%E4%BA%91)  [安装](/archive/?tag=%E5%AE%89%E8%A3%85)  [出差](/archive/?tag=%E5%87%BA%E5%B7%AE)  [钉钉打卡](/archive/?tag=%E9%92%89%E9%92%89%E6%89%93%E5%8D%A1)  [发送邮件](/archive/?tag=%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6)  [工作](/archive/?tag=%E5%B7%A5%E4%BD%9C)  [工作流](/archive/?tag=%E5%B7%A5%E4%BD%9C%E6%B5%81)  [工作日闹钟](/archive/?tag=%E5%B7%A5%E4%BD%9C%E6%97%A5%E9%97%B9%E9%92%9F)  [构建工作流](/archive/?tag=%E6%9E%84%E5%BB%BA%E5%B7%A5%E4%BD%9C%E6%B5%81)  [国产模型](/archive/?tag=%E5%9B%BD%E4%BA%A7%E6%A8%A1%E5%9E%8B)  [互动电影游戏](/archive/?tag=%E4%BA%92%E5%8A%A8%E7%94%B5%E5%BD%B1%E6%B8%B8%E6%88%8F)  [互动剧情类游戏](/archive/?tag=%E4%BA%92%E5%8A%A8%E5%89%A7%E6%83%85%E7%B1%BB%E6%B8%B8%E6%88%8F)  [互动剧情类游戏生成器](/archive/?tag=%E4%BA%92%E5%8A%A8%E5%89%A7%E6%83%85%E7%B1%BB%E6%B8%B8%E6%88%8F%E7%94%9F%E6%88%90%E5%99%A8)  [济宁](/archive/?tag=%E6%B5%8E%E5%AE%81)  [掘金](/archive/?tag=%E6%8E%98%E9%87%91)  [快捷指令](/archive/?tag=%E5%BF%AB%E6%8D%B7%E6%8C%87%E4%BB%A4)  [联网搜索](/archive/?tag=%E8%81%94%E7%BD%91%E6%90%9C%E7%B4%A2)  [旅行](/archive/?tag=%E6%97%85%E8%A1%8C)  [免费](/archive/?tag=%E5%85%8D%E8%B4%B9)  [南京](/archive/?tag=%E5%8D%97%E4%BA%AC)  [配置](/archive/?tag=%E9%85%8D%E7%BD%AE)  [签到](/archive/?tag=%E7%AD%BE%E5%88%B0)  [视觉理解](/archive/?tag=%E8%A7%86%E8%A7%89%E7%90%86%E8%A7%A3)  [天津](/archive/?tag=%E5%A4%A9%E6%B4%A5)  [通勤](/archive/?tag=%E9%80%9A%E5%8B%A4)  [网页读取](/archive/?tag=%E7%BD%91%E9%A1%B5%E8%AF%BB%E5%8F%96)  [斜杠命令](/archive/?tag=%E6%96%9C%E6%9D%A0%E5%91%BD%E4%BB%A4)  [徐州](/archive/?tag=%E5%BE%90%E5%B7%9E)  [扬州](/archive/?tag=%E6%89%AC%E5%B7%9E)  [邮件](/archive/?tag=%E9%82%AE%E4%BB%B6)  [语音识别](/archive/?tag=%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB)  [域名邮箱](/archive/?tag=%E5%9F%9F%E5%90%8D%E9%82%AE%E7%AE%B1)  [原生](/archive/?tag=%E5%8E%9F%E7%94%9F)  [自动化](/archive/?tag=%E8%87%AA%E5%8A%A8%E5%8C%96)  [AI](/archive/?tag=AI)  [Amap](/archive/?tag=Amap)  [ant-design-x](/archive/?tag=ant-design-x)  [anthropic](/archive/?tag=anthropic)  [biome](/archive/?tag=biome)  [Blogging](/archive/?tag=Blogging)  [brew](/archive/?tag=brew)  [brew services](/archive/?tag=brew%20services)  [Cerry Studio](/archive/?tag=Cerry%20Studio)  [certbot](/archive/?tag=certbot)  [chat](/archive/?tag=chat)  [ChatGPT](/archive/?tag=ChatGPT)  [Chrome](/archive/?tag=Chrome)  [Chrome Beta](/archive/?tag=Chrome%20Beta)  [chrome-devtools-mcp](/archive/?tag=chrome-devtools-mcp)  [Claude](/archive/?tag=Claude)  [Claude Code](/archive/?tag=Claude%20Code)  [command](/archive/?tag=command)  [commitizen](/archive/?tag=commitizen)  [component library](/archive/?tag=component%20library)  [Custom Element](/archive/?tag=Custom%20Element)  [Customization](/archive/?tag=Customization)  [cz-git](/archive/?tag=cz-git)  [DeepSeek](/archive/?tag=DeepSeek)  [Demo](/archive/?tag=Demo)  [DevTools](/archive/?tag=DevTools)  [dns 解析](/archive/?tag=dns%20%E8%A7%A3%E6%9E%90)  [emotional](/archive/?tag=emotional)  [Example](/archive/?tag=Example)  [fish shell](/archive/?tag=fish%20shell)  [Fuwari](/archive/?tag=Fuwari)  [git](/archive/?tag=git)  [Github](/archive/?tag=Github)  [Github Actions](/archive/?tag=Github%20Actions)  [GLM](/archive/?tag=GLM)  [GLM 4.7](/archive/?tag=GLM%204.7)  [GLM Coding Plan](/archive/?tag=GLM%20Coding%20Plan)  [GLM4.7](/archive/?tag=GLM4.7)  [Google](/archive/?tag=Google)  [google](/archive/?tag=google)  [highlight](/archive/?tag=highlight)  [human](/archive/?tag=human)  [hyosan-chat](/archive/?tag=hyosan-chat)  [i18n](/archive/?tag=i18n)  [IOS](/archive/?tag=IOS)  [iPhone](/archive/?tag=iPhone)  [JavaScript](/archive/?tag=JavaScript)  [juejin](/archive/?tag=juejin)  [juejin-helper](/archive/?tag=juejin-helper)  [Lets Encrypt](/archive/?tag=Lets%20Encrypt)  [lib](/archive/?tag=lib)  [Linux](/archive/?tag=Linux)  [Lit](/archive/?tag=Lit)  [LitElement](/archive/?tag=LitElement)  [LLM](/archive/?tag=LLM)  [macos](/archive/?tag=macos)  [MacOS](/archive/?tag=MacOS)  [Markdown](/archive/?tag=Markdown)  [markdown](/archive/?tag=markdown)  [markdown-it](/archive/?tag=markdown-it)  [MCP](/archive/?tag=MCP)  [mcp-chrome](/archive/?tag=mcp-chrome)  [mcp-chrome-bridge](/archive/?tag=mcp-chrome-bridge)  [Movie Games](/archive/?tag=Movie%20Games)  [msmtp](/archive/?tag=msmtp)  [openai](/archive/?tag=openai)  [OpenClaw](/archive/?tag=OpenClaw)  [opencode](/archive/?tag=opencode)  [playwright](/archive/?tag=playwright)  [Plugin](/archive/?tag=Plugin)  [postgresql](/archive/?tag=postgresql)  [postgresql 17](/archive/?tag=postgresql%2017)  [prompts](/archive/?tag=prompts)  [real](/archive/?tag=real)  [shadow dom](/archive/?tag=shadow%20dom)  [shell](/archive/?tag=shell)  [shikijs](/archive/?tag=shikijs)  [shoelace](/archive/?tag=shoelace)  [simple-git-hooks](/archive/?tag=simple-git-hooks)  [SKILLS](/archive/?tag=SKILLS)  [skills.sh](/archive/?tag=skills.sh)  [Slash Commands](/archive/?tag=Slash%20Commands)  [slot](/archive/?tag=slot)  [SSL 证书](/archive/?tag=SSL%20%E8%AF%81%E4%B9%A6)  [systemctl](/archive/?tag=systemctl)  [template](/archive/?tag=template)  [terminal](/archive/?tag=terminal)  [ts](/archive/?tag=ts)  [Vibe Coding](/archive/?tag=Vibe%20Coding)  [Video](/archive/?tag=Video)  [vite](/archive/?tag=vite)  [vitepress](/archive/?tag=vitepress)  [vue](/archive/?tag=vue)  [W3C](/archive/?tag=W3C)  [Web Components](/archive/?tag=Web%20Components)  [web components](/archive/?tag=web%20components)  [WebMCP](/archive/?tag=WebMCP)  [whisper](/archive/?tag=whisper)          更多                     2725 字         14 分钟       使用 yt-dlp + ffmpeg + whisper 下载提取并识别语音文本             2025-11-22            [教程](/archive/?category=%E6%95%99%E7%A8%8B)            /
+ [whisper](/archive/?tag=whisper) /
+ [openai](/archive/?tag=openai) /
+ [语音识别](/archive/?tag=%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB)         ![]()     
+
+安装[#](#安装)
+----------
+
+首先需要确保已经安装了 [python](https://www.python.org/downloads/) **3.11 版本**, 如果本地的 `python` 版本不在 `3.8 ~ 3.11` 范围内, 可以使用 `pyenv` 来安装 `python`, 详见 [pyenv](#pyenv) 章节
+
+Terminal window
+
+```
+1pip install -U openai-whisper
+```
+### pyenv[#](#pyenv)
+
+> TIP
+> 
+> 对于安装 `openai-whisper` 来说, `pyenv` 是可选的, **只有在本地 `python` 版本不是 `3.8 ~ 3.11` 才需要安装**
+
+1. `whisper` 需要的 `python` 版本是 `3.8 ~ 3.11`, 所以需要安装 `pyenv` 来 **管理和切换 `python` 版本**, 以 `MacOS` 环境为例, 我们可以直接使用 `brew` 安装
+
+Terminal window
+
+```
+1brew update2brew install pyenv
+```
+
+1. 配置环境变量, 这里我是用的是 `fish shell`:
+
+Terminal window
+
+```
+1set -Ux PYENV_ROOT $HOME/.pyenv2test -d $PYENV_ROOT/bin; and fish_add_path $PYENV_ROOT/bin3
+4pyenv init - fish | source
+```
+
+1. 切换 `python` 版本, 这里我选择的是 `3.11.x`
+
+Terminal window
+
+```
+1# 1. 首先查看 3.11.x 的所有版本(可选)2pyenv install -l | grep 3.113
+4  3.11.05  3.11-dev6  3.11.17  3.11.28  3.11.39  3.11.410  3.11.511  3.11.612  3.11.713  3.11.814  3.11.915  3.11.1016  3.11.1117  3.11.1218  3.11.1319  3.11.1420  ...
+```
+
+Terminal window
+
+```
+1# 2. 设置下载镜像(可选, 这是 fish shell 的设置命令, 其他 shell 请自行修改)2set -Ux PYTHON_BUILD_MIRROR_URL https://mirrors.tuna.tsinghua.edu.cn/python3
+4# 3. 安装 3.11.145pyenv install 3.11.146
+7# 4. 切换到 3.11.14, 这里我们选择只在当前 shell 中切换8pyenv shell 3.11.14 # ✅ 只在当前 shell 生效, 不会影响全局的 python 环境9# pyenv local 3.11.14 # 位于当前目录下时自动选择此版本10# pyenv global 3.11.14 # 全局切换版本
+```
+> NOTE
+> 
+> 如果切换时提示 `pyenv: shell integration not enabled. Run 'pyenv init' for instructions.`, 则需要 执行 `pyenv init` 命令, 并且按照输出的提示进行操作, 例如在 `fish shell` 下是需要执行 `pyenv init - fish | source`
+
+Terminal window
+
+```
+1# 5. 查看 python 版本2python --version
+```
+> TIP
+> 
+> 其他系统的安装方式参考 [pyenv - Installation](https://github.com/pyenv/pyenv?tab=readme-ov-file#installation), `pyenv` 并不支持 `windows`, 可使用 [pyenv-win](https://github.com/pyenv-win/pyenv-win?tab=readme-ov-file#quick-start)
+
+
+ffmpeg[#](#ffmpeg)
+------------------
+
+whisper 需要 `ffmpeg` 来处理音频文件, 所以需要安装 `ffmpeg`
+
+你可以直接下载: [ffmpeg - Download](https://ffmpeg.org/download.html)
+
+或者通过命令行工具安装:
+
+Terminal window
+
+```
+1# on Ubuntu or Debian2sudo apt update && sudo apt install ffmpeg3
+4# on Arch Linux5sudo pacman -S ffmpeg6
+7# on MacOS using Homebrew (https://brew.sh/)8brew install ffmpeg9
+10# on Windows using Chocolatey (https://chocolatey.org/)11choco install ffmpeg12
+13# on Windows using Scoop (https://scoop.sh/)14scoop install ffmpeg
+```
+
+选择模型和语言[#](#选择模型和语言)
+--------------------
+
+有 [以下模型](https://github.com/openai/whisper?tab=readme-ov-file#available-models-and-languages) 可选择:
+
+| Size | Parameters | English-only model | Multilingual model | Required VRAM | Relative speed |
+| --- | --- | --- | --- | --- | --- |
+| tiny | 39 M | `tiny.en` | `tiny` | ~1 GB | ~10x |
+| base | 74 M | `base.en` | `base` | ~1 GB | ~7x |
+| small | 244 M | `small.en` | `small` | ~2 GB | ~4x |
+| medium | 769 M | `medium.en` | `medium` | ~5 GB | ~2x |
+| large | 1550 M | `N/A` | `large` | ~10 GB | 1x |
+| turbo | 809 M | `N/A` | `turbo` | ~6 GB | ~8x |
+
+由于我们需要识别的是中文普通话, 所以只能选择 `Multilingual model`, 然后我们安装本地的内存大小选择适合的模型, 这里我选择 `large`
+
+
+使用[#](#使用)
+----------
+
+接下来我们尝试使用 [yd-dlp](https://github.com/yt-dlp/yt-dlp) 从 `bilibili` 获取视频, 然后使用 `ffmpeg` 提取其中的音频, 再交给 `whisper` 进行语音识别, 最终提取视频中的语音文本:
+
+### yt-dlp[#](#yt-dlp)
+
+> TIP
+> 
+> 💡 实际上可以直接使用 `yt-dlp` 提取音频, **这里为了演示增加了 `ffmpeg` 提取的操作, 详见 [直接下载音频](#%E7%9B%B4%E6%8E%A5%E4%B8%8B%E8%BD%BD%E9%9F%B3%E9%A2%91) 章节**
+
+我们随便找一个自己喜欢的视频, 这里为了直观的感受语音识别的准确率, 我们找一个翻唱视频:
+
+#### 下载视频[#](#下载视频)
+
+由于 B 站是视频和音频分离的, 所以我们可以直接下载音频文件
+
+Terminal window
+
+```
+1# 查看可以下载的视频资源格式2yt-dlp "https://www.bilibili.com/video/BV1bJ41137yp" -F
+```
+
+![]()
+
+然后我们按照 id 来下载视频和音频文件, 最终下载的是 `.mp4` 格式的音频文件:
+
+Terminal window
+
+```
+1yt-dlp "https://www.bilibili.com/video/BV1bJ41137yp" -f 30280+100026 -o "说好不哭.mp4"
+```
+
+![]()
+
+#### 提取音频[#](#提取音频)
+
+我们使用 `ffmpeg` 提取音频文件:
+
+Terminal window
+
+```
+1ffmpeg -i 说好不哭.mp4 -vn -c:a copy 说好不哭-audio.m4a
+```
+#### 直接下载音频[#](#直接下载音频)
+
+或者我们选择 `audio only` 中质量最高的音频文件进行下载
+
+Terminal window
+
+```
+1yt-dlp "https://www.bilibili.com/video/BV1bJ41137yp" -f 30280 -o "说好不哭.m4a"
+```
+
+![]()
+
+### 使用 whisper 识别语音[#](#使用-whisper-识别语音)
+
+最终, 我们得到了此视频的音频文件 `说好不哭.m4a`, 我们使用 `whisper` 识别:
+
+Terminal window
+
+```
+1whisper 说好不哭.m4a --model large --language Chinese
+```
+
+![]()
+
+> TIP
+> 
+> 首次执行需要下载对应的模型
+
+![]()
+
+这里不知道为什么, 识别过程非常慢, 总共花了 `8.1m`, 查看 `CPU` 及 内存使用情况也没有发现问题:
+
+![]()
+![]()
+
+这是输出的语音文本:
+
+Terminal window
+
+```
+1[00:00.000 --> 00:04.360] 没有了联络2[00:04.360 --> 00:06.120] 后来的生活3[00:06.120 --> 00:09.040] 我都是听别人说4[00:09.040 --> 00:11.440] 说你怎么了5[00:11.440 --> 00:13.500] 说你怎么过6[00:13.500 --> 00:16.320] 放不下的人是我7[00:16.320 --> 00:20.220] 人多的时候就待在角落8[00:20.220 --> 00:23.040] 就把别人问起我9[00:23.040 --> 00:25.340] 你们怎么了10[00:25.340 --> 00:26.700] 你低着头11[00:26.700 --> 00:29.940] 护着我连抱怨都没有12[00:29.940 --> 00:32.240] 电话开始拖13[00:32.240 --> 00:34.040] 总不对我说14[00:34.040 --> 00:36.740] 不习惯一个人生活15[00:36.740 --> 00:39.140] 离开我以后16[00:39.140 --> 00:40.880] 要我还好过17[00:40.880 --> 00:43.840] 怕打扰像自由的我18[00:43.840 --> 00:47.260] 都这个时候你还在意着19[00:47.260 --> 00:50.520] 别人是怎么怎么干我的20[00:50.520 --> 00:53.680] 明明解释这不是我的错21[00:53.680 --> 00:55.940] 是你要走22[00:55.940 --> 01:01.600] 掩盖着你难过23[01:01.600 --> 01:08.000] 挽留的话却没有说24[01:08.000 --> 01:14.980] 你会微笑放手25[01:14.980 --> 01:21.640] 说好无辜让我走26[01:24.880 --> 01:25.040] Zither Harp27[01:25.040 --> 01:25.920] 电话开始拖28[01:25.940 --> 01:26.940] 总不对我说29[01:26.940 --> 01:27.940] 不习惯一个人生活30[01:27.940 --> 01:28.940] 离开我以后31[01:28.940 --> 01:29.940] 要我还好过32[01:29.940 --> 01:30.940] 怕打扰像自由的我33[01:30.940 --> 01:31.940] 都这个时候你还在意着34[01:31.940 --> 01:32.940] 别人是怎么怎么干我的35[01:32.940 --> 01:33.940] 明明解释这不是我的错36[01:33.940 --> 01:34.940] 是你要走37[01:34.940 --> 01:35.940] 掩盖着你难过38[01:35.940 --> 01:36.940] 都这个时候你还在意着39[01:36.940 --> 01:37.940] 别人是怎么怎么干我的40[01:37.940 --> 01:38.940] 明明解释这不是我的错41[01:38.940 --> 01:39.940] 是你要走42[01:39.940 --> 01:40.940] 掩盖着你难过43[01:40.940 --> 01:41.940] 掩盖着你难过44[01:41.940 --> 01:42.940] 掩盖着你难过45[01:42.940 --> 01:43.940] 掩盖着你难过46[01:43.940 --> 01:44.940] 走47[01:44.940 --> 01:45.940] 走48[01:45.940 --> 01:46.940] 走49[01:46.940 --> 01:47.940] 走50[01:47.940 --> 01:48.940] 走51[01:48.940 --> 01:49.940] 走52[01:49.940 --> 01:50.940] 走53[01:50.940 --> 01:51.940] 走54[01:51.940 --> 01:52.940] 走55[01:52.940 --> 01:53.940] 走56[01:53.940 --> 01:54.940] 走57[01:54.940 --> 01:55.940] 走58[01:55.940 --> 01:56.940] 走59[01:56.940 --> 01:57.940] 走60[01:57.940 --> 01:58.940] 走61[01:58.940 --> 01:59.940] 走62[01:59.940 --> 02:00.940] 走63[02:00.940 --> 02:01.940] 走64[02:01.940 --> 02:02.940] 走65[02:02.940 --> 02:03.940] 走66[02:03.940 --> 02:04.940] 走67[02:04.940 --> 02:05.940] 走68[02:05.940 --> 02:06.940] 走69[02:06.940 --> 02:07.940] 走70[02:07.940 --> 02:08.940] 走71[02:08.940 --> 02:09.940] 走72[02:09.940 --> 02:10.940] 走73[02:10.940 --> 02:11.940] 走74[02:11.940 --> 02:12.940] 走75[02:12.940 --> 02:13.940] 走76[02:13.940 --> 02:14.940] 走77[02:14.940 --> 02:15.940] 走78[02:15.940 --> 02:16.940] 走79[02:16.940 --> 02:17.940] 走80[02:17.940 --> 02:18.940] 走81[02:18.940 --> 02:19.940] 走82[02:19.940 --> 02:20.940] 走83[02:20.940 --> 02:21.940] 走84[02:21.940 --> 02:22.940] 走85[02:22.940 --> 02:23.940] 走86[02:23.940 --> 02:24.940] 走87[02:24.940 --> 02:25.940] 走88[02:25.940 --> 02:32.260] 还在为我梦加油89[02:32.260 --> 02:39.340] 心疼过了多久90[02:39.340 --> 02:45.340] 还在找理由等我91[02:55.940 --> 03:25.920] 由 Amara.org 社群提供的字幕
+```
+
+这个执行速度实在太慢, 识别准确率不忍直视(可能是因为是唱歌的原因?), 我们尝试使用小一点的模型来执行:
+
+Terminal window
+
+```
+1whisper 说好不哭.m4a --model medium --language Chinese
+```
+
+最终花费 `1.4m`, 识别结果如下:
+
+Terminal window
+
+```
+1[00:00.000 --> 00:06.600] 沒有了電絡 後來的生活2[00:06.600 --> 00:10.100] 我都是聽別人說3[00:10.100 --> 00:13.800] 說你怎麼了 說你怎麼過4[00:13.800 --> 00:17.300] 放不下的人是我5[00:17.300 --> 00:20.700] 人多的時候就待在角落6[00:20.700 --> 00:24.100] 就怕別人問起我7[00:24.100 --> 00:26.700] 你們怎麼了 你低著頭8[00:26.700 --> 00:30.900] 扶著我 連抱怨都沒有9[00:30.900 --> 00:34.300] 電話開始偷 總不對我說10[00:34.300 --> 00:37.700] 不習慣一個人生活11[00:37.700 --> 00:41.100] 離開我以後 要我好過12[00:41.100 --> 00:44.500] 怕它繞向自由的我13[00:44.500 --> 00:47.800] 都這個時候 你還在意著14[00:47.800 --> 00:51.200] 別人是怎麼 怎麼幹我的15[00:51.200 --> 00:53.700] 拼命解釋這不是我的錯16[00:53.700 --> 00:56.300] 是你要走17[00:56.300 --> 01:01.800] 眼看著你 難過18[01:03.800 --> 01:08.300] 溫柔的話卻沒有說19[01:10.300 --> 01:15.300] 你會怪笑 放手20[01:17.300 --> 01:22.300] 說好不顧 讓我走21[01:23.300 --> 01:28.300] 電話開始偷 總不對我說22[01:28.300 --> 01:31.300] 不習慣一個人生活23[01:31.300 --> 01:35.300] 離開我以後 要我好過24[01:35.300 --> 01:38.300] 怕它繞向自由的我25[01:38.300 --> 01:42.300] 都這個時候 你還在意著26[01:42.300 --> 01:45.300] 別人是怎麼 怎麼幹我的27[01:45.300 --> 01:48.300] 拼命解釋這不是我的錯28[01:48.300 --> 01:51.300] 是你要走29[01:51.300 --> 01:56.300] 眼看著你 難過30[01:58.300 --> 02:03.300] 溫柔的話卻沒有說31[02:05.300 --> 02:10.300] 你會怪笑 放手32[02:12.300 --> 02:16.300] 說好不顧 讓我走33[02:18.300 --> 02:22.300] 沒什麼都沒有34[02:25.300 --> 02:30.300] 卻還在為我夢加油35[02:32.300 --> 02:37.300] 想等過了多久36[02:39.300 --> 02:44.300] 還在找理由等我37[02:48.300 --> 02:53.300] 詞曲 李宗盛
+```
+
+输出的竟然是繁体字… 看来用来训练的语料基本都来自 `TW` 😭, `anyway`, 我们在尝试一下使用比特率最低的音频文件来进行识别:
+
+Terminal window
+
+```
+1yt-dlp "https://www.bilibili.com/video/BV1bJ41137yp" -f 30216 -o "说好不哭-30216.m4a"2
+3[BiliBili] Extracting URL: https://www.bilibili.com/video/BV1bJ41137yp4[BiliBili] 1bJ41137yp: Downloading webpage5[BiliBili] BV1bJ41137yp: Extracting videos in anthology6[BiliBili] BV1bJ41137yp: Downloading wbi sign7[BiliBili] BV1bJ41137yp: Downloading video formats for cid 1184046518[BiliBili] Format(s) 1080P 高码率 are missing; you have to become a premium member to download them. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies9[BiliBili] 68314743: Extracting chapters10[info] BV1bJ41137yp: Downloading 1 format(s): 3021611[download] Destination: 说好不哭-30216.m4a12[download] 100% of    1.51MiB in 00:00:00 at 4.86MiB/s
+```
+
+Terminal window
+
+```
+1whisper 说好不哭-30216.m4a --model medium --language Chinese2[00:00.000 --> 00:10.000] 沒有了聯絡 後來的生活 我都是聽別人說3[00:10.000 --> 00:17.000] 說你怎麼了 說你怎麼過 放不下的人是我4[00:17.000 --> 00:24.000] 人多的時候就待在角落 就怕別人問起我5[00:24.000 --> 00:31.000] 你們怎麼了 你低著頭 捕捉我 連抱怨都沒有6[00:31.000 --> 00:38.000] 電話開始偷 總不對我說 不習慣一個人生活7[00:38.000 --> 00:44.000] 離開我以後 要我好好過 怕它擾向自由的我8[00:44.000 --> 00:51.000] 都這個時候 你還在意著 別人是怎麼 怎麼幹我的9[00:51.000 --> 00:56.000] 拼命解釋這不是我的錯 是你要走10[00:56.000 --> 01:03.000] 眼看著你難過11[01:03.000 --> 01:10.000] 忘了的話卻沒有說12[01:10.000 --> 01:17.000] 你會怪笑放手13[01:17.000 --> 01:25.000] 說好不顧讓我走14[01:25.000 --> 01:32.000] 電話開始偷 總不對我說 不習慣一個人生活15[01:32.000 --> 01:38.000] 離開我以後 要我好好過 怕它擾向自由的我16[01:38.000 --> 01:45.000] 都這個時候 你還在意著 別人是怎麼 怎麼幹我的17[01:45.000 --> 01:51.000] 拼命解釋這不是我的錯 是你要走18[01:51.000 --> 01:58.000] 眼看著你難過19[01:58.000 --> 02:05.000] 忘了的話卻沒有說20[02:05.000 --> 02:12.000] 你會怪笑放手21[02:12.000 --> 02:18.000] 說好不顧讓我走22[02:18.000 --> 02:25.000] 你什麼都沒有23[02:25.000 --> 02:32.000] 卻還在為我夢加油24[02:32.000 --> 02:39.000] 想藏過了多久25[02:39.000 --> 02:44.000] 還在找理由等我
+```
+
+最终耗时 `1.2m` 完成, 看来使用 `medium` 模型识别比特率较低的音频文件是最合适的方式, 虽然识别准确率很一般
+
+最后附上小姐姐的翻唱视频链接: [🎬 说好不哭 女正版 cover by 刘蕴晴 Rachel](https://www.bilibili.com/video/BV1bJ41137yp/?vd_source=19e09fa462750e58610f95b1a63dbfe7)
+
+
+参考来源[#](#参考来源)
+--------------
+
+* [yd-dlp](https://github.com/yt-dlp/yt-dlp)
+* [pyenv - Installation](https://github.com/pyenv/pyenv?tab=readme-ov-file#installation)
+* 封面图素材来自: [Whisper icons created by Freepik - Flaticon](https://www.flaticon.com/free-icons/whisper)
+    使用 yt-dlp + ffmpeg + whisper 下载提取并识别语音文本  <http://blog.xiaban.run/posts/2025/openai-whisper/>   作者 Ryan   发布于 2025-11-22   许可协议 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)           [使用 Google 官方的 chrome-devtools-mcp 让 Claude Code 操控浏览器](/posts/2025/chrome-devtools-mcp-demo/)   [我在工作日使用的 ios 快捷指令](/posts/2025/ios-shotcut-working-day/)        
+© 2026 Ryan. All Rights Reserved. /
+[RSS](/rss.xml) /
+[Sitemap](/sitemap-index.xml)  
+  
+Powered by
+[Astro](https://astro.build) &
+[Fuwari](https://github.com/saicaca/fuwari)   ![]() [鲁公网安备37070302000206号](https://beian.mps.gov.cn/#/query/webSearch?code=37070302000206)  |  [鲁ICP备2025143431号-1](https://beian.miit.gov.cn/)            
+© 2026 Ryan. All Rights Reserved. /
+[RSS](/rss.xml) /
+[Sitemap](/sitemap-index.xml)  
+  
+Powered by
+[Astro](https://astro.build) &
+[Fuwari](https://github.com/saicaca/fuwari)   ![]() [鲁公网安备37070302000206号](https://beian.mps.gov.cn/#/query/webSearch?code=37070302000206)  |  [鲁ICP备2025143431号-1](https://beian.miit.gov.cn/)                        [1安装](#安装)[pyenv](#pyenv)[2ffmpeg](#ffmpeg)[3选择模型和语言](#选择模型和语言)[4使用](#使用)[yt-dlp](#yt-dlp)[下载视频](#下载视频)[提取音频](#提取音频)[直接下载音频](#直接下载音频)[使用 whisper 识别语音](#使用-whisper-识别语音)[5参考来源](#参考来源)          

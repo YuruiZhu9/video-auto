@@ -1,0 +1,1211 @@
+# Source URL: https://blog.csdn.net/qq_41797451/article/details/159785008
+# Content Length: 24800 characters
+# Extracted at: 2026-04-04 13:12:10
+#============================================================
+
+ 
+
+
+
+
+
+国产编程 AI 天花板来了！通义千问 Qwen3.6-Plus 深度测评：百万上下文 + 最强代码能力-CSDN博客
+
+
+
+
+
+
+
+国产编程 AI 天花板来了！通义千问 Qwen3.6-Plus 深度测评：百万上下文 + 最强代码能力
+===================================================
+
+
+最新推荐文章于 2026-04-03 15:37:59 发布
+原创
+最新推荐文章于 2026-04-03 15:37:59 发布
+·
+354 阅读
+·
+![]()
+![]()
+8
+
+
+·
+![]()
+![]()
+3
+·
+CC 4.0 BY-SA版权
+版权声明：本文为博主原创文章，遵循 [CC 4.0 BY-SA](http://creativecommons.org/licenses/by-sa/4.0/) 版权协议，转载请附上原文出处链接和本声明。
+
+
+
+
+
+文章标签：
+
+[#人工智能](https://so.csdn.net/so/search/s.do?q=%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#Qwen3.6-Plus](https://so.csdn.net/so/search/s.do?q=Qwen3.6-Plus&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#通义千问](https://so.csdn.net/so/search/s.do?q=%E9%80%9A%E4%B9%89%E5%8D%83%E9%97%AE&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+
+
+
+
+
+
+
+[![]()
+大模型
+专栏收录该内容](https://blog.csdn.net/qq_41797451/category_12759586.html)
+
+43 篇文章
+
+订阅专栏
+
+
+
+
+### 📌 摘要
+
+2026 年 4 月 2 日，阿里巴巴通义实验室正式发布新一代旗舰模型 **Qwen3.6-Plus**。这款模型以**100 万 token 超长上下文**、**业界领先的 Agentic Coding 能力**和**原生多模态理解**三大核心亮点，成为当下最值得关注的国产大模型。本文将从技术架构、核心能力、实测表现到使用指南，带你全面了解这款"编程最强国产 AI"。
+
+---
+
+### 一、重磅发布：Qwen3.6-Plus 是什么？
+
+Qwen3.6-Plus 是通义千问 Plus 系列的下一代进化版本，标志着阿里在通用人工智能领域的又一次重大突破。
+
+与此前开源的 Qwen3 系列不同，Qwen3.6-Plus 采用**专有模型策略（非开源）**，仅通过 API 提供服务。这是阿里从开源生态向商业化旗舰模型转型的重要信号，旨在为企业提供更稳定、高性能的推理服务。
+
+#### 关键参数一览
+
+| 特性 | 规格 |
+| --- | --- |
+| **上下文窗口** | 100 万 token（默认支持） |
+| **最大输出长度** | 65,536 tokens |
+| **架构** | 混合稀疏 MoE 架构 |
+| **多模态** | 原生视觉理解（图文/视频） |
+| **智能体能力** | 原生 Agentic Coding 支持 |
+| **开源状态** | ❌ 不开源（仅 API 服务） |
+
+---
+
+### 二、三大核心亮点解析
+
+#### 🚀 亮点一：百万级超长上下文
+
+Qwen3.6-Plus 默认支持 **100 万 token 上下文窗口**，这意味着你可以：
+
+* 一次性上传整本技术书籍进行问答
+* 分析仓库级代码库，理解跨文件依赖关系
+* 处理超长视频脚本或法律文档
+
+更惊人的是，**最大输出可达 65,536 tokens**，足以生成完整的项目架构文档或大型代码模块，解决了长任务生成中断的痛点。
+
+#### 💻 亮点二：当下编程能力最强的国产模型
+
+在多项权威编程基准测试中，Qwen3.6-Plus 表现亮眼，且以**不到竞品一半的参数量**实现了同等甚至更优的性能：
+
+* **SWE-bench Verified**：得分 **78.8**（软件工程任务解决能力）
+* **Terminal-Bench 2.0**：得分 **61.6**（终端命令理解与执行）
+* **参数量效率**：模型参数量不到 Kimi K2.5 / GLM-5 的 1/2，但性能表现同等甚至更优
+
+##### Agentic Coding：从"写代码"到"做项目"
+
+Qwen3.6-Plus 引入了 **Agentic Coding（代理式编程）** 范式，可像智能代理一样自主完成编程任务：
+
+1. **自主规划**：理解需求 → 拆分任务
+2. **工具调用**：自主调用编辑器、终端等工具
+3. **执行验证**：执行代码 → 验证结果
+4. **修复错误**：自动调试直至功能完成
+
+这意味着，你可以直接说：“帮我做一个带用户登录功能的 React 电商后台”，AI 会自主完成从架构设计到代码实现的完整流程，支持前端页面生成、代码补全及交互修改。
+
+#### 🎨 亮点三：原生多模态理解
+
+不同于后期拼接视觉模块的方案，Qwen3.6-Plus 基于**原生多模态数据训练**，在多个基准测试中表现优异：
+
+* **OmniDocBench**：得分 **91.2**（复杂排版 PDF、扫描件、表格）
+* **Video-MME**：得分 **87.8**（时序逻辑分析、视频内容推理）
+* **实用场景**：可基于界面截图、设计稿或自然图文描述完成代码生成与修改（如：上传设计稿截图，AI 自动生成 HTML/CSS 代码）。
+
+---
+
+### 三、如何使用？平台接入指南
+
+#### 1. 阿里云百炼（官方商业版）
+
+**状态**：已正式上架  
+
+**适用场景**：企业级应用、生产环境部署
+
+* **国内节点**：`https://dashscope.aliyuncs.com/compatible-mode/v1`
+* **国际节点**：支持多区域部署
+* **优势**：高稳定性，适合大规模业务集成
+
+#### 2. OpenRouter（免费预览版）
+
+**状态**：限时免费开放（预览版）  
+
+**适用场景**：个人体验、原型验证
+
+* **地址**：https://openrouter.ai/qwen/qwen3.6-plus-preview:free
+* **⚠️ 重要提示**：预览版可能会收集用户提示词和生成数据用于模型改进，请勿输入敏感信息。
+
+#### 3. 集成第三方编程助手
+
+支持无缝接入主流开发工具，包括：
+
+* OpenClaw
+* Claude Code
+* Qwen Code
+* 悟空（阿里企业级 AI 应用）
+
+---
+
+### 四、技术架构与开发者特性
+
+Qwen3.6-Plus 采用先进的**混合稀疏 MoE 架构**，在保持高性能的同时显著降低推理成本。对于开发者，以下特性尤为关键：
+
+#### 🔹 协议兼容性强
+
+* ✅ **OpenAI 格式**：兼容 `chat completions/responses` 接口
+* ✅ **Anthropic 格式**：支持相关协议调用
+* 方便开发者快速迁移现有项目。
+
+#### 🔹 特色功能：`preserve_thinking`
+
+* **功能说明**：保留消息中所有前序轮次的思维内容。
+* **推荐使用**：**智能体任务（Agentic Tasks）**。
+* **价值**：增强长周期任务的决策一致性，减少重复推理，有效降低 token 消耗。
+
+```
+# 示例：开启思维保留功能
+curl ... -d '{
+  "model": "qwen3.6-plus",
+  "messages": [...],
+  "preserve_thinking": true
+}'
+
+```
+#### 🔹 推理模式
+
+* 支持 **常规模式** 与 **思考模式（Thinking Mode）**，可根据任务复杂度灵活切换。
+
+---
+
+### 五、未来展望
+
+从开源生态到专有旗舰，阿里正在构建一个覆盖全场景的大模型矩阵：
+
+* **开源模型**：Qwen3 系列（满足开发者定制需求）
+* **商业旗舰**：Qwen3.6-Plus（提供最强性能与性价比）
+* **垂直场景**：代码、数学、多模态专用能力内嵌
+
+随着 Qwen3.6-Plus 的落地，企业级 AI 应用将获得更强大的后端推理支持，尤其是在复杂代码生成与自动化修复场景。
+
+---
+
+### 📝 写在最后
+
+Qwen3.6-Plus 的发布，标志着国产大模型在编程能力和长上下文处理上已跻身世界前列。对于开发者而言，这意味着：
+
+* ✅ **更智能的编程助手**：Agentic Coding 提升开发效率
+* ✅ **更强的代码理解能力**：百万上下文降低维护成本
+* ✅ **更自然的交互方式**：多模态输入降低 AI 使用门槛
+
+如果你正在寻找一款**懂代码、懂设计、懂业务**的 AI 助手，不妨亲自体验 Qwen3.6-Plus。
+
+---
+
+**👋 问候读者**
+
+感谢你的阅读！如果你对 Qwen3.6-Plus 有任何使用心得或疑问，欢迎在评论区留言交流。如果觉得本文对你有帮助，别忘了点赞、收藏、转发三连支持！让我们一起见证国产 AI 的崛起！🚀
+
+---
+
+**标签：** `通义千问` `大语言模型` `AI 编程` `Qwen3.6-Plus`
+
+---
+
+> **版权声明**：本文为原创内容，版权归作者所有，转载需注明出处。  
+> 
+> **数据参考**：模型参数及基准测试数据基于 2026 年 4 月 2 日官方发布信息。
+
+
+
+
+
+
+
+![]()
+确定要放弃本次机会？
+
+福利倒计时
+
+*:*
+
+*:*
+
+
+![]()
+立减 ¥
+
+
+普通VIP年卡可用
+
+[立即使用](https://mall.csdn.net/vip)
+
+
+[![]()
+曦紫沐](https://blog.csdn.net/qq_41797451)
+
+[关注](javascript:;)
+关注
+
+
+* ![]()
+  ![]()
+  ![]()
+  8
+  点赞
+* ![]()
+  ![]()
+  踩
+* [![]()
+  ![]()
+  ![]()
+  3](javascript:;)
+  收藏
+  
+  
+  
+  觉得还不错?
+  一键收藏
+  
+  ![]()
+* ![]()
+  知道了
+  
+  [![]()
+  0](#commentBox)
+  评论
+* [![]()
+  分享](javascript:;)
+  复制链接
+  
+  分享到 QQ
+  
+  分享到新浪微博
+  
+  ![]()扫一扫
+* ![]()
+  ![]()
+  举报
+  
+  ![]()
+  举报
+
+专栏目录
+
+
+
+
+![]()
+
+[【光子 *AI*】Agentic *AI* 范式：通用*人工智能*代理《 Manus 公司*深度*调研报告 2025 》Meta 花 20 亿美元（140亿）收购的 Manus 公司到底是什么来头？](https://dreamit.blog.csdn.net/article/details/156435972)
+
+
+12-31
+![]()
+739
+
+
+
+
+[Manus 的出现标志着*人工智能*从“对话式 *AI*（Chatbot）”向“代理式 *AI*（Agentic *AI*）”的范式转移。作为一款通用型 *AI* Agent，Manus 展现了从意图理解、规划拆解到自主执行、自我修正的完整闭环*能力*。本报告认为，Manus 有潜力成为 *AI* 时代的操作系统级入口，但也面临推理成本高昂、巨头围剿及数据隐私的三重挑战。Manus 是一家专注于通用*人工智能*代理（Generalist *AI* Agent）研发的科技初创公司。在 LLM（大语言模型）爆发的背景下，Manus 敏锐地捕捉到了](https://dreamit.blog.csdn.net/article/details/156435972)
+
+
+
+
+
+参与评论
+您还未登录，请先
+登录
+后发表或查看评论
+
+
+[*通义**千**问* *Qwen*2*-*VL*-*2B：技术架构、核心原理、微调操作与场景应用详解](https://blog.csdn.net/zhangjiaofa/article/details/144907899)
+
+[zhangjiaofa的专栏](https://blog.csdn.net/zhangjiaofa)
+
+01-03
+![]()
+1780
+
+
+
+
+[*Qwen*2*-*VL*-*2B 作为一款轻量级多模态大模型，凭借其创新的技术架构和强大的多模态处理*能力*，在文档理解、视频*问*答、视觉智能体等场景中展现了卓越的性能。通过本文提供的微调操作指南，开发者可以快速上手并应用于实际场景中。尽管在位置感知、长视频处理等方面仍存在挑战，但其开源特性为社区提供了丰富的探索空间。未来，随着技术的不断优化和应用场景的拓展，*Qwen*2*-*VL*-*2B 有望在多模态领域发挥更大的价值。参考文献[1] *千**问*团队tech lead解读*Qwen*2*-*VL。](https://blog.csdn.net/zhangjiaofa/article/details/144907899)
+
+
+
+[突发！开源大模型的“四强争霸”：Llama、GLM、*Qwen* 与 DeepSeek的巅峰对决 ！2025](https://devpress.csdn.net/v1/article/detail/155226384)
+
+[Trb701012的博客](https://blog.csdn.net/Trb701012)
+
+11-28
+![]()
+1171
+
+
+
+
+[2025年开源大模型形成Meta(Llama)、阿里(*Qwen*)、智谱(GLM)、DeepSeek四强格局，各具特色：Llama生态优势，*Qwen*全能表现，DeepSeek*代码*领域领先，GLM性价比突出。开源模型性能已接近闭源，市场规模突破920亿美元。文章深入分析四大模型技术内核、生态布局、实战表现及适用场景，为开发者提供选型指南和部署技巧，助力把握*AI*技术发展机遇。](https://devpress.csdn.net/v1/article/detail/155226384)
+
+
+
+
+[51c大模型~合集181](https://devpress.csdn.net/v1/article/detail/151625370)
+
+[whaosoft~aiotの开发板商城](https://blog.csdn.net/weixin_49587977)
+
+09-12
+![]()
+1028
+
+
+
+
+[我自己的原文哦~ https*:*//blog*.*51cto*.*com/whaosoft/14174584](https://devpress.csdn.net/v1/article/detail/151625370)
+
+
+
+[51c大模型~合集1*6*1](https://devpress.csdn.net/v1/article/detail/149753671)
+
+[whaosoft~aiotの开发板商城](https://blog.csdn.net/weixin_49587977)
+
+07-29
+![]()
+4288
+
+
+
+
+[当我们使用方便快捷的卫星网络服务时，就在网络的另一边，一个名叫 “风云太空” 的系统，却平静无声地向这些为我们提供服务的卫星发送了预警信息，一场因太阳爆发活动所带来的冲击即将在大约 24 小时后到达*.**.**.**.**.**.* 在获取预警信息后，地面运控部门启动应急预案，并在太阳风暴到来时从容应对，化解了此次空间天气危机。第三，他们提出了一个高效的元学习算法，在训练期间使用新语言中的少量标记示例优化跨语言迁移。作者提出了不同的对齐策略，利用现有资源，如机器翻译、预训练模型、相邻任务的数据，或每种新语言中的少量标注示例。](https://devpress.csdn.net/v1/article/detail/149753671)
+
+
+
+[51c大模型~合集10*6*](https://devpress.csdn.net/v1/article/detail/145206065)
+
+[whaosoft~aiotの开发板商城](https://blog.csdn.net/weixin_49587977)
+
+01-18
+![]()
+3837
+
+
+
+
+[我自己的原文哦~ https*:*//blog*.*51cto*.*com/whaosoft/1*3*115290新猜想：已诞生，被蒸馏成小模型来卖最近几个月，从各路媒体、*AI* 社区到广大网民都在关注 Open*AI* 下一代大模型「GPT*-*5」的进展。我们都知道 Open*AI* 在研究新模型，新模型可能遭遇了困难无法按计划推出，但如果有人说 GPT*-*5 已经在某个地方塑造世界了，你会怎么想？假设如下：Open*AI* 已经构建了 GPT*-*5，但将其应用在了内部，因为这样做投资回报远高于将其发布给数*百万* ChatGPT 用户。此](https://devpress.csdn.net/v1/article/detail/145206065)
+
+
+
+[告别GPT*-*4o！*通义**千**问**Qwen*2*.*5*-*Max横空出世，性能炸裂，引领*AI*新纪元！](https://blog.csdn.net/m0_66917422/article/details/145395131)
+
+[m0\_66917422的博客](https://blog.csdn.net/m0_66917422)
+
+01-29
+![]()
+1809
+
+
+
+
+[*通义**千**问* *Qwen*2*.*5*-*Max 的发布，无疑是*人工智能*领域的一件盛事。它不仅以其卓越的性能超越了众多竞争对手，更为我们展示了*人工智能*技术的无限可能。让我们一同期待 *Qwen*2*.*5*-*Max 在未来能够为我们带来更多的惊喜，共同见证 *AI* 的新纪元！](https://blog.csdn.net/m0_66917422/article/details/145395131)
+
+
+
+[阿里云*通义**千**问* *Qwen*2*.*5*-*7B*-*Instruct 模型：采用 llama*.*cpp 的 Q4*-*K*-*M 量化方法的 4 位量化版本介绍](https://download.csdn.net/download/hub_cross/91791135)
+
+08-28
+
+
+
+[*Qwen*2*.*5*-*7B*-*Instruct（Q4KM 量化版）是阿里云*通义**千**问* *Qwen*2*.*5*-*7B*-*Instruct 模型的 4 位量化版本，它采用了 llama*.*cpp 的 Q4KM 量化方法。 该模型的原始模型为 *Qwen*/*Qwen*2*.*5*-*7B*-*Instruct，其参数量为 70 亿。原始*.**.**.*](https://download.csdn.net/download/hub_cross/91791135)
+
+
+
+[大语言模型部署*-*使用OpenVINO部署*通义**千**问**QWen*2*-*附项目源码*+*流程教程*-*优质项目实战*.*zip](https://download.csdn.net/download/weixin_66442839/89892234)
+
+10-16
+
+
+
+[*通义**千**问**QWen*2是*通义*科技公司推出的一款基于*深度*学习的大语言模型。*QWen*2融合了自然语言处理技术，能够理解复杂的语境和语义，支持*问*答、对话、文本生成等多种功能。在部署方面，使用OpenVINO可以将*通义**千**问**QWen*2的*.**.**.*](https://download.csdn.net/download/weixin_66442839/89892234)
+
+
+
+[基于乐鑫的 ESP*-*IDF 开发的*国产*开源小智*AI*机器人，接入大模型DeepSeek、Open*AI*、*通义**千**问**Qwen* 2*.*5*-*Max等](https://download.csdn.net/download/qq_41701956/90590340)
+
+04-10
+
+
+
+[在当今这个科技迅猛发展的时代，*人工智能**AI*技术已经渗透到我们日常生活的方方面面。其中，机器人技术作为*人工智能*的重要分支，更是得到了迅速的发展和广泛的应用。近年来，随着开源文化的发展，越来越多的开源项目*.**.**.*](https://download.csdn.net/download/qq_41701956/90590340)
+
+
+
+[从 OpenClaw 到 ToClaw：*AI* 代理网关的产品化之路
+热门推荐](https://devpress.csdn.net/v1/article/detail/159675829)
+
+[倔强的石头的博客](https://blog.csdn.net/2302_78391795)
+
+03-31
+![]()
+1万+
+
+
+
+
+[OpenClaw 的优势在自由度与可扩展；代价是上手成本、维护成本，以及体验一致性更依赖个人配置。](https://devpress.csdn.net/v1/article/detail/159675829)
+
+
+
+[YOLO*+*ByteTrack 纯轨迹驱动方案：无快照盲区场景下的无人售货柜结算落地指南](https://blog.csdn.net/alspd_zhangpan/article/details/159652707)
+
+[技术分析](https://blog.csdn.net/alspd_zhangpan)
+
+03-30
+![]()
+1013
+
+
+
+
+[本文提出了一种针对无快照无人售货柜场景的商品跟踪与结算方案。针对摄像头存在盲区、无法获取完整快照的*问*题，采用YOLO*+*ByteTrack技术实现纯轨迹驱动的结算系统。方案通过检测框分级、卡尔曼滤波预测、两阶段匹配和轨迹状态管理等优化，确保商品ID全程稳定和轨迹连续。系统定义货道陈列区和取货过渡区，基于商品轨迹状态流转实现精准的动作判定，无需依赖前后快照比对。配套提供了完整的*代码*实现、参数配置和调优指南，经商用验证可达到99*.*9%的结算准确率。该方案有效解决了盲区遮挡、商品移出视野等核心痛点，为无快照场景提供](https://blog.csdn.net/alspd_zhangpan/article/details/159652707)
+
+
+
+[Nature Communications：从原子尺度看石墨烯/水界面——机器学习模拟终结亲水/疏水之争
+最新发布](https://blog.csdn.net/xiaoxiaoxiaolll/article/details/159798793)
+
+[xiaoxiaoxiaolll的博客](https://blog.csdn.net/xiaoxiaoxiaolll)
+
+04-03
+![]()
+283
+
+
+
+
+[韩国基础科学研究院与高丽大学团队通过机器学习增强的分子动力学模拟，揭示了石墨烯/水界面的微观机制。研究发现：1）本征石墨烯本质疏水，且随层数增加疏水性增强；2）传统润湿透明理论不适用于无缺陷基底，表观亲水性源于水分子嵌入效应；*3*）水分子嵌入存在厚度依赖性热力学驱动力。该研究修正了长期争议，为石墨烯基器件设计提供了重要指导，同时展示了*AI*辅助模拟在材料界面研究中的强大潜力。相关成果发表于《Nature Communications》。](https://blog.csdn.net/xiaoxiaoxiaolll/article/details/159798793)
+
+
+
+[全新跨平台*AI*桌面 轻量高性能，*AI*聊天客户端源码](https://devpress.csdn.net/v1/article/detail/159727593)
+
+[bailukeji的博客](https://blog.csdn.net/bailukeji)
+
+04-01
+![]()
+442
+
+
+
+
+[在当今*AI*技术飞速发展的时代，用户往往需要在多个*AI*模型和服务之间切换，过程繁琐且效率低下。我们推出的全新轻量级高性能跨平台桌面应用，正是为了解决这一核心痛点而生。它将直观易用的*AI*聊天界面与强大的*AI*网关管理功能*深度*融合，为用户提供了一个前所未有的、统一且高效的智能交互工作站。所谓“一体化”，意味着您无需再为不同的*AI*服务分别打开多个网页或应用。在本应用中，您可以在一个简洁的聊天窗口内，自由切换或同时调用来自Open*AI*、Claude、Gemini以及众多开源模型的智能*能力*。](https://devpress.csdn.net/v1/article/detail/159727593)
+
+
+
+[【论文复现】Applied Intelligence 2025：Auto*-*PU正例无标签学习的自动化实现与GPT*-*5*.*4辅助*编程*实战](https://zhisuanpusa.blog.csdn.net/article/details/159672790)
+
+[nmdbbzcl的博客](https://blog.csdn.net/nmdbbzcl)
+
+03-31
+![]()
+755
+
+
+
+
+[正例*-*无标签学习（Positive*-*Unlabelled Learning, PU Learning）是机器学习领域处理"只有正例标签，负例完全未知"场景的重要技术。本文基于2025年发表于Applied Intelligence的最新研究成果，详细阐述如何从零复现Auto*-*PU框架（包含GA*-*Auto*-*PU、BO*-*Auto*-*PU、EBO*-*Auto*-*PU三种优化器）。](https://zhisuanpusa.blog.csdn.net/article/details/159672790)
+
+
+
+[*AI*机器视觉硬件之工业相机](https://devpress.csdn.net/v1/article/detail/159785485)
+
+[刘程云的博客](https://blog.csdn.net/weixin_43200566)
+
+04-03
+![]()
+258
+
+
+
+
+[工业相机选型指南 工业相机是机器视觉系统的核心组件，负责将光信号转换为电信号。选型需考虑以下关键因素： 传感器类型：分为CCD（高动态范围）和CMOS（集成度高、成本低）； 颜色需求：黑白相机轮廓清晰、速度快，适用于检测；彩色相机用于颜色识别； 快门方式：全局快门适合动态拍摄，卷帘快门适用于静态场景； 分辨率与精度：根据视野和精度需求计算（理论精度=视野/像素），测量时需*3*倍精度冗余； 帧率：动态检测需高帧率（如*6*0fps）。](https://devpress.csdn.net/v1/article/detail/159785485)
+
+
+
+[Google API密钥“权限升级”危机：近*3*000个公开密钥可直接访*问*Gemini *AI*私密数据](https://blog.csdn.net/OPHKVPS/article/details/159763216)
+
+[OPHKVPS的博客](https://blog.csdn.net/OPHKVPS)
+
+04-02
+![]()
+393
+
+
+
+
+[摘要：安全研究人员发现，嵌入网页前端*代码*的Google Cloud API密钥在启用Gemini *AI*服务后，会静默获得*AI*访*问*权限，导致严重安全风险。扫描发现近*3*000个公开密钥，涉及金融机构等敏感机构。攻击者可窃取数据或制造高额账单（案例显示48小时产生8*.*2万美元费用）。谷歌已采取限制新密钥权限等措施，并建议开发者立即审计和轮换密钥。该事件警示开发者需重新评估API密钥的安全性，遵循最小权限原则并定期扫描*代码*。（149字）](https://blog.csdn.net/OPHKVPS/article/details/159763216)
+
+
+
+[KV Cache技术详解：原理、机制与用法](https://devpress.csdn.net/v1/article/detail/159726257)
+
+[ywfwyht的博客](https://blog.csdn.net/qq_39506862)
+
+04-01
+![]()
+311
+
+
+
+
+[本文详细解析了KV Cache在大型语言模型和VLA模型中的关键作用。KV Cache通过缓存历史token的Key*-*Value向量，避免了自回归生成中的重复计算，显著提升推理速度。在VLA模型中，KV Cache进一步演变为多模态资源管理技术，需处理图像、文本和动作三种模态的长序列挑战。核心优化策略包括跨帧KV共享、长序列压缩和分层架构下的KV传递。相比训练阶段，推理部署必须启用KV Cache以满足自动驾驶等高实时性场景的严苛延迟要求（>50Hz）。该技术以空间换时间，在保证精度的同时突破了内存和](https://devpress.csdn.net/v1/article/detail/159726257)
+
+
+
+[*深度*神经网络的底层数学原理](https://blog.csdn.net/weixin_71849365/article/details/159647369)
+
+[weixin\_71849365的博客](https://blog.csdn.net/weixin_71849365)
+
+03-30
+![]()
+459
+
+
+
+
+[有了偏置与权重，一个模型可能就有成万上亿个参数，相当于成万上亿个开关。所以，当我们在讨论如何进行模型训练、如何学习得更好的时候，其实是在讲：如何选定好合适的参数，控制好合适的开关，才能让输入得到正确的输出。神经网络的工作更像是一个拆解任务，从微观像素逐渐提取到宏观特征，更宏观特征，更更宏观特征，乃至答案的一个过程。神经网络的每一层就是一堆神经元，也就是提取到的宏观特征的集合，每一个神经元都代表着一个特征或者信息。](https://blog.csdn.net/weixin_71849365/article/details/159647369)
+
+
+
+
+
+
+
+
+
+
+[![]()](https://blog.csdn.net/qq_41797451)
+
+[曦紫沐](https://blog.csdn.net/qq_41797451)
+
+
+博客等级
+
+![]()
+
+码龄8年
+
+
+
+[356
+原创](https://blog.csdn.net/qq_41797451)
+
+3493
+点赞
+
+3414
+收藏
+
+960
+粉丝
+
+
+关注
+
+[私信](https://im.csdn.net/chat/qq_41797451)
+
+
+
+![]()
+
+
+### 分类专栏
+
+* [![]()
+  大模型](https://blog.csdn.net/qq_41797451/category_12759586.html)
+  43篇
+* [![]()
+  ROS2](https://blog.csdn.net/qq_41797451/category_13126498.html)
+  12篇
+* [![]()
+  Docker](https://blog.csdn.net/qq_41797451/category_12825804.html)
+  14篇
+* [![]()
+  OpenClaw](https://blog.csdn.net/qq_41797451/category_13143508.html)
+  3篇
+* [![]()
+  MacOS](https://blog.csdn.net/qq_41797451/category_13130261.html)
+  2篇
+* [![]()
+  Git](https://blog.csdn.net/qq_41797451/category_12825831.html)
+  11篇
+* [![]()
+  Code Agent](https://blog.csdn.net/qq_41797451/category_13130123.html)
+  2篇
+* [![]()
+  LangChain 1.0](https://blog.csdn.net/qq_41797451/category_13129741.html)
+  7篇
+* [![]()
+  思考感悟](https://blog.csdn.net/qq_41797451/category_13128867.html)
+  1篇
+* [![]()
+  GitHub](https://blog.csdn.net/qq_41797451/category_12891683.html)
+  5篇
+* [![]()
+  Anaconda](https://blog.csdn.net/qq_41797451/category_13127009.html)
+  1篇
+* [![]()
+  Node.js](https://blog.csdn.net/qq_41797451/category_12851016.html)
+  2篇
+* [![]()
+  github 项目](https://blog.csdn.net/qq_41797451/category_13125994.html)
+  1篇
+* [![]()
+  模型微调](https://blog.csdn.net/qq_41797451/category_13115493.html)
+  8篇
+* [![]()
+  模型蒸馏](https://blog.csdn.net/qq_41797451/category_13115528.html)
+  1篇
+* [![]()
+  强化学习算法](https://blog.csdn.net/qq_41797451/category_13115430.html)
+  1篇
+* [![]()
+  Python](https://blog.csdn.net/qq_41797451/category_13115421.html)
+  1篇
+* [![]()
+  大模型部署](https://blog.csdn.net/qq_41797451/category_12857862.html)
+  12篇
+* [![]()
+  语音识别](https://blog.csdn.net/qq_41797451/category_12856429.html)
+  2篇
+* [![]()
+  语音模型](https://blog.csdn.net/qq_41797451/category_12904121.html)
+  9篇
+* [![]()
+  AI编程助手](https://blog.csdn.net/qq_41797451/category_12781544.html)
+  6篇
+* [![]()
+  Conda & uv](https://blog.csdn.net/qq_41797451/category_13101341.html)
+  9篇
+* [![]()
+  显卡](https://blog.csdn.net/qq_41797451/category_12857853.html)
+  4篇
+* [![]()
+  LangChain](https://blog.csdn.net/qq_41797451/category_12904239.html)
+  4篇
+* [![]()
+  Transformer](https://blog.csdn.net/qq_41797451/category_12808450.html)
+  5篇
+* [![]()
+  读书笔记](https://blog.csdn.net/qq_41797451/category_12915916.html)
+  48篇
+* [![]()
+  MicroSoft](https://blog.csdn.net/qq_41797451/category_12845238.html)
+  2篇
+* [![]()
+  心理学](https://blog.csdn.net/qq_41797451/category_12915917.html)
+  7篇
+* [![]()
+  传记](https://blog.csdn.net/qq_41797451/category_12915921.html)
+  2篇
+* [![]()
+  提示词](https://blog.csdn.net/qq_41797451/category_12904835.html)
+  3篇
+* [![]()
+  智能体](https://blog.csdn.net/qq_41797451/category_12891685.html)
+  2篇
+* [![]()
+  AI 产品](https://blog.csdn.net/qq_41797451/category_12867241.html)
+  2篇
+* [![]()
+  Obsidian](https://blog.csdn.net/qq_41797451/category_12864433.html)
+  1篇
+* [![]()
+  Web](https://blog.csdn.net/qq_41797451/category_12851017.html)
+  2篇
+* [![]()
+  RAG](https://blog.csdn.net/qq_41797451/category_12809203.html)
+  1篇
+* [![]()
+  Pandas](https://blog.csdn.net/qq_41797451/category_12808853.html)
+  2篇
+* [![]()
+  AI绘画从入门到精通](https://blog.csdn.net/qq_41797451/category_12781026.html)
+  2篇
+* [![]()
+  AI 数据分析](https://blog.csdn.net/qq_41797451/category_12778531.html)
+  2篇
+* [![]()
+  Django框架](https://blog.csdn.net/qq_41797451/category_7488414.html)
+  13篇
+* [![]()
+  对数据库数据进行增删改查](https://blog.csdn.net/qq_41797451/category_7491339.html)
+  3篇
+* [![]()
+  Python基础知识](https://blog.csdn.net/qq_41797451/category_7495224.html)
+  36篇
+* [![]()
+  Linux](https://blog.csdn.net/qq_41797451/category_7546748.html)
+  11篇
+* [![]()
+  MySQL数据库](https://blog.csdn.net/qq_41797451/category_7571669.html)
+  16篇
+* [![]()
+  MySQL](https://blog.csdn.net/qq_41797451/category_7572226.html)
+  7篇
+* [![]()
+  数据库](https://blog.csdn.net/qq_41797451/category_7572228.html)
+  33篇
+* [![]()
+  SQL语句](https://blog.csdn.net/qq_41797451/category_7574965.html)
+  4篇
+* [![]()
+  hive](https://blog.csdn.net/qq_41797451/category_7628119.html)
+  3篇
+* [![]()
+  Perl](https://blog.csdn.net/qq_41797451/category_7628486.html)
+  10篇
+* [![]()
+  SQL server](https://blog.csdn.net/qq_41797451/category_7644488.html)
+  3篇
+* [![]()
+  Oracle](https://blog.csdn.net/qq_41797451/category_7653770.html)
+  15篇
+* [![]()
+  Windows](https://blog.csdn.net/qq_41797451/category_7656413.html)
+  4篇
+* [![]()
+  ETL](https://blog.csdn.net/qq_41797451/category_7753647.html)
+  3篇
+* [![]()
+  Linux命令](https://blog.csdn.net/qq_41797451/category_7792461.html)
+  4篇
+* [![]()
+  Shell基础知识](https://blog.csdn.net/qq_41797451/category_7940699.html)
+  7篇
+
+展开全部 ![]()
+收起 ![]()
+
+
+上一篇：
+
+[ROS2 容器迁移全攻略：如何完美打包部署你的 Docker 环境？](https://blog.csdn.net/qq_41797451/article/details/159733464)
+
+
+
+### 大家在看
+
+* [OpenClaw微信飞书自动化集成](https://blog.csdn.net/qinzhenyan/article/details/159825765)
+* [Python基础算法10题精析
+  ![]()
+  819](https://blog.csdn.net/weixin_64313604/article/details/159647495)
+* [Ubuntu Server Shell编程核心语法实战
+  ![]()
+  31](https://blog.csdn.net/weixin_36518466/article/details/159822565)
+* [Redis故障排查与应急指南
+  ![]()
+  286](https://blog.csdn.net/yifan99/article/details/159770077)
+* [Docker快速入门与配置指南](https://blog.csdn.net/xingchendai2023/article/details/159803327)
+
+
+### 最新文章
+
+* [ROS2 容器迁移全攻略：如何完美打包部署你的 Docker 环境？](https://blog.csdn.net/qq_41797451/article/details/159733464)
+* [SSH免密登录实战：3分钟实现 ssh openclaw 一键连接](https://blog.csdn.net/qq_41797451/article/details/159212709)
+* [从零开始：OpenClaw 安全远程访问完全指南（SSH隧道实战版）](https://blog.csdn.net/qq_41797451/article/details/159212291)
+
+
+2026
+[04月
+2篇](https://blog.csdn.net/qq_41797451?type=blog&year=2026&month=04)
+
+[03月
+3篇](https://blog.csdn.net/qq_41797451?type=blog&year=2026&month=03)
+
+[02月
+33篇](https://blog.csdn.net/qq_41797451?type=blog&year=2026&month=02)
+
+[01月
+15篇](https://blog.csdn.net/qq_41797451?type=blog&year=2026&month=01)
+
+
+[2025年180篇](https://blog.csdn.net/qq_41797451?type=blog&year=2025&month=12)
+[2024年38篇](https://blog.csdn.net/qq_41797451?type=blog&year=2024&month=12)
+[2021年5篇](https://blog.csdn.net/qq_41797451?type=blog&year=2021&month=09)
+[2019年16篇](https://blog.csdn.net/qq_41797451?type=blog&year=2019&month=12)
+[2018年148篇](https://blog.csdn.net/qq_41797451?type=blog&year=2018&month=12)
+
+
+
+![]()
+
+
+
+![]()
+
+· AI 阅读助手
+
+
+
+
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+
+
+![]()
+
+
+![]()
+
+· AI 阅读助手
+
+
+
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+![]()
+
+上一篇：
+
+[ROS2 容器迁移全攻略：如何完美打包部署你的 Docker 环境？](https://blog.csdn.net/qq_41797451/article/details/159733464)
+
+
+
+### 分类专栏
+
+* [![]()
+  大模型](https://blog.csdn.net/qq_41797451/category_12759586.html)
+  43篇
+* [![]()
+  ROS2](https://blog.csdn.net/qq_41797451/category_13126498.html)
+  12篇
+* [![]()
+  Docker](https://blog.csdn.net/qq_41797451/category_12825804.html)
+  14篇
+* [![]()
+  OpenClaw](https://blog.csdn.net/qq_41797451/category_13143508.html)
+  3篇
+* [![]()
+  MacOS](https://blog.csdn.net/qq_41797451/category_13130261.html)
+  2篇
+* [![]()
+  Git](https://blog.csdn.net/qq_41797451/category_12825831.html)
+  11篇
+* [![]()
+  Code Agent](https://blog.csdn.net/qq_41797451/category_13130123.html)
+  2篇
+* [![]()
+  LangChain 1.0](https://blog.csdn.net/qq_41797451/category_13129741.html)
+  7篇
+* [![]()
+  思考感悟](https://blog.csdn.net/qq_41797451/category_13128867.html)
+  1篇
+* [![]()
+  GitHub](https://blog.csdn.net/qq_41797451/category_12891683.html)
+  5篇
+* [![]()
+  Anaconda](https://blog.csdn.net/qq_41797451/category_13127009.html)
+  1篇
+* [![]()
+  Node.js](https://blog.csdn.net/qq_41797451/category_12851016.html)
+  2篇
+* [![]()
+  github 项目](https://blog.csdn.net/qq_41797451/category_13125994.html)
+  1篇
+* [![]()
+  模型微调](https://blog.csdn.net/qq_41797451/category_13115493.html)
+  8篇
+* [![]()
+  模型蒸馏](https://blog.csdn.net/qq_41797451/category_13115528.html)
+  1篇
+* [![]()
+  强化学习算法](https://blog.csdn.net/qq_41797451/category_13115430.html)
+  1篇
+* [![]()
+  Python](https://blog.csdn.net/qq_41797451/category_13115421.html)
+  1篇
+* [![]()
+  大模型部署](https://blog.csdn.net/qq_41797451/category_12857862.html)
+  12篇
+* [![]()
+  语音识别](https://blog.csdn.net/qq_41797451/category_12856429.html)
+  2篇
+* [![]()
+  语音模型](https://blog.csdn.net/qq_41797451/category_12904121.html)
+  9篇
+* [![]()
+  AI编程助手](https://blog.csdn.net/qq_41797451/category_12781544.html)
+  6篇
+* [![]()
+  Conda & uv](https://blog.csdn.net/qq_41797451/category_13101341.html)
+  9篇
+* [![]()
+  显卡](https://blog.csdn.net/qq_41797451/category_12857853.html)
+  4篇
+* [![]()
+  LangChain](https://blog.csdn.net/qq_41797451/category_12904239.html)
+  4篇
+* [![]()
+  Transformer](https://blog.csdn.net/qq_41797451/category_12808450.html)
+  5篇
+* [![]()
+  读书笔记](https://blog.csdn.net/qq_41797451/category_12915916.html)
+  48篇
+* [![]()
+  MicroSoft](https://blog.csdn.net/qq_41797451/category_12845238.html)
+  2篇
+* [![]()
+  心理学](https://blog.csdn.net/qq_41797451/category_12915917.html)
+  7篇
+* [![]()
+  传记](https://blog.csdn.net/qq_41797451/category_12915921.html)
+  2篇
+* [![]()
+  提示词](https://blog.csdn.net/qq_41797451/category_12904835.html)
+  3篇
+* [![]()
+  智能体](https://blog.csdn.net/qq_41797451/category_12891685.html)
+  2篇
+* [![]()
+  AI 产品](https://blog.csdn.net/qq_41797451/category_12867241.html)
+  2篇
+* [![]()
+  Obsidian](https://blog.csdn.net/qq_41797451/category_12864433.html)
+  1篇
+* [![]()
+  Web](https://blog.csdn.net/qq_41797451/category_12851017.html)
+  2篇
+* [![]()
+  RAG](https://blog.csdn.net/qq_41797451/category_12809203.html)
+  1篇
+* [![]()
+  Pandas](https://blog.csdn.net/qq_41797451/category_12808853.html)
+  2篇
+* [![]()
+  AI绘画从入门到精通](https://blog.csdn.net/qq_41797451/category_12781026.html)
+  2篇
+* [![]()
+  AI 数据分析](https://blog.csdn.net/qq_41797451/category_12778531.html)
+  2篇
+* [![]()
+  Django框架](https://blog.csdn.net/qq_41797451/category_7488414.html)
+  13篇
+* [![]()
+  对数据库数据进行增删改查](https://blog.csdn.net/qq_41797451/category_7491339.html)
+  3篇
+* [![]()
+  Python基础知识](https://blog.csdn.net/qq_41797451/category_7495224.html)
+  36篇
+* [![]()
+  Linux](https://blog.csdn.net/qq_41797451/category_7546748.html)
+  11篇
+* [![]()
+  MySQL数据库](https://blog.csdn.net/qq_41797451/category_7571669.html)
+  16篇
+* [![]()
+  MySQL](https://blog.csdn.net/qq_41797451/category_7572226.html)
+  7篇
+* [![]()
+  数据库](https://blog.csdn.net/qq_41797451/category_7572228.html)
+  33篇
+* [![]()
+  SQL语句](https://blog.csdn.net/qq_41797451/category_7574965.html)
+  4篇
+* [![]()
+  hive](https://blog.csdn.net/qq_41797451/category_7628119.html)
+  3篇
+* [![]()
+  Perl](https://blog.csdn.net/qq_41797451/category_7628486.html)
+  10篇
+* [![]()
+  SQL server](https://blog.csdn.net/qq_41797451/category_7644488.html)
+  3篇
+* [![]()
+  Oracle](https://blog.csdn.net/qq_41797451/category_7653770.html)
+  15篇
+* [![]()
+  Windows](https://blog.csdn.net/qq_41797451/category_7656413.html)
+  4篇
+* [![]()
+  ETL](https://blog.csdn.net/qq_41797451/category_7753647.html)
+  3篇
+* [![]()
+  Linux命令](https://blog.csdn.net/qq_41797451/category_7792461.html)
+  4篇
+* [![]()
+  Shell基础知识](https://blog.csdn.net/qq_41797451/category_7940699.html)
+  7篇
+
+展开全部 ![]()
+收起 ![]()
+
+
+
+
+
+
+### 目录
+
+
+
+
+
+
+
+
+
+
+
+
+
+评论
+![]()
+
+![]()被折叠的  条评论
+[为什么被折叠?](https://blogdev.blog.csdn.net/article/details/122245662)
+[![]()到【灌水乐园】发言](https://bbs.csdn.net/forums/FreeZone)
+
+
+查看更多评论![]()
+
+
+
+添加红包
+
+
+祝福语
+
+
+请填写红包祝福语或标题
+
+
+红包数量
+
+个
+
+红包个数最小为10个
+
+
+红包总金额
+
+元
+
+红包金额最低5元
+
+
+余额支付
+当前余额3.43元
+[前往充值 >](https://i.csdn.net/#/wallet/balance/recharge)
+
+
+需支付：10.00元
+
+取消
+确定
+
+
+
+
+![]()
+下一步
+
+![]()
+知道了
+
+
+
+![]()
+成就一亿技术人!
+
+
+
+领取后你会自动成为博主和红包主的粉丝
+规则
+
+
+
+![]()
+hope\_wisdom 发出的红包
+
+
+
+
+
+
+
+
+
+实付元
+[使用余额支付](javascript:;)
+![]()
+点击重新获取
+
+
+![]()![]()![]()扫码支付
+
+
+
+
+钱包余额
+0
+![]()
+
+抵扣说明：
+
+1.余额是钱包充值的虚拟货币，按照1:1的比例进行支付金额的抵扣。  
+ 2.余额无法直接购买下载，可以购买VIP、付费专栏及课程。
+
+
+
+
+
+[![]()余额充值](https://i.csdn.net/#/wallet/balance/recharge)
+
+![]()
+
+
+
+
+
+

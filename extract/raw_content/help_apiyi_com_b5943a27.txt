@@ -1,0 +1,557 @@
+# Source URL: https://help.apiyi.com/en/claude-code-source-leak-march-2026-impact-ai-agent-industry-en.html
+# Content Length: 29199 characters
+# Extracted at: 2026-04-01 17:28:59
+#============================================================
+
+
+
+
+Interpretation of the Claude Code source code leak: 512,000 lines of code accidentally open-sourced, what will happen to the AI Agent industry? - Apiyi.com Blog
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[Skip to content](#main)
+
+[![]()
+
+Apiyi.com Blog
+
+Best AI API Router Services](https://help.apiyi.com/en)
+
+* [Nano Banana Pro🔥](https://xinqikeji.feishu.cn/wiki/W4vEwdiCPi3VfTkrL5hcVlDxnQf)
+* [Sora 2 文档🚀](https://xinqikeji.feishu.cn/wiki/RuHDw0BICiRYdokDYy6cPAwunuf)
+* [AI出图试用](https://imagen.apiyi.com)
+* [文档中心Expand](https://docs.apiyi.com)
+  + [本站更新日志](https://docs.apiyi.com/changelog)
+  + [当下模型推荐](https://docs.apiyi.com/api-capabilities/model-info)
+  + [使用场景推荐](https://docs.apiyi.com/scenarios)
+* [API易 后台Expand](https://www.apiyi.com/account/profile)
+  + [查看 API易 日志](https://www.apiyi.com/log?current=1&pageSize=10)
+  + [查看 API易 Key](https://www.apiyi.com/token)
+  + [充值 API易 余额](https://www.apiyi.com/account/topup/recharge)
+  + [返回 API易](https://api.apiyi.com/?utm_source=help-apiyi-nav)
+  + [注册 API易](https://api.apiyi.com/register)
+* [免费试用领额度](https://help.apiyi.com/apiyi-credit-acquisition-guide.html)
+
+
+
+
+
+
+
+
+
+
+
+
+
+[![]()Apiyi.com BlogBest AI API Router Services](https://help.apiyi.com/en)
+
+Toggle Menu
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[AI Coding](https://help.apiyi.com/en/category/ai-vibe-coding-en) | [Claude API](https://help.apiyi.com/en/category/claude-api-en) 
+
+Interpretation of the Claude Code source code leak: 512,000 lines of code accidentally open-sourced, what will happen to the AI Agent industry?
+===============================================================================================================================================
+
+By[APIYI - Stable and affordable AI API](https://help.apiyi.com) 
+2026年 4月 1日 
+
+
+
+
+
+Author's Note: A deep dive into the March 31, 2026, incident where Claude Code accidentally leaked 512,000 lines of source code via npm source maps: what was exposed, the hidden Capybara model and Undercover Mode, and the impact on AI Agent startups.
+
+On March 31, 2026, a build configuration oversight led to one of the largest "accidental open-source" events in the AI industry—Anthropic's entire 512,000-line codebase for Claude Code was leaked via npm source map files, exposing 1,900 files in their entirety. Security researcher Chaofan Shou was the first to discover and disclose it, and the community set up multiple GitHub mirrors within hours, which have since garnered over 1,100 stars. Ironically, the code contained a subsystem called "Undercover Mode"—specifically designed to prevent internal information leaks—only for the entire system to leak itself.
+
+This article breaks down the key contents of the leak, its impact on AI Agent startups, and why this "accidental open-source" event might actually drive the industry forward.
+
+**Core Value**: Understand the internal architecture, hidden features, and engineering practices of Claude Code, and assess the impact of this leak on the AI Agent industry.
+
+![]()
+
+---
+
+Key Facts of the Incident
+-------------------------
+
+| Item | Details |
+| --- | --- |
+| **Leak Date** | March 31, 2026 |
+| **Discovered By** | Security researcher Chaofan Shou |
+| **Leak Method** | npm package v2.1.88 included a 57MB .map source map file |
+| **Scale of Leak** | 1,906 files, 512,000+ lines of TypeScript code |
+| **Cause** | .npmignore failed to exclude .map files + Bun generates source maps by default |
+| **First Time?** | No—a similar incident occurred in February 2025 (this is the second time) |
+| **Anthropic's Response** | Immediately released a new version removing the .map files and deleted the old version from npm |
+| **Community Response** | 3+ GitHub mirror repositories, 1,100+ stars |
+
+---
+
+What Was Leaked: 3 Explosive Discoveries
+----------------------------------------
+
+### Discovery 1: The Mysterious "Capybara" Model Family
+
+The code revealed a previously undisclosed model codename—**Capybara**—which appears in three tiers:
+
+| Model Codename | Speculated Positioning |
+| --- | --- |
+| `capybara` | Standard version (possibly the next-gen Claude) |
+| `capybara-fast` | Fast version (similar to Flash/Haiku positioning) |
+| `capybara-fast[1m]` | Fast version + 1M context window |
+
+The community is speculating that Capybara might be the internal codename for the Claude 5 series, though Anthropic has yet to comment.
+
+### Discovery 2: Undercover Mode
+
+This is the most controversial finding. The code contains a full "Undercover Mode" subsystem, with a system prompt that explicitly states:
+
+> "You are operating UNDERCOVER… Your commit messages… MUST NOT contain ANY Anthropic-internal information. Do not blow your cover."
+
+In other words: **Anthropic has been using Claude Code to anonymously contribute to public open-source projects**—and they specifically designed a mode to hide their identity.
+
+This has sparked a heated debate in the open-source community: Is it "deceptive" for an AI company to submit AI-generated code to open-source projects anonymously?
+
+### Discovery 3: /buddy Tamagotchi AI Pet
+
+Hidden in the code is a fully-fledged virtual pet system—the `/buddy` command summons an AI pet, complete with species, rarity, stats, hats, accessories, and animations. It shows that Anthropic’s internal engineering culture has a playful side—they hid a pet-raising game inside a serious coding tool.
+
+---
+
+The Leaked Engineering Architecture: How Industry-Grade AI Agents Are Built
+---------------------------------------------------------------------------
+
+Setting the gossip aside, the most valuable part of this leak is the **engineering architecture of Claude Code**—it’s the first production-grade AI Agent codebase to be fully exposed to the world.
+
+### Core Architecture Highlights
+
+| Architectural Component | Leaked Implementation Details | Industry Value |
+| --- | --- | --- |
+| **Tool Execution System** | Full implementation of Bash/File IO/Computer Use | How AI Agents safely execute system commands |
+| **Permissions & Approval Flow** | Multi-layer permission bypass and approval mechanisms | Security boundary design for production-grade Agents |
+| **Telemetry & Monitoring** | Complete data collection and analysis pipeline | How to monitor Agent behavior and performance |
+| **Context Compression** | Implementation logic for Context Compaction | Context management strategies for ultra-long conversations |
+| **System Prompts** | All security-related system prompts | How to use prompts to constrain Agent behavior |
+| **IPC Communication** | Inter-process communication protocol | Engineering practices for multi-Agent coordination |
+| **Feature Flags** | A complete list of 44 feature toggles | Anthropic's product roadmap |
+| **Sandbox Mechanism** | Isolated implementation for code execution | Best practices for secure Agent execution |
+
+![]()
+
+---
+
+Why This "Accidental Open Source" Could Drive Industry Progress
+---------------------------------------------------------------
+
+### Lessons Learned from the Leak
+
+Before this leak, there was no public "gold standard" for how a production-grade AI Agent should be built. Claude Code, currently the #1 coding agent on the Arena Code leaderboard, has 512,000 lines of code that serve as a **complete textbook for industry best practices**.
+
+| Engineering Practice | Claude Code Approach | Industry Takeaway |
+| --- | --- | --- |
+| **Secure Tool Execution** | Multi-layer sandboxing + permission approval + command allowlist | Agents must have clear security boundaries for command execution |
+| **Context Management** | Automatic Context Compaction | Long-running sessions require proactive context management strategies |
+| **Feature Flag** | 44 feature flags for gradual rollout | Large-scale agent products need granular release control |
+| **Telemetry Design** | Comprehensive behavior collection and analysis pipeline | Observability of agent behavior is critical |
+| **Multi-Agent Coordination** | IPC (Inter-Process Communication) + structured messaging | Standardized communication for multi-agent systems |
+| **System Prompt Engineering** | Layered security prompts + role constraints | Design patterns for production-grade prompts |
+
+### Specific Impact on AI Agent Startups
+
+**Impact 1: Lowering the Technical Barrier**
+
+Previously, building a production-grade AI Agent meant figuring out security boundaries, permission systems, and context management from scratch. Now, with a complete reference implementation from Claude Code, startup teams can learn directly from (or even reference) its architectural design patterns, significantly shortening the time from 0 to 1.
+
+**Impact 2: Shifting the Focus of Competition**
+
+When architecture is no longer a secret, differentiation in AI Agents will shift from "how to build it" to "which model to use" and "how good the experience is." Model capabilities (e.g., Claude Opus 4.6 vs. GPT-5.4) and user experience will become the core competitive advantages—which is exactly why model proxy services like APIYI (apiyi.com) are becoming even more valuable.
+
+**Impact 3: Accelerating the Open Source Agent Ecosystem**
+
+The leaked code is already being utilized by the community in several ways:
+
+* The `claw-code` project is rewriting the core logic of Claude Code in Rust.
+* Multiple GitHub repositories are dedicated to architectural analysis and documentation.
+* Security researchers are actively analyzing permission bypasses and potential vulnerabilities.
+
+**Impact 4: Establishing Security Standards**
+
+Claude Code’s permission system, sandboxing mechanism, and security prompt design may well become the de facto standard for AI Agent security—simply because it's currently the only fully exposed production-grade implementation.
+
+![]()
+
+Lessons for Developers
+----------------------
+
+### Security Lessons for Build Configurations
+
+The technical reason for this leak was incredibly simple: a missing `.map` file exclusion in `.npmignore`. This serves as a reminder to every team publishing npm packages:
+
+```
+# Must be included in .npmignore
+*.map
+*.js.map
+*.d.ts.map
+
+```
+
+Alternatively, explicitly declaring only the necessary files in the `files` field of your `package.json` is safer than using an exclusion-based approach.
+
+### If You're an AI Agent Founder
+
+| What You Should Do | Why |
+| --- | --- |
+| **Study Claude Code's permission system** | It's the industry's most mature Agent security implementation |
+| **Learn Context Compaction** | A production-grade solution for managing long-session context |
+| **Reference Feature Flag design** | A canary release system with 44 toggles |
+| **Don't copy code directly** | Leaked code is copyrighted; learn the architectural design patterns instead |
+| **Follow the Capybara model** | It may hint at the direction of the next generation of Claude |
+
+### If You're a Claude Code User
+
+This leak **won't affect your user experience**—Claude Code's core capabilities come from the underlying Claude Opus 4.6 model, not the client-side code. However, you should keep an eye on:
+
+1. **Updating to the latest version**—Anthropic has already pushed a fix.
+2. **The Capybara model**—Likely a new model coming soon.
+3. **44 Feature Flags**—Indicating that many new features are about to launch.
+
+> 🎯 **Industry Insight**: While this leak is negative for Anthropic in the short term (exposed trade secrets, damaged trust), it's positive for the AI Agent industry in the long run. Much like how Android's open-source nature propelled the mobile ecosystem, the accidental exposure of the Claude Code source could become an "industry benchmark" for AI Agent engineering practices.  
+> 
+> Whether you use Claude Code or other AI Agent tools, you can manage your underlying model invocation at a 20% discount via APIYI at apiyi.com.
+
+---
+
+FAQ
+---
+
+**Q1: Does this leak affect the security of Claude Code?**
+
+A client-side code leak is not the same as a server-side breach. The core security of Claude Code (model inference, API authentication, and data transmission encryption) resides on Anthropic's servers, which were not compromised. However, now that the client-side permission bypass logic and security prompts are exposed, they could theoretically be exploited to lower local security defenses. We recommend updating to the latest version immediately.
+
+**Q2: Is Capybara the same as Claude 5?**
+
+The community is speculating, but Anthropic hasn't confirmed anything. The code references three model codenames: `capybara`, `capybara-fast`, and `capybara-fast[1m]`, suggesting a complete model family (standard, fast, and large-context versions). Based on the naming convention, Anthropic may be using animal codenames for their new model series. We'll have to wait for an official announcement from Anthropic for details.
+
+**Q3: What does “Undercover Mode” mean?**
+
+Undercover Mode indicates that Anthropic has been using Claude Code to anonymously contribute code to public open-source projects. The system prompt instructs Claude "not to reveal that it is from Anthropic." This has sparked an ethical debate: Is it a violation of transparency commitments to the open-source community for an AI company to use AI tools to contribute code anonymously? There is currently no industry consensus.
+
+**Q4: Can I build a product based on the leaked code?**
+
+Legally, it's not recommended. The leaked code is still protected by Anthropic's copyright—"accidental disclosure" is not the same as an "open-source license." You can study its architectural design patterns and engineering practices (which fall under the realm of "ideas"), but you cannot copy the code directly into your product. Some people are already rewriting it in Rust (such as the `claw-code` project), and this "clean-room reimplementation" is legally safer.
+
+
+---
+
+Summary
+-------
+
+Key takeaways from the Claude Code source code leak:
+
+1. **The Incident**: On March 31, 2026, 512,000 lines of TypeScript source code were accidentally leaked via npm source maps. The culprit? A missing `.map` file exclusion in `.npmignore`—marking the second time this type of incident has occurred.
+2. **Three Major Revelations**: The discovery of the mysterious "Capybara" model family, an "Undercover Mode" for contributing to open source, and the `/buddy` Tamagotchi-style pet system.
+3. **Industry Impact**: While negative for Anthropic in the short term due to the exposure of trade secrets, it’s a net positive for the industry in the long run. It provides the first complete, production-grade AI Agent architecture reference, which could potentially drive ecosystem development much like the open-sourcing of Android.
+
+We recommend using APIYI (apiyi.com) to access Claude Opus 4.6 and other AI models at a 20% discount. Regardless of how the industry shifts, the underlying model capability remains the core competitive advantage.
+
+---
+
+📚 References
+------------
+
+1. **VentureBeat: Claude Code Source Code Leak Report**: Authoritative coverage of the event.
+   
+   * Link: `venturebeat.com/technology/claude-codes-source-code-appears-to-have-leaked-heres-what-we-know`
+   * Note: Includes leak details and Anthropic's response.
+2. **GitHub Mirror Repository**: Community backup and analysis of the leaked code.
+   
+   * Link: `github.com/Kuberwastaken/claude-code`
+   * Note: Contains the full source code and architectural analysis documentation.
+3. **DEV Community Technical Analysis**: A technical breakdown of the leaked code.
+   
+   * Link: `dev.to/gabrielanhaia/claude-codes-entire-source-code-was-just-leaked-via-npm-source-maps-heres-whats-inside-cjo`
+   * Note: Includes key findings and engineering practice analysis.
+4. **APIYI Documentation Center**: 20% off access to Claude Opus 4.6 API.
+   
+   * Link: `docs.apiyi.com`
+   * Note: Underlying model capability is the core of any AI Agent—access it at the best price via APIYI.
+
+---
+
+> **Author**: APIYI Technical Team  
+> 
+> **Technical Discussion**: Feel free to join the conversation in the comments. For more resources, visit the APIYI documentation center at docs.apiyi.com.
+
+
+Post Tags: 
+[#AI Agent](https://help.apiyi.com/zh-hant/tag/ai-agent)[#Capybara](https://help.apiyi.com/ru/tag/capybara)[#claude code](https://help.apiyi.com/tag/claude-code)[#Engineering practice](https://help.apiyi.com/en/tag/engineering-practice)[#npm source map](https://help.apiyi.com/tag/npm-source-map)[#Source code leakage](https://help.apiyi.com/en/tag/source-code-leakage)[#Undercover Mode](https://help.apiyi.com/tag/undercover-mode) 
+
+
+
+
+
+![]() 
+**[APIYI - Stable and affordable AI API](https://help.apiyi.com/en/author/apiyi)**
+
+Try AI Large Model https://api.apiyi.com for free  
+
+Stable and reliable AI LM API aggregation service, Get 300 Millions Tokens for Free~
+
+
+
+
+
+Post navigation
+---------------
+
+[Previous
+PreviousOpenAI Codex March 2026 Update Summary: Plugins, Triggers, and 5 Core Changes](https://help.apiyi.com/en/openai-codex-march-2026-updates-summary-plugins-triggers-security-en.html)
+
+
+Similar Posts
+-------------
+
+* [![]()](https://help.apiyi.com/en/claude-code-2026-new-features-loop-computer-use-remote-control-guide-en.html)
+  [Claude API](https://help.apiyi.com/en/category/claude-api-en) | [LLM API News](https://help.apiyi.com/en/category/lm-api-news-en) 
+  ### [Claude Code March 2026 Full Capability Interpretation: /loop scheduled tasks, Computer Use, and 12 core new features](https://help.apiyi.com/en/claude-code-2026-new-features-loop-computer-use-remote-control-guide-en.html)
+  
+  By[APIYI - Stable and affordable AI API](https://help.apiyi.com) 
+  2026年 3月 25日 
+  
+  
+  Author's Note: A comprehensive breakdown of the latest 2026 capabilities of Claude Code: /loop scheduled tasks, Computer Use remote desktop control, Voice Mode, mobile Remote Control, background Agents, and 12 other core features. As of March 2026, Claude Code has evolved from a simple "AI programming assistant in the terminal" into a full-fledged autonomous coding…
+  
+  
+  [Read More Claude Code March 2026 Full Capability Interpretation: /loop scheduled tasks, Computer Use, and 12 core new featuresContinue](https://help.apiyi.com/en/claude-code-2026-new-features-loop-computer-use-remote-control-guide-en.html)
+* [![]()](https://help.apiyi.com/en/claude-account-ban-prevention-china-2026-guide-en.html)
+  [API Use Cases](https://help.apiyi.com/en/category/api-use-cases-en) | [Claude API](https://help.apiyi.com/en/category/claude-api-en) 
+  ### [Ultimate Guide to Avoiding Claude Account Bans: 8 Pitfall-Avoidance Strategies Based on March 2026 Field Tests](https://help.apiyi.com/en/claude-account-ban-prevention-china-2026-guide-en.html)
+  
+  By[APIYI - Stable and affordable AI API](https://help.apiyi.com) 
+  2026年 3月 21日 
+  
+  
+  Banned again. In March 2026, a new wave of Claude account bans left many Chinese developers frustrated. Some had been using Claude Code for just a few days when they suddenly received the message: "Your account has been disabled after an automatic review". Money was lost, workflows were broken, and ongoing projects were left in…
+  
+  
+  [Read More Ultimate Guide to Avoiding Claude Account Bans: 8 Pitfall-Avoidance Strategies Based on March 2026 Field TestsContinue](https://help.apiyi.com/en/claude-account-ban-prevention-china-2026-guide-en.html)
+* [![]()](https://help.apiyi.com/en/claude-schedule-beginner-guide-useful-cloud-tasks-recommendations-en.html)
+  [AI Coding](https://help.apiyi.com/en/category/ai-vibe-coding-en) | [Claude API](https://help.apiyi.com/en/category/claude-api-en) 
+  ### [Claude Schedule Beginner’s Guide: 3 Creation Methods + 15 Cloud Scheduled Tasks Worth Setting Up](https://help.apiyi.com/en/claude-schedule-beginner-guide-useful-cloud-tasks-recommendations-en.html)
+  
+  By[APIYI - Stable and affordable AI API](https://help.apiyi.com) 
+  2026年 3月 31日 
+  
+  
+  Author's Note: This is a complete guide to Claude Schedule for beginners, covering how to set it up via Web, Desktop, and CLI, explaining the differences between /schedule and /loop, and recommending 15 high-value cloud-based scheduled tasks. Claude's Schedule feature is the most "worry-free" capability of 2026—you set it once, and it executes automatically in…
+  
+  
+  [Read More Claude Schedule Beginner’s Guide: 3 Creation Methods + 15 Cloud Scheduled Tasks Worth Setting UpContinue](https://help.apiyi.com/en/claude-schedule-beginner-guide-useful-cloud-tasks-recommendations-en.html)
+* [![]()](https://help.apiyi.com/en/opencode-api-proxy-configuration-guide-en.html)
+  [AI Coding](https://help.apiyi.com/en/category/ai-vibe-coding-en) | [API Use Cases](https://help.apiyi.com/en/category/api-use-cases-en) 
+  ### [3 steps to configure OpenCode to connect to API relay station and unlock free switching between 400+ AI models](https://help.apiyi.com/en/opencode-api-proxy-configuration-guide-en.html)
+  
+  By[APIYI - Stable and affordable AI API](https://help.apiyi.com) 
+  2026年 1月 24日 
+  
+  
+  Want to use OpenCode, the open-source AI coding assistant, but find official API prices too steep or the connection unstable? An API proxy is your best bet. In this post, I'll walk you through 3 simple steps to connect OpenCode to proxies like APIYI or OpenRouter. You'll be able to access over 75 mainstream Large…
+  
+  
+  [Read More 3 steps to configure OpenCode to connect to API relay station and unlock free switching between 400+ AI modelsContinue](https://help.apiyi.com/en/opencode-api-proxy-configuration-guide-en.html)
+* [![]()](https://help.apiyi.com/en/claude-opus-4-6-vs-4-5-comparison-en.html)
+  [Claude API](https://help.apiyi.com/en/category/claude-api-en) | [Model Selection & Comparison](https://help.apiyi.com/en/category/model-comparison-en) 
+  ### [Claude Opus 4.6 vs 4.5 Comprehensive Comparison: 12 Benchmarks Reveal the Real Gap](https://help.apiyi.com/en/claude-opus-4-6-vs-4-5-comparison-en.html)
+  
+  By[APIYI - Stable and affordable AI API](https://help.apiyi.com) 
+  2026年 2月 8日 
+  
+  
+  Author's Note: A deep comparison of Claude Opus 4.6 vs 4.5 benchmark data, new features, breaking changes, and migration advice to help you make the upgrade decision. Claude Opus 4.6 was officially released on February 5, 2026, just about two months after the release of Opus 4.5. This article compares Claude Opus 4.6 and Claude…
+  
+  
+  [Read More Claude Opus 4.6 vs 4.5 Comprehensive Comparison: 12 Benchmarks Reveal the Real GapContinue](https://help.apiyi.com/en/claude-opus-4-6-vs-4-5-comparison-en.html)
+* [![]()](https://help.apiyi.com/en/claude-4-6-agent-teams-how-to-use-guide-en.html)
+  [Claude API](https://help.apiyi.com/en/category/claude-api-en) 
+  ### [Claude 4.6 Agent Teams Complete Tutorial: Activation Methods, Triggering Techniques and 5 Major Practical Scenarios](https://help.apiyi.com/en/claude-4-6-agent-teams-how-to-use-guide-en.html)
+  
+  By[APIYI - Stable and affordable AI API](https://help.apiyi.com) 
+  2026年 2月 9日 
+  
+  
+  作者注：手把手教你开启和使用 Claude 4.6 Agent Teams 多智能体协作功能，掌握 Lead + Teammate 架构、任务分配、消息通信和实战技巧 Claude Opus 4.6 发布时同步推出了 Agent Teams（多智能体团队） 功能，让多个 Claude 实例像真正的开发团队一样并行协作。很多开发者对此充满好奇：Agent Teams 到底怎么开启？怎么触发？和 Subagent 有什么区别？适合什么场景？ 核心价值: 读完本文，你将掌握 Agent Teams 的完整使用流程——从开启配置到触发命令，从任务分配到团队协作，让你立刻上手多智能体编程。 Claude Agent Teams 是什么 Agent Teams 是 Claude Code 的实验性功能（研究预览阶段），允许你在一个项目中同时运行多个独立的 Claude Code 实例，它们通过共享任务列表和消息系统进行协作。 一句话理解: Agent Teams = 一个 Lead（团队负责人） + 多个 Teammate（队友），各自独立工作、互相通信、共同完成复杂任务。 对比维度 Subagent（子智能体） Agent Teams（团队） 通信方式…
+  
+  
+  [Read More Claude 4.6 Agent Teams Complete Tutorial: Activation Methods, Triggering Techniques and 5 Major Practical ScenariosContinue](https://help.apiyi.com/en/claude-4-6-agent-teams-how-to-use-guide-en.html)
+
+
+
+
+
+
+
+Search站内搜索
+
+**欢迎[加我微信交流，首次充值均有加赠、多充多送，详情>>](https://help.apiyi.com/apiyi-credit-acquisition-guide.html)** 微信：**8765058** 或扫码↓
+
+![]()
+
+* [Sora 2 API $0.12/Video](https://xinqikeji.feishu.cn/wiki/RuHDw0BICiRYdokDYy6cPAwunuf)🔥🚀
+* [Nano Banana Pro API $0.05/Pic](https://xinqikeji.feishu.cn/wiki/W4vEwdiCPi3VfTkrL5hcVlDxnQf)🔥
+* [Seedream 4.5 图片 API](https://xinqikeji.feishu.cn/wiki/JU9xwNaMNiZvwKkdEHjcTuUUn7f)
+* [AI 生成图片免费测试](https://imagen.apiyi.com) >
+* 联系邮箱 [[email protected]](/cdn-cgi/l/email-protection)
+[![]()](https://imagen.apiyi.com)
+
+[![]()](https://t.me/apiyinews)
+
+近期文章
+----
+
+* [Interpretation of the Claude Code source code leak: 512,000 lines of code accidentally open-sourced, what will happen to the AI Agent industry?](https://help.apiyi.com/en/claude-code-source-leak-march-2026-impact-ai-agent-industry-en.html)
+* [OpenAI Codex March 2026 Update Summary: Plugins, Triggers, and 5 Core Changes](https://help.apiyi.com/en/openai-codex-march-2026-updates-summary-plugins-triggers-security-en.html)
+* [Claude Code Maximum Utilization Guide: 12 Advanced Tips to Reach Your Daily Limit](https://help.apiyi.com/en/claude-code-maximize-usage-power-user-tips-agent-teams-hooks-guide-en.html)
+
+分类
+--
+
+* [Academic API](https://help.apiyi.com/en/category/academic-api-en)
+* [AI Coding](https://help.apiyi.com/en/category/ai-vibe-coding-en)
+* [AI Model Troubleshooting](https://help.apiyi.com/en/category/ai-model-troubleshooting-en)
+* [Announcements](https://help.apiyi.com/en/category/announcements-en)
+* [API Best Practices](https://help.apiyi.com/en/category/api-best-practices-en)
+* [API Code Examples](https://help.apiyi.com/en/category/api-example-codes-en)
+* [API Use Cases](https://help.apiyi.com/en/category/api-use-cases-en)
+* [APIYI Tips & Tricks](https://help.apiyi.com/en/category/apiyi-use-skills-en)
+* [Billing & Cost Optimization](https://help.apiyi.com/en/category/billing-optimization-en)
+* [Changelog](https://help.apiyi.com/en/category/changelog-en)
+* [Claude API](https://help.apiyi.com/en/category/claude-api-en)
+* [Deepseek API](https://help.apiyi.com/en/category/deepseek-api-en)
+* [Error Codes & Troubleshooting](https://help.apiyi.com/en/category/error-troubleshooting-en)
+* [Flux API](https://help.apiyi.com/en/category/flux-api-en)
+* [Gemini API](https://help.apiyi.com/en/category/gemini-api-en)
+* [Getting Started](https://help.apiyi.com/en/category/getting-started-en)
+* [Grok API](https://help.apiyi.com/en/category/grok-api-en)
+* [Image Generation API](https://help.apiyi.com/en/category/image-generate-api-en)
+* [LLM API News](https://help.apiyi.com/en/category/lm-api-news-en)
+* [Migration Guide](https://help.apiyi.com/en/category/migration-guide-en)
+* [Model Selection & Comparison](https://help.apiyi.com/en/category/model-comparison-en)
+* [OpenAI API](https://help.apiyi.com/en/category/openai-api-en)
+* [Solutions](https://help.apiyi.com/en/category/solutions-en)
+* [Sora 2](https://help.apiyi.com/en/category/sora-2-en)
+* [Uncategorized](https://help.apiyi.com/en/category/uncategorized)
+* [Video AI API](https://help.apiyi.com/en/category/video-ai-api-en)
+
+ 
+
+
+
+
+
+© 2026 Apiyi.com Blog - WordPress Theme by [Kadence WP](https://www.kadencewp.com/)
+
+ 
+
+
+
+
+
+
+
+
+
+[Scroll to top](#wrapper)Scroll to top
+ 
+
+
+
+
+* [Nano Banana Pro🔥](https://xinqikeji.feishu.cn/wiki/W4vEwdiCPi3VfTkrL5hcVlDxnQf)
+* [Sora 2 文档🚀](https://xinqikeji.feishu.cn/wiki/RuHDw0BICiRYdokDYy6cPAwunuf)
+* [AI出图试用](https://imagen.apiyi.com)
+* [文档中心](https://docs.apiyi.com)Toggle child menuExpand
+  + [本站更新日志](https://docs.apiyi.com/changelog)
+  + [当下模型推荐](https://docs.apiyi.com/api-capabilities/model-info)
+  + [使用场景推荐](https://docs.apiyi.com/scenarios)
+* [API易 后台](https://www.apiyi.com/account/profile)Toggle child menuExpand
+  + [查看 API易 日志](https://www.apiyi.com/log?current=1&pageSize=10)
+  + [查看 API易 Key](https://www.apiyi.com/token)
+  + [充值 API易 余额](https://www.apiyi.com/account/topup/recharge)
+  + [返回 API易](https://api.apiyi.com/?utm_source=help-apiyi-nav)
+  + [注册 API易](https://api.apiyi.com/register)
+* [免费试用领额度](https://help.apiyi.com/apiyi-credit-acquisition-guide.html)
+
+
+
+
+
+
+* [![]()简体中文 (Chinese (Simplified))](https://help.apiyi.com/claude-code-source-leak-march-2026-impact-ai-agent-industry.html)
+* [![]()繁體中文 (Chinese (Traditional))](https://help.apiyi.com/zh-hant/claude-code-source-leak-march-2026-impact-ai-agent-industry-zh-hant.html)
+* [![]()English](https://help.apiyi.com/en/claude-code-source-leak-march-2026-impact-ai-agent-industry-en.html)
+* [![]()Русский (Russian)](https://help.apiyi.com/ru/claude-code-source-leak-march-2026-impact-ai-agent-industry-ru.html)
+* [![]()日本語 (Japanese)](https://help.apiyi.com/ja/claude-code-source-leak-march-2026-impact-ai-agent-industry-ja.html)
+* [![]()한국어 (Korean)](https://help.apiyi.com/ko/claude-code-source-leak-march-2026-impact-ai-agent-industry-ko.html)
+* [![]()العربية (Arabic)](https://help.apiyi.com/ar/claude-code-source-leak-march-2026-impact-ai-agent-industry-ar.html)
+* [![]()Français (French)](https://help.apiyi.com/fr/claude-code-source-leak-march-2026-impact-ai-agent-industry-fr.html)
+* [![]()Deutsch (German)](https://help.apiyi.com/de/claude-code-source-leak-march-2026-impact-ai-agent-industry-de.html)
+* [![]()Indonesia (Indonesian)](https://help.apiyi.com/id/claude-code-source-leak-march-2026-impact-ai-agent-industry-id.html)
+* [![]()Português (Portuguese (Portugal))](https://help.apiyi.com/pt-pt/claude-code-source-leak-march-2026-impact-ai-agent-industry-pt-pt.html)
+* [![]()Español (Spanish)](https://help.apiyi.com/es/claude-code-source-leak-march-2026-impact-ai-agent-industry-es.html)
+
+
+

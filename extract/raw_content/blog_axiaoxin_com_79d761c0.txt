@@ -1,0 +1,741 @@
+# Source URL: https://blog.axiaoxin.com/post/openclaw-skills/
+# Content Length: 20618 characters
+# Extracted at: 2026-03-13 05:00:41
+#============================================================
+
+
+OpenClaw小龙虾技能包大全｜最新整理版：100+必装技能、安装命令与用法（持续更新） - 阿小信的博客
+切换导航
+
+
+
+
+[人言兑](https://blog.axiaoxin.com/)
+
+* [归档](/page/archives/)
+* [分类](/categories/)
+* [标签](/tags/)
+* 热门[最多阅读](/page/most-read-posts/)
+  [最多评论](/page/most-comment-posts/)
+  [最有帮助](/page/most-helped-posts/)
+* [关于](/page/about/)
+* [订阅](/page/subscribe/)
+* [留言](/page/message-board/)
+* 更多[赞助列表](/page/supporters/)
+  [个人主页](https://axiaoxin.com)
+  [大流量卡](https://axiaoxin.com/simcard/)
+  [pink-lady](https://axiaoxin.com/pink-lady/)
+  [investool](https://investool.axiaoxin.com/)
+  [小而赚](https://xiaobot.net/p/sharezhuan)
+* [搜索](#modalSearch)
+[![]()](https://blog.axiaoxin.com/)×
+#### 搜索 人言兑
+
+关闭
+
+
+
+[软件工具](https://blog.axiaoxin.com/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E5%85%B7/)[#AI](https://blog.axiaoxin.com/tags/ai/)
+[#AI-Agent](https://blog.axiaoxin.com/tags/ai-agent/)
+
+OpenClaw小龙虾技能包大全｜最新整理版：100+必装技能、安装命令与用法（持续更新）
+=============================================
+
+ 2026-03-10
+ |  7 分钟
+ |  3208 字
+ |  - 阅读
+ |  - 评论
+
+本文整理了 OpenClaw 技能大全，涵盖安全、办公、开发、创作、生活等 100 + 技能，小白一键安装。包含 OpenClaw 小龙虾安装教程、本地部署、技能命令、避坑指南，让你的 AI Agent 从聊天机器人变 24 小时自动干活的数字员工！
+
+文章目录 
+
+* [一、先搞懂：Skill 是什么？怎么装？（小白必看）](#一先搞懂skill-是什么怎么装小白必看)
+  + [1. 什么是 Skills？](#1-什么是-skills)
+  + [2. 4条万能命令（记住就够）](#2-4条万能命令记住就够)
+  + [3. 黄金安装顺序（避免踩坑）](#3-黄金安装顺序避免踩坑)
+* [二、必装底座技能（所有用户第一步）](#二必装底座技能所有用户第一步)
+  + [1. skill-vetter（安全审查官）](#1-skill-vetter安全审查官)
+  + [2. clawhub（技能商店）](#2-clawhub技能商店)
+  + [3. tavily-search（AI专属联网搜索）](#3-tavily-searchai专属联网搜索)
+  + [4. agent-browser（浏览器自动化）](#4-agent-browser浏览器自动化)
+  + [5. self-improving-agent（自我进化）](#5-self-improving-agent自我进化)
+  + [6. agent-memory（永久记忆）](#6-agent-memory永久记忆)
+  + [7. summarize（万能总结）](#7-summarize万能总结)
+  + [8. cron（定时任务）](#8-cron定时任务)
+* [三、办公效率神器（打工人必装）](#三办公效率神器打工人必装)
+  + [1. gog（Google全家桶）](#1-goggoogle全家桶)
+  + [2. feishu 系列（飞书深度集成）](#2-feishu-系列飞书深度集成)
+  + [3. notion / obsidian（知识库自动化）](#3-notion--obsidian知识库自动化)
+  + [4. nano-pdf（PDF编辑器）](#4-nano-pdfpdf编辑器)
+  + [5. meeting-minute-taker（会议纪要）](#5-meeting-minute-taker会议纪要)
+* [四、开发者必备技能（程序员效率起飞）](#四开发者必备技能程序员效率起飞)
+  + [1. github（代码仓库管家）](#1-github代码仓库管家)
+  + [2. coding-agent（AI编码助手）](#2-coding-agentai编码助手)
+  + [3. shell（终端命令执行）](#3-shell终端命令执行)
+  + [4. playwright-pro（自动化测试）](#4-playwright-pro自动化测试)
+  + [5. ci-cd-pipeline-builder](#5-ci-cd-pipeline-builder)
+* [五、自媒体/搞钱技能（副业变现）](#五自媒体搞钱技能副业变现)
+  + [1. wechat-ai-publisher（公众号自动发文）](#1-wechat-ai-publisher公众号自动发文)
+  + [2. xiaohongshu-automation（小红书自动化）](#2-xiaohongshu-automation小红书自动化)
+  + [3. social-media-auto（全平台分发）](#3-social-media-auto全平台分发)
+  + [4. bounty-hunter（开源任务接单）](#4-bounty-hunter开源任务接单)
+  + [5. content-creator（爆款文案生成）](#5-content-creator爆款文案生成)
+* [六、生活/智能家居技能](#六生活智能家居技能)
+  + [1. weather（天气查询）](#1-weather天气查询)
+  + [2. spotify-player / sonoscli（音乐控制）](#2-spotify-player--sonoscli音乐控制)
+  + [3. home-assistant（智能家居中控）](#3-home-assistant智能家居中控)
+  + [4. apple-reminders / apple-notes](#4-apple-reminders--apple-notes)
+* [七、安全与系统技能（守护你的电脑）](#七安全与系统技能守护你的电脑)
+  + [1. clawdstrike（安全体检）](#1-clawdstrike安全体检)
+  + [2. credential-manager（密钥管理）](#2-credential-manager密钥管理)
+  + [3. server-monitor（服务器监控）](#3-server-monitor服务器监控)
+  + [4. healthcheck（系统加固）](#4-healthcheck系统加固)
+* [八、高阶进化技能（大神玩家）](#八高阶进化技能大神玩家)
+  + [1. evolver（AI自进化引擎）](#1-evolverai自进化引擎)
+  + [2. adaptive-reasoning（智能推理）](#2-adaptive-reasoning智能推理)
+  + [3. agent-swarm（多AI协同）](#3-agent-swarm多ai协同)
+  + [4. skill-creator（自制技能）](#4-skill-creator自制技能)
+* [九、小白一键安装脚本（直接复制运行）](#九小白一键安装脚本直接复制运行)
+* [十、超重要避坑指南（重点！）](#十超重要避坑指南重点)
+* [结语](#结语)
+![]()本文已同步发布到微信公众号「**[人言兑](https://mp.weixin.qq.com/s/k6P0Sk96VPGo6D59tMM95Q)**」👈
+扫描二维码关注，第一时间获取更新！🔗
+[点击前往微信公众号阅读本文](https://mp.weixin.qq.com/s/AtSRr7ycuyF9CODb34PS8A)
+
+最近全网都在玩**OpenClaw小龙虾**，但90%的人装完只会聊天——根本没搞懂**Skills技能包**才是灵魂！
+
+Skills就像AI的“手脚”，装上就能自动写代码、整理文档、发邮件、搜全网、做自媒体、搞运维… 不用你动手，小龙虾自己干完所有活。
+
+这《OpenClaw技能包大全》，覆盖官方+社区高人气技能，按场景分类、带安装命令、附安全提醒，直接照着装，轻松打造你的24小时AI打工人！
+
+**全文关键词**：
+OpenClaw技能包大全、OpenClaw小龙虾技能、OpenClaw Skills安装、OpenClaw必装技能、OpenClaw技能推荐、OpenClaw小白教程、OpenClaw安全技能、OpenClaw办公技能、OpenClaw开发技能、OpenClaw自媒体技能
+
+相关阅读：
+[🦞OpenClaw小龙虾完整攻略：安装、部署、养法、变现](https://blog.axiaoxin.com/post/openclaw-guide/)
+
+![]()
+
+一、先搞懂：Skill 是什么？怎么装？（小白必看）
+--------------------------
+
+### 1. 什么是 Skills？
+
+* **Skill = 插件/功能包**，让 OpenClaw 拥有真实执行能力
+* **Tool = 器官**（能不能做）；**Skill = 教程**（怎么做）
+* 安装一行命令，不用写代码，不用懂原理
+
+### 2. 4条万能命令（记住就够）
+
+```
+# 1. 安装技能管理器（必装）
+npm i -g clawhub
+# 2. 安装技能
+clawhub install 技能名
+# 3. 搜索技能
+clawhub search 关键词
+# 4. 更新所有技能
+clawhub update --all
+
+```
+### 3. 黄金安装顺序（避免踩坑）
+
+1. 先装**安全审查**技能
+2. 再装**基础能力**（搜索、浏览器、记忆）
+3. 最后装**场景技能**（办公、开发、自媒体）
+4. 不用的技能及时关闭，避免卡顿与风险
+
+二、必装底座技能（所有用户第一步）
+-----------------
+
+这8个是**地基**，不装其他技能都白搭！
+
+### 1. skill-vetter（安全审查官）
+
+* 作用：装任何技能前先扫描，防病毒、防偷数据
+* 命令：`clawhub install skill-vetter`
+* 必装理由：ClawHub曾查出341个恶意技能，这个是保命盾
+
+### 2. clawhub（技能商店）
+
+* 作用：搜索、安装、管理所有技能
+* 命令：`npm i -g clawhub`
+* 地位：OpenClaw的应用商店，没有它无法扩展
+
+### 3. tavily-search（AI专属联网搜索）
+
+* 作用：AI专用精准搜索，无广告、直接给结果
+* 命令：`clawhub install tavily-search`
+* 亮点：比百度/谷歌更适合AI读取，做总结、调研神器
+
+### 4. agent-browser（浏览器自动化）
+
+* 作用：AI自己操控浏览器，点按钮、填表单、截网页、下文件
+* 命令：`clawhub install agent-browser`
+* 神技：自动抢票、监控价格、采集数据
+
+### 5. self-improving-agent（自我进化）
+
+* 作用：AI越用越聪明，记住错误、优化流程、不重复踩坑
+* 命令：`clawhub install self-improving-agent`
+* 亮点：本地运行，不泄露隐私
+
+### 6. agent-memory（永久记忆）
+
+* 作用：记住你的习惯、工作流、常用信息
+* 命令：`clawhub install agent-memory`
+* 效果：不用每次重复说明需求，AI秒懂你
+
+### 7. summarize（万能总结）
+
+* 作用：PDF、网页、视频、长文一键提炼要点
+* 命令：`clawhub install summarize`
+* 效率：100页报告30秒读完
+
+### 8. cron（定时任务）
+
+* 作用：每天/每周自动执行任务（早报、监控、发消息）
+* 命令：`clawhub install cron`
+* 场景：自动发日报、定时查资讯、监控网站
+
+三、办公效率神器（打工人必装）
+---------------
+
+### 1. gog（Google全家桶）
+
+* 作用：Gmail邮件、日历、Drive、文档一站式自动化
+* 命令：`clawhub install gog`
+* 场景：自动回邮件、建会议、整理文件
+
+### 2. feishu 系列（飞书深度集成）
+
+* feishu-calendar：飞书日历
+* feishu-doc：飞书文档读写
+* feishu-bitable：多维表格自动化
+* 命令：`clawhub install feishu-calendar`
+* 国内办公党首选，无缝接入工作流
+
+### 3. notion / obsidian（知识库自动化）
+
+* Notion：云端笔记自动整理、建数据库
+* Obsidian：本地笔记双向链接、自动归档
+* 命令：`clawhub install notion`
+* 打造你的AI第二大脑
+
+### 4. nano-pdf（PDF编辑器）
+
+* 作用：合并、拆分、改内容、提取表格
+* 命令：`clawhub install nano-pdf`
+* 职场必备：合同、报表、发票自动处理
+
+### 5. meeting-minute-taker（会议纪要）
+
+* 作用：自动录音转文字、提取决策、生成待办
+* 命令：`clawhub install meeting-minute-taker`
+* 解放双手，开会不用记笔记
+
+四、开发者必备技能（程序员效率起飞）
+------------------
+
+### 1. github（代码仓库管家）
+
+* 作用：创建Issue、提交PR、查构建状态、自动修BUG
+* 命令：`clawhub install github`
+* 神器：自动监听报错、分析、提交修复
+
+### 2. coding-agent（AI编码助手）
+
+* 作用：自动写代码、查错、优化、生成注释
+* 命令：`clawhub install coding-agent`
+* 支持Python/Java/JS等20+语言
+
+### 3. shell（终端命令执行）
+
+* 作用：AI直接操作电脑、跑脚本、装环境
+* 命令：`clawhub install shell`
+* 注意：权限高，务必开审批确认
+
+### 4. playwright-pro（自动化测试）
+
+* 作用：网页自动化测试、生成测试用例
+* 命令：`clawhub install playwright-pro`
+* 测试/运维必备，解放双手
+
+### 5. ci-cd-pipeline-builder
+
+* 作用：自动生成部署脚本、配置CI/CD
+* 命令：`clawhub install ci-cd-pipeline-builder`
+
+五、自媒体/搞钱技能（副业变现）
+----------------
+
+### 1. wechat-ai-publisher（公众号自动发文）
+
+* 作用：自动写稿、排版、生成封面、存草稿
+* 命令：`clawhub install wechat-ai-publisher`
+
+### 2. xiaohongshu-automation（小红书自动化）
+
+* 作用：采集热点、写笔记、发作品、看数据
+* 命令：`clawhub install xiaohongshu-automation`
+
+### 3. social-media-auto（全平台分发）
+
+* 作用：知乎、微博、小红书、X一键同步
+* 命令：`clawhub install social-media-auto`
+
+### 4. bounty-hunter（开源任务接单）
+
+* 作用：自动找GitHub悬赏任务、写方案、提交赚钱
+* 命令：`clawhub install bounty-hunter`
+
+### 5. content-creator（爆款文案生成）
+
+* 作用：自动写标题、文案、脚本、短视频文案
+* 命令：`clawhub install content-creator`
+
+六、生活/智能家居技能
+-----------
+
+### 1. weather（天气查询）
+
+* 作用：免API、开箱即用，主动提醒天气
+* 命令：`clawhub install weather`
+
+### 2. spotify-player / sonoscli（音乐控制）
+
+* 作用：一句话切歌、调音量、播歌单
+* 命令：`clawhub install spotify-player`
+
+### 3. home-assistant（智能家居中控）
+
+* 作用：控制灯、空调、窗帘、摄像头
+* 命令：`clawhub install home-assistant`
+
+### 4. apple-reminders / apple-notes
+
+* 作用：语音创建提醒、自动记笔记
+* 命令：`clawhub install apple-reminders`
+
+七、安全与系统技能（守护你的电脑）
+-----------------
+
+### 1. clawdstrike（安全体检）
+
+* 作用：全盘扫描OpenClaw安全风险、查恶意技能
+* 命令：`clawhub install clawdstrike`
+
+### 2. credential-manager（密钥管理）
+
+* 作用：统一管理API Key、密码，防泄露
+* 命令：`clawhub install credential-manager`
+
+### 3. server-monitor（服务器监控）
+
+* 作用：自动查CPU/内存/磁盘，异常告警、清日志
+* 命令：`clawhub install server-monitor`
+
+### 4. healthcheck（系统加固）
+
+* 作用：防火墙、SSH、自动更新安全检查
+* 命令：`clawhub install healthcheck`
+
+八、高阶进化技能（大神玩家）
+--------------
+
+### 1. evolver（AI自进化引擎）
+
+* 作用：自动识别短板、优化策略、持续变强
+* 命令：`clawhub install evolver`
+
+### 2. adaptive-reasoning（智能推理）
+
+* 作用：简单问题快答、复杂问题深度思考，省Token
+* 命令：`clawhub install adaptive-reasoning`
+
+### 3. agent-swarm（多AI协同）
+
+* 作用：一群AI分工干活，写作、设计、开发并行
+* 命令：`clawhub install agent-swarm`
+
+### 4. skill-creator（自制技能）
+
+* 作用：把你的工作流做成专属技能，重复使用
+* 命令：`clawhub install skill-creator`
+
+九、小白一键安装脚本（直接复制运行）
+------------------
+
+```
+# 必装底座技能 一键安装
+clawhub install skill-vetter clawhub tavily-search agent-browser self-improving-agent agent-memory summarize cron
+# 办公常用
+clawhub install gog feishu-calendar notion nano-pdf
+# 自媒体赚钱
+clawhub install wechat-ai-publisher xiaohongshu-automation bounty-hunter
+
+```
+
+十、超重要避坑指南（重点！）
+--------------
+
+1. **先装安全技能**，再装其他技能
+2. **不装来源不明**、低星、无更新的技能
+3. 高权限技能（shell、agent-browser）**必须开确认**
+4. 不用的技能及时关闭，避免卡顿与泄露
+5. 定期执行：`clawhub update --all` 保持最新
+
+结语
+--
+
+OpenClaw小龙虾的强大，**80%来自Skills技能包**。
+装上这篇大全里的技能，你的AI就从“聊天玩具”变成**24小时全自动打工人**：写文案、做表格、写代码、发邮件、抓资讯、做自媒体、搞运维…全都自动干！
+
+这篇可能是**全网最完整、小白最友好**的OpenClaw技能手册，建议直接收藏+转发，跟着装不出错！
+
+##### 版权声明
+
+未经授权，禁止转载本站文章。如需转载必须保留原文链接并注明出处。  
+只要保留链接并注明出处，即视为默认获得授权。未注明出处或删除链接将视为侵权，必追究法律责任！
+
+**本文原文链接：**<https://blog.axiaoxin.com/post/openclaw-skills/>
+
+### 关注我
+
+![]()
+
+[微信公众号](https://mp.weixin.qq.com/s/k6P0Sk96VPGo6D59tMM95Q)
+
+![]()
+
+[新浪微博](https://weibo.com/u/1739356367)
+
+![]()
+
+[抖音](https://www.douyin.com/user/MS4wLjABAAAAbvo9LPR8GGR4337-V6psq_0OSnsCI0qOr87F3PYffuNbSeKhyfzsREJxUL4eKrVe)
+
+![]()
+
+[X](https://x.com/axiaoxin)
+
+![]()
+
+[Github](https://github.com/axiaoxin)
+
+感谢！
+打赏![]()
+
+微信打赏
+
+![]()
+
+支付宝打赏
+
+---
+
+#### 也可以看看
+
+* [🦞OpenClaw小龙虾完整攻略：安装、部署、养法、变现](/post/openclaw-guide/)
+* [90年，36岁，我不信算命，但我把出生日期和地点告诉了DeepSeek](/post/millennial-1990-life-profile/)
+* [「AI造句」公众号+程序员+自媒体+自由职业+退休（豆包版）](/post/sentence-making-of-wx-hot-words-doubao/)
+* [「AI造句」公众号+程序员+自媒体+自由职业+退休（ChatGPT版）](/post/sentence-making-of-wx-hot-words-chatgpt/)
+* [MCP是什么？模型上下文协议（MCP）简介与实际应用案例](/post/what-is-mcp/)
+* [Manus是什么？不仅仅是AI（附邀请码申请入口）](/post/what-is-manus/)
+* [Claude Code最佳实践教程——使用方法详解](/post/claude-code-usages/)
+* [Claude Code是什么？如何使用Claude Code｜Claude Code使用教程与完整指南](/post/claude-code-full-guide/)
+* [还在花钱买AI课？清华都出DeepSeek免费教程了！（附下载链接，快来领取）](/post/deepseek-free-tutorials/)
+* [AI能否取代程序员？当AI说它能取代程序员时，产品经理笑了；）](/post/ai-wont-replace-programmers/)
+* [Coze使用教程：不会编程也能快速上手构建开发出你的第一个AI应用](/post/coze-quick-start/)
+* [Coze.com: 革新AI应用开发的无代码平台](/post/coze-intro/)
+* [ChatGPT 中的 User、Assistant 和 System 是什么？深入理解三大角色及其作用](/post/chatgpt-user-assistant-system/)
+* [NotebookLM：Google打造的AI驱动笔记工具，让你的文档“活”起来](/post/google-notebooklm/)
+* [如何注册 Claude AI 账号? 保姆级教程来了!](/post/howto-register-claude-ai/)
+
+---
+
+* [← 前一篇](https://blog.axiaoxin.com/post/openclaw-guide/)
+
+#### 关注博主
+
+[微博](https://weibo.com/u/1739356367)
+[Twitter](https://x.com/axiaoxin)
+[GitHub](https://github.com/axiaoxin)
+[抖音](https://www.douyin.com/user/MS4wLjABAAAAbvo9LPR8GGR4337-V6psq_0OSnsCI0qOr87F3PYffuNbSeKhyfzsREJxUL4eKrVe)[![]()](https://mp.weixin.qq.com/s/k6P0Sk96VPGo6D59tMM95Q)
+
+**[📢 广告合作](/post/ad-space-for-rent/)**：本站提供优质广告位，覆盖技术、生活等多领域受众，欢迎私信联系
+
+#### 微信打赏
+
+![]()[更多 »](/categories/)
+#### 文章分类
+
+* [编程开发
+  292](/categories/%E7%BC%96%E7%A8%8B%E5%BC%80%E5%8F%91)
+* [生活指南
+  90](/categories/%E7%94%9F%E6%B4%BB%E6%8C%87%E5%8D%97)
+* [流量变现
+  86](/categories/%E6%B5%81%E9%87%8F%E5%8F%98%E7%8E%B0)
+* [日常碎片
+  84](/categories/%E6%97%A5%E5%B8%B8%E7%A2%8E%E7%89%87)
+* [软件工具
+  53](/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E5%85%B7)
+* [旅游攻略
+  22](/categories/%E6%97%85%E6%B8%B8%E6%94%BB%E7%95%A5)
+* [投资理财
+  14](/categories/%E6%8A%95%E8%B5%84%E7%90%86%E8%B4%A2)
+* [写本小说
+  1](/categories/%E5%86%99%E6%9C%AC%E5%B0%8F%E8%AF%B4)
+#### 广告赞助
+
+[更多 »](/tags/)
+#### 热门标签
+
+[Golang
+113](/tags/golang)[SEO
+50](/tags/seo)[Web开发
+48](/tags/web%E5%BC%80%E5%8F%91)[Python
+39](/tags/python)[深圳
+30](/tags/%E6%B7%B1%E5%9C%B3)[自由职业
+30](/tags/%E8%87%AA%E7%94%B1%E8%81%8C%E4%B8%9A)[AI
+27](/tags/ai)[命令行工具
+27](/tags/%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7)[Redis
+25](/tags/redis)[设计模式
+25](/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F)[Linux
+23](/tags/linux)[周记
+23](/tags/%E5%91%A8%E8%AE%B0)[独立开发
+22](/tags/%E7%8B%AC%E7%AB%8B%E5%BC%80%E5%8F%91)[JavaScript
+21](/tags/javascript)[内容创作
+21](/tags/%E5%86%85%E5%AE%B9%E5%88%9B%E4%BD%9C)[副业
+21](/tags/%E5%89%AF%E4%B8%9A)[go-redis
+19](/tags/go-redis)[Google-AdSense
+19](/tags/google-adsense)[个人成长
+19](/tags/%E4%B8%AA%E4%BA%BA%E6%88%90%E9%95%BF)[在线工具
+18](/tags/%E5%9C%A8%E7%BA%BF%E5%B7%A5%E5%85%B7)
+#### 大流量卡
+
+[19元月租ㆍ超值优惠ㆍ长期套餐ㆍ免费包邮ㆍ官方正品
+
+![]()](https://axiaoxin.com/simcard/)
+#### 推荐阅读
+
+* [为什么“利己”才是最高级的利他？如何找到真正可持续的事业？](/post/growth-secret-selfish-first/)
+* [阿小信的独立开发者周报：2025年9月29日 - 10月12日](/post/weekly-2025-0929-1012/)
+* [个人注册公司选什么类型？公司注册类型详细介绍与税务指南](/post/company-types/)
+* [Markdown语法的微信公众号文章排版神器：「人言兑.md」](/post/md2wechat/)
+* [阿小信的自由职业周记：2025年11月10日-11月16日](/post/weekly-2025-1110-1116/)
+* [阿小信的自由职业周记：2025年第52周（12.22-12.28）](/post/weekly-2025-1222-1228/)
+* [阿小信的独立开发者周报：2025年9月17-28日](/post/weekly-2025-0918-0928/)
+* [什么是CPS？零成本副业——国内CPS推广分销平台介绍与操作指南](/post/what-is-cps/)
+* [阿小信的自由职业周记：2025年第51周（12.15-12.21）](/post/weekly-2025-1215-1221/)
+* [收入膝盖斩、微信支付赶工与无效流量自救——阿小信的自由职业周记（2026W6）](/post/weekly-2026-w6/)
+#### 广告赞助
+
+#### 最新文章
+
+* [OpenClaw小龙虾技能包大全｜最新整理版：100+必装技能、安装命令与用法（持续更新）](/post/openclaw-skills/)
+* [🦞OpenClaw小龙虾完整攻略：安装、部署、养法、变现](/post/openclaw-guide/)
+* [中年失业是大多数人的结局，但未必一定是坏事](/post/midlife-career-truth/)
+* [历史上的今天、爱恨情仇与公众号创业：阿小信的自由职业周记（2026W10）](/post/weekly-2026-w10/)
+* [十五五开局之年的两会经济记者会：从消费、科技到股市，普通人也能看懂的政策机会](/post/2026-zfgzbg/)
+* [十五五规划开局，2026年政府工作报告里藏着哪些普通人能参与的“黄金产业赛道”？](/post/2026-jjjzh/)
+* [SessionStorage vs LocalStorage vs Cookie 深度对比：前端存储方案选型完全指南](/post/localstorage-vs-sessionstorage-vs-cookie/)
+* [本命年、霉菌与乐山行：阿小信的自由职业周记（2026W8-W9）](/post/weekly-2026-w8-w9/)
+* [微信Native支付成功上线，但还是晚了：阿小信的自由职业周记（2026W7）](/post/weekly-2026-w7/)
+* [微信支付接入教程（独立开发者实战版）：JSAPI支付接入指南，附Golang实现完整项目源码](/post/wechat-pay-jsapi-guide/)
+#### 广告赞助
+
+[更多 »](/page/most-read-posts/)
+#### 最多阅读
+
+* [Claude Code是什么？如何使用Claude Code｜Claude Code使用教程与完整指南](/post/claude-code-full-guide/)
+  (81952)
+* [剪映运动跟踪特效教程：如何让贴纸、文字、马赛克等元素跟随人物同步移动](/post/video-elems-move-with-character/)
+  (15195)
+* [2024 年度总结：中年失业怎么办，月入过万，不上班也能养活自己的自由职业元年](/post/2024-summary/)
+  (14867)
+* [如何使用 pip 安装 requirements.txt 文件中的依赖包，以及如何生成 requirements.txt](/post/howto-use-python-requirements-file/)
+  (13253)
+* [Ghostty 终端配置指南](/post/ghostty-config-guide/)
+  (11697)
+* [rsync用法详解：最全面的rsync使用指南](/post/rsync-guide/)
+  (11198)
+* [PointerPointer：神奇的鼠标指针互动网站](/post/pointerpointer-com/)
+  (11160)
+* [4种方法，轻松查询自己名下有几张电话卡](/post/how-to-query-my-network-account-numbers/)
+  (10068)
+* [Python 虚拟环境工具 virtualenv 详解与使用教程](/post/python-virtualenv/)
+  (9213)
+* [Coze使用教程：不会编程也能快速上手构建开发出你的第一个AI应用](/post/coze-quick-start/)
+  (8516)
+#### 广告赞助
+
+[更多 »](/page/most-comment-posts/)
+#### 最多评论
+
+* [2024 年度总结：中年失业怎么办，月入过万，不上班也能养活自己的自由职业元年](/post/2024-summary/)
+  (40)
+* [长期居家健身计划](/post/home-fitness-plan/)
+  (32)
+* [Adsense税务居住地证明申请教程：如何申请中国税收居民身份证明](/post/apply-for-chinese-tax-resident-id-cert/)
+  (23)
+* [全职独立开发半年小记](/post/indiehacker-worklog-20240909/)
+  (22)
+* [分享一个令人振奋的好消息：我迎来了独立开发以来第一位VIP用户](/post/milestone-first-vip/)
+  (18)
+* [Markdown语法的微信公众号文章排版神器：「人言兑.md」](/post/md2wechat/)
+  (18)
+* [关于Google AdSense账号因无效流量被限制广告投放的问题说明与记录](/post/adsense-invalid-traffic/)
+  (13)
+* [如何注册 Claude AI 账号? 保姆级教程来了!](/post/howto-register-claude-ai/)
+  (12)
+* [W-8BEN表单如何填写？Google AdSense美国税务信息填写指南](/post/adsense-usa-tax-info/)
+  (9)
+* [《中国税收居民身份证明》开具申请指南：适用于Google AdSense税务居住地证明及其他场景（最新）](/post/how-to-apply-google-adsense-chinese-trc/)
+  (8)
+#### 广告赞助
+
+[更多 »](/page/most-helped-posts/)
+#### 最有帮助
+
+* [2024 年度总结：中年失业怎么办，月入过万，不上班也能养活自己的自由职业元年](/post/2024-summary/)
+  (21)
+* [全职独立开发半年小记](/post/indiehacker-worklog-20240909/)
+  (10)
+* [Claude Code是什么？如何使用Claude Code｜Claude Code使用教程与完整指南](/post/claude-code-full-guide/)
+  (5)
+* [深圳公积金追缴投诉攻略看这一篇就够了！](/post/szgjjzj/)
+  (5)
+* [分享一个令人振奋的好消息：我迎来了独立开发以来第一位VIP用户](/post/milestone-first-vip/)
+  (5)
+* [铁了心要入市炒股，新手如何选股买股票？股市入门：零基础新手股民的必备投资指南](/post/guide-for-stock-beginner/)
+  (5)
+* [普通人也能不上班：自由职业一年了，我再也不想回去上班了](/post/no-work-freedom/)
+  (5)
+* [如何构建稳健的API鉴权与计费系统：Golang全流程实战](/post/howto-build-api-system/)
+  (4)
+* [MarkItDown: Python一站式文档转Markdown神器](/post/python-markitdown/)
+  (3)
+* [「至暗时刻」失去收入的一周：Google AdSense身份验证失败，账号被停用！](/post/adsense-verification-failed/)
+  (3)
+#### 广告赞助
+
+[更多 »](/page/least-read-posts/)
+#### 最少阅读
+
+* [中年失业是大多数人的结局，但未必一定是坏事](/post/midlife-career-truth/)
+  (1)
+* [十五五规划开局，2026年政府工作报告里藏着哪些普通人能参与的“黄金产业赛道”？](/post/2026-jjjzh/)
+  (15)
+* [十五五开局之年的两会经济记者会：从消费、科技到股市，普通人也能看懂的政策机会](/post/2026-zfgzbg/)
+  (18)
+* [历史上的今天、爱恨情仇与公众号创业：阿小信的自由职业周记（2026W10）](/post/weekly-2026-w10/)
+  (36)
+* [深圳未来骑行新体验：拥抱山海，畅享“1+3+N”精品生态骑行道](/post/shenzhen-riding-13n/)
+  (59)
+* [本命年、霉菌与乐山行：阿小信的自由职业周记（2026W8-W9）](/post/weekly-2026-w8-w9/)
+  (60)
+* [SessionStorage vs LocalStorage vs Cookie 深度对比：前端存储方案选型完全指南](/post/localstorage-vs-sessionstorage-vs-cookie/)
+  (62)
+* [微信Native支付成功上线，但还是晚了：阿小信的自由职业周记（2026W7）](/post/weekly-2026-w7/)
+  (66)
+* [误提交大文件到Git？保留代码、只删文件，一篇教程搞定](/post/git-remove-large-file-keep-code/)
+  (85)
+* [一人公司如何报税：增值税及附加税费申报教程（小规模纳税人）](/post/small-vat-tax-filing-guide/)
+  (85)
+#### 广告赞助
+
+[更多 »](/page/most-nohelped-posts/)
+#### 最没帮助
+
+* [【一人公司里程碑】全新企业AdSense账号历经28天，单日收入终于达到了1美元——正式进入1美元俱乐部！](/post/new-adsense-1uaday/)
+  (1)
+* [PointerPointer：神奇的鼠标指针互动网站](/post/pointerpointer-com/)
+  (1)
+* [如何构建稳健的API鉴权与计费系统：Golang全流程实战](/post/howto-build-api-system/)
+  (1)
+* [Claude Code是什么？如何使用Claude Code｜Claude Code使用教程与完整指南](/post/claude-code-full-guide/)
+  (1)
+* [全职独立开发半年小记](/post/indiehacker-worklog-20240909/)
+  (1)
+#### 广告赞助
+
+#### 猜你喜欢
+
+* [「AI造句」公众号+程序员+自媒体+自由职业+退休（ChatGPT版）](/post/sentence-making-of-wx-hot-words-chatgpt/)
+* [「AI造句」公众号+程序员+自媒体+自由职业+退休（豆包版）](/post/sentence-making-of-wx-hot-words-doubao/)
+* [如何写好 ChatGPT 提示词：CLAR 原则与 LACES 问题模型的应用](/post/how-to-write-chatgpt-prompts/)
+* [如何利用 AI 高效制作营销资料并吸引潜在用户](/post/use-ai-build-materials-for-marketing/)
+* [Coze.com: 革新AI应用开发的无代码平台](/post/coze-intro/)
+* [Manus是什么？不仅仅是AI（附邀请码申请入口）](/post/what-is-manus/)
+* [还在花钱买AI课？清华都出DeepSeek免费教程了！（附下载链接，快来领取）](/post/deepseek-free-tutorials/)
+* [推荐10款免费Logo在线设计神器！轻松打造专业品牌形象](/post/free-logo-tools/)
+* [90年，36岁，我不信算命，但我把出生日期和地点告诉了DeepSeek](/post/millennial-1990-life-profile/)
+* [用ChatGPT创作爆款短视频文案](/post/video-prompt/)
+#### 广告赞助
+
+#### 今日热门
+
+* [JS 装饰器模式以及 call/apply 用法](/post/js-decorator-call-apply/)
+* [URL 中自动添加的#gsc.tab=0 是什么？如何修复？](/post/gsctab-hash-in-url/)
+* [创建一个高质量联盟营销网站的7个步骤](/post/how-to-create-an-affiliate-website/)
+* [如何在Mac系统上创建加密压缩文件包](/post/how-to-create-encrypted-zipfile/)
+* [Golang 操作 Redis：GEO地理空间数据类型操作用法 - go-redis 使用指南](/post/go-redis-geo/)
+* [一键自动批量获取任意网站Favicon图标](/post/auto-fetch-favicon/)
+* [阿小信的自由职业周记（2026年第2周 1.5-1.11）：流量暴跌的 2026 高难度开局，在寒冬里修补 2025 的尾巴](/post/weekly-2026-w2/)
+* [剪映运动跟踪特效教程：如何让贴纸、文字、马赛克等元素跟随人物同步移动](/post/video-elems-move-with-character/)
+* [一人公司电子税务局「企业所得税季度申报」完整实操教程（查账征收）](/post/corporate-income-tax-quarterly-filing-guide/)
+* [羅湖口岸通關全攻略 (最新版)](/post/luohu-port-guide/)
+#### 广告赞助
+
+#### 随便看看
+
+* [基于 Nginx、Lua 和 Redis 的令牌桶算法限流教程](/post/nginx-lua-redis-token-bucket-rate-limiting/)
+* [《投资最重要的事》：霍华德·马克斯价值投资的18个智慧原则（附PDF电子书免费下载）](/post/investment-principles-howard-marks/)
+* [免费临时邮箱服务大全与使用指南【全网最全，持续更新】](/post/tempemail/)
+* [Golang 函数与方法的区别及使用策略详解](/post/golang-function-vs-method/)
+* [Go Context 上下文详解：应用场景、使用方法、代码示例及最佳实践](/post/go-context-guide/)
+* [站点地图Sitemap协议文件格式详细解释和语法介绍](/post/sitemap-guide/)
+* [如何在 JavaScript 中高效遍历对象属性（详解三种常见方法）](/post/javascript-object-traversal-methods-guide/)
+* [如何批量删除 GitHub Actions Workflows 的执行记录](/post/batch-delete-github-action-workflows/)
+* [Coze.com: 革新AI应用开发的无代码平台](/post/coze-intro/)
+* [如何在 Excel/Word 中插入对勾符号和叉号？6种方法！](/post/insert-tick-symbol-excel/)
+#### 广告赞助
+
+#### 资源下载
+
+* [《中国税收居民身份证明申请表》.docx](https://url03.ctfile.com/f/61652503-1385131864-8bfab4?p=1815) (访问密码: 1815)
+* [AdSense 在线服务条款.pdf](https://url03.ctfile.com/f/61652503-1385134396-7faa40?p=1853) (访问密码: 1853)
+* [设计模式：可复用面向对象软件的基础.pdf](https://url03.ctfile.com/f/61652503-1419346490-7941dd?p=2208) (访问密码: 2208)
+* [认知觉醒：开启自我改变的原动力.epub](https://url03.ctfile.com/f/61652503-1420638659-087b17?p=1427) (访问密码: 1427)
+* [《纳瓦尔宝典》.pdf](https://url03.ctfile.com/f/61652503-1423681112-ad1092?p=4780) (访问密码: 4780)
+* [抖店入门实操课](https://url03.ctfile.com/d/61652503-63356296-9a20a5?p=4780) (访问密码: 4780)
+* [电商教程资料包.zip](https://url03.ctfile.com/f/61652503-1383726613-735ac7?p=1821) (访问密码: 1821)
+* [《我不是废柴》.pdf](https://url03.ctfile.com/f/61652503-1425142442-cc1fe8?p=1204) (访问密码: 1204)
+#### 广告赞助
+
+#### 网站统计
+
+* 文章
+  638 篇
+* 标签
+  197 个
+* 分类
+  8 个
+* 建站
+  2023-02-07
+* 运行
+  1129 天
+* 更新
+  2026-03-10
+#### 广告赞助
+
+
+
+[axiaoxin](https://axiaoxin.com)
+ • ©
+2023 - 2026
+ • 
+[阿小信的博客](https://blog.axiaoxin.com/)
+

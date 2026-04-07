@@ -1,0 +1,235 @@
+# Source URL: https://www.engify.ai/learn/code-generation-guide
+# Content Length: 7106 characters
+# Extracted at: 2026-04-06 09:07:48
+#============================================================
+
+
+Prompt Engineering for Code Generation: Best Practices | Engify.ai
+
+Loading...
+
+[Engify.ai](/)[Prompts](/prompts)[Patterns](/patterns)[Workflows](/workflows)[Tools](/learn/ai-tools)[Learn](/learn)[MCP](/mcp)[Built in Public](/built-in-public)[Sign in](/login)[Get Started](/signup)[Home](/)[Learn](/learn)Code Generation GuideBest PracticesIntermediate~1,800 words
+
+Prompt Engineering for Code Generation: Best Practices
+======================================================
+
+Get production-ready code from AI assistants. This guide covers proven patterns, techniques, and best practices for generating high-quality code using prompt engineering.
+
+Part of the[Prompt Engineering Masterclass](/learn/prompt-engineering-masterclass)•12 min read
+
+Code generation is one of the most common use cases for AI assistants, but getting production-ready code requires more than just asking "write me a function." Effective prompt engineering transforms basic code requests into reliable, maintainable, production-quality implementations.
+
+This guide covers the essential patterns and techniques for code generation, from simple functions to complex systems. You'll learn how to specify requirements, handle edge cases, and ensure code quality through effective prompting.
+
+Core Principles for Code Generation
+-----------------------------------
+
+### 1. Specify Language and Framework
+
+Always specify the programming language, framework, and version:
+
+```
+Write a function in TypeScript 5.0+ using React 18 hooks
+that validates email addresses...
+```
+### 2. Define Input and Output Types
+
+Explicitly specify function signatures, parameters, and return types:
+
+```
+Create a function:
+- Input: email: string
+- Output: { valid: boolean; error?: string }
+- TypeScript types required
+```
+### 3. Include Error Handling
+
+Never assume the AI will add error handling. Explicitly request it:
+
+```
+Include comprehensive error handling:
+- Handle null/undefined inputs
+- Validate input types
+- Throw descriptive errors
+- Return error objects for failures
+```
+### 4. Request Documentation
+
+Ask for JSDoc comments, inline comments, and usage examples:
+
+```
+Include:
+- JSDoc comments with parameter descriptions
+- Inline comments for complex logic
+- Usage example
+- Edge case documentation
+```
+
+Effective Pattern Combinations for Code
+---------------------------------------
+
+### Persona + Chain-of-Thought + Few-Shot
+
+Combine multiple patterns for best results:
+
+```
+You are a senior TypeScript engineer with 10+ years of experience.
+
+Write a function to validate email addresses.
+
+Think through this step by step:
+1. What regex pattern should we use?
+2. What edge cases need handling?
+3. What should the return type be?
+
+Example of the style I want:
+```typescript
+/**
+ * Validates user input
+ * @param input - The input to validate
+ * @returns Validation result
+ */
+function validateInput(input: string): { valid: boolean; error?: string } {
+  // Implementation
+}
+```
+
+Now write the email validation function following this pattern.
+```
+
+Real-World Code Generation Examples
+-----------------------------------
+
+Example 1: API EndpointGenerating a complete REST API endpoint
+```
+Create a REST API endpoint for user authentication:
+
+Requirements:
+- Language: TypeScript with Express.js
+- Endpoint: POST /api/auth/login
+- Input: { email: string; password: string }
+- Output: { token: string; user: User }
+- Security: Hash passwords, use JWT tokens, rate limiting
+- Error handling: 400 for invalid input, 401 for wrong credentials
+- Validation: Use Zod schemas
+- Testing: Include unit tests
+
+Include:
+- Route handler
+- Input validation schema
+- Error handling middleware
+- TypeScript types
+- JSDoc comments
+```
+Example 2: React ComponentGenerating a React component with hooks
+```
+Create a React component for a user profile card:
+
+Tech Stack:
+- React 18 with TypeScript
+- Tailwind CSS for styling
+- React Hook Form for form handling
+
+Requirements:
+- Display user avatar, name, email
+- Editable fields with validation
+- Loading and error states
+- Responsive design
+- Accessibility (ARIA labels)
+- Dark mode support
+
+Include:
+- Component with proper TypeScript types
+- Custom hooks if needed
+- Form validation
+- Error boundaries
+- PropTypes/JSDoc
+```
+Example 3: Database QueryGenerating optimized database queries
+```
+Write a database query function:
+
+Database: PostgreSQL with Prisma ORM
+Task: Get active users with their latest order
+
+Requirements:
+- Use Prisma query builder
+- Include pagination (limit, offset)
+- Filter by status = 'active'
+- Join with orders table
+- Order by latest order date
+- Include error handling
+- Return typed results
+
+Optimize for:
+- Performance (use indexes)
+- Type safety
+- Error handling
+```
+
+Code Generation Best Practices
+------------------------------
+
+### ✅ Do's
+
+* **Be Specific:** Specify exact requirements, not vague descriptions
+* **Provide Context:** Give background about the codebase, patterns, and conventions
+* **Request Tests:** Ask for unit tests, integration tests, or example usage
+* **Specify Patterns:** Mention design patterns, architectural patterns, or coding standards
+* **Iterate:** Refine prompts based on initial results
+
+### ❌ Don'ts
+
+* **Don't Assume:** Don't assume the AI knows your codebase structure or conventions
+* **Don't Skip Validation:** Always request input validation and error handling
+* **Don't Ignore Security:** Explicitly request security best practices
+* **Don't Skip Documentation:** Ask for comments and documentation
+
+Master Prompt Engineering for All Use Cases
+-------------------------------------------
+
+This guide focuses on code generation, but prompt engineering applies to every aspect of software development. Learn all 15 patterns in our [Prompt Engineering Masterclass](/learn/prompt-engineering-masterclass).
+
+[View Full Masterclass](/learn/prompt-engineering-masterclass)[Browse Code Generation Prompts](/prompts)
+
+Related Resources
+-----------------
+
+[Prompt Engineering Masterclass](/learn/prompt-engineering-masterclass)Complete guide to all 15 prompt engineering patterns[Code Generation Prompts](/prompts)Browse 100+ expert prompts for code generation[All Prompt Patterns](/patterns)Explore all 15 proven patterns used in code generation[Interactive Workbench](/workbench)Test your code generation prompts in real-time[Engify.ai](/)
+
+Operationalize AI guardrails with Engify workflows, automation, and institutional memory.
+
+### Product
+
+* [Prompts](/prompts)
+* [Patterns](/patterns)
+* [Workflows](/workflows)
+* [Tools](/learn/ai-tools)
+* [Learn](/learn)
+* [MCP Server](/mcp)
+### Company
+
+* [About](/about)
+* [Built in Public](/built-in-public)
+* [Contact](/contact)
+* [LinkedIn](https://www.linkedin.com/company/109804095)
+### Resources
+
+* [Documentation](/learn)
+* [Pattern Reference](/patterns)
+* [Prompt Playbook](/prompts)
+### Social
+
+* [GitHub](https://github.com/donlaur/Engify-AI-App)
+* [LinkedIn](https://linkedin.com/in/donlaur)
+* [Hire Me](/hireme)
+
+### Legal
+
+* [Privacy](/privacy)
+* [Terms](/terms)
+
+© 2025 Engify.ai. All rights reserved.
+
+Built by [Donnie Laur](/hireme) · [donlaur@engify.ai](mailto:donlaur@engify.ai)
+

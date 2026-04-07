@@ -1,0 +1,533 @@
+# Source URL: https://claudecn.com/docs/agent-skills/
+# Content Length: 33938 characters
+# Extracted at: 2026-03-20 10:42:58
+#============================================================
+
+
+Agent Skills – Claude 中文 - Claude AI 开发技术社区[![]()
+![]()
+Claude 中文 - Claude AI 开发技术社区](https://claudecn.com/)[首页](https://claudecn.com/)[文档](https://claudecn.com/docs/)[Claude Code](https://claudecn.com/docs/claude-code/)[Agent Skills](https://claudecn.com/docs/agent-skills/)[Cookbook](https://claudecn.com/docs/cookbook/)[博客](https://claudecn.com/blog/)[关于](https://claudecn.com/about/)搜索文档...
+`CTRL K`
+
+搜索文档...
+`CTRL K`
+
+* [文档](https://claudecn.com/docs/)
+  + [Claude Code](https://claudecn.com/docs/claude-code/)
+    - [快速开始](https://claudecn.com/docs/claude-code/quickstart/)
+    - [入门指南](https://claudecn.com/docs/claude-code/getting-started/)
+      * [什么是 Claude Code](https://claudecn.com/docs/claude-code/getting-started/what-is-claude-code/)
+      * [安装配置](https://claudecn.com/docs/claude-code/getting-started/installation/)
+      * [第一次对话](https://claudecn.com/docs/claude-code/getting-started/first-conversation/)
+      * [基础使用](https://claudecn.com/docs/claude-code/getting-started/basic-usage/)
+    - [工作流](https://claudecn.com/docs/claude-code/workflows/)
+      * [上下文管理](https://claudecn.com/docs/claude-code/workflows/context-management/)
+      * [代码修改](https://claudecn.com/docs/claude-code/workflows/code-changes/)
+      * [Git 集成](https://claudecn.com/docs/claude-code/workflows/git-integration/)
+      * [高效实践](https://claudecn.com/docs/claude-code/workflows/efficient-practices/)
+      * [多 Claude 协作](https://claudecn.com/docs/claude-code/workflows/multi-claude/)
+      * [计划模式](https://claudecn.com/docs/claude-code/workflows/plan-mode/)
+      * [31 个高频技巧（Advent of Claude）](https://claudecn.com/docs/claude-code/workflows/advent-of-claude/)
+      * [会话连续性与战略压缩](https://claudecn.com/docs/claude-code/workflows/session-continuity/)
+      * [上下文角色：开发 / 调研 / 审查](https://claudecn.com/docs/claude-code/workflows/context-roles/)
+      * [团队质量门禁：Plan → TDD → Build Fix → Review](https://claudecn.com/docs/claude-code/workflows/quality-gates/)
+      * [文档同步与 Codemaps：让文档跟着代码走](https://claudecn.com/docs/claude-code/workflows/docs-and-codemaps/)
+      * [持续学习：把会话复盘沉淀成 Skills](https://claudecn.com/docs/claude-code/workflows/continuous-learning/)
+      * [构建排障：最小 diff 的增量修复](https://claudecn.com/docs/claude-code/workflows/build-troubleshooting/)
+      * [安全清理死代码：工具分析 + 删除日志](https://claudecn.com/docs/claude-code/workflows/refactor-clean/)
+      * [安全审查工作流：从 Secrets 到 OWASP](https://claudecn.com/docs/claude-code/workflows/security-review/)
+      * [E2E 测试工作流：Playwright 关键旅程与产物管理](https://claudecn.com/docs/claude-code/workflows/e2e-testing/)
+      * [代码审查工作流：分级输出与合并门禁](https://claudecn.com/docs/claude-code/workflows/code-review/)
+    - [IDE 集成](https://claudecn.com/docs/claude-code/ide-integration/)
+      * [VS Code 集成](https://claudecn.com/docs/claude-code/ide-integration/vscode/)
+      * [JetBrains 集成](https://claudecn.com/docs/claude-code/ide-integration/jetbrains/)
+      * [Chrome DevTools](https://claudecn.com/docs/claude-code/ide-integration/chrome/)
+    - [插件系统](https://claudecn.com/docs/claude-code/plugins/)
+      * [创建插件](https://claudecn.com/docs/claude-code/plugins/create-plugins/)
+      * [发现和安装插件](https://claudecn.com/docs/claude-code/plugins/discover-plugins/)
+      * [插件参考](https://claudecn.com/docs/claude-code/plugins/plugins-reference/)
+      * [插件系统概览](https://claudecn.com/docs/claude-code/plugins/overview/)
+    - [进阶指南](https://claudecn.com/docs/claude-code/advanced/)
+      * [Skills（技能）](https://claudecn.com/docs/claude-code/advanced/skills/)
+      * [Subagents 子代理](https://claudecn.com/docs/claude-code/advanced/subagents/)
+      * [自定义命令](https://claudecn.com/docs/claude-code/advanced/custom-commands/)
+      * [Hooks 系统](https://claudecn.com/docs/claude-code/advanced/hooks/)
+      * [Claude Code SDK](https://claudecn.com/docs/claude-code/advanced/sdk/)
+      * [MCP 服务器](https://claudecn.com/docs/claude-code/advanced/mcp-servers/)
+      * [团队落地：把 Claude Code 配置当代码管理](https://claudecn.com/docs/claude-code/advanced/config-as-code/)
+      * [团队 Starter Kit（最小可用配置）](https://claudecn.com/docs/claude-code/advanced/starter-kit/)
+      * [模式库：把工程经验沉淀为 Skills](https://claudecn.com/docs/claude-code/advanced/skill-pattern-library/)
+      * [配置片段库：从成熟实践提炼可复制模板](https://claudecn.com/docs/claude-code/advanced/config-snippets/)
+      * [Hooks 配方：把经验变成自动化护栏](https://claudecn.com/docs/claude-code/advanced/hooks-recipes/)
+      * [团队规则库：用 Rules 固化底线](https://claudecn.com/docs/claude-code/advanced/rules-playbook/)
+      * [Claude Code 背后的 Agent Loop（从零理解）](https://claudecn.com/docs/claude-code/advanced/agent-loop/)
+        + [v0：Bash 就是一切](https://claudecn.com/docs/claude-code/advanced/agent-loop/v0-bash-agent/)
+        + [v1：模型即代理](https://claudecn.com/docs/claude-code/advanced/agent-loop/v1-model-as-agent/)
+        + [v2：显式 Todo](https://claudecn.com/docs/claude-code/advanced/agent-loop/v2-explicit-planning-todo/)
+        + [v3：子代理机制](https://claudecn.com/docs/claude-code/advanced/agent-loop/v3-subagents/)
+        + [v4：Skills 机制](https://claudecn.com/docs/claude-code/advanced/agent-loop/v4-skills/)
+    - [CI/CD 自动化](https://claudecn.com/docs/claude-code/automation/)
+      * [GitHub Actions](https://claudecn.com/docs/claude-code/automation/github-actions/)
+      * [Headless 模式](https://claudecn.com/docs/claude-code/automation/headless/)
+    - [参考资料](https://claudecn.com/docs/claude-code/reference/)
+      * [配置参考](https://claudecn.com/docs/claude-code/reference/settings/)
+      * [CLI 参考](https://claudecn.com/docs/claude-code/reference/cli-reference/)
+      * [安全指南](https://claudecn.com/docs/claude-code/reference/security/)
+      * [Claude Code 速查表](https://claudecn.com/docs/claude-code/reference/quick-reference/)
+      * [Statusline（状态栏）](https://claudecn.com/docs/claude-code/reference/statusline/)
+      * [Amazon Bedrock](https://claudecn.com/docs/claude-code/reference/amazon-bedrock/)
+    - [实用指南](https://claudecn.com/docs/claude-code/practical-guides/)
+      * [文本处理](https://claudecn.com/docs/claude-code/practical-guides/text-processing/)
+      * [文件管理](https://claudecn.com/docs/claude-code/practical-guides/file-management/)
+      * [数据分析](https://claudecn.com/docs/claude-code/practical-guides/data-analysis/)
+      * [提示词技巧](https://claudecn.com/docs/claude-code/practical-guides/prompt-tips/)
+  + [Agent Skills](https://claudecn.com/docs/agent-skills/)
+    - [为什么使用 Skills](#%e4%b8%ba%e4%bb%80%e4%b9%88%e4%bd%bf%e7%94%a8-skills)
+    - [使用 Skills](#%e4%bd%bf%e7%94%a8-skills)
+    - [Skills 工作原理](#skills-%e5%b7%a5%e4%bd%9c%e5%8e%9f%e7%90%86)
+    - [可用 Skills](#%e5%8f%af%e7%94%a8-skills)
+    - [Skill 结构](#skill-%e7%bb%93%e6%9e%84)
+    - [快速导航](#%e5%bf%ab%e9%80%9f%e5%af%bc%e8%88%aa)
+    - [安全注意事项](#%e5%ae%89%e5%85%a8%e6%b3%a8%e6%84%8f%e4%ba%8b%e9%a1%b9)
+    - [限制和约束](#%e9%99%90%e5%88%b6%e5%92%8c%e7%ba%a6%e6%9d%9f)
+    - [下一步](#%e4%b8%8b%e4%b8%80%e6%ad%a5)
+    - [相关资源](#%e7%9b%b8%e5%85%b3%e8%b5%84%e6%ba%90)
+    - [快速开始](https://claudecn.com/docs/agent-skills/quickstart/)
+    - [最佳实践](https://claudecn.com/docs/agent-skills/best-practices/)
+    - [示例集](https://claudecn.com/docs/agent-skills/examples/)
+    - [Skills 架构设计](https://claudecn.com/docs/agent-skills/architecture/)
+  + [Cookbook](https://claudecn.com/docs/cookbook/)
+    - [仓库速览与本地运行](https://claudecn.com/docs/cookbook/repo-quickstart-and-structure/)
+    - [Registry 与质量门禁](https://claudecn.com/docs/cookbook/registry-and-quality-gates/)
+    - [能力篇：RAG 与检索增强](https://claudecn.com/docs/cookbook/rag-and-retrieval/)
+      * [检索增强生成（RAG）](https://claudecn.com/docs/cookbook/rag-and-retrieval/retrieval-augmented-generation/)
+      * [上下文化检索（Contextual retrieval）](https://claudecn.com/docs/cookbook/rag-and-retrieval/contextual-retrieval/)
+      * [Text-to-SQL（自然语言转 SQL）](https://claudecn.com/docs/cookbook/rag-and-retrieval/text-to-sql/)
+      * [摘要（Summarization）](https://claudecn.com/docs/cookbook/rag-and-retrieval/summarization/)
+      * [分类（Classification）](https://claudecn.com/docs/cookbook/rag-and-retrieval/classification/)
+      * [SQL 查询（实战配方）](https://claudecn.com/docs/cookbook/rag-and-retrieval/sql-queries/)
+      * [PDF 上传与摘要](https://claudecn.com/docs/cookbook/rag-and-retrieval/pdf-upload-summarization/)
+      * [读取网页并总结](https://claudecn.com/docs/cookbook/rag-and-retrieval/read-web-pages/)
+    - [工具调用：从 Tool Choice 到 PTC](https://claudecn.com/docs/cookbook/tool-use/)
+      * [计算器工具（Calculator tool）](https://claudecn.com/docs/cookbook/tool-use/calculator-tool/)
+      * [客服 Agent（客户端工具）](https://claudecn.com/docs/cookbook/tool-use/customer-service-agent/)
+      * [结构化 JSON 抽取（用 Tool Use 做合约）](https://claudecn.com/docs/cookbook/tool-use/extracting-structured-json/)
+      * [工具选择（Auto / Any / 强制）](https://claudecn.com/docs/cookbook/tool-use/tool-choice/)
+      * [并行工具调用（Parallel tool calls）](https://claudecn.com/docs/cookbook/tool-use/parallel-tools/)
+      * [PTC：程序化工具调用](https://claudecn.com/docs/cookbook/tool-use/ptc-programmatic-tool-calling/)
+      * [Tool Search（用 embeddings 扩展到海量工具）](https://claudecn.com/docs/cookbook/tool-use/tool-search-with-embeddings/)
+      * [自动上下文压缩（Automatic context compaction）](https://claudecn.com/docs/cookbook/tool-use/automatic-context-compaction/)
+      * [会话记忆压缩（Session memory compaction）](https://claudecn.com/docs/cookbook/tool-use/session-memory-compaction/)
+      * [记忆与上下文管理（Memory & context）](https://claudecn.com/docs/cookbook/tool-use/memory-and-context-management/)
+      * [视觉 + 工具（Vision with tools）](https://claudecn.com/docs/cookbook/tool-use/vision-with-tools/)
+    - [Agent 模式：Patterns 与 Claude Agent SDK](https://claudecn.com/docs/cookbook/agent-patterns/)
+      * [Orchestrator-Workers（编排-工作者）](https://claudecn.com/docs/cookbook/agent-patterns/orchestrator-workers/)
+      * [Evaluator-Optimizer（评审-优化回路）](https://claudecn.com/docs/cookbook/agent-patterns/evaluator-optimizer/)
+      * [Basic workflows（基础工作流）](https://claudecn.com/docs/cookbook/agent-patterns/basic-workflows/)
+      * [One-liner research agent（单行研究代理）](https://claudecn.com/docs/cookbook/agent-patterns/one-liner-research-agent/)
+      * [Chief of staff agent（参谋长代理）](https://claudecn.com/docs/cookbook/agent-patterns/chief-of-staff-agent/)
+      * [Observability agent（MCP 可观测性代理）](https://claudecn.com/docs/cookbook/agent-patterns/observability-agent-mcp/)
+    - [多模态：视觉、图表与文档转写](https://claudecn.com/docs/cookbook/multimodal/)
+      * [视觉入门（Getting started with vision）](https://claudecn.com/docs/cookbook/multimodal/getting-started-with-vision/)
+      * [视觉最佳实践（Best practices for vision）](https://claudecn.com/docs/cookbook/multimodal/best-practices-for-vision/)
+      * [图表与幻灯片（Charts/graphs/slide decks）](https://claudecn.com/docs/cookbook/multimodal/charts-graphs-and-slide-decks/)
+      * [文档转写（Transcribe documents）](https://claudecn.com/docs/cookbook/multimodal/transcribe-documents/)
+      * [裁剪工具（Crop tool）](https://claudecn.com/docs/cookbook/multimodal/crop-tool/)
+      * [子代理抽取（Using sub-agents）](https://claudecn.com/docs/cookbook/multimodal/using-sub-agents/)
+    - [输出控制：JSON、Citations 与缓存](https://claudecn.com/docs/cookbook/output-control/)
+      * [JSON mode（稳定输出 JSON）](https://claudecn.com/docs/cookbook/output-control/json-mode/)
+      * [Citations（可追溯引用）](https://claudecn.com/docs/cookbook/output-control/citations/)
+      * [Prompt caching（提示词缓存）](https://claudecn.com/docs/cookbook/output-control/prompt-caching/)
+      * [Speculative prompt caching（投机缓存）](https://claudecn.com/docs/cookbook/output-control/speculative-prompt-caching/)
+      * [批处理（Message Batches API）](https://claudecn.com/docs/cookbook/output-control/batch-processing/)
+      * [内容审核过滤器（Moderation filter）](https://claudecn.com/docs/cookbook/output-control/moderation-filter/)
+      * [超过 max tokens 的长输出（Sampling past max tokens）](https://claudecn.com/docs/cookbook/output-control/sampling-past-max-tokens/)
+      * [Metaprompt（提示词工程化）](https://claudecn.com/docs/cookbook/output-control/metaprompt/)
+    - [质量与评测：Evals、测试数据与 Tool Evaluation](https://claudecn.com/docs/cookbook/evals-and-testing/)
+      * [构建 Evals（评测体系）](https://claudecn.com/docs/cookbook/evals-and-testing/building-evals/)
+      * [生成合成测试用例（Synthetic test cases）](https://claudecn.com/docs/cookbook/evals-and-testing/generate-test-cases/)
+      * [Tool Evaluation（工具调用评测）](https://claudecn.com/docs/cookbook/evals-and-testing/tool-evaluation/)
+    - [集成与运维：第三方、微调与用量成本](https://claudecn.com/docs/cookbook/integrations-and-ops/)
+      * [Pinecone RAG（向量库集成）](https://claudecn.com/docs/cookbook/integrations-and-ops/pinecone-rag/)
+      * [MongoDB RAG（数据库集成）](https://claudecn.com/docs/cookbook/integrations-and-ops/mongodb-rag/)
+      * [LlamaIndex 基础 RAG](https://claudecn.com/docs/cookbook/integrations-and-ops/llamaindex-basic-rag/)
+      * [Wikipedia 迭代检索](https://claudecn.com/docs/cookbook/integrations-and-ops/wikipedia-search/)
+      * [WolframAlpha 工具调用](https://claudecn.com/docs/cookbook/integrations-and-ops/wolframalpha-tool/)
+      * [低延迟语音助手（ElevenLabs）](https://claudecn.com/docs/cookbook/integrations-and-ops/elevenlabs-voice-assistant/)
+      * [Deepgram 音频转写](https://claudecn.com/docs/cookbook/integrations-and-ops/deepgram-audio-transcription/)
+      * [Amazon Bedrock 微调](https://claudecn.com/docs/cookbook/integrations-and-ops/finetuning-on-bedrock/)
+      * [用量与成本 Admin API](https://claudecn.com/docs/cookbook/integrations-and-ops/usage-cost-admin-api/)
+  + [Quickstarts](https://claudecn.com/docs/quickstarts/)
+  + [扩展思维（Extended Thinking）](https://claudecn.com/docs/extended-thinking/)
+  + [计算机控制（Computer Use）](https://claudecn.com/docs/computer-use/)
+* [关于](https://claudecn.com/about/)
+* [Claude 中文博客](https://claudecn.com/blog/)
+  + [Claude Agent SDK 完整开发指南](https://claudecn.com/blog/claude-agent-sdk-complete-guide/)
+  + [Claude Code 官方插件：code-simplifier 代码简化工具](https://claudecn.com/blog/claude-code-simplifier-plugin/)
+  + [「感觉像作弊」：AI 编程时代，什么能力才是护城河？](https://claudecn.com/blog/ai-coding-what-matters-now/)
+  + [设计师用 Claude Code 上线产品：从想法到可用 Demo 的最短工作流](https://claudecn.com/blog/claude-code-for-designers-from-idea-to-ship/)
+  + [新范式：代码就是一切｜Anthropic 为什么从“专用 Agent”转向 Skills](https://claudecn.com/blog/claude-skills-new-paradigm-code-is-all-you-need/)
+  + [Claude Skills 专业入门：把“会用 AI”变成“可复制的工程能力”](https://claudecn.com/blog/claude-skills-professional-intro/)
+  + [Claude Code 国内环境实战：安装、第三方 Provider 配置与多模型切换（Windows/macOS）](https://claudecn.com/blog/claude-code-install-and-provider-switching/)
+  + [Claude Code 最佳实践：把上下文变成生产力（团队可落地长文）](https://claudecn.com/blog/claude-code-best-practices-playbook/)
+  + [Claude Agent Skills 落地指南：结构、决策矩阵与 SKILL.md 模板](https://claudecn.com/blog/claude-agent-skills-landing-guide/)
+  + [Claude Agent Skills 落地指南：结构、决策矩阵与 SKILL.md 模板](https://claudecn.com/blog/claude-skills-landing-guide/)
+  + [Claude Cowork 落地指南：任务模板、安全护栏与成果物交付](https://claudecn.com/blog/claude-cowork-landing-guide/)
+  + [Claude Cowork 系统提示词完整解析：Anthropic 如何打造数字同事](https://claudecn.com/blog/claude-cowork-system-prompt-analysis/)
+  + [Claude Skills 架构拆解：渐进披露、运行时与安全沙箱](https://claudecn.com/blog/claude-skills-architecture/)
+  + [扒一扒 Claude Cowork 系统提示词：Anthropic 如何打造数字同事](https://claudecn.com/blog/claude-cowork-system-prompt/)
+  + [Cowork 安全架构深度解析：从 Claude Code 到 Cowork，Anthropic 如何把“可控”做成产品](https://claudecn.com/blog/claude-cowork-security-architecture/)
+  + [Claude Cowork 架构拆解：VM 隔离、MCP 与 Agentic 循环](https://claudecn.com/blog/claude-cowork-architecture/)
+  + [Claude Skills 会替代 MCP 吗？深度分析与趋势预测](https://claudecn.com/blog/will-skills-replace-mcp/)
+  + [Claude Skills vs MCP：哪个更适合你的 AI 应用增强方案？](https://claudecn.com/blog/claude-skills-vs-mcp-comparison/)
+  + [Claude Agent Skills 完整指南：架构原理与开发实践](https://claudecn.com/blog/claude-agent-skills-complete-guide/)
+  + [深入理解 Agent Skills：让 Claude 成为领域专家](https://claudecn.com/blog/understanding-agent-skills/)
+  + [用 Claude Code Skills 管理 Obsidian 知识库（Vault）](https://claudecn.com/blog/obsidian-vault-skills/)
+* [页面未找到](https://claudecn.com/404/)
+
+* [Claude Code](https://claudecn.com/docs/claude-code/)
+  + [快速开始](https://claudecn.com/docs/claude-code/quickstart/)
+  + [入门指南](https://claudecn.com/docs/claude-code/getting-started/)
+    - [什么是 Claude Code](https://claudecn.com/docs/claude-code/getting-started/what-is-claude-code/)
+    - [安装配置](https://claudecn.com/docs/claude-code/getting-started/installation/)
+    - [第一次对话](https://claudecn.com/docs/claude-code/getting-started/first-conversation/)
+    - [基础使用](https://claudecn.com/docs/claude-code/getting-started/basic-usage/)
+  + [工作流](https://claudecn.com/docs/claude-code/workflows/)
+    - [上下文管理](https://claudecn.com/docs/claude-code/workflows/context-management/)
+    - [代码修改](https://claudecn.com/docs/claude-code/workflows/code-changes/)
+    - [Git 集成](https://claudecn.com/docs/claude-code/workflows/git-integration/)
+    - [高效实践](https://claudecn.com/docs/claude-code/workflows/efficient-practices/)
+    - [多 Claude 协作](https://claudecn.com/docs/claude-code/workflows/multi-claude/)
+    - [计划模式](https://claudecn.com/docs/claude-code/workflows/plan-mode/)
+    - [31 个高频技巧（Advent of Claude）](https://claudecn.com/docs/claude-code/workflows/advent-of-claude/)
+    - [会话连续性与战略压缩](https://claudecn.com/docs/claude-code/workflows/session-continuity/)
+    - [上下文角色：开发 / 调研 / 审查](https://claudecn.com/docs/claude-code/workflows/context-roles/)
+    - [团队质量门禁：Plan → TDD → Build Fix → Review](https://claudecn.com/docs/claude-code/workflows/quality-gates/)
+    - [文档同步与 Codemaps：让文档跟着代码走](https://claudecn.com/docs/claude-code/workflows/docs-and-codemaps/)
+    - [持续学习：把会话复盘沉淀成 Skills](https://claudecn.com/docs/claude-code/workflows/continuous-learning/)
+    - [构建排障：最小 diff 的增量修复](https://claudecn.com/docs/claude-code/workflows/build-troubleshooting/)
+    - [安全清理死代码：工具分析 + 删除日志](https://claudecn.com/docs/claude-code/workflows/refactor-clean/)
+    - [安全审查工作流：从 Secrets 到 OWASP](https://claudecn.com/docs/claude-code/workflows/security-review/)
+    - [E2E 测试工作流：Playwright 关键旅程与产物管理](https://claudecn.com/docs/claude-code/workflows/e2e-testing/)
+    - [代码审查工作流：分级输出与合并门禁](https://claudecn.com/docs/claude-code/workflows/code-review/)
+  + [IDE 集成](https://claudecn.com/docs/claude-code/ide-integration/)
+    - [VS Code 集成](https://claudecn.com/docs/claude-code/ide-integration/vscode/)
+    - [JetBrains 集成](https://claudecn.com/docs/claude-code/ide-integration/jetbrains/)
+    - [Chrome DevTools](https://claudecn.com/docs/claude-code/ide-integration/chrome/)
+  + [插件系统](https://claudecn.com/docs/claude-code/plugins/)
+    - [创建插件](https://claudecn.com/docs/claude-code/plugins/create-plugins/)
+    - [发现和安装插件](https://claudecn.com/docs/claude-code/plugins/discover-plugins/)
+    - [插件参考](https://claudecn.com/docs/claude-code/plugins/plugins-reference/)
+    - [插件系统概览](https://claudecn.com/docs/claude-code/plugins/overview/)
+  + [进阶指南](https://claudecn.com/docs/claude-code/advanced/)
+    - [Skills（技能）](https://claudecn.com/docs/claude-code/advanced/skills/)
+    - [Subagents 子代理](https://claudecn.com/docs/claude-code/advanced/subagents/)
+    - [自定义命令](https://claudecn.com/docs/claude-code/advanced/custom-commands/)
+    - [Hooks 系统](https://claudecn.com/docs/claude-code/advanced/hooks/)
+    - [Claude Code SDK](https://claudecn.com/docs/claude-code/advanced/sdk/)
+    - [MCP 服务器](https://claudecn.com/docs/claude-code/advanced/mcp-servers/)
+    - [团队落地：把 Claude Code 配置当代码管理](https://claudecn.com/docs/claude-code/advanced/config-as-code/)
+    - [团队 Starter Kit（最小可用配置）](https://claudecn.com/docs/claude-code/advanced/starter-kit/)
+    - [模式库：把工程经验沉淀为 Skills](https://claudecn.com/docs/claude-code/advanced/skill-pattern-library/)
+    - [配置片段库：从成熟实践提炼可复制模板](https://claudecn.com/docs/claude-code/advanced/config-snippets/)
+    - [Hooks 配方：把经验变成自动化护栏](https://claudecn.com/docs/claude-code/advanced/hooks-recipes/)
+    - [团队规则库：用 Rules 固化底线](https://claudecn.com/docs/claude-code/advanced/rules-playbook/)
+    - [Claude Code 背后的 Agent Loop（从零理解）](https://claudecn.com/docs/claude-code/advanced/agent-loop/)
+      * [v0：Bash 就是一切](https://claudecn.com/docs/claude-code/advanced/agent-loop/v0-bash-agent/)
+      * [v1：模型即代理](https://claudecn.com/docs/claude-code/advanced/agent-loop/v1-model-as-agent/)
+      * [v2：显式 Todo](https://claudecn.com/docs/claude-code/advanced/agent-loop/v2-explicit-planning-todo/)
+      * [v3：子代理机制](https://claudecn.com/docs/claude-code/advanced/agent-loop/v3-subagents/)
+      * [v4：Skills 机制](https://claudecn.com/docs/claude-code/advanced/agent-loop/v4-skills/)
+  + [CI/CD 自动化](https://claudecn.com/docs/claude-code/automation/)
+    - [GitHub Actions](https://claudecn.com/docs/claude-code/automation/github-actions/)
+    - [Headless 模式](https://claudecn.com/docs/claude-code/automation/headless/)
+  + [参考资料](https://claudecn.com/docs/claude-code/reference/)
+    - [配置参考](https://claudecn.com/docs/claude-code/reference/settings/)
+    - [CLI 参考](https://claudecn.com/docs/claude-code/reference/cli-reference/)
+    - [安全指南](https://claudecn.com/docs/claude-code/reference/security/)
+    - [Claude Code 速查表](https://claudecn.com/docs/claude-code/reference/quick-reference/)
+    - [Statusline（状态栏）](https://claudecn.com/docs/claude-code/reference/statusline/)
+    - [Amazon Bedrock](https://claudecn.com/docs/claude-code/reference/amazon-bedrock/)
+  + [实用指南](https://claudecn.com/docs/claude-code/practical-guides/)
+    - [文本处理](https://claudecn.com/docs/claude-code/practical-guides/text-processing/)
+    - [文件管理](https://claudecn.com/docs/claude-code/practical-guides/file-management/)
+    - [数据分析](https://claudecn.com/docs/claude-code/practical-guides/data-analysis/)
+    - [提示词技巧](https://claudecn.com/docs/claude-code/practical-guides/prompt-tips/)
+* [Agent Skills](https://claudecn.com/docs/agent-skills/)
+  + [快速开始](https://claudecn.com/docs/agent-skills/quickstart/)
+  + [最佳实践](https://claudecn.com/docs/agent-skills/best-practices/)
+  + [示例集](https://claudecn.com/docs/agent-skills/examples/)
+  + [Skills 架构设计](https://claudecn.com/docs/agent-skills/architecture/)
+* [Cookbook](https://claudecn.com/docs/cookbook/)
+  + [仓库速览与本地运行](https://claudecn.com/docs/cookbook/repo-quickstart-and-structure/)
+  + [Registry 与质量门禁](https://claudecn.com/docs/cookbook/registry-and-quality-gates/)
+  + [能力篇：RAG 与检索增强](https://claudecn.com/docs/cookbook/rag-and-retrieval/)
+    - [检索增强生成（RAG）](https://claudecn.com/docs/cookbook/rag-and-retrieval/retrieval-augmented-generation/)
+    - [上下文化检索（Contextual retrieval）](https://claudecn.com/docs/cookbook/rag-and-retrieval/contextual-retrieval/)
+    - [Text-to-SQL（自然语言转 SQL）](https://claudecn.com/docs/cookbook/rag-and-retrieval/text-to-sql/)
+    - [摘要（Summarization）](https://claudecn.com/docs/cookbook/rag-and-retrieval/summarization/)
+    - [分类（Classification）](https://claudecn.com/docs/cookbook/rag-and-retrieval/classification/)
+    - [SQL 查询（实战配方）](https://claudecn.com/docs/cookbook/rag-and-retrieval/sql-queries/)
+    - [PDF 上传与摘要](https://claudecn.com/docs/cookbook/rag-and-retrieval/pdf-upload-summarization/)
+    - [读取网页并总结](https://claudecn.com/docs/cookbook/rag-and-retrieval/read-web-pages/)
+  + [工具调用：从 Tool Choice 到 PTC](https://claudecn.com/docs/cookbook/tool-use/)
+    - [计算器工具（Calculator tool）](https://claudecn.com/docs/cookbook/tool-use/calculator-tool/)
+    - [客服 Agent（客户端工具）](https://claudecn.com/docs/cookbook/tool-use/customer-service-agent/)
+    - [结构化 JSON 抽取（用 Tool Use 做合约）](https://claudecn.com/docs/cookbook/tool-use/extracting-structured-json/)
+    - [工具选择（Auto / Any / 强制）](https://claudecn.com/docs/cookbook/tool-use/tool-choice/)
+    - [并行工具调用（Parallel tool calls）](https://claudecn.com/docs/cookbook/tool-use/parallel-tools/)
+    - [PTC：程序化工具调用](https://claudecn.com/docs/cookbook/tool-use/ptc-programmatic-tool-calling/)
+    - [Tool Search（用 embeddings 扩展到海量工具）](https://claudecn.com/docs/cookbook/tool-use/tool-search-with-embeddings/)
+    - [自动上下文压缩（Automatic context compaction）](https://claudecn.com/docs/cookbook/tool-use/automatic-context-compaction/)
+    - [会话记忆压缩（Session memory compaction）](https://claudecn.com/docs/cookbook/tool-use/session-memory-compaction/)
+    - [记忆与上下文管理（Memory & context）](https://claudecn.com/docs/cookbook/tool-use/memory-and-context-management/)
+    - [视觉 + 工具（Vision with tools）](https://claudecn.com/docs/cookbook/tool-use/vision-with-tools/)
+  + [Agent 模式：Patterns 与 Claude Agent SDK](https://claudecn.com/docs/cookbook/agent-patterns/)
+    - [Orchestrator-Workers（编排-工作者）](https://claudecn.com/docs/cookbook/agent-patterns/orchestrator-workers/)
+    - [Evaluator-Optimizer（评审-优化回路）](https://claudecn.com/docs/cookbook/agent-patterns/evaluator-optimizer/)
+    - [Basic workflows（基础工作流）](https://claudecn.com/docs/cookbook/agent-patterns/basic-workflows/)
+    - [One-liner research agent（单行研究代理）](https://claudecn.com/docs/cookbook/agent-patterns/one-liner-research-agent/)
+    - [Chief of staff agent（参谋长代理）](https://claudecn.com/docs/cookbook/agent-patterns/chief-of-staff-agent/)
+    - [Observability agent（MCP 可观测性代理）](https://claudecn.com/docs/cookbook/agent-patterns/observability-agent-mcp/)
+  + [多模态：视觉、图表与文档转写](https://claudecn.com/docs/cookbook/multimodal/)
+    - [视觉入门（Getting started with vision）](https://claudecn.com/docs/cookbook/multimodal/getting-started-with-vision/)
+    - [视觉最佳实践（Best practices for vision）](https://claudecn.com/docs/cookbook/multimodal/best-practices-for-vision/)
+    - [图表与幻灯片（Charts/graphs/slide decks）](https://claudecn.com/docs/cookbook/multimodal/charts-graphs-and-slide-decks/)
+    - [文档转写（Transcribe documents）](https://claudecn.com/docs/cookbook/multimodal/transcribe-documents/)
+    - [裁剪工具（Crop tool）](https://claudecn.com/docs/cookbook/multimodal/crop-tool/)
+    - [子代理抽取（Using sub-agents）](https://claudecn.com/docs/cookbook/multimodal/using-sub-agents/)
+  + [输出控制：JSON、Citations 与缓存](https://claudecn.com/docs/cookbook/output-control/)
+    - [JSON mode（稳定输出 JSON）](https://claudecn.com/docs/cookbook/output-control/json-mode/)
+    - [Citations（可追溯引用）](https://claudecn.com/docs/cookbook/output-control/citations/)
+    - [Prompt caching（提示词缓存）](https://claudecn.com/docs/cookbook/output-control/prompt-caching/)
+    - [Speculative prompt caching（投机缓存）](https://claudecn.com/docs/cookbook/output-control/speculative-prompt-caching/)
+    - [批处理（Message Batches API）](https://claudecn.com/docs/cookbook/output-control/batch-processing/)
+    - [内容审核过滤器（Moderation filter）](https://claudecn.com/docs/cookbook/output-control/moderation-filter/)
+    - [超过 max tokens 的长输出（Sampling past max tokens）](https://claudecn.com/docs/cookbook/output-control/sampling-past-max-tokens/)
+    - [Metaprompt（提示词工程化）](https://claudecn.com/docs/cookbook/output-control/metaprompt/)
+  + [质量与评测：Evals、测试数据与 Tool Evaluation](https://claudecn.com/docs/cookbook/evals-and-testing/)
+    - [构建 Evals（评测体系）](https://claudecn.com/docs/cookbook/evals-and-testing/building-evals/)
+    - [生成合成测试用例（Synthetic test cases）](https://claudecn.com/docs/cookbook/evals-and-testing/generate-test-cases/)
+    - [Tool Evaluation（工具调用评测）](https://claudecn.com/docs/cookbook/evals-and-testing/tool-evaluation/)
+  + [集成与运维：第三方、微调与用量成本](https://claudecn.com/docs/cookbook/integrations-and-ops/)
+    - [Pinecone RAG（向量库集成）](https://claudecn.com/docs/cookbook/integrations-and-ops/pinecone-rag/)
+    - [MongoDB RAG（数据库集成）](https://claudecn.com/docs/cookbook/integrations-and-ops/mongodb-rag/)
+    - [LlamaIndex 基础 RAG](https://claudecn.com/docs/cookbook/integrations-and-ops/llamaindex-basic-rag/)
+    - [Wikipedia 迭代检索](https://claudecn.com/docs/cookbook/integrations-and-ops/wikipedia-search/)
+    - [WolframAlpha 工具调用](https://claudecn.com/docs/cookbook/integrations-and-ops/wolframalpha-tool/)
+    - [低延迟语音助手（ElevenLabs）](https://claudecn.com/docs/cookbook/integrations-and-ops/elevenlabs-voice-assistant/)
+    - [Deepgram 音频转写](https://claudecn.com/docs/cookbook/integrations-and-ops/deepgram-audio-transcription/)
+    - [Amazon Bedrock 微调](https://claudecn.com/docs/cookbook/integrations-and-ops/finetuning-on-bedrock/)
+    - [用量与成本 Admin API](https://claudecn.com/docs/cookbook/integrations-and-ops/usage-cost-admin-api/)
+* [Quickstarts](https://claudecn.com/docs/quickstarts/)
+* [扩展思维（Extended Thinking）](https://claudecn.com/docs/extended-thinking/)
+* [计算机控制（Computer Use）](https://claudecn.com/docs/computer-use/)
+中文
+
+* [中文](https://claudecn.com/docs/agent-skills/)
+* [English](https://claudecn.com/en/docs/agent-skills/)
+
+* 浅色
+* 深色
+* 跟随系统
+
+此页上
+
+* [为什么使用 Skills](#%e4%b8%ba%e4%bb%80%e4%b9%88%e4%bd%bf%e7%94%a8-skills)
+* [使用 Skills](#%e4%bd%bf%e7%94%a8-skills)
+* [预构建 Agent Skills](#%e9%a2%84%e6%9e%84%e5%bb%ba-agent-skills)
+* [自定义 Skills](#%e8%87%aa%e5%ae%9a%e4%b9%89-skills)
+* [Skills 工作原理](#skills-%e5%b7%a5%e4%bd%9c%e5%8e%9f%e7%90%86)
+* [渐进式披露](#%e6%b8%90%e8%bf%9b%e5%bc%8f%e6%8a%ab%e9%9c%b2)
+* [可用 Skills](#%e5%8f%af%e7%94%a8-skills)
+* [预构建 Agent Skills](#%e9%a2%84%e6%9e%84%e5%bb%ba-agent-skills-1)
+* [官方 Skills 示例](#%e5%ae%98%e6%96%b9-skills-%e7%a4%ba%e4%be%8b)
+* [自定义 Skills 示例](#%e8%87%aa%e5%ae%9a%e4%b9%89-skills-%e7%a4%ba%e4%be%8b)
+* [Skill 结构](#skill-%e7%bb%93%e6%9e%84)
+* [快速导航](#%e5%bf%ab%e9%80%9f%e5%af%bc%e8%88%aa)
+* [安全注意事项](#%e5%ae%89%e5%85%a8%e6%b3%a8%e6%84%8f%e4%ba%8b%e9%a1%b9)
+* [限制和约束](#%e9%99%90%e5%88%b6%e5%92%8c%e7%ba%a6%e6%9d%9f)
+* [跨表面可用性](#%e8%b7%a8%e8%a1%a8%e9%9d%a2%e5%8f%af%e7%94%a8%e6%80%a7)
+* [运行时环境约束](#%e8%bf%90%e8%a1%8c%e6%97%b6%e7%8e%af%e5%a2%83%e7%ba%a6%e6%9d%9f)
+* [下一步](#%e4%b8%8b%e4%b8%80%e6%ad%a5)
+* [相关资源](#%e7%9b%b8%e5%85%b3%e8%b5%84%e6%ba%90)
+
+返回顶部
+[文档](https://claudecn.com/docs/)Agent Skills
+
+Agent Skills
+============
+
+Agent Skills 是模块化能力系统，扩展 Claude 的功能。每个 Skill 打包指令、元数据和可选资源（脚本、模板），Claude 在相关时自动使用。
+
+为什么使用 Skills
+------------
+
+Skills 是可复用的、基于文件系统的资源，为 Claude 提供领域特定专业知识：工作流、上下文和最佳实践，将通用代理转变为专家。
+
+**关键优势**：
+
+* **专业化 Claude**：为特定领域任务定制能力
+* **减少重复**：创建一次，自动使用
+* **组合能力**：组合 Skills 构建复杂工作流
+
+使用 Skills
+---------
+
+Anthropic 为常见文档任务（PowerPoint、Excel、Word、PDF）提供预构建的 Agent Skills，你也可以创建自己的自定义 Skills。两者工作方式相同，Claude 在相关时自动使用它们。
+
+### 预构建 Agent Skills
+
+所有 claude.ai 和 Claude API 用户都可以使用。查看[可用 Skills](#%e5%8f%af%e7%94%a8-skills) 章节了解完整列表。
+
+### 自定义 Skills
+
+让你打包领域专业知识和组织知识。可在 Claude 的所有产品中使用：在 Claude Code 中创建，通过 API 上传，或在 claude.ai 设置中添加。
+
+Skills 工作原理
+-----------
+
+Skills 利用 Claude 的 VM 环境提供超越单纯提示的能力。Claude 在具有文件系统访问的虚拟机中运行，允许 Skills 作为包含指令、可执行代码和参考材料的目录存在。
+
+### 渐进式披露
+
+Skills 可以包含三种类型的内容，每种在不同时间加载：
+
+**Level 1: 元数据（始终加载）**
+
+* Skill 的 YAML frontmatter 提供发现信息
+* Claude 在启动时加载此元数据并包含在系统提示中
+* 轻量级方法意味着你可以安装许多 Skills 而无上下文惩罚
+
+**Level 2: 指令（触发时加载）**
+
+* SKILL.md 主体包含过程知识：工作流、最佳实践和指导
+* 当你请求与 Skill 描述匹配的内容时，Claude 通过 bash 从文件系统读取 SKILL.md
+* 只有这时内容才进入上下文窗口
+
+**Level 3: 资源和代码（按需加载）**
+
+* Skills 可以捆绑额外材料：
+  + **指令**: 额外的 markdown 文件
+  + **代码**: Claude 通过 bash 运行的可执行脚本
+  + **资源**: 数据库模式、API 文档、模板或示例等参考材料
+
+| Level | 加载时机 | Token 成本 | 内容 |
+| --- | --- | --- | --- |
+| **Level 1: 元数据** | 始终（启动时） | ~100 tokens/Skill | YAML frontmatter 中的 `name` 和 `description` |
+| **Level 2: 指令** | Skill 触发时 | <5k tokens | SKILL.md 主体的指令和指导 |
+| **Level 3+: 资源** | 按需 | 实际无限 | 通过 bash 执行的捆绑文件，内容不加载到上下文 |
+
+可用 Skills
+---------
+
+### 预构建 Agent Skills
+
+以下预构建 Agent Skills 可立即使用：
+
+* **PowerPoint (pptx)**: 创建演示文稿、编辑幻灯片、分析演示内容
+* **Excel (xlsx)**: 创建电子表格、分析数据、生成带图表的报告
+* **Word (docx)**: 创建文档、编辑内容、格式化文本
+* **PDF (pdf)**: 生成格式化的 PDF 文档和报告
+
+这些 Skills 在 Claude API 和 claude.ai 上可用。查看[快速开始教程](quickstart/)开始在 API 中使用它们。
+
+### 官方 Skills 示例
+
+Anthropic 提供了丰富的开源 Skills 示例，涵盖多个领域：
+
+**文档处理**：
+
+* **doc-coauthoring**: 结构化的文档协作创作工作流
+* **docx**: Microsoft Word 文档处理（源码可用）
+* **pdf**: PDF 表单填写和处理（源码可用）
+* **pptx**: PowerPoint 演示文稿创建（源码可用）
+* **xlsx**: Excel 电子表格处理（源码可用）
+
+**创意与设计**：
+
+* **frontend-design**: 创建独特的生产级前端界面
+* **canvas-design**: Canvas 图形设计（包含54种字体）
+* **algorithmic-art**: 生成式算法艺术
+* **theme-factory**: 10种预设设计主题
+* **slack-gif-creator**: Slack GIF 动画创建
+
+**技术开发**：
+
+* **mcp-builder**: Model Context Protocol 服务器构建
+* **skill-creator**: Agent Skills 创建工具
+* **web-artifacts-builder**: Web Artifacts 构建
+* **webapp-testing**: Web 应用自动化测试
+
+**企业与通信**：
+
+* **internal-comms**: 企业内部沟通模板
+* **brand-guidelines**: 品牌一致性指导
+
+完整源码和详细文档，请访问 [Anthropic Skills 仓库](https://github.com/anthropics/skills)。
+
+### 自定义 Skills 示例
+
+完整的自定义 Skills 示例和创建教程，请参阅 [Skills cookbook](https://github.com/anthropics/claude-cookbooks/tree/main/skills)。
+
+Skill 结构
+--------
+
+每个 Skill 需要一个带 YAML frontmatter 的 `SKILL.md` 文件：
+
+```
+---
+name: 你的 Skill 名称
+description: 此 Skill 的简要描述以及何时使用它
+---
+# 你的 Skill 名称
+## 指令
+[Claude 遵循的清晰分步指导]
+## 示例
+[使用此 Skill 的具体示例]
+```
+
+**必需字段**: `name` 和 `description`
+
+**Frontmatter 限制**:
+
+* `name`: 最多 64 字符
+* `description`: 最多 1024 字符
+
+快速导航
+----
+
+[快速开始创建你的第一个 Skill](quickstart/)[最佳实践编写 Claude 可有效使用的 Skills](best-practices/)[API 指南在 Claude API 中使用 Skills](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview)
+
+安全注意事项
+------
+
+我们强烈建议仅使用来自可信来源的 Skills：你自己创建的或从 Anthropic 获得的。Skills 通过指令和代码为 Claude 提供新能力，虽然这使它们强大，但也意味着恶意 Skill 可以指导 Claude 以与 Skill 声明目的不符的方式调用工具或执行代码。
+
+限制和约束
+-----
+
+### 跨表面可用性
+
+**自定义 Skills 不跨表面同步**。上传到一个表面的 Skills 不会自动在其他表面可用。
+
+### 运行时环境约束
+
+Skills 在代码执行容器中运行，有以下限制：
+
+* **无网络访问**: Skills 无法进行外部 API 调用或访问互联网
+* **无运行时包安装**: 仅预装包可用
+* **仅预配置依赖**: 查看[代码执行工具文档](https://docs.claude.com/en/docs/agents-and-tools/tool-use/code-execution-tool)了解可用包列表
+
+下一步
+---
+
+[快速开始创建你的第一个 Skill](quickstart/)[API 指南在 Claude API 中使用 Skills](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview)[最佳实践编写有效的 Skills](best-practices/)
+
+相关资源
+----
+
+* [官方文档](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview)
+* [Anthropic Skills 仓库](https://github.com/anthropics/skills)
+* [Claude Cookbooks](https://github.com/anthropics/claude-cookbooks)
+[Claude 中文](https://claudecn.com)[ChatGPT 中文](https://Chatgptcn.com)[MCP 中文站](https://mcpcn.com)[A2A 中文站](https://a2acn.com)[ACP 商务协议](https://acplib.com)[AP2 Lab](https://ap2lab.com)[Sora AI 中文](https://soratoai.com)[UCP 技术](https://ucp.md)[MoltBot 中文](https://moltbotcn.com)[OpenClaw 中文](https://openclawcn.com)[由 Claude 中文社区驱动](https://docs.claude.com)© 2025 Claude 中文社区[[email protected]](/cdn-cgi/l/email-protection#ea8b83aa89868b9f8e8f8984c4898587)

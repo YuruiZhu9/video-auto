@@ -1,0 +1,846 @@
+# Source URL: https://blog.csdn.net/GeorgePigX/article/details/124072502
+# Content Length: 14937 characters
+# Extracted at: 2026-03-22 10:05:35
+#============================================================
+
+ 
+
+
+
+
+
+小红书推荐算法面试经验分享：LeetCode原题实战-CSDN博客
+
+
+
+
+
+
+
+
+金三银四小红书面经
+=========
+
+
+最新推荐文章于 2024-05-11 11:06:17 发布
+原创
+[![]()](https://mall.csdn.net/vip)
+最新推荐文章于 2024-05-11 11:06:17 发布
+·
+3k 阅读
+·
+![]()
+![]()
+1
+
+
+·
+![]()
+![]()
+3
+
+
+
+文章标签：
+
+[#面试](https://so.csdn.net/so/search/s.do?q=%E9%9D%A2%E8%AF%95&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#经验分享](https://so.csdn.net/so/search/s.do?q=%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#算法](https://so.csdn.net/so/search/s.do?q=%E7%AE%97%E6%B3%95&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#推荐系统](https://so.csdn.net/so/search/s.do?q=%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#计算广告](https://so.csdn.net/so/search/s.do?q=%E8%AE%A1%E7%AE%97%E5%B9%BF%E5%91%8A&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+
+
+
+
+
+
+
+[金三银四跳槽季面经（一）](https://mp.weixin.qq.com/s?__biz=MzIwNTE0NTgyMQ==&mid=2247484150&idx=1&sn=17464352d1f8e1500f9084023354fe7f&chksm=97341144a0439852917457c856176fa546aa59f89da702892e5e335a0bc7d2894856ebc7dadc#rd)主要和大家分享了B站推荐算法工程师的面经，今天和大家分享下笔者在小红书的面经。相比于[金三银四跳槽季面经（一）](https://mp.weixin.qq.com/s?__biz=MzIwNTE0NTgyMQ==&mid=2247484150&idx=1&sn=17464352d1f8e1500f9084023354fe7f&chksm=97341144a0439852917457c856176fa546aa59f89da702892e5e335a0bc7d2894856ebc7dadc#rd)中非LeetCode原题占比较大的情况，小红书的题目基本都是LeetCode原题，其中一道medium题，一道hard题。
+
+小红书
+
+坐标：黄浦区新天地
+
+面试岗位：推荐算法工程师
+
+面试形式：视频面试
+
+面试难度：☆☆☆☆
+
+小红书是视频面试，由于笔者比较着急，因此三轮视频面试在三天内全部搞定。
+
+一面：小红书属于不按套路出牌的公司，一面面试官居然是推荐组的负责人。面试官开始也解释了一下原因，说这是他们最新的招人模式，先由他面试，如果工作经验不合适的话，直接挂掉，避免浪费双方的时间。然后就说我的简历和他们的岗位比较合适，希望我能够加入。接着就大致聊了下简历里面的项目，主要是MIND模型相关的改进以及GraphEmbedding的优化聊得比较多，面试官似乎对这两块更感兴趣。在之前的《MIND多兴趣召回实战（一）》，《GraphEmbedding实战（三）》两篇文章中，我有做过详细的介绍，感兴趣的读者，可以自行查阅。最后面试官说，后面会有组内的两位同事来面我，不会很难，期待我的加入。
+
+二面：面试官不苟言笑，上来先写道题LeetCode210（课程表II）。一道中等难度题，这里附上代码解答：
+
+```
+class Solution {
+   
+   
+    // 存储有向图
+    List<List<Integer>> edges;
+    // 标记每个节点的状态：0=未搜索，1=搜索中，2=已完成
+    int[] visited;
+    // 用数组来模拟栈，下标 n-1 为栈底，0 为栈顶
+    int[] result;
+    // 判断有向图中是否有环
+    boolean valid = true;
+    // 栈下标
+    int index;
+
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+   
+   
+        edges = new ArrayList<List<Integer>>();
+        for (int i = 
+```
+
+
+
+
+
+
+![]()
+最低0.47元/天 解锁文章
+![]()
+
+
+![]()
+确定要放弃本次机会？
+
+福利倒计时
+
+*:*
+
+*:*
+
+
+![]()
+立减 ¥
+
+
+普通VIP年卡可用
+
+[立即使用](https://mall.csdn.net/vip)
+
+
+[![]()
+GeorgePigX](https://blog.csdn.net/GeorgePigX)
+
+[关注](javascript:;)
+关注
+
+
+* ![]()
+  ![]()
+  ![]()
+  1
+  点赞
+* ![]()
+  ![]()
+  踩
+* [![]()
+  ![]()
+  ![]()
+  3](javascript:;)
+  收藏
+  
+  
+  
+  觉得还不错?
+  一键收藏
+  
+  ![]()
+* ![]()
+  知道了
+  
+  [![]()
+  0](#commentBox)
+  评论
+* [![]()
+  分享](javascript:;)
+  复制链接
+  
+  分享到 QQ
+  
+  分享到新浪微博
+  
+  ![]()扫一扫
+* ![]()
+  ![]()
+  举报
+  
+  ![]()
+  举报
+
+专栏目录
+
+
+
+
+![]()
+
+[4000字全面了解小*红*书数据平台工程师(实时方向)社招*面试*内容](https://blog.csdn.net/weixin_38201936/article/details/123044007)
+
+[逆流而上Mr李](https://blog.csdn.net/weixin_38201936)
+
+02-21
+![]()
+2498
+
+
+
+
+[大家好，我是土哥。
+周五晚上过来卷大家了，今天为大家带来一位读者*面试*小*红*书的 数据平台工程师（实时方向）面经。
+*面试*时间：72 分钟
+*面试*方向：数据平台工程师（实时方向）
+*面试*工具：赛码网
+*面试*难度 : ⭐⭐⭐⭐
+原文链接：小*红*书数据平台工程师(实时方向)社招面经(附答案)
+流*计算*平台
+*面试*官： 不用自我介绍了，直接介绍一下流*计算*平台
+纳尼？好高冷啊！！
+具体自我介绍请查看： 58同城大数据开发社招面经(附答案)
+*面试*官：1 你们的 UDF 是怎么管理的？
+当自定义 UDF jar 后，
+如果是](https://blog.csdn.net/weixin_38201936/article/details/123044007)
+
+
+
+
+
+参与评论
+您还未登录，请先
+登录
+后发表或查看评论
+
+
+[「*面试*」拿到小*红*书的意向书](https://blog.csdn.net/L15519543837/article/details/109010137)
+
+[L的存在的博客](https://blog.csdn.net/L15519543837)
+
+10-11
+![]()
+3861
+
+
+
+
+[上一篇给大家*分享*了B站的*面试*之旅，大家的反响还不错，居然催更了，小手不禁颤抖。所以决定把剩下的这些公司给安排明白了。这不，今天就看看小*红*书服务端/后台面了啥，不为别的，就想遇到漂亮的HR小姐姐，开工。
+一面
+一面*面试*官看着二十七八岁，文质彬彬，这哪里是写代码的，头发都飘起来了好么。上来就干项目，由于大家的项目都不太一样，所以对于项目部分我就说说我*面试*的时候经常遇到的问题
+描述下项目
+一口是吃不了胖子的，描述之前先憋着气掂量掂量自己所说的东西能不能唬住自己，然后唬住*面试*官。
+项目中担任的.](https://blog.csdn.net/L15519543837/article/details/109010137)
+
+
+
+[2021-04-16 小*红**书面*经](https://blog.csdn.net/addkai/article/details/115769659)
+
+[Code change the World.](https://blog.csdn.net/addkai)
+
+04-16
+![]()
+1568
+
+
+
+
+[小*红**书面*经
+1.自我介绍
+2.说说ajax和redis（这俩有啥关系么。。 ajax我倒是知道 但是简历上没写 而且好久没看了我也不知道 只知道异步通信 处理表示层的 页面刷新啥的 具体说说 那我不知道了。。
+3.说说redis（简单结合项目说了利用了redis消息队列处理高并发
+4.你的项目什么时候会高并发 你是先学了redis后解决高并发还是先遇到并发问题后学redis 你的项目遇到过什么问题（抢书包柜的时候 || 这啥问题我没懂想问啥 说了句处理预约的时候想起来有并发问题用redis解决 然后](https://blog.csdn.net/addkai/article/details/115769659)
+
+
+
+
+[小*红*书三面](https://blog.csdn.net/qq_23204557/article/details/103134173)
+
+[qq\_23204557的博客](https://blog.csdn.net/qq_23204557)
+
+11-19
+![]()
+744
+
+
+
+
+[redis是用什么语言实现，为什么快 c; 使用非阻塞的多路I/O复用模型，（多路I/O复用模型是利用 select、poll、epoll 可以同时监察多个流的 I/O 事件的能力，在空闲的时候，会把当前线程阻塞掉，当有一个或多个流有 I/O 事件时，就从阻塞态中唤醒，于是程序就会轮询一遍所有的流(epoll 是只轮询那些真正发出了事件的流)，并且只依次顺序的处理就绪的流，这种做法就避免了...](https://blog.csdn.net/qq_23204557/article/details/103134173)
+
+
+
+[小*红*书java社招一二三面面经](https://blog.csdn.net/qq_19595957/article/details/138706849)
+
+[架构师干货](https://blog.csdn.net/qq_19595957)
+
+05-11
+![]()
+2401
+
+
+
+
+[讲一下MySQL优化
+1、索引优化的细节
+2、前缀索引原理
+3、MySQL是如何选择合适的索引的，如where里用到字段a，表中有索引a和(a,b)
+4、覆盖索引原理
+5、如何知道覆盖索引是否生效](https://blog.csdn.net/qq_19595957/article/details/138706849)
+
+
+
+[2021*金三银*四最新出炉《Java中高级*面试*题合集》V1.0](https://download.csdn.net/download/Feng_wwf/20596517)
+
+07-28
+
+
+
+[### 知识点四：字符串不可变性 Java中的字符串（String）对象是不可变的。这意味着一旦一个String对象被创建，它的内容不能被改变。如果尝试修改字符串的内容，实际上会创建一个新的字符串对象。例如： ```java ...](https://download.csdn.net/download/Feng_wwf/20596517)
+
+
+
+[2019*金三银*四30家公司*面试*题汇总.doc](https://download.csdn.net/download/gy_2154317786_gy/11192354)
+
+05-21
+
+
+
+[在本文中，我们将对 2019 *金三银*四 30 家公司*面试*题汇总进行深入分析，从 Java 基础到高并发、Spring、数据库、消息队列、分布式系统和 JVM 等技术栈进行讨论。 一、Java 基础 Java 基础知识点包括集合框架的继承...](https://download.csdn.net/download/gy_2154317786_gy/11192354)
+
+
+
+[mysql*面试*题(*金三银*四)](https://download.csdn.net/download/weixin_36058228/87417623)
+
+02-04
+
+
+
+[mysql*面试*题(*金三银*四)mysql*面试*题(*金三银*四)mysql*面试*题(*金三银*四)mysql*面试*题(*金三银*四)mysql*面试*题(*金三银*四)mysql*面试*题(*金三银*四)mysql*面试*题(*金三银*四)mysql*面试*题(*金三银*四)mysql*面试*题(*金三银*四)mysql*面试*题...](https://download.csdn.net/download/weixin_36058228/87417623)
+
+
+
+精选资源
+[2023年*金三银*四*面试*资料（全）](https://download.csdn.net/download/weixin_44006731/87441103)
+
+02-11
+
+
+
+[内涵： 1、BATJ*面试*题汇总及详解(进大厂必看)(65页) 2、JAVA*面试*核心知识点整理(283页) 3、Java*面试*题2022最新版大合集(485页) 4、Java最新2022版*面试*题及解答-阿里内部资料(266页) 内涵： 1、BATJ*面试*题汇总及详解...](https://download.csdn.net/download/weixin_44006731/87441103)
+
+
+
+[小*红*书后端（java）三面凉面，攒人品](https://blog.csdn.net/wd699/article/details/100642264)
+
+[wd699的博客](https://blog.csdn.net/wd699)
+
+09-08
+![]()
+1853
+
+
+
+
+[作者：虔慕
+链接：https://www.nowcoder.com/discuss/250714
+来源：牛客网
+中午十二点收到*面试*的电话，通知两三点去公司*面试*，一直到晚上七点多，就剩*面试*官、两个hr和自己。
+一面
+1两个链表的第一个公共节点
+2两个叶子节点最近的公共祖先
+3数组的子集
+4矩阵中的最短路径(从左上角到右下角）
+5数据库的实现原理
+二面
+1版本控制用什么，冲突怎么...](https://blog.csdn.net/wd699/article/details/100642264)
+
+
+
+[【前端面经】2023*面试*复盘之小*红*书](https://blog.csdn.net/Likestarr/article/details/134861428)
+
+[Web面试那些事儿的博客](https://blog.csdn.net/Likestarr)
+
+12-09
+![]()
+2389
+
+
+
+
+[分别从技术角度和业务角度介绍了一下最近一段工作经历中的项目，主要还是我自己去讲，包含项目中的重点和难点、解决重难点的一些技术细节、项目的业务价值以及如何衡量等。整体讲的时间还是一如既往的在半小时左右，后面就是问了两个技术问题并做了一道*算法*题。](https://blog.csdn.net/Likestarr/article/details/134861428)
+
+
+
+[百度、小*红*书三面，均遇“赛马”问题](https://blog.csdn.net/wang_yu_shun/article/details/115843570)
+
+[wang\_yu\_shun的博客](https://blog.csdn.net/wang_yu_shun)
+
+04-18
+![]()
+753
+
+
+
+
+[适逢*金三银*四的跳槽的黄金时段，看到很多小伙伴都在拼命的找工作、找实习，自己曾经的*面试*经历也浮现在眼前，特别是一道在百度和小*红*书三面时遇到的“赛马”问题，既然很多公司都爱问这个问题，那么是时...](https://blog.csdn.net/wang_yu_shun/article/details/115843570)
+
+
+
+[小*红*书暑期实习*算法*工程师一面面经](https://blog.csdn.net/weixin_42645636/article/details/131597283)
+
+[学姐带你玩AI的博客](https://blog.csdn.net/weixin_42645636)
+
+07-07
+![]()
+770
+
+
+
+
+[(1)使用专门相关的模型，比如，YOLOv4-tiny、tph-yolov5和SSD等轻量级检测器通常会比较适合处理小目标。(2)训练的时候调大img\_size，但是比较耗显卡(3)anchor\_base修改anchor的大小和尺寸(根据调小)，anchor\_point修改point的步长(变小)(4)特征增强：针对小目标，可以考虑使用一些特殊的方法来增强目标的特征。比如，可以使用特殊的损失函数来惩罚小目标的预测误差，或者使用多尺度特征融合来增强目标的特征。](https://blog.csdn.net/weixin_42645636/article/details/131597283)
+
+
+
+[各大一线互联网公司社招*面试**经验*（*算法*方向）(三)-小*红*书](https://blog.csdn.net/weixin_44805027/article/details/103544540)
+
+[weixin\_44805027的博客](https://blog.csdn.net/weixin_44805027)
+
+12-14
+![]()
+1478
+
+
+
+
+[小*红**书面*了三面，出了3道数据结构的题：
+字符串分组，使得每组的字符串的字符一样
+非递归中序遍历
+把数组分成两部分，两部分的和的差最小
+aa
+字符串分组这个题目，对应leetcode 49. Group Anagrams
+非递归中序遍历，对应leetcode 94. Binary Tree Inorder Traversal
+把数组分成两部分，两部分的和的差最小， 这道题在leetcode没有...](https://blog.csdn.net/weixin_44805027/article/details/103544540)
+
+
+
+[华为这些一面*算法*岗*面试*题！真硬啊。。。](https://blog.csdn.net/m0_59596990/article/details/137201455)
+
+[机器学习社区](https://blog.csdn.net/m0_59596990)
+
+03-31
+![]()
+1764
+
+
+
+
+[节前，我们星球组织了一场*算法*岗技术&*面试*讨论会，邀请了一些互联网大厂朋友、参加社招和校招*面试*的同学，针对*算法*岗技术趋势、大模型落地项目*经验**分享*、新手如何入门*算法*岗、该如何准备、*面试*常考点*分享*等热门话题进行了深入的讨论。今年的*算法**面试*题真是够"新颖的"。。。在我们社群上每天都有人在交流一些没有见过的题该怎么解决。AIGC相关的*面试*题猛增，特别是去年到今年爆火的大模型、多模态、扩散模型、SAM考察的知识点越来越多。这里特别整理了几道华为一面中代表性的*算法**面试*题：大家要学会举一反三！](https://blog.csdn.net/m0_59596990/article/details/137201455)
+
+
+
+[我上岸了！深度剖析我的小*红*书 后台开发面经，以及我的 社招*面试*题目*分享*。](https://blog.csdn.net/weixin_53224039/article/details/117030036)
+
+[weixin\_53224039的博客](https://blog.csdn.net/weixin_53224039)
+
+05-19
+![]()
+2733
+
+
+
+
+[前言
+对于大厂*面试*，我最后想要强调的一点就是心态真的很重要，是决定你在*面试*过程中发挥的关键，若不能正常发挥，很可能就因为一个小失误与offer失之交臂，所以一定要重视起来。另外提醒一点，充分复习，是消除你紧张的心理状态的关键，但你复习充分了，自然*面试*过程中就要有底气得多。
+一面
+1 两个链表的第一个公共节点
+2 两个叶子节点最近的公共祖先
+3 数组的子集
+4 矩阵中的最短路径(从左上角到右下角）
+5 数据库的实现原理
+二面
+1 版本控制用什么，冲突怎么解决？
+2 自己编码有什么规范，有哪几个原则，什么叫做依](https://blog.csdn.net/weixin_53224039/article/details/117030036)
+
+
+
+[小*红*书搜索*算法*实习生*面试*题](https://lawson-t.blog.csdn.net/article/details/119825485)
+
+[说文科技，做有态度的研究。](https://blog.csdn.net/liu16659)
+
+08-20
+![]()
+2769
+
+
+
+
+[下午*面试*了一波小*红*书的搜索*算法*实习生岗位。对其触动还是挺深的，至少让我意识到，最好要在*面试*官提出问题之前解决问题，再者就是要做好充分准备！](https://lawson-t.blog.csdn.net/article/details/119825485)
+
+
+
+[工作中我沉默不语，*面试*时我重拳出击！（快手+钉钉+小*红*书）Java面经](https://blog.csdn.net/banzhuanhu/article/details/108368949)
+
+[banzhuanhu的博客](https://blog.csdn.net/banzhuanhu)
+
+09-20
+![]()
+5152
+
+
+
+
+[前言：
+为什么自己工作做的很努力也做的很不错，但在找工作的时候却得不到认可？为什么自己做了很多东西，但在*面试*过程中不能很好的表达？为什么*面试*过程感觉表现不错，但最终却没有拿到心目中的offer？这些究竟是自己的能力不足，还是*面试*官被蒙蔽了双眼？
+近一年来有不少朋友离职或者被迫离职，找工作过程也并不尽如人意，所以起心动念将近十年来对于*面试*的思考做一整理（主要还是蹭秋招的热度哈哈），对一些大厂的*面试*题做了一个汇总，希望对大家有所帮助。答案我整理了，但是由于篇幅的原因就不写了（主要是懒），想要答案的小伙伴请点](https://blog.csdn.net/banzhuanhu/article/details/108368949)
+
+
+
+[小*红*书前端开发*面试**经验**分享*](https://blog.csdn.net/community_285/article/details/123132141)
+
+[CSDN超级实习生](https://blog.csdn.net/community_285)
+
+02-25
+![]()
+4772
+
+
+
+
+[应对互联网技术*面试*绝不仅仅是刷题就可以达到的。首先选择技术岗位，其次每个岗位开始都是先着手面经，多看到了解，提炼出必考的技术点合集，最后针对这些必考技术，系统学习，融会贯通。
+对这个岗位的必备技能，一定要做到基础扎实，完全理解。
+下面是真实的小*红*书一面*面试**经验**分享*，感兴趣的小伙伴可以点击文末的链接进行测评。搬砖不易，还请各位小主动动小手点赞关注一下。
+*面试*
+1、简单自我介绍（什么时候开始学前端？学习路径是怎么样的？）
+2、介绍了下项目
+3、有用过原生 js 做过项目吗？
+4、这两](https://blog.csdn.net/community_285/article/details/123132141)
+
+
+
+[j*金三银*四
+最新发布](https://wenku.csdn.net/answer/87x5q1d2ud)
+
+03-21
+
+
+
+[<think>嗯，用户问的是关于“*金三银*四 招聘 职业发展 IT行业”。首先，我需要确认“*金三银*四”是什么意思。好像这是中国招聘市场的旺季，通常指三月和四月，企业大量招聘，求职者活跃。接下来，用户可能想知道这段时间对IT行业的影响，以及如何利用这个时期进行职业发展。
+我应该先搜索“*金三银*四 IT行业招聘”来确认具体的时间段和相关趋势。然后，查找IT行业在这段时间的岗位需求，比如哪些职位更热门，技术方向是否有变化。另外，用户可能关心职业发展建议，比如如何准备*面试*，技能提升方向。
+还需要注意用户提到的职业发展，所以可能需要包括如何规划晋升、跳槽注意事项，以及长期发展的建议。可能还需要涉及招聘流程中的优化策略，比如简历优化、薪资谈判等。
+另外，用户可能没有直接问，但潜在的问题可能包括如何评估offer，或者*金三银*四之后的市场情况。需要确保回答全面，覆盖求职策略和职业规划，同时结合IT行业的特殊性，比如技术栈的重要性，远程*面试*的趋势等。
+最后，生成相关问题时要基于回答内容，比如*金三银*四的持续时间、IT行业的高需求岗位、职业发展中的技能提升方法等。确保问题相关且有延伸性，帮助用户进一步探索。</think>\*\**金三银*四期间IT行业招聘与职业发展指南\*\*
+\*\*招聘市场特点分析\*\*
+IT行业在3-4月呈现岗位释放高峰，互联网、人工智能、云*计算*等领域需求显著。头部企业通常在此阶段完成全年60%以上招聘配额，初级开发岗与资深架构师岗竞争差异明显，前者投递比可达30:1，后者因人才稀缺呈现供不应求态势。
+\*\*职业发展策略\*\*
+- \*\*技能匹配优化\*\*：重点提升主流技术栈竞争力，2023年市场数据显示，掌握$Python/Java$全栈开发能力者平均薪资溢价18%，具备$TensorFlow/PyTorch$框架*经验*的人工智能工程师薪酬中位数超25K/月
+```python
+# 技术栈竞争力评估模型示例
+def skill\_score(years\_exp, projects, certifications):
+return 0.4\*years\_exp + 0.35\*projects + 0.25\*certifications
+```
+- \*\*求职路径规划\*\*：建立多维度求职网络，头部招聘平台（BOSS直聘、猎聘）日均新增IT岗位3000+，内推成功率较海投高47%。建议采用漏斗模型：目标企业清单→岗位匹配度分析→定制化简历投递
+- \*\*薪酬谈判策略\*\*：利用市场基准数据（如拉勾网《IT行业薪酬报告》）进行议价，一线城市中级开发岗薪资区间$[18k,35k]$，浮动部分可通过期权/绩效结构优化。薪酬*计算*公式：
+$$总包=基本工资×12 + 年终奖 + 股票期权现值$$
+\*\*风险规避措施\*\*
+审慎评估企业现金流状况，2023年IT初创企业存活率同比下降12%。建议通过企查查等工具核查融资轮次（B轮后企业稳定性提升23%），关注研发投入占比（健康值应>15%）](https://wenku.csdn.net/answer/87x5q1d2ud)
+
+
+
+
+
+
+[![]()](https://blog.csdn.net/GeorgePigX)
+
+[GeorgePigX](https://blog.csdn.net/GeorgePigX)
+
+
+博客等级
+
+![]()
+
+码龄5年
+
+
+
+[39
+原创](https://blog.csdn.net/GeorgePigX)
+
+18
+点赞
+
+97
+收藏
+
+57
+粉丝
+
+
+关注
+
+[私信](https://im.csdn.net/chat/GeorgePigX)
+
+
+
+[![]()](https://ai.csdn.net/workbench/wallet?utm_source=xtai_slb_bloglb)
+
+![]()
+
+
+### TA的精选
+
+* [新
+  MIND多兴趣召回实战（二）](https://blog.csdn.net/GeorgePigX/article/details/129665367)
+  
+  748 阅读
+* [新
+  MIND多兴趣召回实战（一）](https://blog.csdn.net/GeorgePigX/article/details/124386626)
+  
+  1306 阅读
+* [热
+  漫谈广告竞价模式（二）](https://blog.csdn.net/GeorgePigX/article/details/123772690)
+  
+  6410 阅读
+* [热
+  浅析RTB和RTA（二）](https://blog.csdn.net/GeorgePigX/article/details/124056058)
+  
+  4543 阅读
+* [热
+  金三银四得物面经](https://blog.csdn.net/GeorgePigX/article/details/124092339)
+  
+  3724 阅读
+
+[查看更多 ![]()](https://blog.csdn.net/GeorgePigX?type=blog)
+
+
+
+### 大家在看
+
+* [Deep Agents 规划能力技术解析](https://blog.csdn.net/hou478410969/article/details/159347463)
+* [Vibe Coding：用氛围描述生成鸿蒙页面](https://blog.csdn.net/weixin_48708052/article/details/159347205)
+* [JDK17 HttpClient高并发调优指南
+  ![]()
+  97](https://blog.csdn.net/qq_21383435/article/details/158182833)
+* [MongoDB分片集群监控方案](https://blog.csdn.net/qq_43012298/article/details/139325827)
+* [XML Schema日期时间类型详解](https://blog.csdn.net/edalee/article/details/159200082)
+
+
+### TA的历史创作历程
+
+
+
+[2023年
+1篇](https://blog.csdn.net/GeorgePigX?type=blog&year=2023&month=03)
+[2022年
+20篇](https://blog.csdn.net/GeorgePigX?type=blog&year=2022&month=04)
+[2021年
+18篇](https://blog.csdn.net/GeorgePigX?type=blog&year=2021&month=05)
+
+
+
+
+
+
+
+### 分类专栏
+
+* [![]()
+  广告预估模型实践录](https://blog.csdn.net/georgepigx/category_10861359.html)
+  38篇
+
+
+上一篇：
+
+[浅析RTB和RTA（二）](https://blog.csdn.net/GeorgePigX/article/details/124056058)
+
+
+下一篇：
+
+[金三银四得物面经](https://blog.csdn.net/GeorgePigX/article/details/124092339)
+
+
+
+![]()
+
+
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+
+
+![]()
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+![]()
+
+上一篇：
+
+[浅析RTB和RTA（二）](https://blog.csdn.net/GeorgePigX/article/details/124056058)
+
+
+下一篇：
+
+[金三银四得物面经](https://blog.csdn.net/GeorgePigX/article/details/124092339)
+
+
+
+### 分类专栏
+
+* [![]()
+  广告预估模型实践录](https://blog.csdn.net/georgepigx/category_10861359.html)
+  38篇
+
+展开全部 ![]()
+收起 ![]()
+
+
+
+
+
+
+### 目录
+
+
+
+
+
+
+
+
+
+
+
+
+
+评论
+![]()
+
+![]()被折叠的  条评论
+[为什么被折叠?](https://blogdev.blog.csdn.net/article/details/122245662)
+[![]()到【灌水乐园】发言](https://bbs.csdn.net/forums/FreeZone)
+
+
+查看更多评论![]()
+
+
+
+添加红包
+
+
+祝福语
+
+
+请填写红包祝福语或标题
+
+
+红包数量
+
+个
+
+红包个数最小为10个
+
+
+红包总金额
+
+元
+
+红包金额最低5元
+
+
+余额支付
+当前余额3.43元
+[前往充值 >](https://i.csdn.net/#/wallet/balance/recharge)
+
+
+需支付：10.00元
+
+取消
+确定
+
+
+
+
+![]()
+下一步
+
+![]()
+知道了
+
+
+
+![]()
+成就一亿技术人!
+
+
+
+领取后你会自动成为博主和红包主的粉丝
+规则
+
+
+
+![]()
+hope\_wisdom 发出的红包
+
+
+
+
+
+
+
+
+
+实付元
+[使用余额支付](javascript:;)
+![]()
+点击重新获取
+
+
+![]()![]()![]()扫码支付
+
+
+
+
+钱包余额
+0
+![]()
+
+抵扣说明：
+
+1.余额是钱包充值的虚拟货币，按照1:1的比例进行支付金额的抵扣。  
+ 2.余额无法直接购买下载，可以购买VIP、付费专栏及课程。
+
+
+
+
+
+[![]()余额充值](https://i.csdn.net/#/wallet/balance/recharge)
+
+![]()
+
+
+
+
+
+

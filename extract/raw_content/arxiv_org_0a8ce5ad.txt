@@ -1,0 +1,307 @@
+# Source URL: https://arxiv.org/html/2405.14679v2
+# Content Length: 24428 characters
+# Extracted at: 2026-03-23 09:26:58
+#============================================================
+
+
+
+Leveraging Electric Guitar Tones and Effects to Improve Robustness in Guitar Tablature Transcription Modeling
+
+
+
+
+
+
+
+1. [1 Introduction](https://arxiv.org/html/2405.14679v2#S1)
+2. [2 Methods](https://arxiv.org/html/2405.14679v2#S2)
+   1. [2.1 Datasets for training and validation](https://arxiv.org/html/2405.14679v2#S2.SS1)
+   2. [2.2 Model training, and validation](https://arxiv.org/html/2405.14679v2#S2.SS2)
+   3. [2.3 The EGSet12 evaluation set](https://arxiv.org/html/2405.14679v2#S2.SS3)
+   4. [2.4 Metrics](https://arxiv.org/html/2405.14679v2#S2.SS4)
+3. [3 Results](https://arxiv.org/html/2405.14679v2#S3)
+   1. [3.1 GuitarSet cross-validation](https://arxiv.org/html/2405.14679v2#S3.SS1)
+   2. [3.2 Model evaluation on the new EGSet12 test domain](https://arxiv.org/html/2405.14679v2#S3.SS2)
+   3. [3.3 Qualitative comparison of TabCNN models on EGSet12](https://arxiv.org/html/2405.14679v2#S3.SS3)
+4. [4 Discussion](https://arxiv.org/html/2405.14679v2#S4)
+5. [5 Conclusion](https://arxiv.org/html/2405.14679v2#S5)
+6. [6 Acknowledgements](https://arxiv.org/html/2405.14679v2#S6)
+
+
+Leveraging Electric Guitar Tones and Effects to Improve Robustness in Guitar Tablature Transcription Modeling
+=============================================================================================================
+
+###### Abstract
+
+Guitar tablature transcription (GTT) aims at automatically generating symbolic representations from real solo guitar performances.
+Due to its applications in education and musicology, GTT has gained traction in recent years.
+However, GTT robustness has been limited due to the small size of available datasets.
+Researchers have recently used synthetic data that simulates guitar performances using pre-recorded or computer-generated tones and can be automatically generated at large scales.
+The present study complements these efforts by demonstrating that GTT robustness can be improved by including synthetic training data created using recordings of real guitar tones played with different audio effects.
+We evaluate our approach on a new evaluation dataset with professional solo guitar performances that we composed and collected, featuring a wide array of tones, chords, and scales.
+
+
+1 Introduction
+--------------
+
+Guitar tablature transcription (GTT), a form of automatic music transcription (AMT) [[1](https://arxiv.org/html/2405.14679v2#bib.bib1), [2](https://arxiv.org/html/2405.14679v2#bib.bib2)], involves transcribing real guitar performances into guitar tablatures [[3](https://arxiv.org/html/2405.14679v2#bib.bib3), [4](https://arxiv.org/html/2405.14679v2#bib.bib4)].
+Unlike standard Western notation, tablatures intuitively illustrate finger placements, and are thus of high relevance for music education [[5](https://arxiv.org/html/2405.14679v2#bib.bib5), [6](https://arxiv.org/html/2405.14679v2#bib.bib6)], musicological research [[7](https://arxiv.org/html/2405.14679v2#bib.bib7)], guitar performance theory [[8](https://arxiv.org/html/2405.14679v2#bib.bib8), [9](https://arxiv.org/html/2405.14679v2#bib.bib9), [10](https://arxiv.org/html/2405.14679v2#bib.bib10)], and general communication of artistic expression.
+
+
+Significant advances in GTT have been achieved through deep learning models, primarily trained and evaluated using the GuitarSet dataset [[11](https://arxiv.org/html/2405.14679v2#bib.bib11), [12](https://arxiv.org/html/2405.14679v2#bib.bib12), [13](https://arxiv.org/html/2405.14679v2#bib.bib13), [14](https://arxiv.org/html/2405.14679v2#bib.bib14), [15](https://arxiv.org/html/2405.14679v2#bib.bib15), [16](https://arxiv.org/html/2405.14679v2#bib.bib16), [17](https://arxiv.org/html/2405.14679v2#bib.bib17), [18](https://arxiv.org/html/2405.14679v2#bib.bib18)]. However, its limited size has led to poor generalization capabilities [[19](https://arxiv.org/html/2405.14679v2#bib.bib19)].
+This is the well-known “domain-shift problem” in machine learning, which explains model failures in real-world applications due to discrepancies between the training conditions and actual usage environments [[20](https://arxiv.org/html/2405.14679v2#bib.bib20)].
+Therefore, assessment of GTT model robustness in new domains is essential to understand their usefulness.
+
+
+Data augmentation is a common technique to mitigate “domain-shift”.
+By systematically modifying existing data or metadata, additional examples can be generated and used as training data, thereby expanding a model’s familiarity with a wider data distribution [[21](https://arxiv.org/html/2405.14679v2#bib.bib21)].
+In the case of GTT, data augmentation can be carried out by taking existing tablatures to guide the temporal placement of individual guitar tones and simulate a guitar performance. Zang et al. recently used this technique with MIDI tones [[19](https://arxiv.org/html/2405.14679v2#bib.bib19)].
+
+
+We want to investigate whether diversifying the timbres present in training data by including audio effects improve GTT. Since recording and annotating guitar solos with audio effects is highly time-intensive, we draw inspiration from Zang et al.’s SynthTab [[19](https://arxiv.org/html/2405.14679v2#bib.bib19)]. However, instead of MIDI tones,
+we hypothesize that GTT robustness can be enhanced by two factors: maximizing the use of real guitar tones and audio effects in synthetic data used for training.
+
+
+Finally, after training we assess model robustness using a new dataset of professional solo guitar performances that we composed and collected for this study.
+This new dataset features a diverse array of performance styles. Therefore,
+our key contributions are:
+
+1. 1.
+   
+   A scalable method to generate data to train GTT models using real recordings of guitar tones and audio effects.
+2. 2.
+   
+   A new dataset for evaluating GTT models.
+3. 3.
+   
+   A benchmark clearly demonstrating the benefits of our approach for model robustness.
+
+We release our code to reproduce our data generation and model training, as well as the new dataset we collected for this study111[robust-guitar-tabs.github.io](https://robust-guitar-tabs.github.io).
+
+
+Table 1: TabCNN performance on GuitarSet. Averages (±plus-or-minus\pm± denotes the standard deviation) across the six hold-out folds. Top row: metrics by Wiggins & Kim [[12](https://arxiv.org/html/2405.14679v2#bib.bib12)] (we could reproduce their results). Bottom rows: outcomes when training data includes simulated tracks.
+
+|  | Multi-pitch estimation | Tablature estimation |  |
+| --- | --- | --- | --- |
+|  | F1 | P | R | F1 | P | R | TDR |
+| TabCNN[[12](https://arxiv.org/html/2405.14679v2#bib.bib12)] | 0.826±plus-or-minus\pm±0.025 | 0.900±plus-or-minus\pm±0.016 | 0.764±plus-or-minus\pm±0.043 | 0.748±plus-or-minus\pm±0.047 | 0.809±plus-or-minus\pm±0.029 | 0.696±plus-or-minus\pm±0.061 | 0.899±plus-or-minus\pm±0.033 |
+| + GuitarSetFX | 0.837±plus-or-minus\pm±0.019 | 0.904±plus-or-minus\pm±0.019 | 0.785±plus-or-minus\pm±0.038 | 0.746±plus-or-minus\pm±0.030 | 0.795±plus-or-minus\pm±0.022 | 0.708±plus-or-minus\pm±0.044 | 0.896±plus-or-minus\pm±0.021 |
+| + GuitarProFX | 0.830±plus-or-minus\pm±0.018 | 0.908±plus-or-minus\pm±0.014 | 0.769±plus-or-minus\pm±0.027 | 0.743±plus-or-minus\pm±0.029 | 0.802±plus-or-minus\pm±0.029 | 0.696±plus-or-minus\pm±0.035 | 0.900±plus-or-minus\pm±0.021 |
+
+
+
+2 Methods
+---------
+
+### 2.1 Datasets for training and validation
+
+Following the methods by Wiggins & Kim [[12](https://arxiv.org/html/2405.14679v2#bib.bib12)], we train TabCNN using GuitarSet [[11](https://arxiv.org/html/2405.14679v2#bib.bib11)] for training and cross-validation. Additionally, we introduced two synthetic datasets to expand the data used for model training: GuitarSetFX and GuitarProFX.
+
+
+Our approach maximizes tone diversity by randomly selecting tones from a vast bank of examples when an audio track is generated.
+Thus, in our synthetic guitar solo performances, melodies and chords consists of notes played with varied guitar tones and audio effects.
+This data generation strategy aligns with our hypothesis that such diversity will enhance the model’s robustness, allowing it to concentrate on pitch content and guitar string+fret inference, while disregarding specific timbre qualities.
+
+
+The tone bank we use for both GuitarSetFX and GuitarProFX includes all the clean tones and effects from EGFxSet222We exclude the tones processed through the “delay” effect due to audibly repeated tone onsets that would confuse our model, which used a 2004 Stratocaster guitar [[22](https://arxiv.org/html/2405.14679v2#bib.bib22)].
+Additionally, we recorded all possible tones in a 1978 Ibanez Performer 300 guitar, captured through direct input via an Audient iD14 audio interface, and also miked through an Orange CR-60 amplifier with a Shure sm57 microphone.
+The amplifier settings were adjusted with bass and treble knobs at 5 and plate reverb at 3.
+
+
+GuitarSetFX reproduces the 360 guitar performance tracks of GuitarSet, while GuitarProFX comprises 360 randomly-chosen solo performance tracks from DadaGP [[23](https://arxiv.org/html/2405.14679v2#bib.bib23)].
+All resulting audio clips are resampled to the 22050Hz sampling rate expected by TabCNN.
+
+
+
+### 2.2 Model training, and validation
+
+The GTT model we train is TabCNN, using the implementation in AMT tools [[13](https://arxiv.org/html/2405.14679v2#bib.bib13)]333[github.com/cwitkowitz/amt-tools](https://github.com/cwitkowitz/amt-tools). More specifically, we train three different TabCNN models. The first one is a reproduction of the six-fold cross-validated training setup by Wiggins & Kim [[12](https://arxiv.org/html/2405.14679v2#bib.bib12)].
+The second one follows the same cross-validation, but duplicates the training data using the corresponding synthetic GuitarSetFX tracks (the validation tracks are not duplicated).
+The third one also follows the same cross-validation, but adds all the synthetic GuitarProFX tracks to the training set in addition to the GuitarSet data.
+All other aspects of the training setup remain the same as in the original TabCNN implementation, including model architecture, optimizer, learning rate and batch size [[12](https://arxiv.org/html/2405.14679v2#bib.bib12)].
+
+
+
+### 2.3 The EGSet12 evaluation set
+
+Furthermore, we introduce EGSet12, a new evaluation set with twelve original solo electric guitar performances (31.65 seconds avg. duration, totaling 379.8 seconds). These pieces were composed by a professional musician and guitar player for this project, showcasing the full tonal range of the electric guitar across diverse melodies and chord complexities. EGSet12 encompasses a broad spectrum of styles, including pop, funk, jazz and twelve-tone, reflecting varied tonalities, keys, rhythms, and modes.
+
+
+EGSet12 was performed by a single professional guitarist using a Sire T7 Telecaster guitar and a Yamaha B15 amplifier.
+The performance setup allowed the performer to freely select the guitar’s volume and tone knobs, also allowing techniques like alternate picking, hybrid picking, and palm mute.
+We captured the performance using an ECM8000 microphone positioned 15 centimeters from the amplifier and connected to a UMC202 HD audio interface (original sampling rate of 48000Hz; resampled to 22050Hz for model inference).
+This recording setup differs significantly from those used in any of the training and validation datasets that we used, offering a new testing domain.
+It is worth noting that, other than the amplifier, no additional audio effects were used in EGSet12. Therefore, EGSet12’s realism, tone diversity, and playing styles make it useful to assess GTT model robustness.
+
+
+
+### 2.4 Metrics
+
+Consistent with Wiggins & Kim [[12](https://arxiv.org/html/2405.14679v2#bib.bib12)], we use two types of metrics: multi-pitch and tablature estimation. Multi-pitch metrics assess model performance at the level of pitch estimation and can be thought of as independent of the guitar hardware.
+Tablature estimation metrics assess the model’s ability to determine which specific string and fret produced a tone. Both are broken down by F1, precision, and recall. Additionally, the tablature disambiguation rate (TDR) calculates how often a correctly identified pitch gets assigned to the correct fret and string.
+
+
+
+
+3 Results
+---------
+
+Table 2: TabCNN performance on EGSet12. Each cell is metric averaged across the twelve tracks (±plus-or-minus\pm± denotes standard deviation). Top row: performance as trained by Wiggins & Kim [[12](https://arxiv.org/html/2405.14679v2#bib.bib12)]. Bottom rows: performance when training data includes simulated tracks.
+
+|  | Multi-pitch estimation | Tablature estimation |  |
+| --- | --- | --- | --- |
+|  | F1 | P | R | F1 | P | R | TDR |
+| TabCNN[[12](https://arxiv.org/html/2405.14679v2#bib.bib12)] | 0.638±plus-or-minus\pm±0.060 | 0.819±plus-or-minus\pm±0.080 | 0.530±plus-or-minus\pm±0.067 | 0.447±plus-or-minus\pm±0.071 | 0.565±plus-or-minus\pm±0.089 | 0.375±plus-or-minus\pm±0.067 | 0.695±plus-or-minus\pm±0.075 |
+| + GuitarSetFX | 0.740±plus-or-minus\pm±0.055 | 0.835±plus-or-minus\pm±0.085 | 0.679±plus-or-minus\pm±0.052 | 0.557±plus-or-minus\pm±0.088 | 0.619±plus-or-minus\pm±0.100 | 0.518±plus-or-minus\pm±0.084 | 0.755±plus-or-minus\pm±0.106 |
+| + GuitarProFX | 0.719±plus-or-minus\pm±0.061 | 0.839±plus-or-minus\pm±0.082 | 0.647±plus-or-minus\pm±0.068 | 0.585±plus-or-minus\pm±0.084 | 0.658±plus-or-minus\pm±0.073 | 0.541±plus-or-minus\pm±0.087 | 0.819±plus-or-minus\pm±0.075 |
+
+
+![]()
+
+Figure 1: Each column is a two-second EGSet12 excerpt, comparing predictions made by models trained using GuitarSet, with and without GuitarProFX, against ground truth. Each circle is a tracked note on the guitar fretboard over time and vertical lines indicate musical beats.
+
+
+
+
+### 3.1 GuitarSet cross-validation
+
+First, we assessed TabCNN performance on GuitarSet during its cross-validated training.
+Table [1](https://arxiv.org/html/2405.14679v2#S1.T1) shows the results.
+In general, we observe slight improvements when the training set includes synthetic data with effect tones.
+However, these improvements are minor.
+This indicates that cross-validated performance of TabCNN on GuitarSet does not benefit (or suffer) much from the addition of synthetic data with guitar effects.
+
+
+
+### 3.2 Model evaluation on the new EGSet12 test domain
+
+Next, we assessed the three models on EGSet12, with results presented in Table [2](https://arxiv.org/html/2405.14679v2#S3.T2).
+Although model performance was comparable during cross-validation with GuitarSet (see table [1](https://arxiv.org/html/2405.14679v2#S1.T1)), evaluation on EGSet12 showed that models trained with synthetic data using audio effects exhibited superior generalization.
+Notably, the F1 score improved more than 10 points for both multi-pitch and tablature estimation, primarily driven by significant gains in model recall.
+Precision remained similar across models for multi-pitch metrics but increased by almost 10 points in GuitarProFX tablature estimation and 5 point in GuitarSetFx.
+Finaly, the TDR also saw improvements of more than 10 points for the model trained using the GuitarProFX data.
+
+
+
+### 3.3 Qualitative comparison of TabCNN models on EGSet12
+
+Figure [1](https://arxiv.org/html/2405.14679v2#S3.F1) shows a qualitative comparison between the TabCNN models we tested on EGSet12.
+The first two examples in Figure [1](https://arxiv.org/html/2405.14679v2#S3.F1) show that TabCNN trained with GuitarProFx demonstrated greater stability, meaning that it did not exhibit constant string jumping when trying to locate the guitar notes in the audio signal.
+Therefore, its predictions of chords and individual notes were more aligned with ground truth.
+
+
+The third example in Figure [1](https://arxiv.org/html/2405.14679v2#S3.F1) was more challenging. It shows that both models’ performance decreased
+when processing complex musical passages with harmonic content across multiple simultaneous strings and dissonances such as minor seconds.
+Additionally, both models struggled to make good predictions for the higher frets, as most training data features fret numbers below 12.
+However, in both cases, pitch remained accurate but their tablatures were associated with possible fingerings in other frets.
+
+
+
+
+
+4 Discussion
+------------
+
+Our results in Table [2](https://arxiv.org/html/2405.14679v2#S3.T2) showing the benefits of synthetic training data are consistent with empirical evidence from the sound event detection literature [[24](https://arxiv.org/html/2405.14679v2#bib.bib24), [25](https://arxiv.org/html/2405.14679v2#bib.bib25), [26](https://arxiv.org/html/2405.14679v2#bib.bib26), [27](https://arxiv.org/html/2405.14679v2#bib.bib27)].
+An interesting observation is the fact that the size of this benefit was not evident during the cross-validated training (see Table [1](https://arxiv.org/html/2405.14679v2#S1.T1)).
+This highlights the importance of GTT evaluation on new, systematic domains (such as EGSet12) to truly assess model robustness.
+
+
+Another point of discussion is how valid EGSet12 is as a test set for GTT. For example, considering EGSet12 uses an electric guitar, is it fair to use it to evaluate GTT models trained with an acoustic guitar dataset (i.e GuitarSet)?.
+We believe that this is the case since in our setup the electric guitar used in EGSet12 and all recording hardware (including microphone, amplifier, and interface) is different from not just GuitarSet, but also GuitarSetFX, and GuitarProFX.
+The fact that tablature estimation precision is higher on EGSet12 for models trained using GuitarSetFX or GuitarProFX (see table [2](https://arxiv.org/html/2405.14679v2#S3.T2)) may suggest an advantage due to the fact that these datasets used electric guitars.
+However, the more than 10-point increase in multi-pitch estimation F1 indicates that model robustness is driven by correct inference of pitch content.
+Therefore, our evidence suggests that EGSet12 is a fair benchmark.
+
+
+We studied how using real guitar tones processed through audio effects hardware to generate training data improves GTT model robustness.
+Therefore, our current study is inspired by SynthTab and is not a comparison against it.
+It is worth noting however, that we used considerably less synthetic data than SynthTab (we only synthesized 360 tracks to train each model, while SynthTab added 6,700 hours [[19](https://arxiv.org/html/2405.14679v2#bib.bib19)]).
+In future work, we will systematically explore the impacts of the various factors that go into simulating guitar solos using tone banks, including the use of real versus computer-generated tones, the application of guitar effects using either real hardware or digital plugins, and the amount of data produced and ultimately used for training.
+
+
+
+5 Conclusion
+------------
+
+We have shown the impact that using synthetic guitar solo performances in the training data has on GTT model robustness.
+Specifically, we leveraged guitar tablatures to produce these performances using real recordings of electric guitar notes with a wide array of processing that included real audio effects hardware.
+We showed increased model robustness on multi-pitch and tablature prediction metrics via our proposed method.
+In the future, we look forward to enhancing datasets for GTT using our methodology and systematically studying all the parameters involved in the data generation, such as dataset size or tone diversity. 
+
+
+
+6 Acknowledgements
+------------------
+
+This work was supported by the IEEE Mentoring Experiences for Underrepresented Young Researchers (ME-UYR), and Mexico’s National Scholarship for Graduate Studies from the National Council of Humanities, Sciences, and Technologies (CONAHCYT).
+
+
+
+References
+----------
+
+* [1]
+  E. Benetos, S. Dixon, Z. Duan, and S. Ewert, “Automatic music transcription: An overview,” *IEEE Signal Processing Magazine*, vol. 36, no. 1, pp. 20–30, 2018.
+* [2]
+  B. S. Gowrishankar and N. U. Bhajantri, “An exhaustive review of automatic music transcription techniques: Survey of music transcription techniques,” in *International Conference on Signal Processing, Communication, Power and Embedded System*, 2016, pp. 140–152.
+* [3]
+  G. Burlet and I. Fujinaga, “Robotaba guitar tablature transcription framework.” in *ISMIR*, 2013, pp. 517–522.
+* [4]
+  M. Paleari, B. Huet, A. Schutz, and D. Slock, “A multimodal approach to music transcription,” 11 2008, pp. 93 – 96.
+* [5]
+  D. E. Thompson, “Speaking their language: Guitar tablature in the middle school classroom,” *General Music Today*, vol. 24, no. 3, pp. 53–57, 2011.
+* [6]
+  E. Harrison, “Challenges facing guitar education,” *Music educators journal*, vol. 97, no. 1, pp. 50–55, 2010.
+* [7]
+  C. M. Gavito, “Oral transmission and the production of guitar tablature books in seventeenth-century italy,” *Recercare*, pp. 185–208, 2015.
+* [8]
+  J. De Souza, “Guitar thinking,” *Soundboard Scholar*, vol. 7, no. 1, p. 1, 2022.
+* [9]
+  ——, “Fretboard transformations,” *Journal of Music Theory*, vol. 62, no. 1, pp. 1–39, 2018.
+* [10]
+  T. Koozin, “Guitar voicing in pop-rock music: A performance-based analytical approach,” *Music Theory Online*, vol. 17, 10 2011.
+* [11]
+  Q. Xi, R. Bittner, J. Pauwels, X. Ye, and J. Bello, “Guitarset: A dataset for guitar transcription.” in *ISMIR*, 2018.
+* [12]
+  A. Wiggins and Y. Kim, “Guitar tablature estimation with a convolutional neural network.” in *ISMIR*, 2019, pp. 284–291.
+* [13]
+  F. Cwitkowitz, T. Hirvonen, and A. Klapuri, “Fretnet: Continuous-valed pitch contour streaming,” in *IEEE International Conference on Acoustics, Speech and Signal Processing*, 2023, pp. 1–5.
+* [14]
+  S. Kim, T. Hayashi, and T. Toda, “Note-level automatic guitar transcription using attention mechanism,” in *European Signal Processing Conference*, 2022, pp. 229–233.
+* [15]
+  G. Bastas, S. Koutoupis, M. Kaliakatsos-Papakostas, V. Katsouros, and P. Maragos, “A few-sample strategy for guitar tablature transcription on inharmonicity analysis & playability constraints,” in *IEEE International Conference on Acoustics, Speech and Signal Processing*, 2022, pp. 771–775.
+* [16]
+  G. Byambatsogt, L. Choimaa, and G. Koutaki, “Guitar chord sensing and recognition using multi-task learning and physical data augmentation with robotics,” *Sensors*, vol. 20, no. 21, 2020.
+* [17]
+  X. Riley, D. Edwards, and S. Dixon, “High resolution guitar transcription via domain adaptation,” 2024.
+* [18]
+  Y. Jadhav, A. Patel, R. H. Jhaveri, and R. Raut, “Transfer learning for audio waveform to guitar chord spectrograms using the convolution neural network,” *Mobile Information Systems*, vol. 2022, p. 8544765, Aug 2022.
+* [19]
+  Y. Zang, Y. Zhong, F. Cwitkowitz, and Z. Duan, “Synthtab: Leveraging synthesized data for guitar tablature transcription,” 04 2024, pp. 1286–1290.
+* [20]
+  J. Quiñonero-Candela, M. Sugiyama, A. Schwaighofer, and N. D. Lawrence, *Dataset shift in machine learning*.   Mit Press, 2022.
+* [21]
+  C. Shorten and T. M. Khoshgoftaar, “A survey on image data augmentation for deep learning,” *Journal of big data*, vol. 6, no. 1, pp. 1–48, 2019.
+* [22]
+  H. Pedroza, G. Meza, and I. Roman, “Egfxset: Electric guitar tones processed through real effects of distortion, modulation, delay and reverb,” *ISMIR LBD*, 2022.
+* [23]
+  P. Sarmento, A. Kumar, C. Carr, Z. Zukowski, M. Barthet, and Y.-H. Yang, “Dadagp: a dataset of tokenized guitarpro songs for sequence models,” in *ISMIR*, 2021.
+* [24]
+  J. Salamon, D. MacConnell, M. Cartwright, P. Li, and J. P. Bello, “Scaper: A library for soundscape synthesis and augmentation,” in *Workshop on Applications of Signal Processing to Audio and Acoustics*.   IEEE, 2017, pp. 344–348.
+* [25]
+  I. R. Roman, C. Ick, S. Ding, A. S. Roman, B. McFee, and J. P. Bello, “Spatial scaper: a library to simulate and augment soundscapes for sound event localization and detection in realistic rooms,” in *IEEE International Conference on Acoustics, Speech and Signal Processing*.   IEEE, 2024.
+* [26]
+  A. S. Roman, B. Balamurugan, and R. Pothuganti, “Enhanced sound event localization and detection in real 360-degree audio-visual soundscapes,” *arXiv preprint arXiv:2401.17129*, 2024.
+* [27]
+  H. Dinkel, M. Wu, and K. Yu, “Towards duration robust weakly supervised sound event detection,” *IEEE/ACM Transactions on Audio, Speech, and Language Processing*, vol. 29, pp. 887–900, 2021.
+
+
+
+
+
+Generated on Fri May 31 22:48:27 2024 by [LaTeXML](http://dlmf.nist.gov/LaTeXML/)
+
+
+
+

@@ -1,0 +1,105 @@
+# Source URL: https://segmentfault.com/a/1190000047315650
+# Content Length: 6155 characters
+# Extracted at: 2026-03-24 19:39:35
+#============================================================
+
+# [AI 语音克隆神器 IndexTTS-2 开源，支持零样本声音克隆](https://segmentfault.com/a/1190000047315650)
+[![头像](https://avatar-static.segmentfault.com/238/361/2383611999-660b71ed293af\_huge128)\\
+\\
+\*\*小白狮ww\*\*](https://segmentfault.com/u/congweibiaobaidemalingshu) [2025-10-11 河北](https://segmentfault.com/a/1190000047315650/revision)
+阅读 2 分钟
+0 [评论](https://segmentfault.com/a/1190000047315650#comment-area)
+![头图](https://segmentfault.com/img/bVdmG7M?spec=cover)
+IndexTTS-2 是由哔哩哔哩语音团队于 2025 年 6 月开源的新型文本转语音（TTS）模型。模型在情感表达和时长控制方面实现了重大突破，是首个支持精确时长控制的自回归 TTS 模型。支持零样本声音克隆，仅需一个音频文件即可精准复制音色、节奏和说话风格，支持多语言。IndexTTS-2 实现了情感音色分离控制，用户可以独立指定音色来源和情绪来源。模型具备多模态情感输入功能，支持通过情感参考音频、情感描述文本或情感向量来控制情感。
+教程链接： [https://go.openbayes.com/XutrT](https://link.segmentfault.com/?enc=NqZVoYjlG0BvjBJ7sGhOGA%3D%3D.gTXYwLeJWPG9CK9rJV%2F9vg2nr4DQKKFNUUx0xzVMUyw%3D)
+\*\*使用云平台：OpenBayes\*\*
+[OpenBayes](https://link.segmentfault.com/?enc=Qp3wX5LuE6ylip4GVR5IAw%3D%3D.T2U4Be2ydZJr9k53l9setvF3f3g2xPgqh1Qnn8uasQRZA6yWk7zZZjOoei2Hd6dHgoJ3%2BLecqVzQFbqcDCv%2BuQ%3D%3D)
+登录 [http://OpenBayes.com](https://link.segmentfault.com/?enc=tpSmZKY%2F3q3ZgkfHg8yIEA%3D%3D.qPMxroPVYl3EOrKKTMNPoaR25oDg%2FuGmmyRgPbz4vu0%3D)，在「公共教程」页面，选择一键部署 「IndexTTS-2：突破自回归 TTS 时长与情感控制瓶颈」教程。
+![图片](https://segmentfault.com/img/remote/1460000047315653)
+页面跳转后，点击右上角「克隆」，将该教程克隆至自己的容器中。
+![图片](https://segmentfault.com/img/remote/1460000047315654)
+在当前页面中看到的算力资源均可以在平台一键选择使用。平台会默认选配好原教程所使用的算力资源、镜像版本，不需要再进行手动选择。点击「继续执行」，等待分配资源。
+![图片](https://segmentfault.com/img/remote/1460000047315655)
+![图片](https://segmentfault.com/img/remote/1460000047315656)
+待系统分配好资源，当状态变为「运行中」后，点击「API 地址」边上的跳转箭头，即可跳转至 Demo 页面。
+![图片](https://segmentfault.com/img/remote/1460000047315657)
+模型提供了 4 种情感控制方法，下面逐一进行演示。
+### \*\*Same as the voice reference\*\*
+首先上传一段参考音频，然后在「Text」中输入文本，最后点击「Synthesize」合成。
+\*\*具体参数\*\*：
+- do\\_sample：是否进行采样。
+- temperature：控制采样时概率分布的平滑程度。
+- top\\_p：核采样。
+- top\\_k：在每一步生成时，只考虑概率最高的 K 个 token。
+- num\\_beams：束搜索宽度。
+- repetition\\_penalty：重复惩罚，降低模型重复生成相同 token 的概率。
+- length\\_penalty：长度惩罚，鼓励或抑制模型生成更长或更短的序列。主要在使用 num\\_beams > 1 时有效。
+- max\\_mel\\_tokens：生成 Token 最大数量。
+![图片](https://segmentfault.com/img/remote/1460000047315658)
+### \*\*Use emotion reference audio\*\*
+分别在「Voice Reference」和「Upload emotion reference audio」中上传参考音频和情感参考音频，在「Text」中输入文本，点击「Synthesize」合成。
+![图片](https://segmentfault.com/img/remote/1460000047315659)
+### \*\*Use emotion vectors\*\*
+该方法支持调整情感参数和情感控制权重。
+\*\*情感控制参数\*\*：
+- Happy、Disgusted、Angry、Melancholic、Sad、Surprised、Afraid、Calm：分别对应 8 个基本情感维度。每个滑块的值（通常在 0.0 到 1.0 之间）表示希望在最终语音中体现该情感的强度。
+![图片](https://segmentfault.com/img/remote/1460000047315660)
+![图片](https://segmentfault.com/img/remote/1460000047315661)
+### \*\*Use text description to control emotion\*\*
+该方法支持手动输入情感描述，但目前还处于实验阶段。
+![图片](https://segmentfault.com/img/remote/1460000047315662)
+[机器学习](https://segmentfault.com/t/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0) [人工智能](https://segmentfault.com/t/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD) [深度学习](https://segmentfault.com/t/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0) [自然语言处理](https://segmentfault.com/t/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86) [教程](https://segmentfault.com/t/%E6%95%99%E7%A8%8B)
+赞收藏
+分享
+阅读 1.9k [发布于 2025-10-11](https://segmentfault.com/a/1190000047315650/revision)
+举报
+\* \* \*
+[![头像](https://avatar-static.segmentfault.com/238/361/2383611999-660b71ed293af\_huge128)](https://segmentfault.com/u/congweibiaobaidemalingshu)
+[\*\*小白狮ww\*\*](https://segmentfault.com/u/congweibiaobaidemalingshu)
+4 声望4 粉丝
+关注作者
+\* \* \*
+« 上一篇
+[专为高效文档转换设计，Granite-Docling-258M 小体量干大事成为文档处理「小助手」](https://segmentfault.com/a/1190000047302541)
+下一篇 »
+[小米开源端到端语音模型 MiMo-Audio-7B-Instruct 语音智能与音频理解达 SOTA](https://segmentfault.com/a/1190000047329025)
+[Same as the voice reference](https://segmentfault.com/a/1190000047315650#item-1) [Use emotion reference audio](https://segmentfault.com/a/1190000047315650#item-2) [Use emotion vectors](https://segmentfault.com/a/1190000047315650#item-3) [Use text description to control emotion](https://segmentfault.com/a/1190000047315650#item-4)
+▲
+### 引用和评论
+\*\*推荐阅读\*\*
+[![头像](https://avatar-static.segmentfault.com/238/361/2383611999-660b71ed293af\_big64)\\
+\\
+\*\*160亿的参数，GLM-Image让AI绘图听懂人话\*\* \\
+\\
+小白狮ww阅读 515](https://segmentfault.com/a/1190000047610152?utm\_source=sf-similar-article) [![头像](https://avatar-static.segmentfault.com/976/932/976932169-6086027a790e9\_big64)\\
+\\
+\*\*我的2025：做项目、跑副业、见人、奔波、搬家、维权、再回上海\*\* \\
+\\
+程序员海军赞 9阅读 10.5k评论 5](https://segmentfault.com/a/1190000047547567?utm\_source=sf-similar-article) [![头像](https://avatar-static.segmentfault.com/908/317/908317681-699d1087288db\_big64)\\
+\\
+\*\*MetaGPT官方文档全攻略（2026最新版）\*\* \\
+\\
+AIAgent研究赞 1阅读 13k](https://segmentfault.com/a/1190000047589648?utm\_source=sf-similar-article) [![头像](https://avatar-static.segmentfault.com/115/426/1154267036-5de60e2b2d436\_big64)\\
+\\
+\*\*蚂蚁灵波科技正式开源 LingBot-Depth ：让机器人“看清”物理世界\*\* \\
+\\
+思否编辑部赞 3阅读 4.9k评论 1](https://segmentfault.com/a/1190000047577560?utm\_source=sf-similar-article) [![头像](https://avatar-static.segmentfault.com/515/124/515124115-64fe88be5ce5c\_big64)\\
+\\
+\*\*如何用 Fun-ASR-Nano 微调一个「听懂行话」的语音模型？丨Voice Agent 学习笔记\*\* \\
+\\
+RTE开发者社区赞 1阅读 3k](https://segmentfault.com/a/1190000047531578?utm\_source=sf-similar-article) [![头像](https://avatar-static.segmentfault.com/365/047/3650478951-6991af5a150ca\_big64)\\
+\\
+\*\*HarmonyOS网络请求requestInStream()流式处理小知识\*\* \\
+\\
+蓝胖子样样好赞 2阅读 15.8k](https://segmentfault.com/a/1190000047612388?utm\_source=sf-similar-article) [![头像](https://avatar-static.segmentfault.com/571/089/571089897-6001754a006e1\_big64)\\
+\\
+\*\*【TextIn大模型加速器 + 火山引擎】破解企业文档“数据孤岛”困局：从多语言合同审计到RAG知识库，构建全链路智能处理范式\*\* \\
+\\
+三掌柜赞 1阅读 1.8k评论 1](https://segmentfault.com/a/1190000047515518?utm\_source=sf-similar-article)
+\*\*0 条评论\*\*
+[得票](https://segmentfault.com/a/1190000047315650?sort=votes) [最新](https://segmentfault.com/a/1190000047315650?sort=newest)
+![头像](https://image-static.segmentfault.com/317/931/3179314346-5f61e47221e07)
+提交评论
+评论支持部分 Markdown 语法：``\*\*粗体\*\* \_斜体\_ [链接](http://example.com) `代码` - 列表 > 引用``。你还可以使用 `@`来通知其他用户。
+![preview](https://segmentfault.com/a/1190000047315650)
+![preview](https://segmentfault.com/a/1190000047315650)

@@ -1,0 +1,789 @@
+# Source URL: https://blog.csdn.net/qiansg123/article/details/80132235
+# Content Length: 14563 characters
+# Extracted at: 2026-03-19 09:06:17
+#============================================================
+
+ 
+
+
+
+
+
+提高代码阅读能力的7种方法-CSDN博客
+
+
+
+
+
+
+
+
+提高代码阅读能力的7种方法
+=============
+
+
+最新推荐文章于 2026-02-11 05:00:00 发布
+原创
+最新推荐文章于 2026-02-11 05:00:00 发布
+·
+7k 阅读
+·
+![]()
+![]()
+7
+
+
+·
+![]()
+![]()
+36
+·
+CC 4.0 BY-SA版权
+版权声明：本文为博主原创文章，遵循 [CC 4.0 BY-SA](http://creativecommons.org/licenses/by-sa/4.0/) 版权协议，转载请附上原文出处链接和本声明。
+
+
+
+
+
+文章标签：
+
+[#工具](https://so.csdn.net/so/search/s.do?q=%E5%B7%A5%E5%85%B7&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#平台](https://so.csdn.net/so/search/s.do?q=%E5%B9%B3%E5%8F%B0&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#数据](https://so.csdn.net/so/search/s.do?q=%E6%95%B0%E6%8D%AE&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#库](https://so.csdn.net/so/search/s.do?q=%E5%BA%93&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#软件](https://so.csdn.net/so/search/s.do?q=%E8%BD%AF%E4%BB%B6&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+
+
+
+
+
+
+
+![]()本文提供7种有效提高代码阅读能力的方法，包括运行代码、寻找高级逻辑、使用代码阅读工具等，帮助开发人员更好地理解他人代码。
+
+
+
+> 原文：[7 Ways to Improve Your Code Reading Skills](https://dzone.com/articles/7-ways-to-improve-your-code-reading-skill)   
+>  作者： [A. N. M. Bazlur Rahman](https://dzone.com/users/1298119/bazlur_rahman.html)   
+>  翻译：无阻我飞扬
+
+*摘要：随着越来越多的公司使用敏捷开发，能够阅读别人的代码比以往显得更重要。这就需要学习一些如何提高这项技能的技巧。本文提供了7种提高代码阅读技巧的方法，以下是译文。*
+
+在软件开发人员的职位描述中有阅读源代码。然而，这体验并不总能令人愉悦。不是每个人都喜欢阅读别人的代码，因为他们觉得那很乏味，甚至有时令人感到沮丧。有些案例中，你开始阅读别人的代码，最终会产生一种痛苦的感觉，因为你不能理解这些代码，或者说代码写得不好。大多数开发人员希望把重点放在编写代码上而不是阅读代码上，他们没有意识到阅读代码也是一项重要技能。
+
+可以说，阅读源代码有很多的益处。阅读代码的受益是巨大的。可以把编码与文学相比较。大多数作家在他们写作的时候注重阅读名著。原因是你不能在真空中创造出任何东西（闭门造车）。你必须从不同的来源吸取精华， 在此基础上去工作，才能创造出你自己的杰作。编写代码亦是如此。
+
+要想能写出好的代码，你必须读很多好的代码。通过这种方式，你可以了解其他开发人员是如何思考的，以及如何解决特定的问题的，还可以发现他们的不足之处。你可以从阅读别人的代码中获取不同的想法、风格和模式，让你的知识逐渐增长。
+
+一言以蔽之—— **代码阅读技巧提高编码能力。**
+
+提高阅读技巧有许多方法。在这篇文章中，我想提些许几点。
+
+**1．运行代码**——是的，这是阅读代码的第一步。这可能不会给你过多关于项目的细节，但是，你将知道如何构建它并运行它，你将了解它使用的库、它所依赖的开发框架等等，这是提高你对某个特定项目理解的好方法。如果你想编写与你正在探究的特定项目类似的自己的软件，你可能会对你应该使用的框架或库有一些想法。
+
+**2.找到高层次的逻辑**——当你开始阅读一个项目的代码时，你可能会陷入到每一个细节当中。这是有问题的，相反的，你应该专注于高层次的结构。要找到切入点，并从那里开始，大部分的软件项目都有一个主要的方法，就从那里开始。此外，如果这是一个web应用程序，请开始查看不同的包，比如业务逻辑存放在何处、UI代码保存在哪里、控制器在何处等等。大致来说，就是浏览整个项目并获得一个基本的想法，然后问自己想专注于什么地方，就先从那个部分读起。你可以不读完整的代码库，而只是读它可能会引起你兴趣的一部分。当你找到你的切入点，你可以通过方法调用，看它引领你到何处，从而了解项目的业务逻辑。
+
+**3.使用/了解工具**——有很多工具可以用来阅读和探究源代码，有助于可视化代码。例如，IntelliJIdea工具具有导航源代码的功能，允许你通过单词、单词的一部分，甚至是单词的缩写来搜索。你也应该学习键盘快捷键。用鼠标导航源代码可能会相当枯燥和缓慢，用键盘快捷键可以更快地跳转。你可以快速地从源代码的一部分跳转到另外一部分。
+
+还有一个阅读代码的好软件，叫Sourcegraph，这是由两个斯坦福大学的毕业生创建的，他们是Quinn Slack 和 Beyang Liu，他们在花费时间去查看缺少文档说明的代码以后，决定开发一个工具来帮助他们更好地阅读和理解代码。
+
+**4.了解语言/约定**——深入了解某个特定语言有助于提高代码阅读技能。每种语言都有自己的一套约定、样式和语法。这些知识帮助你快速地熟悉一个特定的代码。例如，在java语言中，方法名以小写字母开头，而在C#语言中，方法名以一个大写字母开头。知道这个区别可以帮助你从源代码中识别方法。
+
+**5.阅读最佳实践/设计模式**——你正在阅读的代码，或者它的某个结构，可能看起来很晦涩，或者你可能不熟悉它，这是很自然的。有许多良好的实践和设计模式，人们用它来正确地和最佳地做事。例如，有一种模式称为Singleton，它的构造函数保持私有。你可能会问，究竟为什么有人想保持构造函数私有呢。我一直认为它是公有的，否则，我如何创建一个类的实例。嗯，这背后有一个原因。Singleton模式防止你不止一次地实例化一个类，其中有许多实际的应用案例。如果你了解这种模式，你就不会为此而头撞南墙了。因此，对于某些模式的了解，例如，Gang of Four（Erich Gamma， Richard Helm， Ralph Johnson，John Vlissides软件设计领域的四位世界顶级大师.）有23种有文档说明的设计模式，可以显著地帮助你提高代码阅读能力。
+
+**6.代码审查**——软件开发是一个非常讲究协作的工作。没有人可以单独构建一个大型的或重要的软件。每个软件都是由一个团队构建的。在一个团队中，每个人都贡献自己的一份力量去塑造这个项目。在项目结束的那一天，每个人的贡献都会合并成一份对用户真正有价值的工作。除了做实际的编码以外，现在每一个团队都有另外一种做法，那就是在进行观察、建议和相互学习时，互相审查对方的代码。这是一个构建代码库知识的强有力的工具，在团队中建立牢固的纽带，提高代码质量，从而减少系统中的错误，并使客户满意。
+
+做代码检查，你不得不阅读团队中其他人的代码，最终会提高你的代码阅读能力。
+
+**7.临时重构**——临时重构也可以帮助您提高代码阅读技能。你可以找取一段长的方法代码，然后不断地把方法细分成多个部分。持续分解，直到你了解这一大段方法代码背后真正的意义。之后，你可以对这些方法做些注释，然后回滚这些更改。
+
+这可以帮助你理解方法的架构，也可以增加你代码重构的知识。
+
+---
+
+CSDN出品的[**「人工智能技术实战峰会」**](http://edu.csdn.net/huiyiCourse/series_detail/68)即将开播！
+
+来自**阿里巴巴、微软、商汤科技、第四范式、微博、出门问问、菱歌科技**的AI专家，将针对机器学习平台、系统架构、对话机器人、芯片、推荐系统、Keras、分布式系统、NLP等热点话题进行分享。**先行者们正在关注哪些关键技术？如何从理论跨越到企业创新实践？你将从本次峰会找到答案。**每个演讲时段均设有答疑交流环节，与会者和讲师可零距离互动。
+
+[**「7场技术专题，AI开发者必看！」**](http://edu.csdn.net/huiyiCourse/series_detail/68)
+
+[![]()](http://edu.csdn.net/huiyiCourse/series_detail/68)   
+[![]()](http://edu.csdn.net/huiyiCourse/series_detail/68)
+
+
+
+
+
+ 
+
+![]()
+确定要放弃本次机会？
+
+福利倒计时
+
+*:*
+
+*:*
+
+
+![]()
+立减 ¥
+
+
+普通VIP年卡可用
+
+[立即使用](https://mall.csdn.net/vip)
+
+
+[![]()
+钱曙光](https://blog.csdn.net/qiansg123)
+
+[关注](javascript:;)
+关注
+
+
+* ![]()
+  ![]()
+  ![]()
+  7
+  点赞
+* ![]()
+  ![]()
+  踩
+* [![]()
+  ![]()
+  ![]()
+  36](javascript:;)
+  收藏
+  
+  
+  
+  觉得还不错?
+  一键收藏
+  
+  ![]()
+* ![]()
+  知道了
+  
+  [![]()
+  1](#commentBox)
+  评论
+* [![]()
+  分享](javascript:;)
+  复制链接
+  
+  分享到 QQ
+  
+  分享到新浪微博
+  
+  ![]()扫一扫
+* ![]()
+  ![]()
+  举报
+  
+  ![]()
+  举报
+
+
+
+
+![]()
+
+[YOLOv*7*如何*提高*目标检测的速度和精度，基于模型结构*提高*目标检测速度](https://blog.csdn.net/guorui_java/article/details/130311123)
+
+[学Java，找哪吒](https://blog.csdn.net/guorui_java)
+
+04-23
+![]()
+6298
+
+
+
+
+[目标检测是计算机视觉领域中的一个重要任务，它的主要目标是在图像或视频中准确地定位和识别特定目标。](https://blog.csdn.net/guorui_java/article/details/130311123)
+
+
+
+
+
+1 条评论
+您还未登录，请先
+登录
+后发表或查看评论
+
+
+[YOLOv*7*如何*提高*目标检测的速度和精度，基于优化算法*提高*目标检测速度](https://blog.csdn.net/guorui_java/article/details/130312541)
+
+[学Java，找哪吒](https://blog.csdn.net/guorui_java)
+
+04-26
+![]()
+4427
+
+
+
+
+[学习率是影响目标检测精度和速度的重要因素之一。合适的学习率调度策略可以加速模型的收敛和*提高*模型的精度。在YOLOv*7*算法中，可以使用基于余弦函数的学习率调度策略（Cosine Annealing Learning Rate Schedule）来调整学习率。](https://blog.csdn.net/guorui_java/article/details/130312541)
+
+
+
+[我试图通过这篇文章，教会你一种*阅读**源码*的方式。](https://blog.csdn.net/LBWNB_Java/article/details/129809865)
+
+[老男孩的架构路](https://blog.csdn.net/LBWNB_Java)
+
+03-28
+![]()
+202
+
+
+
+
+[是的，正如标题描述的这样，我试图通过这篇文章，教会你如何*阅读**源码*。事情大概是这样的，前段时间，我收到了一个读者发来的类似于这样的示例*代码*：他说在没有执行*代码*之前，他也知道前两个为什么一个不会回滚，一个会回滚。因为抛出的异常和 @Transactional 里面的注解呼应上了。但是第三个到底会不会回滚，没有执行之前，他不知道为什么会回滚。执行之后，回滚了，他也不知道为什么回滚了。我告诉他：*源码*之下无秘密。让他去看看这部分*源码*，理解它的原理，不然这个地方抛出一个其他的异常，又不知道会不会回滚了。](https://blog.csdn.net/LBWNB_Java/article/details/129809865)
+
+
+
+
+[编程基本功训练：流程图画法及练习
+热门推荐](https://devpress.csdn.net/v1/article/detail/8222858)
+
+[迂者-贺利坚的专栏](https://blog.csdn.net/sxhelijian)
+
+11-25
+![]()
+39万+
+
+
+
+
+[对于“程序设计”的工作，许多初学者的理解就是“写*代码*”。同样，新手们苦恼的问题是，他们只会“写*代码*”。当接到一个新的任务，不少人总是在第一时间就爬到键盘上去敲*代码*。敲着敲着，就把自己绕糊涂了。头晕脑胀地坚持下来，程序能运行，阿弥托佛，赶紧撤。这样做出的程序，并不可靠。　　在程序设计中，最重要的不是写程序，而是设计。就像建筑、机械等行业的要画设计图、施工图，程序设计的思路也有必要用图的形式画出来。画](https://devpress.csdn.net/v1/article/detail/8222858)
+
+
+
+[第五章：输入和输出——和计算机对话
+最新发布](https://gpuers.blog.csdn.net/article/details/157509525)
+
+[图形/计算GPU的驱动与虚拟化技术分享园地](https://blog.csdn.net/shenjunpeng)
+
+02-11
+![]()
+870
+
+
+
+
+[本章介绍了C语言中输入输出（I/O）的基本使用*方法*，重点讲解了printf和scanf函数。通过printf可以格式化输出变量值，使用%d、%f等占位符控制显示格式；scanf则用于接收用户输入，需注意变量前加&符号。文章通过"人机对话"的比喻形象说明I/O原理，并展示了完整的输入-处理-输出（I-P-O）编程模式，最后演示了格式化输出技巧，如控制小数位数和数字对齐，使程序交互性更强、输出更美观。](https://gpuers.blog.csdn.net/article/details/157509525)
+
+
+
+[程序员如何高效读*代码*？](https://blog.csdn.net/epubit17/article/details/139901708)
+
+[人邮异步社区](https://blog.csdn.net/epubit17)
+
+06-23
+![]()
+2271
+
+
+
+
+[内容涉及如何像高效的*软件*工程师一样思考*代码*，如何编写读起来像一个结构良好的句子的函数，如何确保*代码*可靠且无错误，如何进行有效的。本书的指导原则很简单：缩减和简化，将精力投入到重要的工作上，省下大量的时间，卸下*代码*维护的重担。，如何识别可能导致问题的*代码*并对其进行改进，如何编写可重用并适应新需求的*代码*，如何*提高*读者的中长期生产力，同时还介绍了如何节省开发人员及团队的宝贵时间，等等。书中介绍的规则均来自作者多年的实践经验，涵盖从命名到重构的多个编程方面，虽为一“家”之言，然诚有可资借鉴的价值。](https://blog.csdn.net/epubit17/article/details/139901708)
+
+
+
+[如何*提高**阅读**代码*的*能力*？](https://blog.csdn.net/aliyonghang/article/details/132792531)
+
+[aliyonghang的博客](https://blog.csdn.net/aliyonghang)
+
+07-28
+![]()
+1447
+
+
+
+
+[学习编程基础知识：了解编程语言、*数据*结构、算法和设计模式等基础知识，可以帮助你更好地理解*代码*的逻辑和实现方式。这些基础知识也是评估*代码*质量、可维护性和可扩展性的关键。熟悉*代码*规范和约定：每种编程语言都有自己的*代码*规范和约定，例如命名规则、缩进、注释等。了解这些规范和约定可以让你更好地理解*代码*的组织和结构，并且能够更快地适应不同的项目和*代码**库*。使用合适的*工具*：使用合适的*工具*可以显著*提高**阅读**代码*的效率和质量。](https://blog.csdn.net/aliyonghang/article/details/132792531)
+
+
+
+[C#第1讲：C#快速入门](https://blog.csdn.net/maaici/article/details/81534424)
+
+[maaici的博客](https://blog.csdn.net/maaici)
+
+08-09
+![]()
+1万+
+
+
+
+
+[我觉得自己的基础知识不是很牢靠，基础决定了上层建筑，所以想系统的巩固和学习一下，在此记录自己的学习笔记，来和大家共同学习，同时也希望能够帮助一些想入门的同学，因此我会从最基础的hello world开始。给自己定个小目标，出个30讲先。
+一、C#语言简介
+首先我告诉你c#很简单，它甚至不需要你有编程功底就可以学习，如果你愿意去努力，几个月就可以入门的，但是往后要想拿更多的钱，这几个月的积累是远...](https://blog.csdn.net/maaici/article/details/81534424)
+
+
+
+[*代码**阅读**方法*与实践.2004.中文版(38.4M清晰版)](https://download.csdn.net/download/a3192048/10701280)
+
+10-04
+
+
+
+[“他山之石、可以攻玉”，通过仔细*阅读*并学习本书，可以快速地*提高*读者*代码**阅读*的技能与技巧，进而从现有的优秀*代码*、算法、构架、设计中汲取营养，*提高*自身的开发与设计*能力*。 本书适用于对程序设计的基本知识有...](https://download.csdn.net/download/a3192048/10701280)
+
+
+
+[如何*阅读*开源*代码*](https://download.csdn.net/download/lxlong19830815/3771949)
+
+11-08
+
+
+
+[对于任何希望提升自身技术*能力*的程序员而言，*阅读*开源*代码*是一项极具价值的活动。本文将深入探讨*阅读*开源*代码*的好处，并提供一些实用的建议。 \*\*好处之一：学习编程*方法*\*\* 通过*阅读*高质量的开源*代码*，程序员能够学...](https://download.csdn.net/download/lxlong19830815/3771949)
+
+
+
+[【博主推荐】 Microi吾码开源低*代码**平台*，快速建站，*提高*开发效率](https://blog.csdn.net/null18/article/details/144306334)
+
+[null18的博客](https://blog.csdn.net/null18)
+
+12-07
+![]()
+7037
+
+
+
+
+[下面是*平台*的预览图里面有许多的开源*源码*低*代码**平台*正在改变传统*软件*开发的方式，尤其是在*提高*开发效率、降低成本、促进业务与技术结合等方面展现出强大的优势。随着企业对数字化转型的需求不断加深，低*代码**平台*成为了加速创新和提升竞争力的重要*工具*。通过借助低*代码**平台*，企业可以更快速响应市场变化，减少开发周期，并让更多的业务人员参与到应用的构建和迭代中来。Microi吾码作为一款强大的低*代码**平台*，不仅提供了丰富的功能和强大的定制*能力*，还支持跨*平台*开发和企业级解决方案，是推动企业数字化变革的理想选择。](https://blog.csdn.net/null18/article/details/144306334)
+
+
+
+[C++*数据*结构原理与经典问题求解 左飞](https://download.csdn.net/download/xiyoulele/4483383)
+
+08-07
+
+
+
+[Cpp*数据*结构原理与经典问题求解 左飞](https://download.csdn.net/download/xiyoulele/4483383)
+
+
+
+[*代码**阅读*技巧-编程*能力**提高*的最有效途径](https://download.csdn.net/download/ccinBJ/706533)
+
+10-21
+
+
+
+[介绍*代码**阅读*，对编程的理解，有助提升编程思想。](https://download.csdn.net/download/ccinBJ/706533)
+
+
+
+[VS C# 如何查看IL*代码*](https://blog.csdn.net/songhuanfei2017/article/details/103666248)
+
+[songhuanfei2017的博客](https://blog.csdn.net/songhuanfei2017)
+
+12-23
+![]()
+3168
+
+
+
+
+[首先找到ildasm.exe（我的路径）：
+在VS，*工具*---外部*工具*，添加一个：
+效果：
+双击查看~](https://blog.csdn.net/songhuanfei2017/article/details/103666248)
+
+
+
+[C# 看懂这100+行*代码*,你就真正入门了(经典)](https://blog.csdn.net/zls365365/article/details/121987732)
+
+[zls365365的博客](https://blog.csdn.net/zls365365)
+
+12-16
+![]()
+1034
+
+
+
+
+[老铁先不废话，简单粗暴，直接来*源码*：using System;
+using System.Collections.Concurrent;
+using System.Collections....](https://blog.csdn.net/zls365365/article/details/121987732)
+
+
+
+[C#（三）——*阅读**代码*](https://blog.csdn.net/rose2rose/article/details/116978106)
+
+[rose2rose的博客](https://blog.csdn.net/rose2rose)
+
+05-18
+![]()
+257
+
+
+
+
+[目录
+？？——空接合运算符
+？？——空接合运算符
+用于处理可空变量，允许在可空变量为null时为变量赋值，有两个操作数：
+左侧的可空类型的变量；
+右侧的相同基础类型的不可空值；
+例：
+a ?? -1;
+等同于
+if ( a == null ){
+a = -1;
+}
+...](https://blog.csdn.net/rose2rose/article/details/116978106)
+
+
+
+[*代码*大全——*阅读*笔记(1-6章)](https://harris.blog.csdn.net/article/details/127701153)
+
+[Harris-H的博客](https://blog.csdn.net/weixin_45750972)
+
+11-05
+![]()
+353
+
+
+
+
+[*代码*大全——*阅读*笔记(1-6章)](https://harris.blog.csdn.net/article/details/127701153)
+
+
+
+[如何*阅读**代码*](https://blog.csdn.net/AAA375/article/details/90168957)
+
+[AAA375的博客](https://blog.csdn.net/AAA375)
+
+05-13
+![]()
+1174
+
+
+
+
+[无](https://blog.csdn.net/AAA375/article/details/90168957)
+
+
+
+[如何*提高*编程*能力*（知乎）](https://blog.csdn.net/weixin_41805108/article/details/79478900)
+
+[weixin\_41805108的博客](https://blog.csdn.net/weixin_41805108)
+
+03-08
+![]()
+1161
+
+
+
+
+[作者：Jiecheng Zhao链接：https://www.zhihu.com/question/281*7**7*315/answer/39*7*39882来源：知乎著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。    如何*提高*编程*能力*，这个问题几乎是媒体们采访大神们必问的问题。就我所敬仰的一些大神们（Linus，Yukihiro Matsumoto，TJ，多隆等）的回答都会提到多读...](https://blog.csdn.net/weixin_41805108/article/details/79478900)
+
+
+
+
+
+
+
+
+
+
+[![]()](https://blog.csdn.net/qiansg123)
+
+[钱曙光](https://blog.csdn.net/qiansg123)
+
+
+博客等级
+
+![]()
+
+码龄13年
+
+
+
+[1219
+原创](https://blog.csdn.net/qiansg123)
+
+539
+点赞
+
+2330
+收藏
+
+2855
+粉丝
+
+
+关注
+
+[私信](https://im.csdn.net/chat/qiansg123)
+
+
+
+[![]()](https://ai.csdn.net/workbench/wallet?utm_source=xtai_slb_bloglb)
+
+![]()
+
+
+### 热门文章
+
+* [一文看懂npm、yarn、pnpm之间的区别
+  ![]()
+  66574](https://blog.csdn.net/qiansg123/article/details/80129453)
+* [超融合详细对比：市面各主流超融合产品及厂商优劣势解密
+  ![]()
+  36630](https://blog.csdn.net/qiansg123/article/details/80133935)
+* [数据可视化的7个好处
+  ![]()
+  27705](https://blog.csdn.net/qiansg123/article/details/80130492)
+* [一周极客热文：程序员给女朋友用HTML5制作的3D相册（附源码）
+  ![]()
+  26907](https://blog.csdn.net/qiansg123/article/details/80119737)
+* [微服务架构的核心要点和实现原理
+  ![]()
+  26470](https://blog.csdn.net/qiansg123/article/details/80131044)
+
+
+### 分类专栏
+
+* [![]()
+  技术翻译](https://blog.csdn.net/qiansg123/category_7267596.html)
+  3篇
+
+
+上一篇：
+
+[人工智能可以解决现实世界哪些业务需求?](https://blog.csdn.net/qiansg123/article/details/80132204)
+
+
+下一篇：
+
+[REM：对区块链的节约型挖掘](https://blog.csdn.net/qiansg123/article/details/80132236)
+
+
+
+### 最新评论
+
+* [一文看懂npm、yarn、pnpm之间的区别](https://blog.csdn.net/qiansg123/article/details/80129453#comments_22287757)
+  
+  [星沉大海@T:](https://blog.csdn.net/gaoshanliushui131) 
+  这和网速无关
+
+
+### 大家在看
+
+* [OPPO手机家长管控方案
+  ![]()
+  689](https://blog.csdn.net/AirDroid_cn/article/details/159113359)
+* [天河PCCAD自定义快捷键命令的方法](https://blog.csdn.net/Sunny_2022/article/details/159209744)
+* [LLM漏洞检测技术前沿综述](https://blog.csdn.net/XLYcmy/article/details/159002887)
+* [智慧机械管理平台技术实践
+  ![]()
+  778](https://blog.csdn.net/chenchuang0128/article/details/159173297)
+* [程序员向AI时代定义者的转型
+  ![]()
+  157](https://blog.csdn.net/powertoolsteam/article/details/159202211)
+
+
+### 最新文章
+
+* [从SIEM&AI到SIEM@AI | AI构建下一代企业安全大脑](https://blog.csdn.net/qiansg123/article/details/80134502)
+* [基于Hybris平台的电商个性化服务实践](https://blog.csdn.net/qiansg123/article/details/80134464)
+* [魅族大数据可视化平台建设之路](https://blog.csdn.net/qiansg123/article/details/80134461)
+
+
+[2018年16篇](https://blog.csdn.net/qiansg123?type=blog&year=2018&month=04)
+[2017年420篇](https://blog.csdn.net/qiansg123?type=blog&year=2017&month=12)
+[2016年493篇](https://blog.csdn.net/qiansg123?type=blog&year=2016&month=12)
+[2015年248篇](https://blog.csdn.net/qiansg123?type=blog&year=2015&month=12)
+[2014年37篇](https://blog.csdn.net/qiansg123?type=blog&year=2014&month=10)
+[2013年8篇](https://blog.csdn.net/qiansg123?type=blog&year=2013&month=12)
+
+
+
+![]()
+
+
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+
+
+![]()
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+![]()
+
+上一篇：
+
+[人工智能可以解决现实世界哪些业务需求?](https://blog.csdn.net/qiansg123/article/details/80132204)
+
+
+下一篇：
+
+[REM：对区块链的节约型挖掘](https://blog.csdn.net/qiansg123/article/details/80132236)
+
+
+
+### 分类专栏
+
+* [![]()
+  技术翻译](https://blog.csdn.net/qiansg123/category_7267596.html)
+  3篇
+
+展开全部 ![]()
+收起 ![]()
+
+
+
+
+
+
+### 目录
+
+
+
+
+
+
+
+
+
+
+
+
+
+评论 1
+![]()
+
+![]()被折叠的  条评论
+[为什么被折叠?](https://blogdev.blog.csdn.net/article/details/122245662)
+[![]()到【灌水乐园】发言](https://bbs.csdn.net/forums/FreeZone)
+
+
+查看更多评论![]()
+
+
+
+添加红包
+
+
+祝福语
+
+
+请填写红包祝福语或标题
+
+
+红包数量
+
+个
+
+红包个数最小为10个
+
+
+红包总金额
+
+元
+
+红包金额最低5元
+
+
+余额支付
+当前余额3.43元
+[前往充值 >](https://i.csdn.net/#/wallet/balance/recharge)
+
+
+需支付：10.00元
+
+取消
+确定
+
+
+
+
+![]()
+下一步
+
+![]()
+知道了
+
+
+
+![]()
+成就一亿技术人!
+
+
+
+领取后你会自动成为博主和红包主的粉丝
+规则
+
+
+
+![]()
+hope\_wisdom 发出的红包
+
+
+
+
+
+
+
+
+
+实付元
+[使用余额支付](javascript:;)
+![]()
+点击重新获取
+
+
+![]()![]()![]()扫码支付
+
+
+
+
+钱包余额
+0
+![]()
+
+抵扣说明：
+
+1.余额是钱包充值的虚拟货币，按照1:1的比例进行支付金额的抵扣。  
+ 2.余额无法直接购买下载，可以购买VIP、付费专栏及课程。
+
+
+
+
+
+[![]()余额充值](https://i.csdn.net/#/wallet/balance/recharge)
+
+![]()
+
+
+
+
+
+

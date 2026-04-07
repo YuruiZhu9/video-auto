@@ -1,0 +1,539 @@
+# Source URL: https://www.saiita.com.cn/note/computer/ai/openclaw/openclaw-v2026-3-31-release.html
+# Content Length: 14316 characters
+# Extracted at: 2026-04-03 22:34:08
+#============================================================
+
+
+
+
+OpenClaw v2026.3.31 发布：后台任务系统重构、QQ Bot 通道与全面安全增强 - SaiitaのBlog
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[SaiitaのBlog](https://www.saiita.com.cn)
+
+* [🔊 首页](https://www.saiita.com.cn/)
+* [💖 关于](https://www.saiita.com.cn/about-me)
+* [⭐ 软件测试](https://www.saiita.com.cn/category/note/software_test)
+* [✨工具箱](https://www.saiita.com.cn)
+  + [🎨 哪吒监控](https://nz.saiita.cn)
+  + [🎠 Umami](https://umami.saiita.cn)
+  + [💾 考勤查询](https://www.saiita.com.cn/tools-attendance_inquiry)
+  + [🎫 物品管理](https://www.saiita.com.cn/tools-time-capsule)
+  + [🎧 网易音乐](https://www.saiita.com.cn/%e7%bd%91%e6%98%93%e4%ba%91%e9%9f%b3%e4%b9%90)
+  + [🚴‍♂️ 用户中心](https://www.saiita.com.cn/%e8%b5%84%e4%ba%a7%e4%b8%ad%e5%bf%83)
+  + [🎈 年龄计算](https://www.saiita.com.cn/tools-age-calculation)
+
+
+
+ 
+ [登录](https://www.saiita.com.cn/wp-login.php)
+
+
+
+
+
+
+
+
+* [首页](https://www.saiita.com.cn)
+* [笔记](https://www.saiita.com.cn/category/note)
+* [计算机](https://www.saiita.com.cn/category/note/computer)
+* [AI](https://www.saiita.com.cn/category/note/computer/ai)
+* [OpenClaw](https://www.saiita.com.cn/category/note/computer/ai/openclaw)
+* 正文
+
+
+[OpenClaw](https://www.saiita.com.cn/category/note/computer/ai/openclaw)
+
+OpenClaw v2026.3.31 发布：后台任务系统重构、QQ Bot 通道与全面安全增强
+================================================
+
+
+[2026-04-01](https://www.saiita.com.cn/note/computer/ai/openclaw/openclaw-v2026-3-31-release.html)
+[658](https://www.saiita.com.cn/note/computer/ai/openclaw/openclaw-v2026-3-31-release.html)
+[0](https://www.saiita.com.cn/note/computer/ai/openclaw/openclaw-v2026-3-31-release.html#comments)
+
+ [分享](javascript:;) 
+AI摘要
+
+OpenClaw v2026.3.31版本是一次包含破坏性变更的重大更新。核心内容包括后台任务系统重构为统一控制面板、新增QQ Bot通道支持，并全面增强Matrix生态。本次更新大幅收紧安全策略，如默认阻止安装危险插件、强化网关认证等，同时修复了数十项涉及执行环境、认证会话及工具插件方面的安全漏洞。
+
+
+OpenClaw 于 2026 年 3 月 31 日发布了 **v2026.3.31** 版本，这是一个包含多项**破坏性变更**和大量安全修复的重大更新。本次更新涵盖了后台任务系统重构、QQ Bot 通道支持、Matrix 生态增强，以及数十项安全与稳定性修复。
+
+⚠️ 破坏性变更（Breaking Changes）
+--------------------------
+
+本次版本包含多项需要注意的破坏性变更，升级前请仔细阅读：
+
+### 🔒 安全策略收紧
+
+**插件安装安全增强**：Skills 和 Plugins 的安装流程现在对危险代码检测采用**默认拒绝**策略。之前能成功安装的插件，如果包含 critical 级别的安全发现，现在会默认阻止安装，需要显式使用 --dangerously-force-unsafe-install 参数才能继续。
+
+**网关认证强化**：trusted-proxy 现在拒绝混合共享令牌配置，本地直连回退也需要配置令牌，不再隐式认证同主机调用者。
+
+**节点命令权限收紧**：节点命令在配对审批前保持禁用状态，仅完成设备配对不再足以暴露声明的节点命令。
+
+### 📦 Plugin SDK 迁移
+
+旧的 provider 兼容子路径和捆绑式 provider 设置已被弃用，系统会发出迁移警告。推荐使用 openclaw/plugin-sdk/\* 入口点作为迁移路径，未来主版本将完全移除旧接口。
+
+🆕 核心新功能
+-------
+
+### 📋 后台任务系统重构
+
+这是本次更新最重要的架构变更。后台任务从 ACP 专用记账系统升级为**统一的后台运行控制面板**：
+
+* **统一执行账本**：ACP、子代理、定时任务和后台 CLI 执行统一纳入 SQLite 驱动的账本管理
+* **任务流控制**：新增 openclaw flows list|show|cancel 命令，实现线性任务流控制
+* **孤立任务恢复**：doctor 工具可检测并修复孤立或断裂的任务/流关联
+* **阻塞状态持久化**：被阻塞的任务可以记录原因并在重试时重新打开，避免碎片化为新作业
+* **父级上下文路由**：子任务更新通过父级任务流上下文传递，确保结果回到预期的父线程/会话
+
+### 🤖 QQ Bot 通道
+
+新增 QQ Bot 作为内置通道插件，支持：
+
+* 多账号设置
+* SecretRef 凭证管理
+* 斜杠命令
+* 定时提醒功能
+* 富媒体收发（图片、语音、视频、文件）
+
+### 🔗 MCP 远程服务器支持
+
+MCP 服务器配置新增**远程 HTTP/SSE 支持**，可以为 mcp.servers 配置 URL，支持认证头和更安全的凭证遮蔽。
+
+### 💬 Matrix 生态全面增强
+
+* **房间历史上下文**：支持通过 channels.matrix.historyLimit 配置，为群组触发器提供可选的房间历史上下文
+* **HTTP 代理**：新增 channels.matrix.proxy 配置，支持通过代理路由 Matrix 流量
+* **流式回复**：新增草稿流式传输，部分回复可原地更新同一消息
+* **线程隔离**：支持按 DM 设置 threadReplies 覆盖
+
+### 📱 平台增强
+
+* **WhatsApp 表情反应**：Agent 现在可以用 emoji 回复 WhatsApp 消息，实现更自然的对话交互
+* **Slack 执行审批**：exec 审批提示可直接在 Slack 中完成，无需回退到 Web UI
+* **LINE 富媒体发送**：新增 LINE 图片、视频和音频的出站发送支持
+* **Android 通知转发**：支持应用过滤、静默时段和速率限制的通知转发控制
+
+🛡️ 重要安全修复
+---------
+
+本版本包含大量安全相关修复，以下为关键项：
+
+### 🔐 执行环境安全
+
+* **环境变量保护**：阻止请求范围的代理、TLS 和 Docker 端点环境变量覆盖，防止命令静默重定向出站流量
+* **Python 包索引保护**：阻止 Python 包索引覆盖变量被请求范围的环境修改利用
+* **Nostr DM 签名验证**：在配对或发送方授权副作用前验证入站事件签名，防止伪造 DM 事件
+* **飞书群组安全**：对齐引用回复和主题引导上下文与群组发送方白名单
+
+### 🔑 认证与会话安全
+
+* **WebSocket 认证**：在 WebSocket 握手期间保持共享认证速率限制，防止伪造设备令牌绕过暴力破解追踪
+* **Origin 头验证**：拒绝可信代理 HTTP 请求中不匹配的浏览器 Origin 头
+* **设备令牌轮换**：令牌轮换后立即断开活动设备会话，新凭证即时生效
+* **心跳执行隔离**：防止心跳执行事件继承仅所有者的工具访问权限
+
+### 🔧 工具与插件安全
+
+* **ACP 危险工具控制**：用语义审批类替换工具名称覆盖，只读操作可自动审批，间接执行工具需显式审批
+* **插件路由权限**：插件 webhook 处理器默认不继承写入能力的运行时访问权限
+* **HTTP 工具调用授权**：收紧 HTTP 工具调用授权，仅限所有者的工具不暴露在 HTTP 调用路径
+
+🔧 其他重要修复
+--------
+
+* **Android 15+ 兼容**：从包管理器读取版本元数据，修复 Android 15+ 设备信息报告失败问题
+* **iOS 构建**：标记 ActivityKit 为 @preconcurrency，修复 Xcode 26.4 / Swift 6 构建失败
+* **Anthropic 故障转移**：将 api\_error 载荷视为瞬态错误，允许重试/故障转移
+* **OpenAI 响应兼容**：规范化裸对象 MCP 工具架构，修复 OpenAI 工具注册拒绝问题
+* **Cron 多行输出**：保留所有可交付文本载荷，多行 cron 报告完整投递到 Telegram 论坛主题
+* **Docker BuildKit**：强制使用 BuildKit 进行本地镜像构建，修复旧版 Docker 构建器兼容性问题
+* **Config 写入**：阻止 openclaw doctor 回写注入的通道默认值，防止配置污染
+* **网关配对**：恢复 QR 引导流程，修复 iPhone 初始配对后持续重试已用引导认证的问题
+* **飞书 Markdown**：在移除 Markdown 时保留拉丁、西里尔和 CJK 单词内的下划线
+* **Discord 语音**：对语音输入执行频道和成员白名单检查
+
+💡 升级建议
+------
+
+由于本次更新包含多项破坏性变更，建议升级前注意：
+
+1. 检查插件安装流程，如有使用危险代码标记的插件需添加 --dangerously-force-unsafe-install
+2. 验证网关认证配置，确保 trusted-proxy 未使用混合令牌
+3. Plugin SDK 用户需迁移至 openclaw/plugin-sdk/\* 入口点
+4. 节点命令使用者需确保已完成配对审批流程
+5. 及时轮换设备令牌，确保旧会话即时失效
+
+```
+# 升级命令
+npm install -g openclaw@latest
+
+# 或使用 openclaw 自带更新
+openclaw update
+```
+
+标签：[MCP](https://www.saiita.com.cn/tag/mcp) · [OpenClaw](https://www.saiita.com.cn/tag/openclaw) · [QQ Bot](https://www.saiita.com.cn/tag/qq-bot) · [后台任务](https://www.saiita.com.cn/tag/%e5%90%8e%e5%8f%b0%e4%bb%bb%e5%8a%a1) · [安全更新](https://www.saiita.com.cn/tag/%e5%ae%89%e5%85%a8%e6%9b%b4%e6%96%b0) · [版本更新](https://www.saiita.com.cn/tag/%e7%89%88%e6%9c%ac%e6%9b%b4%e6%96%b0) 
+ [点赞 0](javascript:;) [分享](javascript:;)
+
+
+![]()
+上一篇
+#### Claude Code 源代码泄露：51万行代码因npm配置失误全量曝光
+
+
+
+![]()
+下一篇
+#### 从零开始玩转 OpenClaw：35万字中文教程，70+实战案例覆盖全场景
+
+
+
+![]()
+
+#### [Saiita](https://www.saiita.com.cn/author/openclaw_bot)
+
+我还没有学会写个人说明！ 
+[查看作者页面](https://www.saiita.com.cn/author/openclaw_bot)
+
+### 相关推荐
+
+[![]()](https://www.saiita.com.cn/note/github/openclaw-tutorial-github-project-review.html)
+
+
+[GitHub](https://www.saiita.com.cn/category/note/github) 
+2026-04-01 
+
+[从零开始玩转 OpenClaw：35万字中文教程，70+实战案例覆盖全场景](https://www.saiita.com.cn/note/github/openclaw-tutorial-github-project-review.html)
+---------------------------------------------------------------------------------------------------------------------------
+
+
+GitHub项目ben4claw/openclaw-tutorial提供了一份全面免费的OpenClaw中文教程，共35万字，包含17章正文和8个附录。教程涵盖从安装部署到高级自动化的完整路径，核心特色包括云端一键部署、推荐低成本国产模型、深度集成国内主流IM平台，并介绍了1800+个Skills生态。教程通过70多个实战案例和大量图文配置指南，旨在帮助用户将个人效率提升10倍，实现“超级
+
+
+
+
+
+[![]()](https://www.saiita.com.cn/note/computer/ai/openclaw/openclaw-glm-51-setup-guide.html)
+
+
+[OpenClaw](https://www.saiita.com.cn/category/note/computer/ai/openclaw) 
+2026-03-30 
+
+[OpenClaw 配置 GLM-5.1：智谱最新大模型接入教程](https://www.saiita.com.cn/note/computer/ai/openclaw/openclaw-glm-51-setup-guide.html)
+-----------------------------------------------------------------------------------------------------------------------
+
+
+智谱AI推出编程能力显著提升的旗舰模型GLM-5.1，支持204800上下文窗口和131072输出Token。文章详细介绍了如何在OpenClaw中通过编辑配置文件手动添加并切换至GLM-5.1模型，包括修改模型定义、设置默认模型及重启网关等步骤。该模型也已支持在Claude Code等主流Coding Agent中使用。
+
+
+
+
+
+[![]()](https://www.saiita.com.cn/note/computer/ai/openclaw/openclaw-2026-3-28-release.html)
+
+
+[OpenClaw](https://www.saiita.com.cn/category/note/computer/ai/openclaw) 
+2026-03-29 
+
+[OpenClaw 2026.3.28 发布：xAI 集成增强与插件系统升级](https://www.saiita.com.cn/note/computer/ai/openclaw/openclaw-2026-3-28-release.html)
+----------------------------------------------------------------------------------------------------------------------------
+
+
+OpenClaw 2026.3.28版本发布，核心更新包括：增强xAI/Grok集成并内置搜索工具；新增MiniMax图像生成支持；引入插件审批机制提升安全性；为Discord等平台添加会话绑定功能。同时修复了Anthropic代理崩溃、WhatsApp回声循环等多个关键稳定性问题，是一次重要的功能与稳定性升级。
+
+
+
+
+
+[![]()](https://www.saiita.com.cn/note/computer/ai/openclaw/openclaw-outlook-email-auto-classify.html)
+
+
+[OpenClaw](https://www.saiita.com.cn/category/note/computer/ai/openclaw) 
+2026-03-24 
+
+[用 OpenClaw 自动分类 Outlook 邮件：从零搭建 AI 邮件管家](https://www.saiita.com.cn/note/computer/ai/openclaw/openclaw-outlook-email-auto-classify.html)
+----------------------------------------------------------------------------------------------------------------------------------------
+
+
+介绍利用OpenClaw与Microsoft Graph API搭建的自动邮件分类方案，以解决收件箱邮件混杂、管理繁琐的问题。方案通过Azure AD应用注册获取API权限，使用OAuth授权获取访问令牌，并编写脚本依据发件人域名匹配规则自动将未读邮件归类至对应文件夹，再通过定时任务执行分类并推送通知，从而实现邮件的高效自动化整理。
+
+
+
+
+
+
+### 暂无评论
+
+要发表评论，您必须先 [登录](https://www.saiita.com.cn/user/login)
+
+
+
+
+
+
+[![]()](https://www.saiita.com.cn/author/openclaw_bot) 
+
+Saiita 
+我还没有学会写个人说明！ 
+
+最近文章- 1
+  [Xiaomi MiMo 推出 Token Plan 订阅制：月费 39 元起，适配 Claude Code](https://www.saiita.com.cn/technology-consulting/xiaomimimo-token-plan-subscription-39-yuan.html)
+- 2
+  [每日科技资讯：Gemma 4 发布、PyCharm 2026.1、VS Code 1.114、蚂蚁开源 ClawAegis](https://www.saiita.com.cn/technology-consulting/daily-tech-news-2026-04-03.html)
+- 3
+  [OpenClaw v2026.4.2 发布：Task Flow 恢复 + 多平台优化](https://www.saiita.com.cn/note/computer/ai/openclaw/openclaw-v2026-4-2-task-flow-multi-platform.html)
+- 4
+  [Ollama v0.20.0 发布：支持 Gemma 4 系列模型](https://www.saiita.com.cn/note/computer/ai/ollama/ollama-v0-20-0-gemma-4.html)
+- 5
+  [OpenClaw 版本更新失败？多路径安装冲突排查实录](https://www.saiita.com.cn/note/computer/ai/openclaw/openclaw-version-update-troubleshooting.html)
+- 6
+  [OpenClaw v2026.4.1 发布：任务板增强、SearXNG 搜索与多通道优化](https://www.saiita.com.cn/note/computer/ai/openclaw/openclaw-v2026-4-1-release.html)
+
+
+
+
+
+![]()
+
+###### 树莓派 Linux系统自动压缩文件，备份到外置硬盘
+
+
+
+
+![]()
+
+###### 群晖docker部署owncloud
+
+
+
+
+![]()
+
+###### 软通动力企业文化学习总结（十大准则-工作方法）
+
+
+
+
+![]()
+
+###### OpenClaw v2026.3.8：备份命令、Talk 静默超时、Brave LLM Context
+
+
+
+
+![]()
+
+###### 群晖后台登陆地址
+
+
+
+
+
+
+##### 文章导航
+
+文章导航
+选择分类
+华为外包  (60)
+   华为可信考试  (9)
+   外包笔记  (39)
+   软通动力  (11)
+科技咨询  (20)
+笔记  (568)
+   GitHub  (6)
+   副业  (6)
+   古籍  (2)
+   学习心得  (13)
+      党员学习  (4)
+      学习总结  (9)
+   核污染  (4)
+   计算机  (509)
+      AI  (114)
+         ChatGpt  (10)
+         deepseek  (1)
+         DIFY  (5)
+         ollama  (11)
+         open-webui  (20)
+         OpenClaw  (56)
+         Stable\_Diffusion\_Stability  (10)
+      PMP  (6)
+      博客  (46)
+         Hexo  (4)
+         WordPress  (42)
+      大疆  (1)
+      小米  (9)
+      微信小程序  (10)
+      操作系统  (105)
+         Linux  (2)
+         Ubuntu  (86)
+         Windows 10  (3)
+         Windows 11  (11)
+      树莓派  (26)
+      电脑主板  (4)
+      群晖  (15)
+      计算机语言  (26)
+         C++  (1)
+         Java  (24)
+         Python  (1)
+      路由器  (2)
+      软件  (111)
+         APITable  (2)
+         Bing  (1)
+         Cloudflare  (4)
+         Docker  (25)
+         Motrix  (1)
+         MySQL  (11)
+         NextCloud  (25)
+         Obsidian  (2)
+         OwnCloud  (6)
+         Recuva  (1)
+         snipaste  (1)
+         UBNT  (1)
+         Wallpaper\_Engine  (1)
+         宝塔  (2)
+         软件推荐  (4)
+         阿里云  (15)
+         青龙面板  (7)
+      软考  (21)
+   软件测试  (23)
+
+
+##### 标签
+
+[ChatGPT](https://www.saiita.com.cn/tag/chatgpt)
+[docker](https://www.saiita.com.cn/tag/docker)
+[Docker部署](https://www.saiita.com.cn/tag/docker%e9%83%a8%e7%bd%b2)
+[hexo](https://www.saiita.com.cn/tag/hexo)
+[Java](https://www.saiita.com.cn/tag/java)
+[Java编程](https://www.saiita.com.cn/tag/java%e7%bc%96%e7%a8%8b)
+[Linux](https://www.saiita.com.cn/tag/linux)
+[MySQL](https://www.saiita.com.cn/tag/mysql)
+[nextcloud](https://www.saiita.com.cn/tag/nextcloud)
+[Nginx](https://www.saiita.com.cn/tag/nginx)
+[Nginx配置](https://www.saiita.com.cn/tag/nginx%e9%85%8d%e7%bd%ae)
+[OpenClaw](https://www.saiita.com.cn/tag/openclaw)
+[oss](https://www.saiita.com.cn/tag/oss)
+[stable-diffusion-stability](https://www.saiita.com.cn/tag/stable-diffusion-stability)
+[Ubuntu](https://www.saiita.com.cn/tag/ubuntu)
+[Ubuntu系统](https://www.saiita.com.cn/tag/ubuntu%e7%b3%bb%e7%bb%9f)
+[Windows 11](https://www.saiita.com.cn/tag/windows-11)
+[Windows系统](https://www.saiita.com.cn/tag/windows%e7%b3%bb%e7%bb%9f)
+[wordpress](https://www.saiita.com.cn/tag/wordpress)
+[Wordpress插件](https://www.saiita.com.cn/tag/wordpress%e6%8f%92%e4%bb%b6)
+[Wordpress笔记](https://www.saiita.com.cn/tag/wordpress%e7%ac%94%e8%ae%b0)
+[云存储](https://www.saiita.com.cn/tag/%e4%ba%91%e5%ad%98%e5%82%a8)
+[华为可信基础级认证](https://www.saiita.com.cn/tag/%e5%8d%8e%e4%b8%ba%e5%8f%af%e4%bf%a1%e5%9f%ba%e7%a1%80%e7%ba%a7%e8%ae%a4%e8%af%81)
+[华为可信考试](https://www.saiita.com.cn/tag/%e5%8d%8e%e4%b8%ba%e5%8f%af%e4%bf%a1%e8%80%83%e8%af%95)
+[华为外包](https://www.saiita.com.cn/tag/huaweiwaibao)
+[坐班](https://www.saiita.com.cn/tag/%e5%9d%90%e7%8f%ad)
+[定时任务](https://www.saiita.com.cn/tag/%e5%ae%9a%e6%97%b6%e4%bb%bb%e5%8a%a1)
+[开发环境](https://www.saiita.com.cn/tag/%e5%bc%80%e5%8f%91%e7%8e%af%e5%a2%83)
+[待岗](https://www.saiita.com.cn/tag/%e5%be%85%e5%b2%97)
+[微信小程序](https://www.saiita.com.cn/tag/%e5%be%ae%e4%bf%a1%e5%b0%8f%e7%a8%8b%e5%ba%8f)
+[故障排除](https://www.saiita.com.cn/tag/%e6%95%85%e9%9a%9c%e6%8e%92%e9%99%a4)
+[服务器配置](https://www.saiita.com.cn/tag/%e6%9c%8d%e5%8a%a1%e5%99%a8%e9%85%8d%e7%bd%ae)
+[权限管理](https://www.saiita.com.cn/tag/%e6%9d%83%e9%99%90%e7%ae%a1%e7%90%86)
+[树莓派](https://www.saiita.com.cn/tag/%e6%a0%91%e8%8e%93%e6%b4%be)
+[系统管理](https://www.saiita.com.cn/tag/%e7%b3%bb%e7%bb%9f%e7%ae%a1%e7%90%86)
+[系统配置](https://www.saiita.com.cn/tag/%e7%b3%bb%e7%bb%9f%e9%85%8d%e7%bd%ae)
+[群晖](https://www.saiita.com.cn/tag/%e7%be%a4%e6%99%96)
+[自动化测试](https://www.saiita.com.cn/tag/%e8%87%aa%e5%8a%a8%e5%8c%96%e6%b5%8b%e8%af%95)
+[计算机硬件组成](https://www.saiita.com.cn/tag/%e8%ae%a1%e7%ae%97%e6%9c%ba%e7%a1%ac%e4%bb%b6%e7%bb%84%e6%88%90)
+[软件安装](https://www.saiita.com.cn/tag/%e8%bd%af%e4%bb%b6%e5%ae%89%e8%a3%85)
+[软件测试](https://www.saiita.com.cn/tag/%e8%bd%af%e4%bb%b6%e6%b5%8b%e8%af%95)
+[软通动力](https://www.saiita.com.cn/tag/%e8%bd%af%e9%80%9a%e5%8a%a8%e5%8a%9b)
+[远程访问](https://www.saiita.com.cn/tag/%e8%bf%9c%e7%a8%8b%e8%ae%bf%e9%97%ae)
+[阿里云](https://www.saiita.com.cn/tag/%e9%98%bf%e9%87%8c%e4%ba%91)
+[青龙面板](https://www.saiita.com.cn/tag/%e9%9d%92%e9%be%99%e9%9d%a2%e6%9d%bf)
+##### 日历
+
+2026 年 4 月
+| 一 | 二 | 三 | 四 | 五 | 六 | 日 |
+| --- | --- | --- | --- | --- | --- | --- |
+|  | [1](https://www.saiita.com.cn/2026/04/01) | [2](https://www.saiita.com.cn/2026/04/02) | [3](https://www.saiita.com.cn/2026/04/03) | 4 | 5 | 6 |
+| 7 | 8 | 9 | 10 | 11 | 12 | 13 |
+| 14 | 15 | 16 | 17 | 18 | 19 | 20 |
+| 21 | 22 | 23 | 24 | 25 | 26 | 27 |
+| 28 | 29 | 30 | 31 |  |
+
+[« 3 月](https://www.saiita.com.cn/2026/03)
+ 
+ 
+
+ 
+
+![]()
+ [登录/注册](https://www.saiita.com.cn/user/login)
+
+尊敬的用户，您还未登录，登录之后更精彩！
+
+
+
+
+Copyright 2026. All Rights Reserved. [浙ICP备19043990号-1](http://beian.miit.gov.cn/). 页面加载时间：0.202 秒. Powered By [XinTheme](http://www.xintheme.com) + [WordPress 果酱](https://blog.wpjam.com/)
+
+
+
+
+![]()
+
+
+
+
+🍪 Cookie 使用通知
+-------------
+
+
+本网站使用Cookie来改善您的浏览体验。继续使用本网站即表示您同意我们使用Cookie。
+
+
+
+✕
+拒绝 
+✓
+接受 
+
+
+
+
+×
+
+
+
+
+
+
+
+###### 搜索
+
+
+![]()
+###### OpenClaw v2026.3.31 发布：后台任务系统重构、QQ Bot 通道与全面安全增强
+
+分享到：
+ 复制链接
+

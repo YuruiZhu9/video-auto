@@ -1,0 +1,132 @@
+# Source URL: https://zhuanlan.zhihu.com/p/11966126512
+# Content Length: 19218 characters
+# Extracted at: 2026-03-06 19:31:36
+#============================================================
+
+![](https://zhuanlan.zhihu.com/p/11966126512)
+![WSDM2025推荐系统论文整理](https://pica.zhimg.com/v2-d97a03805b8fe6ebb75a96c07a1103d9\_720w.jpg?source=172ae18b)
+第18届国际网络检索与数据挖掘会议WSDM将在2025年3月10日到3月14日于德国汉诺威举行。今年此次会议录取率大约为17%，基本上与去年持平。WSDM会议在[CCF](https://zhida.zhihu.com/search?content\_id=251416187&content\_type=Article&match\_order=1&q=CCF&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzI5Njk0OTQsInEiOiJDQ0YiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTE0MTYxODcsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.WIZBkzsuqgtCnyvJYVvSR4NYHKnNRHaXtNmxfyOYlms&zhida\_source=entity)（中国计算机学会）推荐国际学术会议列表中被归为B类会议。
+![](https://pica.zhimg.com/v2-bea4e5a7421e1d4079ff39607dfa0b46\_1440w.jpg)
+作为主流的检索与数据挖掘会议，论文的话题主要侧重于搜索、推荐以及数据挖掘领域，因此该会议大部分接收论文的主题是围绕着信息检索与推荐系统来说的。
+本文特意从106篇论文中筛选出与推荐系统强相关的36篇文章供大家欣赏，其中研究主题主要包括[跨域推荐](https://zhida.zhihu.com/search?content\_id=251416187&content\_type=Article&match\_order=1&q=%E8%B7%A8%E5%9F%9F%E6%8E%A8%E8%8D%90&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzI5Njk0OTQsInEiOiLot6jln5\_mjqjojZAiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTE0MTYxODcsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.tJ5UYk1rV1QEBWkxP2ePGQvB40NJ\_YLqNQCfevHn-Rk&zhida\_source=entity)、[扩散模型协同过滤](https://zhida.zhihu.com/search?content\_id=251416187&content\_type=Article&match\_order=1&q=%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B%E5%8D%8F%E5%90%8C%E8%BF%87%E6%BB%A4&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzI5Njk0OTQsInEiOiLmianmlaPmqKHlnovljY\_lkIzov4fmu6QiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTE0MTYxODcsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.-ywKiDQfJschGamEO8vjiwBsykHWhsqUfpwXhK7An1Y&zhida\_source=entity)、[大模型推荐](https://zhida.zhihu.com/search?content\_id=251416187&content\_type=Article&match\_order=1&q=%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E8%8D%90&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzI5Njk0OTQsInEiOiLlpKfmqKHlnovmjqjojZAiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTE0MTYxODcsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.TIdpgUpRf4Yqw793twxwlZcuiXc4vsciHx1Qgiupevc&zhida\_source=entity)中的策略探索、推荐中的[异质模型偏差](https://zhida.zhihu.com/search?content\_id=251416187&content\_type=Article&match\_order=1&q=%E5%BC%82%E8%B4%A8%E6%A8%A1%E5%9E%8B%E5%81%8F%E5%B7%AE&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzI5Njk0OTQsInEiOiLlvILotKjmqKHlnovlgY\_lt64iLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTE0MTYxODcsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.QCFYJLW-x8Tzfjsf9DIoG5kytU0kqkRVVeCwcO7UkSA&zhida\_source=entity)、[去噪多模态推荐](https://zhida.zhihu.com/search?content\_id=251416187&content\_type=Article&match\_order=1&q=%E5%8E%BB%E5%99%AA%E5%A4%9A%E6%A8%A1%E6%80%81%E6%8E%A8%E8%8D%90&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzI5Njk0OTQsInEiOiLljrvlmarlpJrmqKHmgIHmjqjojZAiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTE0MTYxODcsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.CDxZzpzFym7rPaukCeOO\_QOQqbIjDi6DgmeF6X-yYr0&zhida\_source=entity)、[序列推荐](https://zhida.zhihu.com/search?content\_id=251416187&content\_type=Article&match\_order=1&q=%E5%BA%8F%E5%88%97%E6%8E%A8%E8%8D%90&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzI5Njk0OTQsInEiOiLluo\_liJfmjqjojZAiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTE0MTYxODcsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.wtTQXy-K2qniuhU8jJdgupvtgwQPvA\_-MK3k-S8OQtk&zhida\_source=entity)、[联邦推荐](https://zhida.zhihu.com/search?content\_id=251416187&content\_type=Article&match\_order=1&q=%E8%81%94%E9%82%A6%E6%8E%A8%E8%8D%90&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzI5Njk0OTQsInEiOiLogZTpgqbmjqjojZAiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTE0MTYxODcsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.iU\_Y9nfAcK7LGKY7Z8VkdmzfA\_L3jbbejcwlY7586PE&zhida\_source=entity)、推荐中的[负采样](https://zhida.zhihu.com/search?content\_id=251416187&content\_type=Article&match\_order=1&q=%E8%B4%9F%E9%87%87%E6%A0%B7&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzI5Njk0OTQsInEiOiLotJ\_ph4fmoLciLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTE0MTYxODcsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.pltWis-8jqTrLWJZPMbLRWmi7gVXQd6NSZZr-Ui057g&zhida\_source=entity)、联邦多场景多任务推荐、评论推荐、[在线广告](https://zhida.zhihu.com/search?content\_id=251416187&content\_type=Article&match\_order=1&q=%E5%9C%A8%E7%BA%BF%E5%B9%BF%E5%91%8A&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzI5Njk0OTQsInEiOiLlnKjnur\_lub\_lkYoiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTE0MTYxODcsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.-I0XTV9SiexNSGtPHxPWd58B01AasGZla75FxzARHww&zhida\_source=entity)、[多行为推荐](https://zhida.zhihu.com/search?content\_id=251416187&content\_type=Article&match\_order=1&q=%E5%A4%9A%E8%A1%8C%E4%B8%BA%E6%8E%A8%E8%8D%90&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzI5Njk0OTQsInEiOiLlpJrooYzkuLrmjqjojZAiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTE0MTYxODcsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.UhN4ccjUnbQGehCYgM6esT7gW35UNyWRn6ixeeBLM9g&zhida\_source=entity)、[图推荐](https://zhida.zhihu.com/search?content\_id=251416187&content\_type=Article&match\_order=1&q=%E5%9B%BE%E6%8E%A8%E8%8D%90&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzI5Njk0OTQsInEiOiLlm77mjqjojZAiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTE0MTYxODcsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.q30yGyVoQWCUmh5MgueLtwwGg4sm2F3ztOk91UNa-7s&zhida\_source=entity)、跨域推荐、[套装推荐](https://zhida.zhihu.com/search?content\_id=251416187&content\_type=Article&match\_order=1&q=%E5%A5%97%E8%A3%85%E6%8E%A8%E8%8D%90&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzI5Njk0OTQsInEiOiLlpZfoo4XmjqjojZAiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTE0MTYxODcsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.-4szKTrB93iplx7a-vni1IOd-zwc6EM43mWAnrko4YE&zhida\_source=entity)、大模型[冷启动推荐](https://zhida.zhihu.com/search?content\_id=251416187&content\_type=Article&match\_order=1&q=%E5%86%B7%E5%90%AF%E5%8A%A8%E6%8E%A8%E8%8D%90&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzI5Njk0OTQsInEiOiLlhrflkK\_liqjmjqjojZAiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTE0MTYxODcsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.dDE3erZ1OMdesYgU1pZOC1Z61WkDsKvO9vNjH9qdbhc&zhida\_source=entity)、可解释点击率预估、多样性推荐、对话推荐等。
+更多接收论文可前往官网查阅。
+下文将列出相关的论文列表，供大家提前领略学术前沿趋势与牛人的最新想法。
+\*\*Review-Based Hyperbolic Cross-Domain Recommendation\*\* Yoonhyuk Choi (Seoul National University)\\*; Jiho Choi (KAIST); Taewook Ko (Seoul National University); Chong-kwon Kim (Korea Institute of Energy Technology)
+\*\*S-Diff: An Anisotropic Diffusion Model for Collaborative Filtering in Spectral Domain\*\*
+Rui Xia (Nanjing University of Aeronautics and Astronautics)\\*; Yanhua Cheng (Kuaishou); Yongxiang Tang (Kuaishou); Liu Xiaocheng (Kuaishou); Xialong Liu (kuaishou); lisong wang (Nanjing university of aeronautics and astronautics); Peng Jiang (Kuaishou Technology)
+\*\*Large Language Model driven Policy Exploration for Recommender Systems\*\*
+jie wang (university of glasgow)\\*; Alexandros Karatzoglou (Google Deepmind); Ioannis Arapakis (Telefonica Research); Joemon M Jose ( University of Glasgow)
+\*\*Combating Heterogeneous Model Biases in Recommendations via Boosting\*\*
+Jinhao Pan (George Mason University)\\*; James Caverlee (Texas A&M University); Ziwei Zhu (George Mason University)
+\*\*Teach Me How to Denoise: a Universal Framework for Denoising Multi-modal Recommender Systems via Guided Calibration\*\*
+Hongji Li (Westlake University)\\*; Hanwen Du (The Ohio State University); Youhua li (ShanghaiTech University); Junchen Fu (University of Glasgow); Chunxiao Li (University of Science and Technoloogy of China); Ziyi Zhuang (Shanghai Jiao Tong University); Jiakang Li (Rutgers University); Yongxin Ni (National University of Singapore)
+\*\*DDualSE: Decoupled Dual-head Squeeze and Excitation Attention for Sequential Recommendation\*\*
+Nijia Mo (Shanghai University of International Business and Economics ); Jianxiang Zang (Shanghai University of International Business and Economics); Zhan Wang (Shanghai University of International Business and Economics); Hui Liu (Shanghai University of International Business and Economics)\\*
+\*\*Privacy-Preserving Orthogonal Aggregation for Guaranteeing Gender Fairness in Federated Recommendation\*\*
+Siqing Zhang (University of Science and Technology of China); Yuchen Ding (University of Science and Technology of China); Wei Tang (University of Science and Technology of China); Wei Sun (University of Science and Technology of China); Yong Liao (University of Sciences and Technology of China)\\*; Peng Yuan Zhou (Aarhus University )
+\*\*SCONE: A Novel Stochastic Sampling to Generate Contrastive Views and Hard Negative Samples for Recommendation\*\*
+Chaejeong Lee (Yonsei University); Jeongwhan Choi (Yonsei University); Hyowon Wi (KAIST); Sung-Bae Cho (Yonsei University); Noseong Park (KAIST)\\*
+\*\*Towards Personalized Federated Multi-Scenario Multi-Task Recommendation\*\*
+Yue Ding (Shanghai Jiao Tong University)\\*; Yanbiao Ji (Shanghai Jiao Tong University); Xun Cai (Shanghai Jiao Tong University); Xin Xin (Shandong University); Yuxiang Lu (Shanghai Jiao Tong University); Suizhi Huang (Shanghai Jiao Tong University); Chang Liu (Shanghai Jiao Tong University); Xiaofeng Gao (Shanghai Jiaotong University); Tsuyoshi Murata (Tokyo Institute of Technology); Hongtao Lu (Shanghai Jiao Tong University)
+\*\*An aspect performance-aware hypergraph neural network for review-based recommendation\*\*
+Junrui Liu (Beijing University of Technology); Tong Li (Beijing University of Technology)\\*; Wu Di (Beijing Police College); Zifang Tang (Beijing University of Technology); Yuan Fang (Singapore Management University); Zhen Yang (Beijing University of Technology)
+\*\*Balancing Revenue and Privacy with Signaling Schemes in Online Ad Auctions\*\*
+Hongtao Liu (Renmin University of China)\\*; Luxi Chen (Renmin University of China); Yiming Ding (Kuaishou); changcheng Li (Kuaishou Technology); Han Li (Kuaishou); Peng Jiang (Kuaishou Technology); Weiran Shen (Renmin University of China)
+\*\*A Contrastive Framework with User, Item and Review Alignment for Recommendation\*\*
+Hoang V. Dong (Singapore Management University)\\*; Yuan Fang (Singapore Management University); Hady W. Lauw (Singapore Management University)
+\*\*DeMBR: Denoising Model with Memory Pruning and Semantic Guidance for Multi-Behavior Recommendation\*\*
+Shuai Zhang (Xidian University); Hua Chu (Xidian University); Jianan Li (Xidian University); Yangtao Zhou (Xidian University)\\*; Shirong Wang (Xidian University); Qiaofei Sun (Xidian University)
+\*\*Progressive Tasks Guided Multi-Source Network for Customer Lifetime Value Prediction in Online Advertising\*\*
+Zheng Pan (OPPO)\\*; Xingyu Lou (OPPO); Xiao Jin (OPPO); Chiye Ou (OPPO); Feng Liu (OPPO Research Institute); Tieyong Zeng (The Chinese University of Hong Kong); Chengwei He (OPPO); Xiang Liu (OPPO); Lilong Wei (OPPO); Jun Wang (OPPO Research Institute)
+\*\*Exploration and Exploitation of Hard Negative Samples for Cross-Domain Sequential Recommendation\*\*
+Yidan Wang (Shandong University); Xuri Ge (Shandong University); Xin Chen (Tencent); Ruobing Xie (Tencent); yan su (tencent); Xu Zhang (WeChat Search Application Department, Tencent); Zhumin Chen (Shandong University); Jun Ma (Shandong University); Xin Xin (Shandong University)\\*
+\*\*Simple Graph Neural Networks for Recommendation\*\*
+Guoxuan Chen (The University of Hong Kong)\\*; Lianghao Xia (University of Hong Kong); Chao Huang (University of Hong Kong)
+\*\*AMLCDR: An Adaptive Meta-Learning Model for Cross-Domain Recommendation by Aligning Preference Distributions\*\*
+Fanqi Meng (Beijing Jiaotong University); Zhiyuan Zhang (Beijing Jiaotong University)\\*
+\*\*Oracle-guided Dynamic User Preference Modeling for Sequential Recommendation\*\*
+Jiafeng Xia (Fudan University)\\*; Dongsheng Li (Microsoft Research Asia); Hansu Gu ( [http://Amazon.com](https://link.zhihu.com/?target=http%3A//Amazon.com)); Tun Lu (Fudan University); Peng Zhang (Fudan University); Li Shang (Fudan University); Ning Gu (Fudan University)
+\*\*Personalised Outfit Recommendation via History-aware Transformers\*\*
+Myong Chol Jung (Amazon)\\*; Julien Monteil (Amazon); Philip Schulz (Amazon); Volodymyr Vaskovych (Amazon)
+\*\*LLM Simulator for Online Billion-Scale Item Cold-Start Recommendation\*\*
+Feiran Huang (Jinan University); Yuanchen Bei (Zhejiang University); Zhenghang Yang (Jinan University); Junyi Jiang (Jinan University); Hao Chen (The Hong Kong Polytechnic University)\\*; Qijie Shen (Alibaba Group); Senzhang Wang (Central South University); Fakhri Karray (University of Waterloo); Philip S Yu (UIC)
+\*\*Explainable CTR prediction via LLM reasoning\*\*
+Xiaohan Yu (Huawei Inc.)\\*; Li . Zhang (University College London); Chong Chen (huawei)
+\*\*Facet-Aware Multi-Head Mixture-of-Experts Model for Sequential Recommendation\*\*
+Mingrui Liu (Nanyang Technological University)\\*; Sixiao Zhang (Nanyang Technological University); Cheng Long (Nanyang Technological University)
+\*\*Temporal Linear Item-Item Model for Sequential Recommendation\*\*
+Seongmin Park (Sungkyunkwan University)\\*; Mincheol Yoon (Sungkyunkwan University); Minjin Choi (Sungkyunkwan University); Jongwuk Lee (Sungkyunkwan University)
+\*\*DimeRec: A Unified Framework for Enhanced Sequential Recommendation via Generative Diffusion Models\*\*
+Wuchao Li (University of Science and Technology of China)\\*; Rui Huang (Kuaishou); Haijun Zhao (Sun Yat-Sen University); Chi Liu (kuaishou); Kai Zheng (Kuaishou); Qi Liu (University of Science and Technology of China); Na Mou (Kuaishou Technology); Guorui Zhou (Kuaishou); Defu Lian (University of Science and Technology of China); Yang Song (Kuaishou Technology); Wentian Bao (Kuaishou); enyun yu (kuaishou); wenwu ou (alibaba)
+\*\*Fusion Matters: Learning Fusion in Deep Click-through Rate Prediction Models\*\*
+Kexin Zhang (Northwestern University)\\*; Fuyuan Lyu (McGill University); Xing Tang (Tencent); Dugang Liu (Guangdong Laboratory of Artificial Intelligence and Digital Economy (SZ), Shenzhen University); Chen Ma (City University of Hong Kong); Kaize Ding (Northwestern University); Xiuqiang He (Tencent); Xue Liu (McGill University)
+\*\*Spectrum-based Modality Representation Fusion Graph Convolutional Network for Multi-modal Recommendation\*\*
+Rongqing Kenneth Ong (Nanyang Technological University)\\*; Andy W H Khong (Nanyang Technological University)
+\*\*Sequentially Diversified and Accurate Recommendations in Chronological Order for a Series of Users\*\*
+Jongjin Kim (Seoul National University)\\*; U Kang (Seoul National University)
+\*\*Improving CTR Prediction with Graph-Enhanced Interest Networks for Sparse Behavior Sequences\*\*
+Xuanzhou Liu (Alibaba Group)\\*; Zhibo Xiao (Alibaba Group); Luwei Yang (Alibaba Group); Hansheng Xue (The Australian National University); Jianxing Ma (Alibaba Group); Yujiu Yang (Tsinghua University)
+\*\*HaGAR: Hardness-aware Generative Adversarial Recommender\*\*
+Yuan-Heng Lee (National Yang Ming Chiao Tung University); Jia-Ching Ying (National Chung Hsing University); Vincent S. Tseng (National Yang Ming Chiao Tung University)\\*
+\*\*UIPN: User Intent Profiling Network for Multi Behavior Modeling in CTR Prediction\*\*
+Xu Yang (Tencent)\\*; Guangyuan Yu (Tencent); Jun He (Tencent)
+\*\*DLCRec: A Novel Approach for Managing Diversity in LLM-Based Recommender Systems\*\*
+Jiaju Chen (University of Science and Technology of China)\\*; Chongming Gao (University of Science and Technology of China); Shuai Yuan (Hong Kong University of Science and Technology); Shuchang Liu (Kuaishou Technology); Qingpeng Cai (Kuashou Inc.); Peng Jiang (Kuaishou Technology)
+\*\*Reindex-Then-Adapt: Improving Large Language Models for Conversational Recommendation\*\*
+Zhankui He (UC San Diego)\\*; Zhouhang Xie (University of California, San Diego); Harald Steck (Netflix); Dawen Liang (Netflix); Rahul Jha (Netflix); Nathan Kallus (Netflix); Julian McAuley (UCSD)
+\*\*Adaptive Loss-based Curricula for Neural Team Recommendation\*\*
+Reza R.B Barzegar (University of windsor); Marco N Kurepa (University of British Columbia); Hossein Fani (University of Windsor)\\*
+\*\*How Do Recommendation Models Amplify Popularity Bias? An Analysis from the Spectral Perspective\*\*
+Siyi Lin (Zhejiang university); Chongming Gao (University of Science and Technology of China); Jiawei Chen (Zhejiang University)\\*; Sheng Zhou (Zhejiang University); Binbin Hu (Ant Group); Yan Feng (Zhejiang University); Chun Chen (Zhejiang University); Can Wang (Zhejiang University)
+\*\*Your causal self-attentive recommender hosts a lonely neighborhood\*\*
+Yueqi Wang (University of California, Berkeley)\\*; Zhankui He (UC, San Diego); Zhenrui Yue (University of Illinois Urbana-Champaign); Julian McAuley (UCSD); Dong Wang (University of Illinois Urbana-Champaign)
+\*\*Heterogeneous Disentangled Collaborative Filtering\*\*
+Lianghao Xia (University of Hong Kong); Meiyan Xie (South China University of Technology); Yong Xu (South China University of Technology); Chao Huang (University of Hong Kong)\\*
+\* \* \*
+## \*\*欢迎干货投稿 \ 论文宣传 \ 合作交流\*\*
+发布于 2024-12-10 21:48・澳大利亚
+[推荐系统](https://www.zhihu.com/topic/19563024)
+[顶会](https://www.zhihu.com/topic/27068233)
+[论文](https://www.zhihu.com/topic/19572442)
+​赞同 12​​添加评论​21 ​喜欢
+​分享
+​申请转载​
+​
+暂无评论
+关于作者
+[![机器学习推荐算法](https://picx.zhimg.com/v2-287928eb839ec98a7ed6ed48d80775f7\_l.jpg?source=172ae18b)](https://www.zhihu.com/people/hongleizhang)
+[机器学习推荐算法](https://www.zhihu.com/people/hongleizhang)
+欢迎关注wx公众号: 机器学习与推荐算法
+[回答](https://www.zhihu.com/people/hongleizhang/answers) [文章](https://www.zhihu.com/people/hongleizhang/posts) [关注者](https://www.zhihu.com/people/hongleizhang/followers)
+​关注他​发私信
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码

@@ -1,0 +1,170 @@
+# Source URL: https://segmentfault.com/a/1190000047694154
+# Content Length: 9598 characters
+# Extracted at: 2026-04-06 22:34:43
+#============================================================
+
+# [大翻脸！Anthropic 封杀 OpenClaw：龙虾之父说服失败，一周推迟后彻底断供](https://segmentfault.com/a/1190000047694154)
+[![头像](https://avatar-static.segmentfault.com/424/154/4241544123-69a295188caae\_huge128)\\
+\\
+\*\*七牛云行业应用\*\*](https://segmentfault.com/u/shenyongweiwudedahai\_ay15n) [今天 00:03 辽宁](https://segmentfault.com/a/1190000047694154/revision)
+阅读 4 分钟
+0 [评论](https://segmentfault.com/a/1190000047694154#comment-area)
+太平洋时间 2026 年 4 月 4 日中午 12 点，Anthropic 正式切断了 OpenClaw 等所有第三方工具对 Claude 订阅额度的调用权限。 \*\*这不是技术故障，而是蓄谋已久的商业决策\*\*：Anthropic 先用四个月复制了 OpenClaw 的核心功能，再在今天彻底关门。创始人 Peter Steinberger 和投资人 Dave Morin 亲赴游说，只换来一周的缓刑。
+![](https://segmentfault.com/img/bVdohAG)
+\* \* \*
+## OpenClaw 是什么：一个用 Claude 造的 Claude 替代品
+\*\*OpenClaw 是一款让 AI 在后台 7×24 小时自主执行任务的 Agent 框架，而它的所有代码，全部由 Claude Code 自动生成。\*\*
+创始人 Peter Steinberger，iOS 开发界的传奇人物，PSPDFKit 创始人，自称在 OpenClaw 里"一行代码都没亲自写过"——他只负责用自然语言描述需求。产品的底层同样是 Claude：超长上下文、Agent 工具调用、多步骤推理规划，从灵魂到骨架，OpenClaw 脱胎于 Claude。
+核心能力一览：
+| 功能 | 描述 |
+| --- | --- |
+| 多渠道控制面 | 通过 WhatsApp、Discord、Telegram 收发指令 |
+| 全系统访问 | 文件读写、浏览器操控、代码执行、日历管理 |
+| 多 Agent 并行 | 单账号同时运行 10 个 Agent，全天候不停机 |
+| 订阅极致利用 | $200/月 Claude Max 可调用算力实测价值约 $5,000 |
+最后一条数据，正是 Anthropic 动手的根本原因。
+\* \* \*
+## 封锁时间线：从商标纠纷到彻底断供
+\*\*Anthropic 和 OpenClaw 的恩怨，远早于今天的断供公告。\*\*
+| 时间 | 事件 |
+| --- | --- |
+| 早期 | Anthropic 以商标侵权为由，要求工具从「Clawdbot（CLAWD.）」改名，先改为 Moltbot，最终定名 OpenClaw |
+| 2025-09-23 | 服务端开始对部分 OAuth Token 外部使用进行封锁，首现 `"This credential is only authorized for use with Claude Code"` 报错 |
+| 2026-01-07 | Anthropic 联系开源项目 `charmbracelet/crush`，要求删除 Claude Code 支持 |
+| 2026-01-08 | 全面执行 Token 限制，OpenClaw、OpenCode 等第三方工具 API 调用一律返回 401 |
+| 2026-01-09 | Anthropic Issue #17118 涌入 \*\*1,416 个 Reactions、410 条评论\*\*，当日被单方面关闭 |
+| 2026-02~03 | Anthropic 密集发布 Dispatch、Claude Code Channels、Computer Use——精确对标 OpenClaw 三项核心功能 |
+| 2026-03-28 | Peter Steinberger 和 Dave Morin 与 Anthropic 团队谈判，仅将封禁推迟一周 |
+| \*\*2026-04-04\*\* | \*\*正式断供\*\*：Claude 订阅不再覆盖任何第三方工具，OpenClaw 首当其冲 |
+\* \* \*
+## 真实原因：一个账号，相当于 25 倍超额使用
+\*\*Anthropic 官方理由是"容量管理"，但数字更直接：$200/月的 Claude Max 订阅被 OpenClaw 用户用出了 $5,000 的实际算力价值。\*\*
+流量分析揭示了技术层面的差距：
+| 客户端 | 每次对话请求数 | 遥测事件数 |
+| --- | --- | --- |
+| Claude Code（官方） | \*\*53 个\*\* | \*\*348 个\*\* |
+| OpenClaw（第三方） | \*\*3 个\*\* | 0 |
+Claude Max 订阅的定价基于"普通用户中等使用量"的精算模型。OpenClaw 用户恰恰是最重度的那批人：多 Agent 并行、全天候不停机、每次调用高度压缩请求数量。对 Anthropic 的服务器而言，这是结构性亏损。
+博主 Yuchen Jin 的判断：「200 美元/月的补贴力度惊人。考虑到 Claude 近期的稳定性问题，在 Anthropic 当前的 GPU 算力约束下，这一调整可能的确是正确的选择。」
+\* \* \*
+## 蹚路桥拆：Anthropic 先抄功能，再封 OpenClaw
+\*\*Peter Steinberger 的控诉，比"违反服务条款"更刺痛人心：Anthropic 先是将流行功能复制到封闭框架，然后才将开源软件拒之门外。\*\*
+对比两个月内 Anthropic 的新功能发布节奏，这一指控并非无凭：
+| OpenClaw 原有功能 | Anthropic 对应新功能 |
+| --- | --- |
+| 通过 WhatsApp 消息在桌面端执行任务 | \*\*Dispatch\*\*：手机到桌面的持久线程 |
+| Discord/Telegram 作为控制面 | \*\*Claude Code Channels\*\*：MCP 协议桥接多端 |
+| 完整操作系统访问 \+ 浏览器控制 | \*\*Computer Use + Claude Code\*\*：共享计算机访问权 |
+换句话说：是 OpenClaw 替 Anthropic 验证了用户需求，证明了市场存在。现在路蹚完了，桥被拆掉了。
+\* \* \*
+## 官方解释：Claude Code 负责人连发四条推文
+\*\*Claude Code 负责人 Boris Cherny 亲自出来解释，四条推文，语气从技术理性到官方收尾。\*\*
+\*\*第一条\*\*（宣布政策）：「明天中午 12 点 PT 起，Claude 订阅将不再覆盖 OpenClaw 等第三方工具的使用。」
+\*\*第二条\*\*（说原因）：「我们一直在努力应对 Claude 需求的增长，而我们的订阅服务，本来就不是为第三方工具的使用模式设计的。算力是我们需要审慎管理的资源，我们要优先保障使用自家产品和 API 的客户。」
+\*\*第三条\*\*（给补偿）：「订阅用户将获得一次性等额月费积分。如果需要更多，现在可以购买折扣使用包。明天的邮件会包含申请全额退款的链接。」
+\*\*第四条\*\*（收尾）：「我们希望有意识地管理增长，以长期持续地服务好我们的客户。这次变化是迈向这一目标的一步。」
+\* \* \*
+## 补偿方案与当前可用选项
+\*\*Anthropic 提供了一次性过渡补偿，但核心逻辑已变：想用 OpenClaw，得自己掏钱买 API。\*\*
+补偿内容：
+- 一次性等额月费积分（需在 4 月 17 日前领取）
+- 可申请全额退款（明天邮件中附链接）
+- 额外用量预购套餐最高 30% 折扣
+\*\*继续使用 OpenClaw 的三条路径：\*\*
+1. \*\*自备 Anthropic API Key\*\*（`sk-ant-api03-` 前缀）：不受 OAuth 封锁，按量计费
+2. \*\*开启额外用量功能\*\*：允许订阅用户单独为第三方调用付费，与订阅额度分开结算
+3. \*\*国内兼容端点\*\*：将 OpenClaw 的 `providers.anthropic.baseUrl` 指向国内 Anthropic 兼容端点，完全绕开 OAuth Token 机制，适合国内用户稳定访问：
+```
+{
+"providers": {
+"anthropic": {
+"baseUrl": "https://api.qnaigc.com",
+"apiKey": "your-api-key"
+}
+}
+}
+```
+对于想彻底摆脱 OAuth 依赖、不愿折腾代理的国内用户， [Linclaw](https://link.segmentfault.com/?enc=NtLihhhgF6IiOkCa%2F%2B1IQQ%3D%3D.%2BtkCrZjUaU1tH7AWpao%2F9k2WVG4mgbfcxj1I9xV1bhY%3D) 是七牛云推出的桌面版 OpenClaw 替代方案，macOS/Windows 双端安装包开箱即用，内置国产大模型，不依赖 Claude OAuth 认证链路。
+![](https://segmentfault.com/img/bVdohAH)
+\* \* \*
+## 创始人的去向：从 OpenClaw 到 OpenAI
+\*\*让这场封锁更具讽刺意味的，是 Peter Steinberger 今年初已加入 OpenAI。\*\*
+一个用 Claude 全程构建、深度依赖 Anthropic 生态的工具，其创始人现在效力于 Anthropic 最直接的竞争对手。Peter 在推文中留下了这段话：
+> 「我和 Dave Morin 尽力去说服 Anthropic，最终只是成功将此事推迟了一周。时间点真是巧合，他们先是将一些流行的功能复制到他们的封闭框架中，然后又将开源软件拒之门外。」
+博主 Peter Yang 给出了更宏观的判断：「Anthropic 和 OpenAI 现在都在用 100-200 美元/月的订阅价格，亏本补贴重度用户——就是当年 Uber 和 Lyft 疯狂烧钱的翻版。上市之后，这些亏本订阅计划必然撑不住。」
+\* \* \*
+## 常见问题
+\*\*Q：4 月 4 日之后，现有 Claude 订阅还能用 OpenClaw 吗？\*\*
+订阅额度不再覆盖第三方工具。可以继续用 OpenClaw，但 AI 调用费用需单独支付：要么在账号开启额外用量功能，要么自备 Anthropic API Key（`sk-ant-api03-`），后者按量计费，不受此次封锁影响。
+\*\*Q：一次性积分补偿怎么领？\*\*
+Anthropic 将在 4 月 4 日发出邮件，补偿金额等于你的月订阅价格，需在 \*\*4 月 17 日前\*\* 领取。若要全额退款，同一封邮件中附有退款链接。
+\*\*Q：Google 之前也封了 OpenClaw，逻辑一样吗？\*\*
+2026 年 2 月，多名用户因使用 OpenClaw 绕过 Gemini CLI 配额被 Google 永久封号，且无法申诉恢复。与 Anthropic 此次封锁逻辑相同：平台方检测到异常 API 消耗模式后单方面执行。建议 Gemini 用户仅使用标准付费 API Key。
+\*\*Q：Anthropic 有没有可能再开放？\*\*
+短期内可能性极低。Boris Cherny 的四条推文没有任何开放承诺，但市场压力存在：OpenAI 目前对第三方工具态度更开放，Codex 对第三方工具调用暂未设限。两家策略分化的结果，取决于谁的算力储备更能撑住重度用户。
+\*\*Q：OpenClaw 自己会怎么应对？\*\*
+目前 OpenClaw 已调整为"自备 API Key"的使用模式，OAuth 通道仍可能通过兼容端点维持运作，但不再是推荐方案。官方 Issues 中有大量关于迁移到标准 API Key 的讨论，参见 openclaw/openclaw/issues/559。
+\* \* \*
+## 结语
+Anthropic 封杀 OpenClaw 的完整弧线是： \*\*OpenClaw 验证需求 → Anthropic 复制功能 → 断开外部依赖\*\*。Boris Cherny 说的是容量管理，Peter Steinberger 说的是背刺。两件事都是真的，只是立场不同。
+对用户而言，选项比以前更清晰了：继续用 Claude 能力就自备 API Key，想摆脱 OAuth 不确定性就换兼容端点或国内替代方案。这场猫鼠游戏不会在 2026 年结束，只是规则变了。
+数据来源：Anthropic 官方邮件、Boris Cherny Twitter、Peter Steinberger Twitter、GitHub Issues、iFanr 报道，截至 2026 年 4 月 4 日。
+\* \* \*
+## 延伸资源
+- [Anthropic Issue #17118（封锁事件核心议题）](https://link.segmentfault.com/?enc=xMzRFQ%2B15yfI3g%2FowyaoQA%3D%3D.v%2FzKXok%2F3Ev9SBeiJ6Oz0szevs4sAc4cUzyACK4WeQJJkLxTn4wXYfBPqbsX0vA%2B4NPfmCLuHtOxrB9Yzrjcdw%3D%3D)
+- [OpenClaw Issue #559（OAuth Token 封锁记录）](https://link.segmentfault.com/?enc=ym0%2B6zjVz4OHzzbLWPKWAQ%3D%3D.Yuw%2BmFv4PmjwaCY0k6QbBnVsl6GNM%2Bn7DEE3ncPcUcu8XfmnDSnCVshqwtG0nAxH)
+- [Linclaw 桌面版（国内零部署方案）](https://link.segmentfault.com/?enc=Yo%2BkSIH37YxKIa912tNtXg%3D%3D.CV2rJqyGDLXtf%2Fif4uG2Et6kIpaydKe5UT6XODQjY0o%3D)
+[人工智能](https://segmentfault.com/t/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD) [claude](https://segmentfault.com/t/claude)
+赞收藏
+分享
+阅读 69 [发布于 今天 00:03](https://segmentfault.com/a/1190000047694154/revision)
+举报
+\* \* \*
+[![头像](https://avatar-static.segmentfault.com/424/154/4241544123-69a295188caae\_huge128)](https://segmentfault.com/u/shenyongweiwudedahai\_ay15n)
+[\*\*七牛云行业应用\*\*](https://segmentfault.com/u/shenyongweiwudedahai\_ay15n)
+1 声望4 粉丝
+关注作者
+\* \* \*
+« 上一篇
+[如何安全替换OpenClaw？NanoBot与飞书大模型接入指南](https://segmentfault.com/a/1190000047692636)
+下一篇 »
+[OpenClaw 是什么：一个用 Claude 造的 Claude 替代品](https://segmentfault.com/a/1190000047694154#item-1) [封锁时间线：从商标纠纷到彻底断供](https://segmentfault.com/a/1190000047694154#item-2) [真实原因：一个账号，相当于 25 倍超额使用](https://segmentfault.com/a/1190000047694154#item-3) [蹚路桥拆：Anthropic 先抄功能，再封 OpenClaw](https://segmentfault.com/a/1190000047694154#item-4) [官方解释：Claude Code 负责人连发四条推文](https://segmentfault.com/a/1190000047694154#item-5) [补偿方案与当前可用选项](https://segmentfault.com/a/1190000047694154#item-6) [创始人的去向：从 OpenClaw 到 OpenAI](https://segmentfault.com/a/1190000047694154#item-7) [常见问题](https://segmentfault.com/a/1190000047694154#item-8) [结语](https://segmentfault.com/a/1190000047694154#item-9) [延伸资源](https://segmentfault.com/a/1190000047694154#item-10)
+▲
+### 引用和评论
+\*\*推荐阅读\*\*
+[![头像](https://avatar-static.segmentfault.com/115/426/1154267036-5de60e2b2d436\_big64)\\
+\\
+\*\*模型、框架、量产工作流：原力灵机的“具身原生”答卷\*\* \\
+\\
+思否编辑部赞 21阅读 10.5k评论 13](https://segmentfault.com/a/1190000047604377?utm\_source=sf-similar-article) [![头像](https://avatar-static.segmentfault.com/976/932/976932169-6086027a790e9\_big64)\\
+\\
+\*\*我的2025：做项目、跑副业、见人、奔波、搬家、维权、再回上海\*\* \\
+\\
+程序员海军赞 11阅读 11.1k评论 5](https://segmentfault.com/a/1190000047547567?utm\_source=sf-similar-article) [![头像](https://avatar-static.segmentfault.com/908/317/908317681-699d1087288db\_big64)\\
+\\
+\*\*MetaGPT官方文档全攻略（2026最新版）\*\* \\
+\\
+AIAgent研究赞 1阅读 13.6k](https://segmentfault.com/a/1190000047589648?utm\_source=sf-similar-article) [![头像](https://avatar-static.segmentfault.com/115/426/1154267036-5de60e2b2d436\_big64)\\
+\\
+\*\*蚂蚁灵波科技正式开源 LingBot-Depth ：让机器人“看清”物理世界\*\* \\
+\\
+思否编辑部赞 3阅读 5k评论 1](https://segmentfault.com/a/1190000047577560?utm\_source=sf-similar-article) [![头像](https://avatar-static.segmentfault.com/515/124/515124115-64fe88be5ce5c\_big64)\\
+\\
+\*\*如何用 Fun-ASR-Nano 微调一个「听懂行话」的语音模型？丨Voice Agent 学习笔记\*\* \\
+\\
+RTE开发者社区赞 1阅读 3.1k](https://segmentfault.com/a/1190000047531578?utm\_source=sf-similar-article) [![头像](https://avatar-static.segmentfault.com/328/674/3286743184-68aeba39aebb8\_big64)\\
+\\
+\*\*实现高选择性底物设计，MIT联手哈佛用生成式AI发现全新蛋白酶切割模式\*\* \\
+\\
+超神经HyperAI赞 1阅读 3.1k](https://segmentfault.com/a/1190000047537328?utm\_source=sf-similar-article) [![头像](https://avatar-static.segmentfault.com/908/317/908317681-699d1087288db\_big64)\\
+\\
+\*\*Trae+Seed+Seedance2.0+MCP+Skills 漫短剧生成详细教程\*\* \\
+\\
+AIAgent研究赞 2阅读 2.3k](https://segmentfault.com/a/1190000047612610?utm\_source=sf-similar-article)
+\*\*0 条评论\*\*
+[得票](https://segmentfault.com/a/1190000047694154?sort=votes) [最新](https://segmentfault.com/a/1190000047694154?sort=newest)
+![头像](https://image-static.segmentfault.com/317/931/3179314346-5f61e47221e07)
+提交评论
+评论支持部分 Markdown 语法：``\*\*粗体\*\* \_斜体\_ [链接](http://example.com) `代码` - 列表 > 引用``。你还可以使用 `@`来通知其他用户。
+![preview](https://segmentfault.com/a/1190000047694154)
+![preview](https://segmentfault.com/a/1190000047694154)

@@ -1,0 +1,702 @@
+# Source URL: https://arxiv.org/html/2603.23183v1
+# Content Length: 124683 characters
+# Extracted at: 2026-04-01 11:39:10
+#============================================================
+
+Title:
+Content selection saved. Describe the issue below:
+Description:
+[License: arXiv.org perpetual non-exclusive license](https://info.arxiv.org/help/license/index.html#licenses-available)
+arXiv:2603.23183v1 \[cs.IR\] 24 Mar 2026
+# Reasoning over Semantic IDs Enhances Generative Recommendation
+Yingzhi He
+[heyingzhi@u.nus.edu](https://arxiv.org/html/2603.23183v1/mailto:heyingzhi@u.nus.edu)National University of SingaporeSingaporeSingapore, Yan Sun
+[sthen@mail.ustc.edu.cn](https://arxiv.org/html/2603.23183v1/mailto:sthen@mail.ustc.edu.cn)University of Science and Technology of ChinaHefeiChina, Junfei Tan
+[sober˙clever@mail.ustc.edu.cn](https://arxiv.org/html/2603.23183v1/mailto:sober%CB%99clever@mail.ustc.edu.cn)University of Science and Technology of ChinaHefeiChina, Yuxin Chen
+[yuxin.chen@u.nus.edu](https://arxiv.org/html/2603.23183v1/mailto:yuxin.chen@u.nus.edu)National University of SingaporeSingaporeSingapore, Xiaoyu Kong
+[kongxy@mail.ustc.edu.com](https://arxiv.org/html/2603.23183v1/mailto:kongxy@mail.ustc.edu.com)University of Science and Technology of ChinaHefeiChina, Chunxu Shen
+[lineshen@tencent.com](https://arxiv.org/html/2603.23183v1/mailto:lineshen@tencent.com)Tencent Inc.China, Xiang Wang
+[xiangwang1223@gmail.com](https://arxiv.org/html/2603.23183v1/mailto:xiangwang1223@gmail.com)University of Science and Technology of ChinaHefeiChina, An Zhang
+[an.zhang3.14@gmail.com](https://arxiv.org/html/2603.23183v1/mailto:an.zhang3.14@gmail.com)University of Science and Technology of ChinaHefeiChina and Tat-Seng Chua
+[dcscts@nus.edu.sg](https://arxiv.org/html/2603.23183v1/mailto:dcscts@nus.edu.sg)National University of SingaporeSingaporeSingapore
+###### Abstract.
+Recent advances in generative recommendation have leveraged pretrained LLMs by formulating sequential recommendation as autoregressive generation over a unified token space comprising language tokens and itemic identifiers, where each item is represented by a compact sequence of discrete tokens, namely Semantic IDs (SIDs).This SID-based formulation enables efficient decoding over large-scale item corpora and provides a natural interface for LLM-based recommenders to leverage rich world knowledge.Meanwhile, breakthroughs in LLM reasoning motivate reasoning-enhanced recommendation, yet effective reasoning over SIDs remains underexplored and challenging.Itemic tokens are not natively meaningful to LLMs; moreover, recommendation-oriented SID reasoning is hard to evaluate, making high-quality supervision scarce.
+To address these challenges, we propose SIDReasoner, a two-stage framework that elicits reasoning over SIDs by strengthening SID–language alignment to unlock transferable LLM reasoning, rather than relying on large amounts of recommendation-specific reasoning traces.Concretely, SIDReasoner first enhances SID-language alignment via multi-task training on an enriched SID-centered corpus synthesized by a stronger teacher model, grounding itemic tokens in diverse semantic and behavioral contexts.
+Building on this enhanced alignment, SIDReasoner further improves recommendation reasoning through outcome-driven reinforced optimization, which guides the model toward effective reasoning trajectories without requiring explicit reasoning annotations.Extensive experiments on three real-world datasets demonstrate the effectiveness of our reasoning-augmented SID-based generative recommendation.
+Beyond accuracy, the results highlight the broader potential of large reasoning models for generative recommendation, including improved interpretability and cross-domain generalization.
+Our codes are available at [https://github.com/HappyPointer/SIDReasoner](https://github.com/HappyPointer/SIDReasoner "").
+Recommendation, Large Language Models, Reasoning
+## 1\. Introduction
+Generative recommendation has recently emerged as a promising paradigm for sequential recommendation with an increasing attention on Semantic ID (SID)-based methods (Rajput et al., [2023](https://arxiv.org/html/2603.23183v1#bib.bib19 "Recommender systems with generative retrieval"); Wang et al., [2024a](https://arxiv.org/html/2603.23183v1#bib.bib21 "Learnable item tokenization for generative recommendation"); Zhou et al., [2025b](https://arxiv.org/html/2603.23183v1#bib.bib27 "OneRec technical report"), [c](https://arxiv.org/html/2603.23183v1#bib.bib28 "Onerec-v2 technical report"); Kong et al., [2025b](https://arxiv.org/html/2603.23183v1#bib.bib29 "MiniOneRec: an open-source framework for scaling generative recommendation")).
+By quantizing an item’s semantic embedding into a compact sequence of discrete identifiers called Semantic IDs (SID) (Hou et al., [2023](https://arxiv.org/html/2603.23183v1#bib.bib20 "Learning vector-quantized item representation for transferable sequential recommenders"); Rajput et al., [2023](https://arxiv.org/html/2603.23183v1#bib.bib19 "Recommender systems with generative retrieval")), item recommendation can be formulated as autoregressive generation task over SID sequences.
+This sequence prediction paradigm naturally aligns with the Transformer architecture,
+facilitating seamless integration of generative methods with pretrained large language models (LLMs), whose rich semantic knowledge can facilitate recommendation quality and cross-domain generalization (Zheng et al., [2024](https://arxiv.org/html/2603.23183v1#bib.bib30 "Adapting large language models by integrating collaborative semantics for recommendation"); He et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib31 "Plum: adapting pre-trained language models for industrial-scale generative recommendations")).
+Despite these advances, reasoning, one of the central capabilities behind recent breakthroughs of LLMs (Wei et al., [2022](https://arxiv.org/html/2603.23183v1#bib.bib37 "Chain-of-thought prompting elicits reasoning in large language models"); Wu et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib36 "Inference scaling laws: an empirical analysis of compute-optimal inference for llm problem-solving"); Hou et al., [2025b](https://arxiv.org/html/2603.23183v1#bib.bib49 "Advancing language model reasoning through reinforcement learning and inference scaling"); Guo et al., [2025a](https://arxiv.org/html/2603.23183v1#bib.bib46 "Deepseek-r1: incentivizing reasoning capability in llms via reinforcement learning")), remains at an early stage of exploration in generative recommendation, with its full potential yet to be uncovered.
+Existing approaches to reasoning in recommendation predominantly represent items with textual descriptions, leveraging the rich world knowledge of LLMs to comprehend item semantics and infer user intentions behind interactions (Tsai et al., [2024](https://arxiv.org/html/2603.23183v1#bib.bib54 "Leveraging llm reasoning enhances personalized recommender systems"); You et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib58 "R2ec: towards large recommender models with reasoning"); Fang et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib55 "Reason4Rec: large language models for recommendation with deliberative user preference alignment"); Tang et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib60 "Think before recommend: unleashing the latent reasoning power for sequential recommendation"); Zhang et al., [2025d](https://arxiv.org/html/2603.23183v1#bib.bib61 "Reinforced latent reasoning for llm-based recommendation"); Yu et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib57 "ThinkRec: thinking-based recommendation via llm")).
+These methods can be broadly categorized into two paradigms: explicit reasoning and latent reasoning.
+Explicit reasoning generates natural language rationales to explicitly articulate user preferences (Tsai et al., [2024](https://arxiv.org/html/2603.23183v1#bib.bib54 "Leveraging llm reasoning enhances personalized recommender systems"); Fang et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib55 "Reason4Rec: large language models for recommendation with deliberative user preference alignment"); Zeng et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib56 "Optimizing generative ranking relevance via reinforcement learning in xiaohongshu search"); Yu et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib57 "ThinkRec: thinking-based recommendation via llm"); You et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib58 "R2ec: towards large recommender models with reasoning"); Kong et al., [2025a](https://arxiv.org/html/2603.23183v1#bib.bib59 "Think before recommendation: autonomous reasoning-enhanced recommender")). The latent reasoning improves efficiency by skipping explicit chain-of-thought generation, but sacrifices interpretability and controllability (Tang et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib60 "Think before recommend: unleashing the latent reasoning power for sequential recommendation"); Zhang et al., [2025d](https://arxiv.org/html/2603.23183v1#bib.bib61 "Reinforced latent reasoning for llm-based recommendation"); Lin et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib62 "Order-agnostic identifier for large language model-based generative recommendation"); Dai et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib63 "Onepiece: bringing context engineering and reasoning to industrial cascade ranking system")).
+However, representing items purely with textual descriptions suffers from severe decoding inefficiency and item grounding issues, limiting its practicality in real-world systems (Li et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib35 "A survey of generative recommendation from a tri-decoupled perspective: tokenization, architecture, and optimization")).
+A recent promising direction avoids such issues by representing items with SIDs and expanding SID tokens into the LLM vocabulary. After the SID-language alignment training, the model can reason in language and recommend in SIDs within a unified representation space (He et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib31 "Plum: adapting pre-trained language models for industrial-scale generative recommendations"); Liu et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib32 "Onerec-think: in-text reasoning for generative recommendation")).
+While this paradigm offers new potential for reasoning in recommendation, its effectiveness critically depends on the quality of SID–language alignment, and existing successes largely rely on industrial-scale pretraining with substantial computational cost.
+In this work, we investigate how to achieve effective and data-efficient reasoning for generative recommendation over SIDs.
+Reasoning in recommendation is inherently challenging, as it models implicit user preferences that are not directly observable.
+This implicitness gives rise to two fundamental challenges: first, high-quality reasoning supervision is scarce and expensive to obtain.
+Second, the quality of recommendation reasoning is hard to evaluate given the implicit nature of user preferences.
+To tackle these challenges, we propose SIDReasoner, a data-efficient two-stage framework that elicits reasoning over SIDs by strengthening SID–language alignment to unlock transferable LLM reasoning.
+First, to mitigate the scarcity of high-quality recommendation reasoning supervision, we strengthen SID–language alignment as a complement alongside recommendation-specific reasoning traces, enabling general knowledge and reasoning abilities to better generalize to recommendation tasks.
+Concretely, we establish SID–language grounding through multi-task alignment, where the model comprehend semantics of SID tokens through a wide range of recommendation-related data.
+We further leverage a large teacher model with rich world knowledge to perform semantic expansion based on item titles, synthesizing more diverse and informative SID-centered descriptive texts.
+This enriched corpus exposes the model to broader and more fine-grained semantic associations for SID tokens, strengthening their alignment with natural language.
+Second, once the model attains a comprehensive understanding of SIDs and can transfer general knowledge to recommendation tasks, we enable it to self-explore reasoning patterns that are effective for recommendation.
+In the absence of a direct evaluation criterion for reasoning quality, we adopt Group Relative Policy Optimization (GRPO) (Shao et al., [2024](https://arxiv.org/html/2603.23183v1#bib.bib66 "Deepseekmath: pushing the limits of mathematical reasoning in open language models")) to provide outcome-based feedback and steer the model toward effective reasoning trajectories.
+Extensive experiments on three real-world datasets demonstrate that, with enriched SID–language alignment, effective SID alignment and reasoning can be achieved even at academic-scale dataset, enabling LLMs to perform effective reasoning-based generative recommendation in a data-efficient manner.
+Beyond effectiveness, our empirical results further reveal the broader potential of reasoning in recommendation, including strong cross-domain generalization and improved interpretability through explicit reasoning processes.
+We summarize our main contributions as follows:
+- •
+We investigate how to enable effective reasoning in SID-based generative recommendation, and propose a data-efficient framework that allows LLMs to reason over itemic tokens, alleviating the need for explicit reasoning supervision.
+- •
+We empirically demonstrate the broader potential of reasoning in recommendation beyond accuracy improvements ( \_cf.\_ Section [4.2.1](https://arxiv.org/html/2603.23183v1#S4.SS2.SSS1 "4.2.1. Reasoning Enhances In-Domain Performance. ‣ 4.2. Performance Comparison (RQ1) ‣ 4. Experiments ‣ Reasoning over Semantic IDs Enhances Generative Recommendation")), including cross-domain generalization ( \_cf.\_ Section [3.1](https://arxiv.org/html/2603.23183v1#S3.SS1 "3.1. Task Formulation ‣ 3. Methodoly ‣ Reasoning over Semantic IDs Enhances Generative Recommendation")) and interpretability ( \_cf.\_ Section [4.4.2](https://arxiv.org/html/2603.23183v1#S4.SS4.SSS2 "4.4.2. Case Study ‣ 4.4. Model Study (RQ3) ‣ 4. Experiments ‣ Reasoning over Semantic IDs Enhances Generative Recommendation")).
+- •
+We design and release an open-sourced reasoning-based generative recommendation pipeline, facilitating future investigations into reasoning-enhanced generative recommendation.
+## 2\. Related Work
+In this section, we briefly review the works related to this paper from two main categories: 1) generative recommendation, and 2) large reasoning models.
+![Refer to caption](https://arxiv.org/html/2603.23183v1/x1.png)Figure 1. Illustration of the overall framework of our proposed SIDReasoner.
+### 2.1. Generative Recommendation
+With the growing success of LLMs and the transformer architecture, generative recommendation has emerged as a promising research direction in the recommender systems. Existing studies in generative recommendation can be broadly classified into three categories: sparse ID-based methods, text-based methods, and semantic ID-based methods.
+Sparse ID-based methods represent each item as a unique identifier and serialize user interactions into token sequences, formulating recommendation as next-token prediction tasks (Zhai et al., [2024](https://arxiv.org/html/2603.23183v1#bib.bib1 "Actions speak louder than words: trillion-parameter sequential transducers for generative recommendations"); Geng et al., [2022](https://arxiv.org/html/2603.23183v1#bib.bib7 "Recommendation as language processing (rlp): a unified pretrain, personalized prompt & predict paradigm (p5)"); Agarwal et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib4 "Pinrec: outcome-conditioned, multi-token generative retrieval for industry-scale recommendation systems")). Existing explorationss has evolved along two major directions: incorporating additional features or contexts for controllable generation (Han et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib2 "Mtgr: industrial-scale generative recommendation framework in meituan"); Yan et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib3 "Unlocking scaling law in industrial recommendation systems with a three-step paradigm based large user model"); Agarwal et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib4 "Pinrec: outcome-conditioned, multi-token generative retrieval for industry-scale recommendation systems")), and optimizing token structures to improve efficiency (Huang et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib5 "Towards large-scale generative ranking"); Guo et al., [2025b](https://arxiv.org/html/2603.23183v1#bib.bib6 "Action is all you need: dual-flow generative ranking network for recommendation")).
+However, sparse ID-based methods suffer from scalability issues due to the large output space and are ineffective in cold-start and long-tail scenarios (Li et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib35 "A survey of generative recommendation from a tri-decoupled perspective: tokenization, architecture, and optimization")).
+Text-based methods represent each item using its natural language description and generate the textual description of the target item as the recommendation output (Cui et al., [2022](https://arxiv.org/html/2603.23183v1#bib.bib8 "M6-rec: generative pretrained language models are open-ended recommender systems"); Chu et al., [2023](https://arxiv.org/html/2603.23183v1#bib.bib15 "Leveraging large language models for pre-trained recommender systems"); Zhang et al., [2025a](https://arxiv.org/html/2603.23183v1#bib.bib9 "Recommendation as instruction following: a large language model empowered recommendation approach")).
+The pretrained language models, which preserve strong semantic understanding capabilities, are further fine-tuned on recommendation tasks (Bao et al., [2023](https://arxiv.org/html/2603.23183v1#bib.bib11 "Tallrec: an effective and efficient tuning framework to align large language model with recommendation"), [2025](https://arxiv.org/html/2603.23183v1#bib.bib12 "A bi-step grounding paradigm for large language models in recommendation systems"); Liao et al., [2024](https://arxiv.org/html/2603.23183v1#bib.bib14 "Llara: large language-recommendation assistant"); Chen et al., [2024](https://arxiv.org/html/2603.23183v1#bib.bib13 "On softmax direct preference optimization for recommendation")), exhibiting strong generalization to cold-start items and enabling more interpretable recommendations (Yang et al., [2023](https://arxiv.org/html/2603.23183v1#bib.bib17 "Large language model can interpret latent space of sequential recommender"); Lei et al., [2024](https://arxiv.org/html/2603.23183v1#bib.bib18 "Recexplainer: aligning large language models for explaining recommendation models")).
+However, generating long textual sequences also introduces substantial computational overhead and faces inherent challenges in reliably grounding the output to real-world items (Zhang et al., [2025c](https://arxiv.org/html/2603.23183v1#bib.bib10 "Llmtreerec: unleashing the power of large language models for cold-start recommendations"); Bao et al., [2024](https://arxiv.org/html/2603.23183v1#bib.bib16 "Decoding matters: addressing amplification bias and homogeneity issue in recommendations for large language models")), making such approaches difficult to deploy in practical recommendation systems.
+Semantic ID-based methods represent items with short sequences of discrete codes obtained by quantizing continuous item embeddings (Hou et al., [2023](https://arxiv.org/html/2603.23183v1#bib.bib20 "Learning vector-quantized item representation for transferable sequential recommenders"); Rajput et al., [2023](https://arxiv.org/html/2603.23183v1#bib.bib19 "Recommender systems with generative retrieval"); Kong et al., [2025b](https://arxiv.org/html/2603.23183v1#bib.bib29 "MiniOneRec: an open-source framework for scaling generative recommendation")). Semantic IDs (SIDs) offer a trade-off between semantic expressiveness and decoding efficiency, preserving rich semantic information under a compact decoding space.
+Subsequent studies further extend this paradigm by integrating collaborative signals into SID construction (Wang et al., [2024a](https://arxiv.org/html/2603.23183v1#bib.bib21 "Learnable item tokenization for generative recommendation"), [b](https://arxiv.org/html/2603.23183v1#bib.bib22 "Eager: two-stream generative recommender with behavior-semantic collaboration"); Xiao et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib23 "Unger: generative recommendation with a unified code via semantic and collaborative integration"); Zhou et al., [2025b](https://arxiv.org/html/2603.23183v1#bib.bib27 "OneRec technical report"), [c](https://arxiv.org/html/2603.23183v1#bib.bib28 "Onerec-v2 technical report")) and advancing quantization schemes to improve representation quality or generation efficiency (Hou et al., [2025a](https://arxiv.org/html/2603.23183v1#bib.bib26 "Generating long semantic ids in parallel for recommendation"); Wei et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib24 "CoFiRec: coarse-to-fine tokenization for generative recommendation"); Zhong et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib25 "Pctx: tokenizing personalized context for generative recommendation")).
+Meanwhile, recent efforts explore the integration of Semantic IDs into pretrained language models by aligning SID tokens with the semantic space of LLMs (Zheng et al., [2024](https://arxiv.org/html/2603.23183v1#bib.bib30 "Adapting large language models by integrating collaborative semantics for recommendation"); He et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib31 "Plum: adapting pre-trained language models for industrial-scale generative recommendations"); Liu et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib32 "Onerec-think: in-text reasoning for generative recommendation"); Zhou et al., [2025a](https://arxiv.org/html/2603.23183v1#bib.bib33 "OpenOneRec technical report"); Hong et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib34 "EAGER-llm: enhancing large language models as recommenders through exogenous behavior-semantic integration")). This enables models to speak in natural language as well as recommend by generating SIDs. Such integration unlocks new capabilities of generative recommendation, including interactive recommendation, explainable decision-making, and explicit reasoning over user–item interactions (Liu et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib32 "Onerec-think: in-text reasoning for generative recommendation")).
+### 2.2. Large Reasonging Models
+In large language models, reasoning decomposes complex problems into a series of simpler steps and allows the model to answer with higher confidence through an additional reasoning process (Kojima et al., [2022](https://arxiv.org/html/2603.23183v1#bib.bib38 "Large language models are zero-shot reasoners"); Zelikman et al., [2022](https://arxiv.org/html/2603.23183v1#bib.bib45 "Star: bootstrapping reasoning with reasoning"); Snell et al., [2024](https://arxiv.org/html/2603.23183v1#bib.bib47 "Scaling llm test-time compute optimally can be more effective than scaling model parameters"); Wang et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib52 "Beyond the 80/20 rule: high-entropy minority tokens drive effective reinforcement learning for llm reasoning")).
+This is most commonly reflected in Chain-of-Thought (CoT) (Wei et al., [2022](https://arxiv.org/html/2603.23183v1#bib.bib37 "Chain-of-thought prompting elicits reasoning in large language models")), which introduces explicit token-level intermediate steps and trains or prompts the model to solve complex problems by generating these steps prior to the final answer.
+The quality of reasoning can be further improved by allocating additional inference-time computation, for example through parallel sampling (Wang et al., [2022](https://arxiv.org/html/2603.23183v1#bib.bib39 "Self-consistency improves chain of thought reasoning in language models"); Lightman et al., [2023](https://arxiv.org/html/2603.23183v1#bib.bib40 "Let’s verify step by step"); Xie et al., [2023](https://arxiv.org/html/2603.23183v1#bib.bib41 "Self-evaluation guided beam search for reasoning")), and iterative refinement (Kamoi et al., [2024](https://arxiv.org/html/2603.23183v1#bib.bib42 "When can llms actually correct their own mistakes? a critical survey of self-correction of llms"); Huang et al., [2023](https://arxiv.org/html/2603.23183v1#bib.bib43 "Large language models cannot self-correct reasoning yet"); Welleck et al., [2022](https://arxiv.org/html/2603.23183v1#bib.bib44 "Generating sequences by learning to self-correct")). Moreover, beyond heuristic control at inference time, reinforcement learning with verifiable rewards provides a more direct way to refine the reasoning process, improving both the reliability of intermediate inference and final correctness (Guo et al., [2025a](https://arxiv.org/html/2603.23183v1#bib.bib46 "Deepseek-r1: incentivizing reasoning capability in llms via reinforcement learning"); Hou et al., [2025b](https://arxiv.org/html/2603.23183v1#bib.bib49 "Advancing language model reasoning through reinforcement learning and inference scaling"); Arora and Zanette, [2025](https://arxiv.org/html/2603.23183v1#bib.bib50 "Training language models to reason efficiently"); Aggarwal and Welleck, [2025](https://arxiv.org/html/2603.23183v1#bib.bib51 "L1: controlling how long a reasoning model thinks with reinforcement learning")).
+Overall, large reasoning models can be understood as systems that explicitly control and allocate additional test-time computation to achieve stronger problem-solving performance (Wu et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib36 "Inference scaling laws: an empirical analysis of compute-optimal inference for llm problem-solving"); Sheng et al., [2025b](https://arxiv.org/html/2603.23183v1#bib.bib53 "On reasoning strength planning in large reasoning models"); Zhang et al., [2025b](https://arxiv.org/html/2603.23183v1#bib.bib48 "What, how, where, and how well? a survey on test-time scaling in large language models")).
+In recommendation systems, reasoning is similarly introduced to replace one-shot scoring with multi-step inference processes that progressively refine user intent and recommendation decisions. Existing explorations of incorporating reasoning into recommendation tasks can be broadly categorized into two directions: explicit reasoning and latent reasoning.
+The first direction, explicit reasoning, relies on explicit natural language rationales as intermediate inference steps, enabling interpretable and controllable multi-step recommendation (Tsai et al., [2024](https://arxiv.org/html/2603.23183v1#bib.bib54 "Leveraging llm reasoning enhances personalized recommender systems"); Fang et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib55 "Reason4Rec: large language models for recommendation with deliberative user preference alignment"); Zeng et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib56 "Optimizing generative ranking relevance via reinforcement learning in xiaohongshu search"); Yu et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib57 "ThinkRec: thinking-based recommendation via llm"); You et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib58 "R2ec: towards large recommender models with reasoning"); Kong et al., [2025a](https://arxiv.org/html/2603.23183v1#bib.bib59 "Think before recommendation: autonomous reasoning-enhanced recommender"); Liu et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib32 "Onerec-think: in-text reasoning for generative recommendation")).
+In contrast, the second direction, latent reasoning, performs multi-step inference by iteratively refining the model’s latent states in the continuous representation space, without relying on explicit natural language rationales (Zhang et al., [2025d](https://arxiv.org/html/2603.23183v1#bib.bib61 "Reinforced latent reasoning for llm-based recommendation"); Tang et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib60 "Think before recommend: unleashing the latent reasoning power for sequential recommendation"); Lin et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib62 "Order-agnostic identifier for large language model-based generative recommendation"); Dai et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib63 "Onepiece: bringing context engineering and reasoning to industrial cascade ranking system")).
+Despite recent progress, both directions still face substantial challenges. Explicit reasoning relies on high-quality recommendation-oriented reasoning data that is not naturally available, whereas latent reasoning lacks interpretability and controllability in the decision process.
+## 3\. Methodoly
+In this section, we present our reasoning-enhanced framework for generative recommendation, as illustrated in Figure [1](https://arxiv.org/html/2603.23183v1#S2.F1 "Figure 1 ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"). We first formalize the problem, then describe how we quantize items and align itemic tokens with natural language through multi-task training and enriched semantic corpus. Finally, we present reinforced optimization that enhances the model’s reasoning ability on recommendation.
+### 3.1. Task Formulation
+#### 3.1.1. Tokenization with Semantic IDs.
+Generative recommendation aims to generate the next item that a user is likely to interact with.
+Let 𝒰\\mathcal{U} and ℐ\\mathcal{I} denote the sets of users and items.
+For each user u∈𝒰u\\in\\mathcal{U}, a chronological interaction history is observed as
+ℋu=(i1,i2,…,iT)\\mathcal{H}\\_{u}=(i\\_{1},i\\_{2},\\ldots,i\\_{T}), where it∈ℐi\\_{t}\\in\\mathcal{I}, and the goal is to generate the next item iT+1i\\_{T+1} conditioned on ℋu\\mathcal{H}\\_{u}.
+To leverage a pretrained autoregressive LLM for recommendation, each item ii is represented as a sequence of discrete tokens that can be processed by next-token prediction.
+Besides the LLM language-token vocabulary 𝒱LM\\mathcal{V}\\_{\\text{LM}}, a recommendation-specific itemic token vocabulary 𝒮\\mathcal{S} is defined, and each item i∈ℐi\\in\\mathcal{I} is mapped to a fixed-length Semantic ID (SID) sequence:
+SID​(i)=(si1,si2,…,siL),sil∈𝒮,\\mathrm{SID}(i)=(s\\_{i}^{1},s\\_{i}^{2},\\ldots,s\\_{i}^{L}),s\\_{i}^{l}\\in\\mathcal{S},
+where LL is the SID length.
+The SID sequence is obtained by encoding the item metadata tit\\_{i} (e.g., title, category, and optionally a brief description) into a continuous semantic embedding and then quantizing it into LL discrete semantic tokens, yielding a compact tokenization that preserves item semantics.
+#### 3.1.2. Generative Recommendation with Reasoning.
+Under this formulation, generating the next item iT+1i\\_{T+1} corresponds to autoregressively generating its LL SID tokens from 𝒮\\mathcal{S}, \_i.e.,\_ one item generation is realized by LL consecutive next-token prediction steps over the itemic vocabulary.The token space of the LLM is augmented to include both natural language tokens and itemic tokens, i.e., 𝒱=𝒱LM∪𝒮\\mathcal{V}=\\mathcal{V}\\_{\\text{LM}}\\cup\\mathcal{S}, enabling textual reasoning and item generation within a unified autoregressive model.
+For each user uu, the interaction history ℋu=(i1,i2,…,iT)\\mathcal{H}\\_{u}=(i\\_{1},i\\_{2},\\ldots,i\\_{T}) is converted into itemic token sequences by mapping each interacted item iti\\_{t} to its SID sequence
+𝐲t=SID​(it)∈𝒮L\\mathbf{y}\\_{t}=\\mathrm{SID}(i\\_{t})\\in\\mathcal{S}^{L}.The history is then represented as a flattened itemic-token context
+ℋu=concat​(𝐲1,𝐲2,…,𝐲T)\\mathcal{H}\\_{u}=\\mathrm{concat}(\\mathbf{y}\\_{1},\\mathbf{y}\\_{2},\\ldots,\\mathbf{y}\\_{T}).
+Together with an instruction-style prompt 𝐩\\mathbf{p}, the model input is formed as
+𝒞u=\[𝐩;ℋu\]\\mathcal{C}\\_{u}=\[\\mathbf{p};\\mathcal{H}\\_{u}\].
+Conditioned on this context 𝒞u\\mathcal{C}\\_{u}, the recommender first generates an intermediate reasoning sequence τ=(r1,r2,…,rM)\\tau=(r\\_{1},r\\_{2},\\ldots,r\\_{M}), and subsequently generates the next item 𝐲T+1=SID​(T+1)\\mathbf{y}\\_{T+1}=\\mathrm{SID}(T+1).
+The overall generation process is modeled autoregressively as
+| | | | |
+| --- | --- | --- | --- |
+| (1) | | τ∼πθ(⋅∣𝒞u),𝐲T+1∼πθ(⋅∣𝒞u,τ),\\tau\\sim\\pi\\_{\\theta}(\\cdot\\mid\\mathcal{C}\\_{u}),\\quad\\mathbf{y}\\_{T+1}\\sim\\pi\\_{\\theta}(\\cdot\\mid\\mathcal{C}\\_{u},\\tau), | |
+where πθ\\pi\\_{\\theta} denotes the LLM-based generative policy. In this formulation, the reasoning sequence τ\\tau serves as an explicit intermediate inference step that guides the generation of the next item based on the user’s historical behavior.
+### 3.2. Enriched SID-Language Alignment
+#### 3.2.1. Item Quantization
+To obtain discrete Semantic IDs from item textual metadata, we adopt an item quantization based RQ-VAE (Zeghidour et al., [2021](https://arxiv.org/html/2603.23183v1#bib.bib64 "Soundstream: an end-to-end neural audio codec")), which has become a widely adopted tokenization method in generative recommendation (Rajput et al., [2023](https://arxiv.org/html/2603.23183v1#bib.bib19 "Recommender systems with generative retrieval")).
+Specifically, for each item i∈ℐi\\in\\mathcal{I}, we first encode its textual metadata tit\\_{i} into a continuous semantic representation 𝐳i∈ℝd\\mathbf{z}\\_{i}\\in\\mathbb{R}^{d} using a text encoder. The embedding is then fed into a quantization module, where a sequence of discrete codes is produced through a multi-stage residual quantization process. Concretely, we maintain LL codebooks {𝒞1,𝒞2,…,𝒞L}\\{\\mathcal{C}^{1},\\mathcal{C}^{2},\\ldots,\\mathcal{C}^{L}\\}, where each codebook 𝒞l={𝐞1l,…,𝐞Kl}\\mathcal{C}^{l}=\\{\\mathbf{e}^{l}\\_{1},\\ldots,\\mathbf{e}^{l}\\_{K}\\} contains KK code vectors.
+At quantization stage ll, the residual vector 𝐫l−1\\mathbf{r}^{l-1} is approximated by selecting the nearest codeword from 𝒞l\\mathcal{C}^{l}, and the residual is updated accordingly:
+| | | | |
+| --- | --- | --- | --- |
+| (2) | | sil=arg⁡mink⁡‖𝐫l−1−𝐞kl‖22,𝐫l=𝐫l−1−𝐞sill,s\\_{i}^{l}=\\arg\\min\\_{k}\\\|\\mathbf{r}^{l-1}-\\mathbf{e}^{l}\\_{k}\\\|\\_{2}^{2},\\quad\\mathbf{r}^{l}=\\mathbf{r}^{l-1}-\\mathbf{e}^{l}\\_{s\\_{i}^{l}}, | |
+with 𝐫0=𝐳i\\mathbf{r}^{0}=\\mathbf{z}\\_{i}. After LL stages, the item embedding is represented as the sum of the selected codewords across all levels.
+The resulting discrete indices (si1,si2,…,siL)(s\\_{i}^{1},s\\_{i}^{2},\\ldots,s\\_{i}^{L}) constitute the Semantic ID sequence SID​(i)\\mathrm{SID}(i) of item ii.
+The codebooks and the quantization module are optimized with a joint loss ℒRQ-VAE\\mathcal{L}\\_{\\text{RQ-VAE}} consisting of a reconstruction term ℒrecon\\mathcal{L}\\_{\\text{recon}} and a residual quantization regularization term ℒRQ\\mathcal{L}\\_{\\text{RQ}}. Specifically,
+| | | | |
+| --- | --- | --- | --- |
+| (3) | | ℒRQ-VAE=ℒrecon+ℒRQ,\\mathcal{L}\\_{\\text{RQ-VAE}}=\\mathcal{L}\\_{\\text{recon}}+\\mathcal{L}\\_{\\text{RQ}}, | |
+| | | | |
+| --- | --- | --- | --- |
+| (4) | | ℒrecon=‖𝐳i−𝐳^i‖22,\\mathcal{L}\\_{\\text{recon}}=\\\|\\mathbf{z}\\_{i}-\\hat{\\mathbf{z}}\\_{i}\\\|\\_{2}^{2}, | |
+| | | | |
+| --- | --- | --- | --- |
+| (5) | | ℒRQ=∑l=1L(‖sg​\[𝐫l−1\]−𝐞sill‖22+β​‖𝐫l−1−sg​\[𝐞sill\]‖22).\\mathcal{L}\\_{\\text{RQ}}=\\sum\\_{l=1}^{L}\\left(\\\|\\text{sg}\[\\mathbf{r}^{l-1}\]-\\mathbf{e}^{l}\\_{s\\_{i}^{l}}\\\|\\_{2}^{2}+\\beta\\\|\\mathbf{r}^{l-1}-\\text{sg}\[\\mathbf{e}^{l}\\_{s\\_{i}^{l}}\]\\\|\\_{2}^{2}\\right). | |
+where 𝐳^i\\hat{\\mathbf{z}}\\_{i} denotes the reconstructed embedding obtained from the decoder, sg​\[⋅\]\\text{sg}\[\\cdot\] denotes the stop-gradient operator and β\\beta controls the strength of the commitment term.
+The residual quantization scheme allows each item to be represented by a compact sequence of discrete SID tokens while preserving semantic fidelity, and enables efficient modeling within an autoregressive language model.
+#### 3.2.2. Multi-task Fine-tuning
+While SIDs provide a compact discrete representation of items, the corresponding SID tokens are newly introduced into the LLM vocabulary with randomly initialized embeddings, and therefore are semantically meaningless to the model before fine-tuning.
+To enable the model to understand, reason over, and generate SID tokens meaningfully in the recommendation context, we conduct a multi-task fine-tuning stage where SID tokens and natural language tokens co-occur across diverse recommendation scenarios. Through these tasks, the model jointly learns recommendation signals from SID sequences and the semantic correspondence between SID tokens and textual item descriptions, thereby achieving effective SID–language alignment.
+To this end, we adopt multiple recommendation-oriented tasks under a unified autoregressive objective, which can be grouped into two categories.
+- •
+Item prediction.
+Given a user’s historical interactions, the model is trained to predict future interactions, where items are represented with either SID sequences or textual descriptions. This task enables the model to capture behavioral patterns while grounding SID tokens in semantic item information.
+- •
+SID translation.
+To facilitate SID-language alignment, the model is further fine-tuned to translate SIDs, where the model generates the textual title from a given SID sequence and, conversely, the SID sequence from its textual title. This task encourages the model to associate SID tokens with their underlying semantic meanings in the language space.
+Due to space limitations, detailed data examples of each task are provided in appendix [C](https://arxiv.org/html/2603.23183v1#A3 "Appendix C Alignment Task Formats ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"). All tasks are jointly optimized under the standard next-token prediction objective, enabling effective SID–language alignment for generative recommendation.
+![Refer to caption](https://arxiv.org/html/2603.23183v1/x2.png)Figure 2. Illustration of enriched alignment corpus.
+#### 3.2.3. Enriched Corpus Pre-training
+Although the recommender benefits from multi-task training, the limited diversity of task formats leads to restricted and repetitive alignment between SID tokens and word tokens, which results in insufficient understanding of SID semantics and reduces the quality of item-related reasoning.
+To address this issue, we leverage a large teacher language model with rich world knowledge to synthesize a more semantically enriched item–language corpus for additional pre-training, as illustrated in Figure [2](https://arxiv.org/html/2603.23183v1#S3.F2 "Figure 2 ‣ 3.2.2. Multi-task Fine-tuning ‣ 3.2. Enriched SID-Language Alignment ‣ 3. Methodoly ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"). The goal is to provide more diverse and informative SID–language associations, thereby strengthening the model’s understanding of SID semantics. In particular, we augment the existing recommendation data from two perspectives.
+- •
+Item-centric semantic enrichment.
+For each item, the teacher model first expands its textual metadata into a structured semantic description, including attributes like usage scenarios, target users, key characteristics, \_etc.\_ and then generates a coherent paragraph that interleaves SID tokens with natural language. This produces training samples where SID tokens appear in semantically rich and linguistically diverse contexts, strengthening their alignment with underlying meanings.
+- •
+User-centric reasoning enrichment.
+Similarly, for each user interaction sequence, the teacher model infers the underlying motivations and generates a concise mixed SID–language description that summarizes user’s historical behavior, reasoning over motivations, and the resulting actions.
+These enriched samples strengthen SID–language alignment and, more importantly, associate SID tokens with user behavior reasoning.
+In addition, to prevent the model from overfitting to recommendation tasks and degrading its general language and reasoning abilities, we further mix the general-domain reasoning data into the alignment corpus. This auxiliary general data helps preserve the model’s original general reasoning ability while learning enriched SID–language associations.
+### 3.3. Reinforced Reasoning Enhancement
+#### 3.3.1. Cold-start Reasoning Activation
+Although the model acquires the ability to jointly reason and recommend through enriched SID–language alignment, it does not necessarily default to generating explicit reasoning before itemic predictions at inference time.
+To reliably activate the reasoning behavior, we introduce a lightweight cold-start reasoning activation stage.
+Specifically, we use teacher-generated reasoning from the alignment stage to construct supervised samples, and apply standard supervised fine-tuning to enforce a reason-then-recommend generation pattern, where the model first produces a reasoning sequence τ\\tau and then predicts the target SID sequence 𝐲T+1\\mathbf{y}\\_{T+1} conditioned on the user context 𝒞u\\mathcal{C}\\_{u}.
+It is worth noting that, due to prior SID–language alignment, the model already possesses the capability to perform reasoning-based recommendation.
+This stage mainly serves to improve the reliability of response formatting, ensuring that reasoning is consistently generated before recommendation.
+In practice, this activation step is lightweight and takes only a single epoch of fine-tuning.
+#### 3.3.2. Group-wise Reinforcement Learning
+After reasoning activation, the model has a more stable initialization for reasoning in recommendation. We further refine the model’s policy by reinforcement learning on recommendation tasks, where the policy πθ\\pi\\_{\\theta} is directly optimized with rewards from recommendation accuracy.
+To this end, we define the reward for a reasoning sequence τ\\tau and predicted item representation 𝐲\\mathbf{y} as
+| | | | |
+| --- | --- | --- | --- |
+| (6) | | Rθ​(τ,𝐲)=Rs​r​(𝐲,iT+1)+λ​Rf​(𝐲),R\\_{\\theta}(\\tau,\\mathbf{y})=R\\_{sr}(\\mathbf{y},i\\_{T+1})+\\lambda\\,R\\_{f}(\\mathbf{y}), | |
+where λ\\lambda is a balancing coefficient, Rs​r​(⋅)R\\_{sr}(\\cdot) and Rf​(⋅)R\\_{f}(\\cdot) are the stepwise rule-based reward and format reward, respectively.
+The stepwise rule-based reward Rs​r​(𝐲,iT+1)R\\_{sr}(\\mathbf{y},i\\_{T+1}) assesses the prediction quality by comparing the generated item representation 𝐲\\mathbf{y} with the ground-truth next item. Let LL be the length of the item representation and mm be the length of the longest correct prefix between 𝐲\\mathbf{y} and the ground-truth 𝐲T+1\\mathbf{y}\\_{T+1}, then
+| | | | |
+| --- | --- | --- | --- |
+| (7) | | Rs​r​(𝐲,iT+1)=12L−m,R\\_{sr}(\\mathbf{y},i\\_{T+1})=\\frac{1}{2^{\\,L-m}}, | |
+which provides a smoothly increasing reward as more tokens in 𝐲\\mathbf{y} match the ground truth, approaching 1 when the entire sequence is correct.
+The format reward Rf​(𝐲)R\\_{f}(\\mathbf{y}) checks if the prediction 𝐲\\mathbf{y} is structurally valid and corresponds to an existing item:
+| | | | |
+| --- | --- | --- | --- |
+| (8) | | Rf​(𝐲)={1,if ​𝐲​ maps to a catalog-existing item,0,otherwise,R\\_{f}(\\mathbf{y})=\\begin{cases}1,&\\text{if }\\mathbf{y}\\text{ maps to a catalog-existing item},\\\  
+0,&\\text{otherwise},\\end{cases} | |
+which encourages the model to generate valid and meaningful itemic token sequences.
+With the reward function defined, we optimize the policy πθ\\pi\\_{\\theta} using Group Relative Policy Optimization (GRPO) (Shao et al., [2024](https://arxiv.org/html/2603.23183v1#bib.bib66 "Deepseekmath: pushing the limits of mathematical reasoning in open language models")).
+For each user context 𝒞u\\mathcal{C}\\_{u}, we sample a group of KK reasoning–prediction trajectories
+{ok}k=1K\\{o^{k}\\}\\_{k=1}^{K} from the previous policy πθold\\pi\\_{\\theta\\_{\\text{old}}},
+where each trajectory ok=τk∘𝐲ko^{k}=\\tau^{k}\\circ\\mathbf{y}^{k} consists of a reasoning sequence followed by a SID prediction.
+Each trajectory is assigned an outcome-based reward RkR^{k}.
+GRPO performs group-wise normalization of rewards and updates the policy by maximizing the following clipped surrogate objective:
+| | | | | |
+| --- | --- | --- | --- | --- |
+| (9) | | ℒGRPO​(θ)=\\displaystyle\\mathcal{L}\\_{\\text{GRPO}}(\\theta)= | 𝔼𝒞u​\[1K​∑k=1Kmin⁡(ρk​(θ)​A^k,clip​(ρk​(θ),1−η,1+η)​A^k)\]\\displaystyle\\;\\mathbb{E}\\_{\\mathcal{C}\\_{u}}\\Bigg\[\\frac{1}{K}\\sum\\_{k=1}^{K}\\min\\!\\big(\\rho^{k}(\\theta)\\hat{A}^{k},\\,\\text{clip}(\\rho^{k}(\\theta),1-\\eta,1+\\eta)\\hat{A}^{k}\\big)\\Bigg\] | |
+| | | −β​DKL​(πθ∥πref),\\displaystyle\\;-\\beta\\,D\\_{\\mathrm{KL}}\\!\\big(\\pi\\_{\\theta}\\,\\\|\\,\\pi\\_{\\text{ref}}\\big), | |
+where ρk​(θ)=πθ​(ok∣𝒞u)πθold​(ok∣𝒞u)\\rho^{k}(\\theta)=\\frac{\\pi\\_{\\theta}(o^{k}\\mid\\mathcal{C}\\_{u})}{\\pi\\_{\\theta\\_{\\text{old}}}(o^{k}\\mid\\mathcal{C}\\_{u})}
+is the trajectory-level importance ratio,
+A^k\\hat{A}^{k} denotes the group-normalized advantage from {Rj}j=1K\\{R^{j}\\}\\_{j=1}^{K},
+η\\eta is the clipping threshold, and β\\beta controls KL regularization.
+By optimizing this objective, the model is encouraged to increase the likelihood of reasoning–prediction trajectories oko^{k} that yield higher relative reward, while suppressing less effective reasoning paths.
+This reinforced optimization progressively refines both the quality of generated reasoning and the accuracy of item prediction.
+Table 1. Performance comparison over different baseline methods. R is shorts for Recall, N is short for NDCG.
+| Models | Games | Office | Industrial |
+| R@5 | N@5 | R@10 | N@10 | R@5 | N@5 | R@10 | N@10 | R@5 | N@5 | R@10 | N@10 |
+| Caser | 0.0376 | 0.0241 | 0.0659 | 0.0332 | 0.0880 | 0.0663 | 0.1114 | 0.0738 | 0.0664 | 0.0528 | 0.0852 | 0.0588 |
+| GRU4Rec | 0.0329 | 0.0219 | 0.0599 | 0.0305 | 0.0682 | 0.0480 | 0.0974 | 0.0574 | 0.0788 | 0.0578 | 0.1030 | 0.0649 |
+| SASRec | 0.0501 | 0.0345 | 0.0723 | 0.0416 | 0.1019 | 0.0824 | 0.1167 | 0.0871 | 0.0807 | 0.0647 | 0.0964 | 0.0697 |
+| TIGER | 0.0489 | 0.0300 | 0.0763 | 0.0402 | 0.1270 | 0.1037 | 0.1429 | 0.1121 | 0.1003 | 0.0823 | 0.1325 | 0.0924 |
+| HSTU | 0.0539 | 0.0396 | 0.0746 | 0.0462 | 0.1204 | 0.1069 | 0.1323 | 0.1107 | 0.1008 | 0.0898 | 0.1138 | 0.0940 |
+| LETTER | 0.0445 | 0.0294 | 0.0709 | 0.0378 | 0.1315 | 0.1074 | 0.1520 | 0.1139 | 0.1080 | 0.0850 | 0.1389 | 0.0950 |
+| LCRec | 0.0441 | 0.0274 | 0.0876 | 0.0412 | 0.0964 | 0.0699 | 0.1487 | 0.0867 | 0.0805 | 0.0520 | 0.1330 | 0.0687 |
+| ReaRec | 0.0568 | 0.0381 | 0.0843 | 0.0470 | 0.1173 | 0.0988 | 0.1385 | 0.1057 | 0.0973 | 0.0796 | 0.1205 | 0.0870 |
+| R2ec | 0.0655 | 0.0399 | 0.0931 | 0.0525 | 0.1147 | 0.0894 | 0.1486 | 0.1004 | 0.0880 | 0.0774 | 0.1253 | 0.0774 |
+| SIDReasoner | 0.0710 | 0.0460 | 0.1031 | 0.0563 | 0.1373 | 0.1119 | 0.1648 | 0.1208 | 0.1109 | 0.0905 | 0.1438 | 0.1010 |
+#### 3.3.3. Reasoning Generalizes to Out-of-Domain Items.
+![Refer to caption](https://arxiv.org/html/2603.23183v1/x3.png)Figure 3. Performance comparison on cross-domain recommendation setting.
+## 4\. Experiments
+In this section, we present the experimental results and corresponding analysis to answer the following research questions (RQs).
+- •
+RQ1: How effective is our proposed SIDReasoner?
+- •
+RQ2: How does each part contribute to model performance?
+- •
+RQ3: What are the key properties of SIDReasoner?
+### 4.1. Experiment Settings
+#### 4.1.1. Datasets and Evaluation.
+Following prior works (Bao et al., [2024](https://arxiv.org/html/2603.23183v1#bib.bib16 "Decoding matters: addressing amplification bias and homogeneity issue in recommendations for large language models"), [2025](https://arxiv.org/html/2603.23183v1#bib.bib12 "A bi-step grounding paradigm for large language models in recommendation systems"); Chen et al., [2024](https://arxiv.org/html/2603.23183v1#bib.bib13 "On softmax direct preference optimization for recommendation")), we conduct experiments on three real-world datasets collected from Amazon platform (Hou et al., [2024](https://arxiv.org/html/2603.23183v1#bib.bib72 "Bridging language and items for retrieval and recommendation")): Video Games (Games), Office Products (Office), and Industrial and Scientific (Industrial). The datasets contain user interaction histories with each interacted item is associated with rich textual metadata.
+For all datasets, we first apply 5-core filtering to ensure that each user and each item has at least five interactions. To control sequence length and maintain a consistent modeling setting, we truncate each user’s historical interaction sequence using the sliding window with maximum length set to 10.
+We adopt a temporal split to simulate realistic recommendation scenarios. For each user, interactions are sorted chronologically and divided into training, validation, and test sets with a ratio of 8:1:1, where the most recent interactions are reserved for validation and testing. This time-aware partition ensures that the model is always evaluated on future behaviors. Detailed dataset statistics are presented in Appendix [A](https://arxiv.org/html/2603.23183v1#A1 "Appendix A Dataset Statistics ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+For evaluation metrics, we adopt Recall@K and NDCG@K with cutoff values K∈{5,10}K\\in\\{5,10\\}. We follow the full-item ranking setting, where ranking metrics are computed over the entire item set rather than sampled negatives, which is more closely aligned with real-world recommendation scenarios.
+#### 4.1.2. Baselines.
+To validate the effectiveness of our method, we compare SIDReasoner against three different categories of baselines:
+(1) traditional discriminative sequential recommenders, including
+Caser(Tang and Wang, [2018](https://arxiv.org/html/2603.23183v1#bib.bib67 "Personalized top-n sequential recommendation via convolutional sequence embedding")), GRU4Rec(Hidasi and Karatzoglou, [2018](https://arxiv.org/html/2603.23183v1#bib.bib68 "Recurrent neural networks with top-k gains for session-based recommendations")), and SASRec(Kang and McAuley, [2018](https://arxiv.org/html/2603.23183v1#bib.bib69 "Self-attentive sequential recommendation")), which model user behaviors from interaction sequences in a discriminative manner.
+(2) generative recommendation methods, including TIGER(Rajput et al., [2023](https://arxiv.org/html/2603.23183v1#bib.bib19 "Recommender systems with generative retrieval")), HSTU(Zhai et al., [2024](https://arxiv.org/html/2603.23183v1#bib.bib1 "Actions speak louder than words: trillion-parameter sequential transducers for generative recommendations")), LETTER(Wang et al., [2024a](https://arxiv.org/html/2603.23183v1#bib.bib21 "Learnable item tokenization for generative recommendation")), and LCRec(Zheng et al., [2024](https://arxiv.org/html/2603.23183v1#bib.bib30 "Adapting large language models by integrating collaborative semantics for recommendation"))
+(3) Reasoning-based recommendation methods, including ReaRec(Tang et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib60 "Think before recommend: unleashing the latent reasoning power for sequential recommendation")) which leverage latent reasoning, and R2​e​cR^{2}ec(You et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib58 "R2ec: towards large recommender models with reasoning")), which incorporate explicit textual reasoning into the recommendation process.
+Detailed descriptions of each baseline method are presented in Appendix [B](https://arxiv.org/html/2603.23183v1#A2 "Appendix B Baseline Methods ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+#### 4.1.3. Implementation Details.
+We adopt Qwen3-1.7B (Yang et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib70 "Qwen3 technical report")) as the backbone model and perform full-parameter fine-tuning throughout all stages. SID tokens are appended to the tokenizer vocabulary with randomly initialized embeddings. During SID–language alignment training, we use the AdamW optimizer (Loshchilov and Hutter, [2017](https://arxiv.org/html/2603.23183v1#bib.bib71 "Decoupled weight decay regularization")) with a batch size of 1024 and apply early stopping based on the model’s performance on predicting the groundtruth SID given historical SID sequences. For enriched corpus construction, we call the GPT4o-mini API to synthesize semantically enriched SID–language data. Detailed prompt design, data examples, and the mixture ratios of different training sources are provided in Appendix [C](https://arxiv.org/html/2603.23183v1#A3 "Appendix C Alignment Task Formats ‣ Reasoning over Semantic IDs Enhances Generative Recommendation") and Appendix [D](https://arxiv.org/html/2603.23183v1#A4 "Appendix D Prompts for Corpus Enrichment ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+In the reinforcement learning stage, we implement GRPO based on verl (Sheng et al., [2025a](https://arxiv.org/html/2603.23183v1#bib.bib73 "Hybridflow: a flexible and efficient rlhf framework")). We set the rollout number to 16, the KL regularization coefficient to 1×10−31\\times 10^{-3}, and the batch size to 256. The weighting coefficient λ\\lambda before the format reward is set to 0.1, and the learning rate is fixed at 5×10−75\\times 10^{-7}.
+### 4.2. Performance Comparison (RQ1)
+#### 4.2.1. Reasoning Enhances In-Domain Performance.
+We present the performance of our proposed SIDReasoner and compare it with other baseline methods on three datasets, with the results recorded in Table [1](https://arxiv.org/html/2603.23183v1#S3.T1 "Table 1 ‣ 3.3.2. Group-wise Reinforcement Learning ‣ 3.3. Reinforced Reasoning Enhancement ‣ 3. Methodoly ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"). As illustrated by the experiment results, generative recommendation methods generally outperform traditional sequential recommendation approaches across all datasets. This trend confirms the effectiveness of modeling recommendation as sequence generation over SIDs.
+Moreover, after reinforcement learning, our method achieves the strongest SID prediction performance, surpassing not only conventional generative recommenders but also reasoning-enhanced recommendation approaches. These results indicate that effective reasoning over SIDs can be successfully learned and exploited to improve recommendation quality.
+An interesting observation is that the effectiveness of reasoning varies notably across different item categories, leading to uneven performance gains on different datasets. Specifically, on the Games dataset, where items are rich in semantic information and align well with the world knowledge encoded in LLMs, reasoning-based methods yield substantial improvements over non-reasoning counterparts.
+In contrast, on the Industrial dataset, where LLMs possess relatively limited domain-relevant knowledge, the benefits brought by reasoning are notably more limited.
+The effectiveness of reasoning varies across datasets, and this phenomenon is not unique to our method. A highly consistent trend is also observed in R2ec, which performs explicit reasoning before recommending. This trend suggests that the effectiveness of reasoning is closely tied to the availability and quality of semantic knowledge that can be leveraged by LLMs.
+Figure [3](https://arxiv.org/html/2603.23183v1#S3.F3 "Figure 3 ‣ 3.3.3. Reasoning Generalizes to Out-of-Domain Items. ‣ 3.3. Reinforced Reasoning Enhancement ‣ 3. Methodoly ‣ Reasoning over Semantic IDs Enhances Generative Recommendation") illustrates the cross-domain generalization ability of reasoning-based recommendation.
+Specifically, we construct a unified SID space covering Games, Office, and Industrial datasets, and perform SID-language alignment on the mixed corpus spanning all three domains.
+After the model acquires a shared semantic understanding of SIDs across domains, we conduct reasoning-oriented reinforcement learning on single datasets (Games and Office) as well as full datasets.
+As shown in Figure [3](https://arxiv.org/html/2603.23183v1#S3.F3 "Figure 3 ‣ 3.3.3. Reasoning Generalizes to Out-of-Domain Items. ‣ 3.3. Reinforced Reasoning Enhancement ‣ 3. Methodoly ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"), RL conducted on a single domain consistently improves reasoning effectiveness on both in-domain and out-of-domain datasets.
+This observation suggests that the learned reasoning capability is not tied to domain-specific item distributions, but instead captures a more general knowledge of how to reason effectively in recommendation tasks.
+Such reasoning knowledge, once learned, can be transferred across domains.
+### 4.3. Ablation Study (RQ2)
+![Refer to caption](https://arxiv.org/html/2603.23183v1/x4.png)Figure 4. Ablation performance of different alignment strategies with Best-of-NN reasoning selection.Table 2. Ablation performance of different alignment strategies before and after reinforcement learning optimization.
+| Models | Games | Office |
+| --- | --- | --- |
+| R@10 | N@10 | R@10 | N@10 |
+| --- | --- | --- | --- |
+| S1 = Multi-task Alignment | 0.0414 | 0.0206 | 0.0388 | 0.0201 |
+| \- After RL | 0.0741 | 0.0355 | 0.1539 | 0.0970 |
+| S2 = S1 + Enriched Alignment | 0.0632 | 0.0320 | 0.0619 | 0.0363 |
+| \- After RL | 0.0957 | 0.0470 | 0.1607 | 0.1178 |
+| S3 = S2 + General Reasoning | 0.0806 | 0.0450 | 0.1231 | 0.0883 |
+| \- After RL | 0.1031 | 0.0563 | 0.1648 | 0.1208 |
+#### 4.3.1. Alignment Strategies Affect Reasoning Effectiveness
+In this subsection, we investigate how different SID-language alignment strategies affect the reasoning potential of recommendation models, with the goal of enabling more effective reasoning on recommendation and guiding the model toward a better convergence point after reinforcement learning.
+To this end, we conduct a systematic comparison of four backbone settings with increasingly diverse training corpora.
+(1) Vanilla Qwen3-1.7B, where we directly perform reasoning activation via supervised fine-tuning on a pretrained language model, forcing it to learn recommendation reasoning over SID tokens without any explicit alignment stage.
+(2) Multi-task Alignment, where Qwen3-1.7B is first trained with a multi-task SID–language alignment objective to establish basic semantic grounding of SID tokens, followed by reasoning activation.
+(3) Enriched Alignment, which further augments the multi-task alignment stage with our generated enriched recommendation corpus, aiming to expose the model to more diverse and semantically rich SID-language interactions before reasoning activation.
+(4) Enriched + General Reasoning, where we additionally incorporate general reasoning data into the alignment stage, alleviating catastrophic forgetting of the model’s general language abilities induced by recommendation-specific optimization.
+For these four backbone models, we evaluate their behavior from three perspectives: the upper bound of recommendation reasoning capability, the converged performance after reinforcement learning, and general abilities.
+Figure [4](https://arxiv.org/html/2603.23183v1#S4.F4 "Figure 4 ‣ 4.3. Ablation Study (RQ2) ‣ 4. Experiments ‣ Reasoning over Semantic IDs Enhances Generative Recommendation") presents the Best-of-NN reasoning performance of the four backbone models under different alignment strategies.
+The horizontal axis denotes the number of sampled reasoning trajectories NN, while the vertical axis reports the corresponding recommendation performance measured by Recall@10.
+To compute best-of-NN performance, we randomly sample NN reasoning outputs for each input, select the best reasoning trajectory according to the ground-truth item, and then evaluate the recommendation quality induced by this selected reasoning.
+The best-of-NN performance reflects the upper bound of model’s reasoning capability.
+We reports the converged performance of different backbones after RL training in Table [2](https://arxiv.org/html/2603.23183v1#S4.T2 "Table 2 ‣ 4.3. Ablation Study (RQ2) ‣ 4. Experiments ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"). The experiment results suggest that models with higher best-of-NN performances consistently converge to better final performance. This alignment between best-of-NN performance and post-RL convergence results suggests that Best-of-NN evaluation serves as an effective indicator of a model’s reasoning capacity and its optimization potential under reinforcement learning.
+The results in both Figure [4](https://arxiv.org/html/2603.23183v1#S4.F4 "Figure 4 ‣ 4.3. Ablation Study (RQ2) ‣ 4. Experiments ‣ Reasoning over Semantic IDs Enhances Generative Recommendation") and Table [2](https://arxiv.org/html/2603.23183v1#S4.T2 "Table 2 ‣ 4.3. Ablation Study (RQ2) ‣ 4. Experiments ‣ Reasoning over Semantic IDs Enhances Generative Recommendation") indicate that explicit SID–language alignment is a necessary prerequisite for effective reasoning-based recommendation. Pretrained language models lack inherent knowledge of recommendation semantics and item identifiers, making direct reasoning activation insufficient for understanding SID and the recommendation task.
+Multi-task alignment provides essential semantic grounding, which substantially expands the model’s reasoning capacity.
+Further enriching the SID-language alignment corpus helps LLMs understands the SIDs better, and diversifies the associations between language and itemic tokens.
+Finally, mixing general reasoning data during alignment alleviates catastrophic forgetting of general language abilities and simultaneously enhances reasoning effectiveness on recommendation tasks.
+Table 3. Performance comparison over general abilities.
+| Models | MMLU | IFEVAL | GSM8K |
+| --- | --- | --- | --- |
+| Vanilla Qwen3-1.7B | 0.6085 | 0.1793 | 0.6850 |
+| S1 = Multi-task Alignment | 0.2760 | 0.0906 | 0.0060 |
+| S2 = S1 + Enriched Alignment | 0.4464 | 0.0739 | 0.0330 |
+| S3 = S2 + General Reasoning | 0.5580 | 0.1497 | 0.5430 |
+#### 4.3.2. Alignment Strategies Affect General Abilities
+Table [3](https://arxiv.org/html/2603.23183v1#S4.T3 "Table 3 ‣ 4.3.1. Alignment Strategies Affect Reasoning Effectiveness ‣ 4.3. Ablation Study (RQ2) ‣ 4. Experiments ‣ Reasoning over Semantic IDs Enhances Generative Recommendation") reports the general language performance of different backbone models under various alignment strategies and compares them with the vanilla Qwen3-1.7B model.
+The evaluated benchmarks include IFEval (Zhou et al., [2023](https://arxiv.org/html/2603.23183v1#bib.bib74 "Instruction-following evaluation for large language models")), MMLU (Hendrycks et al., [2021b](https://arxiv.org/html/2603.23183v1#bib.bib75 "Measuring massive multitask language understanding"), [a](https://arxiv.org/html/2603.23183v1#bib.bib76 "Aligning ai with shared human values")), and GSM8K (Cobbe et al., [2021](https://arxiv.org/html/2603.23183v1#bib.bib77 "Training verifiers to solve math word problems")), which assess instruction following, general reasoning, and mathematical reasoning abilities, respectively.
+Overall, training on recommendation tasks leads to inevitable degradation of general language abilities, as recommendation tasks are naturally out-of-domain samples for general language models.
+This drop in general performance is most pronounced on mathematical benchmarks, where performance degrades substantially when only multi-task alignment is applied.
+Enriching the alignment corpus mitigates this degradation but does not prevent it.
+Incorporating general reasoning data during alignment effectively alleviates catastrophic forgetting, preserving general language abilities that are also important to effective reasoning on recommendation tasks.
+### 4.4. Model Study (RQ3)
+![Refer to caption](https://arxiv.org/html/2603.23183v1/x5.png)Figure 5. Reasoning length and performance change during RL Training on Games Dataset.![Refer to caption](https://arxiv.org/html/2603.23183v1/x6.png)Figure 6. Case study of how explicit reasoning yields effective and explainable recommendations.
+#### 4.4.1. Evolution of Reasoning during RL Training.
+Figure [5](https://arxiv.org/html/2603.23183v1#S4.F5 "Figure 5 ‣ 4.4. Model Study (RQ3) ‣ 4. Experiments ‣ Reasoning over Semantic IDs Enhances Generative Recommendation") illustrates the evolution of reasoning behavior during reinforcement learning on the Games dataset. Specifically, we track the average length of generated reasonings (blue curve) alongside the corresponding recommendation performance measured by Recall@10 (orange curve) at different training steps.
+During RL training, the average reasoning length decreases notably in the early stages and converges to a shorter level, whereas recommendation performance steadily improves.
+We hypothesize that this phenomenon stems from the nature of the reasoning patterns learned during SID-language alignment.
+Before RL, the model primarily acquires its reasoning behaviors from samples generated by the teacher model (GPT-4o-mini).
+While such teacher-generated reasoning provides a useful starting point, it is not necessarily optimized for recommendation and often contains redundant or uninformative reasoning patterns that do not contribute to prediction performance.
+During RL, the model rapidly identifies and discards these ineffective reasoning components. As a result, the model progressively shifts toward shorter, more targeted reasoning trajectories that retain essential decision-relevant information while eliminating unnecessary intermediate steps. Ultimately, the model achieves better recommendation performance with more compact reasoning, indicating that effective recommendation reasoning does not require longer chains, but rather more efficient ones.
+#### 4.4.2. Case Study
+Figure [6](https://arxiv.org/html/2603.23183v1#S4.F6 "Figure 6 ‣ 4.4. Model Study (RQ3) ‣ 4. Experiments ‣ Reasoning over Semantic IDs Enhances Generative Recommendation") presents a representative example of how explicit reasoning over SIDs enhances generative recommendation.
+Given the user’s interaction history encoded as SID sequences, the model generates a reasoning trace that first summarizes the user’s key interests from historical interactions, including strategic role-playing games and Nintendo amiibo items.
+Building on this summary, the model continues thinking and concludes that recommending additional Nintendo amiibo items is more appropriate given the user’s repeated engagement with such products.
+Conditioned on this reasoning, the model prioritizes SIDs related to Nintendo amiibo, which eventually hits the target item successfully.
+This example provides a transparent view into the model’s internal decision-making process, where intermediate reasoning explicitly reveals how user intent is inferred and subsequently used for recommendation.
+Such reasoning directly shapes the SID decoding trajectory and the resulting recommendation list, rather than serving as a post-hoc explanation of the output.
+## 5\. Conclusion
+In this work, we investigate how to enable effective reasoning in SID-based generative recommendation.
+We propose SIDReasoner, a two-stage framework that effectively allows large language models to reason over itemic tokens.
+Stronger SID–language alignment can help general reasoning abilities better generalize to recommendation tasks.
+Motivated by this insight, our approach leverages multi-task alignment and teacher-assisted semantic expansion to establish strong semantic grounding between SID and language tokens.
+Building on this foundation, outcome-driven reinforcement further guides the model to self-explore effective reasoning patterns in recommendation.
+Extensive experiments on real-world datasets demonstrate that incorporating reasoning into generative recommendation yields competitive performance, together with improved cross-domain generalization and interpretability.
+For future work, we plan to explore whether reasoning over SIDs yields further gains with larger backbone models, and to investigate the effectiveness of enriched SID–language alignment under substantially larger-scale training data. Due to limited time and computational resources, we leave scaling to larger models and datasets for future exploration.
+## References
+- P. Agarwal, A. Badrinath, L. Bhasin, J. Yang, E. Botta, J. Xu, and C. Rosenberg (2025)Pinrec: outcome-conditioned, multi-token generative retrieval for industry-scale recommendation systems.
+arXiv preprint arXiv:2504.10507.
+Cited by: [§2.1](https://arxiv.org/html/2603.23183v1#S2.SS1.p2.1 "2.1. Generative Recommendation ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- P. Aggarwal and S. Welleck (2025)L1: controlling how long a reasoning model thinks with reinforcement learning.
+arXiv preprint arXiv:2503.04697.
+Cited by: [§2.2](https://arxiv.org/html/2603.23183v1#S2.SS2.p1.1 "2.2. Large Reasonging Models ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- D. Arora and A. Zanette (2025)Training language models to reason efficiently.
+arXiv preprint arXiv:2502.04463.
+Cited by: [§2.2](https://arxiv.org/html/2603.23183v1#S2.SS2.p1.1 "2.2. Large Reasonging Models ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- K. Bao, J. Zhang, W. Wang, Y. Zhang, Z. Yang, Y. Luo, C. Chen, F. Feng, and Q. Tian (2025)A bi-step grounding paradigm for large language models in recommendation systems.
+ACM Transactions on Recommender Systems3 (4), pp. 1–27.
+Cited by: [§2.1](https://arxiv.org/html/2603.23183v1#S2.SS1.p3.1 "2.1. Generative Recommendation ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§4.1.1](https://arxiv.org/html/2603.23183v1#S4.SS1.SSS1.p1.1 "4.1.1. Datasets and Evaluation. ‣ 4.1. Experiment Settings ‣ 4. Experiments ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- K. Bao, J. Zhang, Y. Zhang, X. Huo, C. Chen, and F. Feng (2024)Decoding matters: addressing amplification bias and homogeneity issue in recommendations for large language models.
+In Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing,
+pp. 10540–10552.
+Cited by: [§2.1](https://arxiv.org/html/2603.23183v1#S2.SS1.p3.1 "2.1. Generative Recommendation ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§4.1.1](https://arxiv.org/html/2603.23183v1#S4.SS1.SSS1.p1.1 "4.1.1. Datasets and Evaluation. ‣ 4.1. Experiment Settings ‣ 4. Experiments ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- K. Bao, J. Zhang, Y. Zhang, W. Wang, F. Feng, and X. He (2023)Tallrec: an effective and efficient tuning framework to align large language model with recommendation.
+In Proceedings of the 17th ACM conference on recommender systems,
+pp. 1007–1014.
+Cited by: [§2.1](https://arxiv.org/html/2603.23183v1#S2.SS1.p3.1 "2.1. Generative Recommendation ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- Y. Chen, J. Tan, A. Zhang, Z. Yang, L. Sheng, E. Zhang, X. Wang, and T. Chua (2024)On softmax direct preference optimization for recommendation.
+Advances in Neural Information Processing Systems37, pp. 27463–27489.
+Cited by: [§2.1](https://arxiv.org/html/2603.23183v1#S2.SS1.p3.1 "2.1. Generative Recommendation ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§4.1.1](https://arxiv.org/html/2603.23183v1#S4.SS1.SSS1.p1.1 "4.1.1. Datasets and Evaluation. ‣ 4.1. Experiment Settings ‣ 4. Experiments ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- Z. Chu, H. Hao, X. Ouyang, S. Wang, Y. Wang, Y. Shen, J. Gu, Q. Cui, L. Li, S. Xue, et al. (2023)Leveraging large language models for pre-trained recommender systems.
+arXiv preprint arXiv:2308.10837.
+Cited by: [§2.1](https://arxiv.org/html/2603.23183v1#S2.SS1.p3.1 "2.1. Generative Recommendation ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- K. Cobbe, V. Kosaraju, M. Bavarian, J. Hilton, R. Nakano, C. Hesse, and J. Schulman (2021)Training verifiers to solve math word problems.
+External Links: 2110.14168Cited by: [§4.3.2](https://arxiv.org/html/2603.23183v1#S4.SS3.SSS2.p1.1 "4.3.2. Alignment Strategies Affect General Abilities ‣ 4.3. Ablation Study (RQ2) ‣ 4. Experiments ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- Z. Cui, J. Ma, C. Zhou, J. Zhou, and H. Yang (2022)M6-rec: generative pretrained language models are open-ended recommender systems.
+arXiv preprint arXiv:2205.08084.
+Cited by: [§2.1](https://arxiv.org/html/2603.23183v1#S2.SS1.p3.1 "2.1. Generative Recommendation ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- S. Dai, J. Tang, J. Wu, K. Wang, Y. Zhu, B. Chen, B. Hong, Y. Zhao, C. Fu, K. Wu, et al. (2025)Onepiece: bringing context engineering and reasoning to industrial cascade ranking system.
+arXiv preprint arXiv:2509.18091.
+Cited by: [§1](https://arxiv.org/html/2603.23183v1#S1.p2.1 "1. Introduction ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§2.2](https://arxiv.org/html/2603.23183v1#S2.SS2.p2.1 "2.2. Large Reasonging Models ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- Y. Fang, W. Wang, Y. Zhang, F. Zhu, Q. Wang, F. Feng, and X. He (2025)Reason4Rec: large language models for recommendation with deliberative user preference alignment.
+arXiv preprint arXiv:2502.02061.
+Cited by: [§1](https://arxiv.org/html/2603.23183v1#S1.p2.1 "1. Introduction ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§2.2](https://arxiv.org/html/2603.23183v1#S2.SS2.p2.1 "2.2. Large Reasonging Models ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- S. Geng, S. Liu, Z. Fu, Y. Ge, and Y. Zhang (2022)Recommendation as language processing (rlp): a unified pretrain, personalized prompt & predict paradigm (p5).
+In Proceedings of the 16th ACM conference on recommender systems,
+pp. 299–315.
+Cited by: [§2.1](https://arxiv.org/html/2603.23183v1#S2.SS1.p2.1 "2.1. Generative Recommendation ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- D. Guo, D. Yang, H. Zhang, J. Song, R. Zhang, R. Xu, Q. Zhu, S. Ma, P. Wang, X. Bi, et al. (2025a)Deepseek-r1: incentivizing reasoning capability in llms via reinforcement learning.
+arXiv preprint arXiv:2501.12948.
+Cited by: [§1](https://arxiv.org/html/2603.23183v1#S1.p1.1 "1. Introduction ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§2.2](https://arxiv.org/html/2603.23183v1#S2.SS2.p1.1 "2.2. Large Reasonging Models ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- H. Guo, E. Xue, L. Huang, S. Wang, X. Wang, L. Wang, J. Wang, and S. Chen (2025b)Action is all you need: dual-flow generative ranking network for recommendation.
+arXiv preprint arXiv:2505.16752.
+Cited by: [§2.1](https://arxiv.org/html/2603.23183v1#S2.SS1.p2.1 "2.1. Generative Recommendation ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- R. Han, B. Yin, S. Chen, H. Jiang, F. Jiang, X. Li, C. Ma, M. Huang, X. Li, C. Jing, et al. (2025)Mtgr: industrial-scale generative recommendation framework in meituan.
+In Proceedings of the 34th ACM International Conference on Information and Knowledge Management,
+pp. 5731–5738.
+Cited by: [§2.1](https://arxiv.org/html/2603.23183v1#S2.SS1.p2.1 "2.1. Generative Recommendation ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- R. He, L. Heldt, L. Hong, R. Keshavan, S. Mao, N. Mehta, Z. Su, A. Tsai, Y. Wang, S. Wang, et al. (2025)Plum: adapting pre-trained language models for industrial-scale generative recommendations.
+arXiv preprint arXiv:2510.07784.
+Cited by: [§1](https://arxiv.org/html/2603.23183v1#S1.p1.1 "1. Introduction ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§1](https://arxiv.org/html/2603.23183v1#S1.p2.1 "1. Introduction ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§2.1](https://arxiv.org/html/2603.23183v1#S2.SS1.p4.1 "2.1. Generative Recommendation ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- D. Hendrycks, C. Burns, S. Basart, A. Critch, J. Li, D. Song, and J. Steinhardt (2021a)Aligning ai with shared human values.
+Proceedings of the International Conference on Learning Representations (ICLR).
+Cited by: [§4.3.2](https://arxiv.org/html/2603.23183v1#S4.SS3.SSS2.p1.1 "4.3.2. Alignment Strategies Affect General Abilities ‣ 4.3. Ablation Study (RQ2) ‣ 4. Experiments ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- D. Hendrycks, C. Burns, S. Basart, A. Zou, M. Mazeika, D. Song, and J. Steinhardt (2021b)Measuring massive multitask language understanding.
+Proceedings of the International Conference on Learning Representations (ICLR).
+Cited by: [§4.3.2](https://arxiv.org/html/2603.23183v1#S4.SS3.SSS2.p1.1 "4.3.2. Alignment Strategies Affect General Abilities ‣ 4.3. Ablation Study (RQ2) ‣ 4. Experiments ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- B. Hidasi and A. Karatzoglou (2018)Recurrent neural networks with top-k gains for session-based recommendations.
+In CIKM,
+pp. 843–852.
+Cited by: [2nd item](https://arxiv.org/html/2603.23183v1#A2.I1.i2.p1.1 "In Appendix B Baseline Methods ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§4.1.2](https://arxiv.org/html/2603.23183v1#S4.SS1.SSS2.p1.1 "4.1.2. Baselines. ‣ 4.1. Experiment Settings ‣ 4. Experiments ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- M. Hong, Y. Xia, Z. Wang, J. Zhu, Y. Wang, S. Cai, X. Yang, Q. Dai, Z. Dong, Z. Zhang, et al. (2025)EAGER-llm: enhancing large language models as recommenders through exogenous behavior-semantic integration.
+In Proceedings of the ACM on Web Conference 2025,
+pp. 2754–2762.
+Cited by: [§2.1](https://arxiv.org/html/2603.23183v1#S2.SS1.p4.1 "2.1. Generative Recommendation ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- Y. Hou, Z. He, J. McAuley, and W. X. Zhao (2023)Learning vector-quantized item representation for transferable sequential recommenders.
+In Proceedings of the ACM Web Conference 2023,
+pp. 1162–1171.
+Cited by: [§1](https://arxiv.org/html/2603.23183v1#S1.p1.1 "1. Introduction ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§2.1](https://arxiv.org/html/2603.23183v1#S2.SS1.p4.1 "2.1. Generative Recommendation ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- Y. Hou, J. Li, Z. He, A. Yan, X. Chen, and J. McAuley (2024)Bridging language and items for retrieval and recommendation.
+arXiv preprint arXiv:2403.03952.
+Cited by: [§4.1.1](https://arxiv.org/html/2603.23183v1#S4.SS1.SSS1.p1.1 "4.1.1. Datasets and Evaluation. ‣ 4.1. Experiment Settings ‣ 4. Experiments ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- Y. Hou, J. Li, A. Shin, J. Jeon, A. Santhanam, W. Shao, K. Hassani, N. Yao, and J. McAuley (2025a)Generating long semantic ids in parallel for recommendation.
+In Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V. 2,
+pp. 956–966.
+Cited by: [§2.1](https://arxiv.org/html/2603.23183v1#S2.SS1.p4.1 "2.1. Generative Recommendation ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- Z. Hou, X. Lv, R. Lu, J. Zhang, Y. Li, Z. Yao, J. Li, J. Tang, and Y. Dong (2025b)Advancing language model reasoning through reinforcement learning and inference scaling.
+arXiv preprint arXiv:2501.11651.
+Cited by: [§1](https://arxiv.org/html/2603.23183v1#S1.p1.1 "1. Introduction ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§2.2](https://arxiv.org/html/2603.23183v1#S2.SS2.p1.1 "2.2. Large Reasonging Models ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- J. Huang, X. Chen, S. Mishra, H. S. Zheng, A. W. Yu, X. Song, and D. Zhou (2023)Large language models cannot self-correct reasoning yet.
+arXiv preprint arXiv:2310.01798.
+Cited by: [§2.2](https://arxiv.org/html/2603.23183v1#S2.SS2.p1.1 "2.2. Large Reasonging Models ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- Y. Huang, Y. Chen, X. Cao, R. Yang, M. Qi, Y. Zhu, Q. Han, Y. Liu, Z. Liu, X. Yao, et al. (2025)Towards large-scale generative ranking.
+arXiv preprint arXiv:2505.04180.
+Cited by: [§2.1](https://arxiv.org/html/2603.23183v1#S2.SS1.p2.1 "2.1. Generative Recommendation ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- R. Kamoi, Y. Zhang, N. Zhang, J. Han, and R. Zhang (2024)When can llms actually correct their own mistakes? a critical survey of self-correction of llms.
+Transactions of the Association for Computational Linguistics12, pp. 1417–1440.
+Cited by: [§2.2](https://arxiv.org/html/2603.23183v1#S2.SS2.p1.1 "2.2. Large Reasonging Models ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- W. Kang and J. McAuley (2018)Self-attentive sequential recommendation.
+In ICDM,
+pp. 197–206.
+Cited by: [3rd item](https://arxiv.org/html/2603.23183v1#A2.I1.i3.p1.1 "In Appendix B Baseline Methods ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§4.1.2](https://arxiv.org/html/2603.23183v1#S4.SS1.SSS2.p1.1 "4.1.2. Baselines. ‣ 4.1. Experiment Settings ‣ 4. Experiments ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- T. Kojima, S. S. Gu, M. Reid, Y. Matsuo, and Y. Iwasawa (2022)Large language models are zero-shot reasoners.
+Advances in neural information processing systems35, pp. 22199–22213.
+Cited by: [§2.2](https://arxiv.org/html/2603.23183v1#S2.SS2.p1.1 "2.2. Large Reasonging Models ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- X. Kong, J. Jiang, B. Liu, Z. Xu, H. Zhu, J. Xu, B. Zheng, J. Wu, and X. Wang (2025a)Think before recommendation: autonomous reasoning-enhanced recommender.
+CoRRabs/2510.23077.
+External Links: [Link](https://doi.org/10.48550/arXiv.2510.23077 ""),
+[Document](https://dx.doi.org/10.48550/ARXIV.2510.23077 ""),
+2510.23077Cited by: [§1](https://arxiv.org/html/2603.23183v1#S1.p2.1 "1. Introduction ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§2.2](https://arxiv.org/html/2603.23183v1#S2.SS2.p2.1 "2.2. Large Reasonging Models ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- X. Kong, L. Sheng, J. Tan, Y. Chen, J. Wu, A. Zhang, X. Wang, and X. He (2025b)MiniOneRec: an open-source framework for scaling generative recommendation.
+arXiv preprint arXiv:2510.24431.
+Cited by: [§1](https://arxiv.org/html/2603.23183v1#S1.p1.1 "1. Introduction ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§2.1](https://arxiv.org/html/2603.23183v1#S2.SS1.p4.1 "2.1. Generative Recommendation ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- Y. Lei, J. Lian, J. Yao, X. Huang, D. Lian, and X. Xie (2024)Recexplainer: aligning large language models for explaining recommendation models.
+In Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining,
+pp. 1530–1541.
+Cited by: [§2.1](https://arxiv.org/html/2603.23183v1#S2.SS1.p3.1 "2.1. Generative Recommendation ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- X. Li, B. Chen, J. She, S. Cao, Y. Wang, Q. Jia, H. He, Z. Zhou, Z. Liu, J. Liu, et al. (2025)A survey of generative recommendation from a tri-decoupled perspective: tokenization, architecture, and optimization.
+Cited by: [§1](https://arxiv.org/html/2603.23183v1#S1.p2.1 "1. Introduction ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§2.1](https://arxiv.org/html/2603.23183v1#S2.SS1.p2.1 "2.1. Generative Recommendation ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- J. Liao, S. Li, Z. Yang, J. Wu, Y. Yuan, X. Wang, and X. He (2024)Llara: large language-recommendation assistant.
+In Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval,
+pp. 1785–1795.
+Cited by: [§2.1](https://arxiv.org/html/2603.23183v1#S2.SS1.p3.1 "2.1. Generative Recommendation ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- H. Lightman, V. Kosaraju, Y. Burda, H. Edwards, B. Baker, T. Lee, J. Leike, J. Schulman, I. Sutskever, and K. Cobbe (2023)Let’s verify step by step.
+arXiv preprint arXiv:2305.20050.
+Cited by: [§2.2](https://arxiv.org/html/2603.23183v1#S2.SS2.p1.1 "2.2. Large Reasonging Models ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- X. Lin, H. Shi, W. Wang, F. Feng, Q. Wang, S. Ng, and T. Chua (2025)Order-agnostic identifier for large language model-based generative recommendation.
+In Proceedings of the 48th international ACM SIGIR conference on research and development in information retrieval,
+pp. 1923–1933.
+Cited by: [§1](https://arxiv.org/html/2603.23183v1#S1.p2.1 "1. Introduction ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§2.2](https://arxiv.org/html/2603.23183v1#S2.SS2.p2.1 "2.2. Large Reasonging Models ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- Z. Liu, S. Wang, X. Wang, R. Zhang, J. Deng, H. Bao, J. Zhang, W. Li, P. Zheng, X. Wu, et al. (2025)Onerec-think: in-text reasoning for generative recommendation.
+arXiv preprint arXiv:2510.11639.
+Cited by: [§1](https://arxiv.org/html/2603.23183v1#S1.p2.1 "1. Introduction ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§2.1](https://arxiv.org/html/2603.23183v1#S2.SS1.p4.1 "2.1. Generative Recommendation ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§2.2](https://arxiv.org/html/2603.23183v1#S2.SS2.p2.1 "2.2. Large Reasonging Models ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- I. Loshchilov and F. Hutter (2017)Decoupled weight decay regularization.
+arXiv preprint arXiv:1711.05101.
+Cited by: [§4.1.3](https://arxiv.org/html/2603.23183v1#S4.SS1.SSS3.p1.1 "4.1.3. Implementation Details. ‣ 4.1. Experiment Settings ‣ 4. Experiments ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- S. Rajput, N. Mehta, A. Singh, R. Hulikal Keshavan, T. Vu, L. Heldt, L. Hong, Y. Tay, V. Tran, J. Samost, et al. (2023)Recommender systems with generative retrieval.
+Advances in Neural Information Processing Systems36, pp. 10299–10315.
+Cited by: [4th item](https://arxiv.org/html/2603.23183v1#A2.I1.i4.p1.1 "In Appendix B Baseline Methods ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§1](https://arxiv.org/html/2603.23183v1#S1.p1.1 "1. Introduction ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§2.1](https://arxiv.org/html/2603.23183v1#S2.SS1.p4.1 "2.1. Generative Recommendation ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§3.2.1](https://arxiv.org/html/2603.23183v1#S3.SS2.SSS1.p1.10 "3.2.1. Item Quantization ‣ 3.2. Enriched SID-Language Alignment ‣ 3. Methodoly ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§4.1.2](https://arxiv.org/html/2603.23183v1#S4.SS1.SSS2.p1.1 "4.1.2. Baselines. ‣ 4.1. Experiment Settings ‣ 4. Experiments ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- J. Schulman, F. Wolski, P. Dhariwal, A. Radford, and O. Klimov (2017)Proximal policy optimization algorithms.
+arXiv preprint arXiv:1707.06347.
+Cited by: [9th item](https://arxiv.org/html/2603.23183v1#A2.I1.i9.p1.1 "In Appendix B Baseline Methods ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- Z. Shao, P. Wang, Q. Zhu, R. Xu, J. Song, X. Bi, H. Zhang, M. Zhang, Y. Li, Y. Wu, et al. (2024)Deepseekmath: pushing the limits of mathematical reasoning in open language models.
+arXiv preprint arXiv:2402.03300.
+Cited by: [§1](https://arxiv.org/html/2603.23183v1#S1.p4.1 "1. Introduction ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§3.3.2](https://arxiv.org/html/2603.23183v1#S3.SS3.SSS2.p3.7 "3.3.2. Group-wise Reinforcement Learning ‣ 3.3. Reinforced Reasoning Enhancement ‣ 3. Methodoly ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- G. Sheng, C. Zhang, Z. Ye, X. Wu, W. Zhang, R. Zhang, Y. Peng, H. Lin, and C. Wu (2025a)Hybridflow: a flexible and efficient rlhf framework.
+In Proceedings of the Twentieth European Conference on Computer Systems,
+pp. 1279–1297.
+Cited by: [§4.1.3](https://arxiv.org/html/2603.23183v1#S4.SS1.SSS3.p2.3 "4.1.3. Implementation Details. ‣ 4.1. Experiment Settings ‣ 4. Experiments ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- L. Sheng, A. Zhang, Z. Wu, W. Zhao, C. Shen, Y. Zhang, X. Wang, and T. Chua (2025b)On reasoning strength planning in large reasoning models.
+arXiv preprint arXiv:2506.08390.
+Cited by: [§2.2](https://arxiv.org/html/2603.23183v1#S2.SS2.p1.1 "2.2. Large Reasonging Models ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- C. Snell, J. Lee, K. Xu, and A. Kumar (2024)Scaling llm test-time compute optimally can be more effective than scaling model parameters.
+arXiv preprint arXiv:2408.03314.
+Cited by: [§2.2](https://arxiv.org/html/2603.23183v1#S2.SS2.p1.1 "2.2. Large Reasonging Models ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- J. Tang, S. Dai, T. Shi, J. Xu, X. Chen, W. Chen, J. Wu, and Y. Jiang (2025)Think before recommend: unleashing the latent reasoning power for sequential recommendation.
+arXiv preprint arXiv:2503.22675.
+Cited by: [8th item](https://arxiv.org/html/2603.23183v1#A2.I1.i8.p1.1 "In Appendix B Baseline Methods ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§1](https://arxiv.org/html/2603.23183v1#S1.p2.1 "1. Introduction ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§2.2](https://arxiv.org/html/2603.23183v1#S2.SS2.p2.1 "2.2. Large Reasonging Models ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§4.1.2](https://arxiv.org/html/2603.23183v1#S4.SS1.SSS2.p1.1 "4.1.2. Baselines. ‣ 4.1. Experiment Settings ‣ 4. Experiments ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- J. Tang and K. Wang (2018)Personalized top-n sequential recommendation via convolutional sequence embedding.
+In Proceedings of the eleventh ACM international conference on web search and data mining,
+pp. 565–573.
+Cited by: [1st item](https://arxiv.org/html/2603.23183v1#A2.I1.i1.p1.1 "In Appendix B Baseline Methods ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§4.1.2](https://arxiv.org/html/2603.23183v1#S4.SS1.SSS2.p1.1 "4.1.2. Baselines. ‣ 4.1. Experiment Settings ‣ 4. Experiments ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- A. Tsai, A. Kraft, L. Jin, C. Cai, A. Hosseini, T. Xu, Z. Zhang, L. Hong, E. H. Chi, and X. Yi (2024)Leveraging llm reasoning enhances personalized recommender systems.
+In Findings of the Association for Computational Linguistics: ACL 2024,
+pp. 13176–13188.
+Cited by: [§1](https://arxiv.org/html/2603.23183v1#S1.p2.1 "1. Introduction ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§2.2](https://arxiv.org/html/2603.23183v1#S2.SS2.p2.1 "2.2. Large Reasonging Models ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- S. Wang, L. Yu, C. Gao, C. Zheng, S. Liu, R. Lu, K. Dang, X. Chen, J. Yang, Z. Zhang, et al. (2025)Beyond the 80/20 rule: high-entropy minority tokens drive effective reinforcement learning for llm reasoning.
+arXiv preprint arXiv:2506.01939.
+Cited by: [§2.2](https://arxiv.org/html/2603.23183v1#S2.SS2.p1.1 "2.2. Large Reasonging Models ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- W. Wang, H. Bao, X. Lin, J. Zhang, Y. Li, F. Feng, S. Ng, and T. Chua (2024a)Learnable item tokenization for generative recommendation.
+In Proceedings of the 33rd ACM International Conference on Information and Knowledge Management,
+pp. 2400–2409.
+Cited by: [6th item](https://arxiv.org/html/2603.23183v1#A2.I1.i6.p1.1 "In Appendix B Baseline Methods ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§1](https://arxiv.org/html/2603.23183v1#S1.p1.1 "1. Introduction ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§2.1](https://arxiv.org/html/2603.23183v1#S2.SS1.p4.1 "2.1. Generative Recommendation ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§4.1.2](https://arxiv.org/html/2603.23183v1#S4.SS1.SSS2.p1.1 "4.1.2. Baselines. ‣ 4.1. Experiment Settings ‣ 4. Experiments ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- X. Wang, J. Wei, D. Schuurmans, Q. Le, E. Chi, S. Narang, A. Chowdhery, and D. Zhou (2022)Self-consistency improves chain of thought reasoning in language models.
+arXiv preprint arXiv:2203.11171.
+Cited by: [§2.2](https://arxiv.org/html/2603.23183v1#S2.SS2.p1.1 "2.2. Large Reasonging Models ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- Y. Wang, J. Xun, M. Hong, J. Zhu, T. Jin, W. Lin, H. Li, L. Li, Y. Xia, Z. Zhao, et al. (2024b)Eager: two-stream generative recommender with behavior-semantic collaboration.
+In Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining,
+pp. 3245–3254.
+Cited by: [§2.1](https://arxiv.org/html/2603.23183v1#S2.SS1.p4.1 "2.1. Generative Recommendation ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- J. Wei, X. Wang, D. Schuurmans, M. Bosma, F. Xia, E. Chi, Q. V. Le, D. Zhou, et al. (2022)Chain-of-thought prompting elicits reasoning in large language models.
+Advances in neural information processing systems35, pp. 24824–24837.
+Cited by: [§1](https://arxiv.org/html/2603.23183v1#S1.p1.1 "1. Introduction ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§2.2](https://arxiv.org/html/2603.23183v1#S2.SS2.p1.1 "2.2. Large Reasonging Models ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- T. Wei, X. Ning, X. Chen, R. Qiu, Y. Hou, Y. Xie, S. Yang, Z. Hua, and J. He (2025)CoFiRec: coarse-to-fine tokenization for generative recommendation.
+arXiv preprint arXiv:2511.22707.
+Cited by: [§2.1](https://arxiv.org/html/2603.23183v1#S2.SS1.p4.1 "2.1. Generative Recommendation ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- S. Welleck, X. Lu, P. West, F. Brahman, T. Shen, D. Khashabi, and Y. Choi (2022)Generating sequences by learning to self-correct.
+arXiv preprint arXiv:2211.00053.
+Cited by: [§2.2](https://arxiv.org/html/2603.23183v1#S2.SS2.p1.1 "2.2. Large Reasonging Models ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- Y. Wu, Z. Sun, S. Li, S. Welleck, and Y. Yang (2025)Inference scaling laws: an empirical analysis of compute-optimal inference for llm problem-solving.
+In The Thirteenth International Conference on Learning Representations,
+Cited by: [§1](https://arxiv.org/html/2603.23183v1#S1.p1.1 "1. Introduction ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§2.2](https://arxiv.org/html/2603.23183v1#S2.SS2.p1.1 "2.2. Large Reasonging Models ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- L. Xiao, H. Wang, C. Wang, L. Ji, Y. Wang, J. Zhu, Z. Dong, R. Zhang, and R. Li (2025)Unger: generative recommendation with a unified code via semantic and collaborative integration.
+ACM Transactions on Information Systems44 (2), pp. 1–31.
+Cited by: [§2.1](https://arxiv.org/html/2603.23183v1#S2.SS1.p4.1 "2.1. Generative Recommendation ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- Y. Xie, K. Kawaguchi, Y. Zhao, J. X. Zhao, M. Kan, J. He, and M. Xie (2023)Self-evaluation guided beam search for reasoning.
+Advances in Neural Information Processing Systems36, pp. 41618–41650.
+Cited by: [§2.2](https://arxiv.org/html/2603.23183v1#S2.SS2.p1.1 "2.2. Large Reasonging Models ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- B. Yan, S. Liu, Z. Zeng, Z. Wang, Y. Zhang, Y. Yuan, L. Liu, J. Liu, D. Wang, W. Su, et al. (2025)Unlocking scaling law in industrial recommendation systems with a three-step paradigm based large user model.
+arXiv preprint arXiv:2502.08309.
+Cited by: [§2.1](https://arxiv.org/html/2603.23183v1#S2.SS1.p2.1 "2.1. Generative Recommendation ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- A. Yang, A. Li, B. Yang, B. Zhang, B. Hui, B. Zheng, B. Yu, C. Gao, C. Huang, C. Lv, et al. (2025)Qwen3 technical report.
+arXiv preprint arXiv:2505.09388.
+Cited by: [§4.1.3](https://arxiv.org/html/2603.23183v1#S4.SS1.SSS3.p1.1 "4.1.3. Implementation Details. ‣ 4.1. Experiment Settings ‣ 4. Experiments ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- Z. Yang, J. Wu, Y. Luo, J. Zhang, Y. Yuan, A. Zhang, X. Wang, and X. He (2023)Large language model can interpret latent space of sequential recommender.
+ACM Transactions on Information Systems.
+Cited by: [§2.1](https://arxiv.org/html/2603.23183v1#S2.SS1.p3.1 "2.1. Generative Recommendation ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- R. You, Y. Li, X. Lin, X. Zhang, W. Wang, W. Li, and L. Nie (2025)R2{}^{\\mbox{2}}ec: towards large recommender models with reasoning.
+CoRRabs/2505.16994.
+External Links: [Link](https://doi.org/10.48550/arXiv.2505.16994 ""),
+[Document](https://dx.doi.org/10.48550/ARXIV.2505.16994 ""),
+2505.16994Cited by: [9th item](https://arxiv.org/html/2603.23183v1#A2.I1.i9.p1.1 "In Appendix B Baseline Methods ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§1](https://arxiv.org/html/2603.23183v1#S1.p2.1 "1. Introduction ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§2.2](https://arxiv.org/html/2603.23183v1#S2.SS2.p2.1 "2.2. Large Reasonging Models ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§4.1.2](https://arxiv.org/html/2603.23183v1#S4.SS1.SSS2.p1.1 "4.1.2. Baselines. ‣ 4.1. Experiment Settings ‣ 4. Experiments ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- Q. Yu, K. Fu, S. Zhang, Z. Lv, F. Wu, and F. Wu (2025)ThinkRec: thinking-based recommendation via llm.
+arXiv preprint arXiv:2505.15091.
+Cited by: [§1](https://arxiv.org/html/2603.23183v1#S1.p2.1 "1. Introduction ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§2.2](https://arxiv.org/html/2603.23183v1#S2.SS2.p2.1 "2.2. Large Reasonging Models ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- N. Zeghidour, A. Luebs, A. Omran, J. Skoglund, and M. Tagliasacchi (2021)Soundstream: an end-to-end neural audio codec.
+IEEE/ACM Transactions on Audio, Speech, and Language Processing30, pp. 495–507.
+Cited by: [§3.2.1](https://arxiv.org/html/2603.23183v1#S3.SS2.SSS1.p1.10 "3.2.1. Item Quantization ‣ 3.2. Enriched SID-Language Alignment ‣ 3. Methodoly ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- E. Zelikman, Y. Wu, J. Mu, and N. Goodman (2022)Star: bootstrapping reasoning with reasoning.
+Advances in Neural Information Processing Systems35, pp. 15476–15488.
+Cited by: [§2.2](https://arxiv.org/html/2603.23183v1#S2.SS2.p1.1 "2.2. Large Reasonging Models ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- Z. Zeng, H. Jing, J. Chen, X. Li, H. Liu, Y. He, Z. Li, Y. Sun, Z. Xie, Y. Yang, et al. (2025)Optimizing generative ranking relevance via reinforcement learning in xiaohongshu search.
+arXiv preprint arXiv:2512.00968.
+Cited by: [§1](https://arxiv.org/html/2603.23183v1#S1.p2.1 "1. Introduction ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§2.2](https://arxiv.org/html/2603.23183v1#S2.SS2.p2.1 "2.2. Large Reasonging Models ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- J. Zhai, L. Liao, X. Liu, Y. Wang, R. Li, X. Cao, L. Gao, Z. Gong, F. Gu, J. He, et al. (2024)Actions speak louder than words: trillion-parameter sequential transducers for generative recommendations.
+In Proceedings of the 41st International Conference on Machine Learning,
+pp. 58484–58509.
+Cited by: [5th item](https://arxiv.org/html/2603.23183v1#A2.I1.i5.p1.1 "In Appendix B Baseline Methods ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§2.1](https://arxiv.org/html/2603.23183v1#S2.SS1.p2.1 "2.1. Generative Recommendation ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§4.1.2](https://arxiv.org/html/2603.23183v1#S4.SS1.SSS2.p1.1 "4.1.2. Baselines. ‣ 4.1. Experiment Settings ‣ 4. Experiments ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- J. Zhang, R. Xie, Y. Hou, X. Zhao, L. Lin, and J. Wen (2025a)Recommendation as instruction following: a large language model empowered recommendation approach.
+ACM Transactions on Information Systems43 (5), pp. 1–37.
+Cited by: [§2.1](https://arxiv.org/html/2603.23183v1#S2.SS1.p3.1 "2.1. Generative Recommendation ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- Q. Zhang, F. Lyu, Z. Sun, L. Wang, W. Zhang, Z. Guo, Y. Wang, I. King, X. Liu, and C. Ma (2025b)What, how, where, and how well? a survey on test-time scaling in large language models.
+CoRR.
+Cited by: [§2.2](https://arxiv.org/html/2603.23183v1#S2.SS2.p1.1 "2.2. Large Reasonging Models ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- W. Zhang, C. Wu, X. Li, Y. Wang, K. Dong, Y. Wang, X. Dai, X. Zhao, H. Guo, and R. Tang (2025c)Llmtreerec: unleashing the power of large language models for cold-start recommendations.
+In Proceedings of the 31st International Conference on Computational Linguistics,
+pp. 886–896.
+Cited by: [§2.1](https://arxiv.org/html/2603.23183v1#S2.SS1.p3.1 "2.1. Generative Recommendation ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- Y. Zhang, W. Xu, X. Zhao, W. Wang, F. Feng, X. He, and T. Chua (2025d)Reinforced latent reasoning for llm-based recommendation.
+arXiv preprint arXiv:2505.19092.
+Cited by: [§1](https://arxiv.org/html/2603.23183v1#S1.p2.1 "1. Introduction ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§2.2](https://arxiv.org/html/2603.23183v1#S2.SS2.p2.1 "2.2. Large Reasonging Models ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- B. Zheng, Y. Hou, H. Lu, Y. Chen, W. X. Zhao, M. Chen, and J. Wen (2024)Adapting large language models by integrating collaborative semantics for recommendation.
+In 2024 IEEE 40th International Conference on Data Engineering (ICDE),
+pp. 1435–1448.
+Cited by: [7th item](https://arxiv.org/html/2603.23183v1#A2.I1.i7.p1.1 "In Appendix B Baseline Methods ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§1](https://arxiv.org/html/2603.23183v1#S1.p1.1 "1. Introduction ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§2.1](https://arxiv.org/html/2603.23183v1#S2.SS1.p4.1 "2.1. Generative Recommendation ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§4.1.2](https://arxiv.org/html/2603.23183v1#S4.SS1.SSS2.p1.1 "4.1.2. Baselines. ‣ 4.1. Experiment Settings ‣ 4. Experiments ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- Q. Zhong, J. Su, Y. Ma, J. McAuley, and Y. Hou (2025)Pctx: tokenizing personalized context for generative recommendation.
+arXiv preprint arXiv:2510.21276.
+Cited by: [§2.1](https://arxiv.org/html/2603.23183v1#S2.SS1.p4.1 "2.1. Generative Recommendation ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- G. Zhou, H. Bao, J. Huang, J. Deng, J. Zhang, J. She, K. Cai, L. Ren, L. Ren, Q. Luo, et al. (2025a)OpenOneRec technical report.
+arXiv preprint arXiv:2512.24762.
+Cited by: [§2.1](https://arxiv.org/html/2603.23183v1#S2.SS1.p4.1 "2.1. Generative Recommendation ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- G. Zhou, J. Deng, J. Zhang, K. Cai, L. Ren, Q. Luo, Q. Wang, Q. Hu, R. Huang, S. Wang, et al. (2025b)OneRec technical report.
+arXiv preprint arXiv:2506.13695.
+Cited by: [§1](https://arxiv.org/html/2603.23183v1#S1.p1.1 "1. Introduction ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§2.1](https://arxiv.org/html/2603.23183v1#S2.SS1.p4.1 "2.1. Generative Recommendation ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- G. Zhou, H. Hu, H. Cheng, H. Wang, J. Deng, J. Zhang, K. Cai, L. Ren, L. Ren, L. Yu, et al. (2025c)Onerec-v2 technical report.
+arXiv preprint arXiv:2508.20900.
+Cited by: [§1](https://arxiv.org/html/2603.23183v1#S1.p1.1 "1. Introduction ‣ Reasoning over Semantic IDs Enhances Generative Recommendation"),
+[§2.1](https://arxiv.org/html/2603.23183v1#S2.SS1.p4.1 "2.1. Generative Recommendation ‣ 2. Related Work ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+- J. Zhou, T. Lu, S. Mishra, S. Brahma, S. Basu, Y. Luan, D. Zhou, and L. Hou (2023)Instruction-following evaluation for large language models.
+arXiv preprint arXiv:2311.07911.
+Cited by: [§4.3.2](https://arxiv.org/html/2603.23183v1#S4.SS3.SSS2.p1.1 "4.3.2. Alignment Strategies Affect General Abilities ‣ 4.3. Ablation Study (RQ2) ‣ 4. Experiments ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+## Appendix A Dataset Statistics
+All our recommendation datasets are downloaded from Amazon18
+dataset platform and cover three categories: Video Games, Office Products, and Industrial and Scientific. Detailed statistics of each selected category are present in Table [4](https://arxiv.org/html/2603.23183v1#A1.T4 "Table 4 ‣ Appendix A Dataset Statistics ‣ Reasoning over Semantic IDs Enhances Generative Recommendation").
+Table 4. The statistics of recommendation datasets.
+| Dataset | #Items | #Interactions | Train | Val&Test |
+| --- | --- | --- | --- | --- |
+| Games | 3,858 | 61,417 | 49,133 | 6,142 |
+| Office | 3,459 | 48,656 | 38,924 | 4,866 |
+| Industrial | 3,686 | 45,325 | 36,259 | 4,533 |
+## Appendix B Baseline Methods
+This section provides a brief introduction to the baselines used in our experiments.
+- •
+Caser(Tang and Wang, [2018](https://arxiv.org/html/2603.23183v1#bib.bib67 "Personalized top-n sequential recommendation via convolutional sequence embedding")) models sequential user behaviors by applying convolutional neural networks over user interaction sequences to capture local and global sequential patterns. It is trained to predict the next item based on the user’s historical interactions using the binary cross-entropy loss.
+- •
+GRU4Rec(Hidasi and Karatzoglou, [2018](https://arxiv.org/html/2603.23183v1#bib.bib68 "Recurrent neural networks with top-k gains for session-based recommendations")) utilizes GRU modules to capture sequential dependencies within user interaction sequences. It is trained to predict the next item in a user’s sequence based on previously purchased items. We use the binary cross-entropy loss as optimization objective during the training process.
+- •
+SASRec(Kang and McAuley, [2018](https://arxiv.org/html/2603.23183v1#bib.bib69 "Self-attentive sequential recommendation")) is a transformer-based recommender widely used in sequential recommendation. It leverages self-attention to capture long-range dependencies in user interaction sequences, enhancing the accuracy of future interaction predictions. Binary cross-entropy loss is used as the optimization objective.
+- •
+TIGER(Rajput et al., [2023](https://arxiv.org/html/2603.23183v1#bib.bib19 "Recommender systems with generative retrieval")) is a representative generative recommender that represents items as Semantic IDs and utilizes a Transformer model to autoregressively predict the Semantic IDs (SIDs) of next item. The model is optimized with cross-entropy loss.
+- •
+HSTU(Zhai et al., [2024](https://arxiv.org/html/2603.23183v1#bib.bib1 "Actions speak louder than words: trillion-parameter sequential transducers for generative recommendations")) follows the formulation of TIGER, and models the recommendation task as sequence prediction over action and item tokens. Cross-entropy loss is used during model training.
+- •
+LETTER(Wang et al., [2024a](https://arxiv.org/html/2603.23183v1#bib.bib21 "Learnable item tokenization for generative recommendation")) follows the structure of TIGER and further integrate collaborative signals into SIDs during the quantization stage. The model is optimized using the cross-entropy loss.
+- •
+LCRec(Zheng et al., [2024](https://arxiv.org/html/2603.23183v1#bib.bib30 "Adapting large language models by integrating collaborative semantics for recommendation")) adapts a pre-trained LLMs as the backbone of the generative recommendation. It further enhances SID understanding via a series of recommendation-related tasks. For fair comparison, we implement LCRec by with exactly same training inputs as our multi-task alignment.
+- •
+ReaRec(Tang et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib60 "Think before recommend: unleashing the latent reasoning power for sequential recommendation")) enhances the SASRec model with latent reasoning, and boosts recommendation effectiveness by introducing extra test-time compute. We use the Progressive Reasoning Learning method cross-Entropy loss.
+- •
+R2ec(You et al., [2025](https://arxiv.org/html/2603.23183v1#bib.bib58 "R2ec: towards large recommender models with reasoning")) is constructed based on a pre-trained LLM. Given the historical interactions described in natural language, it leverages explicit textual reasoning before the recommendation decision. The model is trained using Proximal Policy Optimization (PPO) (Schulman et al., [2017](https://arxiv.org/html/2603.23183v1#bib.bib78 "Proximal policy optimization algorithms")) with recommendation-specific rewards.
+## Appendix C Alignment Task Formats
+In this section, we present the templates used for the alignment tasks, which are designed to bridge the gap between textual item information and their corresponding Semantic IDs.
+Cases 1-2: SID–Title Translation: This category involves bi-directional mapping between textual item titles and their corresponding SIDs.
+Cases 3–6: Generative Next-Item Prediction: These tasks require the model to predict future interactions by alternating input and output representations between item titles and SIDs, which enables the model to capture sequential behavioral patterns while reinforcing the correspondence between SIDs and textual descriptions.
+Case 7: Alignment via Item-centric Semantic Enrichment:
+This task requires the model to learn to associate SIDs with detailed, augmented item contexts by integrating semantic identifiers into LLM-generated comprehensive descriptions.
+Case 8: Sequential Recommendation via User-centric Reasoning Augmentation:
+This task is to train the model on hybrid narratives of interaction history that interleave Natural Language with Semantic IDs. The goal is to let the model understand user behavior or recommendation logic as a coherent story.
+Case 1 & 2: SID translationTitle to SID<\|im\\_start\|>system
+Below is an instruction that describes a task, paired with an input that provides further context. Write a response that appropriately completes the request.
+Answer the question about item identification.<\|im\\_end\|>
+<\|im\\_start\|>user
+Which item has the title: ”Final Fantasy VIII”?<\|im\\_end\|>
+<\|im\\_start\|>assistant
+¡a\\_195¿¡b\\_133¿¡c\\_138¿<\|im\\_end\|>
+SID to Title
+<\|im\\_start\|>system
+Below is an instruction that describes a task, paired with an input that provides further context. Write a response that appropriately completes the request.
+Answer the question about item identification.<\|im\\_end\|>
+<\|im\\_start\|>user
+What is the title of item ¡a\\_175¿¡b\\_83¿¡c\\_8¿?<\|im\\_end\|>
+<\|im\\_start\|>assistant
+”The Legend of Zelda: Spirit Tracks”<\|im\\_end\|>
+Case 3: Item predictionSID history to Title prediction<\|im\\_start\|>system
+Below is an instruction that describes a task, paired with an input that provides further context. Write a response that appropriately completes the request.Can you recommend the next item for the user based on their interaction history?<\|im\\_end\|>
+<\|im\\_start\|>user
+The user has sequentially interacted with items ¡a\\_45¿¡b\\_88¿¡c\\_206¿, ¡a\\_205¿¡b\\_247¿¡c\\_168¿, ¡a\\_45¿¡b\\_190¿¡c\\_242¿. Can you recommend the next item for him? Tell me the title of the item?<\|im\\_end\|>
+<\|im\\_start\|>assistant
+”PlayStation 4 500GB Console \[Old Model\]\[Discontinued\]”<\|im\\_end\|>
+Case 4: Item predictionTitle prediction<\|im\\_start\|>system
+Below is an instruction that describes a task, paired with an input that provides further context. Write a response that appropriately completes the request.Given a list of games the user recently enjoy, please write a new game that the user may bought.<\|im\\_end\|>
+<\|im\\_start\|>user
+The user has played the following games before:”FIFA Soccer 12 - Playstation 3”, ”PS3 Gran Turismo 5 XL Edition”, ”MLB 13 The Show - Playstation 3”?<\|im\\_end\|>
+<\|im\\_start\|>assistant
+”The Legend of Zelda: Spirit Tracks”<\|im\\_end\|>
+Case 5: Item predictionSID history to SID prediction<\|im\\_start\|>system
+Below is an instruction that describes a task, paired with an input that provides further context. Write a response that appropriately completes the request. Can you predict the next possible item that the user may expect?<\|im\\_end\|>
+<\|im\\_start\|>user
+The user has interacted with items ¡a\\_45¿¡b\\_88¿¡c\\_206¿, ¡a\\_205¿¡b\\_247¿¡c\\_168¿, ¡a\\_45¿¡b\\_190¿¡c\\_242¿ in chronological order. Can you predict the next possible item that the user may expect?
+<\|im\\_end\|>
+<\|im\\_start\|>assistant
+¡a\\_231¿¡b\\_28¿¡c\\_63¿<\|im\\_end\|>
+Case 6: Item predictionTitle history to SID prediction<\|im\\_start\|>system
+Below is an instruction that describes a task, paired with an input that provides further context. Write a response that appropriately completes the request. Based on the user’s historical interaction with item titles, predict the semantic ID of the next item they may expect.<\|im\\_end\|>
+<\|im\\_start\|>user
+The user has interacted with the following games items in chronological order: ”FIFA Soccer 12 - Playstation 3”, ”PS3 Gran Turismo 5 XL Edition”, ”MLB 13 The Show - Playstation 3”. Can you predict the next item the user may expect?
+<\|im\\_end\|>
+<\|im\\_start\|>assistant
+¡a\\_231¿¡b\\_28¿¡c\\_63¿<\|im\\_end\|>
+Case 7: SID translationInterleaving SIDs with Augmented Item ContextsIntroducing ¡a\\_175¿¡b\\_24¿¡c\\_4¿, an exhilarating platforming game developed by Nintendo that revolutionizes the beloved Super Mario franchise through its introduction of simultaneous multiplayer action. For the first time ever, players can join forces or compete against one another as they traverse iconic side-scrolling environments brimming with nostalgic charm and fresh challenges. The game supports 2 to 4 players, making it an ideal choice for family game nights where everyone can engage in either cooperative or competitive gameplay. Additionally, casual gaming sessions among friends seeking an interactive and entertaining experience are perfect for immersing in the whimsical world of Mario. The single-player experience also caters to long-time fans craving the classic Mario gameplay they know and love, enhanced with updated graphics and features that breathe new life into the franchise. With characters such as Mario, Luigi, and two Toads, alongside exciting new power-ups like the propeller suit and Penguin Mario, ¡a\\_175¿¡b\\_24¿¡c\\_4¿ combines nostalgia with innovative gameplay mechanics, making it a standout title in the Mario series. The intuitive controls of the Wii Remote allow players to navigate with ease, offering both classic and modern input options that appeal to diverse gaming preferences. Players can lift each other to safety or strategically toss opponents into danger, fostering a playful yet competitive environment that is sure to delight. As players race to complete levels, they are ranked at the end based on their scores, coins collected, and enemies defeated, adding an extra layer of friendly rivalry. ¡a\\_175¿¡b\\_24¿¡c\\_4¿ truly encapsulates the essence of family entertainment, delivering a multiplayer platformer experience that resonates with children, families, and fans alike while ensuring a fun-filled adventure steeped in the rich legacy of the Super Mario franchise.Case 8: Item predictionNarrative-based Sequential Recommendation with Semantic IDsThe user has engaged with ¡a\\_250¿¡b\\_39¿¡c\\_2¿, ¡a\\_21¿¡b\\_19¿¡c\\_204¿, ¡a\\_92¿¡b\\_90¿¡c\\_145¿, and ¡a\\_21¿¡b\\_19¿¡c\\_204¿, showcasing a distinctive pattern in their gaming preferences. This journey began with an intriguing foray into the world of immersive RPGs, starting with ¡a\\_250¿¡b\\_39¿¡c\\_2¿, a title that reflects their appreciation for vibrant storytelling and character development. Following this initial adventure, the user showed a keen interest in enhancing their gaming experience through ¡a\\_21¿¡b\\_19¿¡c\\_204¿, engaging with this technical accessory not once but twice.This indicates not only a desire for improved online gaming capabilities but also a preference for stable performance during their gaming sessions.The user’s return to ¡a\\_21¿¡b\\_19¿¡c\\_204¿ signifies their commitment to solidifying their gaming setup, thoughtfully balancing technical enhancements with the enjoyment of gameplay. After establishing their gaming environment, they transitioned back to an equally engaging RPG with ¡a\\_92¿¡b\\_90¿¡c\\_145¿, highlighting their intrinsic draw towards rich narrative experiences that allow for deep player engagement. This seamless shift reveals a thoughtful consideration of both gameplay mechanics and the overall story arc, suggesting that the user values a harmonious blend of technical quality and immersive storytelling.Given this dynamic interaction history, it seems evident that the user will continue to seek out richly woven narrative experiences that challenge the mind and engage the heart. Therefore, it’s only natural that they would be inclined toward ¡a\\_92¿¡b\\_90¿¡c\\_145¿ as their predicted next choice, as it perfectly aligns with their penchant for captivating storytelling and interactive gameplay.
+## Appendix D Prompts for Corpus Enrichment
+We provide the complete instructions for the prompts used in Item-centric Semantic Enrichment and User-centric Reasoning Enrichment below, both of which follow a two-stage framework.
+Item-centric Semantic Enrichment
+Stage 1: We require the model to reason through raw metadata to generate structured insights, including target audiences, use cases, and latent keywords, transforming sparse data into deep contextual knowledge. Stage 2: This stage enforces fusing all metadata into a single paragraph by seamlessly interleaving SIDs into the text.
+Data Generation For Item-centric Semantic EnrichmentPrompt Template for Stage 1: Comprehensive AnalysisYou are an expert recommendation system analyst analyzing user behavior patterns.Your goal is to reason through the user’s history and predict what the item the user would be interested in, explaining your reasoning process from your analytical perspective in first person.Based on the following product information, generate a comprehensive analysis:Product Title, Brand, Category, Description, FeaturesPlease provide:1\. A detailed 2-3 sentence description2\. 2-3 main use cases3\. Target audience4\. 3-5 key features summary5\. 5-8 related keywordsPrompt Template For Stage 2: IntegrationYou are a senior copywriter preparing an in-depth narrative for a product dossier.\- Source Meta Information: Title, Brand, Categories, Description:, Features\- Product Semantic Identifier (use this exact string whenever you mention the product): SID\\_index\- Enrichment from Stage 1: Detailed Description, Target Audience, Key Features, Related KeywordsTask:1\. Combine ALL of the information above into a single rich and coherent narrative of at least 10 sentences. Include every important fact,Detailed Description,scenario,Target Audience,audience insight, feature highlight, and keyword context that appears in the sources.2\. Every reference to the product must use the identifier index. Do NOT use the title or any other alias.3\. Ensure the result reads like a rich, flowing paragraph (no bullet points, headings, or enumerations). Maintain a professional and descriptive tone suitable for a product catalog.4\. Highlight how index fits different use cases, why its features matter, and draw from both original data and first-stage enhancements without omitting details.
+User-centric Reasoning Enrichment
+Stage 1 focuses on Reasoning Generation, where the model adopts an analyst’s persona to infer latent user preferences and behavioral shifts from interaction history. Stage 2 then performs Narrative Integration, merging the raw interaction sequence with the generated reasoning into a seamless, natural-language paragraph that strictly uses Semantic IDs to represent items.
+Data Generation For User-centric Reasoning EnrichmentPrompt Template for Stage 1: Reasoning GenerationYou are an expert recommendation system analyst analyzing user behavior patterns.Your goal is to reason through the user’s history and predict what the item the user would be interested in, explaining your reasoning process from your analytical perspective in first person.Given user interaction history, item descriptions, and reference next item, produce a concise first-person reasoning from an analyst’s perspective to predict what kind of item the user may like in the next interactions. The reference item is only for internal guidance—reason entirely based on interaction history and item descriptions. Never mention or discuss the reference item in your reasoning. Write as a genuine real-time prediction analyzing user behavior patterns.User Interaction history: Chronological item titlesReference next item: Next item titleItem Descriptions:Item\\_descriptionsOUTPUT REQUIREMENTS:1\. Output ONLY reasoning monologue in first person (I) as an analyst. Keep concise but detailed.Vary sentence structures to avoid repetition.2\. Analyze general user preferences (genres, themes, attributes, motivations) and engagement patterns based on history.3\. Express potential interests or tendencies rather than deterministic conclusions or single outcomes.4\. Adapt depth to history length: brief key observations for short histories; step-by-step tracing of interest shifts for longer ones. Base predictions on observed patterns.5\. CRITICAL: Always use ONLY the SID format when referring to items. Never use titles, names, or ’Item SID:’ prefixes.6\. Never mention ’reference item’ or imply knowledge of the target. Reason as if predicting blindly.7\. Start directly with reasoning. Do NOT predict a specific next item. End with a non-deterministic summary of likely interests (e.g., ’may enjoy’, ’tends to prefer’).Your Reasoning:Prompt Template For Stage 2: Integration with SIDsIntegrate the following information into a single, coherent, natural narrative paragraph:User interaction history: (Chronological item titles & SIDs)Reference next item: (Item Title & SID)Reasoning path from stage 1OUTPUT REQUIREMENTS:1\. Start your narrative by explicitly reciting the full ’User Interaction history (chronological item SIDs)’ sequence EXACTLY as provided, but use varied and natural opening phrases. Ensure the full sequence is included to establish context.2\. Write in a natural, flowing style—avoid mechanical or formulaic language in the subsequent analysis. Make it read like a genuine narrative.3\. Preserve the essential reasoning insights from the reasoning path—don’t just summarize, but naturally incorporate the key analytical points and logic.4\. When mentioning any item, ALWAYS use its SID (format: ¡a\\_XXX¿¡b\\_YYY¿¡c\\_ZZZ¿)—never use item titles or names.5\. Keep the narrative natural and engaging.Integrated Narrative:
+BETA

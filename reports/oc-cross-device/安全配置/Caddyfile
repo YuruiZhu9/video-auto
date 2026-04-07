@@ -1,0 +1,121 @@
+# ============================================================
+# OpenClaw Control — Caddyfile（HTTPS + WSS 一行配置）
+# Caddy 2.x 自动 HTTPS、自动 HTTP/2、自动 WebSocket
+#
+# 安装 Caddy：
+#   apt install -y apt-transport-https
+#   curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | apt-key add -
+#   echo "deb https://dl.cloudsmith.io/public/caddy/stable/debian any-version main" > /etc/apt/sources.list.d/caddy-stable.list
+#   apt update && apt install caddy
+#
+# 使用方式：
+#   1. 修改下面的 oc.example.com 为你的域名或 IP
+#   2. caddy fmt --overwrite Caddyfile
+#   3. caddy run --config Caddyfile
+# ============================================================
+
+# 全局配置
+{
+    # 日志
+    log {
+        output file /var/log/caddy/oc-control.log
+        level INFO
+    }
+    # HTTPS 自动证书（Let's Encrypt）
+    email your-email@example.com   # ← 修改为你的邮箱
+    # HTTP/3（QUIC）
+    servers {
+        protocol {
+            experimental_http3
+        }
+    }
+}
+
+# ─────────────────────────────────────────────────────────────
+# 域名配置（取消注释并修改为你的域名）
+# ─────────────────────────────────────────────────────────────
+# oc.example.com {
+#     encode gzip zstd
+#
+#     # Web Admin 静态文件
+#     handle_path /admin/* {
+#         root * /workspace/reports/oc-cross-device/代码实现/web_admin
+#         file_server browse
+#         try_files {path} /index.html
+#     }
+#
+#     # clawctl FastAPI API
+#     reverse_proxy /api/* localhost:18790
+#
+#     # OpenClaw Gateway（REST）
+#     reverse_proxy /gateway/* localhost:18789
+#
+#     # OpenClaw WebSocket（WSS）
+#     reverse_proxy /ws localhost:18789 {
+#         header_up Host {host}
+#         header_up X-Real-IP {remote}
+#         header_up X-Forwarded-For {proxy_protocol_port}
+#         header_up X-Forwarded-Proto {scheme}
+#     }
+# }
+
+# ─────────────────────────────────────────────────────────────
+# IP 直接访问配置（开发/内网使用）
+# 自动申请 Let's Encrypt 证书（需 80 端口开放）
+# ─────────────────────────────────────────────────────────────
+:443, :18790 {
+    encode gzip zstd
+
+    # 安全响应头
+    header {
+        Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+        X-Frame-Options "SAMEORIGIN"
+        X-Content-Type-Options "nosniff"
+        X-XSS-Protection "1; mode=block"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        # CSP（根据实际需要调整）
+        Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src 'self' wss://{host} https://{host}; img-src 'self' data: https:;"
+        # 允许 iframe（同源限制）
+        Permissions-Policy "camera=(), microphone=(), geolocation=()"
+    }
+
+    # Web Admin 静态文件
+    handle_path /admin/* {
+        root * /workspace/reports/oc-cross-device/代码实现/web_admin
+        file_server browse
+        try_files {path} /index.html
+    }
+
+    # clawctl FastAPI API
+    reverse_proxy /api/* localhost:18790 {
+        # 保留原始 Host（用于 API Key 验证）
+        header_up Host {host}
+        header_up X-Real-IP {remote}
+        header_up X-Forwarded-For {proxy_protocol_port}
+        header_up X-Forwarded-Proto {scheme}
+    }
+
+    # OpenClaw Gateway（REST）
+    reverse_proxy /gateway/* localhost:18789 {
+        header_up Host {host}
+        header_up X-Real-IP {remote}
+    }
+
+    # OpenClaw WebSocket（WSS）
+    # Caddy 2 原生支持 WebSocket reverse_proxy
+    reverse_proxy /ws/* localhost:18789 {
+        header_up Host {host}
+        header_up X-Real-IP {remote}
+        header_up X-Forwarded-For {proxy_protocol_port}
+        header_up X-Forwarded-Proto {scheme}
+        # 启用 WebSocket
+        flush_interval -1
+    }
+
+    # 根路径 → Web Admin
+    handle {
+        root * /workspace/reports/oc-cross-device/代码实现/web_admin
+        file_server browse
+        try_files {path} /index.html
+    }
+}

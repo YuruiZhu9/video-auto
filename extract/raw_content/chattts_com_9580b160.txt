@@ -1,0 +1,208 @@
+# Source URL: https://chattts.com/
+# Content Length: 10156 characters
+# Extracted at: 2026-03-20 19:39:43
+#============================================================
+
+
+ChatTTS: Text-to-Speech For Chat[![]()ChatTTS](/)
+
+* [Features](#Features)
+* [ChatTTS Demo](#Demo)
+* [FAQ](#FAQ)
+
+ChatTTS - Text-to-Speech for Conversational Scenarios
+=====================================================
+
+Optimized for natural, conversational text-to-speech
+
+[![]()](https://www.producthunt.com/posts/chattts?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-chattts)![]()![]()![]()![]()![]()
+
+20K+ Star on Github
+
+Free Online ChatTTS
+-------------------
+
+Try out ChatTTS with the following examples.
+
+[AI Image Editor](https://aiimageeditor.ai/?utm_source=chattts)[Voice Cloning | Voicv](https://voicv.com)
+
+What is ChatTTS?
+----------------
+
+ChatTTS is a voice generation model designed for conversational scenarios, specifically for the dialogue tasks of large language model (LLM) assistants, as well as applications such as conversational audio and video introductions. It supports both Chinese and English, and through the use of approximately 100,000 hours of Chinese and English data for training, ChatTTS demonstrates high quality and naturalness in speech synthesis.
+
+ChatTTS Features
+----------------
+
+### Multi-language Support
+
+One of the key features of ChatTTS is its support for multiple languages, including English and Chinese. This allows it to serve a wide range of users and overcome language barriers
+
+### Large Data Training
+
+ChatTTS has been trained using a significant amount of data, approximately 10 million hours of Chinese and English data. This extensive training has resulted in high-quality and natural-sounding voice synthesis
+
+### Dialog Task Compatibility
+
+ChatTTS is well-suited for handling dialog tasks typically assigned to large language models LLMs. It can generate responses for conversations and provide a more natural and fluid interaction experience when integrated into various applications and services
+
+### Open Source Plans
+
+the project team plans to open source a trained base model. This will enable academic researchers and developers in the community to further study and develop the technology
+
+### Control and Security
+
+The team is committed to improving the controllability of the model, adding watermarks, and integrating it with LLMs. These efforts ensure the safety and reliability of the model
+
+### Ease of Use
+
+ChatTTS provides an easy-to-use experience for its users. It requires only text information as input, which generates corresponding voice files. This simplicity makes it convenient for users who have voice synthesis needs
+
+How to use ChatTTS?
+-------------------
+
+Let's get started with ChatTTS in just a few simple steps.
+
+![]()1
+### Download from GitHub
+
+Download the code from GitHub.
+
+```
+git clone https://github.com/2noise/ChatTTS
+```
+[Download ChatTTS](https://github.com/2noise/ChatTTS)2
+### Install Dependencies
+
+Before you begin, make sure you have the necessary packages installed. You will need torch and ChatTTS. If you haven't installed them yet, you can do so using pip:
+
+```
+pip install torch ChatTTS
+```
+3
+### Import Required Libraries
+
+Import the necessary libraries for your script. You'll need torch, ChatTTS, and Audio from IPython.display
+
+```
+import torch
+import ChatTTS
+from IPython.display import Audio
+```
+4
+### Initialize ChatTTS
+
+Create an instance of the ChatTTS class and load the pre-trained models.
+
+```
+chat = ChatTTS.Chat()
+chat.load_models()
+```
+5
+### Prepare Your Text
+
+Define the text you want to convert to speech. Replace <YOUR TEXT HERE> with your desired text.
+
+```
+texts = ["Hello, welcome to ChatTTS!",]
+```
+6
+### Generate Speech
+
+Use the infer method to generate speech from the text. Set use\_decoder=True to enable the decoder.
+
+```
+wavs = chat.infer(texts, use_decoder=True)
+```
+7
+### Play the Audio
+
+Use the Audio class from IPython.display to play the generated audio. Set the sample rate to 24,000 Hz and enable autoplay.
+
+```
+Audio(wavs[0], rate=24_000, autoplay=True)
+```
+8
+### Complete Script
+
+Here's the complete script for reference:
+
+```
+import torch
+import ChatTTS
+from IPython.display import Audio
+
+# Initialize ChatTTS
+chat = ChatTTS.Chat()
+chat.load_models()
+
+# Define the text to be converted to speech
+texts = ["Hello, welcome to ChatTTS!",]
+
+# Generate speech
+wavs = chat.infer(texts, use_decoder=True)
+
+# Play the generated audio
+Audio(wavs[0], rate=24_000, autoplay=True)
+
+```
+
+Frequently Asked Questions
+--------------------------
+
+Have a question? Check out some of the common queries below.
+
+### How can developers integrate ChatTTS into their applications?
+
+Developers can integrate ChatTTS into their applications by using the provided API and SDKs. The integration process typically involves initializing the ChatTTS model, loading the pre-trained models, and calling the text-to-speech functions to generate audio from text. Detailed documentation and examples are available to guide developers through the integration process.
+
+### What can ChatTTS be used for?
+
+ChatTTS can be used for various applications, including but not limited to:
+Conversational tasks for large language model assistants
+Generating dialogue speech
+Video introductions
+Educational and training content speech synthesis
+Any application or service requiring text-to-speech functionality
+
+### How is ChatTTS trained?
+
+ChatTTS is trained on approximately 100,000 hours of Chinese and English data. This extensive dataset helps the model learn to produce high-quality, natural speech. Additionally, the project team plans to open-source a base model trained on 40,000 hours of data to facilitate further research and development within the academic and developer
+
+### Does ChatTTS support multiple languages?
+
+Yes, ChatTTS supports both Chinese and English. By training on a large dataset in these languages, ChatTTS can generate high-quality speech synthesis in both Chinese and English, making it suitable for use in multilingual environments and meeting the needs of diverse language users.
+
+### What makes ChatTTS unique compared to other text-to-speech models?
+
+ChatTTS is specifically optimized for dialogue scenarios, making it particularly effective for conversational applications. It supports both Chinese and English and is trained on a vast dataset to ensure high-quality, natural speech synthesis. Additionally, the plan to open-source a base model trained on 40,000 hours of data sets it apart, promoting further research and development in the field.
+
+### What kind of data is used to train ChatTTS?
+
+ChatTTS is trained on approximately 100,000 hours of Chinese and English data. This dataset includes a wide variety of spoken content to help the model learn to generate natural and high-quality speech. The diversity and volume of the training data ensure that ChatTTS can handle various speech synthesis tasks effectively.
+
+### Is there an open-source version of ChatTTS available for developers and researchers?
+
+Yes, the project team plans to release an open-source version of ChatTTS that is trained on 40,000 hours of data. This open-source model will enable developers and researchers to explore and expand upon ChatTTS’s capabilities, fostering innovation and development in the text-to-speech domain.
+
+### How does ChatTTS ensure the naturalness of synthesized speech？
+
+ChatTTS ensures the naturalness of synthesized speech by training on a large and diverse dataset of approximately 100,000 hours of Chinese and English speech. This extensive training allows the model to capture various speech patterns, intonations, and nuances, resulting in high-quality, natural-sounding speech. Advanced machine learning techniques are also employed to fine-tune the model for better performance in conversational scenarios.
+
+### Can ChatTTS be customized for specific applications or voices?
+
+Yes, ChatTTS can be customized for specific applications or voices. Developers can fine-tune the model using their own datasets to better suit particular use cases or to develop unique voice profiles. This customization allows for greater flexibility and adaptability in different application contexts.
+
+### What platforms and environments is ChatTTS compatible with?
+
+ChatTTS is designed to be compatible with various platforms and environments. It can be integrated into web applications, mobile apps, desktop software, and embedded systems. The provided SDKs and APIs support multiple programming languages, ensuring that developers can easily implement ChatTTS across different platforms.
+
+### Are there any limitations to using ChatTTS?
+
+While ChatTTS is a powerful and versatile text-to-speech model, there are some limitations to consider. For instance, the quality of synthesized speech may vary depending on the complexity and length of the input text. Additionally, the model's performance can be influenced by the computational resources available, as generating high-quality speech in real-time may require significant processing power. Continuous updates and improvements are being made to address these limitations and enhance the model's capabilities
+
+### How can users provide feedback or report issues with ChatTTS?
+
+Users can provide feedback or report issues with ChatTTS through several channels. The project team typically offers a support system, which may include email support, a dedicated support portal, or a community forum. Providing detailed information about the issue or feedback, including any relevant logs or examples, will help the team address concerns more effectively and improve the ChatTTS model. Additionally, users can contribute to the project's GitHub repository if it is open-source, by submitting issues or pull requests.
+
+[🇺🇸 English](/)[🇨🇳 中文](/zh)[🇯🇵 日本語](/ja)[🇸🇦 العربية](/ar)[🇪🇸 Español](/es)[🇷🇺 Русский](/ru)©2026 All rights reserved.[PaintsUndo](https://paintsundo.com/)[Flux AI](https://fluxaiimagegenerator.com/)[AI Singing Voice Generator](https://aisinging.ai/)[Red Panda AI](https://red-panda.ai/)[Flux Tools](https://fluxtools.ai)[AI Image To Image](https://imgtoimg.ai)[Action Figure Generator](https://actionfiguregenerator.ai)[Flux Kontext](https://flux-kontext.org)[Photo To Cartoon](https://cartoonize.ai)[AI Video Generator](https://2.video)

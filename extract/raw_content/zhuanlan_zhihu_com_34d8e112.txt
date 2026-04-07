@@ -1,0 +1,193 @@
+# Source URL: https://zhuanlan.zhihu.com/p/2002957270426853712
+# Content Length: 6678 characters
+# Extracted at: 2026-03-26 22:45:56
+#============================================================
+
+![](https://zhuanlan.zhihu.com/p/2002957270426853712)
+![OpenClaw DingTalk Channel 接入避坑实录](https://picx.zhimg.com/v2-ce9c40c960b453d99a36e58f4e3a1f1d\_720w.jpg?source=172ae18b)
+## OpenClaw [DingTalk Channel](https://zhida.zhihu.com/search?content\_id=270045788&content\_type=Article&match\_order=1&q=DingTalk+Channel&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzIwOTIzMzYsInEiOiJEaW5nVGFsayBDaGFubmVsIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjcwMDQ1Nzg4LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.rb31ZhL\_QwymHntG\_nEbYOfv7MU69hDcgDQBUYKt-NE&zhida\_source=entity) 接入实录（避坑版）
+> 适用场景：在 OpenClaw 中把钉钉接入为“正式 channel”，实现钉钉消息进入 OpenClaw 的标准路由、会话管理、权限控制，并支持自动回复。
+### 目标
+- 将钉钉接入 OpenClaw，作为 `dingtalk` channel。
+- 使用钉钉 [Stream 模式](https://zhida.zhihu.com/search?content\_id=270045788&content\_type=Article&match\_order=1&q=Stream+%E6%A8%A1%E5%BC%8F&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzIwOTIzMzYsInEiOiJTdHJlYW0g5qih5byPIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjcwMDQ1Nzg4LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.Ao-fDJuNs9ZdVDZ72Jyn5q3NvVVL0NoGCJayFgJfSbg&zhida\_source=entity)接收消息，进入 OpenClaw 的原生路由链路。
+- 回复消息通过 `sessionWebhook` 返回到同一会话。
+- 支持自动重连、状态监控（`lastError` / `lastReconnectAt`）。
+\*\*备注\*\*
+使用[自定义机器人](https://zhida.zhihu.com/search?content\_id=270045788&content\_type=Article&match\_order=1&q=%E8%87%AA%E5%AE%9A%E4%B9%89%E6%9C%BA%E5%99%A8%E4%BA%BA&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzIwOTIzMzYsInEiOiLoh6rlrprkuYnmnLrlmajkuroiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNzAwNDU3ODgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.5uckI2ZEYWDzmExlK7Zs9GdoRO1HgMbHPlq4RiiVcJk&zhida\_source=entity)，非企业内部应用。（目前仅支持文字信息）
+> 钉钉自定义机器人API对于发送图片有严格的限制：
+>
+> 1\. 自定义机器人不能直接发送图片内容，只能发送图片链接
+>
+> 2\. 图片必须托管在网络上的公开URL
+>
+> 3\. 之前上传的媒体文件不能直接用于自定义机器人
+>
+> 有两种解决方案：
+>
+> 1\. 将图片上传到公共图床或文件托管服务
+>
+> 2\. 使用钉钉的普通企业内部应用接口，而不是自定义机器人接口
+>
+> 钉钉自定义机器人的设计初衷是防止滥用，所以对多媒体内容有较多限制。
+\*\*如果您需要发送图片到钉钉，需要配置一个企业内部应用，而不是使用自定义机器人。\*\*
+### 关键结论（先看）
+1. \*\*必须做成正式 channel\*\*，否则只能“外挂式”调用 `openclaw agent`，不走统一路由。
+2. \*\*Stream 模式必须先 ACK，再处理\*\*，否则只能收到第一条消息。
+3. \*\*网关进程通常不继承 shell 环境变量\*\*，用 `{{env.X}}` 很容易导致 `authFailed`。
+4. \*\*[zod](https://zhida.zhihu.com/search?content\_id=270045788&content\_type=Article&match\_order=1&q=zod&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzIwOTIzMzYsInEiOiJ6b2QiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNzAwNDU3ODgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.aCmhd\_whtuujoPbC-w1JLh-sT1j2f5b9guSg3OfgCeY&zhida\_source=entity) 版本会踩坑\*\*：自带 `zod` 不一定带 `toJSONSchema()`，会导致插件加载失败。
+### 最终落地方案
+### 1) 创建 DingTalk Channel 插件
+路径：`/home/username/.openclaw/extensions/dingtalk`
+新增文件结构：
+```text
+/home/username/.openclaw/extensions/dingtalk/
+├── package.json
+├── openclaw.plugin.json
+├── index.ts
+└── src/
+├── channel.ts
+├── runtime.ts
+├── stream.ts
+└── types.ts
+```
+### 核心功能
+- `stream.ts`：
+- 调用 `https://api.dingtalk.com/v1.0/gateway/connections/open` 注册
+- 用 `ticket` 建立 WebSocket
+- 收到消息后 \*\*先 ACK\*\*，再异步处理
+- 把消息转成 OpenClaw `MsgContext` 并调用 `dispatchReplyWithBufferedBlockDispatcher`
+- 回复通过 `sessionWebhook`（或回退到群机器人 `webhookUrl`）
+- 自动重连（指数退避 \+ jitter）
+- 断线记录 `lastError` / `lastReconnectAt`
+- `channel.ts`：
+- 注册 `dingtalk` channel
+- 接入 Stream 监听（`gateway.startAccount`）
+- 支持基本 outbound（`openclaw message send --channel dingtalk ...`）
+### 重点代码（概念）
+- \*\*Stream ACK\*\*
+```text
+ws.on("message", (data) => {
+const raw = JSON.parse(data.toString());
+const messageId = raw.headers?.messageId;
+if (messageId) ws.send(buildAck(messageId));
+// 然后异步处理
+});
+```
+- \*\*自动重连\*\*
+```text
+const delay = Math.min(30000, 1000 \* 2 \*\* Math.min(attempt, 5)) + jitter;
+```
+### 配置与环境
+### 1) 强烈建议写入 `openclaw.json`
+由于网关不会继承 shell 环境变量，强烈建议把 appKey/appSecret/webhook 直接写到配置里：
+```text
+"channels": {
+"dingtalk": {
+"enabled": true,
+"appKey": "YOUR\_APPKEY",
+"appSecret": "YOUR\_APPSECRET",
+"webhookUrl": "https://oapi.dingtalk.com/robot/send?access\_token=...",
+"dmPolicy": "open",
+"allowFrom": ["\*"]
+}
+}
+```
+否则会遇到：
+```text
+registration failed: 401 authFailed
+```
+### 2) 注意 zod 问题
+如果插件内部依赖了 `zod` 并调用 `toJSONSchema()`，会报：
+```text
+TypeError: schema.toJSONSchema is not a function
+```
+解决办法：
+- 插件不要依赖 zod schema，改成手写 JSON schema。
+### 常见问题与坑
+### 1) 只能收到第一条消息
+原因： \*\*ACK 太慢\*\*（在处理完消息后才 ACK）。
+解决： \*\*先 ACK，再处理\*\*。
+### 2) `authFailed` 401
+原因：网关进程没拿到环境变量，导致 `appKey/appSecret` 为空。
+解决：写进 `openclaw.json`。
+### 3) Hook 无效/未执行
+原因：`gateway:startup` 的 event.type 实际是 `gateway`。
+解决：hook 判断应为：
+```text
+if (event.type === "gateway" && event.action === "startup") { ... }
+```
+### 4) Stream 接收器在后台消失
+原因：未正确守护，或输出被重定向失败。
+解决：在 Channel 层启动（`gateway.startAccount`），由 OpenClaw 管理生命周期。
+### 验证清单（上线前）
+1. `openclaw gateway restart` 无报错
+2. `openclaw logs --follow | rg dingtalk` 能看到 `stream connected`
+3. 钉钉发送消息能触发 OpenClaw 回复
+4. 断网后能自动重连，日志中出现 `reconnect scheduled in ...`
+5. `openclaw gateway status --json` 能看到 `lastError`/`lastReconnectAt`
+### 最终成果
+- DingTalk 作为正式 channel 接入
+- Stream 模式稳定接收消息
+- 回复走 OpenClaw 路由，支持工具/技能/模型
+- 自动重连 \+ 错误记录
+### 参考路径（当前实现）
+```text
+/home/username/.openclaw/extensions/dingtalk/
+```
+如需迁移给他人，请打包上述目录并复制到目标机器对应路径，再执行：
+```text
+cd ~/.openclaw/extensions/dingtalk
+npm install
+openclaw gateway restart
+```
+\* \* \*
+需进一步完善：
+- 加入 `allowFrom` 精细白名单
+- 支持更丰富消息类型（图片、文件）
+- 支持会话级路由策略
+编辑于 2026-02-05 15:22・浙江
+[OpenClaw](https://www.zhihu.com/topic/2000657712221017695)
+[钉钉](https://www.zhihu.com/topic/20013286)
+[DingTalk](https://www.zhihu.com/topic/1994796421048713478)
+​赞同​​添加评论
+​分享
+​喜欢​收藏​申请转载​
+​
+暂无评论
+关于作者
+[![帅爸爸](https://pic1.zhimg.com/v2-46c5188bdf37a5891eb2a1479bb0d6f5\_l.jpg?source=172ae18b)](https://www.zhihu.com/people/usedbook)
+[帅爸爸](https://www.zhihu.com/people/usedbook)
+openclaw深度使用者和部署使用顾问，偶以文字敲打洞壁。
+[回答](https://www.zhihu.com/people/usedbook/answers) [文章](https://www.zhihu.com/people/usedbook/posts) [关注者](https://www.zhihu.com/people/usedbook/followers)
+​关注他​发私信
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码

@@ -1,0 +1,339 @@
+# Source URL: https://cloud.tencent.com/developer/article/2443981
+# Content Length: 10696 characters
+# Extracted at: 2026-03-25 12:28:00
+#============================================================
+
+
+【机器学习】FFmpeg+Whisper：二阶段法视频理解（video-to-text）大模型实战-腾讯云开发者社区-腾讯云[LDG\_AGI](/developer/user/6998696)
+
+【机器学习】FFmpeg+Whisper：二阶段法视频理解（video-to-text）大模型实战
+-------------------------------------------------
+
+关注作者[*腾讯云*](/?from=20060&from_column=20060)[*开发者社区*](/developer)[文档](/document/product?from=20702&from_column=20702)[建议反馈](/voc/?from=20703&from_column=20703)[控制台](https://console.cloud.tencent.com?from=20063&from_column=20063)登录/注册[首页](/developer)学习活动专区圈层工具[MCP广场![]()](/developer/mcp)文章/答案/技术大牛搜索搜索关闭发布LDG\_AGI[社区首页](/developer) >[专栏](/developer/column) >【机器学习】FFmpeg+Whisper：二阶段法视频理解（video-to-text）大模型实战
+
+【机器学习】FFmpeg+Whisper：二阶段法视频理解（video-to-text）大模型实战
+=================================================
+
+![]()LDG\_AGI关注发布于 2024-08-13 14:33:26发布于 2024-08-13 14:33:261.1K0举报文章被收录于专栏：[人工智能极简应用](/developer/column/103512)人工智能极简应用**一、引言**
+
+上一篇对[Whisper原理和实战](/developer/tools/blog-entry?target=https%3A%2F%2Fblog.csdn.net%2Fweixin_48007632%2Farticle%2Fdetails%2F140046145%3Fspm%3D1001.2014.3001.5501&objectId=2443981&objectType=1&contentType=undefined)进行了讲解，第7次拿到了热榜第一🏆。今天，我们在Whisper的基础上，引入ffmpeg工具对视频的音频进行抽取，再使用Whisper将音频转为文本，通过二阶段法实现视频内容的理解。
+
+### 二、FFmpeg工具介绍
+
+#### 2.1 什么是FFmpeg
+
+FFmpeg是一个开源的跨平台多媒体处理工具，它可以处理音频/视频数据，包括转码、转换格式、分割、合并等操作。
+
+#### 2.2 FFmpeg核心原理
+
+* 多媒体流的解析：FFmpeg能够解析各种常见的多媒体格式，包括MP4, MKV, AVI, MP3, OGG等，并将其转换为FFmpeg内部的统一表示格式，也就是所谓的复用格式（Container Format）和编码格式（Codec）。
+* 多媒体流的编码和解码：FFmpeg可以使用不同的编解码器来编码和解码音频/视频数据。例如，它可以使用H.264编码来压缩视频数据，使用AAC编码来压缩音频数据。
+* 过滤器（Filters）：FFmpeg提供了一个强大的过滤器系统，可以用来处理视频和音频的各种效果，例如裁剪、裁切、旋转、缩放等。
+* 流的复用和解复用：FFmpeg可以将多个音频/视频流合并为一个文件，也可以将一个文件分离成多个音频/视频流。
+* 并行处理：FFmpeg利用多线程技术，可以并行处理多个任务，比如同时进行多个转码操作。
+
+#### 2.3 FFmpeg使用示例
+
+代码语言：javascript复制
+```
+ffmpeg -i input.mp4 -vn -ar 44100 -ac 2 -ab 192k -f mp3 output.mp3
+```
+
+* -i input.mp4 指定输入文件。
+* -vn 表示禁用视频录制。
+* -ar 44100 设置采样率为44.1kHz。
+* -ac 2 设置声道数为2（立体声）。
+* -ab 192k 设置比特率为192k。
+* -f mp3 设置输出格式为MP3。
+* output.mp3 是输出文件的名称。
+
+### 三、FFmpeg+Whisper二阶段法视频理解实战
+
+#### 3.1 FFmpeg安装
+
+由于FFmpeg不支持pip安装，所以需要使用apt-get
+
+代码语言：javascript复制
+```
+sudo apt-get update && apt-get install ffmpeg
+```
+#### 3.2 Whisper模型下载
+
+这里与上一篇一样，还是采用transformers的pipeline，首先创建conda环境以及安装transformers
+
+创建并激活conda环境：
+
+代码语言：javascript复制
+```
+conda create -n video2text python=3.11
+conda activate video2text
+```
+
+安装transformers库：
+
+代码语言：javascript复制
+```
+pip install transformers -i https://mirrors.cloud.tencent.com/pypi/simple
+```
+
+基于transformers的pipeline会自动进行模型下载，当然，如果您的网速不行，请替换HF\_ENDPOINT为国内镜像。
+
+代码语言：javascript复制
+```
+os.environ["HF_ENDPOINT"] = "https://hf-mirror.com"
+
+transcriber = pipeline(task="automatic-speech-recognition", model="openai/whisper-medium")
+```
+
+不同尺寸模型参数量、多语言支持情况、需要现存大小以及推理速度如下
+
+![]()
+#### 3.3 FFmpeg抽取视频的音频
+
+##### 3.3.1 方案一：命令行方式使用ffmpeg
+
+首先将ffmpeg命令放入ffmpeg\_command，之后采用subprocess库的run方法执行ffmpeg\_command内的命令。
+
+输入的视频文件为input\_file，输出的音频文件为output\_file。
+
+代码语言：javascript复制
+```
+import subprocess
+def extract_audio(input_file, output_file):
+    """
+    使用FFmpeg从MP4文件中提取音频并保存为MP3格式。
+
+    :param input_file: 输入的MP4文件路径
+    :param output_file: 输出的MP3文件路径
+    """
+    # 构建FFmpeg命令
+    ffmpeg_command = [
+        'ffmpeg', '-i', input_file, '-vn', '-acodec', 'libmp3lame', output_file
+    ]
+
+    try:
+        # 执行命令
+        subprocess.run(ffmpeg_command, check=True)
+        print(f"音频已成功从 {input_file} 提取到 {output_file}")
+    except subprocess.CalledProcessError as e:
+        print(f"处理错误: {e}")
+```
+##### 3.3.2 方案二：ffmpeg-python库使用ffmpeg
+
+首先安装ffmpeg-python：
+
+代码语言：javascript复制
+```
+ pip install ffmpeg-python -i  https://mirrors.cloud.tencent.com/pypi/simple
+```
+
+引入ffmpeg库，一行代码完成音频转文本
+
+代码语言：javascript复制
+```
+import ffmpeg
+def extract_audio(input_file, output_file):
+    """
+    使用FFmpeg从MP4文件中提取音频并保存为MP3格式。
+
+    :param input_file: 输入的MP4文件路径
+    :param output_file: 输出的MP3文件路径
+    """
+
+    try:
+        # 执行命令
+        ffmpeg.input(input_file).output(output_file, acodec="libmp3lame", ac=2, ar="44100").run()
+        print(f"音频已成功从 {input_file} 提取到 {output_file}")
+    except subprocess.CalledProcessError as e:
+        print(f"处理错误: {e}")
+```
+#### 3.4 Whisper将音频转为文本
+
+代码语言：javascript复制
+```
+from transformers import pipeline
+def speech2text(speech_file):
+    transcriber = pipeline(task="automatic-speech-recognition", model="openai/whisper-medium")
+    text_dict = transcriber(speech_file)
+    return text_dict
+```
+
+这里采用pipeline完成openai/whisper-medium的模型下载以及实例化，将音频文件输入实例化的transcriber对象即刻得到文本。
+
+#### 3.5 视频理解完整代码
+
+代码语言：javascript复制
+```
+import os
+os.environ["HF_ENDPOINT"] = "https://hf-mirror.com"
+os.environ["CUDA_VISIBLE_DEVICES"] = "2"
+os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
+
+from transformers import pipeline
+import subprocess
+
+def speech2text(speech_file):
+    transcriber = pipeline(task="automatic-speech-recognition", model="openai/whisper-medium")
+    text_dict = transcriber(speech_file)
+    return text_dict
+def extract_audio(input_file, output_file):
+    """
+    使用FFmpeg从MP4文件中提取音频并保存为MP3格式。
+
+    :param input_file: 输入的MP4文件路径
+    :param output_file: 输出的MP3文件路径
+    """
+    # 构建FFmpeg命令
+    ffmpeg_command = [
+        'ffmpeg', '-i', input_file, '-vn', '-acodec', 'libmp3lame', output_file
+    ]
+
+    try:
+        # 执行命令
+        subprocess.run(ffmpeg_command, check=True)
+        print(f"音频已成功从 {input_file} 提取到 {output_file}")
+    except subprocess.CalledProcessError as e:
+        print(f"处理错误: {e}")
+
+
+
+import argparse
+import json
+def main():
+    parser = argparse.ArgumentParser(description="视频转文本")
+    parser.add_argument("--video","-v", type=str, help="输入视频文件路径")
+    parser.add_argument("--audio","-a", type=str, help="输出音频文件路径")
+
+    args = parser.parse_args()
+    print(args) 
+
+    extract_audio(args.video, args.audio)
+    text_dict = speech2text(args.audio)
+    print("视频内的文本是：\n" +  text_dict["text"])
+    #print("视频内的文本是：\n"+ json.dumps(text_dict,indent=4))
+
+if __name__=="__main__":
+    main()
+```
+
+输出为：
+
+#### 3.6 视频理解模型部署
+
+如果想将该服务部署成语音识别API服务，可以参考之前的[FastAPI相关文章](/developer/tools/blog-entry?target=https%3A%2F%2Fblog.csdn.net%2Fweixin_48007632%2Farticle%2Fdetails%2F139757328%3Fspm%3D1001.2014.3001.5502&objectId=2443981&objectType=1&contentType=undefined)。
+
+### **四、总结**
+
+本文在上一篇音频转文本的基础上，引入了视频转音频，这样可以采用二阶段法：先提取音频，再音频转文字的方法完成视频内容理解。之后可以配上LLM对视频内提取的文本进行一系列应用。
+
+本文参与 [腾讯云自媒体同步曝光计划](/developer/support-plan)，分享自作者个人站点/博客。 原始发表：2024-07-01，如有侵权请联系 [cloudcommunity@tencent.com](mailto:cloudcommunity@tencent.com) 删除前往查看[机器学习](/developer/tag/10149)[视频理解](/developer/tag/11254)[ffmpeg](/developer/tag/13396)[video](/developer/tag/16795)[模型](/developer/tag/17381)
+
+本文分享自 作者个人站点/博客 前往查看
+
+如有侵权，请联系 [cloudcommunity@tencent.com](mailto:cloudcommunity@tencent.com) 删除。
+
+本文参与 [腾讯云自媒体同步曝光计划](/developer/support-plan)  ，欢迎热爱写作的你一起参与！
+
+[机器学习](/developer/tag/10149)[视频理解](/developer/tag/11254)[ffmpeg](/developer/tag/13396)[video](/developer/tag/16795)[模型](/developer/tag/17381)评论登录后参与评论0 条评论热度最新登录 后参与评论推荐阅读目录
+
+* 二、FFmpeg工具介绍
+  + 2.1 什么是FFmpeg
+  + 2.2 FFmpeg核心原理
+  + 2.3 FFmpeg使用示例
+
+* 三、FFmpeg+Whisper二阶段法视频理解实战
+  + 3.1 FFmpeg安装
+  + 3.2 Whisper模型下载
+  + 3.3 FFmpeg抽取视频的音频
+    - 3.3.1 方案一：命令行方式使用ffmpeg
+    - 3.3.2 方案二：ffmpeg-python库使用ffmpeg
+  + 3.4 Whisper将音频转为文本
+  + 3.5 视频理解完整代码
+  + 3.6 视频理解模型部署
+
+* 四、总结
+相关产品与服务视频理解视频理解是基于腾讯领先的 AI 技术和丰富的内容运营经验，对视频内容输出涵盖人物、场景、物体、事件的高精度、多维度的优质标签内容。通过对视频内容进行细粒度的结构化解析，应用于媒资系统管理、素材检索、内容运营等业务场景中。其中一款产品是媒体智能标签（Intelligent Media Label Detection）[产品介绍](https://cloud.tencent.com/product/ivld?from=21341&from_column=21341)[产品文档](https://cloud.tencent.com/document/product/1509?from=21342&from_column=21342)[2026新春采购季](https://cloud.tencent.com/act/pro/spring2026?from=21344&from_column=21344)领券
+
+* ### 社区
+  
+  + [技术文章](/developer/column)
+  + [技术问答](/developer/ask)
+  + [技术沙龙](/developer/salon)
+  + [技术视频](/developer/video)
+  + [学习中心](/developer/learning)
+  + [技术百科](/developer/techpedia)
+  + [技术专区](/developer/zone/list)
+* ### 活动
+  
+  + [自媒体同步曝光计划](/developer/support-plan)
+  + [邀请作者入驻](/developer/support-plan-invitation)
+  + [自荐上首页](/developer/article/1535830)
+  + [技术竞赛](/developer/competition)
+* ### 圈层
+  
+  + [腾讯云最具价值专家](/tvp)
+  + [腾讯云架构师技术同盟](/developer/program/tm)
+  + [腾讯云创作之星](/developer/program/tci)
+  + [腾讯云TDP](/developer/program/tdp)
+* ### 关于
+  
+  + [社区规范](/developer/article/1006434)
+  + [免责声明](/developer/article/1006435)
+  + [联系我们](mailto:cloudcommunity@tencent.com)
+  + [友情链接](/developer/friendlink)
+  + [MCP广场开源版权声明](/developer/article/2537547)
+### 腾讯云开发者
+
+![]()
+
+扫码关注腾讯云开发者
+
+领取腾讯云代金券
+
+### 热门产品
+
+* [域名注册](/product/domain?from=20064&from_column=20064)
+* [云服务器](/product/cvm?from=20064&from_column=20064)
+* [区块链服务](/product/tbaas?from=20064&from_column=20064)
+* [消息队列](/product/message-queue-catalog?from=20064&from_column=20064)
+* [网络加速](/product/ecdn?from=20064&from_column=20064)
+* [云数据库](/product/tencentdb-catalog?from=20064&from_column=20064)
+* [域名解析](/product/dns?from=20064&from_column=20064)
+* [云存储](/product/cos?from=20064&from_column=20064)
+* [视频直播](/product/css?from=20064&from_column=20064)
+### 热门推荐
+
+* [人脸识别](/product/facerecognition?from=20064&from_column=20064)
+* [腾讯会议](/product/tm?from=20064&from_column=20064)
+* [企业云](/act/pro/enterprise2022?from=20064&from_column=20064)
+* [CDN加速](/product/cdn?from=20064&from_column=20064)
+* [视频通话](/product/trtc?from=20064&from_column=20064)
+* [图像分析](/product/imagerecognition?from=20064&from_column=20064)
+* [MySQL 数据库](/product/cdb?from=20064&from_column=20064)
+* [SSL 证书](/product/ssl?from=20064&from_column=20064)
+* [语音识别](/product/asr?from=20064&from_column=20064)
+### 更多推荐
+
+* [数据安全](/solution/data_protection?from=20064&from_column=20064)
+* [负载均衡](/product/clb?from=20064&from_column=20064)
+* [短信](/product/sms?from=20064&from_column=20064)
+* [文字识别](/product/ocr?from=20064&from_column=20064)
+* [云点播](/product/vod?from=20064&from_column=20064)
+* [大数据](/product/bigdata-class?from=20064&from_column=20064)
+* [小程序开发](/solution/la?from=20064&from_column=20064)
+* [网站监控](/product/tcop?from=20064&from_column=20064)
+* [数据迁移](/product/cdm?from=20064&from_column=20064)
+
+Copyright © 2013 - 2026 Tencent Cloud. All Rights Reserved. 腾讯云 版权所有
+
+[深圳市腾讯计算机系统有限公司](https://qcloudimg.tencent-cloud.cn/raw/986376a919726e0c35e96b311f54184d.jpg) ICP备案/许可证号：[粤B2-20090059](https://beian.miit.gov.cn/#/Integrated/index)![]()[粤公网安备44030502008569号](https://beian.mps.gov.cn/#/query/webSearch?code=44030502008569)
+
+[腾讯云计算（北京）有限责任公司](https://qcloudimg.tencent-cloud.cn/raw/a2390663ee4a95ceeead8fdc34d4b207.jpg) 京ICP证150476号 |  [京ICP备11018762号](https://beian.miit.gov.cn/#/Integrated/index)
+
+[问题归档](/developer/ask/archives.html)[专栏文章](/developer/column/archives.html)[快讯文章归档](/developer/news/archives.html)[关键词归档](/developer/information/all.html)[开发者手册归档](/developer/devdocs/archives.html)[开发者手册 Section 归档](/developer/devdocs/sections_p1.html)
+
+Copyright © 2013 - 2026 Tencent Cloud.
+
+All Rights Reserved. 腾讯云 版权所有
+
+登录 后参与评论000推荐

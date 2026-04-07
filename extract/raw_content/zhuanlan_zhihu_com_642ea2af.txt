@@ -1,0 +1,1737 @@
+# Source URL: https://zhuanlan.zhihu.com/p/2002485126714644013
+# Content Length: 47583 characters
+# Extracted at: 2026-03-05 22:31:22
+#============================================================
+
+![](https://zhuanlan.zhihu.com/p/2002485126714644013)
+\*\*OpenClaw 从安装到入门的完全指南（2026-02-04）\*\*
+> \*\*版本说明\*\*：本文基于 OpenClaw 最新版本编写，最后更新：2026-02-04
+>
+> \*\*适用平台\*\*：Windows（推荐 [WSL2](https://zhida.zhihu.com/search?content\_id=269989013&content\_type=Article&match\_order=1&q=WSL2&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzE0ODQ3OTcsInEiOiJXU0wyIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjY5OTg5MDEzLCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.Ra435RUvNpr1YkM8owrggYWDH1jBlUfwvQgjLwZdMFk&zhida\_source=entity)）、macOS、Linux
+![](https://pica.zhimg.com/v2-9bba53c7324c6b8a2337a79746b4f642\_1440w.jpg)
+\* \* \*
+你可能已经体验过“AI 写得很像，但事还是得自己做”：邮件写好了还得你点发送，日历建议给了还得你自己改，Bug 分析完了还得你开 IDE 修。
+\*\*OpenClaw 的定位更像一个“能动手的同事”\*\*：你在聊天里发一句话，它在你自己的机器上执行（读写文件、跑命令、调邮箱/日历/浏览器），然后把结果回你。
+这篇文章只做一件事： \*\*带你从 0 安装到跑通第一个可用闭环\*\*，并把新手最容易踩的坑提前标出来。
+\* \* \*
+### \*\*🚀 快速通关路径（20 分钟）\*\*
+![](https://pic3.zhimg.com/v2-7b01b6247f67deb8aeeb7e0e7a87bef6\_1440w.jpg)
+如果你只想最快跑通，按这个顺序：
+1. 1\. \*\*安装\*\*：`curl -fsSL https://openclaw.ai/install.sh | bash`
+2. 2\. \*\*配置\*\*：`openclaw onboard --install-daemon`
+- • 选择模型（[Anthropic](https://zhida.zhihu.com/search?content\_id=269989013&content\_type=Article&match\_order=1&q=Anthropic&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzE0ODQ3OTcsInEiOiJBbnRocm9waWMiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNjk5ODkwMTMsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.4isvBj4fpXaqImlerHy3kwlIqSPsVPf8xncgI-o1EUI&zhida\_source=entity)/[Moonshot](https://zhida.zhihu.com/search?content\_id=269989013&content\_type=Article&match\_order=1&q=Moonshot&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzE0ODQ3OTcsInEiOiJNb29uc2hvdCIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI2OTk4OTAxMywiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.tMW1IL0GkMSnSvFSnQp\_aa4ad1fZ5aXpyHZFIMEMszM&zhida\_source=entity)）
+- • 选择 [Telegram](https://zhida.zhihu.com/search?content\_id=269989013&content\_type=Article&match\_order=1&q=Telegram&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzE0ODQ3OTcsInEiOiJUZWxlZ3JhbSIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI2OTk4OTAxMywiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.Sn6LeH244hJqW4qjJvBW-7QDBXOrFNBQW8ZKl6qCQio&zhida\_source=entity)
+- • 安装 daemon
+3\. \*\*配对\*\*：在 Telegram 私聊 bot，运行 `openclaw pairing approve telegram`
+`4. 测试：发消息给 bot，看是否回复`
+`详细说明见下文各章节。如果卡住，直接跳到 常见问题排查。`
+\* \* \*
+### \*\*`目录`\*\*
+01. `1. 开装前先搞清楚：你要的是什么`
+02. `2. OpenClaw 架构全景：Gateway、Agent、Channels、Tools 如何协作`
+03. `3. 环境准备`
+04. `4. 安装 OpenClaw（两种路线）`
+05. `5. 首次配置：onboard 向导逐项填写指南（含命令行视图）`
+06. `6. 接入 Kimi (Moonshot)：从获取 API Key 到验证`
+07. `7. 跑通最小闭环：从“能回复”到“真执行”`
+08. `8. 新手最佳实践：先只接一个能力`
+09. `9. 常见问题排查（80% 的问题在这里）`
+10. `10. 安全与隐私：越能干活越要克制`
+11. `11. 下一步：从“能用”到“好用”`
+\* \* \*
+### \*\*`1. 开装前先搞清楚：你要的是什么`\*\*
+`
+`
+`OpenClaw 不是“又一个聊天机器人”，更像一个自托管的个人智能体：`
+- `• 入口：你用 Telegram / WhatsApp 等聊天应用发指令`
+- `• 大脑：背后接一个大模型（可能是云端 API，也可能是本地模型）`
+- `• 双手：在你机器上执行你授权过的动作（终端、浏览器、邮件、日历……）`
+- `• 记忆：能跨会话保存配置与上下文（取决于你怎么部署与配置）`
+`你装它的正确理由只有一个：你手上有一件重复、琐碎、需要切来切去的事，想用“发一句话”替代“打开 5 个 App 点 20 次”。`
+\* \* \*
+### \*\*`2. OpenClaw 架构全景：Gateway、Agent、Channels、Tools 如何协作`\*\*
+`
+`
+`在开始安装前，先理解 OpenClaw 的架构能帮你少走弯路。下面用文字版架构图说明各组件的关系。`
+### \*\*`核心组件`\*\*
+```text
+┌─────────────────────────────────────────────────────────────┐
+│ 你的聊天应用 │
+│ (Telegram / WhatsApp / Discord / Signal / WebChat) │
+└────────────────────┬──────────────────────────────────────┘
+│ 消息流入/流出
+▼
+┌─────────────────────────────────────────────────────────────┐
+│ Gateway (守护进程) │
+│ • 管理所有 Channels（Telegram、WhatsApp 等） │
+│ • 暴露 WebSocket API (默认 127.0.0.1:18789) │
+│ • 处理配对（pairing）、认证、事件分发 │
+│ • 一个 Gateway 控制一台机器上的所有会话 │
+└────────────────────┬──────────────────────────────────────┘
+│ RPC 调用
+▼
+┌─────────────────────────────────────────────────────────────┐
+│ Agent Runtime (智能体运行时) │
+│ • 维护会话（Session）与上下文（Context） │
+│ • 执行 Agent Loop：接收消息 → 调用模型 → 执行工具 → 返回 │
+│ • 管理持久记忆（Memory） │
+│ • 可配置多个 Agent（不同 workspace、不同模型） │
+└────────────────────┬──────────────────────────────────────┘
+│ 工具调用
+┌─────────────┼─────────────┬─────────────┐
+▼ ▼ ▼ ▼
+┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐
+│ Browser │ │ Exec │ │ Web │ │ Skills │
+│ (浏览器) │ │ (终端命令) │ │ (网页搜索) │ │ (插件) │
+└──────────┘ └──────────┘ └──────────┘ └──────────┘
+│ │ │ │
+└─────────────┴─────────────┴─────────────┘
+│
+▼
+┌─────────────────────────────────────────────────────────────┐
+│ Model Provider │
+│ (Anthropic / OpenAI / Moonshot / 本地模型) │
+└─────────────────────────────────────────────────────────────┘
+```
+### \*\*`数据流向（一次完整对话）`\*\*
+1. `1. 消息流入：你在 Telegram 发“清一下今天的邮件”`
+- `• Gateway 接收消息 → 标准化为内部消息格式 → 路由到对应 Agent`
+`2. Agent Loop：`
+- `• Agent 读取会话历史 + 系统提示词（System Prompt）`
+- `• 调用模型 API（例如 moonshot/kimi-k2.5）`
+- `• 模型返回“需要调用 Gmail API”`
+- `• Agent 执行工具（例如 gmail.list）`
+- `• 工具返回结果 → Agent 再次调用模型 → 生成回复`
+`3. 消息流出：Agent 的回复 → Gateway → Telegram → 你看到结果`
+### \*\*`关键概念`\*\*
+- `• Gateway：唯一的长驻进程（daemon），管理所有 Channels 和连接`
+- `• 类比：Gateway 就像"总机"，所有消息都经过它`
+- `• 位置：运行在后台，通过 systemd（Linux/WSL2）/ LaunchAgent（macOS）管理`
+- `• 端口：默认 127.0.0.1:18789（WebSocket API）`
+- `• Agent：处理对话逻辑的运行时，可以有多个（不同用途）`
+- `• 类比：Agent 是"接线员"，负责理解你的意图并执行`
+- `• 配置：每个 Agent 有独立的 workspace 和模型`
+- `• 存储：配置在 ~/.openclaw/agents//`
+- `• Session：一次对话的上下文容器（跨消息保持）`
+- `• 存储位置：~/.openclaw/agents//sessions/`
+- `• 生命周期：会话会被定期修剪（可配置保留策略）`
+- `• 作用：让 Agent 记住之前的对话内容`
+- `• Workspace：Agent 的工作目录（文件、脚本、配置）`
+- `• 默认位置：~/.openclaw/workspace/`
+- `• 用途：存放 Agent 创建/修改的文件、脚本、配置模板`
+- `• 结构：包含 BOOT.md、IDENTITY.md、SOUL.md、TOOLS.md 等模板文件`
+- `• Pairing：设备/用户配对机制，用于安全接入`
+- `• 流程：首次连接 → 生成配对码（8位） → 用户批准 → 建立信任`
+- `• 存储：~/.openclaw/credentials/\*-pairing.json`
+- `• 用途：防止陌生人把你的机器人当公共服务使用`
+- `• Tools：Agent 能调用的能力（浏览器、终端、Skills）`
+- `• 内置工具：browser（浏览器）、exec（终端命令）、web（网页搜索）`
+- `• Skills：社区插件，扩展能力（如 Gmail、Calendar）`
+- `• Channels：消息入口（Telegram、WhatsApp 等）`
+- `• 作用：接收和发送消息`
+- `• 配置：每个 Channel 需要对应的 Token/凭证`
+### \*\*`为什么需要 Gateway？`\*\*
+`Gateway 的设计让 OpenClaw 能：`
+- `• 统一管理：一个进程控制所有聊天渠道`
+- `• 多客户端：CLI、Web UI、macOS App 都连同一个 Gateway`
+- `• 远程访问：通过 SSH 隧道或 Tailscale 访问远程 Gateway`
+- `• 设备配对：iOS/Android 节点通过配对机制安全接入`
+### \*\*`配置文件位置`\*\*
+- `• 主配置：~/.openclaw/openclaw.json`
+- `• 凭证：~/.openclaw/credentials/（OAuth、API Keys）`
+- `• 会话：~/.openclaw/agents//sessions/`
+- `• Workspace：~/.openclaw/workspace/（默认）`
+\* \* \*
+### \*\*`3. 环境准备`\*\*
+`
+`
+`下面按"能跑起来优先"的顺序来。你不需要一次装齐所有东西，但缺关键依赖会导致安装/构建失败。`
+### \*\*`必备（所有平台）`\*\*
+- `• Node.js（必须满足版本要求）：官方要求 Node >= 22`
+- `• Git：走源码路线时需要`
+- `• 可用的模型 API：比如 Anthropic / OpenAI / Moonshot 等（或你已有本地推理环境）`
+### \*\*`平台特定要求`\*\*
+### \*\*`Windows`\*\*
+- `• WSL2（强烈建议）：官方明确推荐 Windows 通过 \*\*WSL2（Ubuntu 推荐）\*\*运行；原生 Windows “未充分测试”，工具兼容性更差`
+- `• PowerShell 5.1+ 或 PowerShell Core 7+（用于安装脚本）`
+`如果你还没装 WSL2（可选，但很值得）：`
+`PowerShell（管理员）：`
+```text
+wsl --install
+# 或者指定发行版：
+wsl --list --online
+wsl --install -d Ubuntu-24.04
+```
+`为 WSL2 开启 systemd（很多“后台服务/daemon”相关能力会更顺滑）：`
+```text
+sudo tee /etc/wsl.conf >/dev/null <<'EOF'
+[boot]
+systemd=true
+EOF
+```
+`回到 PowerShell 执行：`
+```text
+wsl --shutdown
+```
+`再打开 Ubuntu 终端，验证：`
+```text
+systemctl --user status
+```
+### \*\*`macOS`\*\*
+- `• macOS 14+（如果要用 macOS 伴侣应用）`
+- `• Xcode Command Line Tools（如果从源码构建）：`
+`xcode-select --install`
+### \*\*`Linux`\*\*
+- `• systemd（用于 daemon 安装，大多数现代发行版已内置）`
+- `• curl 或 wget（用于安装脚本）`
+### \*\*`可选（但强烈建议）`\*\*
+- `• 密码/密钥管理习惯：至少做到“不要把 Key 直接写进公开文档/截图”`
+- `• pnpm（如果从源码构建，推荐使用 pnpm）`
+### \*\*`开始前先做两条自检（30 秒）`\*\*
+```text
+node -v
+npm -v
+```
+`预期输出：`
+```text
+v22.0.0 # 或更高版本
+10.0.0 # npm 版本
+```
+`如果 Node 版本 < 22，先升级再继续。否则后面你会在各种奇怪的地方卡住。`
+`各平台升级 Node.js：`
+- `• macOS：brew install node@22 或从 http://nodejs.org 下载`
+- `• Linux/WSL2：使用 nvm 或从 http://nodejs.org 下载`
+- `• Windows：从 http://nodejs.org 下载安装包`
+> `参考入口：官网 https://openclaw.ai/，官方文档 https://docs.openclaw.ai/（以最新为准）。平台特定文档：`
+- `• Windows/WSL2：https://docs.openclaw.ai/platforms/windows`
+- `• macOS：https://docs.openclaw.ai/platforms/macos`
+- `• Linux：https://docs.openclaw.ai/platforms/linux`
+\* \* \*
+### \*\*`4. 安装 OpenClaw（两种路线）`\*\*
+`
+`
+### \*\*`路线 A：CLI 安装（推荐新手）`\*\*
+`目标是：最少步骤，先跑通。`
+`你可以按下面任一方式安装 CLI（以官方文档为准）。`
+### \*\*`方式 1：一键安装脚本（推荐）`\*\*
+`macOS / Linux / WSL2（bash）：`
+```text
+curl -fsSL https://openclaw.ai/install.sh | bash
+```
+`命令行输出示例：`
+```text
+🦞 OpenClaw Installer
+─────────────────────────────────────
+Detected platform: linux (WSL2)
+Node version: v22.1.0 ✓
+Installing openclaw@latest...
+✓ Installed successfully
+Next step: Run 'openclaw onboard --install-daemon'
+```
+`Windows（PowerShell，原生，不推荐）：`
+```text
+iwr -useb https://openclaw.ai/install.ps1 | iex
+```
+> `注意：Windows 原生支持有限，强烈建议使用 WSL2。如果必须用原生 Windows，请参考 https://docs.openclaw.ai/platforms/windows`
+### \*\*`方式 2：手动全局安装（你已经有 Node 时）`\*\*
+```text
+npm install -g openclaw@latest
+```
+`或者（如果你用 pnpm）：`
+```text
+pnpm add -g openclaw@latest
+pnpm approve-builds -g
+```
+`安装完如果提示找不到 openclaw，优先看官方的 PATH 排查：https://docs.openclaw.ai/install#troubleshooting-openclaw-not-found-path`
+### \*\*`安装后下一步（别跳过）`\*\*
+```text
+openclaw onboard --install-daemon
+openclaw doctor
+openclaw dashboard
+```
+> `官方提示：如果你要用 WhatsApp 或 Telegram，Gateway 运行时建议使用 Node；Bun 在这些渠道上有已知问题。`
+>
+> `如果你已经看过其他文章里的命令，但你这里跑不通，别纠结“是不是我步骤错了”，先去 https://docs.openclaw.ai/start/getting-started 对照一次。OpenClaw 更新快，命令与依赖偶尔会调整。`
+### \*\*`路线 B：源码安装（适合想改代码的人）`\*\*
+`目标是：能调试、能二次开发。`
+`通常步骤是：`
+1. `1. 拉代码`
+2. `2. 安装依赖（常见是 pnpm 生态）`
+3. `3. 构建`
+4. `4. 运行 onboarding`
+`源码路线的好处是可控，坏处是更容易被 Node 版本、包管理器、构建脚本卡住。建议你先用路线 A 跑通，再切路线 B。`
+`源码路线（官方示例）：`
+```text
+git clone https://github.com/openclaw/openclaw.git
+cd openclaw
+pnpm install
+pnpm ui:build
+pnpm build
+openclaw onboard --install-daemon
+```
+\* \* \*
+### \*\*`5. 首次配置：onboard 向导逐项填写指南（含命令行视图）`\*\*
+`
+`
+`新手最常见的失败不是“模型不聪明”，而是消息根本没到你的 OpenClaw。openclaw onboard 是官方推荐的配置方式，下面逐项说明每个步骤该怎么填、为什么这样填。`
+> `注意：以下命令行输出为示例，实际输出可能因版本、环境略有差异。如遇不一致，以官方文档 https://docs.openclaw.ai/start/wizard 为准。`
+### \*\*`启动向导`\*\*
+```text
+openclaw onboard --install-daemon
+```
+`命令行输出示例：`
+```text
+🦞 OpenClaw Onboarding Wizard
+─────────────────────────────────────
+Welcome! This wizard will help you set up OpenClaw.
+Mode selection:
+[1] QuickStart (recommended for first-time users)
+[2] Advanced (full control over every setting)
+Choose mode [1]:
+```
+`选择建议：第一次用选 1（QuickStart），它会用合理的默认值；想完全控制选 2。`
+\* \* \*
+### \*\*`步骤 1：检测现有配置`\*\*
+`如果之前跑过，向导会检测到：`
+```text
+Found existing config at ~/.openclaw/openclaw.json
+What would you like to do?
+[1] Keep existing config
+[2] Modify existing config
+[3] Reset (start fresh)
+Choose [1-3] [1]:
+```
+`选择建议：`
+- `• 1：保留现有配置，只补充缺失项`
+- `• 2：修改部分配置`
+- `• 3：清空重来（会提示确认，包括是否删除凭证和会话）`
+\* \* \*
+### \*\*`步骤 2：选择模式（Local vs Remote）`\*\*
+```text
+Gateway mode:
+[1] Local (run Gateway on this machine)
+[2] Remote (connect to Gateway elsewhere)
+Choose [1-2] [1]:
+```
+`选择建议：第一次用选 1（Local）。Remote 模式只配置客户端连接，不安装 Gateway。`
+`命令行输出示例（选择 Local）：`
+```text
+✓ Selected: Local mode
+Gateway will run on this machine
+Default port: 18789
+Default bind: 127.0.0.1 (loopback)
+```
+\* \* \*
+### \*\*`步骤 3：模型与认证（最重要）`\*\*
+`这是最容易卡住的地方。向导会先检测环境变量：`
+```text
+Checking for existing API keys...
+✓ Found ANTHROPIC\_API\_KEY in environment
+✓ Found OPENAI\_API\_KEY in environment
+✗ No MOONSHOT\_API\_KEY found
+Authentication method:
+[1] Anthropic API Key (recommended)
+[2] Anthropic OAuth (Claude Code CLI)
+[3] Anthropic setup-token (paste)
+[4] OpenAI Code (Codex) subscription
+[5] OpenAI API Key
+[6] Moonshot (Kimi K2)
+[7] MiniMax M2.1
+[8] OpenCode Zen
+[9] Vercel AI Gateway
+[10] Synthetic
+[11] Skip (configure later)
+Choose [1-11] [1]:
+```
+`选择建议（按常见度）：`
+- `• 1 Anthropic API Key：如果你有 Claude API Key`
+- `• 如果环境变量已有，向导会直接使用`
+- `• 如果没有，会提示输入：`
+`Enter Anthropic API Key: sk-ant-...`
+- `• 输入后保存到 ~/.openclaw/.env（daemon 可读）`
+- `• 6 Moonshot (Kimi K2)：如果你要用 Kimi`
+- `• 向导会提示输入 API Key：`
+`Enter Moonshot API Key: sk-...`
+- `• 自动配置 models.providers.moonshot 和默认模型 moonshot/kimi-k2.5`
+- `• 详见 接入 Kimi 章节`
+- `• 2 Anthropic OAuth：如果你有 Claude Code 订阅`
+- `• macOS：从 Keychain 读取 "Claude Code-credentials"`
+- `• Linux/WSL：从 ~/.claude/.credentials.json 读取`
+- `• 如果都没有，会打开浏览器 OAuth 流程`
+`命令行输出示例（选择 Anthropic API Key）：`
+```text
+✓ Using ANTHROPIC\_API\_KEY from environment
+Key: sk-ant-...\*\*\* (masked)
+Default model selection:
+Detected providers: anthropic
+Available models:
+[1] anthropic/claude-3.5-sonnet-20241022
+[2] anthropic/claude-3-opus-20240229
+[3] anthropic/claude-3.5-haiku-20241022
+Choose default model [1]:
+```
+`选择建议：1（Sonnet）通常最平衡；2（Opus）更强但更贵；3（Haiku）最快最便宜。`
+\* \* \*
+### \*\*`步骤 4：Workspace 配置`\*\*
+```text
+Workspace location:
+Default: ~/.openclaw/workspace
+[1] Use default
+[2] Custom path
+Choose [1-2] [1]:
+```
+`选择建议：第一次用选 1。Workspace 是 Agent 的工作目录，会存放文件、脚本、配置模板。`
+`命令行输出：`
+```text
+✓ Workspace: ~/.openclaw/workspace
+Creating bootstrap files...
+✓ Created BOOT.md
+✓ Created IDENTITY.md
+✓ Created SOUL.md
+✓ Created TOOLS.md
+```
+\* \* \*
+### \*\*`步骤 5：Gateway 配置`\*\*
+```text
+Gateway settings:
+Port: 18789
+Bind: 127.0.0.1 (loopback)
+Auth: Token (auto-generated)
+[1] Keep defaults
+[2] Customize
+Choose [1-2] [1]:
+```
+`选择建议：第一次用选 1。如果选 2，会提示：`
+```text
+Enter port [18789]:
+Enter bind address [127.0.0.1]:
+[1] 127.0.0.1 (loopback, localhost only)
+[2] 0.0.0.0 (all interfaces, LAN access)
+[3] Custom IP
+Choose [1-3] [1]:
+```
+`Auth Token 说明：即使绑定 127.0.0.1，Gateway 也会生成一个 Token。这是为了：`
+- `• 防止本地其他进程误连`
+- `• 为远程访问（SSH 隧道）做准备`
+`命令行输出：`
+```text
+✓ Gateway configured
+Port: 18789
+Bind: 127.0.0.1
+Auth token: oc\_gw\_...\*\*\* (saved to config)
+Dashboard: http://127.0.0.1:18789/
+```
+\* \* \*
+### \*\*`步骤 6：渠道配置（Channels）`\*\*
+```text
+Channel setup:
+[1] Telegram
+[2] WhatsApp
+[3] Discord
+[4] Google Chat
+[5] Signal
+[6] Skip (configure later)
+Choose channels (comma-separated, e.g., 1,3) [1]:
+```
+`选择建议：第一次用选 1（Telegram），最简单。`
+`命令行输出示例（选择 Telegram）：`
+```text
+Telegram setup:
+Enter bot token from @BotFather:
+(You can get this by messaging @BotFather and running /newbot)
+```
+`输入 Token：粘贴你从 BotFather 拿到的 token（类似 123456789:ABCdefGHIjklMNOpqrsTUVwxyz）`
+```text
+✓ Telegram configured
+Bot token: 123456789:\*\*\* (masked)
+DM policy: pairing (default)
+Groups: disabled (can enable later)
+Next step: DM your bot in Telegram, then approve pairing:
+openclaw pairing list telegram
+openclaw pairing approve telegram
+```
+\* \* \*
+### \*\*`步骤 7：Daemon 安装（后台服务）`\*\*
+```text
+Daemon installation:
+Install Gateway as a background service?
+This allows Gateway to run automatically on startup.
+[1] Yes (recommended)
+[2] No (run manually)
+Choose [1-2] [1]:
+```
+`选择建议：选 1，这样 Gateway 会在后台运行，重启后自动启动。`
+`命令行输出示例（macOS）：`
+```text
+✓ Installing LaunchAgent...
+Service file: ~/Library/LaunchAgents/com.openclaw.gateway.plist
+✓ Enabled for current user
+✓ Gateway will start on login
+Runtime selection:
+[1] Node (recommended, required for WhatsApp/Telegram)
+[2] Bun (experimental, not recommended for WhatsApp/Telegram)
+Choose [1-2] [1]:
+```
+`选择建议：选 1（Node）。Bun 在 WhatsApp/Telegram 上有已知问题。`
+`命令行输出示例（Linux/WSL2）：`
+```text
+✓ Installing systemd user unit...
+Service file: ~/.config/systemd/user/openclaw-gateway.service
+✓ Enabled for current user
+✓ Attempting to enable lingering (stay up after logout)...
+This may require sudo. Continue? [Y/n]: y
+Password:
+✓ Lingering enabled
+```
+`命令行输出示例（macOS）：`
+```text
+✓ Installing LaunchAgent...
+Service file: ~/Library/LaunchAgents/com.openclaw.gateway.plist
+✓ Enabled for current user
+✓ Gateway will start on login
+Note: For headless macOS, you may need a custom LaunchDaemon
+(not shipped with OpenClaw)
+```
+\* \* \*
+### \*\*`步骤 8：健康检查`\*\*
+```text
+Running health check...
+Starting Gateway...
+✓ Gateway started
+✓ Health check passed
+✓ Model API accessible
+✓ Telegram channel connected
+Status:
+Gateway: running (PID 12345)
+Port: 18789
+Channels: telegram (connected)
+Model: anthropic/claude-3.5-sonnet-20241022
+```
+`如果健康检查失败，向导会提示：`
+```text
+✗ Health check failed
+Issue: Model API returned 401 (Unauthorized)
+Possible causes:
+- API key invalid or expired
+- Network issue
+- Rate limit exceeded
+[1] Retry health check
+[2] Skip (configure manually later)
+[3] Go back to auth step
+Choose [1-3] [1]:
+```
+\* \* \*
+### \*\*`步骤 9：Skills 安装（可选）`\*\*
+```text
+Skills installation:
+Skills are plugins that extend Agent capabilities.
+Recommended skills:
+- gmail (email management)
+- calendar (calendar integration)
+- web-search (Brave Search API)
+[1] Install recommended skills
+[2] Skip (install later)
+Choose [1-2] [1]:
+```
+`选择建议：第一次用可以选 2（跳过），先跑通基本流程再装 Skills。`
+`如果选 1，会提示：`
+```text
+Node manager selection:
+[1] npm
+[2] pnpm (recommended)
+Choose [1-2] [2]:
+```
+`然后安装依赖：`
+```text
+Installing skills...
+✓ gmail@latest
+✓ calendar@latest
+✓ web-search@latest
+Some skills require additional setup:
+- gmail: Requires OAuth setup (run 'openclaw configure --section gmail')
+- web-search: Requires Brave Search API key (run 'openclaw configure --section web')
+```
+\* \* \*
+### \*\*`步骤 10：完成`\*\*
+```text
+2. Test the connection:
+openclaw status
+openclaw health
+3. Open the dashboard:
+openclaw dashboard
+(or visit http://127.0.0.1:18789/)
+4. Configure skills (optional):
+openclaw configure --section web
+openclaw configure --section gmail
+Config saved to: ~/.openclaw/openclaw.json
+```
+\* \* \*
+### \*\*`非交互模式（脚本/自动化）`\*\*
+`如果你要用脚本自动化配置：`
+```text
+# 注意：以下参数为示例，实际参数请运行 'openclaw onboard --help' 查看
+openclaw onboard --non-interactive \\
+--mode local \\
+--auth-choice moonshot-api-key \\
+--moonshot-api-key "$MOONSHOT\_API\_KEY" \\
+--gateway-port 18789 \\
+--gateway-bind loopback \\
+--install-daemon \\
+--daemon-runtime node \\
+--skip-skills
+```
+> `重要：非交互模式的参数格式可能因 OpenClaw 版本而异。建议先运行 openclaw onboard --help 查看实际可用参数，或参考官方文档：https://docs.openclaw.ai/cli/onboard`
+`命令行输出示例：`
+```text
+🦞 OpenClaw Onboarding (non-interactive)
+─────────────────────────────────────
+✓ Config written: ~/.openclaw/openclaw.json
+✓ Daemon installed
+✓ Gateway started
+```
+> `注意：非交互模式的参数可能因版本而异。运行 openclaw onboard --help 查看实际可用参数。`
+\* \* \*
+### \*\*`配置修改（后续调整）`\*\*
+`如果后续想修改配置，用：`
+```text
+openclaw configure
+```
+`这会启动交互式配置向导，只修改你选的部分。`
+`命令行输出：`
+```text
+🦞 OpenClaw Configuration
+─────────────────────────────────────
+What would you like to configure?
+[1] Model / Auth
+[2] Gateway
+[3] Channels
+[4] Skills
+[5] Web search (Brave API)
+[6] Exit
+Choose [1-6]:
+```
+\* \* \*
+### \*\*`先用“最快路径”验证：不接任何渠道也能先聊天`\*\*
+`官方给的最快体验方式是直接开 Web 控制台（不需要先配 Telegram/WhatsApp）：`
+```text
+openclaw dashboard
+```
+`命令行输出：`
+```text
+🦞 Opening dashboard...
+URL: http://127.0.0.1:18789/
+Token: oc\_gw\_...\*\*\* (auto-filled in browser)
+If browser doesn't open automatically, visit the URL above.
+```
+`或直接打开 http://127.0.0.1:18789/（在 gateway 所在机器上）。`
+\* \* \*
+### \*\*`常见问题`\*\*
+`Q: 向导卡在某个步骤不动？`
+`A: 检查网络连接和 API Key 有效性。可以按 Ctrl+C 退出，用 openclaw configure 继续配置。`
+`Q: 想跳过某个步骤？`
+`A: 大部分步骤可以选 "Skip"，后续用 openclaw configure 补充。`
+`Q: 配置写错了怎么办？`
+`A: 运行 openclaw doctor 检查配置，或重新运行 openclaw onboard 选择 "Modify"。`
+\* \* \*
+### \*\*`6. 接入 Kimi (Moonshot)：从获取 API Key 到验证`\*\*
+`
+`
+`Moonshot AI 提供 Kimi API，OpenClaw 原生支持。下面是从零到接入成功的完整流程。`
+### \*\*`步骤 1：获取 Moonshot API Key`\*\*
+1. `1. 访问 Moonshot 官网：https://platform.moonshot.cn/`
+2. `2. 注册/登录账号`
+3. `3. 创建 API Key：`
+- `• 进入控制台 → API Keys`
+- `• 点击“创建 API Key”`
+- `• 复制 Key（格式类似 sk-...）`
+`重要：Moonshot 和 Kimi Coding 是两个独立的 Provider，Key 不通用。`
+\* \* \*
+### \*\*`步骤 2：通过 onboard 向导配置（推荐）`\*\*
+`在 openclaw onboard 的“模型与认证”步骤选择：`
+```text
+Authentication method:
+...
+[6] Moonshot (Kimi K2)
+...
+Choose [1-11] [6]:
+```
+`命令行输出示例：`
+```text
+Moonshot API Key:
+Enter your Moonshot API Key: sk-...
+✓ Key saved to ~/.openclaw/.env
+Default model selection:
+Available Kimi models:
+[1] moonshot/kimi-k2.5 (recommended)
+[2] moonshot/kimi-k2-0905-preview
+[3] moonshot/kimi-k2-turbo-preview
+[4] moonshot/kimi-k2-thinking
+[5] moonshot/kimi-k2-thinking-turbo
+Choose default model [1]:
+```
+`选择建议：1（kimi-k2.5）是当前推荐版本；4/5 带 reasoning 能力（思考过程可见）。`
+`向导会自动写入配置：`
+```text
+{
+"env": {
+"MOONSHOT\_API\_KEY": "sk-..."
+},
+"agents": {
+"defaults": {
+"model": {
+"primary": "moonshot/kimi-k2.5"
+}
+}
+},
+"models": {
+"providers": {
+"moonshot": {
+"baseUrl": "https://api.moonshot.ai/v1",
+"apiKey": "${MOONSHOT\_API\_KEY}",
+"api": "openai-completions",
+"models": [\
+{\
+"id": "kimi-k2.5",\
+"name": "Kimi K2.5",\
+"contextWindow": 256000,\
+"maxTokens": 8192\
+}\
+]
+}
+}
+}
+}
+```
+\* \* \*
+### \*\*`步骤 3：手动配置（如果跳过了向导）`\*\*
+`如果向导时跳过了，后续可以手动配置：`
+### \*\*`方式 A：使用 openclaw configure`\*\*
+```text
+openclaw configure --section models
+```
+`命令行输出：`
+```text
+🦞 Model Configuration
+─────────────────────────────────────
+Current model: anthropic/claude-3.5-sonnet-20241022
+Add provider:
+[1] Anthropic
+[2] OpenAI
+[3] Moonshot (Kimi)
+[4] MiniMax
+[5] Cancel
+Choose [1-5] [3]:
+```
+`选择 3，然后输入 API Key：`
+```text
+Enter Moonshot API Key: sk-...
+✓ Provider added
+Set as default model?
+[1] Yes
+[2] No
+Choose [1-2] [1]:
+```
+### \*\*`方式 B：直接编辑配置文件`\*\*
+`编辑 ~/.openclaw/openclaw.json：`
+```text
+{
+"env": {
+"MOONSHOT\_API\_KEY": "sk-你的key"
+},
+"agents": {
+"defaults": {
+"model": {
+"primary": "moonshot/kimi-k2.5"
+}
+}
+},
+"models": {
+"mode": "merge",
+"providers": {
+"moonshot": {
+"baseUrl": "https://api.moonshot.ai/v1",
+"apiKey": "${MOONSHOT\_API\_KEY}",
+"api": "openai-completions",
+"models": [\
+{\
+"id": "kimi-k2.5",\
+"name": "Kimi K2.5",\
+"reasoning": false,\
+"input": ["text"],\
+"contextWindow": 256000,\
+"maxTokens": 8192\
+}\
+]
+}
+}
+}
+}
+```
+`重要：如果使用国内端点，把 baseUrl 改为 https://api.moonshot.cn/v1。`
+\* \* \*
+### \*\*`步骤 4：验证配置`\*\*
+### \*\*`检查配置`\*\*
+```text
+openclaw status
+```
+`命令行输出示例：`
+```text
+🦞 OpenClaw Status
+─────────────────────────────────────
+Gateway:
+Status: running
+Port: 18789
+Bind: 127.0.0.1
+Agent:
+Model: moonshot/kimi-k2.5
+Provider: moonshot
+Workspace: ~/.openclaw/workspace
+Channels:
+telegram: connected
+Health:
+✓ Gateway reachable
+✓ Model API accessible
+✓ Telegram connected
+```
+### \*\*`测试模型调用`\*\*
+```text
+openclaw health
+```
+`命令行输出：`
+```text
+🦞 Health Check
+─────────────────────────────────────
+Gateway: ✓ healthy
+Model API: ✓ accessible (moonshot/kimi-k2.5)
+Response time: 1.2s
+Token: valid
+Channels:
+telegram: ✓ connected
+Sessions: 0 active
+```
+`如果模型 API 不可用，会显示：`
+```text
+Model API: ✗ failed
+Error: 401 Unauthorized
+Possible causes:
+- API key invalid
+- API key expired
+- Network issue
+Check your API key:
+openclaw configure --section models
+```
+### \*\*`发送测试消息`\*\*
+`在 Telegram 或 Dashboard 发一条消息：`
+```text
+你好，请用一句话介绍你自己
+```
+`预期输出（Telegram）：`
+```text
+你好！我是 OpenClaw，一个运行在你机器上的 AI 助手。
+我可以通过 Telegram、WhatsApp 等渠道与你对话，并执行你授权的任务，
+比如管理邮件、查看日历、运行命令等。
+```
+`如果收到回复，说明 Kimi 接入成功。`
+\* \* \*
+### \*\*`步骤 5：切换模型（如果要用其他 Kimi 版本）`\*\*
+### \*\*`方式 A：临时切换（单次对话）`\*\*
+`在对话中使用命令：`
+```text
+/model moonshot/kimi-k2-thinking
+```
+### \*\*`方式 B：永久切换（修改默认模型）`\*\*
+```text
+openclaw configure --section models
+```
+`或直接编辑 ~/.openclaw/openclaw.json：`
+```text
+{
+"agents": {
+"defaults": {
+"model": {
+"primary": "moonshot/kimi-k2-thinking"
+}
+}
+}
+}
+```
+`然后重启 Gateway：`
+```text
+openclaw gateway restart
+```
+\* \* \*
+### \*\*`可用的 Kimi 模型列表`\*\*
+| 模型 ID | 名称 | Reasoning | Context Window | 说明 |
+| --- | --- | --- | --- | --- |
+| moonshot/kimi-k2.5 | Kimi K2.5 | ❌ | 256K | 推荐，通用场景 |
+| moonshot/kimi-k2-0905-preview | Kimi K2 0905 | ❌ | 256K | 预览版 |
+| moonshot/kimi-k2-turbo-preview | Kimi K2 Turbo | ❌ | 256K | 更快版本 |
+| moonshot/kimi-k2-thinking | Kimi K2 Thinking | ✅ | 256K | 带思考过程 |
+| moonshot/kimi-k2-thinking-turbo | Kimi K2 Thinking Turbo | ✅ | 256K | 思考版 \+ 更快 |
+`Reasoning 模型：会显示中间思考过程，适合需要“解释为什么这样做”的场景。`
+\* \* \*
+### \*\*`Kimi Coding（独立 Provider）`\*\*
+`如果你要用 Kimi Coding（代码专用），配置方式类似：`
+> `注意：Kimi Coding 的配置方式可能因版本而异。以下为示例配置，实际配置请参考官方文档：https://docs.openclaw.ai/providers/moonshot`
+```text
+# 通过 onboard 向导选择 Kimi Coding（如果支持）
+openclaw onboard
+# 或在向导中选择对应的选项
+```
+`或手动配置：`
+```text
+{
+"env": {
+"KIMI\_API\_KEY": "sk-..." // 注意：环境变量名可能因版本而异
+},
+"agents": {
+"defaults": {
+"model": {
+"primary": "kimi-coding/k2p5" // 模型 ID 请以官方文档为准
+}
+}
+}
+}
+```
+`重要：`
+- `• Kimi Coding 和 Moonshot 是两个独立的 Provider，Key 不通用`
+- `• Kimi Coding 的模型引用格式是 kimi-coding/...，不是 moonshot/...`
+- `• 具体配置方式请参考官方文档：https://docs.openclaw.ai/providers/moonshot`
+\* \* \*
+### \*\*`常见问题`\*\*
+`Q: API Key 无效？`
+`A: 检查：`
+- `• Key 是否完整复制（不要有空格）`
+- `• Key 是否过期（Moonshot 控制台查看）`
+- `• 是否用了正确的 Provider（Moonshot vs Kimi Coding）`
+`Q: 模型调用超时？`
+`A: 检查网络连接，如果在中国大陆，确保使用 https://api.moonshot.cn/v1。`
+`Q: 想同时支持多个模型？`
+`A: 配置多个 Provider，然后在对话中用 /model 切换，或配置多 Agent 路由。`
+\* \* \*
+### \*\*`7. 跑通最小闭环：从“能回复”到“真执行”`\*\*
+`
+`
+`把它当成“新同事入职考核”，别一上来就让它接 Gmail、改生产库、开 PR。`
+### \*\*`第一步：确认它能稳定回复`\*\*
+`在聊天里发：`
+- `• 「你是谁？你能做什么？」`
+- `• 「把你当前的能力用 5 条列出来」`
+`只要它稳定回复，说明聊天链路基本 OK。`
+### \*\*`第二步：做一个“低风险的执行任务”`\*\*
+`挑一个不会造成损失的任务，例如：`
+- `• 「告诉我现在的时间」`
+- `• 「把我这段文字改成更清晰的三句话」（纯文本）`
+- `• 「列出当前工作目录有哪些文件」（如果你允许它访问本机文件）`
+`关键不是任务大小，而是看到这个闭环：`
+> `发消息 → 它执行（调用工具/读取环境） → 结构化返回结果`
+`如果你卡在这一步，先跳到 常见问题排查。`
+### \*\*`0 成本的“官方自检三连”（强烈建议跑一次）`\*\*
+```text
+openclaw status
+openclaw health
+openclaw security audit --deep
+```
+`如果你已经通过 --install-daemon 安装了后台服务，可以先看 Gateway 是否在跑：`
+```text
+openclaw gateway status
+```
+`Gateway 运行方式说明：`
+- `• openclaw gateway run：前台运行，便于调试，按 Ctrl+C 停止`
+- `• openclaw gateway start：后台启动服务（需要先 openclaw gateway install）`
+- `• openclaw gateway status：查看服务状态`
+- `• openclaw gateway：默认行为（取决于配置，通常是前台运行）`
+`想手动前台跑（便于看日志）：`
+```text
+openclaw gateway run --port 18789 --verbose
+```
+\* \* \*
+### \*\*`8. 新手最佳实践：先只接一个能力`\*\*
+`
+`
+`OpenClaw 的上限很高，但新手最容易犯的错是"第一次就想全自动化人生"。`
+`我的建议是：只接一个你明天就会用的能力，比如二选一：`
+- `• 邮件：你每天要清收件箱任务例子：「把今天所有促销类邮件标已读并归档」`
+- `• 日历：你总忘看行程`
+`任务例子：「把我明天的日程按时间顺序整理成 5 行摘要」`
+`这样做的好处：`
+- `• 可验证：你能立刻判断它做对没做对`
+- `• 可收敛：出问题也好定位（邮箱问题就看邮箱链路）`
+- `• 可控风险：权限越多，误操作代价越大`
+\* \* \*
+### \*\*`9. 常见问题排查（80% 的问题在这里）`\*\*
+`
+`
+### \*\*`1）发消息没反应`\*\*
+### \*\*`场景 A：Telegram bot 完全没反应`\*\*
+`检查步骤：`
+1. `1. Gateway 是否在运行？`
+`openclaw gateway status`
+`命令行输出示例（正常）：`
+`Gateway: running (PID 12345)`
+`Port: 18789`
+`Bind: 127.0.0.1`
+`如果显示 "not running"，启动它：`
+`openclaw gateway run --port 18789 --verbose`
+`命令行输出示例（启动中）：`
+`🦞 Starting Gateway...`
+`Listening on 127.0.0.1:18789`
+`Gateway ready`
+2. `2. Telegram channel 是否连接？`
+`openclaw channels status`
+`命令行输出示例（正常）：`
+`Channels:`
+` telegram: connected`
+` Bot: @your\_bot\_name`
+` Status: online`
+`如果显示 "disconnected"，检查：`
+- `• Token 是否正确（openclaw configure --section channels）`
+- `• 网络是否可达 api.telegram.org（某些地区可能需要代理）`
+`3. Pairing 是否已批准？`
+`openclaw pairing list telegram`
+`命令行输出示例（有 pending 请求）：`
+`Pending pairing requests:`
+` Code: ABC12345`
+` From: @your\_username (123456789)`
+` Expires: 2026-02-03 15:30:00`
+`如果有 pending 的配对码，批准它：`
+`openclaw pairing approve telegram ABC12345`
+`命令行输出示例（成功）：`
+`✓ Pairing approved`
+`User @your\_username is now authorized`
+### \*\*`场景 B：能收到配对码，但批准后仍无反应`\*\*
+`可能原因：`
+- `• Gateway 重启后配置丢失`
+- `• Token 在配置文件中格式错误（多空格/引号）`
+`解决方案：`
+```text
+# 检查配置
+openclaw doctor
+```
+`命令行输出示例（发现问题）：`
+```text
+🦞 Doctor Check
+─────────────────────────────────────
+Config: ✓ valid
+Gateway: ✓ running
+Channels:
+telegram: ✗ token format error
+Expected: "123456789:ABC..."
+Found: "123456789: ABC..." # 注意这里有空格
+Fix: Run 'openclaw configure --section channels'
+# 重新配置 Telegram
+openclaw configure --section channels
+```
+### \*\*`场景 C：Web UI 发消息没回复（Moonshot 中国区）`\*\*
+`如果你在 Web UI 里发消息没有回复，且模型是 Moonshot/Kimi，中国区常用排查命令如下（按顺序执行）：`
+```text
+openclaw config set models.providers.moonshot.baseUrl "https://api.moonshot.cn/v1"
+openclaw gateway restart
+openclaw agent --agent main --message "你好"
+openclaw config set auth.profiles.moonshot:default.apiKey "你的中国区Key"
+openclaw gateway restart
+```
+### \*\*`场景 C：PATH 配置问题（所有平台）`\*\*
+`常见错误：`
+```text
+Error: Cannot find module 'openclaw'
+或
+bash: openclaw: command not found
+```
+`原因：npm global bin 不在 PATH 中`
+`解决：`
+`Linux/macOS/WSL2：`
+```text
+# 检查 openclaw 是否在 PATH
+which openclaw
+# 如果找不到，添加 npm global bin 到 PATH
+export PATH="$(npm prefix -g)/bin:$PATH"
+# 永久添加（添加到 ~/.bashrc 或 ~/.zshrc）
+echo 'export PATH="$(npm prefix -g)/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+# 或重新安装
+npm install -g openclaw@latest
+```
+`Windows PowerShell：`
+```text
+# 检查 openclaw 是否在 PATH
+where.exe openclaw
+# 如果找不到，添加 npm global bin 到 PATH
+$npmPath = npm prefix -g
+$env:Path += ";$npmPath"
+# 永久添加（添加到用户环境变量）
+[Environment]::SetEnvironmentVariable("Path", $env:Path + ";$npmPath", "User")
+# 或重新安装
+npm install -g openclaw@latest
+```
+### \*\*`场景 D：macOS 下 LaunchAgent 启动失败`\*\*
+`检查服务状态：`
+```text
+launchctl list | grep openclaw
+```
+`命令行输出示例（正常）：`
+```text
+12345 0 com.openclaw.gateway
+```
+`如果显示错误或为空，查看日志：`
+```text
+# 推荐：使用官方 CLI 查看日志
+openclaw logs --follow
+# 或查看 macOS 系统日志（如果 LaunchAgent 有问题）
+log show --predicate 'process == "openclaw"' --last 5m
+```
+`常见问题：`
+1. `1. 权限不足：macOS 可能要求授权`
+`# 检查权限`
+`openclaw gateway status`
+`# 如果提示权限问题，在"系统设置 > 隐私与安全性"中授权`
+2. `2. 环境变量未加载：LaunchAgent 可能读不到环境变量`
+`# 检查 ~/.openclaw/.env 是否存在`
+`cat ~/.openclaw/.env`
+`# 如果不存在，创建它`
+`echo "MOONSHOT\_API\_KEY=sk-..." >> ~/.openclaw/.env`
+3. `3. Keychain 访问问题（如果使用 OAuth）：`
+`# 检查 Keychain 中是否有 Claude Code 凭证`
+`security find-generic-password -s "Claude Code-credentials" 2>/dev/null`
+`解决：`
+```text
+# 重新安装 daemon
+openclaw configure --section gateway
+# 选择 "Install daemon"
+# 或手动重启服务
+launchctl unload ~/Library/LaunchAgents/com.openclaw.gateway.plist
+launchctl load ~/Library/LaunchAgents/com.openclaw.gateway.plist
+```
+### \*\*`场景 E：Linux/WSL2 下 systemd 服务启动失败`\*\*
+`检查服务状态：`
+```text
+systemctl --user status openclaw-gateway
+```
+`命令行输出示例（失败）：`
+```text
+● openclaw-gateway.service - OpenClaw Gateway
+Loaded: loaded (/home/user/.config/systemd/user/openclaw-gateway.service)
+Active: failed (Result: exit-code)
+Error: Cannot find module 'openclaw'
+```
+`常见问题：`
+1. `1. PATH 问题：systemd 可能读不到用户 PATH`
+`# 检查服务文件中的 PATH`
+`cat ~/.config/systemd/user/openclaw-gateway.service | grep PATH`
+`# 如果 PATH 未设置，编辑服务文件添加：`
+`# Environment="PATH=/usr/local/bin:/usr/bin:/bin:$(npm prefix -g)/bin"`
+2. `2. Lingering 未启用：用户登出后服务停止`
+`# 启用 lingering`
+`sudo loginctl enable-linger $USER`
+`# 验证`
+`loginctl show-user $USER | grep Lingering`
+`解决：`
+```text
+# 重新安装 daemon
+openclaw configure --section gateway
+# 选择 "Install daemon"
+# 或手动重启服务
+systemctl --user restart openclaw-gateway
+systemctl --user status openclaw-gateway
+```
+\* \* \*
+### \*\*`2）能回复，但一执行就报错`\*\*
+### \*\*`场景 A：模型 API 调用失败`\*\*
+`检查模型 API：`
+```text
+openclaw health
+```
+`命令行输出示例（API 失败）：`
+```text
+🦞 Health Check
+─────────────────────────────────────
+Gateway: ✓ healthy
+Model API: ✗ failed
+Error: 401 Unauthorized
+Provider: moonshot
+Model: moonshot/kimi-k2.5
+Possible causes:
+- API key invalid or expired
+- Network issue
+- Rate limit exceeded
+```
+`解决步骤：`
+1. `1. 验证 API Key 是否有效：`
+`# 测试 Anthropic`
+`curl https://api.anthropic.com/v1/messages \\`
+` -H "x-api-key: $ANTHROPIC\_API\_KEY" \\`
+` -H "anthropic-version: 2023-06-01" \\`
+` -d '{"model":"claude-3-5-sonnet-20241022","max\_tokens":10,"messages":[{"role":"user","content":"hi"}]}'`
+`# 测试 Moonshot`
+`curl https://api.moonshot.ai/v1/chat/completions \\`
+` -H "Authorization: Bearer $MOONSHOT\_API\_KEY" \\`
+` -H "Content-Type: application/json" \\`
+` -d '{"model":"kimi-k2.5","messages":[{"role":"user","content":"hi"}],"max\_tokens":10}'`
+2. `2. 检查环境变量：`
+`# Linux/macOS/WSL2`
+`env | grep -E "(ANTHROPIC|MOONSHOT|OPENAI)\_API\_KEY"`
+`# Windows PowerShell`
+`$env:MOONSHOT\_API\_KEY`
+3. `3. 重新配置：`
+`openclaw configure --section models`
+### \*\*`场景 B：工具调用失败（缺权限）`\*\*
+`常见错误：`
+```text
+Error: Permission denied: /path/to/file
+```
+`原因：Agent 没有文件系统访问权限`
+`解决：检查 sandbox 配置`
+`使用官方工具查看实际生效的配置：`
+```text
+openclaw sandbox explain
+```
+`命令行输出示例：`
+```text
+🦞 Sandbox Inspector
+─────────────────────────────────────
+Agent: main
+Sandbox mode: non-main
+Current session: sandboxed (non-main)
+Workspace access: rw
+Tool policy: allow [exec, read, write, ...]
+Elevated: disabled
+```
+`如果需要修改 sandbox 模式，编辑 ~/.openclaw/openclaw.json：`
+```text
+{
+"agents": {
+"defaults": {
+"sandbox": {
+"mode": "off" // "off" = 主机运行, "non-main" = 仅非主会话沙箱, "all" = 全部沙箱
+}
+}
+}
+}
+```
+`修改后重启 Gateway：openclaw gateway restart`
+### \*\*`场景 C：浏览器工具失败（缺依赖）`\*\*
+`常见错误：`
+```text
+Error: Browser launch failed: Chrome/Chromium not found
+```
+`解决：`
+- `• macOS：`
+`brew install --cask google-chrome`
+`# 或`
+`brew install --cask chromium`
+- `• Linux/WSL2：`
+`# Ubuntu/Debian`
+`sudo apt-get update`
+`sudo apt-get install chromium-browser`
+`# 或安装 Chrome`
+`wget https://dl.google.com/linux/direct/google-chrome-stable\_current\_amd64.deb`
+`sudo dpkg -i google-chrome-stable\_current\_amd64.deb`
+`sudo apt-get install -f # 修复依赖`
+- `• Windows：从 http://chrome.google.com 下载安装`
+- `• 验证安装：`
+`# 检查 Chrome/Chromium 是否可用`
+`google-chrome --version`
+`# 或`
+`chromium --version`
+\* \* \*
+### \*\*`3）它做了“你没让它做的事”`\*\*
+`这通常不是“它叛变了”，而是：`
+- `• 你的指令不够具体：例如“整理文件”vs“把 Downloads 文件夹里超过 30 天的文件移到 Archive”`
+- `• 它在补全隐含步骤时做了错误假设：例如“发邮件给团队”可能默认发了所有人，而不是你想要的子集`
+`解决方法：`
+1. `1. 把目标、范围、禁止项写清楚：`
+`请帮我整理文件，但：`
+`- 只处理 ~/Downloads 文件夹`
+`- 只移动超过 30 天的文件`
+`- 不要删除任何文件`
+`- 移动前先告诉我有哪些文件会被移动`
+2. `2. 要求它先复述计划再执行：`
+`在开始之前，请先告诉我你的执行计划，等我确认后再执行`
+3. `3. 配置审批流程（见安全章节）`
+\* \* \*
+### \*\*`4）Gateway 启动失败`\*\*
+### \*\*`场景 A：端口被占用`\*\*
+`错误信息：`
+```text
+Error: Port 18789 is already in use
+```
+`检查占用：`
+`Linux/macOS/WSL2：`
+```text
+# 方法 1：使用 lsof
+lsof -i :18789
+# 命令行输出：
+# COMMAND PID USER FD TYPE DEVICE SIZE/OFF NODE NAME
+# node 12345 user 23u IPv4 12345 0t0 TCP \*:18789 (LISTEN)
+# 方法 2：使用 netstat
+netstat -tulpn | grep 18789
+# 方法 3：使用 ss（现代 Linux）
+ss -tulpn | grep 18789
+```
+`Windows PowerShell：`
+```text
+# 方法 1：使用 netstat
+netstat -ano | findstr :18789
+# 命令行输出：
+# TCP 0.0.0.0:18789 0.0.0.0:0 LISTENING 12345
+# 方法 2：使用 Get-NetTCPConnection（PowerShell 5.1+）
+Get-NetTCPConnection -LocalPort 18789
+# 查看进程详情
+Get-Process -Id 12345
+```
+`解决：`
+`Linux/macOS/WSL2：`
+```text
+# 方法 1：杀死占用进程
+kill -9 12345 # 替换为实际 PID
+# 方法 2：改用其他端口
+openclaw configure --section gateway
+# 选择不同的端口（如 18790）
+```
+`Windows PowerShell：`
+```text
+# 方法 1：杀死占用进程
+Stop-Process -Id 12345 -Force # 替换为实际 PID
+# 方法 2：改用其他端口
+openclaw configure --section gateway
+# 选择不同的端口（如 18790）
+```
+### \*\*`场景 B：配置文件格式错误`\*\*
+`检查配置：`
+```text
+openclaw doctor
+```
+`命令行输出示例（发现错误）：`
+```text
+🦞 Doctor Check
+─────────────────────────────────────
+Config: ✗ invalid JSON
+Error: Unexpected token } in JSON at position 1234
+File: ~/.openclaw/openclaw.json
+Fix: Check JSON syntax or run 'openclaw reset' to start fresh
+```
+`解决：修复 JSON 语法，或重置配置：`
+```text
+openclaw reset
+# 选择 "Config only" 保留凭证和会话
+```
+\* \* \*
+### \*\*`10. 安全与隐私：越能干活越要克制`\*\*
+`
+`
+`一句话原则：先当它是"会犯错的实习生"，再慢慢给权限。`
+### \*\*`最小权限原则`\*\*
+`OpenClaw 使用三层权限控制：Sandbox（运行位置）、Tool Policy（工具可用性）、Elevated（主机执行）。先查看当前生效配置：`
+```text
+openclaw sandbox explain
+```
+`命令行输出示例：`
+```text
+🦞 Sandbox Inspector
+─────────────────────────────────────
+Agent: main
+Sandbox mode: non-main
+Current session: sandboxed (non-main)
+Workspace access: rw
+Tool policy: allow [exec, read, write, browser, ...]
+Elevated: disabled
+```
+`示例：限制工具可用性（只允许读取，不允许写入/删除）`
+`编辑 ~/.openclaw/openclaw.json：`
+```text
+{
+"agents": {
+"defaults": {
+"sandbox": {
+"mode": "non-main" // 非主会话在沙箱中运行
+},
+"tools": {
+"allow": ["read", "exec"], // 只允许读取和执行
+"deny": ["write", "delete", "edit"], // 禁止写入/删除/编辑
+"sandbox": {
+"tools": {
+"allow": ["read", "exec"], // 沙箱内也只允许读取和执行
+"deny": ["write", "delete"]
+}
+}
+}
+}
+}
+}
+```
+`逐步开放权限：`
+1. `1. 第一阶段：只允许文本处理（allow: ["read"]，禁用 exec）`
+2. `2. 第二阶段：允许读取和执行（allow: ["read", "exec"]，禁用 write）`
+3. `3. 第三阶段：允许写入特定目录（通过 Sandbox bind mounts 限制范围）`
+4. `4. 最后阶段：根据信任度开放更多权限`
+`验证配置生效：`
+```text
+openclaw sandbox explain --agent main
+```
+`修改后重启 Gateway：openclaw gateway restart`
+\* \* \*
+### \*\*`不暴露公网`\*\*
+`检查当前绑定：`
+```text
+openclaw status --all | grep "Bind"
+```
+`命令行输出示例（不安全）：`
+```text
+Bind: 0.0.0.0:18789 # 监听所有网络接口，危险！
+```
+`如果显示 0.0.0.0，改为 127.0.0.1：`
+```text
+openclaw configure --section gateway
+# 选择 bind: 127.0.0.1 (loopback)
+```
+`命令行输出示例（安全）：`
+```text
+Bind: 127.0.0.1:18789 # 只监听本地，安全
+```
+`如果需要远程访问：使用 SSH 隧道，不要直接暴露端口`
+```text
+# 在本地机器执行
+ssh -N -L 18789:127.0.0.1:18789 user@remote-host
+# 然后访问 http://127.0.0.1:18789/（实际连接到远程 Gateway）
+```
+`或使用 Tailscale（官方推荐）：`
+```text
+openclaw configure --section gateway
+# 选择 "Enable Tailscale exposure"
+```
+\* \* \*
+### \*\*`敏感信息管理`\*\*
+`不要做的事：`
+- `• ❌ 在 Telegram 对话中直接发 API Key`
+- `• ❌ 把 Key 写进公开的配置文件（如 GitHub）`
+- `• ❌ 截图时暴露 Token`
+- `• ❌ 在日志中打印完整 Key`
+`正确做法：`
+1. `1. 使用环境变量：`
+`# Linux/macOS/WSL2`
+`export MOONSHOT\_API\_KEY="sk-..."`
+`# Windows PowerShell`
+`$env:MOONSHOT\_API\_KEY="sk-..."`
+2. `2. 使用 ~/.openclaw/.env（daemon 会自动读取）：`
+`echo "MOONSHOT\_API\_KEY=sk-..." >> ~/.openclaw/.env`
+3. `3. 定期轮换 API Key：`
+- `• 每月检查一次 Key 使用情况`
+- `• 发现异常立即轮换`
+- `• 在 Moonshot/Anthropic 控制台设置使用限制`
+\* \* \*
+### \*\*`高风险动作二次确认`\*\*
+`配置执行命令审批流程（使用官方 CLI）：`
+`OpenClaw 使用 exec-approvals.json 文件管理需要审批的命令。查看当前配置：`
+```text
+openclaw approvals get
+```
+`命令行输出示例：`
+```text
+🦞 Exec Approvals
+─────────────────────────────────────
+No approvals configured (all commands allowed)
+```
+`添加需要审批的命令：`
+```text
+# 添加危险命令到审批列表（需要匹配完整路径）
+openclaw approvals allowlist add "rm -rf"
+openclaw approvals allowlist add "/usr/bin/dd"
+openclaw approvals allowlist add "~/.scripts/dangerous.sh"
+# 查看更新后的配置
+openclaw approvals get
+```
+`命令行输出示例：`
+```text
+🦞 Exec Approvals
+─────────────────────────────────────
+Allowlist:
+- rm -rf
+- /usr/bin/dd
+- ~/.scripts/dangerous.sh
+```
+`从文件批量导入审批规则：`
+`创建 exec-approvals.json：`
+```text
+{
+"allowlist": [\
+"rm -rf",\
+"/usr/bin/dd",\
+"~/.scripts/dangerous.sh"\
+]
+}
+```
+`导入配置：`
+```text
+openclaw approvals set --file ./exec-approvals.json
+```
+`这样配置后，执行这些命令时，Agent 会先请求批准：`
+`在 Telegram/Dashboard 中，会显示审批按钮，需要你点击确认。`
+`注意：审批机制仅适用于 exec 工具。文件删除、写入等操作需要通过 Sandbox 配置 和 Tool Policy 控制（见下文）。`
+\* \* \*
+### \*\*`定期安全检查`\*\*
+`运行安全审计：`
+```text
+openclaw security audit --deep
+```
+`命令行输出：`
+```text
+🦞 Security Audit
+─────────────────────────────────────
+Gateway:
+✓ Bind: 127.0.0.1 (safe)
+✓ Auth: Token enabled
+✗ Token exposed in logs (fix: use environment variable)
+Channels:
+✓ Telegram: pairing enabled
+✓ WhatsApp: pairing enabled
+Agents:
+✓ Sandbox: enabled
+✗ Elevated mode: enabled (consider disabling)
+Recommendations:
+1. Move gateway token to environment variable
+2. Disable elevated mode unless needed
+3. Review active sessions monthly
+```
+\* \* \*
+### \*\*`其他安全建议`\*\*
+1. `1. 定期更新：`
+`openclaw update`
+2. `2. 审查日志：`
+`推荐方式（官方 CLI，跨平台）：`
+`# 实时查看日志并过滤错误`
+`openclaw logs --follow | grep -i "error\\|warning\\|unauthorized"`
+`Windows PowerShell：`
+`openclaw logs --follow | Select-String -Pattern "error|warning|unauthorized" -CaseSensitive:$false`
+`低级别 RPC 调用（调试用）：`
+`# 通过 Gateway RPC 获取最近 1 分钟的日志`
+`openclaw gateway call logs.tail --params '{"sinceMs": 60000}'`
+`注意：日志文件路径可能因安装方式（npm/源码/Docker）和平台而异。建议优先使用 openclaw logs --follow，它通过 RPC 自动连接到正确的日志源。`
+3. `3. 备份配置：`
+`Linux/macOS/WSL2：`
+`# 备份配置（不包含敏感 Key）`
+`cp ~/.openclaw/openclaw.json ~/.openclaw/openclaw.json.backup`
+`# 备份整个配置目录（排除会话和临时文件）`
+`tar -czf ~/openclaw-backup-$(date +%Y%m%d).tar.gz \\`
+` ~/.openclaw/openclaw.json \\`
+` ~/.openclaw/credentials/ \\`
+` --exclude='\*.log' \\`
+` --exclude='sessions/'`
+`Windows PowerShell：`
+`# 备份配置`
+`Copy-Item ~\\.openclaw\\openclaw.json ~\\.openclaw\\openclaw.json.backup`
+`# 备份整个配置目录`
+`$backupName = "openclaw-backup-$(Get-Date -Format 'yyyyMMdd').zip"`
+`Compress-Archive -Path ~\\.openclaw\\\* -DestinationPath ~\\$backupName -Exclude \*.log,sessions`
+4. `4. 监控使用情况：`
+- `• 定期检查 API 调用量`
+- `• 设置使用上限（在模型提供商控制台）`
+- `• 发现异常立即停止服务`
+> `OpenClaw 的价值是“自托管可控”，但“可控”的另一面是你需要对权限负责。`
+\* \* \*
+### \*\*`11. 下一步：从"能用"到"好用"`\*\*
+`
+`
+`当你跑通最小闭环后，建议按这个顺序升级：`
+### \*\*`学习路径图`\*\*
+```text
+阶段 1：基础使用（当前）
+├─ ✅ 安装和配置
+├─ ✅ 跑通最小闭环
+└─ ✅ 接入一个渠道
+阶段 2：扩展能力
+├─ 📖 阅读：https://docs.openclaw.ai/tools/skills
+├─ 🔧 安装第一个 Skill（如 gmail）
+├─ 📝 学习配置 Skills
+└─ 🎯 实现一个具体场景（如"每天清邮件"）
+阶段 3：高级功能
+├─ 📖 阅读：https://docs.openclaw.ai/automation/cron-jobs
+├─ 🔧 配置定时任务
+├─ 📖 阅读：https://docs.openclaw.ai/concepts/multi-agent
+└─ 🎯 配置多 Agent 路由
+阶段 4：自定义开发
+├─ 📖 阅读：https://docs.openclaw.ai/tools/skills（开发部分）
+├─ 🔧 开发自己的 Skill
+└─ 🎯 贡献到社区
+```
+### \*\*`推荐阅读顺序`\*\*
+1. `1. Skills 生态：https://docs.openclaw.ai/tools/skills`
+- `• 了解如何安装和使用社区 Skills`
+- `• 学习 Skills 配置选项`
+`2. 自动化：https://docs.openclaw.ai/automation/cron-jobs`
+- `• 配置定时任务（如每天 9 点清邮件）`
+- `• 设置 Webhook 触发（如 Sentry 报错自动修复）`
+`3. 多 Agent：https://docs.openclaw.ai/concepts/multi-agent`
+- `• 配置多个 Agent（不同用途、不同模型）`
+- `• 学习消息路由规则`
+`4. 安全最佳实践：https://docs.openclaw.ai/gateway/security`
+- `• 深入理解安全模型`
+- `• 配置细粒度权限控制`
+### \*\*`具体进阶步骤`\*\*
+1. `1. 把一个场景做到稳定：例如“清邮件”做到 90% 可靠`
+- `• 记录失败案例，优化指令`
+- `• 配置审批流程，避免误操作`
+`2. 把指令模板化：把你常用的表达写成固定句式（减少歧义）`
+- `• 创建 ~/.openclaw/workspace/COMMANDS.md`
+- `• 记录常用指令模板`
+`3. 再扩展第二个能力：例如从邮件扩展到日历`
+- `• 安装 calendar skill`
+- `• 配置 OAuth 授权`
+`4. 最后再考虑自动化触发：定时任务、Webhook（例如 Sentry 触发修复）`
+- `• 配置 cron job`
+- `• 设置 webhook endpoint`
+\* \* \*
+### \*\*`小结`\*\*
+`
+`
+`如果你只记住一件事：先跑通"发一句话 → 它真执行 → 回你结果"的最小闭环。别一上来就追求全自动。`
+- `• 最短路径：先接 Telegram + 配好模型 API → 确认能回复 → 做一个低风险执行任务`
+- `• 最佳策略：只接一个你明天就要用的能力（邮件或日历）`
+- `• 安全底线：最小权限 + 不裸奔公网 + 高风险动作二次确认`
+`当你第一次真正体会到“我就发了一句话，它把事做完了”，你就会明白 OpenClaw 为什么被叫做：The AI that actually does things。`
+\* \* \*
+### \*\*`快速参考`\*\*
+`
+`
+### \*\*`常用命令`\*\*
+| 命令 | 用途 | 平台 |
+| --- | --- | --- |
+| openclaw status | 查看状态 | 所有 |
+| openclaw health | 健康检查 | 所有 |
+| openclaw gateway status | Gateway 状态 | 所有 |
+| openclaw gateway start | 启动 Gateway | 所有 |
+| openclaw gateway stop | 停止 Gateway | 所有 |
+| openclaw gateway restart | 重启 Gateway | 所有 |
+| openclaw configure | 交互式配置 | 所有 |
+| openclaw doctor | 诊断问题 | 所有 |
+| openclaw pairing list | 查看配对请求 | 所有 |
+| openclaw pairing approve | 批准配对 | 所有 |
+| openclaw logs --follow | 查看实时日志 | 所有 |
+| openclaw dashboard | 打开 Web 控制台 | 所有 |
+| openclaw update | 更新 OpenClaw | 所有 |
+### \*\*`配置文件位置`\*\*
+| 类型 | 路径 | 说明 |
+| --- | --- | --- |
+| 主配置 | ~/.openclaw/openclaw.json | 所有配置 |
+| 环境变量 | ~/.openclaw/.env | API Keys（daemon 可读） |
+| 凭证 | ~/.openclaw/credentials/ | OAuth、配对信息 |
+| 会话 | ~/.openclaw/agents//sessions/ | 对话历史 |
+| Workspace | ~/.openclaw/workspace/ | Agent 工作目录 |
+`路径说明：`
+- `• macOS/Linux/WSL2：~ 指向 /Users//（macOS）或 /home//（Linux/WSL2）`
+- `• Windows（原生）：~ 指向 C:\\Users\\\\，但建议使用 WSL2`
+`查看实际路径：`
+```text
+# Linux/macOS/WSL2
+echo ~/.openclaw
+# Windows PowerShell
+$env:USERPROFILE\\.openclaw
+```
+### \*\*`官方资源`\*\*
+- `• 官网：https://openclaw.ai/`
+- `• 文档：https://docs.openclaw.ai/`
+- `• GitHub：https://github.com/openclaw/openclaw`
+- `• 社区：Discord / Telegram（见官网）`
+### \*\*`平台特定文档`\*\*
+- `• Windows/WSL2：https://docs.openclaw.ai/platforms/windows`
+- `• macOS：https://docs.openclaw.ai/platforms/macos`
+- `• Linux：https://docs.openclaw.ai/platforms/linux`
+### \*\*`故障排查快速检查清单`\*\*
+`遇到问题时，按顺序检查：`
+1. `1. ✅ Node.js 版本 >= 22？`
+2. `2. ✅ Gateway 是否在运行？（openclaw gateway status）`
+3. `3. ✅ 模型 API Key 是否有效？（openclaw health）`
+4. `4. ✅ Channel 是否连接？（openclaw channels status）`
+5. `5. ✅ Pairing 是否已批准？（openclaw pairing list ）`
+6. `6. ✅ 配置是否正确？（openclaw doctor）`
+7. `7. ✅ 查看日志找错误？（openclaw logs --follow）`
+\* \* \*
+### \*\*`反馈与支持`\*\*
+`
+`
+`如果你在使用过程中遇到问题：`
+1. `1. 查看官方文档：https://docs.openclaw.ai/`
+2. `2. 搜索 GitHub Issues：https://github.com/openclaw/openclaw/issues`
+3. `3. 加入社区：Discord / Telegram（见官网）`
+4. `4. 运行诊断：openclaw doctor 并附上输出`
+`本文改进建议：如果你发现本文有错误或可以改进的地方，欢迎反馈。`
+编辑于 2026-02-04 07:55・福建
+[OpenClaw](https://www.zhihu.com/topic/2000657712221017695)
+[初始化OpenClaw](https://www.zhihu.com/topic/2001306736926148411)
+[openclaw部署](https://www.zhihu.com/topic/2001685462989948796)
+[工作笔记混格式难翻？腾讯ima导入分类一目了然\\
+\\
+文档处理太麻烦？智能辅助腾讯ima来帮你查看详情文档处理太麻烦？智能辅助腾讯ima来帮你 查看详情\\
+\\
+![用户头像](https://pic1.zhimg.com/v2-6bcab51aab5519d3e668f35b0a210fc3\_xl.webp?source=d6434cab)\\
+\\
+ima的广告](https://ima.qq.com/download/?webFrom=10000435&channel=10000435&cb=https%3A%2F%2Fsugar.zhihu.com%2Fplutus\_adreaper\_callback%3Fsi%3Da7855c23-9d6d-4007-8c51-6104f76f15ca%26os%3D3%26zid%3D1629%26zaid%3D3671181%26zcid%3D3628754%26cid%3D3628699%26event%3D\_\_EVENTTYPE\_\_%26value%3D\_\_EVENTVALUE\_\_%26ts%3D\_\_TIMESTAMP\_\_%26cts%3D\_\_TS\_\_%26mh%3D\_\_MEMBERHASHID\_\_%26adv%3D703838%26ocg%3D4%26cp%3D2500%26ocs%3D1%26aic%3D0%26atp%3D0%26ct%3D2%26ed%3DGiBNJgVzfCMmUW9XIVDVNQZREwA%3D&spu=biz%3D0%26ci%3D3628754%26si%3Dc4294ef1-e7bd-484e-afe8-d311c817d7c6%26ts%3D1771312006%26zid%3D1629)
+​赞同 61​​4 条评论
+​分享
+​喜欢​收藏​申请转载​
+​
+暂无评论
+关于作者
+[![彼岸流天](https://picx.zhimg.com/v2-62316fa3c19aca229cd768b1fb31a0a9\_l.jpg?source=32738c0c&needBackground=1)](https://www.zhihu.com/people/bi-an-liu-tian)
+[彼岸流天](https://www.zhihu.com/people/bi-an-liu-tian)
+vx 同名
+[回答\\
+\\
+\*\*114\*\*](https://www.zhihu.com/people/bi-an-liu-tian/answers) [文章\\
+\\
+\*\*71\*\*](https://www.zhihu.com/people/bi-an-liu-tian/posts) [关注者\\
+\\
+\*\*113\*\*](https://www.zhihu.com/people/bi-an-liu-tian/followers)
+​关注他​发私信
+大家都在搜
+换一换
+[2026 央视春晚457 万](https://www.zhihu.com/search?q=2026+%E5%A4%AE%E8%A7%86%E6%98%A5%E6%99%9A&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[马年祝福语361 万](https://www.zhihu.com/search?q=%E9%A9%AC%E5%B9%B4%E7%A5%9D%E7%A6%8F%E8%AF%AD&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[2026央视春晚节目单公布321 万](https://www.zhihu.com/search?q=2026%E5%A4%AE%E8%A7%86%E6%98%A5%E6%99%9A%E8%8A%82%E7%9B%AE%E5%8D%95%E5%85%AC%E5%B8%83&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[王菲歌曲《你我经历的一刻》312 万](https://www.zhihu.com/search?q=%E7%8E%8B%E8%8F%B2%E6%AD%8C%E6%9B%B2%E3%80%8A%E4%BD%A0%E6%88%91%E7%BB%8F%E5%8E%86%E7%9A%84%E4%B8%80%E5%88%BB%E3%80%8B&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[春节档电影推荐310 万](https://www.zhihu.com/parker/campaign/2004884216979162056?zh\_hide\_nav\_bar=true) 活动
+[宇树机器人春晚《武BOT》307 万](https://www.zhihu.com/search?q=%E5%AE%87%E6%A0%91%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%98%A5%E6%99%9A%E3%80%8A%E6%AD%A6BOT%E3%80%8B&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[四川大学通报王竹卿事件调查结果279 万](https://www.zhihu.com/search?q=%E5%9B%9B%E5%B7%9D%E5%A4%A7%E5%AD%A6%E9%80%9A%E6%8A%A5%E7%8E%8B%E7%AB%B9%E5%8D%BF%E4%BA%8B%E4%BB%B6%E8%B0%83%E6%9F%A5%E7%BB%93%E6%9E%9C&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[蔡明小品《奶奶的最爱》274 万](https://www.zhihu.com/search?q=%E8%94%A1%E6%98%8E%E5%B0%8F%E5%93%81%E3%80%8A%E5%A5%B6%E5%A5%B6%E7%9A%84%E6%9C%80%E7%88%B1%E3%80%8B&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[谷爱凌大跳台银牌255 万](https://www.zhihu.com/search?q=%E8%B0%B7%E7%88%B1%E5%87%8C%E5%A4%A7%E8%B7%B3%E5%8F%B0%E9%93%B6%E7%89%8C&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[春晚无相声250 万](https://www.zhihu.com/search?q=%E6%98%A5%E6%99%9A%E6%97%A0%E7%9B%B8%E5%A3%B0&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+### 推荐阅读
+[![ClawdBot 升级 OpenClaw 避坑指南:从踩坑到填坑的完整记录](https://pica.zhimg.com/v2-c77b47fad9f83b9e9dc16967333ed497\_250x0.jpg?source=172ae18b)\*\*ClawdBot 升级 OpenClaw 避坑指南:从踩坑到填坑的完整记录\*\* \\
+\\
+齐昂AI](https://zhuanlan.zhihu.com/p/2001358428879210065) [![OpenClaw 很好，但我们做了一个更简单的](https://picx.zhimg.com/v2-095680cfa0eda41ac7a26d19f5c6cdc4\_250x0.jpg?source=172ae18b)\*\*OpenClaw 很好，但我们做了一个更简单的\*\* \\
+\\
+Axel](https://zhuanlan.zhihu.com/p/2005993076410299635) [![从零开始安装 OpenClaw 🦞🦞](https://pic1.zhimg.com/v2-e4eb2c88d020cf837ff0f8ff80b558a7\_250x0.jpg?source=172ae18b)\*\*从零开始安装 OpenClaw 🦞🦞\*\* \\
+\\
+xnnnnn](https://zhuanlan.zhihu.com/p/2000705640474100436) [![全网吹爆的OpenClaw-ClawdBot实战评测：为什么它很强，但我不推荐所有人用](https://picx.zhimg.com/v2-d809307e676e3e46dd0971365943d51d\_250x0.jpg?source=172ae18b)\*\*全网吹爆的OpenClaw-ClawdBot实战评测：为什么它很强，但我不推荐所有人用\*\* \\
+\\
+一颗帅桃](https://zhuanlan.zhihu.com/p/2002139202914127944)
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码

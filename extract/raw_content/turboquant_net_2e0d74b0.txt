@@ -1,0 +1,413 @@
+# Source URL: https://turboquant.net/zh
+# Content Length: 9007 characters
+# Extracted at: 2026-03-30 12:34:50
+#============================================================
+
+
+TurboQuant - 重新定义 AI 效率的极致压缩[TQTurboQuant](#)[概述](#overview)[技术背景](#background)[核心原理](#core)[实验结果](#results)[使用指南](#usage)[FAQ](#faq)[论文 PDF](https://arxiv.org/pdf/2504.19874)语言[English](/)[中文](/zh)[한국어](/ko)[日本語](/ja)[Français](/fr)[Deutsch](/de)[Português](/pt)Google Research · 2026 年 3 月发布
+
+TurboQuant重新定义 AI 效率
+====================
+
+新型在线向量量化算法，实现零精度损失的 3-bit KV Cache 压缩，内存减少 6 倍，速度提升 8 倍。
+
+[了解核心原理](#core)[阅读论文](https://arxiv.org/pdf/2504.19874)![]()6x+内存压缩比8x注意力计算加速 (H100)3-bit零精度损失压缩最近动态
+
+TurboQuant 最近的进展和外溢影响
+---------------------
+
+论文发布后，讨论很快从理论创新转向工程接入、推理部署和长上下文成本模型。
+
+### 最新动态
+
+2026 年 3 月有人用 GPT-5.4 在 25 分钟内完成了 TurboQuant 的 MLX 实现
+
+有开发者表示，自己使用 GPT-5.4 在 25 分钟内完成了 TurboQuant 在 MLX 上的实现。
+
+[查看原帖](https://x.com/mweinbach/status/2036786698315546728)2026 年 3 月Google Research 正式发布 TurboQuant
+
+官方把它定义为接近信息论最优的在线量化方法，同时覆盖 KV Cache 压缩和向量检索场景。
+
+2026 年 3 月社区很快进入集成讨论阶段
+
+开源社区开始讨论 TurboQuant 如何落到 llama.cpp 等推理栈和相关运行时中。
+
+2026 年 3 月关注点转向部署收益
+
+讨论重点逐渐变成 3-bit 零损 KV 压缩是否会重写长上下文服务的内存与时延预算。
+
+### 带来的影响
+
+市场影响$MU 和 $SNDK 开盘承压
+
+由于 $GOOGL 发布 TurboQuant，$MU 和 $SNDK 在开盘时受到了严重冲击。
+
+专家评论
+
+从工程视角看 TurboQuant 到底改变了什么
+-------------------------
+
+重点解释哪些红利可能已经被工程吃掉，哪些部分仍然难以真正落地，以及这篇论文真正划出的边界。
+
+独立行业专家大模型系统与推理工程
+
+TurboQuant 的意义，不只是再多省一点内存，而是告诉我们 KV cache 压缩这条路已经接近一条清晰边界。
+
+KV cache 一直是大模型推理里的最大内存消耗来源。论文的做法，本质是用信息论最优的方式去压缩这些数据。不是简单地降低精度，而是重新分配信息密度。普通部分用极低比特表示，异常值单独保留更高精度。同时不再逐元素处理，而是以向量为单位编码，因为 attention 本身就是内积结构。
+
+关键的是，它的误差已经贴近信息论下界，也就是香农极限。这意味着它的压缩效率已经非常接近理论极限。论文里给出的结果，大致是 4 到 4.5 倍的压缩，性能几乎没有明显损失。效果很明显，但后续再压缩而不损伤性能的可能性已经很小。
+
+基于大科技公司的内部研发流程，论文的方法以及可能带来的优化效果，很可能已经被工程上分阶段吃掉了。比如低比特量化早就被广泛使用，从 int8 到 int4，再到更低精度，主流模型在推理侧基本都已经在用。异常值单独处理这件事也不是新东西，SmoothQuant、AWQ 这些方法本质上都在做类似的事情。KV cache 本身的压缩、滑窗、分层缓存，在大模型里也已经是常规配置。
+
+真正还没完全落地的，是论文里更极致的那一部分，比如向量量化，以及更接近信息论极限的编码方式。这些方法的问题不是原理，而是工程实现。它们对 GPU 不够友好，延迟控制更难，稳定性和泛化也更复杂，所以往往需要更长时间才能真正上线。
+
+如果一定要粗略估计论文里已经落地和还没落地的部分占比，可以大致这么看：最早的 KV cache 是 1 倍成本，简单量化之后能做到 2 到 3 倍压缩，加上异常值处理可以到 3 到 4 倍，论文再往前推一点，大约到 4 到 4.5 倍。也就是说，大部分红利已经被拿走了，剩下的提升空间不大，而且代价越来越高。
+
+这背后的原因也很清楚。前期压缩主要是在去掉冗余信息，后面面对的则是有效信息，再压就会直接影响模型能力。误差不再是平滑变化，而是到某个点之后快速恶化。实现难度也不是线性增长，而是明显抬升。
+
+从模型表现其实可以反推，现在的主流模型已经在使用这些技术。长上下文能力增强、推理成本下降、性能依然稳定，这些现象本身就说明 KV cache 的效率已经被大幅优化。像 Google 这种级别的团队，大概率已经实现了低比特量化、异常值处理和一部分 KV cache 压缩。
+
+也就是说，如果说 Google 这篇论文会对存储产生影响，那么其中大部分影响很可能已经体现出来了。还没有体现出来的那一部分，其实施难度也会比此前更高。
+
+更重要的是，这篇论文的意义不在于多省了多少内存，而在于给出了一个边界。KV cache 压缩这条路已经接近极限，剩下的提升空间很有限。接下来真正能带来变化的，未必还会来自压缩本身，而是需要找到其他路径。
+
+核心创新
+
+为什么 TurboQuant 是改变赛道的结果
+-----------------------
+
+TurboQuant 不是简单的压缩工具，而是接近信息论最优界、同时保持数据无关和加速器友好的在线量化框架。
+
+### 传统方法 (如 PQ)
+
+* 需要数据集特定训练
+* 存储大量全精度归一化常数
+* 索引时间长
+* 精度损失明显
+### TurboQuant
+
+* 随机旋转 + 极坐标变换 (PolarQuant)
+* 1-bit 残差校正 (QJL) 消除归一化开销
+* 索引时间接近零
+* 在论文基准中与 32-bit 基线一致
+AISTATS 2026
+#### PolarQuant
+
+极坐标变换核心，消除归一化开销
+
+[arXiv: 2502.02617 →](https://arxiv.org/pdf/2502.02617)AAAI 2025
+#### QJL
+
+1-bit 无偏内积估计器
+
+[ACM DL →](https://dl.acm.org/doi/10.1609/aaai.v39i24.34773)ICLR 2026
+#### TurboQuant
+
+两阶段整合，实现近最优失真率
+
+[arXiv: 2504.19874 →](https://arxiv.org/pdf/2504.19874)技术背景
+
+为什么需要 TurboQuant
+----------------
+
+向量量化极限与 KV Cache 压力的快速梳理
+
+### 1向量量化的经典问题
+
+向量量化要把高维向量映射到紧凑编码，同时最小化失真。理论下界很明确，但传统方法离这个界仍然较远。
+
+#### 失真度量公式
+
+MSE: D\_MSE = E[||x - x̂||²]内积: D\_prod = E[|⟨y,x⟩ - ⟨y,x̂⟩|²]
+#### Theory
+
+MSE lower bound: D\_MSE ≥ 1/4^bInner-product lower bound: D\_prod ≥ (||y||² / d) · 1/4^b
+
+PQ 等传统方法通常离这些下界还有明显距离。
+
+### 2LLM 中的 KV Cache 瓶颈
+
+在 Decoder-only Transformer 里，每个 token 都要存一份 Key/Value。上下文变长后，KV Cache 很快变成主要内存负担。
+
+#### 内存估算
+
+内存 ≈ 2 × L × d × 2 bytes (FP16)128K 上下文 + 7B 模型数十 GBKV Cache 占总内存80%+
+#### TurboQuant 带来的变化
+
+* ✓ 无需训练、无需微调
+* ✓ 3.5 bit/通道可实现质量中性
+* ✓ LongBench 与 FP32 一致
+* ✓ 让边缘设备长上下文推理更可行
+### 3向量搜索应用
+
+在 FAISS 这类 ANN 系统中，TurboQuant 兼顾更高召回率和接近零的索引开销。
+
+更高召回率在 GloVe 上优于 PQ 和 RabbiQ索引时间 ≈ 0适合十亿级向量库核心原理
+
+TurboQuant 两阶段算法
+----------------
+
+TurboQuant = PolarQuant 主压缩 + QJL 残差校正
+
+PolarQuantQJL完整算法
+### PolarQuant：极坐标变换
+
+关键点在于去掉 per-block 归一化开销。PolarQuant 先做随机旋转，让坐标服从更易量化的集中分布。
+
+#### 坐标分布公式
+
+```
+f_X(x) = Γ(d/2) / (√π · Γ((d-1)/2))
+× (1 - x²)^((d-3)/2)
+
+其中 x ∈ [-1, 1]
+```
+1将 d 维向量两两分组，得到半径与角度2对半径递归执行极坐标变换3只量化角度，避免归一化开销
+#### 核心优势
+
+* 取消所有 per-block 全精度常数额外开销为 0。
+* 超过 4.2x 压缩时仍近无损显著优于传统方案。
+* 高维下坐标近似高斯可直接套用 Lloyd-Max 等最优标量量化器。
+实验结果
+
+数据就是论据
+------
+
+覆盖 Gemma、Mistral、Llama-3.1-8B 的基准测试
+
+### KV Cache 压缩基准
+
+50.06LongBench 分数3.5-bit = Full Cache100Needle In A Haystack4K 到 104K 全满分6x+内存压缩显著降低成本8x注意力速度H100 4-bit 模式
+
+| 基准测试 | TurboQuant 3.5-bit | TurboQuant 2.5-bit | Full Cache |
+| --- | --- | --- | --- |
+| LongBench | 50.06 | 49.44 | 50.06 |
+| Needle In A Haystack | 100 | 99.8 | 100 |
+| ZeroSCROLLS | 最优 | 接近最优 | 基线 |
+| RULER | 最优 | 接近最优 | 基线 |
+| L-Eval | 最优 | 接近最优 | 基线 |
+
+### 向量搜索基准 (GloVe d=200)
+
+#### 1@k Recall
+
+TurboQuant最优PQ较低RabbiQ中等
+#### 索引时间
+
+TurboQuant≈ 0PQ (需 codebook 训练)长RabbiQ中等
+### 与替代方案对比
+
+| 方法 | 需要训练 | 无偏 | 压缩比 | 速度提升 |
+| --- | --- | --- | --- | --- |
+| TurboQuant | 否 | 是 | 6x+ | 8x |
+| KIVI | 需校准 | 否 | 4x | 4x |
+| SnapKV | 需微调 | 否 | 2-4x | 2-4x |
+| DuQuant | 需校准 | 部分 | 4x | 4x |
+
+100K 上下文显存预测把 TurboQuant 启用前后的总显存，以及对应需要的 RTX 4090 张数，放到同一视图里对比。
+
+按 RTX 4090 标称 24GB 显存估算，并预留基础框架开销后向上取整。
+
+| 模型系列 | 权重版本 | 纯模型显存 | 优化前总显存 | 优化后总显存 | 优化前 4090 需求 | 优化后 4090 需求 | 核心变化说明 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| ChatGLM-4 (9B) | 原版 (BF16) | 18 GB | 19.8 GB | 18.3 GB | 1 | 1 | 留出更多单卡余量。 |
+| ChatGLM-4 (9B) | INT8 | 9 GB | 10.8 GB | 9.3 GB | 1 | 1 | 仍是单卡，但缓冲更大。 |
+| ChatGLM-4 (9B) | INT4 | 5 GB | 6.8 GB | 5.3 GB | 1 | 1 | 单卡运行非常宽松。 |
+| Qwen-2.5 (32B) | 原版 (BF16) | 64 GB | 69 GB | 64.8 GB | 3 | 3 | 有节省，但不足以下降一张卡。 |
+| Qwen-2.5 (32B) | INT8 | 32 GB | 37 GB | 32.8 GB | 2 | 2 | 双卡 4090 余量更充足。 |
+| Qwen-2.5 (32B) | INT4 | 18 GB | 23 GB | 18.8 GB | 2 | 1(-1) | 从双卡边缘拉回单卡安全线。 |
+| Llama-3.1 (70B) | 原版 (BF16) | 140 GB | 150 GB | 141.7 GB | 7 | 6(-1) | 100K 上下文下直接省出 1 张 4090。 |
+| Llama-3.1 (70B) | INT8 | 70 GB | 80 GB | 71.7 GB | 4 | 3(-1) | 硬件成本出现实质下降。 |
+| Llama-3.1 (70B) | INT4 | 38 GB | 48 GB | 39.7 GB | 3 | 2(-1) | 把 70B 拉回双卡 4090 可运行区间。 |
+| Mixtral 8x22B (141B MoE) | 原版 (BF16) | 282 GB | 288 GB | 283 GB | 13 | 13 | MoE 架构下 KV 占比相对较小。 |
+| Mixtral 8x22B (141B MoE) | INT8 | 141 GB | 147 GB | 142 GB | 7 | 7 | 显存压力下降，但卡数不变。 |
+| Mixtral 8x22B (141B MoE) | INT4 | 75 GB | 81 GB | 76 GB | 4 | 4 | 能缓解压力，但仍在同一卡数组。 |
+| DeepSeek-R1 (671B MoE) | 原版 (FP8) | 700 GB | 712 GB | 702 GB | 31 | 30(-1) | 超大集群里也能省出 1 张 4090。 |
+| DeepSeek-R1 (671B MoE) | INT4 | 350 GB | 362 GB | 352 GB | 16 | 15(-1) | 仍属大集群场景，但少一张卡。 |
+
+使用指南
+
+从论文到生产
+------
+
+如何把 TurboQuant 放进真实系统
+
+### 当前状态
+
+论文已经给出理论与伪代码，但官方实现尚未开源。社区集成工作已经启动。
+
+* •llama.cpp Discussion #20969 正在讨论集成方案
+* •MLX 实验报告约 5x 压缩和 99.5% 质量保留
+* •社区普遍预期 2026 Q2 左右会出现开源实现
+### 实现步骤草图
+
+1
+#### 预计算 Lloyd-Max 质心
+
+离线算一次，后续复用。
+
+```
+# Python-like pseudocode
+centroids = lloyd_max_quantizer(
+    distribution="beta",
+    bits=b
+)
+```
+2
+#### 生成随机旋转矩阵
+
+通过 QR 分解得到正交矩阵。
+
+```
+# 随机旋转
+G = np.random.randn(d, d)
+Pi, _ = np.linalg.qr(G)
+```
+3
+#### 实现 quant / dequant 原语
+
+这里是数据存储与恢复的核心路径。
+
+```
+def quant(x, Pi, centroids):
+    y = Pi @ x
+    idx = find_nearest(y, centroids)
+    return idx
+
+def dequant(idx, Pi, centroids):
+    y = centroids[idx]
+    x = Pi.T @ y
+    return x
+```
+4
+#### 集成到 attention
+
+把 K/V 存成 TurboQuant 格式，并在注意力里结合 QJL。
+
+```
+# Transformer attention
+k_quant = turboquant_quant(k)
+v_quant = turboquant_quant(v)
+# 在注意力阶段使用 QJL
+```
+### 部署建议
+
+#### 硬件
+
+H100 / A100 最理想，论文中的 8x 提速来自 4-bit 模式。
+
+FP
+#### 混合精度
+
+KV Cache 用 TurboQuant，权重用 INT4，整体压缩效果更强。
+
+#### 边缘设备
+
+3-bit KV Cache 有机会让手机端也支持 32K+ 上下文。
+
+### 工程风险与应对
+
+#### 随机旋转开销
+
+预生成并复用矩阵，避免在线反复构建。
+
+#### 残差范数存储
+
+只额外存 1 个 FP16 标量，开销很小。
+
+推荐开源路线
+
+`fork llama.cpp → 添加 turboquant_quant kernel`未来展望
+
+TurboQuant 可能怎样改变 AI 栈
+----------------------
+
+#### LLM 推理
+
+百万 token 上下文成本会明显下降，并可能进入未来模型栈的原生能力。
+
+#### 向量数据库
+
+更容易做到实时索引和亚毫秒查询。
+
+#### 边缘 AI
+
+手机和嵌入式设备上的长上下文推理更现实。
+
+#### 多模态嵌入
+
+相同思路可扩展到图像和视频 embedding 压缩。
+
+#### 理论延伸
+
+结合 outlier 处理后，实用 2-bit 系统的可能性更高。
+
+#### 社区影响
+
+vLLM、Hugging Face 等生态很可能快速跟进。
+
+### 时间线预测
+
+Q2
+#### 2026 Q2
+
+开源代码与框架集成
+
+Q4
+#### 2026 Q4
+
+商用产品，可能先落在云端
+
+27
+#### 2027
+
+有机会成为 LLM 量化标准配置
+
+风险提示：如果随机种子处理不当，可能引入极小偏差，但论文认为在高维下可以忽略。
+
+FAQ
+
+常见问题
+----
+
+工程师和读者最先会问的问题
+
+### 01TurboQuant 需要训练吗？
+
+### 02和 KIVI 或常规 4-bit 量化相比如何？
+
+### 03支持哪些模型？
+
+### 04代码在哪里？
+
+### 05为什么对向量搜索重要？
+
+### 06零损失是真的吗？
+
+### 07对硬件有什么要求？
+
+### 08和 PolarQuant 的关系是什么？
+
+资源
+
+相关引用与链接
+-------
+
+[#### 官方博客
+
+Google Research 官方发布文章](https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/)[#### TurboQuant 论文
+
+ICLR 2026 主论文 PDF](https://arxiv.org/pdf/2504.19874)[#### PolarQuant 论文
+
+AISTATS 2026 极坐标变换论文](https://arxiv.org/pdf/2502.02617)[#### QJL 论文
+
+AAAI 2025 量化 JL 变换](https://dl.acm.org/doi/10.1609/aaai.v39i24.34773)
+### 社区讨论
+
+[#### Reddit r/LocalLLaMA
+
+本地 LLM 部署相关讨论](https://www.reddit.com/r/LocalLLaMA/comments/1s2su28/google_research_turboquant_redefining_ai/)[#### X (Twitter) discussion
+
+最新动态和讨论](https://x.com/Prince_Canuma/status/2036611007523512397)[#### llama.cpp #20969
+
+主要集成讨论帖](https://github.com/ggml-org/llama.cpp/discussions/20969)TQTurboQuant[论文](https://arxiv.org/pdf/2504.19874)[博客](https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/)[FAQ](#faq)内容基于 Google Research 公开论文与博客

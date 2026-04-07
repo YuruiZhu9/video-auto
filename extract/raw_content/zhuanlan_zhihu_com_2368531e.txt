@@ -1,0 +1,386 @@
+# Source URL: https://zhuanlan.zhihu.com/p/2020968183692042542
+# Content Length: 18124 characters
+# Extracted at: 2026-04-06 13:11:03
+#============================================================
+
+![](https://zhuanlan.zhihu.com/p/2020968183692042542)
+## 一、前言
+OpenClaw（Clawdbot）的核心价值并非单纯的对话交互，而是通过Skill技能扩展实现真实场景的自动化与生产力提升。盲目安装技能只会导致系统臃肿、冲突频发，真正高效的用法是 \*\*按场景精选、先安全后功能、先基础后扩展\*\*。[ClawHub](https://zhida.zhihu.com/search?content\_id=272130848&content\_type=Article&match\_order=1&q=ClawHub&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUxMzEyMzIsInEiOiJDbGF3SHViIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjcyMTMwODQ4LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.1F9FWgFgIZFGnOOOk8zPrs5AuvTDDCScw35eRxtHRLE&zhida\_source=entity)下载榜前30的Skill经过海量用户验证，覆盖自我进化、安全审查、信息检索、浏览器自动化、办公协作、文档处理、知识管理、图像生成、语音转写等全场景，是2026年OpenClaw用户的标准配置清单。
+![](https://pic2.zhimg.com/v2-4194d16637402ec3666a3f3c5acb576b\_1440w.jpg)
+本文完整保留30款Skill的功能定位、使用场景、安全评级与核心价值，不改变原意，同时新增 \*\*2026阿里云轻量服务器零基础部署\*\*、 \*\*Windows11/MacOS/Linux本地全流程\*\*、 \*\*[阿里云千问](https://zhida.zhihu.com/search?content\_id=272130848&content\_type=Article&match\_order=1&q=%E9%98%BF%E9%87%8C%E4%BA%91%E5%8D%83%E9%97%AE&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUxMzEyMzIsInEiOiLpmL\_ph4zkupHljYPpl64iLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNzIxMzA4NDgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.9BaqKTJmTU3I9tO9nyojgX4jpoDc3Ud1g2nhE0tx0Jg&zhida\_source=entity)大模型API配置\*\*、 \*\*免费Coding Plan大模型对接\*\*，并提供可直接复制的代码命令、新手避坑指南与常见问题解答，帮助用户快速搭建稳定、高效、安全的OpenClaw环境。 \*\*阿里云部署 OpenClaw 只需两步，全网最简单，步骤流程\*\* \*\*[访问阿里云OpenClaw一键部署专题页面](https://link.zhihu.com/?target=https%3A//www.aliyun.com/activity/ecs/clawdbot%3FuserCode%3Dt1dwdo7u)\*\* 了解。
+![](https://picx.zhimg.com/v2-15dc64e6eefab0e6342f1e5766ac6689\_1440w.jpg)
+## 二、Skill安装核心原则（新手必看）
+1. \*\*安全优先\*\*：安装任何技能前，先用[Skill Vetter](https://zhida.zhihu.com/search?content\_id=272130848&content\_type=Article&match\_order=1&q=Skill+Vetter&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUxMzEyMzIsInEiOiJTa2lsbCBWZXR0ZXIiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNzIxMzA4NDgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.b0gGt-RhZjw4XQ0SRzwbfl-1C9Epf69LVcwatLleHnI&zhida\_source=entity)扫描，排查权限风险与可疑行为。
+2. \*\*按需安装\*\*：优先安装高频刚需技能，避免一次性安装过多导致系统卡顿。
+3. \*\*规范流程\*\*：安装→启用→热重载→测试，四步缺一不可。
+4. \*\*版本兼容\*\*：保持OpenClaw与Skill版本同步，避免兼容性问题。
+5. \*\*数据隔离\*\*：重要配置与记忆文件定期备份，防止技能异常导致数据丢失。
+## 三、2026阿里云轻量服务器部署OpenClaw（零基础最简）
+### 步骤1：创建实例
+1. 登录阿里云控制台，进入 \*\*轻量应用服务器\*\*
+2. 镜像选择： \*\*应用镜像 → OpenClaw 2026稳定版\*\*（预装所有依赖）
+3. 地域：中国香港/新加坡/美国弗吉尼亚（内地地域联网功能受限）
+4. 配置：2核2GB起步、40GB云盘、5Mbps带宽
+5. 设置root密码，记录公网IP
+### 阿里云用户零基础部署 OpenClaw 喂饭级步骤流程
+第一步： \*\*[点击打开访问阿里云OpenClaw一键部署专题页面](https://link.zhihu.com/?target=https%3A//www.aliyun.com/activity/ecs/clawdbot%3FuserCode%3Dt1dwdo7u)\*\*。
+![](https://picx.zhimg.com/v2-15dc64e6eefab0e6342f1e5766ac6689\_1440w.jpg)
+![](https://pic3.zhimg.com/v2-7971479ba16f3a9acaffc6ee9c25db36\_1440w.jpg)
+![](https://pic2.zhimg.com/v2-56b13d5cf7c9b59209be902f48d069df\_1440w.jpg)
+![](https://pic3.zhimg.com/v2-0c9e0a7cfc29754579dcc1be3a7dd912\_1440w.jpg)
+![](https://pic1.zhimg.com/v2-8d609b3a1d28a87a86e38da03975f61c\_1440w.jpg)
+第二步： \*\*[打开选择阿里云轻量应用服务器](https://link.zhihu.com/?target=https%3A//www.aliyun.com/product/swas%3FuserCode%3Dt1dwdo7u)\*\*，配置参考如下：
+- 镜像：OpenClaw(Moltbot)镜像（已经购买服务器的用户可以重置系统重新选择镜像）
+- 实例：内存必须2GiB及以上。
+- 地域：默认美国（弗吉尼亚），目前中国内地域（除香港）的轻量应用服务器，联网搜索功能受限。
+- 时长：根据自己的需求及预算选择。
+![](https://pic1.zhimg.com/v2-1e139e797ba5eb394614dfcaa1917d12\_1440w.jpg)
+![](https://pica.zhimg.com/v2-3701d53299dba280184f12ff3db68c4a\_1440w.jpg)
+![](https://pic1.zhimg.com/v2-5a308ecd5a637d97e7c1263464ec6ca2\_1440w.jpg)
+第三步： \*\*[打开访问阿里云百炼大模型控制台](https://link.zhihu.com/?target=https%3A//bailian.console.aliyun.com/%3FuserCode%3Dt1dwdo7u)\*\*，找到密钥管理，单击创建API-Key。
+![](https://pic1.zhimg.com/v2-c19ebe66e75cafb3de2dcce5eabd0cbc\_1440w.jpg)
+\*\*[前往轻量应用服务器控制台](https://link.zhihu.com/?target=https%3A//www.aliyun.com/product/swas%3FuserCode%3Dt1dwdo7u)\*\*，找到安装好OpenClaw的实例，进入「应用详情」放行18789端口、配置百炼API-Key、执行命令，生成访问OpenClaw的Token。
+![](https://pic3.zhimg.com/v2-f61c1eb777218144b217024457a05bc4\_1440w.jpg)
+- 端口放通：需要放通对应端口的防火墙，单击一键放通即可。
+- 配置百炼API-Key，单击一键配置，输入百炼的API-Key。单击执行命令，写入API-Key。
+- 配置OpenClaw：单击执行命令，生成访问OpenClaw的Token。
+- 访问控制页面：单击打开网站页面可进入OpenClaw对话页面。
+### 阿里云百炼Coding Plan API-Key 获取、配置保姆级教程：
+创建API-Key，推荐 \*\*[访问订阅阿里云百炼Coding Plan](https://link.zhihu.com/?target=https%3A//www.aliyun.com/benefit/scene/codingplan%3FuserCode%3Dt1dwdo7u)\*\*，阿里云百炼Coding Plan每天两场抢购活动，从按tokens计费升级为按次收费，可以进一步节省费用！
+![](https://pic2.zhimg.com/v2-3d1dad2a7d093b46661dc665f656882d\_1440w.jpg)
+- 购买后，在控制台生成API Key。注：这里复制并保存好你的API Key，后面要用。
+![](https://pic3.zhimg.com/v2-cba7aa478dbdbc5618cb2bdbc714c74e\_1440w.jpg)
+- 回到轻量应用服务器-控制台，单击服务器卡片中的实例 ID，进入服务器概览页。
+![](https://pic1.zhimg.com/v2-9680928b474d3fd31b28e39f3b27a364\_1440w.jpg)
+- 在服务器概览页面单击应用详情页签，进入服务器详情页面。
+![](https://pic2.zhimg.com/v2-5aee4801be661094864dcaf779813b79\_1440w.jpg)
+- 端口放通在OpenClaw使用步骤区域中，单击端口放通下的执行命令，可开放获取OpenClaw 服务运行端口的防火墙。
+![](https://pic1.zhimg.com/v2-d3cd5065d01f18f8ec2787928bd58cc8\_1440w.jpg)
+- 这里系统会列出我们第一步中创建的阿里云百炼 Coding Plan的API Key，直接选择就可以。
+![](https://pic1.zhimg.com/v2-69cd6eb2110b13d6e25f1e414829c74a\_1440w.jpg)
+- 获取访问地址单击访问 Web UI 面板下的执行命令，获取 OpenClaw WebUI 的地址。
+![](https://pic2.zhimg.com/v2-55abfd750f70f0756182a6edbec23ddf\_1440w.jpg)
+![](https://pic3.zhimg.com/v2-4a2f9d963eae038f3e557a9f67441a44\_1440w.jpg)
+### 步骤2：放行18789端口（必须）
+```text
+firewall-cmd --add-port=18789/tcp --permanent
+firewall-cmd --reload
+firewall-cmd --list-ports | grep 18789
+systemctl status docker
+```
+### 步骤3：初始化与启动
+```text
+docker exec -it openclaw bash
+openclaw init --full
+openclaw --version
+exit
+docker update --restart=always openclaw
+docker restart openclaw
+```
+### 步骤4：访问控制台
+```text
+http://你的公网IP:18789
+```
+## 四、本地全平台部署OpenClaw（Windows11/MacOS/Linux）
+### （一）Windows11 部署（管理员PowerShell）
+```text
+Set-ExecutionPolicy Bypass -Scope Process -Force
+iwr -useb https://openclaw.ai/install.ps1 | iex
+openclaw onboard --install-daemon
+openclaw gateway start
+```
+访问：`http://localhost:18789`
+### （二）MacOS 部署
+```text
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+brew install docker node@22
+open /Applications/Docker.app
+docker pull openclaw/openclaw:2026.3.26
+mkdir -p ~/OpenClaw/{config,skills,logs,memory,workspace}
+docker run -d \
+--name openclaw \
+--restart always \
+-p 18789:18789 \
+-v ~/OpenClaw/config:/app/config \
+-v ~/OpenClaw/skills:/app/skills \
+-v ~/OpenClaw/logs:/app/logs \
+-v ~/OpenClaw/memory:/app/memory \
+-v ~/OpenClaw/workspace:/app/workspace \
+-e TZ=Asia/Shanghai \
+openclaw/openclaw:2026.3.26
+docker exec -it openclaw bash
+openclaw init --full
+exit
+```
+### （三）Linux（Ubuntu/Debian）部署
+```text
+sudo apt update
+curl -fsSL https://get.docker.com | bash
+sudo systemctl start docker
+sudo systemctl enable docker
+sudo mkdir -p /opt/openclaw/{config,skills,logs,memory,workspace}
+sudo chmod -R 777 /opt/openclaw
+sudo docker pull openclaw/openclaw:2026.3.26
+sudo docker run -d \
+--name openclaw \
+--restart always \
+-p 18789:18789 \
+-v /opt/openclaw/config:/app/config \
+-v /opt/openclaw/skills:/app/skills \
+-v /opt/openclaw/logs:/app/logs \
+-v /opt/openclaw/memory:/app/memory \
+-v /opt/openclaw/workspace:/app/workspace \
+-e TZ=Asia/Shanghai \
+openclaw/openclaw:2026.3.26
+```
+## 五、大模型API配置（阿里云千问 + 免费Coding Plan）
+### （一）阿里云千问配置（稳定推荐）
+```text
+docker exec -it openclaw bash
+openclaw config set models.providers.bailian.baseUrl https://dashscope.aliyuncs.com/compatible-mode/v1
+openclaw config set models.providers.bailian.apiKey sk-你的API密钥
+openclaw config set models.default.model qwen3-max
+openclaw gateway restart
+exit
+```
+### （二）免费Coding Plan配置（零成本）
+```text
+docker exec -it openclaw bash
+nano /app/config/model.config.yaml
+```
+写入：
+```text
+coding\_plan:
+enable: true
+model: coding-free
+api\_key: 你的免费API Key
+baseUrl: https://api.codingplan.ai/v1
+timeout: 30
+maxConcurrent: 5
+openclaw gateway restart
+exit
+```
+## 六、ClawHub前30 Skill一键安装命令（可直接复制）
+```text
+docker exec -it openclaw bash
+# 1.自我进化系统
+clawhub install pskoett/self-improving-agent
+# 2.自动查找技能
+clawhub install JimLiuxinghai/find-skills
+# 3.一键提炼网页和文件
+clawhub install steipete/summarize
+# 4.浏览器自动化
+clawhub install TheSethRose/agent-browser
+# 5.Google工作助理
+clawhub install steipete/gog
+# 6.技能审查员
+clawhub install spclaudehome/skill-vetter
+# 7.GitHub协作
+clawhub install steipete/github
+# 8.结构化记忆
+clawhub install oswalpalash/ontology
+# 9.主动代理Lite
+clawhub install halthelobster/proactive-agent
+# 10.天气查询
+clawhub install steipete/weather
+# 11.自我进化主动代理
+clawhub install Yueyanc/self-improving-proactive-agent
+# 12.全能搜索引擎
+clawhub install gpyAngyoujun/multi-search-engine
+# 13.PDF编辑
+clawhub install steipete/nano-pdf
+# 15.音箱控制
+clawhub install steipete/sonoscli
+# 16.去除AI味
+clawhub install biostartechnology/humanizer
+# 17.Notion协作
+clawhub install steipete/notion
+# 18.Obsidian笔记
+clawhub install steipete/obsidian
+# 19.图像生成
+clawhub install steipete/nano-banana-pro
+# 20.语音转文本
+clawhub install steipete/openai-whisper
+# 21.百度搜索
+clawhub install ide-rea/baidu-search
+# 22.自动更新
+clawhub install maximeprades/auto-updater
+# 23.API网关
+clawhub install byungkyu/api-gateway
+# 24.技能创建
+clawhub install chindden/skill-creator
+# 25.自动化工作流
+clawhub install JK-0001/automation-workflows
+# 26.Tavily搜索
+clawhub install Jacky1n7/openclaw-tavily-search
+# 27.Brave搜索
+clawhub install steipete/brave-search
+# 28.MCP管理
+clawhub install steipete/mcporter
+# 29.免费AI模型管理
+clawhub install Shaivpidadi/free-ride
+# 30.长上下文记忆
+clawhub install NextFrontierBuilds/elite-longterm-memory
+# 启用所有技能
+openclaw skills enable --all
+# 热重载生效
+openclaw skills reload
+exit
+```
+## 七、前30 Skill核心功能与使用场景
+### 第一梯队：基础必装（安全+进化+检索）
+1. \*\*self-improving-agent\*\*：自我进化系统，从错误中学习，越用越稳定
+2. \*\*Find Skills\*\*：技能导航员，根据需求自动推荐适配技能
+3. \*\*Skill Vetter\*\*：安装前安检，排查权限风险与恶意代码
+4. \*\*Multi Search Engine\*\*：集成17大搜索引擎，无需API密钥
+5. \*\*Summarize\*\*：一键提炼网页、PDF、音频、视频核心内容
+### 第二梯队：效率工具（自动化+办公）
+1. \*\*Agent Browser\*\*：[无头浏览器](https://zhida.zhihu.com/search?content\_id=272130848&content\_type=Article&match\_order=1&q=%E6%97%A0%E5%A4%B4%E6%B5%8F%E8%A7%88%E5%99%A8&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUxMzEyMzIsInEiOiLml6DlpLTmtY\_op4jlmagiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNzIxMzA4NDgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.v6rios3xD9\_u4IgTTVOrs14O6DIiVsEK5mWy\_9xp2qY&zhida\_source=entity)自动化，自动点击、填表、数据采集
+2. \*\*Gog\*\*：Google Workspace全功能助手，邮件、日历、文档一体化
+3. \*\*Github\*\*：代码协作助手，管理Issue、PR、CI状态
+4. \*\*Notion/Obsidian\*\*：知识管理自动化，自动创建、整理笔记
+5. \*\*Auto-Updater\*\*：自动更新OpenClaw与所有技能，省心稳定
+### 第三梯队：专业增强（内容+数据+记忆）
+1. \*\*ontology\*\*：[结构化知识图谱](https://zhida.zhihu.com/search?content\_id=272130848&content\_type=Article&match\_order=1&q=%E7%BB%93%E6%9E%84%E5%8C%96%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUxMzEyMzIsInEiOiLnu5PmnoTljJbnn6Xor4blm77osLEiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNzIxMzA4NDgsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.\_uvaETCf2xKnxsoumm85qALg3qf\_-ylHVMTk0BGv-NY&zhida\_source=entity)，长期记忆不混乱
+2. \*\*Proactive Agent\*\*：主动执行任务，无需等待指令
+3. \*\*Humanizer\*\*：去除AI痕迹，文本更自然
+4. \*\*Nano Pdf\*\*：自然语言编辑PDF，修改文字、添加注释
+5. \*\*Elite Longterm Memory\*\*：终极记忆系统，永不丢失上下文
+### 第四梯队：扩展能力（多媒体+硬件+API）
+1. \*\*Nano Banana Pro\*\*：文生图、图生图，支持4K输出
+2. \*\*Openai Whisper\*\*：本地语音转文本，无需API
+3. \*\*Sonoscli\*\*：智能音箱控制，智能家居自动化
+4. \*\*API Gateway\*\*：对接100+第三方API，跨平台流程自动化
+5. \*\*Free Ride\*\*：免费模型智能调度，自动降级兜底
+## 八、Skill管理常用命令
+```text
+# 查看已安装技能
+openclaw skills list
+# 启用指定技能
+openclaw skills enable 技能名
+# 禁用指定技能
+openclaw skills disable 技能名
+# 卸载技能
+openclaw skills uninstall 技能名
+# 热重载技能
+openclaw skills reload
+# 查看技能日志
+openclaw logs --skills
+# 更新所有技能
+clawhub update --all
+```
+## 九、新手必看：Skill安装避坑指南
+1. \*\*先装Skill Vetter\*\*：所有技能安装前必须扫描，杜绝安全风险
+2. \*\*不装重复功能\*\*：同类技能只装一个，避免冲突
+3. \*\*安装后必重载\*\*：不执行skills reload，技能无法生效
+4. \*\*警惕高权限技能\*\*：拒绝授予系统级权限的不明技能
+5. \*\*定期清理\*\*：卸载30天未使用的技能，保持系统流畅
+6. \*\*备份配置\*\*：修改技能配置前，先备份工作区文件
+## 十、阿里云部署避坑指南
+1. 必须选 \*\*应用镜像\*\*，系统镜像需手动配置环境，极易失败
+2. 地域优先选香港/新加坡/美国，内地地域联网搜索功能受限
+3. 内存≥2GB，1GB内存会直接导致启动失败、频繁崩溃
+4. 18789端口必须放行，否则无法访问Web控制台
+5. 设置容器自启，服务器重启后OpenClaw自动运行
+## 十一、本地部署避坑指南
+1. Windows必须用 \*\*管理员PowerShell\*\*，普通权限安装失败
+2. Mac需先启动Docker，再执行部署命令
+3. Linux命令必须加sudo，否则目录权限不足
+4. 关闭防火墙或放行18789端口，避免无法访问控制台
+5. 数据目录完整挂载，防止重启后配置与技能丢失
+## 十二、常见问题解答（FAQ）
+### 1\. Skill安装成功但无法使用
+- 未启用技能：执行`openclaw skills enable 技能名`
+- 未热重载：执行`openclaw skills reload`
+- 模型配置错误：检查千问/Coding Plan API是否正常
+- 权限不足：重新授予技能所需权限
+### 2\. 安装技能后系统卡顿、内存占用高
+- 技能安装过多：卸载不常用技能
+- 内存不足：升级至2核4GB配置
+- 日志过大：执行`openclaw logs --clear`清理日志
+- 关闭后台自启技能：减少资源消耗
+### 3\. Skill Vetter阻止正常技能安装
+- 安全等级设置过高：临时调整为中等
+- 技能版本过旧：更新至最新版
+- 误报：确认技能来源可靠后，手动放行
+### 4\. 搜索类技能无法联网
+- 服务器地域问题：更换香港/新加坡地域
+- 端口未放行：检查443端口是否开放
+- 技能配置错误：重新安装搜索技能
+### 5\. 模型调用失败，Skill无法生成内容
+- API Key错误/过期：重新配置正确密钥
+- 免费额度用尽：更换模型或充值
+- BaseURL填写错误：核对官方接口地址
+- 未重启网关：执行`openclaw gateway restart`
+### 6\. 记忆类技能不生效、无法保存内容
+- 工作区目录权限不足：修改目录权限为777
+- 未启用记忆功能：在配置中开启记忆开关
+- 技能冲突：卸载其他记忆类技能
+- 重启服务：执行`openclaw gateway restart`
+## 十三、总结
+ClawHub下载榜前30的Skill是2026年OpenClaw生态最实用、最稳定的技能组合，覆盖 \*\*安全防护、自我进化、信息检索、办公自动化、内容创作、知识管理、多媒体处理、硬件控制\*\* 全场景，真正实现"安装即用、效率翻倍"。
+本文完整覆盖30款Skill的安装命令、功能详解、使用场景，同时提供阿里云与本地全平台部署、大模型API配置、避坑指南与问题解答，所有代码可直接复制执行，零基础用户也能快速搭建专业级OpenClaw环境。
+遵循"安全优先、按需安装、定期维护"的原则，合理使用这些技能，能让OpenClaw从简单对话工具，升级为7×24小时自动运行的全能数字员工，全面提升工作与生活效率。
+编辑于 2026-03-27 09:07・湖北
+[OpenClaw爆火](https://www.zhihu.com/topic/2014627166470571033)
+[openclaw部署](https://www.zhihu.com/topic/2001685462989948796)
+[OpenClaw](https://www.zhihu.com/topic/1999063153082913027)
+[多知识任务还在排队做？腾讯ima同步处理省时间\\
+\\
+查看详情微信文件一键转存至腾讯ima知识库，让你想用的时候随时都能用，还能对知识库里的文件进行深层次解析哦 查看详情\\
+\\
+ima的广告](https://ima.qq.com/download/?webFrom=10000435&channel=10000435&cb=https%3A%2F%2Fsugar.zhihu.com%2Fplutus\_adreaper\_callback%3Fsi%3D89e46e5b-3265-46e6-a687-670ceb998f0e%26os%3D3%26zid%3D1629%26zaid%3D3691187%26zcid%3D3655421%26cid%3D3655421%26event%3D\_\_EVENTTYPE\_\_%26value%3D\_\_EVENTVALUE\_\_%26ts%3D\_\_TIMESTAMP\_\_%26cts%3D\_\_TS\_\_%26mh%3D\_\_MEMBERHASHID\_\_%26adv%3D703838%26ocg%3D4%26cp%3D2500%26ocs%3D1%26aic%3D0%26atp%3D0%26ct%3D2%26ed%3DGiBNJgVzfCMmUW9XFyEvRA8xBGxJICwkOhh0FlwxKw1fY0gnWzUoISkYdBJEOSgNWnINfg90bnF-HGdRBWd-CU0qVy9RJ2dwG6SoutFHgyI%3D&spu=biz%3D0%26ci%3D3655421%26si%3Dc31be745-6de4-4bc6-b8a6-7da855a94d19%26ts%3D1774958433%26zid%3D1629)
+​赞同​​添加评论​收藏​喜欢
+​分享
+​申请转载​
+​
+暂无评论
+关于作者
+[![OpenClaw教程](https://picx.zhimg.com/v2-7efb597bdaf4177c3182b0730f9e60a4\_l.jpg?source=172ae18b)](https://www.zhihu.com/people/chen-xiao-ling-57-2)
+[OpenClaw教程](https://www.zhihu.com/people/chen-xiao-ling-57-2)
+OpenClaw新手部署保姆级教程及常见问题避坑指南
+[回答](https://www.zhihu.com/people/chen-xiao-ling-57-2/answers) [文章](https://www.zhihu.com/people/chen-xiao-ling-57-2/posts) [关注者](https://www.zhihu.com/people/chen-xiao-ling-57-2/followers)
+​关注​发私信
+大家都在搜
+换一换
+[官方通报鞠婧祎被举报偷税漏税537 万](https://www.zhihu.com/search?q=%E5%AE%98%E6%96%B9%E9%80%9A%E6%8A%A5%E9%9E%A0%E5%A9%A7%E7%A5%8E%E8%A2%AB%E4%B8%BE%E6%8A%A5%E5%81%B7%E7%A8%8E%E6%BC%8F%E7%A8%8E&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 新
+[伊朗局势536 万](https://www.zhihu.com/search?q=%E4%BC%8A%E6%9C%97%E5%B1%80%E5%8A%BF&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[李荣浩喊话单依纯称其强行侵权《李白》388 万](https://www.zhihu.com/search?q=%E6%9D%8E%E8%8D%A3%E6%B5%A9%E5%96%8A%E8%AF%9D%E5%8D%95%E4%BE%9D%E7%BA%AF%E7%A7%B0%E5%85%B6%E5%BC%BA%E8%A1%8C%E4%BE%B5%E6%9D%83%E3%80%8A%E6%9D%8E%E7%99%BD%E3%80%8B&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[瑞幸新品喝一半发现椰肉变紫364 万](https://www.zhihu.com/search?q=%E7%91%9E%E5%B9%B8%E6%96%B0%E5%93%81%E5%96%9D%E4%B8%80%E5%8D%8A%E5%8F%91%E7%8E%B0%E6%A4%B0%E8%82%89%E5%8F%98%E7%B4%AB&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 新
+[美以袭击伊朗341 万](https://www.zhihu.com/search?q=%E7%BE%8E%E4%BB%A5%E8%A2%AD%E5%87%BB%E4%BC%8A%E6%9C%97&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[如何评价张雪及他的创业经历321 万](https://www.zhihu.com/search?q=%E5%A6%82%E4%BD%95%E8%AF%84%E4%BB%B7%E5%BC%A0%E9%9B%AA%E5%8F%8A%E4%BB%96%E7%9A%84%E5%88%9B%E4%B8%9A%E7%BB%8F%E5%8E%86&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[张凌赫被戏称「粉底液将军」301 万](https://www.zhihu.com/search?q=%E5%BC%A0%E5%87%8C%E8%B5%AB%E8%A2%AB%E6%88%8F%E7%A7%B0%E3%80%8C%E7%B2%89%E5%BA%95%E6%B6%B2%E5%B0%86%E5%86%9B%E3%80%8D&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[张雪峰追悼会举行民众排长队送别300 万](https://www.zhihu.com/search?q=%E5%BC%A0%E9%9B%AA%E5%B3%B0%E8%BF%BD%E6%82%BC%E4%BC%9A%E4%B8%BE%E8%A1%8C%E6%B0%91%E4%BC%97%E6%8E%92%E9%95%BF%E9%98%9F%E9%80%81%E5%88%AB&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[张雪机车 WSBK葡萄牙站夺冠286 万](https://www.zhihu.com/search?q=%E5%BC%A0%E9%9B%AA%E6%9C%BA%E8%BD%A6+WSBK%E8%91%A1%E8%90%84%E7%89%99%E7%AB%99%E5%A4%BA%E5%86%A0&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[优衣库牛仔裤被曝女款的工艺远差于男款279 万](https://www.zhihu.com/search?q=%E4%BC%98%E8%A1%A3%E5%BA%93%E7%89%9B%E4%BB%94%E8%A3%A4%E8%A2%AB%E6%9B%9D%E5%A5%B3%E6%AC%BE%E7%9A%84%E5%B7%A5%E8%89%BA%E8%BF%9C%E5%B7%AE%E4%BA%8E%E7%94%B7%E6%AC%BE&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码

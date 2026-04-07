@@ -1,0 +1,131 @@
+# Source URL: https://zhuanlan.zhihu.com/p/15253029661
+# Content Length: 5408 characters
+# Extracted at: 2026-03-31 11:52:23
+#============================================================
+
+![](https://zhuanlan.zhihu.com/p/15253029661)
+![video-analyzer：开源视频分析工具，支持提取视频关键帧、音频转录，自动生成视频详细描述](https://picx.zhimg.com/v2-5094f8500dadb70b2c69962920011763\_720w.jpg?source=172ae18b)
+​
+目录
+❤️ 如果你也关注 AI 的发展现状，且对 AI 应用开发非常感兴趣，我会每日跟你分享最新的 AI 资讯和开源应用，也会不定期分享自己的想法和开源实例，欢迎关注我哦！
+\*\*微信公众号｜搜一搜：蚝油菜花\*\*
+\* \* \*
+## 快速阅读
+1. \*\*功能\*\*：支持本地视频分析、关键帧提取、音频转录和自然语言描述。
+2. \*\*技术\*\*：结合 [Llama](https://zhida.zhihu.com/search?content\_id=252073294&content\_type=Article&match\_order=1&q=Llama&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUxMDE5NDEsInEiOiJMbGFtYSIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI1MjA3MzI5NCwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.MiQ5DYmSmbTVHfwtYAJluj-WjG\_KVgHjBEhj7Qbu4Mk&zhida\_source=entity) 的 11B 视觉模型和 [OpenAI](https://zhida.zhihu.com/search?content\_id=252073294&content\_type=Article&match\_order=1&q=OpenAI&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUxMDE5NDEsInEiOiJPcGVuQUkiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTIwNzMyOTQsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.wpxBYjjHcDMgRzRVFWvwDaL3uyeLEAY3LW1ovLRnUPk&zhida\_source=entity) 的 [Whisper](https://zhida.zhihu.com/search?content\_id=252073294&content\_type=Article&match\_order=1&q=Whisper&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUxMDE5NDEsInEiOiJXaGlzcGVyIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjUyMDczMjk0LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.YLQZDvkCNxt2ZoL34s83v\_O0jSPRiR1wxNEuXHavZuc&zhida\_source=entity) 模型，实现帧提取与音频处理。
+3. \*\*应用\*\*：适用于内容审核、视频管理、教育培训、安全监控和媒体娱乐等领域。
+## 正文（附运行示例）
+### video-analyzer 是什么
+![](https://pic4.zhimg.com/v2-0a9e1f88a038e982d31ad2503b471df3\_1440w.jpg)
+video-analyzer 是一款开源的视频分析工具，结合了 Llama 的 11B 视觉模型和 OpenAI 的 Whisper 模型，能够从视频中提取关键帧、转录音频内容，并生成详细的视频描述。该工具支持完全本地运行，无需依赖云服务或 API 密钥，同时也可以通过 [OpenRouter](https://zhida.zhihu.com/search?content\_id=252073294&content\_type=Article&match\_order=1&q=OpenRouter&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUxMDE5NDEsInEiOiJPcGVuUm91dGVyIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjUyMDczMjk0LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.VzosOPccvqk22AqgPsNxnk7K0WJee55KUC-AWINHjcs&zhida\_source=entity) 的 LLM 服务提高处理速度和扩展性。
+video-analyzer 的应用场景广泛，包括监控、广告分析、内容分类等。它能够帮助用户深入分析视频内容，生成高质量的元数据和描述，便于后续的内容管理和检索。
+### video-analyzer 的主要功能
+- \*\*本地视频分析\*\*：无需云服务或 API 密钥，支持在本地环境中处理视频。
+- \*\*关键帧提取\*\*：智能地从视频中提取关键帧，保留重要信息。
+- \*\*音频转录\*\*：使用 OpenAI 的 Whisper 模型进行高质量音频转录。
+- \*\*自然语言描述\*\*：生成视频内容的详细描述，便于理解和分析。
+- \*\*音频处理\*\*：自动处理低质量音频，确保转录的准确性。
+### video-analyzer 的技术原理
+### 1\. \*\*帧提取与音频处理\*\*：
+- 使用 OpenCV 库提取视频中的关键帧。
+- 通过 Whisper 模型处理音频，进行转录，并处理低质量音频。
+### 2\. \*\*帧分析\*\*：
+- 基于 Llama 的 11B 视觉模型对每个关键帧进行分析，提取视觉信息。
+- 分析时考虑前一帧的上下文，保持视频内容的连贯性。
+### 3\. \*\*视频重建\*\*：
+- 将帧分析结果按时间顺序组合，形成视频的逐帧描述。
+- 整合音频转录内容，使用视频的第一帧设定场景背景。
+- 创建综合的视频描述，包括视觉信息和音频信息。
+### 如何运行 video-analyzer
+### 安装与配置
+### 1\. 克隆仓库：
+```bash
+git clone https://github.com/byjlw/video-analyzer.git
+cd video-analyzer
+```
+### 2\. 创建并激活虚拟环境：
+```bash
+python3 -m venv .venv
+source .venv/bin/activate # Windows: .venv\Scripts\activate
+```
+### 3\. 安装依赖：
+```bash
+pip install .
+```
+### 4\. 安装 FFmpeg：
+- Ubuntu/Debian：
+```bash
+sudo apt-get update && sudo apt-get install -y ffmpeg
+```
+- macOS：
+```bash
+brew install ffmpeg
+```
+- Windows：
+```bash
+choco install ffmpeg
+```
+### 运行示例
+使用默认的 Ollama 服务进行分析：
+```bash
+video-analyzer path/to/video.mp4
+```
+使用 OpenRouter 服务进行分析：
+```bash
+video-analyzer path/to/video.mp4 --openrouter-key your-api-key
+```
+### 资源
+- \*\*GitHub 仓库\*\*： [https://github.com/byjlw/video-analyzer](https://link.zhihu.com/?target=https%3A//github.com/byjlw/video-analyzer)
+- \*\*Ollama 安装指南\*\*： [https://ollama.ai](https://link.zhihu.com/?target=https%3A//ollama.ai/)
+- \*\*OpenRouter 官网\*\*： [https://openrouter.ai](https://link.zhihu.com/?target=https%3A//openrouter.ai/)
+\* \* \*
+❤️ 如果你也关注 AI 的发展现状，且对 AI 应用开发非常感兴趣，我会每日跟你分享最新的 AI 资讯和开源应用，也会不定期分享自己的想法和开源实例，欢迎关注我哦！
+\*\*微信公众号｜搜一搜：蚝油菜花\*\*
+发布于 2024-12-28 11:13・广东
+[开源](https://www.zhihu.com/topic/19562746)
+[人工智能](https://www.zhihu.com/topic/19551275)
+[AI视频分析](https://www.zhihu.com/topic/28073824)
+​赞同 16​​1 条评论​70 ​2
+​分享
+​申请转载​
+​
+暂无评论
+关于作者
+[![蚝油菜花](https://picx.zhimg.com/v2-537d07365b396d018bb996d63448b8ba\_l.jpg?source=172ae18b)](https://www.zhihu.com/people/sakura-10-48-81)
+[蚝油菜花](https://www.zhihu.com/people/sakura-10-48-81)
+分享大模型与AI领域的开源项目和应用，帮助你快速上手AI技术
+[​](https://zhuanlan.zhihu.com/p/96956163)
+计算机技术与软件专业技术资格证持证人
+[回答](https://www.zhihu.com/people/sakura-10-48-81/answers) [文章](https://www.zhihu.com/people/sakura-10-48-81/posts) [关注者](https://www.zhihu.com/people/sakura-10-48-81/followers)
+​关注​发私信
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码

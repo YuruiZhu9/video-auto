@@ -1,0 +1,96 @@
+# Source URL: https://zhuanlan.zhihu.com/p/665912659
+# Content Length: 5585 characters
+# Extracted at: 2026-03-23 10:38:05
+#============================================================
+
+![推荐算法—FNN\Wide&Deep\DeepFM\NFM系列解析](data:image/svg+xml;utf8,)
+## 1、FM
+FM具体可参考 [刘启林：FM因子分解机的原理、公式推导、Python实现和应用](https://zhuanlan.zhihu.com/p/145436595)
+## 2、FNN—用FM的隐向量完成embedding层初始化
+背景：在神经网络的参数初始化过程中，往往采用随机初始化这种不包含先验信息的初始化方式。由于embedding层的输入极端稀疏化，导致embedding层的收敛速度很慢。再加上embedding层的参数数量往往会占整个神经网络参数数量的大半以上，因为模型收敛的速度往往受限于embedding层
+> FNN的解决思路是用FM模型训练好的各特征隐向量初始化embedding层的参数。需要注意的是，虽然把FM中的参数指向了embedding层各神经元，但其具体意义是初始化embedding神经元与输入神经元之间的连接权重
+![](https://picx.zhimg.com/v2-97d36de1ac81986e6a3fad954974b03b\_1440w.jpg)
+## 3、wide&Deep
+由Google商店提出，论文地址：
+![](https://pic2.zhimg.com/v2-202089b4bc3a85a7bd22bace35422e9d\_1440w.jpg)
+\*\*W&D由浅层（或单层）的Wide部分神经网络和深层的Deep部分多层神经网络组成，输出层采用softmax或logistics regression综合Wide和Deep部分的输出。\*\*
+\*\*Wide部分有利于增强模型的“记忆能力”，Deep部分有利于增强模型的“泛化能力”。\*\*
+记忆能力：模型直接学习并利用历史数据中物品或者特征的“共现频率”的能力
+泛化能力：模型传递特征的相关性，以及发掘稀疏甚至从未出现过的稀有特征与最终标签相关性的能力
+![](https://picx.zhimg.com/v2-03533b1761b89b0a7efbba6a49340a4b\_1440w.jpg)
+wide部分的输入仅仅是已安装应用和曝光应用两类特征，选择这两类特征的原因是充分发挥wide部分记忆能力强的优势
+wide部分已安装组合和曝光应用两个特征的函数被称为交叉积变换喊出
+![](https://pic1.zhimg.com/v2-b3285841030da24a9c35c0ebd98af422\_1440w.jpg)
+\*\*Wide侧就是普通LR，一般根据人工先验知识，将一些简单、明显的特征交叉，喂入Wide侧，让Wide侧能够记住这些规则。\*\*
+\*\*Deep侧就是DNN，通过embedding的方式将categorical/id特征映射成稠密向量，让DNN学习到这些特征之间的深层交叉，以增强扩展能力。\*\*
+只有当user\\_install\\_app = netflic 和 impression——app = pandora这两个特征同时为1时，其对应的交叉积变换层的结果才为1，否则为0
+在通过交叉积变化层操作完成特征组合后，Wide部分将组合特征输入最终的LogLoss层，与Deep部分的输出一同参与最后的目标你和，完成Wide与Deep部分的融合
+损失函数
+优化器
+\*\*使用带L1正则化项的FTRL作为wide部分的优化方法，而使用AdaGrad作为deep部分的优化方法\*\*
+把FTRL当作一个 \*\*稀疏性很好\*\*， \*\*精度又不错\*\* 的 \*\*随机梯度下降方法，\*\* 由于是随机梯度下降，当然可以做到来一个样本就训练一次，进而实现模型的在线更新。
+\*\*FTRL with L1非常注重模型的稀疏性。这也就是问题的答案，W&D采用L1 FTRL是想让Wide部分变得更加稀疏。即\*\* L1 FTRL会让Wide部分的大部分权重都为0，我们准备特征的时候就不用准备那么多0权重的特征了，这大大压缩了模型权重，也压缩了特征向量的维度。
+\*\*User Installed App\*\* 和 \*\*Impression App\*\*
+这篇文章是Google的应用商店团队Google Play发表的，我们不难猜测Google的工程师使用这个组合特征的意图，他们是想发现当前曝光app和用户安装app的关联关系，以此来直接影响最终的得分。
+但是两个id类特征向量进行组合，在维度爆炸的同时，会让原本已经非常稀疏的multihot特征向量，变得更加稀疏。正因如此，wide部分的权重数量其实是海量的。为了不把数量如此之巨的权重都搬到线上进行model serving，采用FTRL过滤掉哪些稀疏特征无疑是非常好的工程经验。
+\*\*为什么Deep部分不特别考虑稀疏性的问题？\*\*
+大家注意观察可以发现Deep部分的输入，要么是Age，#App Installs这些数值类特征，要么是已经降维并稠密化的Embedding向量，工程师们不会也不敢把过度稀疏的特征向量直接输入到Deep网络中。所以Deep部分不存在严重的特征稀疏问题，自然可以使用精度更好，更适用于深度学习训练的AdaGrad去训练。
+## 4、deepFM—用FM代替wide&deep的wide部分
+论文地址：
+> DeepFM主要是针对wide&deep模型的Wide部分不具备自动的特征组合能力的缺陷进行的。deepFM = FM + dnn，DeepFM对wide&deep模型的改进之处就是用FM替换了原来的Wide部分，加强了浅层神经网络部分特征组合的能力。左边的FM部分与右边的DNN部分共享embedding层，左侧的FM部分对不同的特征域的embedding进行两两交叉，也就是将emdedding向量当做原FM中的特征隐向量。最后将FM的输出与Deep部分的输出一同输入到最终的输出层，参与最后的目标拟合。
+\*\*相关博客\*\*： [AI上推荐 之 FNN、DeepFM与NFM(FM在深度学习中的身影重现)](https://link.zhihu.com/?target=https%3A//blog.csdn.net/wuzhongqiang/article/details/109532267)
+\*\*算法实现\*\*： [paddlepaddle](https://link.zhihu.com/?target=https%3A//github.com/Aminute/Rec/blob/master/models/rank/deepfm/net.py) [pytorch版本](https://link.zhihu.com/?target=https%3A//github.com/Aminute/CTR\_Algorithm/blob/main/pytorch/model/DeepFM.py)
+\*\*发展路线\*\*：FNN => deepFM
+![](https://pica.zhimg.com/v2-4df3f7f6672912d0edcfaaf985a0aab0\_1440w.jpg)DeepFM
+### 4、1 Sparse Feature
+转换为one-hot encoding
+### 4.2 Dense Embedding
+转换为Embedding
+### \*\*4.3 FM Layer\*\*
+y\\_{FM}(x) = sigmoid(w\\_0 + \\sum\\_{i=1}^nw\\_ix\\_i + \\sum\\_{i=1}^N\\sum\\_{j=i+1}^N\\lt v\\_i,v\\_j\\gt x\\_iy\\_j) \\\ 对二阶交叉部分进行化简
+\\sum\\_{i=1}^N\\sum\\_{j=i+1}^N\\lt v\\_i,v\\_j\\gt x\\_iy\\_j
+= \\frac{1}{2}(\\sum\\_{i=1}^n\\sum\\_{j=1}^nx\\_ix\\_j- \\sum\\_{i=1}^Nx\\_ix\\_i) 矩阵所有元素 \- 对角线元素 的一半
+= \\frac{1}{2}(\\sum\\_{i=1}^n\\sum\\_{j=1}^n\\sum\\_{f=1}^kv\\_{if}v\\_{jf}x\\_ix\\_j- \\sum\\_{i=1}^n\\sum\\_{f=1}^kv\\_{if}v\\_{if}x\\_ix\\_i) 内积转换为累加和新式
+= \\frac{1}{2}\\sum\\_{f=1}^k(\\sum\\_{i=1}^nv\\_{if}x\\_i\\sum\\_{j=1}^nv\\_{jf}x\\_j- \\sum\\_{i=1}^n{v\\_{if}}^2{x\\_i}^2) 提出公共部分
+= \\frac{1}{2}\\sum\\_{f=1}^k((\\sum\\_{i=1}^nv\\_{if}x\\_i)^2- \\sum\\_{i=1}^n{v\\_{if}}^2{x\\_i}^2) i和j是等价的
+### 4.4 Hidden layer
+将Embedding concat后，经过一个MLP
+### 4.5 outrput Units
+\\hat y = sigmoid(y\\_{FM} + y\\_{DNN}) \\\
+### 4.6 注意点：
+\*\*损失函数\*\* logloss
+\*\*优化器：\*\* adam优化器
+### 4.7 总结
+\*\*与wide & deep的区别\*\*
+\*\*相同点：都是线性模型与深度模型的结合，低阶与高阶特征交互的融合。\*\*
+\*\*不同点：\*\*
+\*\*1、DeepFM 两个部分共享输入，而 Wide&Deep 的 wide 侧是稀疏输入，deep 侧是稠密输入；\*\*
+\*\*2、DeepFM 无需加入人工特征，可端到端的学习，线上部署更方便，Wide&Deep 则需要在输入上加入人工特征提升模型表达能力。\*\*
+\*\*优点：\*\*
+1、两部分联合训练，无需加入人工特征，更易部署；
+2、结构简单，复杂度低，两部分共享输入，共享信息，可更精确的训练学习。
+\*\*缺点：\*\*
+1 将类别特征对应的稠密向量拼接作为输入，然后对元素进行两两交叉。这样导致模型无法意识到域的概念，FM 与 Deep 两部分都不会考虑到域，属于同一个域的元素应该对应同样的计算。
+## 4、NFM—FM的神经网络化尝试
+背景：如果需要将特征扩充到三阶以上
+> NFM的思路是用一个表达能力更强的函数f(x)替代原FM中二阶隐向量内积的部分
+y\\_{FM}(x) = w\\_0 + \\sum\\_{i=1}^nw\\_ix\\_i + \\sum\\_{i=1}^N\\sum\\_{j=i+1}^N\\lt v\\_i,v\\_j\\gt x\\_iy\\_j \\\ y\\_{NFM}(x) = w\\_0 + \\sum\\_{i=1}^nw\\_ix\\_i + f(x) \\\ \*\*算法实现\*\*：paddlepaddle待更新 [pytorch](https://link.zhihu.com/?target=https%3A//github.com/shenweichen/DeepCTR-Torch/blob/master/deepctr\_torch/models/nfm.py)
+参考：
+《深度学习推荐系统》
+[石塔西：看Google如何实现Wide & Deep模型(1)](https://zhuanlan.zhihu.com/p/47293765)
+编辑于 2024-05-13 20:57・北京
+[推荐算法](https://www.zhihu.com/topic/19580544)
+[深度学习（Deep Learning）](https://www.zhihu.com/topic/19813032)
+[矩阵](https://www.zhihu.com/topic/19650614)
+​赞同 5​​添加评论​3 ​喜欢
+​分享
+​申请转载​
+​
+关于作者
+[![一分钟666](https://pica.zhimg.com/v2-82efd25700aebedad0acc2620d5441c2\_l.jpg?source=172ae18b)](https://www.zhihu.com/people/yifen-zhong-10-50)
+[一分钟666](https://www.zhihu.com/people/yifen-zhong-10-50)
+程序员/羽毛球
+[​](https://zhuanlan.zhihu.com/p/96956163)
+抖音 员工
+[回答](https://www.zhihu.com/people/yifen-zhong-10-50/answers) [文章](https://www.zhihu.com/people/yifen-zhong-10-50/posts) [关注者](https://www.zhihu.com/people/yifen-zhong-10-50/followers)
+​关注​发私信

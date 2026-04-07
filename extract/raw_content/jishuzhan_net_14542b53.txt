@@ -1,0 +1,352 @@
+# Source URL: https://jishuzhan.net/article/2038835286057684993
+# Content Length: 9449 characters
+# Extracted at: 2026-04-01 06:08:28
+#============================================================
+
+
+LLM 后训练革命：GRPO、DAPO 与 RLVR 如何替代 RLHF 重塑大模型对齐训练 - 技术栈[技术栈](/)
+
+LLM 后训练革命：GRPO、DAPO 与 RLVR 如何替代 RLHF 重塑大模型对齐训练
+==============================================
+
+码农垦荒笔记2026-03-31 12:26
+### 一、背景：为什么 RLHF 被取代了？
+
+据 [llm-stats.com](http://llm-stats.com) 2026 年 3 月 11 日发布的综述《Post-Training in 2026: GRPO, DAPO, RLVR & Beyond》，过去 12 个月发布的每个主要模型------从 DeepSeek-R1 到 Nemotron 3 Super 再到 GPT-5.3 Codex------都使用了不同的后训练技术栈。RLHF（基于人类反馈的强化学习）的标准配方已经「死了」。
+
+**RLHF 的三大瓶颈：**
+
+1. **成本高昂**：需要人类标注员生成偏好对数据，标注成本随模型能力提升指数增长
+2. **Critic 模型开销** ：PPO 算法需要维护一个与策略模型同等规模的 Critic（价值）模型，**显存翻倍**
+3. **扩展性差**：人类标注速度远跟不上模型训练速度，成为瓶颈
+
+新一代方法从不同角度突破这三个瓶颈，形成了完整的替代方案。
+
+### 二、现代后训练三阶段架构
+
+在深入单个技术之前，先理解 2026 年主流的后训练流水线：  
+
+1-10M 样本  
+
+对齐人类偏好  
+
+突破训练数据上限  
+
+预训练模型  
+
+SFT
+
+监督微调  
+
+偏好优化
+
+DPO/SimPO/KTO  
+
+强化学习
+
+GRPO/DAPO + RLVR  
+
+生产模型
+
+| 阶段 | 目标 | 核心技术 | 典型数据量 |
+| --- | --- | --- | --- |
+| SFT（监督微调） | 学会指令遵循和格式化输出 | 标准微调 | 1-10M 样本 |
+| 偏好优化 | 对齐人类价值观和偏好 | DPO / SimPO / KTO / ORPO | 100K-1M 偏好对 |
+| 强化学习 | 突破训练数据上限，发现新策略 | GRPO / DAPO + 可验证奖励 | 按需生成 |
+
+据 Nemotron 3 Super 的技术报告，其 SFT 阶段使用了 700 万样本（从 4000 万候选中筛选），RL 阶段跨 21 种环境配置生成了 120 万条 rollout。
+
+### 三、GRPO：消除 Critic 模型的优雅方案
+
+#### 3.1 核心原理
+
+GRPO（Group Relative Policy Optimization）由 DeepSeek 团队在 DeepSeekMath 中提出，后在 DeepSeek-R1 中大规模应用。
+
+**PPO 的问题：** PPO 需要一个单独的 Critic 模型来估计每个 token/序列的价值函数 V(s)，这意味着：
+
+* 显存占用翻倍（Critic 模型与策略模型同等规模）
+* 价值估计噪声大，导致训练不稳定
+* 工程复杂度高
+
+**GRPO 的解决方案：** 对每个 prompt 采样一组响应（通常 8-64 个），用组内相对排名替代绝对价值估计：
+
+A i = r i − μ σ A\_i = \frac{r\_i - \mu}{\sigma} Ai=σri−μ
+
+其中 r i r\_i ri 是第 i i i 个响应的奖励， m u mu mu 和 σ \sigma σ 是组内奖励的均值和标准差。
+
+#### 3.2 理论保证
+
+据最新理论分析（arxiv 2603.22117v1，2026 年 3 月），GRPO 的策略梯度是一个 **U-统计量** ，使其**渐近等价于拥有理想价值函数的 Oracle 算法** 。换句话说，GRPO 不是一个「碰巧有效的 hack」，而是在一大类策略梯度方法中**可证明最优**的。
+
+#### 3.3 PyTorch 实现核心逻辑
+
+python
+复制代码
+
+
+```
+import torch
+import torch.nn.functional as F
+
+def grpo_loss(
+    policy_logprobs: torch.Tensor,    # [batch, group_size, seq_len]
+    ref_logprobs: torch.Tensor,       # [batch, group_size, seq_len]
+    rewards: torch.Tensor,            # [batch, group_size]
+    clip_eps: float = 0.2,
+    kl_coeff: float = 0.01,
+) -> torch.Tensor:
+    """
+    GRPO 损失函数核心实现
+    - 组内归一化替代 Critic 模型
+    - PPO-style clip 保证训练稳定性
+    """
+    # 1. 组内归一化计算优势值（核心！无需 Critic 模型）
+    mean = rewards.mean(dim=1, keepdim=True)
+    std = rewards.std(dim=1, keepdim=True).clamp(min=1e-8)
+    advantages = (rewards - mean) / std  # [batch, group_size]
+    
+    # 2. 计算策略比率
+    log_ratio = (policy_logprobs - ref_logprobs).sum(dim=-1)
+    ratio = torch.exp(log_ratio)  # [batch, group_size]
+    
+    # 3. PPO-style clip
+    clipped_ratio = torch.clamp(ratio, 1 - clip_eps, 1 + clip_eps)
+    policy_loss = -torch.min(
+        ratio * advantages,
+        clipped_ratio * advantages
+    ).mean()
+    
+    # 4. KL 散度正则化
+    kl_div = (ref_logprobs - policy_logprobs).sum(dim=-1).mean()
+    
+    return policy_loss + kl_coeff * kl_div
+```
+#### 3.4 Prompt Replay：加速 GRPO 训练
+
+据 arxiv 2603.21177v1（2026 年 3 月），Prompt Replay 技术通过**重用之前采样的 prompt-response 对**来减少在线采样开销。核心思想：不是每个训练步骤都重新采样全部响应，而是混合使用新采样和历史采样的数据，显著降低计算成本的同时保持训练效果。
+
+### 四、DAPO：稳定长链推理训练
+
+#### 4.1 问题：长 CoT 训练为什么不稳定？
+
+当训练推理模型（如数学证明、多步编程）时，Chain-of-Thought 输出可能长达数千 tokens。传统 RL 方法在这种场景下面临：
+
+* **梯度消失**：序列级别的损失在长序列上梯度信号极弱
+* **熵崩塌**：模型过早收敛到单一策略，失去探索能力
+* **奖励噪声**：超长响应被截断时的奖励信号不可靠
+
+#### 4.2 DAPO 的四项关键技术
+
+DAPO（Dynamic Advantage Policy Optimization）由字节跳动和清华大学于 2025 年联合提出，针对长链推理 RL 训练设计了四项稳定化技术：
+
+| 技术 | 解决的问题 | 核心机制 |
+| --- | --- | --- |
+| **Clip-Higher** | 熵崩塌 | 增大策略比率的上界 clip 范围，保持探索性 |
+| **Dynamic Sampling** | 梯度信号不一致 | 过滤 batch 中的无信息样本，保持梯度质量 |
+| **Token-level Loss** | 长序列梯度消失 | Token 级别策略梯度损失替代序列级别 |
+| **Overlong Reward Shaping** | 截断奖励噪声 | 对超长响应的奖励进行平滑处理 |
+
+#### 4.3 关键实现差异：Token-level vs Sequence-level
+
+python
+复制代码
+
+
+```
+# ❌ 序列级别损失（传统方法）------ 长序列梯度消失
+seq_loss = -log_prob_sequence * advantage  # 单一标量乘以优势值
+
+# ✅ Token 级别损失（DAPO）------ 每个 token 都有梯度信号
+def dapo_token_level_loss(
+    token_logprobs: torch.Tensor,  # [batch, seq_len]
+    advantages: torch.Tensor,       # [batch]
+    mask: torch.Tensor,             # [batch, seq_len] 有效 token 掩码
+) -> torch.Tensor:
+    """
+    DAPO Token-level Policy Gradient Loss
+    关键：将优势值广播到每个 token 位置
+    """
+    # 优势值广播到 token 级别
+    token_advantages = advantages.unsqueeze(-1) * mask  # [batch, seq_len]
+    
+    # 每个 token 独立计算策略梯度
+    token_loss = -token_logprobs * token_advantages
+    
+    # 按有效 token 数归一化
+    return token_loss.sum() / mask.sum()
+```
+#### 4.4 效果对比
+
+在 AIME 2024 数学竞赛基准上：
+
+| 方法 | 基座模型 | AIME 2024 得分 | 训练步数 |
+| --- | --- | --- | --- |
+| DeepSeek-R1-Zero（PPO） | DeepSeek-V3 | 71.0 | ~10K |
+| DAPO | Qwen2.5-32B | 50.0 | ~5K（少 50%） |
+| GRPO（DeepSeek-R1） | DeepSeek-V3 | 79.8 | ~8K |
+
+DAPO 在模型规模仅为 DeepSeek-R1 约 1/10 的情况下达到了 50 分的竞争力水平，且训练步数减少 50%，系统完全开源。
+
+### 五、RLVR：用可验证奖励替代人工标注
+
+#### 5.1 核心思想
+
+RLVR（Reinforcement Learning with Verifiable Rewards）的核心洞察简洁有力：**对于数学、代码和结构化推理任务，你根本不需要人类来判断质量**。
+
+* 单元测试可以验证代码正确性
+* 数学验证器可以检查证明过程
+* 形式化规范可以评估逻辑一致性
+
+这些自动验证器提供的二值信号比任何人类标注员都更快、更便宜、更一致。  
+
+生成响应  
+
+输出答案  
+
+✅ 正确  
+
+❌ 错误  
+
+验证器类型  
+
+策略模型  
+
+数学/代码问题  
+
+可验证奖励  
+
+奖励 = 1  
+
+奖励 = 0  
+
+GRPO/DAPO 更新策略  
+
+单元测试
+
+数学验证器
+
+证明检查器
+
+#### 5.2 DeepSeek-R1 的 RLVR 实验
+
+据 DeepSeek-R1 论文（arxiv 2501.12948），纯 RLVR 训练产生了令人惊讶的**涌现能力**：
+
+* **自我反思**：模型学会了在推理过程中检查和修正自己的错误
+* **动态策略切换**：面对不同难度的问题自动调整推理深度
+* **Chain-of-Thought 自发生成**：未经任何 CoT 数据训练，模型自发学会了逐步推理
+
+这些能力完全通过 RL + 可验证奖励涌现，无需任何人类标注的推理轨迹。
+
+#### 5.3 RISE：自我验证能力训练
+
+RLVR 存在一个微妙问题：模型学会了生成正确答案，但没有学会**验证自己的推理过程**。
+
+RISE（Reinforced Self-Verification）在单一 RL 过程中同时训练问题求解和自我验证能力，使用相同的可验证奖励信号。结果是模型在推理阶段能够发现并纠正自己的错误。
+
+#### 5.4 处理噪声验证器
+
+现实中的验证器并不完美------数学检查器有边界情况，代码测试可能不完整。最新研究开发了**去偏校正算法**，在验证器噪声条件下对观测奖励进行去偏，防止模型利用验证信号中的假阳性。
+
+### 六、偏好优化新方向：超越 DPO
+
+除了 RL 阶段的变革，偏好优化阶段也在快速演进：
+
+| 方法 | 核心创新 | 关键优势 | 代表性结果 |
+| --- | --- | --- | --- |
+| **SimPO** | 用平均 log 概率作为隐式奖励 | 移除参考模型，节省显存 | AlpacaEval 2 +6.4, Arena-Hard +7.5 |
+| **KTO** | 二值反馈替代偏好对 | 降低数据收集成本 | 适合生产系统（点赞/点踩信号） |
+| **ORPO** | 合并 SFT 和偏好优化为单阶段 | 减少训练时间，消除分布偏移 | 零外部依赖（无 RM、无 Ref 模型） |
+
+其中 ORPO 特别值得关注------它将 SFT 和偏好优化合并为单一训练目标，使用 odds ratio 完成两个阶段的工作，是目前**最简化的对齐方法**。
+
+### 七、前沿：Agentic 后训练
+
+后训练的最新前沿是训练模型执行多步工具使用和自主工作流，这需要交互式 RL 环境而非静态数据集。
+
+#### 7.1 NeMo Gym
+
+NVIDIA 的 NeMo Gym 提供交互式 RL 环境，支持多轮 rollout、工具调用验证和解耦的 Agent/环境架构。Nemotron 3 Super 在 21 种环境配置中生成 120 万条 rollout 完成训练。
+
+#### 7.2 安全性：MOSAIC
+
+MOSAIC（2026 年 3 月发布）解决了一个关键问题：**如何训练 Agent 知道何时拒绝**。它将推理结构化为「规划 → 检查 → 执行或拒绝」，在 Qwen 和 Phi 模型上测试显示有害行为减少 50%，同时保持任务性能。
+
+### 八、工程实战：技术选型指南
+
+#### 8.1 决策树
+
+是（数学/代码）  
+
+否（开放式生成）  
+
+是  
+
+否，只有二值反馈  
+
+否，想要极简流程  
+
+>10B 参数  
+
+<10B 且长 CoT  
+
+通用场景  
+
+你的任务类型？  
+
+有可验证的
+
+正确性标准？  
+
+使用 RLVR  
+
+有偏好对数据？  
+
+DPO/SimPO  
+
+KTO  
+
+ORPO  
+
+模型规模？  
+
+GRPO（省显存）  
+
+DAPO（训练稳定）  
+
+GRPO（默认选择）
+
+#### 8.2 显存对比
+
+| 方法 | 策略模型 | Critic 模型 | 参考模型 | 奖励模型 | 总显存（相对值） |
+| --- | --- | --- | --- | --- | --- |
+| PPO + RLHF | ✅ | ✅ | ✅ | ✅ | 4x |
+| GRPO + RLVR | ✅ | ❌ | ✅ | ❌ | 2x |
+| DAPO + RLVR | ✅ | ❌ | ❌ | ❌ | 1x |
+| ORPO（合并 SFT+偏好） | ✅ | ❌ | ❌ | ❌ | 1x |
+
+#### 8.3 开源资源
+
+| 项目 | 技术 | 链接 |
+| --- | --- | --- |
+| OpenRLHF | GRPO / PPO / DPO 统一框架 | [github.com/OpenRLHF/OpenRLHF](http://github.com/OpenRLHF/OpenRLHF) |
+| verl (Volcano Engine RL) | GRPO 高效分布式训练 | [github.com/volcengine/verl](http://github.com/volcengine/verl) |
+| DAPO 官方实现 | DAPO 四项技术完整代码 | [github.com/ByteDance/DAPO](http://github.com/ByteDance/DAPO) |
+| NeMo Gym | Agentic RL 环境 | [github.com/NVIDIA/NeMo](http://github.com/NVIDIA/NeMo) |
+
+### 九、未来展望
+
+据 [llm-stats.com](http://llm-stats.com) 分析，三个方向将定义后训练研究的下一年：
+
+1. **统一流水线**：ORPO 已经合并了 SFT 和偏好优化，下一步是将三个阶段合并为单一训练目标
+2. **环境原生训练**：从静态数据集到交互式环境（NeMo Gym、RLFactory）的转变刚刚开始，纯文本对训练的模型在 Agentic 任务上将逐渐落后
+3. **自动课程生成**：模型自动识别弱点、生成针对性训练数据、训练后重复，形成无需人工干预的闭环
+
+---
+
+> **如果这篇文章对你有帮助：**
+> 
+> * 💬 你在生产环境中用过哪种后训练方法？GRPO 的效果相比 PPO 提升如何？欢迎评论区分享实战经验！
+> * 🔔 关注我，持续追踪 LLM 训练技术的最新突破
+> * 👍 点赞收藏，打造你的 AI 工程知识库
+
+[人工智能](/tag/39)[强化学习](/tag/1847)[grpo](/tag/81344)[dapo](/tag/104739)[上一篇：MyBatis-Plus 常用 CRUD 方法大全](/article/2038835281443950593)[下一篇：TSPR-WEB-LLM-HIC 生产级架构升级方案](/article/2038835310829244417)相关推荐[xixixi7777718 小时前AI 用于漏洞检测、威胁狩猎、合规审查；安全沙箱 / 隐私计算保障 AI 模型与数据可信人工智能·网络安全·ai·openai·数据·多模型](/article/2038834195295375361)[水如烟18 小时前孤能子视角:数字时代，“社会生产关系“[4]，具身虚拟身份，耦合强度追责人工智能](/article/2038832756691046401)[superior tigre18 小时前鱼书深度学习系列（导航目录）人工智能·深度学习](/article/2038832219568476161)[云境筑桃源哇18 小时前Token 中文定名词元，国产 AI 工具如何抢占词元红利？人工智能](/article/2038831732861440001)[IDZSY043018 小时前从工具到协作者：AI Agent发展正在催生新型社交需求大数据·人工智能](/article/2038831699642552322)[梵得儿SHI18 小时前（第四篇）Spring AI 实战进阶：Ollama+Spring AI 构建离线私有化 AI 服务（脱离 API 密钥的完整方案）人工智能·数据安全·springai·离线私有化ai服务·springai深度集成·模型优化与资源控制·离线rag知识库](/article/2038831393420611585)[Detachym18 小时前AI Agent 平台开发与优化：Day1人工智能·agent](/article/2038829992711819266)[电商API\_1800790524718 小时前API分享：获取淘宝商品价格|详情|主图|sku信息开发语言·c++·人工智能·数据分析](/article/2038829975947186178)[百度Geek说18 小时前我用 Go 重写了一个 OpenClaw 框架：这就是 GoClaw人工智能](/article/2038829597247672321)热门推荐[012026年3月AI领域大事件：DeepSeek引领开源风暴](/article/2031907419522138113)[02GitHub 镜像站点](/article/1965957555249266689)[03围棋-html版本](/article/2034802450201378818)[04纯 HTML/CSS/JS 实现的高颜值登录页，还会眨眼睛！少女心爆棚！](/article/2036377733173936129)[05“wsl --install -d Ubuntu-22.04”下载慢，中国地区离线安装 Ubuntu 22.04 WSL方法（亲测2025年5月6日）](/article/1920068379826835457)[06Mac 本地部署 OMLX + 通义千问 Qwen3.5-27B 保姆级教程](/article/2036730500480565249)[07Claude Code + GLM4.7 避坑指南：解决 Unable to connect to Anthropic services](/article/2016543499354161154)[08安娜的档案(Anna’s Archive) 镜像网站/国内最新可访问入口（持续更新）](/article/1851806212014739457)[09OpenClaw 使用和管理 MCP 完全指南](/article/2026151995774664706)[10UV安装并设置国内源](/article/1950564991094009857)

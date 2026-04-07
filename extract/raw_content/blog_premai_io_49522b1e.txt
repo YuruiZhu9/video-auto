@@ -1,0 +1,860 @@
+# Source URL: https://blog.premai.io/eploy-llama-4-with-vllm-scout-vs-maverick-setup-guide-2026/
+# Content Length: 25054 characters
+# Extracted at: 2026-03-30 20:34:29
+#============================================================
+
+
+
+
+Deploy Llama 4 with vLLM: Scout vs Maverick Setup Guide (2026)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[![]()](https://blog.premai.io)
+
+
+
+
+* [Homepage](https://www.premai.io/)
+* [All Articles](https://blog.premai.io/)
+* [Resources](https://docs.premai.io/)
+
+[Sign in](#/portal/signin)
+[Subscribe](#/portal/signup)
+
+
+
+
+By [Arnav Jalan](/author/arnav/)
+—
+17 Mar 2026
+
+Deploy Llama 4 with vLLM: Scout vs Maverick Setup Guide (2026)
+==============================================================
+
+![]()
+
+
+Llama 4 looks impressive in Meta's announcement. 10 million token context on Scout. Maverick competing with GPT-4 on benchmarks. Native multimodal support. Efficient mixture-of-experts architecture.
+
+What the announcement didn't mention: Maverick needs 8× H100s minimum. The 10M context on Scout requires hardware most teams don't have. And buried in the license is a clause that makes Llama 4 illegal for EU companies to use.
+
+This guide covers what you actually need to know before deploying Llama 4. We'll go through Scout vs Maverick in detail, real hardware requirements at every precision level, complete vLLM setup including multimodal, performance optimization, the EU licensing problem and its workarounds, and honest guidance on when Llama 4 isn't worth the complexity.
+
+Understanding What You're Deploying
+-----------------------------------
+
+Llama 4 uses mixture-of-experts (MoE) architecture, which is fundamentally different from dense models like Llama 3.1.
+
+### How MoE Changes Everything
+
+Dense models use all parameters for every token. Llama 3.1 70B activates 70 billion parameters per token.
+
+MoE models have many "expert" sub-networks. A router decides which experts process each token. Only the selected experts activate.
+
+Both Scout and Maverick activate 17 billion parameters per token. The other parameters sit idle for that token but are available for others.
+
+**The memory trap this creates:**
+
+You pay for total parameters in memory, not active parameters. Scout has 109B total parameters. Maverick has 400B. All those parameters must be in VRAM even though only 17B activate at once.
+
+People see "17B active" and assume laptop-friendly requirements. Then they discover Scout needs 55GB minimum and Maverick needs 400GB.
+
+### Scout vs Maverick: The Full Comparison
+
+| Factor | Scout | Maverick |
+| --- | --- | --- |
+| Total parameters | 109B | 400B |
+| Active parameters | 17B | 17B |
+| Number of experts | 16 routed + 1 shared | 128 routed + 1 shared |
+| Maximum context | 10M tokens | 1M tokens |
+| Minimum VRAM (BF16) | 218 GB | 804 GB |
+| Minimum VRAM (FP8) | 110 GB | 400 GB |
+| Minimum VRAM (INT4) | 55 GB | ~200 GB |
+| Single GPU possible | Yes (INT4 on H100 80GB) | No |
+| FP8 weights available | Yes | Yes (official from Meta) |
+| Multimodal | Yes | Yes |
+| Quality tier | Strong | Stronger |
+
+Scout's unique advantage is 10M context—10× longer than Maverick. Maverick's advantage is quality from having 8× more experts.
+
+### Making the Choice
+
+**Choose Scout when:**
+
+* You need very long context (100K+ tokens, up to 10M)
+* Single-GPU deployment matters for cost or simplicity
+* Document processing, RAG over large corpora, code analysis
+* Budget constraints (Scout costs 1/8 the hardware of Maverick)
+* You're prototyping or testing
+
+**Choose Maverick when:**
+
+* Quality is the primary concern
+* You have 8+ H100s available
+* Complex reasoning, nuanced generation, or benchmark-critical tasks
+* Comparing against GPT-4 or Claude for production
+* You can justify the infrastructure cost
+
+For most teams starting with Llama 4, Scout is the practical choice. It deploys on a single GPU, performs well on most tasks, and has the unique long-context capability.
+
+---
+
+Hardware Requirements: The Real Numbers
+---------------------------------------
+
+### Scout Hardware Matrix
+
+| Precision | VRAM Needed | Minimum Config | Comfortable Config | Max Context Achievable |
+| --- | --- | --- | --- | --- |
+| BF16 | ~218 GB | 4× H100 80GB | 8× H100 80GB | 1M+ |
+| FP8 | ~110 GB | 2× H100 80GB | 4× H100 80GB | 500K+ |
+| INT4 (AWQ) | ~55 GB | 1× H100 80GB | 2× H100 80GB | 130K |
+
+**The practical Scout deployment:**
+
+INT4 Scout on a single H100 80GB. You get the 10M-capable model on one GPU with about 130K usable context. Quality loss from INT4 is noticeable on reasoning benchmarks but acceptable for document processing, RAG, and most production tasks.
+
+**To actually use 1M+ context:**
+
+You need 8× H100 80GB minimum. The KV cache at 1M tokens consumes hundreds of gigabytes. This is the setup Meta used for their long-context demos.
+
+### Maverick Hardware Matrix
+
+| Precision | VRAM Needed | Minimum Config | Comfortable Config | Max Context Achievable |
+| --- | --- | --- | --- | --- |
+| BF16 | ~804 GB | Multi-node | Multi-node | Limited |
+| FP8 | ~400 GB | 8× H100 80GB | 8× H200 141GB | 430K / 1M |
+
+**The only practical Maverick deployment:**
+
+FP8 on 8× H100 80GB. Meta released official FP8 weights. BF16 Maverick is impractical for most organizations—it requires multi-node setups.
+
+On 8× H100 80GB, you get about 430K context. For 1M context, you need 8× H200 141GB.
+
+### Consumer GPUs: The Definitive Answer
+
+No. Scout INT4 needs ~55GB. Consumer cards max at 24GB (RTX 4090). There's no quantization that bridges this gap.
+
+Llama 4 requires datacenter hardware. If you're evaluating consumer GPU deployment, look at [Qwen 3](https://blog.premai.io/qwen3-vs-llama-comparison/) or Llama 3.1 8B instead.
+
+### Cloud GPU Options
+
+| Provider | Config | Hourly Cost | Monthly Cost |
+| --- | --- | --- | --- |
+| AWS | 1× p5.xlarge (H100) | ~$4 | ~$2,900 |
+| GCP | 1× a3-highgpu-1g (H100) | ~$4 | ~$2,900 |
+| Lambda Labs | 1× H100 | ~$2.50 | ~$1,800 |
+| RunPod | 1× H100 | ~$2.50 | ~$1,800 |
+| AWS | 8× p5.48xlarge (H100) | ~$32 | ~$23,000 |
+| Lambda Labs | 8× H100 node | ~$24 | ~$17,500 |
+
+Scout INT4 on a single H100 is $1,800-2,900/month depending on provider. Maverick FP8 on 8× H100 is $17,500-23,000/month.
+
+---
+
+Complete vLLM Setup
+-------------------
+
+### Prerequisites
+
+**1. Accept Meta's license on Hugging Face:**
+
+Go to [meta-llama/Llama-4-Scout-17B-16E-Instruct](https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E-Instruct?ref=blog.premai.io), click "Access repository," accept the Llama 4 Community License.
+
+Read the license carefully—it has geographic restrictions covered later in this guide.
+
+**2. Set up authentication:**
+
+```
+export HF_TOKEN="your_huggingface_token"
+# Or
+huggingface-cli login
+
+```
+
+**3. Install vLLM 0.8.3 or later:**
+
+```
+pip install -U vllm
+python -c "import vllm; print(vllm.__version__)"  # Verify
+
+```
+
+**4. Verify GPU access:**
+
+```
+nvidia-smi
+python -c "import torch; print(f'{torch.cuda.device_count()} GPUs available')"
+
+```
+### Scout Deployment Configurations
+
+**Single H100, INT4 (most practical starting point):**
+
+```
+vllm serve meta-llama/Llama-4-Scout-17B-16E-Instruct \
+  --quantization awq \
+  --max-model-len 131072 \
+  --port 8000
+
+```
+
+This gives you Scout with ~130K context on one GPU. Good enough for most use cases.
+
+**2× H100, FP8 (higher quality):**
+
+```
+vllm serve meta-llama/Llama-4-Scout-17B-16E-Instruct-FP8 \
+  --tensor-parallel-size 2 \
+  --max-model-len 262144 \
+  --port 8000
+
+```
+
+FP8 precision with ~260K context. Better quality than INT4, especially on reasoning tasks.
+
+**8× H100, full precision with 1M context:**
+
+```
+VLLM_DISABLE_COMPILE_CACHE=1 vllm serve meta-llama/Llama-4-Scout-17B-16E-Instruct \
+  --tensor-parallel-size 8 \
+  --max-model-len 1000000 \
+  --override-generation-config='{"attn_temperature_tuning": true}' \
+  --port 8000
+
+```
+
+**Critical flags explained:**
+
+* `VLLM_DISABLE_COMPILE_CACHE=1`: Fixes a compilation bug specific to Llama 4's attention pattern at long context
+* `--override-generation-config='{"attn_temperature_tuning": true}'`: Enables attention temperature tuning. Without this, quality degrades significantly above 100K tokens
+
+### Maverick Deployment Configurations
+
+**8× H100, FP8 (standard deployment):**
+
+```
+VLLM_DISABLE_COMPILE_CACHE=1 vllm serve meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8 \
+  --tensor-parallel-size 8 \
+  --max-model-len 430000 \
+  --port 8000
+
+```
+
+Gives you ~430K context on 8× H100 80GB. This is the practical Maverick config.
+
+**8× H200, FP8 with 1M context:**
+
+```
+VLLM_DISABLE_COMPILE_CACHE=1 vllm serve meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8 \
+  --tensor-parallel-size 8 \
+  --max-model-len 1000000 \
+  --override-generation-config='{"attn_temperature_tuning": true}' \
+  --port 8000
+
+```
+
+H200's extra memory (141GB vs 80GB) provides headroom for 1M context.
+
+### Docker Deployment
+
+```
+docker run --gpus all \
+  -e HF_TOKEN=$HF_TOKEN \
+  -p 8000:8000 \
+  vllm/vllm-openai:latest \
+  --model meta-llama/Llama-4-Scout-17B-16E-Instruct \
+  --quantization awq \
+  --max-model-len 131072
+
+```
+
+For production, pin the vLLM version:
+
+```
+docker run --gpus all \
+  -e HF_TOKEN=$HF_TOKEN \
+  -p 8000:8000 \
+  vllm/vllm-openai:v0.8.3 \
+  --model meta-llama/Llama-4-Scout-17B-16E-Instruct \
+  --quantization awq \
+  --max-model-len 131072
+
+```
+
+---
+
+Using the API
+-------------
+
+vLLM exposes an OpenAI-compatible API. Any OpenAI SDK works.
+
+### Basic Text Completion
+
+```
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="http://localhost:8000/v1",
+    api_key="not-needed"  # vLLM doesn't require auth by default
+)
+
+response = client.chat.completions.create(
+    model="meta-llama/Llama-4-Scout-17B-16E-Instruct",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "Explain how mixture-of-experts models work."}
+    ],
+    max_tokens=512,
+    temperature=0.7
+)
+
+print(response.choices[0].message.content)
+
+```
+### Streaming Responses
+
+```
+stream = client.chat.completions.create(
+    model="meta-llama/Llama-4-Scout-17B-16E-Instruct",
+    messages=[{"role": "user", "content": "Write a detailed analysis of renewable energy trends."}],
+    max_tokens=2000,
+    stream=True
+)
+
+for chunk in stream:
+    if chunk.choices[0].delta.content:
+        print(chunk.choices[0].delta.content, end="", flush=True)
+
+```
+### Multimodal: Images + Text
+
+Llama 4 handles images natively. Enable multi-image support in vLLM:
+
+```
+vllm serve meta-llama/Llama-4-Scout-17B-16E-Instruct \
+  --quantization awq \
+  --max-model-len 131072 \
+  --limit-mm-per-prompt image=10 \
+  --port 8000
+
+```
+
+Then use images in requests:
+
+```
+# Single image
+response = client.chat.completions.create(
+    model="meta-llama/Llama-4-Scout-17B-16E-Instruct",
+    messages=[{
+        "role": "user",
+        "content": [
+            {"type": "image_url", "image_url": {"url": "https://example.com/chart.png"}},
+            {"type": "text", "text": "Analyze this chart and summarize the key trends."}
+        ]
+    }],
+    max_tokens=1024
+)
+
+# Multiple images
+response = client.chat.completions.create(
+    model="meta-llama/Llama-4-Scout-17B-16E-Instruct",
+    messages=[{
+        "role": "user",
+        "content": [
+            {"type": "image_url", "image_url": {"url": "https://example.com/before.png"}},
+            {"type": "image_url", "image_url": {"url": "https://example.com/after.png"}},
+            {"type": "text", "text": "Compare these two images and describe what changed."}
+        ]
+    }],
+    max_tokens=1024
+)
+
+```
+
+**Multimodal quality notes:**
+
+* 1-8 images work well
+* 9-10 images work acceptably
+* Quality degrades beyond 10 images
+* High-resolution images consume more context
+* Default is 1 image per request; `--limit-mm-per-prompt image=N` increases this
+
+### Long Document Processing
+
+Scout's main advantage is long context. Here's how to use it:
+
+```
+# Load a large document
+with open("large_report.txt", "r") as f:
+    document = f.read()
+
+# Process it
+response = client.chat.completions.create(
+    model="meta-llama/Llama-4-Scout-17B-16E-Instruct",
+    messages=[{
+        "role": "user",
+        "content": f"""Analyze this document and provide:
+1. Executive summary (3-5 sentences)
+2. Key findings
+3. Recommendations
+
+Document:
+{document}"""
+    }],
+    max_tokens=2000
+)
+
+```
+
+Remember that usable context depends on your hardware config. Check your `--max-model-len` setting.
+
+### cURL Examples
+
+```
+# Basic completion
+curl http://localhost:8000/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "meta-llama/Llama-4-Scout-17B-16E-Instruct",
+    "messages": [{"role": "user", "content": "Hello, Llama 4!"}],
+    "max_tokens": 100
+  }'
+
+# With image
+curl http://localhost:8000/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "meta-llama/Llama-4-Scout-17B-16E-Instruct",
+    "messages": [{
+      "role": "user",
+      "content": [
+        {"type": "image_url", "image_url": {"url": "https://example.com/image.jpg"}},
+        {"type": "text", "text": "Describe this image."}
+      ]
+    }],
+    "max_tokens": 500
+  }'
+
+```
+
+---
+
+Performance Optimization
+------------------------
+
+### FP8 KV Cache: The Easy Win
+
+FP8 KV cache halves memory consumption with minimal quality loss:
+
+```
+vllm serve meta-llama/Llama-4-Scout-17B-16E-Instruct-FP8 \
+  --tensor-parallel-size 2 \
+  --kv-cache-dtype fp8 \
+  --max-model-len 500000 \
+  --port 8000
+
+```
+
+This effectively doubles your usable context length for the same hardware.
+
+### Right-Size Your Context
+
+Don't set `--max-model-len` to 10M because Scout supports it. Each context slot reserves KV cache memory.
+
+If your workload uses 32K context, set `--max-model-len 32768`. The freed memory allows more concurrent requests.
+
+| Workload | Recommended max-model-len |
+| --- | --- |
+| Chat, short queries | 8192-16384 |
+| Document QA | 32768-65536 |
+| Long document processing | 131072-262144 |
+| Full novel / codebase analysis | 500000-1000000 |
+
+### Chunked Prefill for Long Context
+
+Long prefills (processing long inputs) can block other requests. Chunked prefill breaks them up:
+
+```
+vllm serve meta-llama/Llama-4-Scout-17B-16E-Instruct \
+  --enable-chunked-prefill \
+  --max-model-len 500000 \
+  --port 8000
+
+```
+
+This improves latency consistency when mixing short and long requests.
+
+### Expert Parallelism for High Throughput
+
+For high-concurrency workloads, enable expert parallelism:
+
+```
+vllm serve meta-llama/Llama-4-Scout-17B-16E-Instruct \
+  --tensor-parallel-size 8 \
+  --enable-expert-parallel \
+  --port 8000
+
+```
+
+This distributes experts across GPUs rather than sharding them, which can improve throughput for MoE models.
+
+### Configuration Quick Reference
+
+| Flag | What It Does | When to Use |
+| --- | --- | --- |
+| `--quantization awq` | INT4 quantization | Single-GPU Scout, memory-constrained |
+| `--kv-cache-dtype fp8` | FP8 KV cache | Always for long context |
+| `--max-model-len N` | Limit context | Set to actual needs |
+| `--max-num-seqs N` | Limit concurrent sequences | Prevent OOM under load |
+| `--enable-chunked-prefill` | Split long prefills | Mixed short/long workloads |
+| `--enable-expert-parallel` | Distribute experts | High-throughput MoE |
+| `--limit-mm-per-prompt image=N` | Multi-image support | Multimodal workloads |
+| `VLLM_DISABLE_COMPILE_CACHE=1` | Fix compilation issues | Always for Llama 4 long context |
+
+
+---
+
+The EU Licensing Problem
+------------------------
+
+This is the part Meta didn't emphasize in the announcement.
+
+### What the License Says
+
+The Llama 4 Community License includes:
+
+> "You will not use the Llama Materials... if You are, or are acting on behalf of, an entity... domiciled or headquartered in... a country that is a member of the European Union."
+
+### What This Actually Means
+
+* EU-headquartered companies cannot use Llama 4
+* This applies regardless of where you deploy (US servers don't help)
+* EU subsidiaries of non-EU companies are also restricted
+* It's about the legal entity, not the infrastructure location
+
+A German company deploying Llama 4 on AWS us-east-1 is still violating the license.
+
+### Why This Restriction Exists
+
+Meta faces ongoing regulatory disputes with EU authorities over data practices. Llama 4's training data likely includes content covered by GDPR and EU copyright law. The geographic exclusion limits Meta's legal exposure.
+
+### Alternatives for EU Organizations
+
+| Model | License | EU OK? | Comparable To | Notes |
+| --- | --- | --- | --- | --- |
+| Qwen 3 | Apache 2.0 | Yes | Scout/Maverick | Strong all-around, no restrictions |
+| Mistral Large | Commercial | Yes | Maverick | EU company, strong reasoning |
+| DeepSeek-V3 | MIT | Yes | Maverick | 671B MoE, excellent benchmarks |
+| Llama 3.1 | Community | Yes | Previous gen | Different license, no EU exclusion |
+| Command R+ | CC-BY-NC | Check terms | Maverick | Strong for RAG |
+
+**For EU teams wanting Llama 4-tier capabilities:**
+
+[Qwen 3](https://blog.premai.io/qwen3-vs-llama-comparison/) is the most direct alternative. Apache 2.0 license, competitive benchmarks, no geographic restrictions. Available in multiple sizes including MoE variants.
+
+### Compliance Guidance
+
+If you're uncertain about your organization's status:
+
+1. Review the full Llama 4 Community License
+2. Consult legal counsel familiar with AI licensing
+3. Consider whether the risk is worth it
+4. Evaluate alternatives that don't carry restrictions
+
+This isn't legal advice. Consult your lawyers.
+
+---
+
+Known Issues and Fixes
+----------------------
+
+### Quality Degrades at Long Context
+
+**Symptom:** Outputs get worse, more repetitive, or less coherent above ~100K tokens.
+
+**Cause:** Llama 4 requires attention temperature tuning for long context.
+
+**Fix:**
+
+```
+--override-generation-config='{"attn_temperature_tuning": true}'
+
+```
+
+This is mandatory for long-context deployment.
+
+### Compilation Cache Errors
+
+**Symptom:** Crashes during model compilation with cryptic errors.
+
+**Cause:** vLLM's compile cache doesn't handle Llama 4's unique attention pattern well.
+
+**Fix:**
+
+```
+VLLM_DISABLE_COMPILE_CACHE=1 vllm serve ...
+
+```
+### FP8 Fails on A100
+
+**Symptom:** FP8 model won't load or crashes on A100 GPUs.
+
+**Cause:** A100 doesn't natively support FP8. H100/H200 required.
+
+**Fix:** Use BF16 weights on A100:
+
+```
+vllm serve meta-llama/Llama-4-Scout-17B-16E-Instruct \
+  --tensor-parallel-size 4
+
+```
+### INT4 Quality Issues on Reasoning
+
+**Symptom:** Model makes logical errors it wouldn't make in FP8/BF16.
+
+**Cause:** AWQ INT4 loses precision that affects complex reasoning.
+
+**Fix:** Use FP8 for reasoning-critical tasks:
+
+```
+vllm serve meta-llama/Llama-4-Scout-17B-16E-Instruct-FP8 \
+  --tensor-parallel-size 2
+
+```
+### Model Download Failures
+
+**Symptom:** Large model download fails partway through.
+
+**Cause:** Network issues during multi-gigabyte downloads.
+
+**Fix:** Download first, then serve from local path:
+
+```
+huggingface-cli download meta-llama/Llama-4-Scout-17B-16E-Instruct --local-dir ./llama4-scout
+
+vllm serve ./llama4-scout \
+  --quantization awq \
+  --max-model-len 131072
+
+```
+### OOM During Inference (Not Startup)
+
+**Symptom:** Model loads fine but crashes under load.
+
+**Cause:** KV cache growth exceeds available memory.
+
+**Fix:**
+
+```
+--max-model-len 65536  # Reduce from default
+--max-num-seqs 128     # Limit concurrent sequences
+--kv-cache-dtype fp8   # Halve KV cache memory
+
+```
+
+---
+
+Cost Analysis
+-------------
+
+### Hardware Costs by Configuration
+
+| Configuration | Hardware | Monthly Cloud Cost |
+| --- | --- | --- |
+| Scout INT4 | 1× H100 80GB | $1,800-2,900 |
+| Scout FP8 | 2× H100 80GB | $3,600-5,800 |
+| Scout BF16 + long context | 8× H100 80GB | $17,500-23,000 |
+| Maverick FP8 | 8× H100 80GB | $17,500-23,000 |
+| Maverick FP8 + 1M context | 8× H200 141GB | $28,000-35,000 |
+
+### Self-Host vs API Break-Even
+
+Scout INT4 on one H100 costs ~$2,500/month average.
+
+| API Provider | Input Cost (per 1M tokens) | Break-Even Volume |
+| --- | --- | --- |
+| OpenAI GPT-4o | $2.50 | ~1B tokens/month |
+| Anthropic Claude 3.5 | $3.00 | ~830M tokens/month |
+| Together AI (Llama) | $0.80 | ~3.1B tokens/month |
+
+Below these volumes, API is cheaper. Above them, self-hosting wins.
+
+### Hidden Costs
+
+Budget for these beyond hardware:
+
+| Factor | Estimate |
+| --- | --- |
+| Initial setup engineering | 40-80 hours |
+| Ongoing ops/maintenance | 20-40 hours/month |
+| Monitoring infrastructure | $200-500/month |
+| Redundancy (if needed) | 50-100% additional |
+
+For teams without existing GPU infrastructure, add 2-3 months ramp-up time.
+
+---
+
+When Not to Use Llama 4
+-----------------------
+
+Llama 4's advantages are long context, multimodal, and MoE efficiency. If you don't need those specific capabilities, simpler options exist.
+
+### Decision Matrix
+
+| Situation | Better Choice | Why |
+| --- | --- | --- |
+| EU-based organization | Qwen 3, Mistral, DeepSeek | Licensing |
+| Single consumer GPU | Qwen 3 8B, Llama 3.1 8B | Hardware requirements |
+| Maximum ecosystem support | Llama 3.1 | More fine-tunes, tooling, community |
+| Cost-sensitive, <100K context | Llama 3.1 70B | Simpler, well-understood |
+| Need large models, no GPU ops team | [Managed service](https://www.premai.io/enterprise?ref=blog.premai.io) | Remove infrastructure burden |
+
+### When Llama 4 Makes Sense
+
+* You need 100K+ token context
+* You need native multimodal (text + images in same model)
+* You're outside EU or have legal clearance
+* You have appropriate hardware budget
+* The MoE efficiency benefits outweigh deployment complexity
+
+### Simpler Alternatives Worth Considering
+
+**Llama 3.1 70B:** Proven, extensive ecosystem, simpler deployment. Unless you need 10M context or native multimodal, this might be enough.
+
+**Qwen 3:** Apache 2.0 license, no restrictions, competitive quality. Available in sizes from 0.6B to 235B including MoE variants. See the [Qwen 3 guide](https://blog.premai.io/qwen3-vs-llama-comparison/).
+
+**DeepSeek-V3:** If you're going to run a massive MoE model anyway, DeepSeek-V3 has MIT license and excellent benchmarks. See the [DeepSeek deployment guide](https://blog.premai.io/deepseek-r1-self-host-guide/).
+
+---
+
+Frequently Asked Questions
+--------------------------
+
+**How much VRAM for Llama 4 Scout?** 55GB minimum (INT4 on 1× H100). 110GB for FP8 (2× H100). 640GB for 1M context (8× H100).
+
+**Can I run Llama 4 on consumer GPUs (4090, etc)?** No. Even INT4 Scout needs ~55GB. Consumer cards max at 24GB.
+
+**Scout or Maverick for coding?** Scout handles most coding tasks well. Maverick only adds significant value for very complex multi-file reasoning or generation.
+
+**What context length can I actually use?** Depends on your hardware:
+
+* Scout INT4, 1× H100: ~130K tokens
+* Scout FP8, 2× H100: ~260K tokens
+* Scout, 8× H100: ~1M tokens
+* Scout, 8× H200: ~3.6M tokens
+
+**Why can't EU companies use Llama 4?** Meta's Llama 4 license explicitly excludes EU-domiciled entities, likely due to ongoing regulatory disputes and potential GDPR/copyright exposure.
+
+**What's the difference between FP8 and INT4?** FP8 uses 8-bit floating point (better precision, more memory). INT4 uses 4-bit integers (lower precision, less memory). FP8 is better for reasoning tasks. INT4 is better for memory-constrained deployments.
+
+**How does Llama 4 compare to GPT-4?** Maverick approaches GPT-4 on benchmarks. Scout is slightly below. Llama 4's unique advantages are context length (10M vs ~128K) and open weights, not raw capability.
+
+**Should I use Llama 4 or stick with Llama 3.1?** Use Llama 4 if you need very long context (100K+), native multimodal, or want the efficiency benefits of MoE. Otherwise, Llama 3.1 is simpler and has better ecosystem support.
+
+---
+
+Getting Started
+---------------
+
+**For most teams, start here:**
+
+```
+vllm serve meta-llama/Llama-4-Scout-17B-16E-Instruct \
+  --quantization awq \
+  --max-model-len 131072 \
+  --port 8000
+
+```
+
+Single H100, INT4 Scout, 130K context. Iterate based on what you actually need.
+
+**If quality matters more than memory:**
+
+```
+vllm serve meta-llama/Llama-4-Scout-17B-16E-Instruct-FP8 \
+  --tensor-parallel-size 2 \
+  --kv-cache-dtype fp8 \
+  --max-model-len 262144 \
+  --port 8000
+
+```
+
+**If you don't want to manage GPU infrastructure:**
+
+[Managed deployment services](https://www.premai.io/enterprise?ref=blog.premai.io) handle the infrastructure complexity. This is particularly relevant for EU organizations that need Llama 4-tier capabilities but can't use Llama 4 itself—managed services can deploy alternatives with equivalent quality.
+
+For building applications on top of your deployment, see the [RAG strategies guide](https://blog.premai.io/rag-strategies/) and [LLM evaluation guide](https://blog.premai.io/llm-reliability-why-evaluation-matters-how-to-master-it/).
+
+
+[Previous issue
+#### RAG Chunking Strategies: The 2026 Benchmark Guide](/rag-chunking-strategies-the-2026-benchmark-guide/)
+
+
+[Next issue 
+
+
+#### Multi-GPU LLM Inference: TP vs PP vs EP Parallelism Guide (2026)](/multi-gpu-llm-inference-tp-vs-pp-vs-ep-parallelism-guide-2026/)
+
+
+
+
+
+### Subscribe to Prem AI
+
+Don’t miss out on the latest issues. Sign up now to get access to the library of members-only issues.
+[[email protected]
+
+Subscribe](#/portal/signup)
+
+
+
+Prem AI © 2026
+
+* [Sign up](#/portal/)
+
+[Powered by Ghost](https://ghost.org/)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

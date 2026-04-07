@@ -1,0 +1,192 @@
+# Source URL: https://deepwiki.com/QwenLM/Qwen3-VL/5.4-video-understanding
+# Content Length: 10798 characters
+# Extracted at: 2026-03-30 19:05:48
+#============================================================
+
+
+Video Understanding | QwenLM/Qwen3-VL | DeepWikiLoading...Index your code with Devin[DeepWiki](/)[DeepWiki](/)
+
+[QwenLM/Qwen3-VL](https://github.com/QwenLM/Qwen3-VL) 
+
+Index your code withDevinEdit WikiShareLoading...Last indexed: 2 December 2025 ([50068d](https://github.com/QwenLM/Qwen3-VL/commits/50068df2))
+
+* [Overview](/QwenLM/Qwen3-VL/1-overview)
+* [Installation and Setup](/QwenLM/Qwen3-VL/2-installation-and-setup)
+* [Quick Start Guide](/QwenLM/Qwen3-VL/3-quick-start-guide)
+* [Core Components](/QwenLM/Qwen3-VL/4-core-components)
+* [Vision Processing Pipeline](/QwenLM/Qwen3-VL/4.1-vision-processing-pipeline)
+* [Model Architecture](/QwenLM/Qwen3-VL/4.2-model-architecture)
+* [Model Loading and Inference](/QwenLM/Qwen3-VL/4.3-model-loading-and-inference)
+* [Message Formats and Multimodal Inputs](/QwenLM/Qwen3-VL/4.4-message-formats-and-multimodal-inputs)
+* [Context Length Extension](/QwenLM/Qwen3-VL/4.5-context-length-extension)
+* [Applications and Examples](/QwenLM/Qwen3-VL/5-applications-and-examples)
+* [OCR and Document Processing](/QwenLM/Qwen3-VL/5.1-ocr-and-document-processing)
+* [Spatial Understanding and 2D Grounding](/QwenLM/Qwen3-VL/5.2-spatial-understanding-and-2d-grounding)
+* [Mobile Agent and Function Calling](/QwenLM/Qwen3-VL/5.3-mobile-agent-and-function-calling)
+* [Video Understanding](/QwenLM/Qwen3-VL/5.4-video-understanding)
+* [Universal Recognition](/QwenLM/Qwen3-VL/5.5-universal-recognition)
+* [System Interaction and Computer Use](/QwenLM/Qwen3-VL/5.6-system-interaction-and-computer-use)
+* [Deployment](/QwenLM/Qwen3-VL/6-deployment)
+* [Local Inference with Transformers](/QwenLM/Qwen3-VL/6.1-local-inference-with-transformers)
+* [Web Demo Interface](/QwenLM/Qwen3-VL/6.2-web-demo-interface)
+* [vLLM Server Deployment](/QwenLM/Qwen3-VL/6.3-vllm-server-deployment)
+* [SGLang Server Deployment](/QwenLM/Qwen3-VL/6.4-sglang-server-deployment)
+* [Docker Deployment](/QwenLM/Qwen3-VL/6.5-docker-deployment)
+* [Cloud API (DashScope)](/QwenLM/Qwen3-VL/6.6-cloud-api-(dashscope))
+* [Fine-tuning](/QwenLM/Qwen3-VL/7-fine-tuning)
+* [Fine-tuning Overview](/QwenLM/Qwen3-VL/7.1-fine-tuning-overview)
+* [Dataset Preparation](/QwenLM/Qwen3-VL/7.2-dataset-preparation)
+* [Data Processing Pipeline](/QwenLM/Qwen3-VL/7.3-data-processing-pipeline)
+* [Position Encoding and RoPE](/QwenLM/Qwen3-VL/7.4-position-encoding-and-rope)
+* [Training Configuration](/QwenLM/Qwen3-VL/7.5-training-configuration)
+* [Training Execution](/QwenLM/Qwen3-VL/7.6-training-execution)
+* [Advanced Fine-tuning Topics](/QwenLM/Qwen3-VL/7.7-advanced-fine-tuning-topics)
+* [Reference](/QwenLM/Qwen3-VL/8-reference)
+* [Dependencies and Environment](/QwenLM/Qwen3-VL/8.1-dependencies-and-environment)
+* [Evaluation Framework](/QwenLM/Qwen3-VL/8.2-evaluation-framework)
+* [API Reference](/QwenLM/Qwen3-VL/8.3-api-reference)
+* [Troubleshooting and FAQ](/QwenLM/Qwen3-VL/8.4-troubleshooting-and-faq)
+Menu
+
+Video Understanding
+===================
+
+Relevant source files
+
+* [README.md](https://github.com/QwenLM/Qwen3-VL/blob/50068df2/README.md?plain=1)
+* [cookbooks/video\_understanding.ipynb](https://github.com/QwenLM/Qwen3-VL/blob/50068df2/cookbooks/video_understanding.ipynb)
+* [docker/Dockerfile-qwen3vl-cu128](https://github.com/QwenLM/Qwen3-VL/blob/50068df2/docker/Dockerfile-qwen3vl-cu128)
+
+This section demonstrates Qwen3-VL's video analysis capabilities, including temporal event localization, text-timestamp alignment, hour-long video processing, and frame-level indexing. The model natively supports up to 256K context length (expandable to 1M), enabling comprehensive understanding of extended video content with second-level temporal precision.
+
+For video preprocessing utilities, see [Vision Processing Pipeline](/QwenLM/Qwen3-VL/4.1-vision-processing-pipeline). For model loading and inference setup, see [Model Loading and Inference](/QwenLM/Qwen3-VL/4.3-model-loading-and-inference).
+
+Sources: [README.md32](https://github.com/QwenLM/Qwen3-VL/blob/50068df2/README.md?plain=1#L32-L32) [README.md54](https://github.com/QwenLM/Qwen3-VL/blob/50068df2/README.md?plain=1#L54-L54)
+
+Video Input Methods
+-------------------
+
+Qwen3-VL supports multiple video input formats for flexible integration into different workflows:
+
+**Video Input Format Options**
+
+| Input Type | Description | Use Case | Example |
+| --- | --- | --- | --- |
+| Video URL | HTTP/HTTPS URL to video file | Remote video analysis | `https://example.com/video.mp4` |
+| Local Path | File system path to video | Local video processing | `file:///path/to/video.mp4` |
+| Frame List | Pre-extracted frame sequence | Fine-grained control | `[frame1.jpg, frame2.jpg, ...]` |
+| Video Tensor | Processed video data | Advanced preprocessing | `torch.Tensor` with video data |
+
+### Basic Video Inference Example
+
+Sources: [README.md249-285](https://github.com/QwenLM/Qwen3-VL/blob/50068df2/README.md?plain=1#L249-L285) [cookbooks/video\_understanding.ipynb52-68](https://github.com/QwenLM/Qwen3-VL/blob/50068df2/cookbooks/video_understanding.ipynb#L52-L68)
+
+Frame Sampling and Resolution Control
+-------------------------------------
+
+Video processing uses intelligent frame sampling to balance temporal coverage with computational efficiency. The `qwen-vl-utils` package provides controls for frame extraction and resolution management.
+
+### Frame Sampling Parameters
+
+| Parameter | Function | Default | Effect |
+| --- | --- | --- | --- |
+| `fps` | Frames per second sampling rate | 2.0 | Controls temporal resolution |
+| `num_frames` | Fixed number of frames | None | Overrides fps when set |
+| `min_pixels` | Minimum pixels per frame | 4 × 32 × 32 | Lower resolution bound |
+| `max_pixels` | Maximum pixels per frame | 256 × 32 × 32 | Upper resolution bound |
+| `total_pixels` | Total pixels across all frames | 20480 × 32 × 32 | Overall token budget |
+
+**Controlling Frame Sampling with Official Processor**
+
+**Advanced Control with qwen-vl-utils**
+
+Sources: [README.md339-409](https://github.com/QwenLM/Qwen3-VL/blob/50068df2/README.md?plain=1#L339-L409) [README.md609-663](https://github.com/QwenLM/Qwen3-VL/blob/50068df2/README.md?plain=1#L609-L663) [cookbooks/video\_understanding.ipynb170-221](https://github.com/QwenLM/Qwen3-VL/blob/50068df2/cookbooks/video_understanding.ipynb#L170-L221)
+
+Text-Timestamp Alignment
+------------------------
+
+Qwen3-VL features precise text-timestamp alignment for temporal event localization, enabling second-level indexing of video content. This moves beyond traditional temporal position embeddings (T-RoPE) to provide grounded, timestamp-aware responses.
+
+**Text-Timestamp Alignment Architecture**
+
+### Using Video Metadata for Timestamp Alignment
+
+The `video_metadata` parameter enables timestamp-aware processing:
+
+**Temporal Event Localization Examples**
+
+The model can identify and timestamp specific events:
+
+Sources: [README.md54](https://github.com/QwenLM/Qwen3-VL/blob/50068df2/README.md?plain=1#L54-L54) [README.md640-663](https://github.com/QwenLM/Qwen3-VL/blob/50068df2/README.md?plain=1#L640-L663) [cookbooks/video\_understanding.ipynb207-215](https://github.com/QwenLM/Qwen3-VL/blob/50068df2/cookbooks/video_understanding.ipynb#L207-L215)
+
+Hour-Long Video Processing
+--------------------------
+
+Qwen3-VL's native 256K context length (expandable to 1M) enables processing of hour-long videos with full recall and frame-level indexing. This allows comprehensive analysis of extended content without summarization or chunking.
+
+**Context Length Configuration**
+
+To process videos longer than the default 256K tokens, enable YaRN (Yet another RoPE extensioN):
+
+**vLLM Server Configuration for Extended Context**
+
+**Important**: Because Interleaved-MRoPE's position IDs grow more slowly than vanilla RoPE, use a **smaller scaling factor**. For 1M context with 256K base length, set `factor=2` or `3`, not `4`.
+
+### Hour-Long Video Example
+
+**Long Video Processing Strategies**
+
+| Video Length | Recommended fps | Token Budget | Notes |
+| --- | --- | --- | --- |
+| 0-5 minutes | 2-4 fps | 256-16384 tokens | Standard processing |
+| 5-30 minutes | 1-2 fps | 4096-20480 tokens | Reduce temporal resolution |
+| 30-60 minutes | 0.5-1 fps | 8192-20480 tokens | Focus on key frames |
+| 1+ hours | 0.25-0.5 fps | Up to 24576 tokens | Extended context + low fps |
+
+Sources: [README.md32](https://github.com/QwenLM/Qwen3-VL/blob/50068df2/README.md?plain=1#L32-L32) [README.md764-795](https://github.com/QwenLM/Qwen3-VL/blob/50068df2/README.md?plain=1#L764-L795) [README.md609-611](https://github.com/QwenLM/Qwen3-VL/blob/50068df2/README.md?plain=1#L609-L611)
+
+Usage Patterns and Integration
+------------------------------
+
+Video understanding integrates with the standard Qwen3-VL inference pipeline through the same conversation interface used for images. The key difference is in the preprocessing stage where videos are converted to frame sequences.
+
+### Basic Video Processing Flow
+
+1. **Video Input**: Provide video file path or URL through conversation interface
+2. **Frame Extraction**: `fetch_video` processes the video and extracts frames
+3. **Preprocessing**: Frames undergo `smart_resize` and normalization
+4. **Token Generation**: Vision tokens are created for each frame
+5. **Context Integration**: Temporal sequence is integrated into conversation context
+6. **Model Inference**: Standard `AutoModelForImageTextToText` processing
+7. **Response Generation**: Text response with temporal understanding
+
+### Performance Considerations
+
+Video processing requires additional computational resources compared to static images:
+
+* **Memory Usage**: Multiple frames increase memory requirements
+* **Processing Time**: Frame extraction and encoding add latency
+* **Token Limits**: Longer videos may exceed context length limits
+* **Sampling Strategy**: Frame selection impacts both performance and accuracy
+
+Sources: Based on architectural patterns from qwen-vl-utils, AutoProcessor, and model inference components described in the overall system documentation.
+
+Dismiss
+
+Refresh this wiki
+
+Enter email to refresh
+### On this page
+
+* [Video Understanding](#video-understanding)
+* [Video Input Methods](#video-input-methods)
+* [Basic Video Inference Example](#basic-video-inference-example)
+* [Frame Sampling and Resolution Control](#frame-sampling-and-resolution-control)
+* [Frame Sampling Parameters](#frame-sampling-parameters)
+* [Text-Timestamp Alignment](#text-timestamp-alignment)
+* [Using Video Metadata for Timestamp Alignment](#using-video-metadata-for-timestamp-alignment)
+* [Hour-Long Video Processing](#hour-long-video-processing)
+* [Hour-Long Video Example](#hour-long-video-example)
+* [Usage Patterns and Integration](#usage-patterns-and-integration)
+* [Basic Video Processing Flow](#basic-video-processing-flow)
+* [Performance Considerations](#performance-considerations)

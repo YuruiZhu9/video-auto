@@ -1,0 +1,455 @@
+# Source URL: https://cloud.tencent.com/developer/article/2380106
+# Content Length: 14985 characters
+# Extracted at: 2026-03-19 11:33:29
+#============================================================
+
+
+LLM4Rec：当推荐系统遇到大语言模型-腾讯云开发者社区-腾讯云[NewBeeNLP](/developer/user/6930088)
+
+LLM4Rec：当推荐系统遇到大语言模型
+--------------------
+
+关注作者[*腾讯云*](/?from=20060&from_column=20060)[*开发者社区*](/developer)[文档](/document/product?from=20702&from_column=20702)[建议反馈](/voc/?from=20703&from_column=20703)[控制台](https://console.cloud.tencent.com?from=20063&from_column=20063)登录/注册[首页](/developer)学习活动专区圈层工具[MCP广场![]()](/developer/mcp)文章/答案/技术大牛搜索搜索关闭发布NewBeeNLP[社区首页](/developer) >[专栏](/developer/column) >LLM4Rec：当推荐系统遇到大语言模型
+
+LLM4Rec：当推荐系统遇到大语言模型
+====================
+
+![]()NewBeeNLP关注发布于 2024-01-17 18:56:49发布于 2024-01-17 18:56:494.6K0举报文章被收录于专栏：[NewBeeNLP](/developer/column/88979)NewBeeNLP
+> 作者 | kaiyuan
+> https://bytedance.larkoffice.com/docx/OdGOdfsIPooznDx5ZvfcFqJjnne
+
+大家好，这里是NewBeeNLP。
+
+大模型LLM在越来越多的领域开始崭露头角，前段时间我们整理了大模型在推荐系统中的应用 survey，当时留了一些坑没填上，今天补上。
+
+> 完整阅读体验可看：
+> *https://bytedance.larkoffice.com/docx/OdGOdfsIPooznDx5ZvfcFqJjnne?from=from\_copylink*
+
+本篇只做内容更新，重复的内容不再写了，之前的可以参考：*奥创纪元：当推荐系统遇到大模型LLM*
+
+![]()
+#### **2.3.1 候选打分任务**
+
+##### **RecFormer**
+
+* 【KDD'23】Text Is All You Need: Learning Language Representations for Sequential Recommendation
+* https://arxiv.org/pdf/2305.13731v1.pdf
+
+亚马逊在KDD'23的工作，针对序列推荐场景的冷启动和场景迁移问题，提出了用自然语言的方式对用户行为和商品进行建模。具体地
+
+* 将商品的属性key-value自然语言flatten后作为句子（替代原来的商品ID），用相同的方法可以将用户商品ID序列转为商品句子序列。
+
+![]()![]()
+
+* 建模框架：Recformer。
+  + 输入层：构造用户序列时按时间由近到远排列，避免最近交互的行为被截断。
+
+X=\left\{[C L S], T\_n, T\_{n-1}, \ldots, T\_1\right\}
+
+* Embedding层：有4种emb形式，目的是从自然语言和推荐模型两个角度充分表征输入
+  + Token Embedding：NLP中的单词embedding表征；
+  + Token Position Embedding：对输入单词的位置进行编码；
+  + Token Type Embedding：用于区分当前单词属于哪个类别，有 [CLS]、key 和value三类；
+  + Item Position Embedding：由于每一个商品被拆分成单词，我们需要知道哪一部分属于同一个商品；
+* Encoder：Longformer。
+
+![]()
+
+* 预训练：需要同时考虑NLP和推荐，因此设置两个对应的预训练任务
+  + MLM：源自BERT
+
+\mathcal{L}\_{\mathrm{MLM}}=-\sum\_{i=0}^{|\mathcal{V}|} y\_i \log \left(p\_i\right)
+
+* item对比学习：真实下一个交互item为正样本，batch内随机采样为负样本，构造对比学习。
+
+\mathcal{L}\_{\text {IIC }}=-\log \frac{e^{\operatorname{sim}\left(\mathbf{h}\_s, \mathbf{h}\_i^{+}\right) / \tau}}{\sum\_{i \in \mathcal{B}} e^{\operatorname{sim}\left(\mathbf{h}\_s, \mathbf{h}\_i\right) / \tau}}
+
+* 两阶段微调：由于不同于ID-based方法，recformer不再有一个item embedding表，于是微调的关键是获得item feature matrix I。
+  + Stage 1：更新I，也更新模型参数M。
+  + Stage 2：不更新I，只更新模型参数M。
+  + 模型更新loss function为item 对比学习，和预训练阶段不同的是，这里使用除正样本外的所有item。
+
+![]()
+
+1. 这里item matrix是 Ixd 维的，如果不用id作为index的话，是怎么访问获得对应item emb的？
+2. 为什么微调需要设置成两步？【每次epoch训练时re-encode item的话，会很耗时且浪费资源，不如一步到位训练一个完整的item emb matrix】
+
+##### **TALLRec**
+
+* 【RecSys'23】TALLRec: An Effective and Efficient Tuning Framework to Align Large Language Model with Recommendation
+* https://arxiv.org/pdf/2305.00447.pdf
+* https://github.com/SAI990323/TALLRec
+
+中科大 RecSys'23 的工作，指出已有工作多是利用 LLM 的上下文学习（ICL）能力，然后作为 API 工具将传统推荐模型的结果进行 rerank，效果通常一般
+
+1. LLM 学习（包括训练任务和数据）和推荐任务之间的 gap 巨大，仅使用 ICL 无法很好 align；
+2. 这种二阶段的应用方式，LLM 能力会很大程度受限于传统推荐模型效果的影响；
+
+![]()
+
+基于此，论文提出使用推荐数据微调（Instruct Tuning）LLM（LLaMA-7B+LoRA）。
+
+![]()
+
+整个过程也比较清晰，主要有两步
+
+1. stage-1：称为 alpaca-tuning，这一步的目的是因为 LLaMA 是一个基座模型，在做适当 Instruct-tuning 后效果会明显提升；整个过程参考 https://github.com/tloen/alpaca-lora
+2. stage-2：称为 rec-tuning，由于第一步主要是 common 领域，这一步引入推荐数据进行微调；数据格式如下
+
+![]()
+
+一些主要实验结论
+
+![]()
+##### **Prompt4N**
+
+* 【SIGIR'23】Prompt Learning for News Recommendation
+* https://arxiv.org/abs/2304.05263
+
+华科 SIGIR'23 的工作，通过 prompt learning 将传统新闻推荐任务转化为 MLM 预测任务。
+
+![]()
+
+于是，关键点就在于如何巧妙设计 prompt？
+
+* 离散模板：依赖先验性知识进行设计了四种模板，对应四种衡量推荐的目标
+  + 推荐效用：探索 MLM 是否可以自行判断推荐候选新闻的潜在优缺点，即进行这样推荐的效用。
+* 连续模板：
+* 混合模板：
+
+![]()
+#### **2.3.2 候选生成任务**
+
+##### **ChatGPT-based Generation**
+
+这一部分论文的核心是利用 LLM 的 zero-shot 能力（不对 LLM 做训练/微调），将召回的商品作为候选，将一些信息（用户画像、历史行为、上下文信息等）通过 prompt 的方式传给 LLM，使其输出排序后的商品列表。相关工作：
+
+* Large Language Models are Zero-Shot Rankers for Recommender Systems
+* Zero-Shot Next-Item Recommendation using Large Pretrained Language Models
+* Chat-REC: Towards Interactive and Explainable LLMs-Augmented Recommender System
+* Zero-Shot Listwise Document Reranking with a Large Language Model
+
+![]()
+##### **PALR**
+
+* 【Arxiv'23】PALR: Personalization Aware LLMs for Recommendation
+* https://arxiv.org/abs/2305.07622
+
+来自亚马逊的工作，思想也是通过 LLM 生成推荐结果，与上面不同的是，PALR 通过微调 LLaMA-7B，并将微调之后的 LLM 作为生成推荐的排序模型。
+
+![]()
+
+微调使用的是 instruct-tuning，设置了两种任务，
+
+* Recommend：输入用户历史交互过的 item，模型目标是生成未来最可能交互的 item；
+* Recommend\_Retrieval：与 Recommend 任务相比，额外给模型提供了候选空间，并且在候选列表中加了一些负样本
+
+![]()![]()
+
+实验结果显示第二种方式效果更好。类似的工作还有：
+
+* RankVicuna: Zero-Shot Listwise Document Reranking with Open-Source Large Language Models
+* LLM in Reranking——利用LLM进行重排
+
+##### **End2End Generation**
+
+生成式推荐综述：Large Language Models for Generative Recommendation: A Survey and Visionary Discussions
+
+* Generative Recommendation: Towards Next-generation Recommender Paradigm
+* Towards Personalized Prompt-Model Retrieval for Generative Recommendation
+* [Arxiv'21] Rethinking Search: Making Domain Experts out of Dilettantes
+* https://arxiv.org/pdf/2105.02274.pdf
+
+在 ChatGPT 还没有出来之前，谷歌研究者对未来搜索的预期：直接由 query 生成答案。
+
+![]()![]()
+
+后续有一系列的延展性工作：
+
+* 谷歌：Recommender Systems with Generative Retrieval
+* DSI：【谷歌 NeurIPS'22】Transformer Memory as a Differentiable Search Index
+* NCI：【微软 NeurIPS'22】Transformer Memory as a Differentiable Search Index
+
+#### **2.3.3 混合任务**
+
+利用 LLM 完成各种任务
+
+##### **ChatGPT**
+
+直接通过 prompt 设计，将 chatgpt 等 LLM 应用于各种任务，包括评级预测、顺序推荐、直接推荐、解释生成和评论摘要等。
+
+* Is ChatGPT a Good Recommender? A Preliminary Study
+  + 与现有推荐模型相比，chatgpt 在评分预测、解释生成和评论摘要任务表现更好，而在序列推荐和直接推荐上表现较差；
+  + 来自阿里的工作，针对 Chatgpt 应用于推荐的测评（不微调）。结论：
+
+![]()
+
+类似的工作还有：
+
+* 【人大 Recsys'23】Uncovering ChatGPT’s Capabilities in Recommender Systems
+
+##### **P5**
+
+* 【RecSys'22】Recommendation as Language Processing (RLP): A Unified Pretrain, Personalized Prompt & Predict Paradigm (P5)
+* https://arxiv.org/abs/2203.13366
+* https://github.com/jeykigung/P5
+
+Motivation：推荐系统任务多种多样，不同任务通常使用特定的不同模型和目标进行建模，一方面耗费资源和精力，另一方面割裂的状态导致很多任务间蕴含的通用知识无法迁移。
+
+Solution：利用语言文字为纽带，通过自适应个性化 prompt 的方式，seq2seq 建模框架实现大一统各类推荐任务。具体地，将 5 大类推荐任务（序列推荐、打分预测、推荐理由、评论总结、直接推荐）通过 prompt 转化成自然语言形式作为 encoder 端输入，同时将 label 作为 decoder 端输出，预训练建模 seq2seq 条件文本生成问题。
+
+![]()
+
+训练样本数据构造如下，模型结构就是 transformer 作为 backbone 的 encoder-decoder 框架，训练目标是 label token 的负对数似然损失
+
+\mathcal{L}\_\theta^{P 5}=-\sum\_{j=1}^{|y|} \log P\_\theta\left(y\_j \mid y\_{＜j}, x\right)
+
+提一下这里的 whole-word-emb：主要是为了保留推荐系统 id 类的个性化特征；例如 "“item\_7391" 会被 BPE 切成"item"、"\_"、"73"、"91"，丢失个性化特征信息，加入 whole word emb 后，可以保留整词含义。另一种可选方案是为每一个 id 单独生成词表 emb，但是这样会很大且不好解决新出现 id 的问题。
+
+![]()
+
+训练完成后，用 zero-shot 或者 few-shot 进行下游应用，具体的 prompt 模板可以参考原文。
+
+##### **M6-Rec**
+
+* M6-Rec: Generative Pretrained Language Models are Open-Ended Recommender Systems
+* https://arxiv.org/abs/2205.08084
+
+本质上出发点、方案和 P5 类似，一些不同的点
+
+* 模型基座选用 M6，阿里内部自研，和 T5/GPT 差不多；
+* 没有使用 item\_id，而是使用 item 相关的文本对其进行表征，例如 item 的描述等；
+* 具体的推荐任务 prompt 输入模板设计参考原文，不赘述～
+* M6-Rec 由于是面向工业部署，在性能延迟上做了相关优化：
+  + multi-segment late interaction：分段信息可缓存复用
+
+![]()
+
+* 模型压缩以在移动设备上使用：蒸馏、剪枝、Early existing、量化
+
+### **2.4 LLM for pipeline controller**
+
+随着LLM参数的越来越大，涌现出小模型所不具有的很多能力（in-context learning 、logical reasoning等），于是可以通过大模型进行推荐系统的整体流程控制。
+
+#### **Chat-REC**
+
+* Chat-REC: Towards Interactive and Explainable LLMs-Augmented Recommender System
+* https://arxiv.org/abs/2303.14524 将用户与物品的历史交互、用户画像、用户查询和对话历史 （如果有的话）作为输入，需要的话也可调用传统推荐系统接口。
+
+![]()
+#### **RecLLM**
+
+* Leveraging Large Language Models in Conversational Recommender Systems
+* https://arxiv.org/abs/2305.07961
+
+![]()
+#### **RecMind**
+
+* [CIKM'23] RecMind: Large Language Model Powered Agent For Recommendations
+* https://arxiv.org/abs/2308.14296
+
+![]()
+
+**3. FT OR NOT FT**
+-------------------
+
+上文是从『Where』的角度对 LLM4RS 工作进行整理，下面从『How』的角度看，大模型如何应用。从大模型训练和推理两个阶段出发，可以将现有工作分为四个象限
+
+* 训练阶段是否需要微调？
+* 推理阶段是否使用传统推荐模型？
+
+![]()
+
+* Quadrant-1：相对较小的 PLM 用于语义特征提取，而后传统推荐模型用作后续推荐；
+* Quadrant-3：利用 LLM 的 zero-shot 能力直接来推荐，但由于缺乏推荐专业领域知识，效果一般；
+* Quadrant-2：和 Quadrant-1 比较像，不过使用了更大的语言模型，功能也不再局限于仅提供语义特征；比如更多的世界知识、推理能力、总结能力；
+* Quadrant-4：通过对 LLM 的推荐数据训练（full-finetuning 或 PEFT 等）解决 Quadrant-3 的专业知识问题；
+
+仅使用语言模型进行推荐目前效果不理想。
+
+**4. 业界尝试**
+-----------
+
+> ChatGPT的风毫无疑问吹到了各大厂，"ALL IN LLM"成了最热话题。
+> 从公开分享资料上看业界各厂对LLM在搜推广的应用与落地。
+> 【没有找到很多资料，欢迎推荐补充~】
+
+##### [**LLM 在电商推荐系统的探索与实践**](/developer/tools/blog-entry?target=https%3A%2F%2Fmp.weixin.qq.com%2Fs%3F__biz%3DMzAxNDEwNjk5OQ%3D%3D%26mid%3D2650520413%26idx%3D1%26sn%3D80ba3f676da6310ac1f9045e564fc054%26scene%3D21%23wechat_redirect&objectId=2380106&objectType=1&contentType=undefined)
+
+利用大模型的知识和推理能力，提高推荐模型对商品信息、上下文、用户行为序列的知识表达。具体应用有如下几块：
+
+1. 类目挖掘：通过设计prompt调用LLM（通义千问模型）获取输入类目的相关类目进行类目扩充、兴趣挖掘；
+   * 尝试过LLaMA、ChatGlm6B、通义千问、百川 13B、chatgpt，最终选用通义千问
+   * LLM输出结果后需要映射到站内类目，
+   1. 基于文本相关性的向量召回。将 LLM 搭配类目和站内类目分别表征成文本 embedding 向量，然后通过向量召回的方式，选取与 LLM 搭配类目距离空间最近的 top 站内类目进行映射。
+   2. 基于站内后验统计的 query2cate 映射。将搭配类目作为 query，根据电商平台搜索 query2cate 的统计数据，使用该 query 下 top 的点击 cate 作为映射类目，实现 LLM 搭配到站内 ID 的映射。
+
+![]()
+
+1. 商品文本语义表征：通过设计prompt调用LLM（通义千问模型）对商品标题/CPV属性等进行正则化；作为特征引入精排模型
+
+![]()
+##### [**LLM-Based 长文档推荐**](/developer/tools/blog-entry?target=https%3A%2F%2Fmp.weixin.qq.com%2Fs%3F__biz%3DMzIzOTU0NTQ0MA%3D%3D%26mid%3D2247533850%26idx%3D1%26sn%3D0aaa1f854345d6aa4d3e5352ec73f648%26scene%3D21%23wechat_redirect&objectId=2380106&objectType=1&contentType=undefined)
+
+通过prompt，利用大模型的总结和推理能力
+
+1. 对长文档进行总结；
+2. 对用户浏览文章历史进行总结
+
+**5. 讨论**
+---------
+
+* 对于推荐而言，领域内的协同知识非常重要。LLM 只是 general knowledge 很强，有两种方式引入专业知识
+  + 引入传统推荐模型进行 serving
+  + 微调 LLM
+* LLM 是否越大越好？还是一定规模的模型已经足够？
+* LLM 对区分 hard samples 更拿手。Large language model is not a good fewshot information extractor, but a good reranker for hard samples!
+* ...
+
+**6. 展望**
+---------
+
+* 训练&推理性能：
+  + PEFT、adaptor
+  + Pre-computing and caching
+  + 蒸馏、量化、剪枝
+  + 工业部署性能：FANS: Fast Non-Autoregressive Sequence Generation for Item List Continuation
+  + 问题：训练时 GPU 资源用量大、训练时间长且不稳定，推理阶段时延过高难以在线部署
+  + 可能的解决思路：
+* 新推荐范式：Generative Recommendation: Towards Next-generation Recommender Paradigm
+  + 问题：ID-index 天然不具备语义信息，无法很好和语言模型融合；是否需要 ID-index
+  + 探索更适合语言模型的 ID 索引和建模策略
+* 避免大模型偏见：
+  + 问题：由于训练数据的不平衡等因素导致的大模型输出存在某种偏好或倾向，进而引发一系列伦理和社会问题
+  + Can ChatGPT Make Fair Recommendation？A Fairness Evaluation Benchmark for Recommendation with Large Language Model
+* 大模型安全问题：
+  + GPT4 technical report中有较多探讨
+* 减少大模型幻觉：Hallucination Mitigation，
+  + 问题：模型生成的内容与现实世界事实或用户输入不一致的现象
+* ......
+
+**8. 推荐阅读**
+-----------
+
+* A Survey on Large Language Models for Recommendation
+* How Can Recommender Systems Benefit from Large Language Models: A Survey
+* Recommender Systems in the Era of Large Language Models (LLMs)
+* Large Language Models for Generative Recommendation: A Survey and Visionary Discussions
+* https://github.com/nancheng58/Awesome-LLM4RS-Papers
+* https://github.com/CHIANGEL/Awesome-LLM-for-RecSys
+* https://github.com/WLiK/LLM4Rec-Awesome-Papers
+本文参与 [腾讯云自媒体同步曝光计划](/developer/support-plan)，分享自微信公众号。原始发表：2024-01-14，如有侵权请联系 [cloudcommunity@tencent.com](mailto:cloudcommunity@tencent.com) 删除[工作](/developer/tag/17284)[模型](/developer/tag/17381)[设计](/developer/tag/17423)[数据](/developer/tag/17440)[推荐系统](/developer/tag/10720)
+
+本文分享自 NewBeeNLP 微信公众号，前往查看
+
+如有侵权，请联系 [cloudcommunity@tencent.com](mailto:cloudcommunity@tencent.com) 删除。
+
+本文参与 [腾讯云自媒体同步曝光计划](/developer/support-plan)  ，欢迎热爱写作的你一起参与！
+
+[工作](/developer/tag/17284)[模型](/developer/tag/17381)[设计](/developer/tag/17423)[数据](/developer/tag/17440)[推荐系统](/developer/tag/10720)评论登录后参与评论0 条评论热度最新登录 后参与评论推荐阅读目录
+
+* 2.3.1 候选打分任务
+
+* 2.3.2 候选生成任务
+
+* 2.3.3 混合任务
+
+* 2.4 LLM for pipeline controller
+  + Chat-REC
+  + RecLLM
+  + RecMind
+
+* 3. FT OR NOT FT
+
+* 4. 业界尝试
+
+* 5. 讨论
+
+* 6. 展望
+
+* 8. 推荐阅读
+相关产品与服务GPU 云服务器GPU 云服务器（Cloud GPU Service，GPU）是提供 GPU 算力的弹性计算服务，具有超强的并行计算能力，作为 IaaS 层的尖兵利器，服务于生成式AI，自动驾驶，深度学习训练、科学计算、图形图像处理、视频编解码等场景。腾讯云随时提供触手可得的算力，有效缓解您的计算压力，提升业务效率与竞争力。[产品介绍](https://cloud.tencent.com/product/gpu?from=21341&from_column=21341)[产品文档](https://cloud.tencent.com/document/product/560?from=21342&from_column=21342)[4核4G3M云服务器 新用户低至38元/年！](https://cloud.tencent.com/act/pro/spring2026#MS?from=21344&from_column=21344)领券
+
+* ### 社区
+  
+  + [技术文章](/developer/column)
+  + [技术问答](/developer/ask)
+  + [技术沙龙](/developer/salon)
+  + [技术视频](/developer/video)
+  + [学习中心](/developer/learning)
+  + [技术百科](/developer/techpedia)
+  + [技术专区](/developer/zone/list)
+* ### 活动
+  
+  + [自媒体同步曝光计划](/developer/support-plan)
+  + [邀请作者入驻](/developer/support-plan-invitation)
+  + [自荐上首页](/developer/article/1535830)
+  + [技术竞赛](/developer/competition)
+* ### 圈层
+  
+  + [腾讯云最具价值专家](/tvp)
+  + [腾讯云架构师技术同盟](/developer/program/tm)
+  + [腾讯云创作之星](/developer/program/tci)
+  + [腾讯云TDP](/developer/program/tdp)
+* ### 关于
+  
+  + [社区规范](/developer/article/1006434)
+  + [免责声明](/developer/article/1006435)
+  + [联系我们](mailto:cloudcommunity@tencent.com)
+  + [友情链接](/developer/friendlink)
+  + [MCP广场开源版权声明](/developer/article/2537547)
+### 腾讯云开发者
+
+![]()
+
+扫码关注腾讯云开发者
+
+领取腾讯云代金券
+
+### 热门产品
+
+* [域名注册](/product/domain?from=20064&from_column=20064)
+* [云服务器](/product/cvm?from=20064&from_column=20064)
+* [区块链服务](/product/tbaas?from=20064&from_column=20064)
+* [消息队列](/product/message-queue-catalog?from=20064&from_column=20064)
+* [网络加速](/product/ecdn?from=20064&from_column=20064)
+* [云数据库](/product/tencentdb-catalog?from=20064&from_column=20064)
+* [域名解析](/product/dns?from=20064&from_column=20064)
+* [云存储](/product/cos?from=20064&from_column=20064)
+* [视频直播](/product/css?from=20064&from_column=20064)
+### 热门推荐
+
+* [人脸识别](/product/facerecognition?from=20064&from_column=20064)
+* [腾讯会议](/product/tm?from=20064&from_column=20064)
+* [企业云](/act/pro/enterprise2022?from=20064&from_column=20064)
+* [CDN加速](/product/cdn?from=20064&from_column=20064)
+* [视频通话](/product/trtc?from=20064&from_column=20064)
+* [图像分析](/product/imagerecognition?from=20064&from_column=20064)
+* [MySQL 数据库](/product/cdb?from=20064&from_column=20064)
+* [SSL 证书](/product/ssl?from=20064&from_column=20064)
+* [语音识别](/product/asr?from=20064&from_column=20064)
+### 更多推荐
+
+* [数据安全](/solution/data_protection?from=20064&from_column=20064)
+* [负载均衡](/product/clb?from=20064&from_column=20064)
+* [短信](/product/sms?from=20064&from_column=20064)
+* [文字识别](/product/ocr?from=20064&from_column=20064)
+* [云点播](/product/vod?from=20064&from_column=20064)
+* [大数据](/product/bigdata-class?from=20064&from_column=20064)
+* [小程序开发](/solution/la?from=20064&from_column=20064)
+* [网站监控](/product/tcop?from=20064&from_column=20064)
+* [数据迁移](/product/cdm?from=20064&from_column=20064)
+
+Copyright © 2013 - 2026 Tencent Cloud. All Rights Reserved. 腾讯云 版权所有
+
+[深圳市腾讯计算机系统有限公司](https://qcloudimg.tencent-cloud.cn/raw/986376a919726e0c35e96b311f54184d.jpg) ICP备案/许可证号：[粤B2-20090059](https://beian.miit.gov.cn/#/Integrated/index)![]()[粤公网安备44030502008569号](https://beian.mps.gov.cn/#/query/webSearch?code=44030502008569)
+
+[腾讯云计算（北京）有限责任公司](https://qcloudimg.tencent-cloud.cn/raw/a2390663ee4a95ceeead8fdc34d4b207.jpg) 京ICP证150476号 |  [京ICP备11018762号](https://beian.miit.gov.cn/#/Integrated/index)
+
+[问题归档](/developer/ask/archives.html)[专栏文章](/developer/column/archives.html)[快讯文章归档](/developer/news/archives.html)[关键词归档](/developer/information/all.html)[开发者手册归档](/developer/devdocs/archives.html)[开发者手册 Section 归档](/developer/devdocs/sections_p1.html)
+
+Copyright © 2013 - 2026 Tencent Cloud.
+
+All Rights Reserved. 腾讯云 版权所有
+
+登录 后参与评论000推荐

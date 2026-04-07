@@ -1,0 +1,222 @@
+# Source URL: https://www.latent.space/p/ainews-gemma-4-the-best-small-multimodal
+# Content Length: 18302 characters
+# Extracted at: 2026-04-05 11:35:55
+#============================================================
+
+
+
+
+
+[AINews] Gemma 4: The best small Multimodal Open Models, dramatically better than Gemma 3 in every way
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[![]()](/)SubscribeSign in[AINews: Weekday Roundups](https://www.latent.space/s/ainews/?utm_source=substack&utm_medium=menu)
+
+[AINews] Gemma 4: The best small Multimodal Open Models, dramatically better than Gemma 3 in every way
+======================================================================================================
+
+### A welcome update from Google!
+
+Apr 03, 2026∙ Paid59Share
+
+The sudden departures at the Allen Institute and limbo status of GPT-OSS have left the future of [American Open Models](https://thenewstack.io/nathan-lamberts-atom-project-seeks-american-open-source-ai-models/) in question, so Google DeepMind keeping up the pace of Gemma 4 is a very very very welcome update! The 31B [dense](https://x.com/art_zucker/status/2039740402517893361) variant ties with [Kimi K2.5](https://www.latent.space/p/ainews-moonshot-kimi-k25-beats-sonnet?utm_source=publication-search) (744B-A40B) and [Z.ai GLM-5](https://www.latent.space/p/ainews-zai-glm-5-new-sota-open-weights?utm_source=publication-search) (1T-A32B) for the world’s top open models, but with far less total parameters (with other interesting arch choices, see below):
+
+[![]()](https://substackcdn.com/image/fetch/$s_!_chm!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F24c86eb5-bb3b-4f1d-9c92-7ff21d6a6366_2048x1153.png)
+
+[obligatory pareto chart](https://x.com/officiallogank/status/2039735606268314071?s=46&t=b7l37rB6wtbyAh6ah1NpZQ)
+
+This [image from Arena](https://x.com/arena/status/2039848959301361716?s=20) shows progress over the years (exaggerated by the # ordinal ranking rather than numerical, but truly standard benches like [GPQA and AIME also improved tremendously](https://x.com/kimmonismus/status/2039759264680747219?s=20) vs Gemma 3):
+
+[![]()](https://substackcdn.com/image/fetch/$s_!3kmF!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F590ec254-eaaf-4ab6-b939-d49709a4eb31_1612x1616.png)
+
+The licensing is also improved with a proper [Apache 2.0 license](https://x.com/matvelloso/status/2039736260529635836), and they “natively **process video and images**, supporting **variable resolutions**, and excelling at visual tasks like **OCR and chart understanding**. Additionally, the E2B and E4B models feature **native audio input** for speech recognition and understanding.”
+
+The excellent on device capabilities makes one wonder if these are the basis for the models that will be deployed in [New Siri under the deal with Apple](https://9to5mac.com/2026/03/20/apples-gemini-powered-siri-upgrade-could-still-arrive-this-month/)….
+
+> AI News for 4/1/2026-4/2/2026. We checked 12 subreddits, [544 Twitters](https://twitter.com/i/lists/1585430245762441216) and no further Discords. [AINews’ website](https://news.smol.ai/) lets you search all past issues. As a reminder, [AINews is now a section of Latent Space](https://www.latent.space/p/2026). You can [opt in/out](https://support.substack.com/hc/en-us/articles/8914938285204-How-do-I-subscribe-to-or-unsubscribe-from-a-section-on-Substack) of email frequencies!
+
+---
+
+**AI Twitter Recap**
+====================
+
+**Google DeepMind’s Gemma 4 release: open-weight, Apache 2.0, multimodal, long-context—plus rapid ecosystem rollout**
+
+* **Gemma 4 is Google’s biggest open-weight licensing + capability jump in a year**: Google/DeepMind launched **Gemma 4** as a family of models explicitly positioned for **reasoning + agentic workflows** and **local/edge deployment**, now under a **commercially permissive Apache 2.0 license** (a notable shift from prior Gemma licensing). See launch threads from [@GoogleDeepMind](https://x.com/GoogleDeepMind/status/2039735446628925907), [@GoogleAI](https://x.com/GoogleAI/status/2039735543068504476), and [@Google](https://x.com/Google/status/2039736220834480233), with Jeff Dean’s framing and adoption stats (Gemma 3: **400M downloads**, **100K variants**) in [@JeffDean](https://x.com/JeffDean/status/2039748604232122707).
+* **Model lineup + key specs**: Four sizes were announced—**31B dense**, **26B MoE (“A4B”, ~4B active)**, and two “effective” edge models **E4B** and **E2B** aimed at mobile/IoT with **native multimodal** support (text/vision/audio called out for edge). DeepMind highlights include **function calling + structured JSON**, and **long context up to 256K** (large models) in [@GoogleDeepMind](https://x.com/GoogleDeepMind/status/2039735455533453316) and [@GoogleAI](https://x.com/GoogleAI/status/2039735543068504476). Community summaries and “how to run locally” guidance proliferated quickly, e.g. [@\_philschmid](https://x.com/_philschmid/status/2039736207676965264) and [@UnslothAI](https://x.com/UnslothAI/status/2039739190536286313).
+* **Early benchmark signals (with caveats)**:
+  
+  + **Arena/Text**: Arena reports **Gemma-4-31B** as **#3 among open models** (and #27 overall), with **Gemma-4-26B-A4B** at **#6 open** in [@arena](https://x.com/arena/status/2039739427715735645); Arena later calls it the **#1 ranked US open model** on its open leaderboard in [@arena](https://x.com/arena/status/2039782449648214247).
+  + **Scientific reasoning**: Artificial Analysis reports **GPQA Diamond 85.7%** for **Gemma 4 31B (Reasoning)** and emphasizes **token efficiency** (~**1.2M output tokens**) vs peers in [@ArtificialAnlys](https://x.com/ArtificialAnlys/status/2039752013249212600) and [@ArtificialAnlys](https://x.com/ArtificialAnlys/status/2039752015811866652).
+  + Several posts stress the scale/efficiency surprise (e.g., “outperforms models 20× its size”) but note that preference-based leaderboards can be gamed; Raschka’s more measured read is in [@rasbt](https://x.com/rasbt/status/2039780905619705902).
+* **Day-0 ecosystem support became part of the story**: Gemma 4 landed immediately across common local + serving stacks:
+  
+  + **llama.cpp** day-0 support: [@ggerganov](https://x.com/ggerganov/status/2039744468899811419)
+  + **Ollama** (requires 0.20+): [@ollama](https://x.com/ollama/status/2039738348647108680)
+  + **vLLM** day-0 support (GPU/TPU/etc.): [@vllm\_project](https://x.com/vllm_project/status/2039762998563418385)
+  + **LM Studio** availability: [@lmstudio](https://x.com/lmstudio/status/2039738625525502426)
+  + **Transformers/llama.cpp/transformers.js** callout: [@mervenoyann](https://x.com/mervenoyann/status/2039739097611215344)
+  + **Modular/MAX** production inference “in days”: [@clattner\_llvm](https://x.com/clattner_llvm/status/2039738590213910558)
+* **Local inference performance anecdotes got unusually concrete**:
+  
+  + “Brew install + llama-server” became the canonical one-liner for many: [@julien\_c](https://x.com/julien_c/status/2039746054355067002).
+  + llama.cpp performance demo: **Gemma 4 26B A4B Q8\_0 on M2 Ultra**, built-in WebUI, MCP support, “**300 t/s** (realtime video)” in [@ggerganov](https://x.com/ggerganov/status/2039752638384709661) (with a follow-up caveat about prompt-recitation/speculative decoding in [@ggerganov](https://x.com/ggerganov/status/2039753496317059270)).
+  + RTX 4090 long-context throughput + TurboQuant KV quant details in [@basecampbernie](https://x.com/basecampbernie/status/2039847254534852783).
+  + Browser-local run via WebGPU/transformers.js demo noted by [@xenovacom](https://x.com/xenovacom/status/2039741226337935430) and amplified by [@ClementDelangue](https://x.com/ClementDelangue/status/2039782910996148508).
+
+---
+
+**Gemma 4 architecture notes: hybrid attention, MoE layering choices, and efficiency tricks**
+
+### **Unusual transformer details**
+
+* [eliebakouch](https://x.com/eliebakouch/status/2039751171556954531) highlighted:
+  
+  + per-layer embeddings on small variant
+  + no explicit attention scale (suggesting it may be absorbed into norm weights)
+  + QK norm + V norm
+  + shared K/V for large variant
+  + aggressive KV cache sharing on small variant
+  + sliding window sizes **512 and 1024**
+  + no sinks
+  + softcapping
+  + partial-dimension RoPE with different theta for local/global layers
+* [Grad62304977](https://x.com/Grad62304977/status/2039752105473306847) replied that the missing attention scale is likely merged into QK norm weights.
+* [baseten](https://x.com/baseten/status/2039751071284015393) summarized additional architecture choices:
+  
+  + alternative attention mechanisms
+  + proportional RoPE
+  + Per-Layer Embeddings (PLE)
+  + KV-cache sharing
+  + native aspect-ratio handling for vision
+  + smaller frame window for audio
+* [norpadon](https://x.com/norpadon/status/2039740827975500251) called it “very much not a standard transformer.”
+* [rasbt](https://x.com/rasbt/status/2039780905619705902) offered a more conservative read for the 31B dense: architecture looks “pretty much unchanged compared to Gemma 3” aside from multimodal support, retaining a hybrid **5:1 local/global attention** mechanism and classic **GQA**, suggesting the bigger jump likely came more from the **training recipe and data** than radical dense-model architecture change.
+* **“Not a standard transformer” takes, plus specific deltas**: A thread flagged Gemma 4 as having “galaxybrained architecture” in [@norpadon](https://x.com/norpadon/status/2039740827975500251), followed by more specific notes on how Gemma’s MoE differs from DeepSeek/Qwen (Gemma uses **MoE blocks as separate layers** added alongside normal MLP blocks) in [@norpadon](https://x.com/norpadon/status/2039750841754697767).
+* **Concrete low-level details being circulated**: A concise recap of quirks (e.g., **no explicit attention scale**, **QK/V norm**, **KV sharing**, **sliding window sizes**, **partial RoPE + different theta**, **softcapping**, **per-layer embeddings**) is in [@eliebakouch](https://x.com/eliebakouch/status/2039751171556954531). Baseten’s launch post also lists similar “architecture innovations” (PLE, KV-cache sharing, proportional RoPE, aspect ratio handling for vision, smaller audio frame window) in [@baseten](https://x.com/baseten/status/2039751071284015393).
+* **Raschka’s read: minimal architectural change, big recipe/data change**: Raschka argues Gemma 4 31B is architecturally close to Gemma 3 27B, still using a **hybrid sliding-window + global attention** pattern and **GQA**, implying the leap is likely **training recipe/data** rather than architecture overhaul: [@rasbt](https://x.com/rasbt/status/2039780905619705902).
+
+---
+
+**Agents, harness engineering, and “local agents” momentum (Hermes/OpenClaw + model/harness training loops)**
+
+* **Open-models-as-agent-engines is now mainstream positioning**: Multiple posts frame Gemma 4 as the “perfect” local model for open agent stacks (OpenClaw/Hermes/Pi/opencode). See [@ClementDelangue](https://x.com/ClementDelangue/status/2039740419899056152), [@mervenoyann](https://x.com/mervenoyann/status/2039788257815261400), and [@ben\_burtenshaw](https://x.com/ben_burtenshaw/status/2039740590091362749).
+* **Hermes Agent growth + pluggable memory**:
+  
+  + Hermes Agent hit a major usage milestone and asked for roadmap input: [@Teknium](https://x.com/Teknium/status/2039788883312087231).
+  + Memory integrations were expanded to multiple providers via a new pluggable system: [@Teknium](https://x.com/Teknium/status/2039912975444926885).
+  + A local semantic index plugin (“Enzyme”) pitched as solving the “too many workspace files” issue with **local embedding** and **8ms queries**: [@jphorism](https://x.com/jphorism/status/2039822829412405671).
+* **Harness engineering as the moat (and the loop)**: A strong “Model–Harness Training Loop” thesis—open models + traces + fine-tuning infra—was articulated in [@Vtrivedy10](https://x.com/Vtrivedy10/status/2039872562662941118) and echoed more generally in [@Vtrivedy10](https://x.com/Vtrivedy10/status/2039805753905840159). Related: LangChain notes open models are “good enough” at tool use/retrieval/file ops to drive harnesses like Deep Agents in [@hwchase17](https://x.com/hwchase17/status/2039787730402705653).
+* **Agent self-healing + observability trends**:
+  
+  + A blog on “self-healing” GTM agent feedback loops is referenced by [@hwchase17](https://x.com/hwchase17/status/2039749451259195428) and expanded on by [@Vtrivedy10](https://x.com/Vtrivedy10/status/2039756274468810778).
+  + LangSmith reports **Azure’s share of OpenAI traffic** rose from **8% → 29%** over **10 weeks**, based on **6.7B agent runs**, suggesting enterprise governance/compliance is driving routing decisions: [@LangChain](https://x.com/LangChain/status/2039749792524271704).
+
+---
+
+**Tooling and infra: kernels, fine-tuning stacks, vector DB ergonomics, document extraction**
+
+* **New linear attention kernel**: A CUDA linear attention kernel drop is in [@eliebakouch](https://x.com/eliebakouch/status/2039733060665499690) (repo link in tweet).
+* **Axolotl v0.16.x**: Axolotl’s release emphasizes **MoE + LoRA** speed/memory wins (claimed **15× faster, 40× less memory**) and **GRPO async training** (**58% faster**) plus docs overhaul in [@winglian](https://x.com/winglian/status/2039739597287047384) and [@winglian](https://x.com/winglian/status/2039740266597245113). Gemma 4 support follows in [@winglian](https://x.com/winglian/status/2039823559363629432).
+* **Vector DB ergonomics**: turbopuffer adds **multiple vector columns** per doc (different dims/types/indexes) in [@turbopuffer](https://x.com/turbopuffer/status/2039734876954632428).
+* **Document automation stack: LiteParse + Extract v2**:
+  
+  + **LiteParse** open-source document parser: spatial text parsing with **bounding boxes**, fast on large table-heavy PDFs, enabling audit trails back to source in [@jerryjliu0](https://x.com/jerryjliu0/status/2039730277786980833).
+  + **Extract v2** (LlamaIndex/LlamaParse): simplified tiers, saved extract configs, configurable parsing before extraction, transition period for v1 in [@llama\_index](https://x.com/llama_index/status/2039734761334374791) and additional context from [@jerryjliu0](https://x.com/jerryjliu0/status/2039764004332339565).
+
+---
+
+**Frontier org updates: Anthropic interpretability, OpenAI product distribution, and Perplexity “Computer for Taxes”**
+
+* **Anthropic: “Emotion vectors” inside Claude**: Anthropic reports internal **emotion concept representations** that can be dialed up/down and measurably affect behavior (e.g., increasing a “desperate” vector increases cheating; “calm” reduces it). The core threads are [@AnthropicAI](https://x.com/AnthropicAI/status/2039749628737019925), [@AnthropicAI](https://x.com/AnthropicAI/status/2039749652413550691), and [@AnthropicAI](https://x.com/AnthropicAI/status/2039749660349239532). The work also triggered citation/precedent disputes in the interp community (e.g., [@aryaman2020](https://x.com/aryaman2020/status/2039761326440898672), [@dribnet](https://x.com/dribnet/status/2039775902368948363), and discussion around vgel’s posts via [@jeremyphoward](https://x.com/jeremyphoward/status/2039880485036544422)).
+* **OpenAI: CarPlay + Codex pricing changes**:
+  
+  + ChatGPT **Voice Mode on Apple CarPlay** rolling out for iOS 26.4+: [@OpenAI](https://x.com/OpenAI/status/2039748699350532097).
+  + **Codex usage-based pricing** in ChatGPT Business/Enterprise (plus promo credits): [@OpenAIDevs](https://x.com/OpenAIDevs/status/2039794643513295328). Greg Brockman reinforces “try at work without up-front commitment”: [@gdb](https://x.com/gdb/status/2039830819498491919).
+* **Perplexity: agentic “Computer for Taxes”**: Perplexity launched a workflow to help draft/review federal tax returns (“Navigate my taxes”) in [@perplexity\_ai](https://x.com/perplexity_ai/status/2039740898830073889) with details in [@perplexity\_ai](https://x.com/perplexity_ai/status/2039750344373125547).
+
+---
+
+**Top tweets (by engagement, filtered to tech/product/research)**
+
+* **Gemma 4 launch (open-weight, Apache 2.0)**: [@Google](https://x.com/Google/status/2039736220834480233), [@GoogleDeepMind](https://x.com/GoogleDeepMind/status/2039735446628925907), [@demishassabis](https://x.com/demishassabis/status/2039736628659269901), [@GoogleAI](https://x.com/GoogleAI/status/2039735543068504476)
+* **Anthropic “Emotion concepts/vectors” interp research**: [@AnthropicAI](https://x.com/AnthropicAI/status/2039749628737019925)
+* **Karpathy on “LLM Knowledge Bases” (Obsidian + compiled markdown wiki workflow)**: [@karpathy](https://x.com/karpathy/status/2039805659525644595)
+* **Cursor 3 (agent-collaboration interface)**: [@cursor\_ai](https://x.com/cursor_ai/status/2039768512894505086)
+* **ChatGPT on CarPlay**: [@OpenAI](https://x.com/OpenAI/status/2039748699350532097)
+* **llama.cpp local performance demo + MCP/WebUI**: [@ggerganov](https://x.com/ggerganov/status/2039752638384709661)
+* **Perplexity “Computer for Taxes”**: [@perplexity\_ai](https://x.com/perplexity_ai/status/2039740898830073889)
+
+---
+
+**AI Reddit Recap**
+===================
+
+**/r/LocalLlama + /r/localLLM Recap**
+-------------------------------------
+
+### **1. Gemma 4 Model Releases and Features**
+
+Keep reading with a 7-day free trial
+------------------------------------
+
+Subscribe to Latent.Space to keep reading this post and get 7 days of free access to the full post archives.
+
+[Start trial](https://www.latent.space/subscribe?simple=true&next=https%3A%2F%2Fwww.latent.space%2Fp%2Fainews-gemma-4-the-best-small-multimodal&utm_source=paywall-free-trial&utm_medium=web&utm_content=193042475&coupon=5fe099d9)[Already a paid subscriber? **Sign in**](https://substack.com/sign-in?redirect=%2Fp%2Fainews-gemma-4-the-best-small-multimodal&for_pub=swyx&change_user=false)PreviousNext© 2026 Latent.Space · [Privacy](https://substack.com/privacy) ∙ [Terms](https://substack.com/tos) ∙ [Collection notice](https://substack.com/ccpa#personal-data-collected) [Start your Substack](https://substack.com/signup?utm_source=substack&utm_medium=web&utm_content=footer)[Get the app](https://substack.com/app/app-store-redirect?utm_campaign=app-marketing&utm_content=web-footer-button)[Substack](https://substack.com) is the home for great culture
+
+
+
+
+
+
+
+
+This site requires JavaScript to run correctly. Please [turn on JavaScript](https://enable-javascript.com/) or unblock scripts
+
+
+
+

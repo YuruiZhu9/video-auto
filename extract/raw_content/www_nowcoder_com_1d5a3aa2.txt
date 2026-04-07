@@ -1,0 +1,524 @@
+# Source URL: https://www.nowcoder.com/discuss/848942791164981248
+# Content Length: 21088 characters
+# Extracted at: 2026-04-01 10:11:19
+#============================================================
+
+
+
+
+
+
+
+
+
+
+
+大厂问什么：2025-26 算法工程师面试常见问题整理（阿里系）\_牛客网
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[![]()](https://www.nowcoder.com/)
+
+* [首页](https://www.nowcoder.com/)
+* [题库](https://www.nowcoder.com/exam/company)
+  + [公司真题](https://www.nowcoder.com/exam/company)
+  + [专项练习](https://www.nowcoder.com/exam/intelligent)
+  + [面试题库](https://www.nowcoder.com/exam/interview)
+  + [在线编程](https://www.nowcoder.com/exam/oj)
+* [面试](https://www.nowcoder.com/interview/center?entranceType=%E5%AF%BC%E8%88%AA%E6%A0%8F)
+  + [面试经验](https://www.nowcoder.com/interview/center?entranceType=%E5%AF%BC%E8%88%AA%E6%A0%8F)
+  + [AI 模拟面试](https://www.nowcoder.com/interview/ai/index?entranceType=%E5%AF%BC%E8%88%AA%E6%A0%8F)
+* [简历](https://www.zhiyeapp.com)
+* [求职](https://www.nowcoder.com/jobs/recommend/campus)  ![]()
+* [学习](https://www.nowcoder.com/courses)
+  + [基础学习课](https://www.nowcoder.com/courses?category=1)
+  + [实战项目课](https://www.nowcoder.com/courses?category=2)
+  + [求职辅导课](https://www.nowcoder.com/courses?category=3)
+  + [专栏&文章](https://www.nowcoder.com/blog/blogCenter)
+* [竞赛](https://ac.nowcoder.com)
+
+  搜索
+
+     [我要招人](https://nowpick.nowcoder.com/?channel=zz_guide_unlogin)
+
+* [![]() 
+  发布职位
+   
+  发布职位、邀约牛人](https://nowpick.nowcoder.com/?channel=zz_guide_unlogin)
+* [![]() 
+  更多企业解决方案
+   
+  AI面试、笔试、校招、雇品](https://hr.nowcoder.com?utm_channel=nkweb_homepage)
+* [![]() 
+  HR免费试用AI面试
+   
+  最新面试提效必备](https://hr.nowcoder.com/product/interview?utm_channel=nkweb_homepage_AIinterview)
+  [登录](javascript:void(0);)
+/
+[注册](javascript:void(0);)   [LastWh1sper](/users/832386513)   02-05 15:43 已编辑  江南大学 算法工程师  发布于江苏        关注 已关注 取消关注    
+
+大厂问什么：2025-26 算法工程师面试常见问题整理（阿里系）
+================================
+
+    
+
+上班摸鱼，翻了2025年至今牛客网的阿里系面经，包括阿里云智能、达摩院（通义实验室）、阿里云计算平台以及阿里妈妈等机构，整理了算法工程师的常见面试内容，希望对想冲大厂的你有所帮助^ ^
+
+核心架构演进：Transformer组件的细粒度考察
+--------------------------
+
+Transformer架构作为现代大模型的基石，其考察深度在2025年达到了前所未有的水平。面试官默认候选人已经熟悉基本结构，转而主要攻击架构中的具体组件选型及其背后的数学原理。
+
+### 位置编码（Positional Encoding）：从绝对到相对的演变
+
+* **RoPE (Rotary Positional Embeddings): 42次**
+* ALiBi (Attention with Linear Biases): 18次
+* 绝对位置编码: 8次
+
+**深度解析：**
+RoPE（旋转位置编码）以42次的考察频次，无可争议地成为位置编码领域的考察核心。这反映了以LLaMA、Qwen为代表的主流开源模型架构对工业界标准的重塑。
+
+**考察逻辑与核心洞察：**
+面试官通常从“为什么RoPE比绝对位置编码更适合长文本？”这一问题切入。优秀的回答不能止步于定性描述，必须进入数学证明层面。
+
+* **复数域的旋转诠释**：候选人需要展示如何利用复数乘法将位置信息注入。给定词向量 ![]()，RoPE通过乘以一个旋转矩阵 ![]() 来实现位置编码：![]()。
+* **面试官会特别关注候选人是否理解RoPE设计的核心目标**：通过旋转操作，使得两个token之间的注意力分数（Attention Score）仅依赖于它们的相对距离 ![]()，而非绝对位置。
+  
+  即证明：![]()。  
+  
+  推导过程中，利用正交矩阵的性质 ![]() 以及旋转矩阵的可加性 ![]() 是得分关键。
+* **外推性与NTK-Aware Scaling**：随着长上下文需求的爆发，RoPE的扩展性成为必考题。面试中常出现的情境是：“我们将模型上下文窗口从4k扩展到32k，直接线性插值会有什么问题？NTK-Aware Scaling是如何解决高频信息丢失问题的？”数据表明，能够解释清楚“高频分量旋转速度过快导致插值混叠，而NTK方法通过非线性调整基频来平衡高低频分量的分辨率”这一深层机制的候选人，获得P7+评级的概率显著增加。
+
+### 归一化层：RMSNorm的统治地位
+
+* **RMSNorm: 35次**
+* LayerNorm: 22次
+* Pre-Norm vs Post-Norm: 28次
+
+**深度解析：**
+虽然LayerNorm是经典，但在大模型面试中，RMSNorm已成为事实上的标准。35次考察中，绝大多数不仅仅是询问定义，而是要求对比。
+
+**考察逻辑与核心洞察：**
+
+* **计算效率的本质差异**：RMSNorm相对于LayerNorm去除了均值中心化的操作，仅保留缩放。
+  + LayerNorm: ![]()
+  + RMSNorm: ![]()，其中 ![]()
+* **面试官会追问**：“去掉均值项为什么不会影响模型收敛？”  
+  
+  这里的深层洞察是，Transformer的激活值分布通常具有各向同性，均值偏移并不携带核心语义信息，而缩放不变性才是归一化的核心贡献。省去计算均值和减均值的操作，在大规模张量运算中能带来显著的Kernel性能提升（约10%-40%的加速，取决于具体算子实现）。
+* **Pre-Norm的稳定性**：几乎所有的2025年面经都涉及了Pre-Norm（归一化层置于子层输入之前）与Post-Norm的对比。候选人需指出Pre-Norm使得梯度在反向传播时有一条“高速公路”，避免了梯度消失或爆炸，这对于训练百亿参数以上的深层网络至关重要。
+
+### 激活函数与前馈网络：SwiGLU的算力账本
+
+* SwiGLU: 24次
+* GeLU : 15次
+* ReLU: 5次（主要作为反面教材）
+
+**深度解析：**
+SwiGLU的考察点非常侧重于工程细节，尤其是参数量计算。
+
+**考察逻辑与核心洞察：**
+
+* **参数量陷阱**：标准的FFN层包含两个线性变换：
+  
+  ![]() 和 ![]()。
+  
+  而SwiGLU包含三个线性变换：
+  
+  ![]()  
+  
+  ![]()  
+  
+  ![]()
+  
+  公式为：
+  
+  ![]()（此处需注意通常是Gate和Value的逐元素乘积）。
+* **面试题常设陷阱**：“为了保持与标准Transformer相同的参数量，使用SwiGLU时中间层维度 ![]() 应该设为多少？”答案通常是 ![]() 或者 ![]()，而非传统的 ![]()。这一具体数值的计算展示了候选人对模型结构的精确掌握。
+
+### 注意力机制变体：GQA的权衡艺术
+
+* **GQA (Grouped-Query Attention): 31次**
+* MHA (Multi-Head Attention): 25次
+* MQA (Multi-Query Attention): 19次
+
+**深度解析：**
+GQA是2025年面试中“推理优化”方向的明星话题。31次考察反映了业界对推理成本的极度焦虑。
+
+**考察逻辑与核心洞察：**
+
+* **访存带宽瓶颈**：面试官通常会设定一个场景：“推理70B模型时，发现GPU计算单元利用率极低，主要卡在显存读取上，如何优化？”  
+  
+  这时需要引出KV Cache的概念。MHA机制下，每个Query Head都有对应的Key/Value Head，导致KV Cache体积巨大，推理时需要频繁从HBM加载海量KV数据。MQA极端地让所有Query共享一组KV，极大压缩了显存和带宽，但牺牲了模型表达能力。GQA则是折中方案，将Query分组，每组共享一个KV Head。
+* **Uptraining（继续训练）**：一个高阶问题是：“如何将现有的MHA模型转换为GQA模型？”答案涉及通过 Mean Pooling 将多个KV Head的权重合并初始化为一个GQA Head，然后进行少量的继续训练以恢复精度。能回答到这一层的候选人通常具有实际的模型调优经验。
+
+大模型训练基础设施：分布式与显存优化
+------------------
+
+对于阿里云这样的平台型公司，训练基础设施的考察权重甚至超过了模型结构本身。面试官期望候选人不仅能设计模型，还能将其跑在成千上万张GPU卡上。
+
+### ZeRO系列与显存分析
+
+**统计数据：**
+
+* ZeRO (Zero Redundancy Optimizer) Stage 1-3: 27次
+* 显存占用计算（手算题）: 21次
+
+**深度解析：**
+ZeRO是DeepSpeed的核心，也是面试的必考题。
+
+**考察逻辑与核心洞察：**
+
+* **显存构成的精确拆解**：面试官要求候选人白板手算：“假设训练一个 ![]() 参数量的模型，使用Adam优化器，混合精度（FP16/FP32）训练，显存主要由哪几部分构成？”标准答案需包含：
+  
+  + **模型参数**：
+    - FP16权重：![]() Bytes
+    - FP16梯度：![]() Bytes
+    - FP32优化器状态：![]() Bytes
+    - 总计：![]() Bytes。这是ZeRO主要优化的对象。
+  + **剩余显存**：
+    - 激活值：取决于Batch Size和Sequence Length。
+    - 临时缓冲区。
+    - 显存碎片。
+* **ZeRO各阶段的切分逻辑**：
+  
+  + **Stage 1**：仅切分优化器状态。显存占用降为 ![]()。
+  + **Stage 2**：切分优化器状态 + 梯度。显存占用降为 ![]()。
+  + **Stage 3**：切分优化器状态 + 梯度 + 模型参数。显存占用降为 ![]()。
+* **面试中常问**：“开启ZeRO-3后，通信量会增加多少？为什么？”
+  
+  答案涉及在Forward and Backward过程中频繁的All-Gather操作以重建完整参数，这是一种以通信换显存的策略。
+
+### 并行策略：3D Parallelism
+
+**统计数据：**
+
+* 数据并行 : 21次
+* 张量并行 : 18次
+* 流水线并行 : 14次
+
+Megatron-LM 的张量并行（TP）逻辑是考察重点，特别是涉及到 Transformer 层内部的具体切分方式。
+
+**考察逻辑与核心洞察：**
+
+* **列切分与行切分**：面试官会画出MLP层 ![]()，问如何切分矩阵 ![]() 和 ![]() 以最小化通信？答案是：对第一个矩阵 ![]() 进行 **列切分**，这样每个GPU得到部分的输出向量，无需通信即可进行激活函数操作；对第二个矩阵 ![]() 进行 **行切分**，其输入直接取自上一级的输出，计算完后通过一次All-Reduce求和即可得到最终结果。这种设计精妙地将两次矩阵乘法中间的通信省略了，只在层末进行一次同步。理解这一点展示了对分布式系统通信原语的深刻理解。
+
+后训练与微调技术：PEFT与数据工程
+------------------
+
+2025年的面试中，“从头预训练”的问题逐渐减少，“如何高效微调”成为主流。
+
+### LoRA与QLoRA的数学细节
+
+* **LoRA (Low-Rank Adaptation): 55次（年度最高频词汇之一）**
+* QLoRA: 29次
+
+**深度解析：**
+LoRA的考察已经极度细致化，不再询问“什么是LoRA”，而是询问其超参数的影响。
+
+**考察逻辑与核心洞察：**
+
+* **秩（Rank）与Alpha的缩放关系**：LoRA的更新公式为 ![]()。
+  
+  面试官常问：“为什么需要除以 ![]()？如果我改变了 ![]()，![]() 应该怎么调？”
+  
+  深层逻辑是：除以 ![]() 是为了让训练超参数对 ![]() 的变化不敏感。通常在实践中，我们将 ![]() 设置为 ![]() 的倍数（如 ![]()）。这种缩放类似于学习率的调整器。
+* **LoRA初始化的秘密**：矩阵 ![]() 通常使用高斯分布初始化，而矩阵 ![]() 初始化为全零。问：“为什么要这样初始化？”答：为了保证在训练开始时，![]()，即模型完全等价于预训练模型，不仅保证了训练稳定性的起点，也符合微调的物理意义——从原点开始游走。
+* **QLoRA的双重量化**：在QLoRA中，量化常数本身也被量化了。面试官会询问NormalFloat4（NF4）数据类型的设计原理，即利用权重通常服从正态分布的先验知识，通过分位数映射实现比标准Int4更高的精度。
+
+### SFT数据工程：合成数据与去重
+
+* 数据合成 : 19次
+* 数据去重 : 14次
+  
+  随着“Data-Centric AI”理念的深入，数据处理能力被视为核心竞争力。
+* **MinHash去重**：对于海量预训练数据，如何快速发现重复文档？面试官要求解释MinHash算法如何通过哈希签名估算Jaccard相似度，以及LSH（局部敏感哈希）如何加速检索。
+* **Self-Instruct机制**：如何利用GPT-4或Qwen-Max生成指令数据来微调小模型？这涉及到了蒸馏（Distillation）的思想。面试官会询问关于“幻觉传递”的风险——即老师模型的幻觉会被学生模型学到并放大，如何通过拒绝采样或Reward Model打分来清洗合成数据。
+
+对齐技术详解：RLHF与DPO的博弈
+------------------
+
+对齐是将基座模型转化为聊天机器人的关键步骤。2025年，DPO异军突起，与RLHF分庭抗礼。
+
+### RLHF：PPO算法的复杂性
+
+**统计数据：**
+
+* RLHF (PPO - Proximal Policy Optimization): 22次
+* Reward Modeling: 18次
+
+**深度解析：**
+PPO的考察点在于其复杂的训练流程和系统架构。
+
+* **四个模型的交互**：面试官常要求画出PPO训练时的模型流转图：
+  + Actor Model （被训练的模型）：生成回复。
+  + Critic Model （价值网络）：估计当前状态的Value。
+  + Reward Model （奖励模型）：冻结参数，给Actor的输出打分。
+  + Reference Model （参考模型）：冻结参数，计算KL散度。
+* **问**：“为什么需要Reference Model？”答：为了计算KL散度惩罚项（KL Penalty），防止Actor为了刷高分而过拟合Reward Model（Reward Hacking），导致输出偏离自然语言分布或产生乱码。
+
+### DPO：直接偏好优化的数学优雅
+
+**统计数据：**
+
+* **DPO (Direct Preference Optimization): 38次**
+
+**深度解析：**
+DPO因其去除了显式的Reward Model训练和复杂的PPO采样过程，在工业界大受欢迎。
+
+* **推导考察**：面试官可能会给出一个简化的推导路径，要求候选人补全。核心逻辑是从RLHF的目标函数出发：![]()
+* DPO的关键洞察是，最优策略 ![]() 和奖励函数 ![]() 之间存在解析映射关系：![]()
+* 利用这个关系，可以将奖励函数 ![]() 替换为策略模型 ![]() 的对数概率比，从而直接在偏好数据 ![]() 上优化策略模型，损失函数为：![]()
+* 候选人若能写出这个公式并解释 ![]() 作为温度系数如何控制对参考模型的偏离程度，将获得极高评价。面试官还会询问DPO相对于PPO的缺点，如对偏好数据噪声更敏感、缺乏探索（Exploration）能力等。
+
+推理优化与系统设计：高并发下的算力榨取
+-------------------
+
+对于阿里云而言，推理成本直接决定了利润率。因此，推理系统的问题极为硬核。
+
+### KV Cache与PagedAttention
+
+**统计数据：**
+
+* **KV Cache Mechanism: 48次**
+* **PagedAttention (vLLM): 33次**
+* **KV Cache显存计算**：一个经典场景题：“对于Qwen-72B模型，Batch Size=1，输入长度=1024，输出长度=1024，使用FP16，KV Cache需要多少显存？”计算公式：![]()（注：第一个2是K和V，第二个2是FP16字节数）。
+* **PagedAttention原理**：这是vLLM库的核心。面试官要求类比操作系统。传统KV Cache预分配显存导致碎片化和浪费。PagedAttention将KV Cache切分为固定大小的块，通过一张“页表”将逻辑上的连续token映射到物理上不连续的显存块。这使得显存利用率接近100%，从而支持极大的Batch Size。
+
+### 量化技术：AWQ与GPTQ
+
+**统计数据：**
+
+* AWQ : 17次
+* GPTQ: 12次
+* **AWQ的核心直觉**：AWQ 认为并非所有权重都同等重要。它通过观察激活值的大小来判断权重的显著性。
+* **面试点**：“为什么AWQ比GPTQ在低比特（如4bit）下表现更好？”  
+  
+  答：AWQ明确保护了那些对应大激活值的权重，不对其进行激进量化，或者通过缩放技巧减少量化误差。相比之下，GPTQ主要基于Hessian矩阵的二阶信息逐层量化，虽然数学上严谨但在处理异常值时可能不如AWQ鲁棒。
+
+### 投机采样
+
+**统计数据：**
+
+* Speculative Decoding: 16次
+
+**深度解析：**
+这是一种利用小模型加速大模型的技术。
+
+* **考察点**：原理是小模型快速生成 ![]() 个token，大模型并行验证这 ![]() 个token。如果验证通过，则一次性接受多个token，从而打破Transformer解码的串行限制。
+  
+  面试官会问：“在什么情况下投机采样反而会变慢？”  
+  
+  答：当小模型生成的质量太差，导致大模型频繁拒绝，此时额外的验证开销和回退逻辑会降低整体吞吐。
+
+多模态与AIGC：视觉与语言的融合
+-----------------
+
+随着通义万相（Qwen-VL/Audio）等模型的发展，多模态考察比重上升。
+
+### 扩散模型：DiT架构
+
+**统计数据：**
+
+* DiT (Diffusion Transformer): 25次
+* DDPM / Latent Diffusion: 30次（合计）
+
+**深度解析：**
+DiT（Sora背后的架构）是2026年的热点。
+
+* **U-Net vs Transformer**：传统的Stable Diffusion使用U-Net作为去噪骨干。DiT将其替换为Transformer。面试题：“为什么DiT比U-Net扩展性更好？”答：Transformer架构对Patch数量不敏感，且具有明确的Scaling Law，可以通过堆叠层数和增加宽度持续提升性能，而U-Net的卷积结构在高分辨率下感受野受限且计算复杂度难以优化。
+* **Patch化与Conditioning**：如何将时间步 ![]() 和文本条件 ![]() 注入DiT？通常通过AdaLN（Adaptive Layer Norm）层，这是一种零初始化的门控机制，类似于StyleGAN的注入方式。
+
+### 视觉语言模型（VLM）
+
+**统计数据：**
+
+* CLIP / SigLIP: 19次
+* Projector Design: 15次
+
+**深度解析：**
+
+* **连接层（Projector）**：如何将ViT输出的图像特征对齐到LLM的文本空间？简单方案是Linear Projection（线性映射）。进阶方案是Q-Former（BLIP-2）或C-Abstractor（Honeybee），使用一组Learnable Queries通过Cross-Attention提取图像特征。阿里云面试官倾向于询问Qwen-VL的做法，即通过C-Abstractor压缩视觉token数量，以减少对LLM上下文窗口的占用。
+
+传统深度学习与搜广推
+----------
+
+尽管大模型占据C位，但搜推广（搜索、广告、推荐）仍是阿里云的重要营收来源，相关算法岗依然保留了经典考察。
+
+### 推荐系统架构
+
+**统计数据：**
+
+* Multi-Task Learning (MMOE / PLE): 28次
+* Sequential Modeling (DIN / DIEN): 22次
+* **多任务学习的跷跷板效应（Seesaw Phenomenon）**：在做多目标优化（如同时优化点击率CTR和转化率CVR）时，MMOE（Mixture of Experts）可能会出现某个任务主导专家网络，导致另一任务性能下降。PLE (Progressive Layered Extraction) 通过显式分离“共享专家”（Shared Experts）和“任务独有专家”（Task-specific Experts），有效地缓解了负迁移问题。这是阿里妈妈技术团队的经典贡献，也是面试必问。
+* **用户行为序列**：DIN（Deep Interest Network）引入了Attention机制，计算用户历史行为与当前候选商品的关联度。DIEN（Deep Interest Evolution Network）进一步引入GRU来建模兴趣随时间的演化。面试官会要求手写Attention Unit的代码实现。
+
+考察频次统计总结表
+---------
+
+为了更直观地展示2025-2026年阿里云算法面试的“必考题库”，汇总为以下表格：
+
+**表1：Transformer核心组件考察绝对频次**
+
+| 知识点领域 | 细分考察点 (Sub-Concept) | 绝对频次 (Count) | 备注 |
+| --- | --- | --- | --- |
+| 位置编码 | RoPE (旋转位置编码) | 42 | 核心必考，需推导 |
+|  | ALiBi | 18 | 主要是对比 |
+|  | Absolute / Learnable | 8 | 仅作背景 |
+| 归一化 | RMSNorm | 35 | 需手写代码 |
+|  | LayerNorm | 22 | 基础对比 |
+|  | Pre-Norm vs Post-Norm | 28 | 涉及训练稳定性 |
+| 注意力机制 | GQA (分组查询注意力) | 31 | 推理优化关键 |
+|  | MHA (多头注意力) | 25 | 基准 |
+|  | MQA (多查询注意力) | 19 | 极端情况讨论 |
+| 激活函数 | SwiGLU | 24 | 参数量陷阱 |
+|  | GeLU | 15 |  |
+
+**表2：大模型训练与微调考察绝对频次**
+
+| 知识点领域 | 细分考察点 (Sub-Concept) | 绝对频次 (Count) | 备注 |
+| --- | --- | --- | --- |
+| 微调 (PEFT) | LoRA (原理/Rank/Alpha) | 55 | 年度最热 |
+|  | QLoRA (NF4/Double Quant) | 29 | 进阶考察 |
+|  | Adapter / Prefix-Tuning | 7 | 已淘汰 |
+| 对齐 (Alignment) | DPO (直接偏好优化) | 38 | 快速上升 |
+|  | RLHF (PPO流程) | 22 | 系统复杂度高 |
+|  | Reward Modeling | 18 | 数据构造重点 |
+| 分布式训练 | ZeRO Stage 1-3 | 27 | 需背诵切分逻辑 |
+|  | 显存计算 (Memory Math) | 21 | 白板手算题 |
+|  | Megatron-LM (Tensor Parallel) | 18 | 通信优化 |
+
+**表3：推理系统与工程考察绝对频次**
+
+| 知识点领域 | 细分考察点 (Sub-Concept) | 绝对频次 (Count) | 备注 |
+| --- | --- | --- | --- |
+| 显存管理 | KV Cache Mechanism | 48 | 基础必考 |
+|  | PagedAttention | 33 | OS类比 |
+| 量化 | AWQ | 17 | 激活感知 |
+|  | GPTQ | 12 | 权重优化 |
+| 解码策略 | Top-k / Top-p Sampling | 22 | 基础 |
+|  | Speculative Decoding | 16 | 加速黑科技 |
+
+**给求职者的最终建议：**
+
+不要将复习局限于“八股文”的背诵。阿里云的面试官非常擅长追问“为什么”和“具体是怎么算的”。建议在备考时：
+
+* **代码复现**：亲手用PyTorch从零实现一个包含RoPE、RMSNorm、GQA的小型Llama结构。
+* **白板推导**：熟练推导Attention复杂度、RoPE公式、LoRA梯度更新。
+* **场景模拟**：假设自己拥有有限的GPU资源（如8张A100），如何训练一个70B模型？制定详细的ZeRO配置、Offload策略和并行策略。
+
+[#AI新知#](/creation/subject/28b156dbf9b641beb44ba8919f169b9e)   提示 订阅专刊     全部评论 推荐最新楼层  [嵌入式的小白](/users/900053469)      西安理工大学 嵌入式软件开发       ![]()      看着感觉搞算法的很不容易啊 点赞 回复 分享   [发布于 02-08 15:45](/discuss/comment/22452214)  陕西        ![]()
+
+暂无评论，快来抢首评~
+
+      
+
+相关推荐
+
+            02-28 16:07  [浙江大学 算法工程师](/users/109062093)      [C++ 常考面试题汇总](/discuss/857290683130843136?sourceSSR=post)    [一、C++&nbsp;基础与语法指针与引用区别：指针可以为空，可重新指向；引用必须初始化且不可重新绑定。指针的指针、多级指针和函数指针使用。常见陷阱：悬空指针、野指针、const&nbsp;指针与指针&nbsp;const&nbsp;的区别。内存模型栈&nbsp;vs&nbsp;堆：栈自动管理，速度快，适合局部变量；堆手动管理，需&nbsp;new/delete。内存泄漏与工具检测：valgrind、asan。对象生命周期：构造、析构、拷贝构造、移动构造。类型转换static\_cast、dynamic\_cast、const\_cast、reinterpret\_cast&nbsp;的使用场景和安全性。二、面向对象编程类与对象成员函数、静态成员、虚函数、纯虚函数。构造函数、拷贝...](/discuss/857290683130843136?sourceSSR=post)        点赞 评论 收藏 分享             03-18 02:25  [门头沟学院 推荐算法](/users/270762262)      [多模态大模型面经分享-字节](/feed/main/detail/8fcf609e1034407488070e4b5b6ed76e?sourceSSR=post)    [面试很难，还是要多多练习，感觉自己说不明白业务逻辑1.项目拷打2.讲一下你用的大模型是什么结构，特征是怎么喂给大模型的3.讲一下multi-head&nbsp;attention，用pytorch手撕一下，要可以实现cross&nbsp;attention的4.大模型训练为什么不用SFT5.知道RLHF吗，讲一下训练流程6.问了几个电商相关的场景题，用大模型解决&nbsp;prompt&nbsp;应该怎么设计，怎么处理prompt的输出，怎么过滤错误格式的输出](/feed/main/detail/8fcf609e1034407488070e4b5b6ed76e?sourceSSR=post)      ![]()查看5道真题和解析   点赞 评论 收藏 分享             03-13 09:29  [温州理工学院 运营](/users/99528915)      [26届零实习找实习，各位大佬看看我的简历有啥问题。谢谢](/discuss/861901703958757376?sourceSSR=post)    [真的没招了，每次和HR聊了之后发简历就已读不回，是不是破双非的原因啊，还有一个说不在本地不要，求各位大佬指正](/discuss/861901703958757376?sourceSSR=post)       点赞 评论 收藏 分享             03-23 17:19  [The University of Melbourne Java](/users/652536622)      [继续实习还是all in面试](/feed/main/detail/f5f62773cf79467396794347b182abb9?sourceSSR=post)    [小厂干了一个礼拜远程实习，接触到代码写了几个接口，实现了几个功能，简历有的写，可以包装成一个月。我31号有字节跳动面试，要是准备的好忙的过来面得还行就继续干实习，要是没时间了就裸辞all&nbsp;in暑期实习。各位佬觉得可以吗](/feed/main/detail/f5f62773cf79467396794347b182abb9?sourceSSR=post)         点赞 评论 收藏 分享             03-23 17:39  [暨南大学 Python](/users/526482722)      [字节测开实习一面](/feed/main/detail/e842bf8e608c4624b64226cc59c4417a?sourceSSR=post)    [1.自我介绍2.线程进程，进程之间通信的方法3.输入一个网址，从回车到进入页面之前发生了什么4.数据库&nbsp;堆排序5.select查询时间过长，怎么优化6.场景题，新增优惠券怎么测试7.高并发场景下要注意什么8.平时用AI干什么，对ai未来有没有什么期待9.代码用给定的数字排列组合，找到比&nbsp;N&nbsp;小的最大整数](/feed/main/detail/e842bf8e608c4624b64226cc59c4417a?sourceSSR=post)         点赞 评论 收藏 分享     一键发评 
+RoPE推导mark
+接好运
+耐挂王
+DPO公式求详解
+ZeRO显存手算题
+ 评论 点赞成功，聊一聊 >5 42  分享      评论   ![]()  提到的真题 
+返回内容
+  
+
+招聘动态
+
+[查看更多](/jobs/school/schedule?pageSource=105) 
+
+   [百度
+
+2027届暑期实习](/jump?type=ad&source=105&companyId=139&url=https%3A%2F%2Flink.youzhiwk.com%2Fr%2FqzWDWieMzj&entityId=13184) [招商银行数字金融训练营
+
+火热报名中](/jump?type=ad&source=105&companyId=674&url=https%3A%2F%2Fcmb-recruitment-mobile.paas.cmbchina.com%2FrecommendList%3FqrCodeId%3D5B6AC1B8-E9C6-4F00-BDB3-ACFB1C75D578&entityId=13183) [米哈游2026校园招聘
+
+应届生春招&全年实习生专项](/jump?type=ad&source=105&companyId=1055&url=https%3A%2F%2Fcampus.mihoyo.com%2F%3FchannelToken%3Dxzad2ecbb9-e39543eca1cf-0b401e8d13fb&entityId=13125) [新华三
+
+2026届春季校园招聘](/jump?type=ad&source=105&companyId=781&url=https%3A%2F%2Fcareer.h3c.com%2Fcampus%2Fjobs&entityId=13180) [联想
+
+27届暑期实习](/jump?type=ad&source=105&companyId=958&url=https%3A%2F%2Ftalent.lenovo.com.cn%2Fposition%3FprojectType%3D2&entityId=13182) [奥克斯集团
+
+2026春季校园招聘](/jump?type=ad&source=105&companyId=2437&url=https%3A%2F%2Fauxgroup.zhiye.com%2Fcampus%2Fjobs%3Fmemory%3D%257B%257D%26silence%3D1&entityId=13181) [厦门银行
+
+2026届春季校园招聘](/jump?type=ad&source=105&companyId=2932&url=https%3A%2F%2Fxmccb.zhaopin.com%2F&entityId=13149) [联想
+
+26届补录](/jump?type=ad&source=105&companyId=958&url=https%3A%2F%2Ftalent.lenovo.com.cn%2Fposition%3FprojectType%3D1&entityId=13135) [携程集团
+
+2026年春季校园招聘](/jump?type=ad&source=105&companyId=153&url=http%3A%2F%2Ft.ctrip.cn%2FgSuXOL7&entityId=13143) [27届校招宝典](/jump?type=ad&source=105&companyId=1727&url=https%3A%2F%2Flink.zhiyeapp.com%2Fr%2FxEKxW1g0pC&entityId=13136)  
+
+全站热榜
+----
+
+更多   
+
+* [1  ...   27届暑期实习腾讯PCG前端面经 3289](https://www.nowcoder.com/discuss/867749382026817536)
+* [2  ...   美团暑期前端一面面经 2811](https://www.nowcoder.com/feed/main/detail/f741684299fa4e65b9a67bc9c1960931)
+* [3  ...   被笔试耽误了一天day16（为什么携程第三题始终是0呢 2692](https://www.nowcoder.com/feed/main/detail/4e32e59cee3c4c1f8e3f8807cfe3f455)
+* [4  ...   入职互联网厂大半年，我觉得ai时代学历更加重要了 1944](https://www.nowcoder.com/discuss/867824288634630144)
+* [5  ...   3.29 pdd笔试 1557](https://www.nowcoder.com/discuss/867808274140168192)
+* [6  ...   京东后端面经 1380](https://www.nowcoder.com/feed/main/detail/361f23c46399492b81cd824ac6e81a44)
+* [7  ...   暑期进展 1374](https://www.nowcoder.com/discuss/867802836489289728)
+* [8  ...   还上啥班 直接创业了？ 1169](https://www.nowcoder.com/discuss/867825345360060416)
+* [9  ...   3.29携程笔试 1164](https://www.nowcoder.com/feed/main/detail/0726597c0d3340d4bdfcf4a033ad4fb5)
+* [10  ...   拼多多笔试A了3道 1031](https://www.nowcoder.com/feed/main/detail/6a79f4b0f65549e2810dc67d89a62952)
+
+ 
+
+创作者周榜
+-----
+
+更多    正在热议 更多   [# 你觉得大几开始实习最合适？ # 4877次浏览 50人参与](https://www.nowcoder.com/creation/subject/125fa26b1f7146fcb53362ee2021ab5d?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 金融银行求职进展汇总 # 329724次浏览 1815人参与](https://www.nowcoder.com/creation/subject/b2a5104f65304a0fa1d02b13aa6d6479?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 开放七大实习专项，百度暑期实习值得冲吗 # 22498次浏览 441人参与](https://www.nowcoder.com/creation/subject/8a0b5ebef43749cc8a7fca63f9df47ea?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 大厂实习和小厂实习最大的区别是什么？ # 12937次浏览 85人参与](https://www.nowcoder.com/creation/subject/6f221c8c1809443bb6d92b14b37c06d3?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 你都用vibe coding做过什么？ # 2075次浏览 61人参与](https://www.nowcoder.com/creation/subject/4c737019dc3946d393e89a32b8279f5c?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 如果人生可以debug你会改哪一行? # 2437次浏览 54人参与](https://www.nowcoder.com/creation/subject/b2bac7ceb77844e88505ab2d43c39367?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 招商银行数字金融训练营 # 44776次浏览 673人参与](https://www.nowcoder.com/creation/subject/7ecad476eebf4a84a9939c9f288de8ad?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# AI Coding实战技巧 # 1608次浏览 43人参与](https://www.nowcoder.com/creation/subject/14061c5e54154525b0fe17a6db5311f4?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# Vibe Coding 会干掉初级岗位吗？ # 4387次浏览 82人参与](https://www.nowcoder.com/creation/subject/f016413da8c24d2788709c8e71e625df?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 你见过哪些招聘隐形歧视？ # 2960次浏览 35人参与](https://www.nowcoder.com/creation/subject/500a3b3afae54d879b15d634474b1f97?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 做完笔试后你收到面试了吗？ # 4443次浏览 54人参与](https://www.nowcoder.com/creation/subject/def4d7f9fa824da78b597b62b704c0ad?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 面试被问到不会的问题，你怎么应对？ # 4505次浏览 38人参与](https://www.nowcoder.com/creation/subject/7ef0441244df472e88886868665f60ca?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 牛友の3月总结 # 8579次浏览 83人参与](https://www.nowcoder.com/creation/subject/70d2191c20a3434282cdf988bcddd8d1?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 你现在一天AI几次？ # 1332次浏览 44人参与](https://www.nowcoder.com/creation/subject/8042091bde5c4b46b38f14c0ff20ec36?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 七猫笔试 # 5726次浏览 37人参与](https://www.nowcoder.com/creation/subject/e442d3818e73495592d38067e4a70784?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 选完offer后，你后悔学本专业吗 # 66666次浏览 262人参与](https://www.nowcoder.com/creation/subject/4b3f4eb7f2a449aa9a1b359e93003b09?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 实习学到最有价值的工作习惯 # 66856次浏览 541人参与](https://www.nowcoder.com/creation/subject/af40d46216d842d2aabcdf773ed6f7d3?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 哪些公司真双非友好？ # 71424次浏览 305人参与](https://www.nowcoder.com/creation/subject/a811ad6b5c8a413fa3c975b54049adef?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 最难的技术面是哪家公司？ # 71757次浏览 1067人参与](https://www.nowcoder.com/creation/subject/34cd846f24b048b2b4109aa8b08bf6fd?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 你认为小厂实习有用吗？ # 133444次浏览 720人参与](https://www.nowcoder.com/creation/subject/36a7990c7e5c4ba4945c56c4fdc73487?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 快手工作体验 # 321780次浏览 2933人参与](https://www.nowcoder.com/creation/subject/30b760b114654efab0394ac4c21de243?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 找AI工作可以去哪些公司？ # 25225次浏览 1079人参与](https://www.nowcoder.com/creation/subject/091e60916b214c658e0173eda4b3340d?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)   
+
+* 刷真题、补算法、看面经、得内推
+   ![]() 
+  扫一扫，把题目装进口袋
+   移动版
+* [关于我们](/nowcoder/about)
+* [加入我们](/nowcoder/recruitment)
+* [意见反馈](javascript:void(0);)
+* [企业服务](https://hr.nowcoder.com/?utm_channel=nkweb_homepage)
+* [校企合作](/nowcoder/school-cooperation)
+* [联系我们](/html/cooperation)
+* [免责声明](/html/disclaimer)
+* [友情链接](/html/links)
+* [资源导航](/home/resourcemap)
+* [付费咨询](https://newcoder.com/?type=news)
+
+![]() 
+扫描二维码，进入QQ群
+  ![]() 
+扫描二维码，关注牛客公众号
+    
+公司地址：北京市朝阳区北苑路北美国际商务中心K1座一层-北京牛客科技有限公司
+ 联系方式：010-60728802 投诉举报电话：010-57596212（朝阳人力社保局） 
+牛客科技©2026 All rights reserved
+[admin@nowcoder.com](mailto:admin@nowcoder.com) [京ICP备14055008号-4](https://beian.miit.gov.cn) [增值电信业务经营许可证](https://uploadfiles.nowcoder.com/acts/icp.png) [营业执照](https://static.nowcoder.com/protocol/license-center.html#business) [人力资源服务许可证](https://static.nowcoder.com/protocol/license-center.html#human-resources) [![]()京公网安备 11010502036488号](http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502036488) 
+[牛客网](https://www.nowcoder.com/simple/home)  
+
+[牛客网在线编程](https://www.nowcoder.com/simple/question)  
+
+[牛客网题解](https://www.nowcoder.com/simple/question/comment)  
+
+[牛客企业服务](https://www.nowcoder.com/simple/hr)
+
+
+

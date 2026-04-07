@@ -1,0 +1,39 @@
+# clawctl 任务模板
+# 定义常用任务的快捷触发方式
+
+templates:
+  quick-report:
+    name: "快速报告"
+    description: "生成今日 AI 资讯简报"
+    action: spawn
+    params:
+      task: "生成今日 AI 资讯简报，重点关注大模型和推荐系统进展"
+      runtime: subagent
+      timeout: 300
+
+  tech-analyst:
+    name: "技术前沿分析"
+    description: "追踪推荐系统+大模型技术前沿"
+    action: spawn
+    params:
+      task: "执行技术前沿分析，追踪推荐系统和大模型最新进展"
+      runtime: subagent
+      timeout: 600
+
+  market-insight:
+    name: "商业洞察"
+    description: "分析 AI 商业应用机会"
+    action: spawn
+    params:
+      task: "分析 AI 商业应用动态，发现新机会"
+      runtime: subagent
+      timeout: 600
+
+  full-scan:
+    name: "全量扫描"
+    description: "执行全量信息抓取"
+    action: spawn
+    params:
+      task: "执行全量信息抓取，汇总全球 AI 领域动态"
+      runtime: subagent
+      timeout: 900

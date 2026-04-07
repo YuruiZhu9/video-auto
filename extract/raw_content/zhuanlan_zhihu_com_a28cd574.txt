@@ -1,0 +1,93 @@
+# Source URL: https://zhuanlan.zhihu.com/p/23326133572
+# Content Length: 6514 characters
+# Extracted at: 2026-04-04 13:12:17
+#============================================================
+
+![](https://zhuanlan.zhihu.com/p/23326133572)
+![RWKV-7 2.9B 开源发布！纯 RNN 无 KV cache，支持世界所有语言](https://picx.zhimg.com/v2-9923910b7cc2a318fd514e3bcfe6ea54\_720w.jpg?source=172ae18b)
+2025 年 2 月 11 日，RWKV 基金会正式发布 RWKV-7-World-2.9B-V3 模型（以下简称 [RWKV-7-2.9B](https://zhida.zhihu.com/search?content\_id=253687364&content\_type=Article&match\_order=1&q=RWKV-7-2.9B&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzU0NTIzMzUsInEiOiJSV0tWLTctMi45QiIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI1MzY4NzM2NCwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.QAXbcP2LDPcMc\_OgctA6ZqKUcz5CPl1LQDdynEFXQX4&zhida\_source=entity)）。
+RWKV-7-2.9B 模型基于 [RWKV World V3](https://zhida.zhihu.com/search?content\_id=253687364&content\_type=Article&match\_order=1&q=RWKV+World+V3&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzU0NTIzMzUsInEiOiJSV0tWIFdvcmxkIFYzIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjUzNjg3MzY0LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.8K9w7tBSs-lyhP\_uS4HQ2xlQmzBlTSaK0uaCqDs4CI0&zhida\_source=entity) 数据集训练。无论是 \*\*模型评测\*\* 还是 \*\*实际体验\*\*，RWKV-7-2.9B 都超越了上一代 RWKV-6- \*\*7B\*\* 模型。
+### 英文和多语言测评
+RWKV-7-2.9B 模型的英文和多语言能力，均 \*\*显著超越所有同尺寸模型\*\*，包括 \*\*Llama 3.2 3B、Qwen2.5 3B\*\* 等知名优秀开源模型。
+![](https://pic4.zhimg.com/v2-10288658b66e66220f55fd6f0fae7ff3\_1440w.jpg)
+RWKV-7-2.9B-benchmark
+### [MMLU](https://zhida.zhihu.com/search?content\_id=253687364&content\_type=Article&match\_order=1&q=MMLU&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzU0NTIzMzUsInEiOiJNTUxVIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjUzNjg3MzY0LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.ckj5YWXnz0hpQ58AkAlZ7aZ5k6Q2PczZFqP5LH6ee-0&zhida\_source=entity) 测试
+在 \*\*选择题\*\* 形式的 MMLU 测试上，RWKV-7-2.9B 模型得分为 \*\*54.56\*\*%。作为对比，上一版本的 RWKV-6-World-3B-V2.1 模型 MMLU 评分是 \*\*32.38\*\*%。
+> TipsRWKV-7-2.9B 基底模型的性能提升完全通过 \*\*常规训练\*\* 实现，未针对任何测试进行“优化”，也没有采取退火或 post-training 等优化策略。
+## 生成案例
+以下是 RWKV-7-2.9B 的生成案例（使用 [RWKV Runner](https://zhida.zhihu.com/search?content\_id=253687364&content\_type=Article&match\_order=1&q=RWKV+Runner&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzU0NTIzMzUsInEiOiJSV0tWIFJ1bm5lciIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI1MzY4NzM2NCwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.STCd49sZVmKJIwwlN8Q\_q7vxgPMQqlyYumltCYDHYbk&zhida\_source=entity) 运行）。
+### 代码任务
+![](https://pica.zhimg.com/v2-e397531c9033154b85c407422ebf202c\_1440w.jpg)
+RWKV-7-2.9B-v3-demo1
+![](https://picx.zhimg.com/v2-735af5da637d512a2c9dd51951f0ac79\_1440w.jpg)
+RWKV-7-2.9B-v3-demo2
+### 多语言任务
+RWKV-7-2.9B 多语言写请假信：
+![](https://pic3.zhimg.com/v2-6f3f5bf15ce35d9c6a3ba1332614b1b2\_1440w.jpg)
+RWKV-7-2.9B-v3-demo3
+> Tips以下是图中的原文和翻译：
+```text
+Lieber Herr [先生的名字],
+Ich möchte Ihnen mitteilen, dass ich mich auf dem Weg zur Marsrakete befinde und morgen eine Woche lang fehlen werde. Ich habe diese Entscheidung getroffen, weil ich mein Leben erkunden möchte.
+Es war ein großer Genuss, von Ihnen unterrichtet worden zu sein und vieles zu lernen. Ich werde dieses Wissen nie vergessen.
+Ich hoffe, dass wir uns bald wiedersehen werden und danke Ihnen für alles!
+Mit freundlichen Grüßen
+[Ihr Name]
+尊敬的[先生姓名]先生：
+我在此通知您我正在前往火星火箭的途中，我将从明天起缺席一周。做出这个决定是因为我想探索我的生活。
+能够接受您的教导并学习很多东西是一种极大的享受。我将永远不会忘记这些知识。
+希望我们能很快再次见面并为一切向您致谢！
+此致
+敬礼
+[您的姓名]
+--------------------------------------------------------------------------------------
+[ $$],
+. .
+. .
+!
+[ ]
+尊敬的[老师姓名]先生：
+我谨此告知您：我将开始参与深海潜水艇的作业项目（每周将固定缺席一日）。作出这个决定是因为我想借此机会探索未知的世界。
+能跟随您学习并收获丰富的知识是我的荣幸，这些宝贵的教导我将永远铭记于心。
+期待未来能有重逢之日！衷心感谢您给予的一切！
+此致 敬礼
+[申请人姓名]
+```
+### 角色扮演
+RWKV-7-2.9B 进行“八戒”角色扮演， \*\*未添加任何角色扮演提示词或者角色预设\*\*。
+![](https://picx.zhimg.com/v2-c95ed7d0de9ed101bcc604026190a8d1\_1440w.jpg)
+RWKV-7-2.9B-v3-demo4
+### 小说续写
+RWKV-7-2.9B 续写小说（高亮板块为 [deepseek-R1](https://zhida.zhihu.com/search?content\_id=253687364&content\_type=Article&match\_order=1&q=deepseek-R1&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzU0NTIzMzUsInEiOiJkZWVwc2Vlay1SMSIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI1MzY4NzM2NCwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.EU2E6ylvxv3OeuxzaptfI25-gLL6yKRKdXBu6rWftzM&zhida\_source=entity) 生成的前文）：
+![](https://pic2.zhimg.com/v2-59d2a9184939346cdc3ea3319fd74287\_1440w.jpg)
+RWKV-7-2.9B-v3-demo5
+### 模型下载
+[https://www.modelscope.cn/models/Blink\\_DL/rwkv-7-world/files](https://link.zhihu.com/?target=https%3A//www.modelscope.cn/models/Blink\_DL/rwkv-7-world/files)
+### 在线 Demo
+[https://modelscope.cn/studios/Blink\\_DL/RWKV-Gradio-1](https://link.zhihu.com/?target=https%3A//modelscope.cn/studios/Blink\_DL/RWKV-Gradio-1)
+> Tips在线 Demo 为续写模式，不支持直接对话。请使用以下两种格式输入 prompts :
+```text
+User: (你的问题，比如“请为我推荐三本适合五岁小孩阅读的世界名著” )
+Assistant:
+Instruction: （你希望模型进行什么操作，比如“请将下列瑞典语翻译成中文”）
+Input:（输入给模型的内容，比如“hur l?ng tid tog det att bygga twin towers”）
+Response:
+```
+## 未来计划
+RWKV-7-2.9B 模型的强大能力，得益于 RWKV-7 架构的精妙改进。在应用了“[动态 State 演化机制](https://zhida.zhihu.com/search?content\_id=253687364&content\_type=Article&match\_order=1&q=%E5%8A%A8%E6%80%81+State+%E6%BC%94%E5%8C%96%E6%9C%BA%E5%88%B6&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzU0NTIzMzUsInEiOiLliqjmgIEgU3RhdGUg5ryU5YyW5py65Yi2IiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjUzNjg3MzY0LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.m1tD58-aFmlCCO17OhrWUrxDJPYATU\_eAjNRWF\_meLY&zhida\_source=entity)”后，RWKV-7 拥有强大的 in-context-learning（上下文学习）能力，在推理过程中更好地学习上下文的关系，生成的内容生更精简、更合理。
+RWKV-7-7B 预计将使用新的 RWKV World V3.1 数据集训练。World V3.1 数据集将在 World V3 的基础上新增大量数学、代码和 reasoning 数据，进一步增强模型的 \*\*代码、数学和推理能力\*\*。
+点击链接 \*\*阅读原文：\*\* [RWKV-Gradio-1](https://link.zhihu.com/?target=https%3A//modelscope.cn/studios/Blink\_DL/RWKV-Gradio-1)
+编辑于 2025-02-12 08:56・浙江
+[RNN](https://www.zhihu.com/topic/20086967)
+[开源](https://www.zhihu.com/topic/19562746)
+​赞同 33​​11 条评论​60 ​2
+​分享
+​申请转载​
+​
+关于作者
+[![魔搭社区](https://picx.zhimg.com/v2-18e17e735bbc19307541706be7fb529c\_l.jpg?source=172ae18b)](https://www.zhihu.com/people/modelscope)
+[魔搭社区](https://www.zhihu.com/people/modelscope)
+魔搭ModelScope模型开源社区
+[回答](https://www.zhihu.com/people/modelscope/answers) [文章](https://www.zhihu.com/people/modelscope/posts) [关注者](https://www.zhihu.com/people/modelscope/followers)
+​关注​发私信
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_

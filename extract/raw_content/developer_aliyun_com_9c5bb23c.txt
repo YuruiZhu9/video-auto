@@ -1,0 +1,555 @@
+# Source URL: https://developer.aliyun.com/article/1718249
+# Content Length: 20055 characters
+# Extracted at: 2026-03-26 22:45:57
+#============================================================
+
+
+
+
+
+
+
+
+
+
+
+AI龙虾OpenClaw完整部署实操手册：云端/本地部署+钉钉/飞书/微信对接+API配置+问题排查-阿里云开发者社区
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[大模型](https://www.aliyun.com/product/tongyi)[产品](https://www.aliyun.com/product/list)[解决方案](https://www.aliyun.com/solution/tech-solution/)[权益](https://www.aliyun.com/benefit)[定价](https://www.aliyun.com/price)[云市场](https://market.aliyun.com/)[伙伴](https://partner.aliyun.com/management/v2)[服务](https://www.aliyun.com/service)[了解阿里云](https://www.aliyun.com/about)查看 “” 全部搜索结果[![]()AI 助理](https://www.aliyun.com/ai-assistant?displayMode=side)[文档](https://help.aliyun.com/)[备案](https://beian.aliyun.com/)[控制台](https://home.console.aliyun.com/home/dashboard/ProductAndService)[开发者社区](https://developer.aliyun.com/)[首页](https://developer.aliyun.com/)探索云世界
+### 探索云世界
+
+#### 热门
+
+[百炼大模型](https://developer.aliyun.com/modelstudio/)[Modelscope模型即服务](https://developer.aliyun.com/modelscope/)[弹性计算](https://developer.aliyun.com/ecs/)[通义灵码](https://developer.aliyun.com/lingma/)[云原生](https://developer.aliyun.com/cloudnative/)[数据库](https://developer.aliyun.com/database/)[云效DevOps](https://developer.aliyun.com/group/yunxiao/)[龙蜥操作系统](https://developer.aliyun.com/group/aliyun_linux/)
+#### [云计算](https://developer.aliyun.com/ecs/)
+
+[弹性计算](https://developer.aliyun.com/ecs/)[无影](https://developer.aliyun.com/group/wuying/)[存储](https://developer.aliyun.com/storage/)[网络](https://developer.aliyun.com/group/networking/)[倚天](https://developer.aliyun.com/yitian/)
+#### [大数据](https://developer.aliyun.com/bigdata/)
+
+[大数据计算](https://developer.aliyun.com/group/maxcompute/)[实时数仓Hologres](https://developer.aliyun.com/group/hologres/)[实时计算Flink](https://developer.aliyun.com/group/sc/)[E-MapReduce](https://developer.aliyun.com/group/aliyunemr/)[DataWorks](https://developer.aliyun.com/group/dataworks/)[Elasticsearch](https://developer.aliyun.com/group/es/)[机器学习平台PAI](https://developer.aliyun.com/group/pai/)[智能搜索推荐](https://developer.aliyun.com/group/aios/)[数据可视化DataV](https://developer.aliyun.com/group/datav/)
+#### [云原生](https://developer.aliyun.com/cloudnative/)
+
+[容器](https://developer.aliyun.com/group/kubernetes/)[serverless](https://developer.aliyun.com/group/serverless/)[中间件](https://developer.aliyun.com/group/aliware/)[微服务](https://developer.aliyun.com/group/mse/)[可观测](https://developer.aliyun.com/group/arms/)[消息队列](https://developer.aliyun.com/group/rocketmq/)
+#### [人工智能](https://developer.aliyun.com/modelscope/)
+
+[机器学习平台PAI](https://developer.aliyun.com/group/pai/)[视觉智能开放平台](https://developer.aliyun.com/group/viapi/)[智能语音交互](https://developer.aliyun.com/group/speech/)[自然语言处理](https://developer.aliyun.com/group/nlp/)[多模态模型](https://developer.aliyun.com/group/multimodel/)[pythonsdk](https://developer.aliyun.com/group/pythonsdk/)[通用模型](https://developer.aliyun.com/group/others/)
+#### [数据库](https://developer.aliyun.com/database/)
+
+[关系型数据库](https://developer.aliyun.com/group/polardb/)[NoSQL数据库](https://developer.aliyun.com/group/hbasespark/)[数据仓库](https://developer.aliyun.com/group/analyticdb/)[数据管理工具](https://developer.aliyun.com/database/dm)[PolarDB开源](https://developer.aliyun.com/polardb/)[向量数据库](https://developer.aliyun.com/database/vectordatabase)
+#### [开发与运维](https://developer.aliyun.com/group/othertech/)
+
+[云效DevOps](https://developer.aliyun.com/group/yunxiao/)[钉钉宜搭](https://developer.aliyun.com/group/yida/)[镜像站](https://developer.aliyun.com/group/mirror/)[问产品](https://developer.aliyun.com/ask/hottestQuestionsWithProduct)[动手实践](https://developer.aliyun.com/adc/)[官方博客](https://developer.aliyun.com/blog/)[考认证](https://edu.aliyun.com/)[TIANCHI大赛](https://tianchi.aliyun.com/)活动广场
+### 活动广场
+
+丰富的线上&线下活动，深入探索云世界
+
+[#### 任务中心
+
+做任务，得社区积分和周边](https://developer.aliyun.com/mission)[#### 训练营
+
+资深技术专家手把手带教](https://edu.aliyun.com/trainingcamp/)[#### 直播
+
+技术交流，直击现场](https://developer.aliyun.com/live/)[#### 乘风者计划
+
+让创作激发创新](https://developer.aliyun.com/topic/bloggers)下载
+### 下载
+
+海量开发者使用工具、手册，免费下载
+
+[#### 镜像站
+
+极速、全面、稳定、安全的开源镜像](https://developer.aliyun.com/mirror)[#### 技术资料
+
+开发手册、白皮书、案例集等实战精华](https://developer.aliyun.com/ebook/)探索云世界
+
+热门
+
+[百炼大模型](https://developer.aliyun.com/modelstudio/)[Modelscope模型即服务](https://developer.aliyun.com/modelscope/)[弹性计算](https://developer.aliyun.com/ecs/)[通义灵码](https://developer.aliyun.com/lingma/)[云原生](https://developer.aliyun.com/cloudnative/)[数据库](https://developer.aliyun.com/database/)[云效DevOps](https://developer.aliyun.com/group/yunxiao/)[龙蜥操作系统](https://developer.aliyun.com/group/aliyun_linux/)[云计算](https://developer.aliyun.com/ecs/)[弹性计算](https://developer.aliyun.com/ecs/)[无影](https://developer.aliyun.com/group/wuying/)[存储](https://developer.aliyun.com/storage/)[网络](https://developer.aliyun.com/group/networking/)[倚天](https://developer.aliyun.com/yitian/)[云原生](https://developer.aliyun.com/cloudnative/)[容器](https://developer.aliyun.com/group/kubernetes/)[serverless](https://developer.aliyun.com/group/serverless/)[中间件](https://developer.aliyun.com/group/aliware/)[微服务](https://developer.aliyun.com/group/mse/)[可观测](https://developer.aliyun.com/group/arms/)[消息队列](https://developer.aliyun.com/group/rocketmq/)[数据库](https://developer.aliyun.com/database/)[关系型数据库](https://developer.aliyun.com/group/polardb/)[NoSQL数据库](https://developer.aliyun.com/group/hbasespark/)[数据仓库](https://developer.aliyun.com/group/analyticdb/)[数据管理工具](https://developer.aliyun.com/database/dm)[PolarDB开源](https://developer.aliyun.com/polardb/)[向量数据库](https://developer.aliyun.com/database/vectordatabase)[大数据](https://developer.aliyun.com/bigdata/)[大数据计算](https://developer.aliyun.com/group/maxcompute/)[实时数仓Hologres](https://developer.aliyun.com/group/hologres/)[实时计算Flink](https://developer.aliyun.com/group/sc/)[E-MapReduce](https://developer.aliyun.com/group/aliyunemr/)[DataWorks](https://developer.aliyun.com/group/dataworks/)[Elasticsearch](https://developer.aliyun.com/group/es/)[机器学习平台PAI](https://developer.aliyun.com/group/pai/)[智能搜索推荐](https://developer.aliyun.com/group/aios/)[数据可视化DataV](https://developer.aliyun.com/group/datav/)[人工智能](https://developer.aliyun.com/modelscope/)[机器学习平台PAI](https://developer.aliyun.com/group/pai/)[视觉智能开放平台](https://developer.aliyun.com/group/viapi/)[智能语音交互](https://developer.aliyun.com/group/speech/)[自然语言处理](https://developer.aliyun.com/group/nlp/)[多模态模型](https://developer.aliyun.com/group/multimodel/)[pythonsdk](https://developer.aliyun.com/group/pythonsdk/)[通用模型](https://developer.aliyun.com/group/others/)[开发与运维](https://developer.aliyun.com/group/othertech/)[云效DevOps](https://developer.aliyun.com/group/yunxiao/)[钉钉宜搭](https://developer.aliyun.com/group/yida/)[镜像站](https://developer.aliyun.com/group/mirror/)
+
+[开发者社区](/)
+[开发与运维](/group/othertech/)
+[文章](/group/othertech/article/)
+正文
+
+AI龙虾OpenClaw完整部署实操手册：云端/本地部署+钉钉/飞书/微信对接+API配置+问题排查
+==================================================
+
+2026-03-20
+486
+
+
+版权
+
+
+
+版权声明：
+本文内容由阿里云实名注册用户自发贡献，版权归原作者所有，阿里云开发者社区不拥有其著作权，亦不承担相应法律责任。具体规则请查看《
+[阿里云开发者社区用户服务协议](https://developer.aliyun.com/article/768092)》和
+《[阿里云开发者社区知识产权保护指引](https://developer.aliyun.com/article/768093)》。如果您发现本社区中有涉嫌抄袭的内容，填写
+[侵权投诉表单](https://yida.alibaba-inc.com/o/right)进行举报，一经查实，本社区将立刻删除涉嫌侵权内容。
+
+
+
+
+
+
+**简介：**
+OpenClaw（曾用名Clawdbot、Moltbot）作为开源AI代理工具，核心价值在于能够24小时不间断运行，通过对接各类通讯应用，实现智能交互、任务执行与信息同步。其部署方式分为云端与本地两类，云端部署凭借安全、省电、无需持续占用本地设备的优势，成为多数用户的首选；本地部署则适合注重数据隐私、需离线使用的场景。本文将详细拆解2026年OpenClaw的全平台部署流程，包括阿里云轻量应用服务器部署、本地MacOS/Linux/Windows11部署，详解阿里云百炼Coding Plan免费大模型API配置方法，以及钉钉、飞书、微信、QQ等10+通讯工具的集成步骤，并整理常见问题解答，帮助
+
+OpenClaw（曾用名Clawdbot、Moltbot）作为开源AI代理工具，核心价值在于能够24小时不间断运行，通过对接各类通讯应用，实现智能交互、任务执行与信息同步。其部署方式分为云端与本地两类，云端部署凭借安全、省电、无需持续占用本地设备的优势，成为多数用户的首选；本地部署则适合注重数据隐私、需离线使用的场景。本文将详细拆解2026年OpenClaw的全平台部署流程，包括阿里云轻量应用服务器部署、本地MacOS/Linux/Windows11部署，详解阿里云百炼Coding Plan免费大模型API配置方法，以及钉钉、飞书、微信、QQ等10+通讯工具的集成步骤，并整理常见问题解答，帮助用户从零到一完成搭建。  
+![]()
+
+一、部署方案选择：云端vs本地的核心差异与适配场景
+-------------------------
+
+### （一）核心差异对比
+
+| 对比维度 | 云端部署（阿里云） | 本地部署 |
+| --- | --- | --- |
+| 运行稳定性 | 7×24小时不间断运行，不受设备关机影响 | 依赖本地设备运行，设备关闭则服务终止 |
+| 安全性 | 数据存储于云端服务器，权限管控严格 | 数据本地存储，隐私可控性更高 |
+| 成本投入 | 轻量应用服务器年费较低，无需额外硬件成本 | 需占用本地设备资源，无服务器费用 |
+| 操作便捷性 | 预装镜像一键部署，无需手动配置依赖 | 需手动安装环境与依赖，步骤相对繁琐 |
+| 适用场景 | 需长期运行、多设备访问、集成通讯工具的场景 | 注重数据隐私、短期使用、离线操作的场景 |
+
+### （二）选型建议
+
+* 若需实现通讯工具24小时在线响应、无人值守执行任务，优先选择阿里云云端部署；
+* 若处理敏感数据、无需持续运行，或网络环境不稳定，可选择本地部署。
+
+二、2026阿里云轻量应用服务器部署流程（推荐首选）
+--------------------------
+
+阿里云针对OpenClaw优化了专属应用镜像，无需手动安装依赖，部署流程简化为三步，成本可控，适合多数用户快速上手。
+
+### （一）步骤1：创建轻量应用服务器并选择OpenClaw镜像
+
+1. 登录阿里云控制台，**[访问阿里云OpenClaw一键部署专题页面](https://www.aliyun.com/activity/ecs/clawdbot?userCode=t1dwdo7u)**，选择轻量应用服务器配置；
+2. 核心配置选择：
+   * 应用镜像：直接选择“OpenClaw”官方预装镜像，已集成Node.js、Docker等基础依赖，省去手动配置环节；
+   * 地域选择：默认推荐美国弗吉尼亚，可根据所在地区就近选择（如亚太地区可选新加坡），地域一旦选定无法修改；
+   * 实例规格：2核2GB内存、40GB系统盘、200M带宽，满足OpenClaw基础运行需求；
+3. 完成订单支付，等待实例创建（约5-10分钟），实例状态变为“运行中”即完成基础部署。
+
+#### 阿里云用户零基础部署 OpenClaw 喂饭级步骤流程
+
+第一步：**[打开访问阿里云OpenClaw一键部署专题页面](https://www.aliyun.com/activity/ecs/clawdbot?userCode=t1dwdo7u)**，找到并点击【**一键购买并部署**】。  
+![]()  
+![]()  
+![]()  
+![]()  
+![]()
+
+第二步：**[打开选购阿里云轻量应用服务器](https://www.aliyun.com/product/swas?userCode=t1dwdo7u)**，配置参考如下：
+
+* 镜像：OpenClaw(Moltbot)镜像（已经购买服务器的用户可以重置系统重新选择镜像）
+* 实例：内存必须2GiB及以上。
+* 地域：默认美国（弗吉尼亚），目前中国内地域（除香港）的轻量应用服务器，联网搜索功能受限。
+* 时长：根据自己的需求及预算选择。
+
+![]()  
+![]()  
+![]()
+
+第三步：**[打开访问阿里云百炼大模型控制台](https://bailian.console.aliyun.com?userCode=t1dwdo7u)**，找到密钥管理，单击创建API-Key。
+
+![]()
+
+**[前往轻量应用服务器控制台](https://www.aliyun.com/product/swas?userCode=t1dwdo7u)**，找到安装好OpenClaw的实例，进入「应用详情」放行18789端口、配置百炼API-Key、执行命令，生成访问OpenClaw的Token。  
+![]()
+
+* 端口放通：需要放通对应端口的防火墙，单击一键放通即可。
+* 配置百炼API-Key，单击一键配置，输入百炼的API-Key。单击执行命令，写入API-Key。
+* 配置OpenClaw：单击执行命令，生成访问OpenClaw的Token。
+* 访问控制页面：单击打开网站页面可进入OpenClaw对话页面。
+
+#### 阿里云百炼Coding Plan API-Key 获取、配置保姆级教程：
+
+创建API-Key，推荐**[访问订阅阿里云百炼Coding Plan](https://www.aliyun.com/benefit/scene/codingplan?userCode=t1dwdo7u)**，阿里云百炼Coding Plan每天两场抢购活动，从按tokens计费升级为按次收费，可以进一步节省费用！  
+![]()
+
+* 购买后，在控制台生成API Key。注：这里复制并保存好你的API Key，后面要用。  
+  ![]()
+* 回到轻量应用服务器-控制台，单击服务器卡片中的实例 ID，进入服务器概览页。  
+  ![]()
+* 在服务器概览页面单击应用详情页签，进入服务器详情页面。  
+  ![]()
+* 端口放通在OpenClaw使用步骤区域中，单击端口放通下的执行命令，可开放获取OpenClaw 服务运行端口的防火墙。  
+  ![]()
+* 这里系统会列出我们第一步中创建的阿里云百炼 Coding Plan的API Key，直接选择就可以。  
+  ![]()
+* 获取访问地址单击访问 Web UI 面板下的执行命令，获取 OpenClaw WebUI 的地址。  
+  ![]()  
+  ![]()
+
+### （二）步骤2：端口放通与环境验证
+
+1. **[访问阿里云轻量应用服务器控制台](https://www.aliyun.com/product/swas?userCode=t1dwdo7u)**，找到「应用详情」模块，点击“端口放通”对应的执行命令，系统将自动开放OpenClaw服务所需端口（默认18789端口），无需手动配置防火墙规则；
+2. 通过阿里云网页终端连接服务器，执行以下命令验证环境状态：
+   ```
+   # 查看系统内核版本，确认镜像兼容性
+   uname -r
+   # 查看Docker运行状态，OpenClaw依赖Docker部署
+   docker -v
+   # 查看OpenClaw服务运行状态，显示active(running)即为正常
+   systemctl status openclaw
+   
+   ```
+
+### （三）步骤3：配置阿里云百炼Coding Plan API
+
+OpenClaw需接入大模型API才能实现智能交互，阿里云百炼Coding Plan提供不同档位套餐，支持免费额度与付费订阅，配置步骤如下：
+
+1. **[访问登录阿里云百炼大模型服务平台](https://www.aliyun.com/product/bailian?userCode=t1dwdo7u)**，进入Coding Plan专区，**[访问订阅阿里云百炼Coding Plan](https://www.aliyun.com/benefit/scene/codingplan?userCode=t1dwdo7u)**，根据需求选择套餐（新手可先体验免费额度或Lite版）；
+2. 进入「密钥管理」页面，点击“生成API-Key”，复制专属API Key（格式为sk-sp-xxxx），妥善保存；
+3. 回到轻量应用服务器「应用详情」页，找到“配置OpenClaw”模块，选择“手动输入”模式，粘贴复制的API Key，点击执行命令完成配置；
+4. 若使用系统推荐的API Key，直接选择对应Coding Plan套餐的密钥，一键完成配置，无需手动输入；
+5. 配置完成后，执行以下命令验证API连接：
+   ```
+   # 测试百炼Coding Plan API连通性
+   openclaw llm test aliyun-coding/coding-plan-free
+   
+   ```
+   终端显示“Connection successful”即配置生效。
+
+### （四）步骤4：获取WebUI面板并初始化
+
+1. 在「应用详情」页点击“访问WebUI面板”对应的执行命令，系统将生成专属访问地址；
+2. 复制访问地址，在浏览器中打开，进入OpenClaw Web管理界面，完成初始设置（如创建管理员账号、设置交互语言）；
+3. 在WebUI中可直接与OpenClaw交互，测试任务执行、指令响应等基础功能，确认部署成功。
+
+三、本地多系统部署流程（MacOS/Linux/Windows11）
+----------------------------------
+
+### （一）部署前基础准备
+
+1. 环境依赖：安装Node.js 18.x及以上版本、npm包管理器、Git（可选）；
+2. 硬件要求：设备内存≥2GB（推荐4GB及以上），预留1GB以上存储空间；
+3. 工具准备：Windows11使用PowerShell（管理员模式），MacOS/Linux使用自带终端。
+
+### （二）Windows11本地部署
+
+1. 安装Node.js：访问Node.js官网下载LTS版本，安装时勾选“Add to PATH”自动配置环境变量，安装完成后重启电脑；
+2. 验证环境：
+   ```
+   node -v
+   npm -v
+   
+   ```
+3. 安装OpenClaw与核心依赖：
+   ```
+   # 全局安装OpenClaw最新版本
+   npm install -g openclaw@latest
+   # 安装通讯工具集成依赖
+   npm install -g clawhub-connector
+   # 初始化配置
+   openclaw init
+   
+   ```
+4. 启动服务：
+   ```
+   # 启动OpenClaw网关服务
+   openclaw gateway start
+   # 设置开机自启（可选）
+   openclaw service install
+   
+   ```
+5. 访问WebUI：浏览器输入`http://localhost:18789`，进入管理界面完成后续配置。
+
+### （三）MacOS本地部署
+
+1. 安装Homebrew（未安装用户）：
+   ```
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+   
+   ```
+2. 安装Node.js与OpenClaw：
+   ```
+   # 安装Node.js
+   brew install node
+   # 管理员权限安装OpenClaw
+   sudo npm install -g openclaw@latest
+   sudo npm install -g clawhub-connector
+   # 初始化并启动
+   openclaw init
+   openclaw gateway start
+   
+   ```
+3. 权限配置：进入「系统设置→隐私与安全性」，授予终端文件访问、屏幕录制权限，确保通讯工具集成功能正常。
+
+### （四）Linux本地部署（Ubuntu为例）
+
+1. 更新系统源并安装依赖：
+   ```
+   sudo apt update && sudo apt upgrade -y
+   sudo apt install nodejs npm -y
+   # 升级Node.js至稳定版
+   sudo npm install -g n
+   sudo n stable
+   
+   ```
+2. 安装OpenClaw：
+   ```
+   sudo npm install -g openclaw@latest
+   sudo npm install -g clawhub-connector
+   # 初始化配置
+   openclaw init
+   # 启动服务并设置开机自启
+   sudo openclaw gateway start
+   sudo openclaw service install
+   
+   ```
+3. 防火墙配置：放行18789端口，允许本地访问：
+   ```
+   sudo ufw allow 18789/tcp
+   sudo ufw reload
+   
+   ```
+
+### （五）本地部署百炼Coding Plan API配置
+
+1. 执行以下命令打开配置文件：
+   ```
+   openclaw config edit
+   
+   ```
+2. 在配置文件中添加以下内容（替换为实际API Key）：
+   ```
+   "llm": {
+   "provider": "aliyun-coding",
+   "apiKey": "你的Coding Plan专属API Key",
+   "baseUrl": "https://coding.dashscope.aliyuncs.com/v1",
+   "model": "coding-plan-free",
+   "maxTokens": 2048,
+   "contextWindow": 8192
+   }
+   
+   ```
+3. 保存配置并重启服务：
+   ```
+   openclaw gateway restart
+   
+   ```
+
+四、通讯工具集成步骤：钉钉/飞书/微信/QQ等10+APP对接
+-------------------------------
+
+OpenClaw支持与钉钉、飞书、企业微信、QQ、Discord、Telegram、WhatsApp等主流通讯工具集成，实现通过聊天窗口发送指令、接收任务结果，核心集成逻辑一致，以下以高频工具为例详解步骤：
+
+### （一）通用集成前提
+
+1. 安装通讯工具集成Skill：
+   ```
+   # 安装多通讯平台集成插件
+   clawhub install multi-msg-platform
+   
+   ```
+2. 确保OpenClaw服务正常运行，API配置已生效；
+3. 在对应通讯工具开放平台创建应用，获取AppID、AppSecret等核心参数（不同平台操作逻辑一致，需完成实名认证与应用审核）。
+
+### （二）钉钉集成
+
+1. 登录钉钉开放平台，创建企业自建应用，开通“机器人”能力；
+2. 在应用管理页获取AppID、AppSecret，记录钉钉机器人Webhook地址；
+3. 配置OpenClaw钉钉连接：
+   ```
+   openclaw config set dingtalk --json '{
+   "appId": "你的钉钉AppID",
+   "appSecret": "你的钉钉AppSecret",
+   "webhook": "你的钉钉机器人Webhook地址"
+   }'
+   
+   ```
+4. 重启OpenClaw服务，在钉钉聊天窗口@机器人发送指令（如“帮我整理今日待办事项”），验证集成效果。
+
+### （三）飞书集成
+
+1. 登录飞书开放平台，创建企业自建应用，添加“消息接收”“消息发送”权限；
+2. 获取AppID、AppSecret，设置事件回调地址（格式：`http://你的服务器IP:18789/feishu/callback`）；
+3. 配置OpenClaw：
+   ```
+   openclaw config set feishu --json '{
+   "appId": "你的飞书AppID",
+   "appSecret": "你的飞书AppSecret",
+   "callbackUrl": "你的回调地址"
+   }'
+   
+   ```
+4. 重启服务，在飞书聊天窗口@应用发送测试指令，确认正常响应。
+
+### （四）微信集成（企业微信/个人微信）
+
+1. 企业微信：登录企业微信开放平台，创建应用，获取CorpID、AgentID、AppSecret，配置可信IP（服务器公网IP）；
+2. 个人微信：通过第三方工具获取微信机器人Token（需遵循微信平台规范）；
+3. 配置OpenClaw：  
+   ```
+   
+   企业微信配置
+   ======
+   
+   openclaw config set wecom --json '{
+     
+   "corpId": "你的企业微信CorpID",  
+   "agentId": "你的应用AgentID",  
+   "appSecret": "你的应用AppSecret"  
+   }'
+
+个人微信配置（需第三方工具支持）
+================
+
+openclaw config set wechat --json '{
+  
+ "token": "你的微信机器人Token",  
+ "apiUrl": "第三方工具API地址"  
+}'
+
+```
+4. 重启服务，测试微信端指令交互功能。
+
+### （五）其他通讯工具集成
+QQ、Discord、Telegram等工具集成逻辑与上述一致，核心步骤为：
+1. 在对应平台开放平台创建应用，获取授权参数；
+2. 通过`openclaw config set`命令配置参数；
+3. 重启服务并测试交互。具体细节可参考OpenClaw官方工具集成文档。
+
+## 五、常见问题解答与排障
+### （一）部署类问题
+1. 阿里云部署后无法访问WebUI面板
+   解答：确认端口放通操作已执行，18789端口未被占用；检查服务器地域选择是否正确，网络是否能正常访问云端服务器；执行`systemctl restart openclaw`重启服务，重新生成WebUI访问地址。
+
+2. 本地部署执行`openclaw`命令提示“命令未找到”
+   解答：Windows11需重启电脑确保环境变量生效；MacOS/Linux执行`sudo ln -s /usr/local/bin/openclaw /usr/bin/openclaw`建立软链接；重新验证Node.js与OpenClaw安装状态，若未安装成功，重新执行安装命令。
+
+3. 服务启动失败，提示“端口占用”
+   解答：执行`netstat -ano | findstr "18789"`（Windows）或`lsof -i:18789`（MacOS/Linux）查看占用进程，关闭对应程序；或更换端口启动：
+
+```
+
+openclaw gateway start --port 18790
+
+```
+
+### （二）API配置类问题
+1. 百炼Coding Plan API调用提示“密钥无效”
+   解答：确认API Key复制完整，无多余空格、换行；检查密钥格式是否为sk-sp-xxxx（Coding Plan专属格式）；若密钥已过期或泄露，重新生成并替换配置；确认Coding Plan套餐已激活，免费额度未耗尽。
+
+2. 大模型调用提示“请求超时”
+   解答：检查网络是否能正常访问阿里云百炼服务器，本地部署用户可调整网络代理设置；阿里云部署用户确认服务器地域网络通畅；在配置文件中增加超时时间：
+
+```
+
+"llm": {
+  
+ "timeout": 30000  
+}  
+```
+
+### （三）通讯工具集成类问题
+
+1. 聊天窗口发送指令无响应  
+   解答：检查对应通讯工具应用的权限是否完整，回调地址配置正确；执行`openclaw log`查看交互日志，定位错误原因；确认OpenClaw服务正常运行，API配置已生效；重新执行通讯工具配置命令，重启服务。
+2. 无法接收任务结果推送  
+   解答：检查通讯工具应用的消息发送权限是否开通；确认回调地址已在开放平台备案，无IP限制；测试Webhook地址连通性，确保能正常接收请求。
+
+### （四）运行类问题
+
+1. OpenClaw运行卡顿、响应缓慢  
+   解答：升级服务器/本地设备配置，关闭其他占用资源的程序；降低大模型maxTokens参数，减少单次任务资源占用；卸载不常用的Skill插件，减轻运行负载。
+2. 云端部署服务自动停止  
+   解答：检查服务器是否设置了定时关机/休眠策略，关闭相关设置；执行`systemctl enable openclaw`设置开机自启；查看系统日志，排查是否因资源不足导致服务终止，必要时升级实例规格。
+
+六、总结
+----
+
+OpenClaw的全平台部署与通讯工具集成，打破了AI工具的使用边界，实现“随时随地通过聊天窗口下达指令、接收结果”的便捷体验。阿里云云端部署凭借稳定、省心的优势，适合多数用户长期使用；本地部署则满足隐私保护与离线使用需求，二者可根据场景灵活选择。
+
+通过阿里云百炼Coding Plan API配置，用户可低成本启用大模型能力，搭配10+通讯工具集成，让OpenClaw真正成为24小时在线的智能助手。在使用过程中，若遇到问题可优先通过日志排查，或参考官方集成文档，多数故障可通过重启服务、重新配置参数等简单操作解决。
+
+2026年的OpenClaw已形成成熟的部署生态与插件体系，无论是个人用户提升效率，还是团队实现协作自动化，都能通过灵活的部署与集成方案满足需求。遵循本文步骤，即可快速完成搭建，让AI代理工具真正融入日常工作与生活。
+
+
+
+
+
+[![]()](/profile/zneuiioiilwge)
+
+
+[Clawdbot](/profile/zneuiioiilwge)
+
+
+
+目录
+
+
+
+
+
+
+热门文章
+最新文章
+
+
+
+
+
+
+
+
+
+
+
+
+
+### 为什么选择阿里云
+
+[什么是云计算](https://www.aliyun.com/about/what-is-cloud-computing)[全球基础设施](https://infrastructure.aliyun.com/)[技术领先](https://www.aliyun.com/why-us/leading-technology)[稳定可靠](https://www.aliyun.com/why-us/reliability)[安全合规](https://www.aliyun.com/why-us/security-compliance)[分析师报告](https://www.aliyun.com/analyst-reports)
+### 大模型
+
+[千问大模型](https://www.aliyun.com/product/tongyi)[大模型服务](https://bailian.console.aliyun.com/?tab=model#/model-market)[AI应用构建](https://bailian.console.aliyun.com/app-center?tab=app#/app-center)
+### 产品和定价
+
+[全部产品](https://www.aliyun.com/product/list)[免费试用](https://free.aliyun.com/)[产品动态](https://www.aliyun.com/product/news/)[产品定价](https://www.aliyun.com/price/detail)[配置报价器](https://www.aliyun.com/price/cpq/list)[云上成本管理](https://www.aliyun.com/price/cost-management)
+### 技术内容
+
+[技术解决方案](https://www.aliyun.com/solution/tech-solution)[帮助文档](https://help.aliyun.com/)[开发者社区](https://developer.aliyun.com/)[天池大赛](https://tianchi.aliyun.com/)[阿里云认证](https://edu.aliyun.com/)
+### 权益
+
+[免费试用](https://free.aliyun.com/)[解决方案免费试用](https://www.aliyun.com/solution/free)[高校计划](https://university.aliyun.com/)[5亿算力补贴](https://www.aliyun.com/benefit/form/index)[推荐返现计划](https://dashi.aliyun.com/?ambRef=shouYeDaoHang2&pageCode=yunparterIndex)
+### 服务
+
+[基础服务](https://www.aliyun.com/service)[企业增值服务](https://www.aliyun.com/service/supportplans)[迁云服务](https://www.aliyun.com/service/devopsimpl/devopsimpl_cloudmigration_public_cn)[官网公告](https://www.aliyun.com/notice/)[健康看板](https://status.aliyun.com/)[信任中心](https://security.aliyun.com/trust-center)
+### 关注阿里云
+
+关注阿里云公众号或下载阿里云APP，关注云资讯，随时随地运维管控云服务
+
+![]()![]()
+
+联系我们：4008013260
+
+[法律声明](https://help.aliyun.com/product/67275.html)[Cookies政策](https://terms.alicdn.com/legal-agreement/terms/platform_service/20220906101446934/20220906101446934.html)[廉正举报](https://aliyun.jubao.alibaba.com/)[安全举报](https://report.aliyun.com/)[联系我们](https://www.aliyun.com/contact)[加入我们](https://careers.aliyun.com/)
+### 友情链接
+
+[阿里巴巴集团](https://www.alibabagroup.com/cn/global/home)[淘宝网](https://www.taobao.com/)[天猫](https://www.tmall.com/)[全球速卖通](https://www.aliexpress.com/)[阿里巴巴国际交易市场](https://www.alibaba.com/)[1688](https://www.1688.com/)[阿里妈妈](https://www.alimama.com/index.htm)[飞猪](https://www.fliggy.com/)[阿里云计算](https://www.aliyun.com/)[万网](https://wanwang.aliyun.com/)[高德](https://mobile.amap.com/)[UC](https://www.uc.cn/)[友盟](https://www.umeng.com/)[优酷](https://www.youku.com/)[钉钉](https://www.dingtalk.com/)[支付宝](https://www.alipay.com/)[达摩院](https://damo.alibaba.com/)[淘宝海外](https://world.taobao.com/)[阿里云盘](https://www.aliyundrive.com/)[淘宝闪购](https://www.ele.me/)
+
+© 2009-现在 Aliyun.com 版权所有 增值电信业务经营许可证： [浙B2-20080101](http://beian.miit.gov.cn/) 域名注册服务机构许可： [浙D3-20210002](https://domain.miit.gov.cn/域名注册服务机构/互联网域名/阿里云计算有限公司 )
+
+[![]()](https://zzlz.gsxt.gov.cn/businessCheck/verifKey.do?showType=p&serial=91330106673959654P-SAIC_SHOW_10000091330106673959654P1710919400712&signData=MEUCIQDEkCd8cK7%2Fyqe6BNMWvoMPtAnsgKa7FZetfPkjZMsvhAIgOX1G9YC6FKyndE7o7hL0KaBVn4f%20V%2Fiof3iAgpsV09o%3D)[![]()浙公网安备 33010602009975号](http://www.beian.gov.cn/portal/registerSystemInfo)[浙B2-20080101-4](https://beian.miit.gov.cn/)
+
+
+

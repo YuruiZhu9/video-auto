@@ -1,0 +1,261 @@
+# Source URL: https://cloud.tencent.com/developer/article/2141756
+# Content Length: 8955 characters
+# Extracted at: 2026-03-27 10:11:00
+#============================================================
+
+
+一石二鸟：推荐算法多目标建模技巧-腾讯云开发者社区-腾讯云[炼丹笔记](/developer/user/7268047)
+
+一石二鸟：推荐算法多目标建模技巧
+----------------
+
+关注作者[*腾讯云*](/?from=20060&from_column=20060)[*开发者社区*](/developer)[文档](/document/product?from=20702&from_column=20702)[建议反馈](/voc/?from=20703&from_column=20703)[控制台](https://console.cloud.tencent.com?from=20063&from_column=20063)登录/注册[首页](/developer)学习活动专区圈层工具[MCP广场![]()](/developer/mcp)文章/答案/技术大牛搜索搜索关闭发布炼丹笔记[社区首页](/developer) >[专栏](/developer/column) >一石二鸟：推荐算法多目标建模技巧
+
+一石二鸟：推荐算法多目标建模技巧
+================
+
+![]()炼丹笔记关注发布于 2022-10-27 13:32:21发布于 2022-10-27 13:32:211.6K0举报文章被收录于专栏：[炼丹笔记](/developer/column/91575)炼丹笔记
+
+↑↑↑关注后"星标"**炼丹笔记** 
+
+炼丹笔记干货
+
+**作者：DOTA**
+
+在做推荐系统时，在系统刚刚搭建时，针对业务目标我们可能只需要去优化CTR或者CVR即可，但是不同的推荐场景下的优化目标不同。同时，随着系统的不断迭代，我们希望推荐算法能够**同时优化多个业务目标**。
+
+比如，在**内容信息流场景**中，希望提高用户点击率CTR的基础上提高用户关注、点赞、评论、停留时长等行为，营造更好的社区氛围从而提高留存；而在**电商场景**中，则希望能够在优化GMV的基础上提高点击率，从而提高用户的粘性和复购行为等。因此，一个成熟的推荐系统，会向多目标、多任务方向进行演化，从而承担起更多的业务目标！
+
+本文，我来分享一下在多目标优化问题上一些思路，包括多目标任务的技巧、算法模型**MMOE、SNR、ESMM、PLE**等。
+
+多目标任务的技巧
+
+![]()
+
+**样本加权**
+
+通过**Sample Weight**进行多目标优化，保证一个主目标的同时，通过将其它目标转化为样本权重的方式改变数据分布，从而达到优化其它目标的效果。
+
+![]()
+
+这里我们以**内容信息流场景**为例。设定主目标为***内容点击率CTR***，用户在内容流中的点击行为定义为正样本。同时，在信息流**点赞、评论、转发**功能也同样定义为正样本，但是**点赞、评论、转发、完播率大**的样本可以设置更高的样本权重。对于样本权重大的行为，如果预测错误就会带来更大的损失。通过这种方法能够在优化A目标CTR的基础上，优化B目标**停留时长**。目标A会受到一定的损失换取目标B的增长。通过线上AB-Test和Sample Weight调整的联动，可以保证A目标损失较小的前提下，带来目标B的提升，实现初级的多目标优化。
+
+这种方式模型简单，上线容易，仅在训练时通过梯度乘以样本权重实现对其它目标的加权即可。但本质上并不是多目标建模，而是将不同的目标转化为同一个目标，样本的加权权重需要根据线上AB测试才能确定。
+
+**模型融合**
+
+多目标模型融合，通过一个模型同时训练多个目标（label的构造），线上进行融合。该方法的优点是各个任务之间能够共享信息，统一迭代方便，节省资源。但缺点也比较明显，目标越多模型越复杂，各任务之间相互影响，迭代速度慢等，尤其是在线上需要模型一定的响应时间时，该方法就变得有些笨重。
+
+![]()
+
+例如在**视频信息流场景**中，我们用分类模型优化**点击率**CTR，用回归模型优化**停留时长**。不同的模型得到预测的score之后，通过一个函数将多个目标融合在一起，融合的函数可以有很多，比如连乘或者指数相关的函数，这里和业务场景和目标的含义强相关，可以根据自己的实际场景探索。
+
+MMoE
+
+![]()![]()
+
+**背景**
+
+推荐系统在给用户推荐一些热门内容的同时，也需要对这些内容的质量有一定的把控，比如用户的**停留时长、点赞、转发、评论**等，所以成熟的推荐系统的推荐模型会同时对多个目标进行优化，而如何对这多个目标进行并行优化，正是本篇论文MMOE关注的重点，在以往的一些模型当中，通常优化一方面的效果就会损失另一方面的效果，所以这是一个Trade-off的过程。除此之外无论是搜索、推荐还是广告，都存在一个的潜在的bias问题。
+
+多任务模型通过学习不同任务的联系和差异，可提高每个任务的学习效率和质量。多任务学习的的框架广泛采用**Shared-bottom**的结构，不同任务间共用底部的隐层。这种结构本质上可以减少过拟合的风险，但是效果上可能受到任务差异和数据分布带来的影响。MMoE模型刻画了**任务相关性**，基于**共享表示**来学习特定任务的函数，避免了明显增加参数的缺点。
+
+![]()![]()
+
+**创新**
+
+![]()
+
+Shared-Bottom 网络通常位于底部，它通过浅层参数共享，互相补充学习。这种方式下任务相关性越高，模型的loss可以降低到更低。但是当任务没有好的相关性时，这种Hard parameter sharing会损害效果。
+
+![]()
+
+MOE由一组专家系统(Experts)组成的神经网络结构替换原来的Shared-Bottom部分，每一个Expert都是一个前馈神经网络，再加上一个门控网络(Gate)。
+
+![]()
+
+**MMoE**(Multi-gate Mixture-of-Experts)是在MOE的基础上，使用了多个门控网络， k个任就对应k个门控网络。MMoE包括两个部分，左侧的shallow tower部分和右侧的main tower部分，论文中提到的采用类似Wide&Deep模型结构就是指这两个tower，其中shallow tower可以对应Wide部分，main tower对应的是Deep部分。
+
+SNR
+
+![]()![]()
+
+**背景**
+
+谷歌在MMOE之后又做了什么？经典的**Shared-Bottom**网络结构存在一个明显的问题：当共同训练学习的多个任务之间联系不强的时，会严重损害各自任务的效果。因为相对于多个目标各自训练独立模型而言，Shared-Bottom的网络结构会在共享的网络底层引入了Bias，这个上文中我们已经提到了。
+
+![]()![]()
+
+**创新**
+
+![]()
+
+上面提到的MMoE模型存在的一个问题，它只能够针对共享的experts子网络进行有限的组合。因此，在MMoE模型结构的基础上，本文提出了优化的SNR模型来实现更灵活的网络参数共享。与MMoE类似，SNR模型将共享的底层网络模块化为子网络。不同的是，SNR模型使用编码变量来控制子网络之间的连接，并且设计了两种类型的连接方式：**SNR-Trans**和**SNR-Aver**。
+
+ESMM
+
+![]()![]()
+
+**背景**
+
+基于 Multi-Task Learning 的思路，阿里妈妈团队在SIGIR2018上提出一种新的CVR预估模型ESMM，它有效解决了真实场景中CVR预估面临的数据稀疏以及样本选择偏差这两个关键问题。CVR预估和CTR任务相比，有两个不同：
+
+（1）**Sample Selection Bias**转化是在点击之后才“有可能”发生的动作，传统CVR模型通常以点击数据为训练集，其中**点击未转化**为负例，**点击并转化**为正例。但是训练好的模型实际使用时，则是对整个空间的样本进行预估，而非只对点击样本进行预估。
+
+（2）Data Sparsity作为CVR训练数据的点击样本远小于CTR预估训练使用的曝光样本。
+
+一些策略可以缓解这两个问题，但都没有从实质上解决上面任一个问题。
+
+![]()![]()
+
+**创新**
+
+![]()
+
+为了解决这个问题，ESMM提出了转化公式：
+
+![]()
+
+在全部样本空间中，CTR对应的label为click，而CTCVR对应的label为click & conversion，这两个任务是可以使用全部样本的。而PCTCVR和PCTR都可以在全样本空间进行训练和预估。但是这种除法在实际使用中，会引入新的问题。因为PCTR其实是一个很小的值，预估时会出现PCTCVR大于PCTR的情况，导致PCVR预估值大于1。ESSM巧妙的通过将除法改成乘法来解决上面的问题。它引入了PCTR和PCTCVR两个辅助任务，训练时loss为两者相加。
+
+PLE：Progressive Layered Extraction
+
+![]()![]()
+
+**背景**
+
+腾讯PCG在**RecSys2020**发表的**最佳长论文PLE**(Progressive Layered Extraction)，是在视频推荐场景下多任务模型。相对于前面的MMOE、SNR和ESMM模型，PLE模型主要解决两个问题：(1)MMOE中所有的Expert是被所有任务所共享的，这可能无法捕捉到任务之间更复杂的关系，从而给部分任务带来一定的噪声;(2)不同的Expert之间没有交互，联合优化的效果有所折扣。
+
+![]()![]()
+
+**创新**
+
+![]()
+
+从图中的网络结构可以看出，CGC的底层网络主要包括shared experts和task-specific expert构成，每一个expert module都由多个子网络组成，子网络的个数和网络结构都是超参数。上层由多任务网络构成，每一个多任务网络（towerA和towerB）的输入都是由gating网络进行加权控制，每一个子任务的gating网络的输入包括两部分，其中一部分是本任务下的task-specific部分的experts和shared部分的experts组成。
+
+上面看到了CGC网络是一种single-level的网络结构，一个比较直观的思路就是叠加多层CGC网络，从而获得更加丰富的表征能力，而PLE网络结构就是将CGC拓展到了multi-level层中。
+
+![]()
+
+**效果**
+
+![]()![]()
+
+作者还将不同experts的平均权重展示出来，可以看出MOE不同experts权重基本相差不大，PLE模型共享experts和独有experts的权重相差更大，说明针对不同的任务，能够有效利用共享Expert和独有Expert的信息，这也解释了为什么其能够达到比MMoE更好的训练结果。
+
+![]()
+
+—END—
+
+*参考文献*
+
+*1、Entire Space Multi-Task Model: An Effective Approach for Estimating Post-Click Conversion Rate*
+
+*2、https://zhuanlan.zhihu.com/p/291406172*
+
+*3、SNR: Sub-Network Routing for Flexible Parameter Sharing in Multi-task Learning*
+
+*4、https://zhuanlan.zhihu.com/p/96796043*
+
+*5、Modeling Task Relationships in Multi-task Learning with Multi-gate Mixture-of-Experts*
+
+*6、Progressive Layered Extraction (PLE): A Novel Multi-Task Learning (MTL) Model for Personalized Recommendations*
+
+*7、https://zhuanlan.zhihu.com/p/144936009*
+
+*8、Multi-Task Learning Using Uncertainty to Weigh Losses for Scene Geometry and Semantics*
+
+本文参与 [腾讯云自媒体同步曝光计划](/developer/support-plan)，分享自微信公众号。原始发表：2022-09-04，如有侵权请联系 [cloudcommunity@tencent.com](mailto:cloudcommunity@tencent.com) 删除[label](/developer/tag/14383)[sample](/developer/tag/15829)[shared](/developer/tag/15980)[task](/developer/tag/16417)[vr](/developer/tag/16858)
+
+本文分享自 炼丹笔记 微信公众号，前往查看
+
+如有侵权，请联系 [cloudcommunity@tencent.com](mailto:cloudcommunity@tencent.com) 删除。
+
+本文参与 [腾讯云自媒体同步曝光计划](/developer/support-plan)  ，欢迎热爱写作的你一起参与！
+
+[label](/developer/tag/14383)[sample](/developer/tag/15829)[shared](/developer/tag/15980)[task](/developer/tag/16417)[vr](/developer/tag/16858)评论登录后参与评论0 条评论热度最新登录 后参与评论推荐阅读领券
+
+* ### 社区
+  
+  + [技术文章](/developer/column)
+  + [技术问答](/developer/ask)
+  + [技术沙龙](/developer/salon)
+  + [技术视频](/developer/video)
+  + [学习中心](/developer/learning)
+  + [技术百科](/developer/techpedia)
+  + [技术专区](/developer/zone/list)
+* ### 活动
+  
+  + [自媒体同步曝光计划](/developer/support-plan)
+  + [邀请作者入驻](/developer/support-plan-invitation)
+  + [自荐上首页](/developer/article/1535830)
+  + [技术竞赛](/developer/competition)
+* ### 圈层
+  
+  + [腾讯云最具价值专家](/tvp)
+  + [腾讯云架构师技术同盟](/developer/program/tm)
+  + [腾讯云创作之星](/developer/program/tci)
+  + [腾讯云TDP](/developer/program/tdp)
+* ### 关于
+  
+  + [社区规范](/developer/article/1006434)
+  + [免责声明](/developer/article/1006435)
+  + [联系我们](mailto:cloudcommunity@tencent.com)
+  + [友情链接](/developer/friendlink)
+  + [MCP广场开源版权声明](/developer/article/2537547)
+### 腾讯云开发者
+
+![]()
+
+扫码关注腾讯云开发者
+
+领取腾讯云代金券
+
+### 热门产品
+
+* [域名注册](/product/domain?from=20064&from_column=20064)
+* [云服务器](/product/cvm?from=20064&from_column=20064)
+* [区块链服务](/product/tbaas?from=20064&from_column=20064)
+* [消息队列](/product/message-queue-catalog?from=20064&from_column=20064)
+* [网络加速](/product/ecdn?from=20064&from_column=20064)
+* [云数据库](/product/tencentdb-catalog?from=20064&from_column=20064)
+* [域名解析](/product/dns?from=20064&from_column=20064)
+* [云存储](/product/cos?from=20064&from_column=20064)
+* [视频直播](/product/css?from=20064&from_column=20064)
+### 热门推荐
+
+* [人脸识别](/product/facerecognition?from=20064&from_column=20064)
+* [腾讯会议](/product/tm?from=20064&from_column=20064)
+* [企业云](/act/pro/enterprise2022?from=20064&from_column=20064)
+* [CDN加速](/product/cdn?from=20064&from_column=20064)
+* [视频通话](/product/trtc?from=20064&from_column=20064)
+* [图像分析](/product/imagerecognition?from=20064&from_column=20064)
+* [MySQL 数据库](/product/cdb?from=20064&from_column=20064)
+* [SSL 证书](/product/ssl?from=20064&from_column=20064)
+* [语音识别](/product/asr?from=20064&from_column=20064)
+### 更多推荐
+
+* [数据安全](/solution/data_protection?from=20064&from_column=20064)
+* [负载均衡](/product/clb?from=20064&from_column=20064)
+* [短信](/product/sms?from=20064&from_column=20064)
+* [文字识别](/product/ocr?from=20064&from_column=20064)
+* [云点播](/product/vod?from=20064&from_column=20064)
+* [大数据](/product/bigdata-class?from=20064&from_column=20064)
+* [小程序开发](/solution/la?from=20064&from_column=20064)
+* [网站监控](/product/tcop?from=20064&from_column=20064)
+* [数据迁移](/product/cdm?from=20064&from_column=20064)
+
+Copyright © 2013 - 2026 Tencent Cloud. All Rights Reserved. 腾讯云 版权所有
+
+[深圳市腾讯计算机系统有限公司](https://qcloudimg.tencent-cloud.cn/raw/986376a919726e0c35e96b311f54184d.jpg) ICP备案/许可证号：[粤B2-20090059](https://beian.miit.gov.cn/#/Integrated/index)![]()[粤公网安备44030502008569号](https://beian.mps.gov.cn/#/query/webSearch?code=44030502008569)
+
+[腾讯云计算（北京）有限责任公司](https://qcloudimg.tencent-cloud.cn/raw/a2390663ee4a95ceeead8fdc34d4b207.jpg) 京ICP证150476号 |  [京ICP备11018762号](https://beian.miit.gov.cn/#/Integrated/index)
+
+[问题归档](/developer/ask/archives.html)[专栏文章](/developer/column/archives.html)[快讯文章归档](/developer/news/archives.html)[关键词归档](/developer/information/all.html)[开发者手册归档](/developer/devdocs/archives.html)[开发者手册 Section 归档](/developer/devdocs/sections_p1.html)
+
+Copyright © 2013 - 2026 Tencent Cloud.
+
+All Rights Reserved. 腾讯云 版权所有
+
+登录 后参与评论000推荐

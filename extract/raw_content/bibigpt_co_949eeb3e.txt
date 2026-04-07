@@ -1,0 +1,508 @@
+# Source URL: https://bibigpt.co/blog/posts/openclaw-bibigpt-skill-ai-agent-video-2026
+# Content Length: 18940 characters
+# Extracted at: 2026-03-31 08:10:34
+#============================================================
+
+
+OpenClaw 不支持 B 站小红书？bibigpt-skill AI视频总结一键破局 | BibiGPT BlogOpenClaw + BibiGPT Skill: AI Video Summary for Bilibili & Beyond[![]()BibiGPTAI.toWatch](/en)
+
+* [Explore](/explore)
+* [Pricing](/shop?utm_source=menubar)
+* [Blog](/blog/posts?utm_source=menubar)
+* [Document](https://docs.bibigpt.co?utm_source=menubar)
+* Clients
+[CHANGELOGv4.307.0 · 💻 Desktop App (Beta) | Performance](/en/weekly-release)Toggle languageToggle theme Register/Login[Blog Home](/en/blog)[BibiGPT](/en)[All Posts](/en/blog/posts)
+
+OpenClaw 不支持 B 站小红书？bibigpt-skill AI视频总结一键破局
+============================================
+
+OpenClaw（小龙虾）原生 summarize 只支持 YouTube，B 站/小红书/抖音全部缺席。bibigpt-skill 是 AI Agent 生态中的视频理解核心组件，一行命令让 Claude Code/OpenClaw 全平台通杀——还能联动 AI 对话溯源、高光笔记、合集总结、闪记卡等高级功能。2026 最新实战教程。
+
+BibiGPT 团队·March 15th, 2026
+
+OpenClaw 不支持 B 站小红书？bibigpt-skill AI视频总结一键破局
+============================================
+
+> 最后更新：2026 年 3 月
+
+**核心答案：** bibigpt-skill 是让 AI Agent（如 Claude Code、OpenClaw）直接调用 BibiGPT [AI视频总结](https://bibigpt.co/features/ai-bilibili-summary?utm_source=blog&utm_medium=inline-link&utm_campaign=try-free)能力的命令行工具。支持 B 站、小红书、抖音、YouTube 等 30+ 平台，一行命令即可生成带时间戳的结构化摘要。安装 BibiGPT 桌面端后运行 `npx skills add JimmyLv/bibigpt-skill` 即可开始使用。
+
+2026 年 3 月，OpenClaw（国内用户亲切地称它"小龙虾"）以 **29 万+ GitHub Stars** 持续刷新历史记录——60 天内超越 React 用 10 年积累的成绩，创始人 Peter Steinberger 加入硅谷顶级 AI 实验室专注于"把 AI Agent 带给每一个普通人"，而 Claude Code spawn 模式的生态扩展更让 OpenClaw 的 skills 市场呈指数增长。
+
+OpenClaw 能自动发邮件、订日历、操控智能家居，正在从极客玩具变成大众基础设施。但对于中文用户，有一个很现实的问题：**OpenClaw 的原生 summarize 根本不支持 B 站、小红书、抖音**。
+
+这不是猜测。BibiGPT 的创始人 JimmyLv 在与 OpenClaw 相关讨论中直接指出：
+
+> "我做的 bibi 其实就是这一类'需求'的进阶封装——比如 summarize 肯定不支持 B 站小红书嘛。"
+
+bibigpt-skill 就是为此而生的：一行命令，让你的 Claude Code / OpenClaw 代理不只能处理 YouTube，还能总结 B 站、小红书、抖音、播客，以及本地音视频文件。更重要的是，它不只是一个 CLI 命令——bibigpt-skill 背后连接的是 BibiGPT 完整的 [AI 视频智能分析平台](https://bibigpt.co/features)，包括 AI 对话溯源、高光笔记、合集总结、闪记卡、MV 编辑器、多语言字幕翻译等高级能力。
+
+**5 分钟快速上手（直接回答）：**
+
+1. 安装 BibiGPT 桌面端（macOS / Windows）
+2. 运行 `npx skills add JimmyLv/bibigpt-skill`
+3. 验证：`bibi auth check`
+4. 在 Claude Code 中说："帮我总结这个视频：`<url>`"（B 站/YouTube 均可）
+5. 进阶：配置 OpenClaw Claude Code spawn 模式实现全自动
+
+---
+
+OpenClaw 为什么在 2026 年爆了？
+-----------------------
+
+Try pasting your video link
+
+Supports YouTube, Bilibili, TikTok, Xiaohongshu and 30+ platforms
+
+Try BibiGPT FreeYouTubeB站TikTok小红书播客+30
+
+从对话式 AI 到 OpenClaw，AI 的能力边界发生了根本转变：**从"回答问题"进化到"执行任务"**。
+
+OpenClaw 是一个自托管的 Node.js AI 代理运行时，模型无关（支持多种先进 AI 模型，包括 DeepSeek 等），数据默认留在本地，MIT 开源协议完全免费。它最核心的能力是：
+
+* 执行 shell 命令、管理文件
+* 通过 WhatsApp、Telegram、Slack、邮件操作外部系统
+* **心跳（Heartbeat）机制**：每隔 30 分钟自主执行任务，不需要人在旁边守着
+
+截至 2026 年 3 月，社区已贡献 **4000+ skills**（集成插件），把 OpenClaw 连接到 ClickUp、GitHub、Figma、智能家居……
+
+2026 年的杀手级更新是 **Claude Code spawn 模式**：OpenClaw 代理可以把 Claude Code CLI 作为子代理召唤出来执行编程任务。这意味着：OpenClaw 负责规划和调度，Claude Code 负责执行，**技能继承了 Claude Code 的全部 skills 生态**。这一模式直接推动了 bibigpt-skill 等垂直领域 skill 的爆发——AI Agent 不再只是聊天机器人，而是真正能「看视频、听播客、做笔记」的全能助手。
+
+bibigpt-skill 就是在这个生态里，专门补上"视频理解"这块拼图的。关于 OpenClaw 被收购后 AI Agent 生态的深度分析，参见：[《小龙虾(OpenClaw) 250K Stars 被收购：AI Agent 时代 BibiGPT 视频总结助你弯道超车》](/en/blog/posts/openclaw-openai-era-bibigpt-learning-agent-2026)。
+
+---
+
+AI Agent 的「视频盲区」：不只是 YouTube，更是 B 站小红书
+--------------------------------------
+
+文本、代码、API——当代 AI Agent 处理这些早已得心应手。但视频是一座孤岛，而中文视频平台是这座孤岛里最深的角落。
+
+对于中文互联网用户，信息消费的主战场是：
+
+* **B 站**：技术教程、UP 主知识分享、纪录片
+* **小红书**：产品评测、生活方式、学习笔记
+* **抖音**：行业资讯、短知识切片（[抖音AI视频总结](https://bibigpt.co/features/ai-douyin-summary?utm_source=blog&utm_medium=inline-link&utm_campaign=try-free)）
+* **小宇宙/播客**：长形式深度内容（与 NotebookLM 等 [AI 播客总结工具](https://bibigpt.co/features/ai-podcast-summary?utm_source=blog&utm_medium=inline-link&utm_campaign=try-free)形成互补，详见[最佳 AI 播客总结工具对比](/en/blog/posts/best-ai-podcast-summarizer-tools-2026)）
+
+这些平台上的内容，OpenClaw 的原生 summarize 完全触及不到。你可以让 OpenClaw 每天整理 AI 领域动态，它能搜索文章、汇总推文……但那个你订阅了 3 年的 B 站 UP 主昨天发的深度讲解视频？它只能说"这里有一条链接"。
+
+bibigpt-skill 把 BibiGPT 专为中文平台深度优化的 [AI 视频总结管线](https://bibigpt.co/features/ai-bilibili-summary?utm_source=blog&utm_medium=inline-link&utm_campaign=try-free) 暴露为一个标准 CLI，任何支持 shell 命令的 AI Agent 都可以直接调用——这正是 BibiGPT 区别于 NotebookLM 等竞品的核心差异：**不只总结英文内容，更深耕中文视频生态**。
+
+---
+
+bibigpt-skill：不只是 CLI，而是 AI Agent 的视频理解引擎
+-----------------------------------------
+
+![]()BibiGPT Agent Skill：ClawHub 技能商店页面
+
+bibigpt-skill 的定位不是一个简单的命令行工具——它是 **AI Agent 生态中的视频理解核心组件**。当你安装 bibigpt-skill 后，你的 AI Agent 获得的不仅是 `bibi summarize` 命令，而是 BibiGPT 整个视频智能分析平台的能力入口。
+
+### 前置条件
+
+安装 BibiGPT 桌面端（登录后 CLI 自动共享会话）：
+
+```
+# macOS（推荐）
+brew install --cask jimmylv/bibigpt/bibigpt
+
+# Windows（支持 winget 一键安装）
+winget install JimmyLv.BibiGPT
+
+```
+### 安装 bibigpt-skill
+
+![]()bibigpt-skill GitHub 安装指南
+
+```
+npx skills add JimmyLv/bibigpt-skill
+
+```
+
+安装完成后，Claude Code 就拥有了 `bibi` CLI 的完整能力。验证安装：
+
+```
+bibi auth check   # 检查登录状态
+bibi --help       # 查看所有命令
+
+```
+### 核心命令速查
+
+![]()bibi CLI 帮助信息
+
+| 命令 | 说明 |
+| --- | --- |
+| `bibi summarize "<url>"` | 标准总结 |
+| `bibi summarize "<url>" --chapter` | 按章节分段总结 |
+| `bibi summarize "<url>" --subtitle` | 仅获取字幕/转录文本 |
+| `bibi summarize "<url>" --json` | 输出完整 JSON（适合程序处理） |
+| `bibi summarize "<url>" --async` | 异步模式（适合长视频） |
+
+认知科学研究显示，结构化摘要相比自由阅读能让信息留存率提升约 40%（Mayer, 2021，多媒体学习认知理论），而 `--chapter` 模式正是把视频拆解为"可咀嚼的知识块"的最佳实践。
+
+---
+
+bibigpt-skill vs. OpenClaw 原生 summarize：核心差异对比
+----------------------------------------------
+
+这是很多人忽略的关键问题。OpenClaw 的 ClawHub 上确实有原生的 summarize skill，但它的局限很明显：
+
+| 能力 | OpenClaw 原生 summarize | bibigpt-skill |
+| --- | --- | --- |
+| YouTube | ✅ | ✅ |
+| B 站 / Bilibili | ❌ 不支持 | ✅ 完整支持 |
+| 小红书 | ❌ 不支持 | ✅ 完整支持 |
+| 抖音 / Douyin | ❌ 不支持 | ✅ 支持 |
+| 小宇宙 / 播客 | ❌ 不支持 | ✅ 支持 |
+| 本地音视频文件 | ❌ 不支持 | ✅ 支持 |
+| 章节分段总结 | ❌ | ✅ `--chapter` |
+| 结构化 JSON 输出 | ❌ | ✅ `--json` |
+| 仅获取字幕文本 | ❌ | ✅ `--subtitle` |
+| 长视频异步处理 | ❌ | ✅ `--async` |
+| 多语言字幕翻译 | ❌ | ✅ 自动双语对照 |
+
+原生 summarize 本质上是一个「对网页内容调用 LLM 总结」的通用工具，无法处理需要专门解析的视频平台（B 站的 API 鉴权、小红书的内容结构、抖音的短视频格式）。
+
+bibigpt-skill 的背后是 BibiGPT 多年深耕中文视频平台的完整管线——这正是 JimmyLv 所说的「进阶封装」：不只是调用 LLM，而是先完成平台特定的字幕抓取、转录、多语言处理，再交给 AI 生成结构化摘要。
+
+---
+
+三条实战路径：从开发者到全自动代理
+-----------------
+
+### Path 1：纯 Claude Code 路径（开发者日常工作流）
+
+最简单的入门方式。在任何 Claude Code 会话中，直接说：
+
+> "帮我总结这个视频，重点提取实现细节：<https://www.youtube.com/watch?v=xxxxx>"
+
+Claude Code 会自动识别 bibigpt-skill，调用 `bibi summarize`，返回结构化摘要。
+
+**适合场景：**
+
+* 在代码仓库中工作时，让 Claude Code 自动总结相关技术讲座
+* 研究竞品演示视频，提炼关键功能点
+* 快速消化会议录屏、产品演示（参见[用 AI 从视频自动生成会议纪要](/en/blog/posts/create-meeting-minutes-from-video-ai-guide-2026)）
+
+### Path 2：OpenClaw → Claude Code → bibigpt-skill
+
+这是 2026 年最优雅的组合路径。OpenClaw 通过 spawn mode 调用 Claude Code，Claude Code 调用 bibigpt-skill，形成完整的视频研究代理链：
+
+```
+OpenClaw (规划/调度)
+  → spawn Claude Code (执行)
+    → bibigpt-skill (视频理解)
+      → 输出结构化报告
+
+```
+
+![]()OpenClaw 与 bibigpt-skill 集成演示：B 站视频 AI 总结实战
+
+**配置示例（OpenClaw skill 调用）：**
+
+```
+// 在 OpenClaw 中配置 Claude Code spawn
+const result = await sessions_spawn({
+  mode: "claude-code",
+  prompt: `用 bibigpt-skill 总结以下视频，
+    输出 JSON 格式包含：标题、核心论点（3-5条）、关键数据点、行动建议：
+    ${videoUrl}`
+})
+
+```
+
+**适合场景：**
+
+* 竞品研究：自动分析竞品产品演示视频
+* 学术追踪：定期总结领域顶会的演讲视频
+* 内容创作：从视频中提炼素材用于写作
+
+关于如何在内容创作场景中用 bibigpt-skill 实现 [AI 视频转文章自动化工作流](/en/blog/posts/openclaw-content-creator-bibigpt-skill-video-to-article-xiaohongshu-douyin-2026)，有专门的实战教程。
+
+### Path 3：OpenClaw 心跳任务（全自动研究助手）
+
+这是终极形态：**什么都不用做，AI 代理每天自动替你"看视频"**。
+
+配置 OpenClaw 的心跳任务（每天早 8 点执行）：
+
+1. 读取你订阅的 YouTube 频道 RSS，获取过去 24 小时新视频
+2. 对每条新视频调用 `bibi summarize --json`
+3. 汇总生成 Markdown 日报
+4. 发送到你的 Slack 频道 / 邮箱
+
+**真实配置的 OpenClaw prompt 示例：**
+
+```
+每天早上 8 点执行：
+1. 用 web_fetch 获取以下频道的 RSS：
+   - https://www.youtube.com/@AndrejKarpathy/videos
+   - https://www.youtube.com/@3blue1brown/videos
+2. 筛选出过去 24 小时内发布的新视频
+3. 对每条视频运行：bibi summarize "<url>" --chapter --json
+4. 把所有摘要汇总为 AI 日报 Markdown 格式
+5. 通过 Slack skill 发送到 #ai-daily 频道
+
+```
+
+这个工作流的关键价值：\*\*从"信息到达你"到"你主动追踪信息"\*\*的范式转换。在信息爆炸时代，这种自动化研究助手能让你真正做到"知道发生了什么"。更多关于 YouTube 场景下的 [AI 高光笔记 + 自动研究工作流实战](/en/blog/posts/openclaw-youtube-bibigpt-skill-ai-highlight-research-workflow-2026)，可以参考系列教程。
+
+---
+
+bibigpt-skill 背后：BibiGPT 完整的 AI 视频智能平台
+--------------------------------------
+
+`bibi summarize` 调用的是 BibiGPT 完整的 AI 视频处理管线。但 CLI 只是冰山一角——在 Web 和桌面端，BibiGPT 提供了从"看懂视频"到"记住知识"再到"二次创作"的完整工作流。以下每一项能力都可以与 bibigpt-skill 的 Agent 工作流形成联动。
+
+### AI 视频对话与智能溯源——每个回答都能追溯原片
+
+![]()AI视频对话溯源演示：可点击时间戳直接定位原始视频片段
+
+对视频内容进行深度问答，AI 的每个回答都附带**可点击的时间戳**，鼠标悬停即可预览该信息点的视频原文，直接定位到原始视频片段。不再担心 AI 幻觉——每个信息点都有据可查。
+
+更强大的是，对话窗口还支持：
+
+* **AI 智能推荐 3 个相关问题**，引导你深入思考
+* **基于视频截图提问**，上传图片即可获得精准回答
+* **通用 AI 对话与视频问答自由切换**，一个窗口搞定所有交互
+
+这个能力通过 `--json` 模式输出的字幕数据，已经可以在 Agent 工作流中二次利用：拿到字幕后，让 Claude Code 对字幕做深度分析、问答、信息提取——相当于给你的 AI Agent 装上了"带引用的视频理解能力"。
+
+### AI 高光笔记——一键提取视频精华
+
+![]()AI高光笔记演示：自动按主题分类的带时间戳高光片段
+
+自动从视频中提取带时间戳的高光片段，AI 不仅生成高光列表，还能智能地按"核心论点"、"实操步骤"、"关键数据"等主题进行分类，方便快速筛选定位。所有高光片段点击即可跳转播放，并支持一键分享。
+
+对于 OpenClaw 的 Path 3 自动化场景，高光笔记的结构化数据可以在 `--json` 输出中直接获取，进一步精炼到日报中——你的 AI Agent 不只是"看了视频"，而是"自动提取了重点"。
+
+### 合集归纳总结（Collection Summary）——多视频知识图谱
+
+研究场景的杀手锏：把一个话题的多个相关视频（如某 UP 主的技术系列、某领域的多段演讲）加入同一合集，点击「立即总结」，BibiGPT 基于**合集内所有视频**生成整体归纳综述，并附带可展开的引用来源（Citation），一键追溯到原视频位置。同时自动生成详细的思维导图，帮你一键理清系列知识脉络。
+
+![]()合集归纳总结：一键梳理多视频知识脉络与思维导图
+
+对于 OpenClaw 的竞品研究场景，这意味着：你可以先用心跳任务批量收集竞品演示视频到一个合集，再用合集总结一键提炼整体竞品格局——而不是一条一条手动处理。关于 B 站合集总结的完整实战教程，参见：[《B 站合集总结实战：用 bibigpt-skill 一键梳理 UP 主系列教程知识脉络》](/en/blog/posts/openclaw-bilibili-bibigpt-skill-collection-summary-chinese-learning-2026)。
+
+### 闪记卡（Flashcard）——从摘要到 Anki，学习闭环
+
+bibigpt-skill 解决了"如何获取视频知识"的问题，而**闪记卡功能**解决了"如何记住它"的问题：
+
+![]()BibiGPT闪记卡：从视频自动生成带难度标注的 Anki 题卡
+
+BibiGPT 自动从视频内容生成问答卡片，每张卡片标注难度和概念，支持通过点击或快捷键翻卡、回顾和自我检测。在 BibiGPT 内直接复习，一键导出为 CSV 导入 Anki 进行间隔重复。
+
+对于把 bibigpt-skill 用于**学习型场景**（技术教程、学术讲座、在线课程）的用户，这是从"被动获取摘要"到"主动长期记忆"的关键一步。关于费曼学习法 + 主动回忆 + BibiGPT 的完整学习方法论，参见：[《AI视频学习工具 BibiGPT：费曼学习法 + 主动回忆，4步从「看完就忘」到真正掌握》](/en/blog/posts/feynman-active-recall-bibigpt-video-learning-2026)。
+
+关于播客场景下 bibigpt-skill 与闪记卡的联动实战，参见：[《播客 AI 总结 + 闪记卡自动化工作流：用 bibigpt-skill 把小宇宙变成知识库》](/en/blog/posts/openclaw-podcast-bibigpt-skill-flashcard-auto-workflow-2026)。
+
+### MV 编辑器 + Nano Banana 2 AI 图片生成——从学习到创作
+
+BibiGPT 不只帮你"看懂视频"，还能帮你"创作内容"：
+
+* **抖音短视频（MV 编辑器）**：基于视频摘要一键生成带 AI 配音、动态字幕和画面的短视频，支持 ElevenLabs、Minimax 等多种语音引擎，适合抖音、视频号等平台二次创作
+
+![]()抖音短视频 MV 编辑器入口
+
+* **Nano Banana 2 AI 图片生成**：基于先进 AI 图像生成技术，从视频摘要一键生成小红书风格的精美配图，兼顾 Pro 级画质与极速生成
+
+![]()Nano Banana 2 AI 图片生成演示
+
+这意味着：bibigpt-skill 帮你的 Agent 获取视频知识 → BibiGPT 平台帮你把知识转化为图文、短视频、播客等多种内容形式 → 形成从"输入"到"输出"的完整创作闭环。
+
+### 多语言字幕翻译——打破语言壁垒
+
+![]()上传音视频自动翻译入口
+
+上传外语视频时，BibiGPT 支持在转录阶段自动翻译为目标语言（如英语 → 简体中文），处理完成后直接展示双语对照的字幕和总结。配合 bibigpt-skill 的 `--subtitle` 模式，你的 AI Agent 可以获取任意语言视频的双语字幕数据，再进行深度分析——这是面向多语言团队和跨境研究者的核心能力。
+
+### 播客生成——视频变身双人对谈音频
+
+![]()小宇宙播客生成功能截图
+
+一键将任意视频转化为类似"小宇宙"风格的双人对谈播客（支持大一先生与 Mizai 同学的声音组合），同步生成字幕列表、对话文稿和可下载的音/视频文件。通勤路上用耳朵"消化"视频精华，或者直接分发到播客平台——这是 [AI 播客总结](https://bibigpt.co/features/ai-podcast-summary?utm_source=blog&utm_medium=inline-link&utm_campaign=try-free)能力的完美体现。关于 AI 音频模型在播客场景中的更多应用，参见：[AI 音频模型播客指南](/en/blog/posts/openai-audio-model-podcast-ai-guide-2026)。
+
+---
+
+bibigpt-skill 在 AI Agent 生态中的完整定位
+---------------------------------
+
+OpenClaw 的爆火证明了一件事：**AI Agent 生态的价值在于 skills 的广度和深度**。当你的代理能处理更多类型的信息，它才能完成更复杂的任务。
+
+视频是目前 AI Agent 生态中最大的信息孤岛。[YouTube 每分钟上传 500 小时视频](https://bibigpt.co/features/ai-youtube-summary?utm_source=blog&utm_medium=inline-link&utm_campaign=try-free)，B 站每天有数百万条内容更新。这些内容大多数永远不会被 AI Agent 触及——除非有 bibigpt-skill 这样的桥梁。
+
+bibigpt-skill 的价值不只在于"支持 B 站"。它在 AI Agent 生态中扮演的角色是**视频理解的基础设施层**：
+
+```
+Agent 生态层级：
+┌─────────────────────────────────┐
+│  应用层：竞品研究 / 学术追踪     │
+│         内容创作 / 知识管理      │
+├─────────────────────────────────┤
+│  调度层：OpenClaw 心跳/规划      │
+├─────────────────────────────────┤
+│  执行层：Claude Code 代码执行    │
+├─────────────────────────────────┤
+│  感知层：bibigpt-skill 视频理解  │  ← 你在这里
+│         （B站/小红书/抖音/播客） │
+└─────────────────────────────────┘
+
+```
+
+这也是 BibiGPT 做 bibigpt-skill 的核心动机：**让 AI Agent 能真正理解视频里的知识，而不只是传递一个 URL**。未来 BibiGPT API 会逐步将 AI 对话溯源、高光笔记、合集总结、闪记卡等高级能力全部暴露给 Agent 调用，让 bibigpt-skill 从"[AI video summarizer](https://bibigpt.co/features)"进化为完整的视频智能分析平台。
+
+---
+
+最新动态
+----
+
+**2026年3月中旬** OpenClaw GitHub Stars 突破 29 万，创始人加入硅谷顶级 AI 实验室后 Claude Code spawn 模式生态持续扩展，bibigpt-skill 作为视频理解核心组件的价值持续升级。详见：[《小龙虾(OpenClaw) 250K Stars 被收购：AI Agent 时代 BibiGPT 视频总结助你弯道超车》](/en/blog/posts/openclaw-openai-era-bibigpt-learning-agent-2026)。
+
+**2026年3月初** BibiGPT 随 v4.263.2 版本正式发布了 bibigpt-skill 的完整 Agent 技能包，同步带来 Windows winget 一键安装、思源笔记集成优化和移动端图片创作功能。详见：[《BibiGPT v4.263.2 更新：小龙虾 OpenClaw 加持 AI视频总结，四大功能全面升级》](/en/blog/posts/20260309-bibigpt-openclaw-agent-skill-update)。
+
+bibigpt-skill 底层使用**业界领先的 AI 模型**作为核心推理引擎，配合 BibiGPT 的专用视频字幕管线，在 B 站、小红书、抖音等平台上实现业界最优的中文视频摘要质量。
+
+---
+
+常见问题
+----
+
+**Q：bibigpt-skill 免费吗？**
+
+A：bibigpt-skill 本身开源免费（MIT 协议），但使用需要有效的 BibiGPT 账号（BibiGPT 提供免费试用额度）。安装 BibiGPT 桌面端后运行 `bibi auth check` 查看当前额度。
+
+**Q：bibigpt-skill 和 OpenClaw 原生 summarize 的本质区别是什么？**
+
+A：OpenClaw 原生 summarize 是通用网页抓取 + LLM 总结，无法处理需要 API 鉴权的视频平台。bibigpt-skill 背后是 BibiGPT 多年深耕的专用视频处理管线：B 站 API 鉴权、小红书内容解析、抖音短视频格式、本地文件上传——这些都不是通用工具能解决的。
+
+**Q：bibigpt-skill 和 NotebookLM 有什么不同？**
+
+A：NotebookLM 擅长处理文档和 PDF，而 bibigpt-skill 专注于视频和音频内容，尤其在中文视频平台（B 站、小红书、抖音）上有深度集成。两者可以互补：用 bibigpt-skill 提取视频知识，用 NotebookLM 整理文档资料。
+
+**Q：能在 Claude Desktop 或 Cursor 里用 bibigpt-skill 吗？**
+
+A：bibigpt-skill 是标准 Claude Code skill，目前最佳体验在 Claude Code CLI 中。Claude Desktop 暂不支持自定义 skills；Cursor 可通过 Claude Code MCP 间接调用。
+
+**Q：bibigpt-skill 支持哪些平台？**
+
+A：B 站（Bilibili）、YouTube、小红书、抖音（Douyin）、小宇宙（播客）、喜马拉雅，以及本地 mp3/mp4/m4a/mov 文件。完整列表见 [BibiGPT 全部功能](https://bibigpt.co/features)。
+
+**Q：视频很长（2小时+）怎么办？**
+
+A：使用 `--async` 模式：`bibi summarize "<url>" --async`。系统会在后台处理并返回任务 ID，长视频一般 3-5 分钟内完成。
+
+---
+
+立即开始
+----
+
+**安装 bibigpt-skill：**
+
+```
+# 1. 安装 BibiGPT 桌面端
+brew install --cask jimmylv/bibigpt/bibigpt  # macOS
+winget install JimmyLv.BibiGPT               # Windows
+
+# 2. 安装 skill
+npx skills add JimmyLv/bibigpt-skill
+
+# 3. 验证
+bibi auth check
+
+# 4. 测试
+# 在 Claude Code 中：
+# > 帮我总结这个视频：https://www.youtube.com/watch?v=xxxxx
+
+```
+
+**bibigpt-skill GitHub 仓库：** [github.com/JimmyLv/bibigpt-skill](https://github.com/JimmyLv/bibigpt-skill)
+
+**立即访问BibiGPT官网，开启你的AI高效学习之旅：**
+
+* 🌐 **官网：** [https://bibigpt.co](https://bibigpt.co?utm_source=blog&utm_medium=article-cta&utm_campaign=try-free)
+* 📱 **移动端下载：** [https://bibigpt.co/app](https://bibigpt.co/app?utm_source=blog&utm_medium=article-cta&utm_campaign=try-free)
+* 💻 **桌面端下载：** [https://bibigpt.co/download/desktop](https://bibigpt.co/download/desktop?utm_source=blog&utm_medium=article-cta&utm_campaign=try-free)
+* ✨ **了解更多功能：** [https://bibigpt.co/features](https://bibigpt.co/features?utm_source=blog&utm_medium=article-cta&utm_campaign=explore)
+
+---
+
+BibiGPT 团队
+
+[![]()BibiGPT](/en)
+
+Quick to watch, easy to find, great to use – getting your video and audio to truly achieve 'Knowledge as Action'
+
+[哔哩哔哩](https://space.bilibili.com/37648256)[小红书![]()](https://www.xiaohongshu.com/user/profile/62ad2d84000000001902a56a)[微信公众号](https://mp.weixin.qq.com/s/OerDpYfDJCrgf8xRCr5qXA)[即刻![]()](https://web.okjike.com/u/50E67E63-A10C-4703-8E1F-BA594F40A52E)[YouTube](https://www.youtube.com/@jimmy_jinglv?sub_confirmation=1)[X(Twitter)](https://x.com/intent/follow?screen_name=Jimmy_JingLv)[GitHub](https://github.com/JimmyLv/BibiGPT-v1/issues)
+### Explore
+
+* [Popular](/en/popular)
+* [AI Summarizer Hub](/en/ai-summarizer-tools)
+* [Comparisons](/en/comparison)
+* [Topics](/en/topics)
+* [Video Channels](/en/explore/channel)
+
+Show All▼
+### Technical Support
+
+* [Affiliates](/en/user/reward?utm_source=footer)
+* [Tutorials](https://docs.bibigpt.co/quick-start-learn-BibiGPT-in-5-minutes)
+* [API Integration](https://docs.bibigpt.co/api-reference/introduction)
+* [Technical Issues Error Handling Guide](https://docs.bibigpt.co/technical-support/bibigpt-technical-issues-error-handling-guide)
+### About Us
+
+* [Developer Story](https://space.bilibili.com/37648256/channel/collectiondetail?sid=1428377)
+* [Roadmap](https://bibigpt.featurebase.app/roadmap)
+* [Changelog](/en/weekly-release?utm_source=footer)
+* [Service Status](https://status.aitodo.co/)
+* [Our Partners & Resources](/en/resources)
+### Legal
+
+* [Privacy Policy](/en/privacy-policy)
+* [Terms of Service](/en/terms-of-use)
+* [Refund Policy](/en/shop?utm_source=footer)
+* [Contact](mailto:hi@bibigpt.co)
+### Getting Started
+
+* [All-in-One AI Assistant](https://docs.bibigpt.co/getting-started/experience-all-in-one-ai-audio-video-learning-assistant)
+* [Quick Start](https://docs.bibigpt.co/getting-started/quick-start-learn-BibiGPT-in-5-minutes)
+* [Referral Program](https://docs.bibigpt.co/getting-started/bibigpt-referral-program-guide)
+* [Subscription Options](https://docs.bibigpt.co/getting-started/bibigpt-subscription-options-and-pricing)
+* [Account Management](https://docs.bibigpt.co/getting-started/account-management-guide)
+### Platform Function
+
+* [Customer Service](https://docs.bibigpt.co/function-usage/platform-function/bibigpt-customer-service-assistant-function-introduction)
+* [Quick Redirect](https://docs.bibigpt.co/function-usage/platform-function/bilibili-video-quick-redirect-to-bibigpt-platform-guide)
+* [Custom Solutions](https://docs.bibigpt.co/function-usage/platform-function/explore-bibigpt-potential-custom-solutions-efficient-learning-work-boost)
+* [Batch Summarize](https://docs.bibigpt.co/function-usage/platform-function/how-to-batch-summarize-contents-efficiently)
+* [Mobile Summarize](https://docs.bibigpt.co/function-usage/platform-function/how-to-summarize-audio-video-quickly-on-mobile)
+
+Show All▼
+### Integration Extension
+
+* [API Integration](https://docs.bibigpt.co/function-usage/integration-extension/bibigpt-api-integration-with-ifttt-guide)
+* [Browser Extensions](https://docs.bibigpt.co/function-usage/integration-extension/how-to-use-browser-extensions)
+* [iOS Shortcuts](https://docs.bibigpt.co/function-usage/integration-extension/how-to-use-ios-shortcuts-for-quick-summaries)
+* [Slash Commands](https://docs.bibigpt.co/function-usage/integration-extension/slash-commands-and-ai-continuation-features-introduction)
+* [Note Features](https://docs.bibigpt.co/function-usage/integration-extension/user-guides-for-note-features-with-bibigpt-api-and-ifttt-integration)
+### Free Tools
+
+* [Speech to Text](/en/features/ai-local-file-speech-to-text)
+* [SRT Subtitle Summary](/en/features/ai-summary-local-subtitle-text)
+* [Free Video Compressor](/en/features/free-online-video-compressor)
+* [AI Video Search Explore](/en/features/free-video-search-youtube-bilibili-tiktok)
+* [Short URL Expander](/en/features/short-url-to-long-url-converter)
+
+Show All▼
+### Premium Tools
+
+* [Video Vision Analysis](/en/features/ai-video-summary-visual-content)
+* [Podcast Rewrite Article](/en/features/ai-podcast-to-article)
+### Social Share Tools
+
+* [AI Video to Social Image](/en/features/ai-video-to-social-image)
+* [Weibo Hot Topic Card Generator](/en/features/weibo-hot-topic-card-generator)
+* [Video Highlight Poster Generator](/en/features/video-highlight-poster-generator)
+* [Xiaohongshu Note Card Generator](/en/features/xiaohongshu-note-card-generator)
+
+© 2026 EvergreenAI Inc. All rights reserved.
+
+[京ICP备2024064889号-1](https://beian.miit.gov.cn/)Toggle languageToggle theme
+

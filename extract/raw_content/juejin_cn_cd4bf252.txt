@@ -1,0 +1,310 @@
+# Source URL: https://juejin.cn/post/7606923064946049064
+# Content Length: 14551 characters
+# Extracted at: 2026-04-04 23:04:21
+#============================================================
+
+# OpenClaw 接入企业微信/钉钉/QQ 全攻略（2026最新）
+[TechFind](https://juejin.cn/user/3528785523116283/posts)
+2026-02-18
+1,407
+阅读2分钟
+关注
+## 前言
+OpenClaw 支持 10+ 聊天渠道，其中国内最常用的是飞书、企业微信、钉钉和 QQ。本文手把手教你把 OpenClaw 接入这四个平台。
+## 准备工作
+- 已安装 OpenClaw（`npx openclaw`）
+- 一台可公网访问的服务器
+- 各平台的管理员权限
+## 一、企业微信接入
+### 1.1 创建应用
+1. 登录 [企业微信管理后台](https://link.juejin.cn/?target=https%3A%2F%2Fwork.weixin.qq.com%2F "https://work.weixin.qq.com/")
+2. 应用管理 → 自建 → 创建应用
+3. 记录 \*\*AgentId\*\*、 \*\*Secret\*\*、 \*\*CorpId\*\*
+### 1.2 配置回调
+- URL: `https://你的服务器/webhook/wecom`
+- Token 和 EncodingAESKey：自动生成，记录下来
+### 1.3 OpenClaw 配置
+```bash
+bash
+体验AI代码助手
+代码解读
+复制代码
+openclaw config wecom \
+--corp-id YOUR\_CORP\_ID \
+--agent-id YOUR\_AGENT\_ID \
+--secret YOUR\_SECRET \
+--token YOUR\_TOKEN \
+--aes-key YOUR\_AES\_KEY
+```
+### 1.4 测试
+在企业微信里找到你的应用，发送一条消息，收到 AI 回复即成功。
+## 二、钉钉接入
+### 2.1 创建应用
+1. 登录 [钉钉开放平台](https://link.juejin.cn/?target=https%3A%2F%2Fopen.dingtalk.com%2F "https://open.dingtalk.com/")
+2. 应用开发 → 企业内部开发 → 创建应用
+3. 记录 \*\*AppKey\*\* 和 \*\*AppSecret\*\*
+### 2.2 配置机器人
+1. 应用功能 → 机器人 → 开启
+2. 消息接收地址：`https://你的服务器/webhook/dingtalk`
+### 2.3 OpenClaw 配置
+```bash
+bash
+体验AI代码助手
+代码解读
+复制代码
+openclaw config dingtalk \
+--app-key YOUR\_APP\_KEY \
+--app-secret YOUR\_APP\_SECRET
+```
+### 2.4 测试
+在钉钉群里 @你的机器人，或者私聊机器人。
+## 三、QQ 接入
+### 3.1 创建机器人
+1. 登录 [QQ 开放平台](https://link.juejin.cn/?target=https%3A%2F%2Fq.qq.com%2F "https://q.qq.com/")
+2. 创建机器人应用
+3. 记录 \*\*AppID\*\* 和 \*\*Token\*\*
+### 3.2 OpenClaw 配置
+```bash
+bash
+体验AI代码助手
+代码解读
+复制代码
+openclaw config qqbot \
+--app-id YOUR\_APP\_ID \
+--token YOUR\_TOKEN
+```
+### 3.3 注意事项
+- QQ Bot 需要审核，审核周期 1-3 天
+- 私聊和群聊权限需要分别申请
+- 建议先在沙箱环境测试
+## 四、飞书接入
+详细教程见： [OpenClaw + 飞书完全教程](https://link.juejin.cn/?target=https%3A%2F%2Fopenclawguide.org%2Fzh%2Fintegrations%2Fopenclaw-feishu "https://openclawguide.org/zh/integrations/openclaw-feishu")
+快速配置：
+```bash
+bash
+体验AI代码助手
+代码解读
+复制代码
+openclaw config feishu --app-id cli\_xxx --app-secret xxx
+```
+## 多渠道同时接入
+OpenClaw 支持同时连接多个渠道，共享同一个 AI 智能体：
+```yaml
+yaml
+体验AI代码助手
+代码解读
+复制代码
+channels:
+feishu:
+appId: "cli\_xxx"
+appSecret: "xxx"
+wecom:
+corpId: "xxx"
+agentId: "xxx"
+secret: "xxx"
+dingtalk:
+appKey: "xxx"
+appSecret: "xxx"
+qqbot:
+appId: "xxx"
+token: "xxx"
+```
+这样你的 AI 助手同时在飞书、企业微信、钉钉、QQ 上线，所有渠道共享记忆和知识库。
+## 常见问题
+\*\*Q: 消息收不到怎么办？\*\*
+A: 检查服务器防火墙是否开放了 webhook 端口，检查回调 URL 是否正确。
+\*\*Q: 能区分不同渠道的用户吗？\*\*
+A: 可以，OpenClaw 会自动标记消息来源渠道和用户 ID。
+\*\*Q: 群聊里怎么触发？\*\*
+A: 默认需要 @机器人，可以在配置中修改为关键词触发。
+## 相关资源
+- 📖 [OpenClaw 中文指南](https://link.juejin.cn/?target=https%3A%2F%2Fopenclawguide.org%2Fzh%2F "https://openclawguide.org/zh/")
+- 🔗 [飞书集成详解](https://link.juejin.cn/?target=https%3A%2F%2Fopenclawguide.org%2Fzh%2Fintegrations%2Fopenclaw-feishu "https://openclawguide.org/zh/integrations/openclaw-feishu")
+- 🔗 [企业微信集成详解](https://link.juejin.cn/?target=https%3A%2F%2Fopenclawguide.org%2Fzh%2Fintegrations%2Fopenclaw-wecom "https://openclawguide.org/zh/integrations/openclaw-wecom")
+- 🔗 [钉钉集成详解](https://link.juejin.cn/?target=https%3A%2F%2Fopenclawguide.org%2Fzh%2Fintegrations%2Fopenclaw-dingtalk "https://openclawguide.org/zh/integrations/openclaw-dingtalk")
+- 🔗 [QQ 集成详解](https://link.juejin.cn/?target=https%3A%2F%2Fopenclawguide.org%2Fzh%2Fintegrations%2Fopenclaw-qq "https://openclawguide.org/zh/integrations/openclaw-qq")
+- 📦 [OpenClaw 完全手册](https://link.juejin.cn/?target=https%3A%2F%2Fleimspire20.gumroad.com%2Fl%2Fhyuzc "https://leimspire20.gumroad.com/l/hyuzc")（$9）
+\* \* \*
+> 本文由 [OpenClaw Guide](https://link.juejin.cn/?target=https%3A%2F%2Fopenclawguide.org%2Fzh%2F "https://openclawguide.org/zh/") 出品
+标签：
+[人工智能](https://juejin.cn/tag/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD) [开源](https://juejin.cn/tag/%E5%BC%80%E6%BA%90)
+评论 0
+![avatar](https://lf-web-assets.juejin.cn/obj/juejin-web/xitu\_juejin\_web/58aaf1326ac763d8a1054056f3b7f2ef.svg)
+0/ 1000
+标点符号、链接等不计算在有效字数内
+Ctrl + Enter
+发送
+登录 / 注册即可发布评论！
+暂无评论数据
+![](https://lf-web-assets.juejin.cn/obj/juejin-web/xitu\_juejin\_web/c12d6646efb2245fa4e88f0e1a9565b7.svg)点赞
+![](https://lf-web-assets.juejin.cn/obj/juejin-web/xitu\_juejin\_web/336af4d1fafabcca3b770c8ad7a50781.svg)评论
+![](https://lf-web-assets.juejin.cn/obj/juejin-web/xitu\_juejin\_web/3d482c7a948bac826e155953b2a28a9e.svg)
+收藏
+加个关注，精彩更新不错过~
+![avatar](https://lf-web-assets.juejin.cn/obj/juejin-web/xitu\_juejin\_web/58aaf1326ac763d8a1054056f3b7f2ef.svg)
+关注
+为你推荐
+[99元/年！腾讯云部署OpenClaw，手把手教你打造7×24小时AI私人助手](https://juejin.cn/post/7607912118231531554 "99元/年！腾讯云部署OpenClaw，手把手教你打造7×24小时AI私人助手")
+[详解腾讯云Lighthouse部署OpenClaw-CN全流程，包括Telegram Bot通道配置、自定义DeepSeek-V3.2模型接入（OpenAI兼容API）、ClawHub技能平台扩展](https://juejin.cn/post/7607912118231531554)
+- [海老豹666](https://juejin.cn/user/4232473775444032)
+- 5天前
+- 128
+- 点赞
+- 评论
+[后端](https://juejin.cn/tag/%E5%90%8E%E7%AB%AF "后端")
+![99元/年！腾讯云部署OpenClaw，手把手教你打造7×24小时AI私人助手](https://p6-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/ecb17ea3662e4e3bac9c4a8ada994443~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5rW36ICB6LG5NjY2:q75.awebp?rk3s=f64ab15b&x-expires=1772781260&x-signature=Xi7%2BU25Pstv0%2F%2BSjOIhM48rtMLw%3D)
+[一文读懂OpenClaw核心特性与原理解析(文末附国产大模型+聊天软件接入OpenClaw视频教程地址)](https://juejin.cn/post/7602466689713078287 "一文读懂OpenClaw核心特性与原理解析(文末附国产大模型+聊天软件接入OpenClaw视频教程地址)")
+[本文分享了OpenClaw核心特性与设计原理，并提供接入国产大模型与聊天工具的实用指南。OpenClaw通过独特的网关系统，四层记忆架构、并借助Agent Skills体系灵活扩展向着未来数字员工迈进](https://juejin.cn/post/7602466689713078287)
+- [大模型真好玩](https://juejin.cn/user/3140624091453053)
+- 23天前
+- 2.7k
+- 9
+- 评论
+[人工智能](https://juejin.cn/tag/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD "人工智能") [LangChain](https://juejin.cn/tag/LangChain "LangChain") [Agent](https://juejin.cn/tag/Agent "Agent")
+![一文读懂OpenClaw核心特性与原理解析(文末附国产大模型+聊天软件接入OpenClaw视频教程地址)](https://p6-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/1687c30cff824a36bc637769ec6c53af~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5aSn5qih5Z6L55yf5aW9546p:q75.awebp?rk3s=f64ab15b&x-expires=1772781260&x-signature=72wBZWag3IrMgu8KGqdfgVKSJz8%3D)
+[0元搭建7×24h AI助手：OpenClaw云服务器部署完全指南](https://juejin.cn/post/7603587738160169023 "0元搭建7×24h AI助手：OpenClaw云服务器部署完全指南")
+[OpenClaw部署指南：对比百度云(0.01元)/阿里云(68元)/腾讯云(99元)免费套餐，Ubuntu VPS从零部署教程，飞书接入配置，打造7×24h在线AI助手](https://juejin.cn/post/7603587738160169023)
+- [用户430799454767](https://juejin.cn/user/3502371610575888)
+- 20天前
+- 420
+- 点赞
+- 评论
+[人工智能](https://juejin.cn/tag/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD "人工智能")
+![0元搭建7×24h AI助手：OpenClaw云服务器部署完全指南](https://p6-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/3762470e64ee49889153a64cea54ccc2~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg55So5oi3NDMwNzk5NDU0NzY3:q75.awebp?rk3s=f64ab15b&x-expires=1772781260&x-signature=Nyfh723dv4VXValcmk6wiCi5eds%3D)
+[Docker OpenClaw 生产环境部署指南（单机架构版）](https://juejin.cn/post/7610340608524533811 "Docker OpenClaw 生产环境部署指南（单机架构版）")
+[OpenClaw 项目介绍 2026年爆火的OpenClaw AI执行引擎（曾用名Clawdbot、Moltbot），由奥地利开发者、PSPDFKit创始人Peter Steinberger主导开发，](https://juejin.cn/post/7610340608524533811)
+- [程序员老赵](https://juejin.cn/user/3208848015890347)
+- 2天前
+- 40
+- 点赞
+- 评论
+[OpenAI](https://juejin.cn/tag/OpenAI "OpenAI") [AIGC](https://juejin.cn/tag/AIGC "AIGC") [AI编程](https://juejin.cn/tag/AI%E7%BC%96%E7%A8%8B "AI编程")
+![Docker OpenClaw 生产环境部署指南（单机架构版）](https://p6-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/88f1f3d8af8e4e2fa0a012b0deadeef8~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg56iL5bqP5ZGY6ICB6LW1:q75.awebp?rk3s=f64ab15b&x-expires=1772781260&x-signature=pHw2RLB4YCjxr2%2BCXdKzG284%2Br4%3D)
+[别再折腾配置了！OpenCloudOS推出OpenClaw“极速版”脚本](https://juejin.cn/post/7605131777175404607 "别再折腾配置了！OpenCloudOS推出OpenClaw“极速版”脚本")
+[带来 OpenClaw x OpenCloudOS 2.0 部署方案 。这一次，我们推出了一键安装脚本，用户只要一条命令就能极速体验OpenClaw。](https://juejin.cn/post/7605131777175404607)
+- [OpenCloudOS](https://juejin.cn/user/3584869265591367)
+- 15天前
+- 125
+- 1
+- 评论
+[开源](https://juejin.cn/tag/%E5%BC%80%E6%BA%90 "开源") [操作系统](https://juejin.cn/tag/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F "操作系统")
+![别再折腾配置了！OpenCloudOS推出OpenClaw“极速版”脚本](https://p6-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/94c07b44ad384cd69bcdabe2cad63c4d~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAgT3BlbkNsb3VkT1M=:q75.awebp?rk3s=f64ab15b&x-expires=1772781260&x-signature=O0Qx8jR52hVEttS5V5doG4u80bM%3D)
+[告别命令行，OpenClaw全流程可视化一键部署方案来了](https://juejin.cn/post/7610316897712291874 "告别命令行，OpenClaw全流程可视化一键部署方案来了")
+[优刻得轻量应用云主机重磅升级，将OpenClaw的配置流程全面接入控制台可视化界面。不需要懂命令，不需要配置环境，“小白”用户通过优刻得控制台界面点击操作，就能轻松构建你的专属AI超级助手。](https://juejin.cn/post/7610316897712291874)
+- [Calvin\\_Zheng](https://juejin.cn/user/3380379730053392)
+- 2天前
+- 29
+- 点赞
+- 评论
+[人工智能](https://juejin.cn/tag/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD "人工智能")
+[使用JS(TS)判断页面在 微信 / 微博 / QQ / 支付宝 各APP平台内置浏览器](https://juejin.cn/post/7202502142867079229 " 使用JS(TS)判断页面在 微信 / 微博 / QQ / 支付宝 各APP平台内置浏览器")
+[使用JS(TS)判断页面在 微信 / 微博 / QQ / 支付宝 各APP平台内置浏览器 主要代码如下 使用 技术点说明 navigator.userAgent.toLowerCase() UserA](https://juejin.cn/post/7202502142867079229)
+- [青云子](https://juejin.cn/user/1609340755121384)
+- 3年前
+- 1.1k
+- 点赞
+- 评论
+[JavaScript](https://juejin.cn/tag/JavaScript "JavaScript") [前端](https://juejin.cn/tag/%E5%89%8D%E7%AB%AF "前端")
+[DeepMiner/Coze/钉钉AI企业级智能体选型指南：全网最新最全测评 TOP9 平台核心技术对比](https://juejin.cn/post/7600663744192151588 "DeepMiner/Coze/钉钉AI企业级智能体选型指南：全网最新最全测评 TOP9 平台核心技术对比")
+[前言 2026年，企业级AI的竞争维度已发生质变。Gartner在  《2025年企业AI平台技术成熟度曲线》  中明确指出，Agentic AI（代理式人工智能）  已到达技术爆发点。对于CTO和架](https://juejin.cn/post/7600663744192151588)
+- [沉迷改改改用户](https://juejin.cn/user/326993264251168)
+- 28天前
+- 43
+- 点赞
+- 评论
+[产品](https://juejin.cn/tag/%E4%BA%A7%E5%93%81 "产品")
+[在电脑上安装部署OpenClaw详细教程指南](https://juejin.cn/post/7602082590732779556 "在电脑上安装部署OpenClaw详细教程指南")
+[前言：为什么 OpenClaw 如此火爆？ 最近，一个名为 OpenClaw（前身为 Clawdbot/Moltbot）的开源项目在 GitHub 上创造了历史——短短 10 天内 Star 数突破](https://juejin.cn/post/7602082590732779556)
+- [人工智能先锋](https://juejin.cn/user/4408385801558761)
+- 24天前
+- 1.1k
+- 点赞
+- 评论
+[GitHub](https://juejin.cn/tag/GitHub "GitHub")
+[OpenClaw（原 Clawdbot）钉钉对接保姆级教程 手把手教你打造自己的 AI 助手](https://juejin.cn/post/7601069677567393838 "OpenClaw（原 Clawdbot）钉钉对接保姆级教程 手把手教你打造自己的 AI 助手")
+[OpenClaw（原 Clawdbot）钉钉对接保姆级教程 手把手教你打造自己的 AI 助手 OpenClaw 是一款开源的本地 AI 助手，支持在你自己的服务器上部署，通过钉钉、飞书、WhatsAp](https://juejin.cn/post/7601069677567393838)
+- [BingoGo](https://juejin.cn/user/993614242266077)
+- 26天前
+- 1.9k
+- 4
+- 2
+[后端](https://juejin.cn/tag/%E5%90%8E%E7%AB%AF "后端")
+![OpenClaw（原 Clawdbot）钉钉对接保姆级教程 手把手教你打造自己的 AI 助手](https://p6-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/440c5fdee7944c3ebe6769ed68f4f59e~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAgQmluZ29Hbw==:q75.awebp?rk3s=f64ab15b&x-expires=1772781260&x-signature=X8mnHpaU9CrSNwIAPd3wHYCpR4s%3D)
+[腾讯云轻量服务器+OpenClaw快速打造企业智能对话中枢](https://juejin.cn/post/7610966377898344488 "腾讯云轻量服务器+OpenClaw快速打造企业智能对话中枢")
+[OpenClaw 作为轻量级框架，支持快速集成社交平台，降低开发门槛。 方案基于腾讯云官方镜像（预装 OpenClaw 环境）设计，全程可操作性强，适合中小企业快速搭建私有化客服机器人。](https://juejin.cn/post/7610966377898344488)
+- [穿过生命散发芬芳](https://juejin.cn/user/3943302518800392)
+- 16小时前
+- 18
+- 2
+- 评论
+[人工智能](https://juejin.cn/tag/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD "人工智能") [AIGC](https://juejin.cn/tag/AIGC "AIGC")
+[爆火的ClawdBot（OpenClaw）是什么？它有什么商业价值。OpenClaw爆火标志着2026年是智能体爆发的元年](https://juejin.cn/post/7602106969697501247 "爆火的ClawdBot（OpenClaw）是什么？它有什么商业价值。OpenClaw爆火标志着2026年是智能体爆发的元年")
+[爆火的ClawdBot（OpenClaw）是什么？它有什么商业价值 先看它是什么 OpenClaw（社区也常叫它ClawdBot，昵称"龙虾"）是一个开源的个人AI助手项目，2025年底至2026年初](https://juejin.cn/post/7602106969697501247)
+- [AI人工智能基地](https://juejin.cn/user/467739245551369)
+- 24天前
+- 710
+- 点赞
+- 评论
+[人工智能](https://juejin.cn/tag/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD "人工智能")
+![爆火的ClawdBot（OpenClaw）是什么？它有什么商业价值。OpenClaw爆火标志着2026年是智能体爆发的元年](https://p6-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/3ab0e425cd9f49f88d5de78e401e758c~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAgQUnkurrlt6Xmmbrog73ln7rlnLA=:q75.awebp?rk3s=f64ab15b&x-expires=1772781260&x-signature=6ksLdgZecv%2Fd276QqlwhbkInwd8%3D)
+[99元/年！不翻墙不装App，用企业微信把AI塞进个人微信的终极方案](https://juejin.cn/post/7610981820637790248 "99元/年！不翻墙不装App，用企业微信把AI塞进个人微信的终极方案")
+[本文是OpenClaw腾讯云部署系列第三篇，教你通过企业微信做跳板，将AI助手接入个人微信。全流程涵盖注册企业微信、创建自建应用、配置API回调、安装wecom-app插件](https://juejin.cn/post/7610981820637790248)
+- [海老豹666](https://juejin.cn/user/4232473775444032)
+- 15小时前
+- 112
+- 点赞
+- 评论
+[后端](https://juejin.cn/tag/%E5%90%8E%E7%AB%AF "后端")
+![99元/年！不翻墙不装App，用企业微信把AI塞进个人微信的终极方案](https://p6-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/e388d41305eb4e83ac210f546b412b4c~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5rW36ICB6LG5NjY2:q75.awebp?rk3s=f64ab15b&x-expires=1772781260&x-signature=esBUlYFIKtTAq4Haz%2FU6Non14GA%3D)
+[月费 8 块的 AI 私人助手，不会写代码也能搭（OpenClaw 零基础教程）](https://juejin.cn/post/7601313474719645731 "月费 8 块的 AI 私人助手，不会写代码也能搭（OpenClaw 零基础教程）")
+[大家好，我是孟健。 后台留言里出现最多的一句话，不是"牛逼"，是这句： "看完很激动，但我连终端都不会打开……" 说实话，这种小白不在少数。 我写了好几篇 OpenClaw 的文章，把 80 多个技能](https://juejin.cn/post/7601313474719645731)
+- [孟健AI编程](https://juejin.cn/user/4212984287073895)
+- 25天前
+- 1.1k
+- 7
+- 2
+[AIGC](https://juejin.cn/tag/AIGC "AIGC") [Agent](https://juejin.cn/tag/Agent "Agent") [OpenAI](https://juejin.cn/tag/OpenAI "OpenAI")
+[全网最简单的 OpenClaw 部署教程，5 分钟拥有你的 AI 员工](https://juejin.cn/post/7604741630449975330 "全网最简单的 OpenClaw 部署教程，5 分钟拥有你的 AI 员工")
+[大家好，我是程序员鱼皮。 最近 OpenClaw（由 ClawdBot 改名）是真的火，它是一个能操作电脑干活的 AI 数字员工。能帮你读写文件、编写程序、执行任务，7×24 小时不休息。](https://juejin.cn/post/7604741630449975330)
+- [程序员鱼皮](https://juejin.cn/user/2444938365386621)
+- 16天前
+- 1.9k
+- 14
+- 1
+[AIGC](https://juejin.cn/tag/AIGC "AIGC") [Claude](https://juejin.cn/tag/Claude "Claude") [程序员](https://juejin.cn/tag/%E7%A8%8B%E5%BA%8F%E5%91%98 "程序员")
+![全网最简单的 OpenClaw 部署教程，5 分钟拥有你的 AI 员工](https://p6-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/a7c10708aeb1406484368d4588d4935d~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg56iL5bqP5ZGY6bG855qu:q75.awebp?rk3s=f64ab15b&x-expires=1772781260&x-signature=qR7m3%2FaSMZWXbuPbEPC%2BfOtvrVA%3D)
+收藏成功！
+已添加到「」， 点击更改
+- 微信
+![](https://juejin.cn/post/7606923064946049064)微信扫码分享
+- 新浪微博
+- QQ
+![image](https://lf-web-assets.juejin.cn/obj/juejin-web/xitu\_juejin\_web/img/cartoon.31472f0.png)
+AI代码助手上线啦
+选中代码，体验AI替你一键快速解读代码
+立即体验
+APP内打开
+- ![下载掘金APP](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2ad212d53ccd44569d10317171664bae~tplv-k3u1fbpfcp-jj:90:0:0:0:q75.avis)下载APP
+下载APP
+- ![微信扫一扫](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9f4933cc8fdb411cba89904f14a3ec0a~tplv-k3u1fbpfcp-jj:90:0:0:0:q75.avis)微信扫一扫
+微信公众号
+- [新浪微博](https://weibo.com/xitucircle)
+![](https://lf-web-assets.juejin.cn/obj/juejin-web/xitu\_juejin\_web/img/MaskGroup.13dfc4f.png)选择你感兴趣的技术方向
+后端
+前端
+Android
+iOS
+人工智能
+开发工具
+代码人生
+阅读
+跳过
+上一步
+至少选择1个分类
+![](https://lf-web-assets.juejin.cn/obj/juejin-web/xitu\_juejin\_web/8867e249c23a7c0ea596c139befc04d7.svg)
+温馨提示
+当前操作失败，如有疑问，可点击申诉
+前往申诉我知道了
+沉浸阅读
+确定屏蔽该用户
+屏蔽后，对方将不能关注你、与你产生任何互动，无法查看你的主页

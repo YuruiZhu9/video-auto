@@ -1,0 +1,405 @@
+# Source URL: https://www.atlassian.com/blog/atlassian-engineering/hula-blog-autodev-paper-human-in-the-loop-software-development-agents
+# Content Length: 16771 characters
+# Extracted at: 2026-03-27 11:47:22
+#============================================================
+
+
+
+
+
+
+
+Human in the Loop Software Development Agents - Work Life by Atlassian
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[Skip to main content](#content)
+
+[Atlassian](https://www.atlassian.com/)
+
+
+* [Work Life](https://www.atlassian.com/blog)
+* [Products & news](https://www.atlassian.com/blog/product-news)
+* [Team Playbook](https://www.atlassian.com/team-playbook)
+* [Community](https://atlassian.com/community)
+ 
+More from Atlassian 
+
+
+
+[Products & news](https://www.atlassian.com/blog/product-news)
+
+* [Products](https://www.atlassian.com/blog/product-news)
+  + [Apps](https://www.atlassian.com/blog/add-ons)
+  + [Atlassian Guard](https://www.atlassian.com/blog/access)
+  + [Bamboo](https://www.atlassian.com/blog/bamboo)
+  + [Bitbucket](https://www.atlassian.com/blog/bitbucket)
+  + [Confluence](https://www.atlassian.com/blog/confluence)
+  + [Crowd](https://www.atlassian.com/blog/crowd)
+  + [Crucible](https://www.atlassian.com/blog/crucible)
+  + [Fisheye](https://www.atlassian.com/blog/fisheye)
+  + [Focus](https://www.atlassian.com/blog/focus)
+  + [Halp](https://www.atlassian.com/blog/halp)
+  + [Jira](https://www.atlassian.com/blog/jira)
+  + [Jira Align](https://www.atlassian.com/blog/jira-align)
+  + [Jira Product Discovery](https://www.atlassian.com/blog/jira-product-discovery)
+  + [Jira Service Management](https://www.atlassian.com/blog/jira-service-management)
+  + [Loom](https://www.atlassian.com/blog/loom)
+  + [Sourcetree](https://www.atlassian.com/blog/sourcetree)
+  + [Statuspage](https://www.atlassian.com/blog/statuspage)
+  + [Trello](https://www.atlassian.com/blog/trello)
+* [Topics](#)
+  + [AI](https://www.atlassian.com/blog/artificial-intelligence)
+  + [Agile](https://www.atlassian.com/blog/agile)
+  + [How we build](https://www.atlassian.com/blog/atlassian-engineering)
+  + [Continuous Delivery](https://www.atlassian.com/blog/continuous-delivery)
+  + [Design](https://www.atlassian.com/blog/design)
+  + [Developers](https://www.atlassian.com/blog/developer)
+  + [DevOps](https://www.atlassian.com/blog/devops)
+  + [Enterprise](https://www.atlassian.com/blog/enterprise)
+  + [Git](https://www.atlassian.com/blog/git)
+  + [IT Service Management](https://www.atlassian.com/blog/it-service-management)
+  + [Inside Atlassian](https://www.atlassian.com/blog/inside-atlassian)
+  + [Project Management](https://www.atlassian.com/blog/project-management)
+  + [Work Management](https://www.atlassian.com/blog/work-management)
+* [Company News](https://www.atlassian.com/blog/announcements)
+ 
+
+* [Subscribe](#)
+ 
+
+Search
+
+
+Primary Menu
+
+
+
+
+
+
+
+
+Search in https://www.atlassian.com/blog/
+
+
+Search
+
+
+
+
+
+* [Products](#)
+  + [All Products](https://www.atlassian.com/blog/product-news)
+  + [Apps](https://www.atlassian.com/blog/add-ons)
+  + [Atlassian Guard](https://www.atlassian.com/blog/access)
+  + [Bamboo](https://www.atlassian.com/blog/bamboo)
+  + [Bitbucket](https://www.atlassian.com/blog/bitbucket)
+  + [Confluence](https://www.atlassian.com/blog/confluence)
+  + [Crowd](https://www.atlassian.com/blog/crowd)
+  + [Crucible](https://www.atlassian.com/blog/crucible)
+  + [Design](https://www.atlassian.com/blog/design)
+  + [Fisheye](https://www.atlassian.com/blog/fisheye)
+  + [Halp](https://www.atlassian.com/blog/halp)
+  + [Jira](https://www.atlassian.com/blog/jira)
+  + [Jira Align](https://www.atlassian.com/blog/jira-align)
+  + [Jira Service Management](https://www.atlassian.com/blog/jira-service-management)
+  + [Loom](https://www.atlassian.com/blog/loom)
+  + [Opsgenie](https://www.atlassian.com/blog/opsgenie)
+  + [Sourcetree](https://www.atlassian.com/blog/sourcetree)
+  + [Statuspage](https://www.atlassian.com/blog/statuspage)
+  + [Trello](https://www.atlassian.com/blog/trello)
+* [Topics](#)
+  + [AI](https://www.atlassian.com/blog/artificial-intelligence)
+  + [Agile](https://www.atlassian.com/blog/agile)
+  + [Continuous Delivery](https://www.atlassian.com/blog/continuous-delivery)
+  + [Developer](https://www.atlassian.com/blog/developer)
+  + [DevOps](https://www.atlassian.com/blog/devops)
+  + [Enterprise](https://www.atlassian.com/blog/enterprise)
+  + [Git](https://www.atlassian.com/blog/git)
+  + [IT Service Management](https://www.atlassian.com/blog/it-service-management)
+  + [Inside Atlassian](https://www.atlassian.com/blog/inside-atlassian)
+  + [Project Management](https://www.atlassian.com/blog/project-management)
+  + [Work Management](https://www.atlassian.com/blog/work-management)
+* [Company News](https://www.atlassian.com/blog/announcements)
+* [Blog](https://www.atlassian.com/blog/)
+ 
+
+![]() 
+
+
+
+Published April 23, 2025 in [How we build](https://www.atlassian.com/blog/atlassian-engineering)![]()[Jirat Pasuksmit](https://www.atlassian.com/blog/author/jirat-pasuksmit)
+
+Senior Machine Learning Engineer
+
+![]()[Kun Chen](https://www.atlassian.com/blog/author/kun-chen)
+
+Lead Principal Engineer
+
+
+
+Published April 23, 2025 in [How we build](https://www.atlassian.com/blog/atlassian-engineering) 
+
+Human in the Loop Software Development Agents
+=============================================
+
+Atlassian’s HULA framework automates repetitive coding tasks, boosting developer efficiency while keeping engineers in control. Recognized by ICSE 2025, HULA is shaping the future of AI-assisted development.
+
+
+
+
+**Introducing HULA: Humans-in-the-loop LLM-based agents framework**
+
+*Atlassian’s research on HULA has been accepted by the IEEE/ACM International Conference on Software Engineering, a prestigious software engineering conference*.
+
+Last year at Atlassian, our 12,000 engineers submitted more than 950,000 pull requests. From that work, we saw a huge opportunity to innovate, streamline the development process, and increase developer joy.
+
+We bet that AI coding agents could help engineers solve a common blocker: **repetitive, mundane, but necessary tasks that take up valuable time and energy.** By using AI to speed up these tasks, we believed that engineers could focus on more complex and rewarding work.
+
+Recently, we created the ‘Human-in-the-loop LLM-based agents framework’, or HULA. HULA reads a Jira work item, creates a plan, writes code, and even raises a pull request. And it does all of this while keeping the engineer in the driver’s seat. So far, HULA has merged ~900 pull requests for Atlassian software engineers, saving their time and allowing them to focus on other important tasks.
+
+Our DevAI engineering and data science team collaborated with Associate Professor Kla Tantithamthavorn and Wannita Takerngsaksiri from Monash University and Dr. Patanamon Thongtanunam from The University of Melbourne to evaluate how HULA could integrate into an engineer’s workflow. HULA boosted our engineers’ efficiency, pushed the boundaries of what’s possible in AI-assisted software development, and represents a significant step in our mission to empower engineers and shape the future of coding.
+
+As a result, our research has been accepted by the [International Conference of Software Engineering (SEIP) 2025](https://conf.researchr.org/home/icse-2025) ([Link to the paper Arxiv](https://arxiv.org/pdf/2411.12924)). This recognition is a milestone for our team’s hard work and signifies HULA’s potential to transform software development in the age of AI in the near future. We are excited to share our findings in this blog and look forward to contributing to the ongoing AI-assisted software engineering research. This achievement not only demonstrates our commitment to innovation but also reinforces our belief in the collaborative synergy between humans and AI.  
+  
+*These insights come from an Atlassian research paper developed in collaboration with Monash University and the University of Melbourne. Credits goes to the Atlassian engineering, data science, product, and design teams who worked on this project.*
+
+###### 
+
+Keen to try the latest version and be part of this AI innovation journey? Join our beta program recently announced at *TEAM’25 via* [*this link*](https://community.atlassian.com/forums/Rovo-Dev-AI-Agents-Beta-articles/Say-hello-to-Rovo-Dev-Agents-now-in-beta/ba-p/2992260)
+
+**The Hula process**
+--------------------
+
+### **Set context**
+
+The engineer chooses a simple Jira work item and enters relevant context (like repository info and task requirements).
+
+### **Generate coding plan**
+
+HULA creates a coding plan, a list of files, and changes that will be made to complete the work item. The engineer then reviews the plan. They can make direct updates or give HULA feedback and regenerate the plan. Once the engineer is happy, they approve the plan and move on to coding.
+
+### **Generate code**
+
+HULA generates the code and incorporates feedback from tools like compilers and linters until the code passes validation. Again, the engineer must review the code, and they can make updates or give feedback before regenerating. Once the code’s ready, the engineer can can raise a pull request.
+
+### **Raise pull request**
+
+Once approved by the human, the code changes are compiled into a pull request on Bitbucket for review, following the team’s standard process.
+
+Alternatively, the human can create a new branch from the code for further tweaks.
+
+![]()
+
+The HULA user experience (featuring updates made since this article was written)  
+  
+
+
+Performance
+-----------
+
+When working with agents powered by LLMs, it’s important to measure the quality and reliability of the output, as well as the experience of using the tool.
+
+We used multiple quantitative methods to assess code quality (in September 2024). This included unit testing on SWE-bench verified datasets, where HULA passed unit tests for 31% of SWE-bench issues. We also used a GPT-based similarity metric to assess code similarity, and found that HULA was rated highly-similar to human code in 45% of cases.
+
+![]()
+
+We also tracked how Atlassian engineers were using HULA in their work. Engineers used HULA on 663 work items in 2 months, and we found:
+
+* HULA successfully generated coding plans for 79% of work items, and 82% were approved by the engineer.
+* HULA generated code for 87% of approved plans, with 25% going all the way to the pull request stage.
+* 59% of HULA-generated pull requests were merged into Atlassian code repositories.
+
+![]()
+
+Finally, we surveyed 109 Atlassian engineers in September 2024 and asked them about their experience with HULA. Of these engineers, about 1 in 3 had over 10 years of engineering experience (28%), and almost all of them were already familiar with AI coding agents (93%). We found:
+
+* 6 out of 10 of participants agreed HULA correctly identified the right files in the plan (62%), and 1 in 3 felt the coding plan aligned with the approach they would take (36%).
+* 6 out of 10 of participants found the generated code was easily understandable (61%), and 1 in 3 agreed the code solved their work item (33%).
+
+![]()
+
+We also found a number of themes emerging from engineer feedback, including how useful HULA was in reducing development time and encouraging documentation. Engineers also felt that code functionality sometimes needed manual adjustment, some UX and UI improvements were required, as well as automating context setting and code validation.
+
+![]()
+
+Conclusion
+----------
+
+Our research shows the potential for HULA to reduce development time, improve documentation practices, and help engineers automate repetitive tasks.
+
+Our engineering team will continue to evolve HULA and build its expertise in specific use cases, as well as improve user experience, automate context settings, and improve code validation processes.
+
+We want to ensure HULA exceeds engineer expectations of what an AI coding agent is capable of, and allow engineers to focus on the complex and valuable development work they do best.
+
+Finally, we would like to acknowledge the important contributions of the DevAI engineering, data science, product, and design teams, whose collaborative efforts made both HULA and this publication possible.
+
+
+
+
+
+About this article
+Published April 23, 2025 
+About the Authors
+
+Jirat Pasuksmit
+Senior Machine Learning Engineer
+
+Kun Chen
+Lead Principal Engineer
+
+* [Facebook](https://www.facebook.com/sharer/sharer.php?u=https://www.atlassian.com/blog/atlassian-engineering/hula-blog-autodev-paper-human-in-the-loop-software-development-agents)
+* [Twitter](https://twitter.com/intent/tweet?text=https://www.atlassian.com/blog/atlassian-engineering/hula-blog-autodev-paper-human-in-the-loop-software-development-agents)
+* [Linkedin](https://www.linkedin.com/shareArticle?mini=true&url=https://www.atlassian.com/blog/atlassian-engineering/hula-blog-autodev-paper-human-in-the-loop-software-development-agents&title=Human%20in%20the%20Loop%20Software%20Development%20Agents)
+* [Pocket](https://getpocket.com/save?url=https://www.atlassian.com/blog/atlassian-engineering/hula-blog-autodev-paper-human-in-the-loop-software-development-agents&title=Human%20in%20the%20Loop%20Software%20Development%20Agents)
+* [Email](mailto:someone@example.com?subject=I%20thought%20you'd%20like%20this%20article%20by%20Atlassian&body=Human%20in%20the%20Loop%20Software%20Development%20Agents%0D%0Ahttps://www.atlassian.com/blog/atlassian-engineering/hula-blog-autodev-paper-human-in-the-loop-software-development-agents)
+
+
+Related Content
+### More in How we build
+
+[How we build](https://www.atlassian.com/blog/atlassian-engineering) 
+#### [Advancing semantic search for millions of Rovo users](https://www.atlassian.com/blog/atlassian-engineering/advancing-rovo-semantic-search)
+
+
+
+
+[How we build](https://www.atlassian.com/blog/atlassian-engineering) 
+#### [How Rovo helps teams start work 30% faster](https://www.atlassian.com/blog/atlassian-engineering/jira-ai-productivity-how-rovo-helps-teams-start-work-30-percent-faster)
+
+
+
+
+[![]()](https://www.atlassian.com/blog/atlassian-engineering/catching-and-mitigating-performance-regressions-at-scale-in-jira-cloud) 
+
+[How we build](https://www.atlassian.com/blog/atlassian-engineering) 
+#### [How we catch and mitigate performance regressions at scale in Jira Cloud](https://www.atlassian.com/blog/atlassian-engineering/catching-and-mitigating-performance-regressions-at-scale-in-jira-cloud)
+
+
+
+
+[![]()](https://www.atlassian.com/blog/atlassian-engineering/how-rovo-solves-search-challenges-entity-linking) 
+
+[How we build](https://www.atlassian.com/blog/atlassian-engineering) 
+#### [How Rovo solves search challenges through entity linking](https://www.atlassian.com/blog/atlassian-engineering/how-rovo-solves-search-challenges-entity-linking)
+
+
+
+
+
+
+
+
+
+
+
+#### More Collections
+
+
+
+
+[Collection 
+### Wellbeing | Well-doing
+
+Strategies for individuals and leaders to cultivate a flexible, balanced, and inclusive work life.
+
+
+View Collection](https://www.atlassian.com/blog/collections/wellbeing-at-work)
+ 
+[Collection 
+### The Flywheel Growth Model
+
+There are loads of ways to grow a company – learn about our approach here.
+
+
+View Collection](https://www.atlassian.com/blog/collections/flywheel-growth-model)
+ 
+
+
+
+
+
+
+
+#### Human in the Loop Software Development Agents
+
+
+* [Subscribe](#)
+ 
+
+* [Facebook](https://www.facebook.com/sharer/sharer.php?u=https://www.atlassian.com/blog/atlassian-engineering/hula-blog-autodev-paper-human-in-the-loop-software-development-agents)
+* [Twitter](https://twitter.com/intent/tweet?text=https://www.atlassian.com/blog/atlassian-engineering/hula-blog-autodev-paper-human-in-the-loop-software-development-agents)
+* [Linkedin](https://www.linkedin.com/shareArticle?mini=true&url=https://www.atlassian.com/blog/atlassian-engineering/hula-blog-autodev-paper-human-in-the-loop-software-development-agents&title=Human%20in%20the%20Loop%20Software%20Development%20Agents)
+* [Pocket](https://getpocket.com/save?url=https://www.atlassian.com/blog/atlassian-engineering/hula-blog-autodev-paper-human-in-the-loop-software-development-agents&title=Human%20in%20the%20Loop%20Software%20Development%20Agents)
+* [Email](mailto:someone@example.com?subject=I%20thought%20you'd%20like%20this%20article%20by%20Atlassian&body=Human%20in%20the%20Loop%20Software%20Development%20Agents%0D%0Ahttps://www.atlassian.com/blog/atlassian-engineering/hula-blog-autodev-paper-human-in-the-loop-software-development-agents)
+
+
+
+
+
+
+
+ 
+Join over 150,000 working professionals
+![]()
+
+By [Atlassian](https://atlassian.com)
+
+
+Culture, tech, teams, and tips, delivered twice a month
+
+
+Sign me up! 
+
+
+
+ 
+
+* [Atlassian.com](https://atlassian.com)
+* [Terms of Use](https://www.atlassian.com/legal/customer-agreement)
+* [Privacy Policy](https://www.atlassian.com/legal/privacy-policy)
+* [Notice at Collection](https://www.atlassian.com/legal/privacy-policy#additional-disclosures-for-ca-residents)
+* Copyright © 2026 Atlassian
+ 
+
+
+
+Subscribe to Work Life
+### Advice, stories, and expertise about work life today.
+
+
+
+Email\*
+
+
+
+
+
+
+
+
+
+
+
+
+
+

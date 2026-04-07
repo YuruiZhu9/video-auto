@@ -1,0 +1,31 @@
+# Source URL: https://clawhub.com/michaelgold/video-skill
+# Content Length: 5137 characters
+# Extracted at: 2026-04-06 13:22:52
+#============================================================
+
+
+Video Skill — ClawHub[![]()ClawHub](/)[Skills](/skills)[Plugins](/plugins)[Search](/skills?focus=search)[About](/about)Sign inwith GitHub
+
+Video Skill
+===========
+
+v0.1.2
+
+Run the video-skill pipeline to convert narrated videos into structured step data and enriched timeline-ready outputs. Use when a user asks to process a vide...
+
+⭐ 1· 294·2 current·2 all-timeby![]()Michael Gold·[@michaelgold](/u/michaelgold)MIT-0[Download zip](https://wry-manatee-359.convex.site/api/v1/download?slug=video-skill)LicenseMIT-0 · Free to use, modify, and redistribute. No attribution required.Security ScanVirusTotalVirusTotalBenign[View report →](https://www.virustotal.com/gui/file/867359952bc476592b726a98791461a881a8b4a6ea82521a7695bef64ce592d2)OpenClawOpenClawBenignmedium confidenceThe skill's code, runtime instructions, and required binaries are consistent with a local video-processing/extraction pipeline; nothing in the bundle is obviously trying to do something unrelated, but there are a few operational and trust decisions you should review before running it.Details ▾✓Purpose & CapabilityName/description (convert narrated videos into steps and enriched outputs) aligns with the code and CLI commands. The required binaries (uv, ffmpeg, python3) are reasonable for a Python CLI that uses ffmpeg and the uv packaging/runtime. The included scripts, docker-compose, and model-bootstrapping are appropriate for a self-hosted model-backed pipeline.ℹInstruction ScopeSKILL.md and the CLI instruct the agent/operator to run transcription, chunking, extraction, frame sampling, enrichment, and markdown rendering. The instructions direct the tool to call configured model provider endpoints and to read and base64-encode image files (frames) and include them in model requests — expected for VLM-based enrichment but important to note: large binary image payloads will be sent to whatever provider URL is configured. SKILL.md contains a minor contradiction (claims 'no repo clone required' while showing commands that assume a local repo).ℹInstall MechanismThe registry lists no automated install spec (instruction-only). The bundle nevertheless contains many source files and helper scripts. This is not itself dangerous, but the provided scripts (scripts/bootstrap\_models.sh) will download large model binaries from Hugging Face via the HF CLI and docker-compose references GHCR images — both reasonable for a local/self-hosted setup but require trust in those sources and will write substantial data to disk.✓CredentialsThe skill does not require any environment variables by default (config.example.json uses api\_key\_env:null). The code supports provider API keys if configured, which is appropriate for calling model endpoints. There are no unrelated credentials requested in the manifest. Note: if you set provider.api\_key\_env to point to an env var, that env var will be used to authenticate requests to the configured model endpoints — so only set keys for providers you trust.✓Persistence & Privilegealways:false and no install spec means the skill does not request forced persistent inclusion or elevated platform privileges. It performs normal file I/O (reads/writes JSONL, writes frames/clips, runs ffmpeg subprocesses) and spawns subprocesses; this is expected behavior for a CLI tool of this scope.AssessmentThis package appears coherent for its stated purpose, but review these before running: 1) Provider trust: the enrichment steps will send transcript text and base64-encoded frame images to whichever base\_url you configure for 'reasoning' and 'vlm' — only point those at services you control or trust. 2) Model downloads & docker: bootstrap\_models.sh will download large model files (requires HF CLI and an authenticated account) and the docker-compose file pulls images from GHCR — verify sources and run in a machine with sufficient disk/GPU or use an isolated VM/container. 3) Local commands & subprocesses: the tool invokes ffmpeg and subprocess.run (clip extraction); run on files you trust and consider limiting permissions/using a sandbox. 4) Config review: config.example.json leaves api\_key\_env null; if you populate api\_key\_env make sure env vars are set appropriately and contain only credentials for intended providers. 5) Minor docs inconsistency: SKILL.md says 'no repo clone required' but many commands expect a local repo — follow the README/INSTRUCTIONS for correct setup. If you need higher assurance, review the remaining truncated source files (settings and any network code) and run the pipeline in a disposable container before using with sensitive data.
+
+Like a lobster shell, security has layers — review code before you run it.
+
+latestvk97egkcj7zr5hasc72bcnp27j9823hyq
+### License
+
+MIT-0Free to use, modify, and redistribute. No attribution required.**Terms**<https://spdx.org/licenses/MIT-0.html>
+### Runtime requirements
+
+**Bins**uv, ffmpeg, python3FilesCompareVersions
+
+Comments
+--------
+
+ClawHub[OpenClaw](https://openclaw.ai)[Vercel](https://vercel.com)[Convex](https://www.convex.dev)[Open source (MIT)](https://github.com/openclaw/clawhub)[Peter Steinberger](https://steipete.me)

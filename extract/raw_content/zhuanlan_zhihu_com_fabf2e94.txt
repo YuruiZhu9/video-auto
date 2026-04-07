@@ -1,0 +1,192 @@
+# Source URL: https://zhuanlan.zhihu.com/p/1901666478148813068
+# Content Length: 15622 characters
+# Extracted at: 2026-03-27 04:13:18
+#============================================================
+
+![](https://zhuanlan.zhihu.com/p/1901666478148813068)
+​
+目录
+## 概述
+[DistServe](https://zhida.zhihu.com/search?content\_id=257256883&content\_type=Article&match\_order=1&q=DistServe&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ3Mjg3OTMsInEiOiJEaXN0U2VydmUiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTcyNTY4ODMsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.KItX9NwH3MDIcHUZDBxaRmgKJ9uK5uT7m34S5TqKK8M&zhida\_source=entity)、[POD-Attention](https://zhida.zhihu.com/search?content\_id=257256883&content\_type=Article&match\_order=1&q=POD-Attention&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ3Mjg3OTMsInEiOiJQT0QtQXR0ZW50aW9uIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjU3MjU2ODgzLCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.ZDnJroo0jl41k2XP\_a1idke5FuXGeRyK6qE5oXxCsgQ&zhida\_source=entity) 和 [Drift](https://zhida.zhihu.com/search?content\_id=257256883&content\_type=Article&match\_order=1&q=Drift&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ3Mjg3OTMsInEiOiJEcmlmdCIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI1NzI1Njg4MywiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.qUW2xmerBcoweOi-j9YC-zsPyvh5SX4s8f2wzn-gH8s&zhida\_source=entity)三篇论文分别通过 \*\*物理拆分\*\*、 \*\*内核融合\*\* 和 \*\*空间复用\*\* 三种不同策略，针对大模型推理中的“预填充（prefill）”与“解码（decode）”两个阶段的资源竞争与干扰，提出了差异化的调度与内核设计，从而在满足延迟 SLO 的前提下显著提升 GPU 资源利用率与系统吞吐。
+## DistServe: Disaggregating Prefill and Decoding for Goodput-optimized Large Language Model Serving (OSDI’24)
+\*\*动机\*\*：现有 LLM 服务系统将预填充与解码阶段放在同一 GPU 上并行批处理，导致两阶段互相干扰且资源分配耦合，难以同时满足“首令牌延迟（TTFT）”与“每令牌延迟（TPOT）”的严格要求。
+\*\*设计\*\*：DistServe 将预填充与解码阶段 \*\*物理拆分\*\* 到不同 GPU 上独立执行，允许对每个阶段采用 \*\*专门的并行度\*\* 和 \*\*资源分配策略\*\*，并通过调度算法根据 TTFT/TPOT 要求动态分配 GPU 数量。
+\*\*跨卡通信\*\*：为最小化 KV 缓存的跨卡传输开销，DistServe 根据集群带宽拓扑智能地选择预填充与解码实例的放置位置。
+\*\*评估\*\*：在多种流行 LLM 与请求负载下，DistServe 在保证 90% 请求满足延迟 SLO 条件下，可服务请求数\\*\\*提升 7.4× \*\*或支持\*\* 12.6×\\*\\*更紧 SLO，相比最优现有系统均有显著优势。
+## Drift: Optimizing SLO-oriented LLM Serving with PD-Multiplexing (arXiv ’25)
+\*\*动机\*\*：Out-of-place 拆分与 in-place 共享各有优劣：前者可保证阶段 SLO 但浪费 KV 缓存复用，后者复用高但资源耦合导致利用率低。
+\*\*PD-Multiplexing\*\*：Drift引入 \*\*相位分离（Phase-Decoupled）多路复用\*\*，在单卡内部通过低级 GPU 分区技术（如按 SM 空间切分）实现预填充与解码的 \*\*并行执行\*\*，同时保留对同一 KV 缓存的就地复用。
+\*\*自适应调度\*\*：提出 \*\*Adaptive Gang Scheduling\*\* 和 \*\*SLO-Aware Dispatching\*\* 策略，基于运行时模型预测与资源争用统计，动态调整每个阶段在各分区的优先级和资源份额。
+\*\*评估\*\*：在多种复杂对话与混合请求场景下，Drift 平均吞吐 \*\*提升 5.1×\*\*（最高 17.5×），并持续满足严格的 SLO 约束。
+![](https://picx.zhimg.com/v2-b2792731bcd4b55152f1c9898300e387\_1440w.jpg)
+感觉这个示意图挺清晰的
+## POD-Attention: Unlocking Full Prefill-Decode Overlap for Faster LLM Inference (ASPLOS’25)
+\*\*动机\*\*：混合批处理（hybrid batching）虽能重用模型权重，但现有注意力内核只能分别针对预填充或解码优化，无法充分利用 GPU 的 \*\*计算\*\* 与 \*\*内存带宽\*\* 资源。 \*\*内核设计\*\*：POD-Attention 首次在同一 SM 内核同时并发执行预填充与解码的注意力计算，通过 \*\*CTA 级别的软件调度\*\* 和 \*\*资源划分\*\*，使得两阶段的计算与内存访问重叠进行。 \*\*集成与调度\*\*：将 POD-Attention 内核集成到 [Sarathi-Serve](https://zhida.zhihu.com/search?content\_id=257256883&content\_type=Article&match\_order=1&q=Sarathi-Serve&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ3Mjg3OTMsInEiOiJTYXJhdGhpLVNlcnZlIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjU3MjU2ODgzLCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.RVHpoqKMYfDhD6bEgRg-kp6aaw-9fmCY115489aB8TY&zhida\_source=entity) 调度器中，实现对混合批请求的异步流水线处理，并根据批次特性动态选择资源分配策略。 \*\*评估\*\*：Attention 计算加速 \*\*最高 59%\*\*（平均 28%），整体端到端推理吞吐提升 \*\*最高 22%\*\*，同时显著降低 TTFT、TBT 及请求总延迟。===》即使是pod-attn，在一个block内同时算P和D，这俩也不是同一条request的，对吧？所以这俩在smem上也不会直接复用？所谓的复用，当前都是发生在global/L2上的。我觉得是这样的。
+## 三种方法对比
+| 方案 | 拆分方式 | 部署位置 | 关键技术 | 性能提升 |
+| --- | --- | --- | --- | --- |
+| DistServe | 物理拆分 | 不同 GPU | 阶段专属并行度+资源分配+带宽感知实例放置 | 7.4× 服务数或 12.6× 更紧 SLO |
+| POD-Attention | 内核融合 | 同一 GPU SM 内核 | 并发 Prefill/Decode Attention Kernel | Attention 层加速 59%（均值 28%），推理吞吐+22% |
+| Drift | PD-Multiplexing | 同一 GPU 多 SM 空间复用 | 相位分离多路复用 \+ 自适应 Gang Scheduling | 平均吞吐+5.1×（最高 17.5×） |
+## Comments
+### \*\*distserve\*\*
+PD放到一张卡会面临如下的资源竞争：
+chunked prefill会导致对KV的更多的访问。 \_N\_ \+ ( \_N −\_ 1) + \_...\_ +1 = \_O\_( \_N^\_ 2 )相比于 \_O\_( \_N)。\_ prefill是compute bound，decoding是memory bound。
+////题外话：我学到了，多轮对话,后续输入会直接复用前面的KV cache（后续prefill正常算，只是decoding直接KV cache来用）/////
+### \*\*drift\*\*
+以前的PD分离的思想还是有点粗粒度。在GPU之间传输KV cache，那开销是挺大的。其实通过控制不同SM干不同事情，就相当于分开了GPU嘛。这样就不需要传输KV cache了。嗯。不过问题在于，其他资源会不会受到干扰，比如L2，内存容量之类的。
+///题外话，本文还大段埋汰了chunked prefill，我尚未看完，还没明白为什么与此相关////
+/////前填充分块（Prefill chunking \[2\]）的阶段耦合是一种动态计算分区技术，它保留了 KV 缓存的重用。该技术将长上下文的前填充阶段拆分成更小的块，并将每个块的执行与解码阶段的执行耦合起来。然而，如图 4-(a) 所示，这种阶段耦合设计由于以下三个缺点，难以在 SLO 约束下最大化吞吐量。
+第一个缺点是资源浪费——难以在满足 SLO 要求和实现高利用率之间找到平衡点。图 5 展示了不同块大小在与固定配置的解码阶段配合下的执行时间。图中的“令牌预算”是指解码批次大小（本实验中为 32）与前填充块大小之和，该预算用于论文中判断能否保证 SLO。正如图中所示，只有当令牌预算达到 4K 时，延迟才开始呈线性增长。这表明，要充分利用 GPU 资源，前填充块的上下文长度应为（4K – 32），才能达到“甜点”点；但此时耦合执行的延迟高达 240 毫秒，远远超过典型的每令牌延迟（TBT）SLO 目标（<100 毫秒）。在这种情况下，为了满足较小的 TBT SLO 目标，前填充和解码阶段往往都会以低效的方式运行。
+第二个缺点是前填充分块会导致对先前块中 KV 缓存的重复读取，这会产生两方面的低效：1）引入二次方级的内存开销；2）当重用的上下文过长时，可能无法满足解码阶段的 SLO 目标。每个分块前填充都可以看作是带缓存的前填充。如表 1 所示，其计算复杂度会随着重用上下文长度的增加而增加。当重用上下文达到数千令牌时，注意力计算本身就会成为该块延迟的主要瓶颈，在这种情况下，该块的延迟已经超过了耦合解码阶段的 TBT SLO 目标。我们在第 5.2.1 节的评测中也印证了这一点。
+第三个缺点是该方法与 CUDA Graph 等加速技术不兼容，因为 CUDA Graph 要求静态配置。而前填充块大小和解码批次大小共同形成了一个庞大的配置空间，使得在该设计中应用 CUDA Graph 加速变得不可行。///////
+### \*\*pod-attention\*\*
+在一个block内（SM内）结合prefill和decoding，实现计算资源的极致利用。
+PA和drift都使用了SM-specialize技术，不过前面是用%smid控制，后面是用green\\_context。（没细研究过）
+其他相关的paper，有空继续看：
+HexGen-2: Disaggregated Generative Inference of LLMs in Heterogeneous Environment
+LoongServe: Efficiently Serving Long-Context Large Language Models with Elastic Sequence Parallelism
+感觉PD分离的资源竞争问题，可以借鉴GPU-sharing？什么MPS, MIG，如何划分资源之类的。
+## chunked prefill相比于不切分，对内存和计算量带来的影响。
+原先不切分，是只读长度为N的序列，记为N，现在切分为m段，就是 N/m\\* 1+2+3+....m =N/m\\*（1+m）\\*m/2 =N(1+m)/2，变成了O(Nm)。也就是说，切分的越多，读取冗余越多。 这里的冗余来自于，每次算出一段来，又要写回global，下次再读之前所有算好的片段prefill。
+反而计算量比原先好像还小了？ 原先假设是n\\*n，那么现在变成 n/m \\* n/m\\*(1+2+3+....m)= n^2\\*m^2\\*(1+m)m/2 =n^2(1+m)/2m 和原先的比值就变成了(1+m)/2m 我们知道m>=1，这是个减函数，且当m=1时，和原先没有切分一致，比例为1。所以，计算量反而稍微减小了一些。
+![](https://pica.zhimg.com/v2-4344016891b819b89b9f2978f2cd4044\_1440w.jpg)
+编辑于 2025-05-31 02:31・中国香港
+[论文笔记](https://www.zhihu.com/topic/29971222)
+[![图片](https://picx.zhimg.com/v2-f65722ce25c730a95fcdabe66f285b94\_bh.webp?source=d6434cab)\\
+\\
+多知识任务还在排队做？腾讯ima同步处理省时间\\
+\\
+微信文件一键转存至腾讯ima知识库，让你想用的时候随时都能用，还能对知识库里的文件进行深层次解析哦查看详情微信文件一键转存至腾讯ima知识库，让你想用的时候随时都能用，还能对知识库里的文件进行深层次解析哦 查看详情\\
+\\
+![用户头像](https://pic3.zhimg.com/v2-6bcab51aab5519d3e668f35b0a210fc3\_xl.webp?source=d6434cab)\\
+\\
+ima的广告](https://ima.qq.com/download/?webFrom=10000435&channel=10000435&cb=https%3A%2F%2Fsugar.zhihu.com%2Fplutus\_adreaper\_callback%3Fsi%3D8bc1b47b-a96b-4251-ad28-3c7c32bbfce8%26os%3D3%26zid%3D1629%26zaid%3D3665261%26zcid%3D3621071%26cid%3D3621071%26event%3D\_\_EVENTTYPE\_\_%26value%3D\_\_EVENTVALUE\_\_%26ts%3D\_\_TIMESTAMP\_\_%26cts%3D\_\_TS\_\_%26mh%3D\_\_MEMBERHASHID\_\_%26adv%3D703838%26ocg%3D4%26cp%3D2500%26ocs%3D1%26aic%3D0%26atp%3D0%26ct%3D2%26ed%3DGiBNJgVzfCMmUW9XFyEvRA8xBGxJICwkOhh0FlwxKw1fY0gnWzUoISkY6onvXKClOvM%3D&spu=biz%3D0%26ci%3D3621071%26si%3Dbaaec645-f94b-4ed5-9a6d-eb25f77ffa2a%26ts%3D1774555994%26zid%3D1629)
+​赞同 80​​7 条评论​150 ​1
+​分享
+​申请转载​
+​
+![](https://pic1.zhimg.com/v2-d41c2ceaed8f51999522f903672a521f\_l.jpeg)
+未登录用户
+7 条评论
+默认
+最新
+[![Arsmart](https://pic1.zhimg.com/v2-29587cbd658f1be71e3b04ff00540756\_l.jpg?source=06d4cd63)](https://www.zhihu.com/people/65298c783b3990531216a750ee9d1bd4)
+[Arsmart](https://www.zhihu.com/people/65298c783b3990531216a750ee9d1bd4)
+作者​![](https://picx.zhimg.com/v2-2ddc5cc683982648f6f123616fb4ec09\_l.png?source=32738c0c)
+感觉关键问题是 为什么混到一个GPU会更慢呢？资源干扰具体是什么资源？针对这个问题去解决才对
+2025-05-19 · 上海
+​回复​5
+[![pika chew](https://pica.zhimg.com/v2-27bb945e95c660afe05596e036f76969\_l.jpg?source=06d4cd63)](https://www.zhihu.com/people/e3977352e44fc51d5696cb4d97813214)
+[pika chew](https://www.zhihu.com/people/e3977352e44fc51d5696cb4d97813214)
+drift和这个： [Semi-PD大模型推理范式新选择：从PD融合到PD分离，再到PD半分离](https://zhuanlan.zhihu.com/p/1899775325870724355) 是不是同样类型的工作![[好奇]](https://pic2.zhimg.com/v2-72b9696632f66e05faaca12f1f1e614b.png)
+2025-10-21 · 北京
+​回复​喜欢
+[![Arsmart](https://picx.zhimg.com/v2-29587cbd658f1be71e3b04ff00540756\_l.jpg?source=06d4cd63)](https://www.zhihu.com/people/65298c783b3990531216a750ee9d1bd4)
+[Arsmart](https://www.zhihu.com/people/65298c783b3990531216a750ee9d1bd4)
+作者​![](https://picx.zhimg.com/v2-2ddc5cc683982648f6f123616fb4ec09\_l.png?source=32738c0c)
+是啊！都是相似工作！
+2025-10-27 · 上海
+​回复​1
+[![高雷](https://picx.zhimg.com/v2-8b4a2652dc38681f591f0824b3e50f9e\_l.jpg?source=06d4cd63)](https://www.zhihu.com/people/9428cb09d7b1e8cedf289186cb5d22cd)
+[高雷](https://www.zhihu.com/people/9428cb09d7b1e8cedf289186cb5d22cd)
+请问drift这篇文章关于chunked prefill的第一个缺点，设计的实验是不是不太合理？decoding requests数量仅为32，那如果要占满GPU算力，确实需要一个更长的prefill request。如果把decoding requests数量调高一点，是不是就不需要很长的prefill request了。其余两个缺点还是比较赞同的。
+2025-06-16 · 美国
+​回复​喜欢
+[![Eagle](https://pic1.zhimg.com/v2-e8e96c2ee33fb85436c89f3564a0e890\_l.jpg?source=06d4cd63)](https://www.zhihu.com/people/67d1cc95a9b7f1349ffba1ae39e4643f)
+[Eagle](https://www.zhihu.com/people/67d1cc95a9b7f1349ffba1ae39e4643f)
+![](https://picx.zhimg.com/v2-4812630bc27d642f7cafcd6cdeca3d7a.jpg?source=88ceefae)![知乎知识会员](https://pica.zhimg.com/v2-57fe7feb4813331d5eca02ef731e12c9.jpg?source=88ceefae)
+为啥pod attention可以降低tpot，不应该是把单次decode fwd的时间拉长了么
+2025-05-03 · 云南
+​回复​喜欢
+[![追梦搬砖工](https://pica.zhimg.com/v2-abed1a8c04700ba7d72b45195223e0ff\_l.jpg?source=06d4cd63)](https://www.zhihu.com/people/1b17f2e732208f09eb69c1c038d867f2)
+[追梦搬砖工](https://www.zhihu.com/people/1b17f2e732208f09eb69c1c038d867f2)
+[Arsmart](https://www.zhihu.com/people/65298c783b3990531216a750ee9d1bd4)
+只是相比chunked prefill降低了tpot，又不是和pd分离比
+2025-05-06 · 美国
+​回复​1
+[![Arsmart](https://pic1.zhimg.com/v2-29587cbd658f1be71e3b04ff00540756\_l.jpg?source=06d4cd63)](https://www.zhihu.com/people/65298c783b3990531216a750ee9d1bd4)
+[Arsmart](https://www.zhihu.com/people/65298c783b3990531216a750ee9d1bd4)
+作者​![](https://picx.zhimg.com/v2-2ddc5cc683982648f6f123616fb4ec09\_l.png?source=32738c0c)
+很有道理。不过相比于设备间传输KV，好像也有某种优势。应该是什么呢？
+2025-05-04 · 上海
+​回复​喜欢
+关于作者
+[![Arsmart](https://picx.zhimg.com/v2-29587cbd658f1be71e3b04ff00540756\_l.jpg?source=32738c0c&needBackground=1)](https://www.zhihu.com/people/arsmart-60)
+[Arsmart](https://www.zhihu.com/people/arsmart-60)
+SJTU CS PHD
+[​](https://zhuanlan.zhihu.com/p/96956163)
+上海交通大学 计算机科学技术博士在读
+[回答\\
+\\
+\*\*7\*\*](https://www.zhihu.com/people/arsmart-60/answers) [文章\\
+\\
+\*\*56\*\*](https://www.zhihu.com/people/arsmart-60/posts) [关注者\\
+\\
+\*\*632\*\*](https://www.zhihu.com/people/arsmart-60/followers)
+​关注他​发私信
+大家都在搜
+换一换
+[伊朗局势490 万](https://www.zhihu.com/search?q=%E4%BC%8A%E6%9C%97%E5%B1%80%E5%8A%BF&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[张雪峰因心源性猝死去世401 万](https://www.zhihu.com/search?q=%E5%BC%A0%E9%9B%AA%E5%B3%B0%E5%9B%A0%E5%BF%83%E6%BA%90%E6%80%A7%E7%8C%9D%E6%AD%BB%E5%8E%BB%E4%B8%96&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[南京教师因发表过激言语被停职376 万](https://www.zhihu.com/search?q=%E5%8D%97%E4%BA%AC%E6%95%99%E5%B8%88%E5%9B%A0%E5%8F%91%E8%A1%A8%E8%BF%87%E6%BF%80%E8%A8%80%E8%AF%AD%E8%A2%AB%E5%81%9C%E8%81%8C&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[OpenAI 关停 AI视频生成平台 Sora312 万](https://www.zhihu.com/search?q=OpenAI+%E5%85%B3%E5%81%9C+AI%E8%A7%86%E9%A2%91%E7%94%9F%E6%88%90%E5%B9%B3%E5%8F%B0+Sora&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[汽车之家多平台账号被禁止关注271 万](https://www.zhihu.com/search?q=%E6%B1%BD%E8%BD%A6%E4%B9%8B%E5%AE%B6%E5%A4%9A%E5%B9%B3%E5%8F%B0%E8%B4%A6%E5%8F%B7%E8%A2%AB%E7%A6%81%E6%AD%A2%E5%85%B3%E6%B3%A8&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[周杰伦新专辑上线271 万](https://www.zhihu.com/search?q=%E5%91%A8%E6%9D%B0%E4%BC%A6%E6%96%B0%E4%B8%93%E8%BE%91%E4%B8%8A%E7%BA%BF&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[特朗普称将在5月中旬访华264 万](https://www.zhihu.com/search?q=%E7%89%B9%E6%9C%97%E6%99%AE%E7%A7%B0%E5%B0%86%E5%9C%A85%E6%9C%88%E4%B8%AD%E6%97%AC%E8%AE%BF%E5%8D%8E&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[美以袭击伊朗255 万](https://www.zhihu.com/search?q=%E7%BE%8E%E4%BB%A5%E8%A2%AD%E5%87%BB%E4%BC%8A%E6%9C%97&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[外交部批日本新型军国主义245 万](https://www.zhihu.com/search?q=%E5%A4%96%E4%BA%A4%E9%83%A8%E6%89%B9%E6%97%A5%E6%9C%AC%E6%96%B0%E5%9E%8B%E5%86%9B%E5%9B%BD%E4%B8%BB%E4%B9%89&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[心源性猝死突发时吃速效救心丸有用吗230 万](https://www.zhihu.com/search?q=%E5%BF%83%E6%BA%90%E6%80%A7%E7%8C%9D%E6%AD%BB%E7%AA%81%E5%8F%91%E6%97%B6%E5%90%83%E9%80%9F%E6%95%88%E6%95%91%E5%BF%83%E4%B8%B8%E6%9C%89%E7%94%A8%E5%90%97&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[广告\\
+\\
+![广告](https://picx.zhimg.com/v2-84efcb2d7c1727ff7cfa0c15808209cb\_720w.webp?source=d6434cab)](https://ima.qq.com/download/?webFrom=10000435&channel=10000435&cb=https%3A%2F%2Fsugar.zhihu.com%2Fplutus\_adreaper\_callback%3Fsi%3Da95c8811-c791-425e-ad29-796fbe8a8a69%26os%3D3%26zid%3D6001%26zaid%3D3671779%26zcid%3D3629532%26cid%3D3629532%26event%3D\_\_EVENTTYPE\_\_%26value%3D\_\_EVENTVALUE\_\_%26ts%3D\_\_TIMESTAMP\_\_%26cts%3D\_\_TS\_\_%26mh%3D\_\_MEMBERHASHID\_\_%26adv%3D703838%26ocg%3D4%26cp%3D3000%26ocs%3D1%26aic%3D0%26atp%3D0%26ct%3D2%26ed%3DGiBNJgVzfCMmUW9XFyEvRA8xBGxJICwkOhh0FlwxKw1fY0gnWzUoISkY6onvXKClOvM%3D&spu=biz%3D0%26ci%3D3629532%26si%3Dfd10fb2d-e218-46ff-9e6a-158d5993a35d%26ts%3D1774555995%26zid%3D6001)
+### 推荐阅读
+[\*\*通信原理中多进制传输系统Pe与Pb的关系\*\* \\
+\\
+为什么要写这个呢，大三了，不久也快毕业，想着写点东西记录下自己的学习生活吧，也算是给以后的学弟留点东西吧，作为一名学习成绩徘徊在基层的小渣渣，目光难免短浅，思维难免局限，推证难…\\
+\\
+科学大道的小菜鸡](https://zhuanlan.zhihu.com/p/35112790) [![AAAI2026 | 跨模态量化生成式推荐](https://pic1.zhimg.com/v2-2765a9957c1127a24f858ddea3cbc902\_250x0.jpg?source=172ae18b)\*\*AAAI2026 \| 跨模态量化生成式推荐\*\* \\
+\\
+机器学习推荐算法](https://zhuanlan.zhihu.com/p/1985304094211072029) [![“组”传秘方：Artemis进行EXAFS拟合的基本操作](https://picx.zhimg.com/v2-22718a06b3263528970ba241f5a5bbb7\_250x0.jpg?source=172ae18b)\*\*“组”传秘方：Artemis进行EXAFS拟合的基本操作\*\* \\
+\\
+科研绝技](https://zhuanlan.zhihu.com/p/4160138002) [![SOC估算的支持向量机概述](https://picx.zhimg.com/v2-4aa2291aacb804ed9c26a5120cb956b3\_250x0.jpg?source=172ae18b)\*\*SOC估算的支持向量机概述\*\* \\
+\\
+写字的高工](https://zhuanlan.zhihu.com/p/31421405)
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_
+打开知乎App
+在「我的页」右上角打开扫一扫
+![](https://picx.zhimg.com/v2-9e41ea16bdfbe9cf4896617ecad5b4ca.png)
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+中国 +86
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+打开知乎App
+在「我的页」右上角打开扫一扫
+![](https://picx.zhimg.com/v2-9e41ea16bdfbe9cf4896617ecad5b4ca.png)
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+中国 +86
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+![](https://static.zhihu.com/heifetz/assets/liukanshan-peek.a71ecf3e.png)登录即可查看 超5亿 专业优质内容
+超 5 千万创作者的优质提问、专业回答、深度文章和精彩视频尽在知乎。
+立即登录/注册

@@ -1,0 +1,307 @@
+# Source URL: https://cloud.tencent.com/developer/article/2648644
+# Content Length: 10275 characters
+# Extracted at: 2026-04-01 22:34:09
+#============================================================
+
+
+openclaw v2026.3.28更新详解：模型适配、插件增强、多平台优化一网打尽-腾讯云开发者社区-腾讯云[福大大架构师每日一题](/developer/user/7620466)
+
+openclaw v2026.3.28更新详解：模型适配、插件增强、多平台优化一网打尽
+-------------------------------------------
+
+关注作者[*腾讯云*](/?from=20060&from_column=20060)[*开发者社区*](/developer)[文档](/document/product?from=20702&from_column=20702)[建议反馈](/voc/?from=20703&from_column=20703)[控制台](https://console.cloud.tencent.com?from=20063&from_column=20063)登录/注册[首页](/developer)学习活动专区圈层工具[MCP广场![]()](/developer/mcp)文章/答案/技术大牛搜索搜索关闭发布福大大架构师每日一题[社区首页](/developer) >[专栏](/developer/column) >openclaw v2026.3.28更新详解：模型适配、插件增强、多平台优化一网打尽
+
+openclaw v2026.3.28更新详解：模型适配、插件增强、多平台优化一网打尽
+===========================================
+
+![]()福大大架构师每日一题关注发布于 2026-03-31 21:33:17发布于 2026-03-31 21:33:171520举报文章被收录于专栏：[福大大架构师每日一题](/developer/column/88547)福大大架构师每日一题![]()在这里插入图片描述![]()在这里插入图片描述![]()在这里插入图片描述
+### **一、版本概览**
+
+openclaw于2026年3月29日正式发布v2026.3.28最新版本，本次更新包含多项**Breaking变更**与功能优化，覆盖模型提供商适配、配置管理、插件系统、多平台交互、容器部署、CLI工具等多个核心模块，全面提升AI智能体框架的稳定性、安全性与易用性，以下为完整更新内容详解。
+
+### **二、Breaking变更（不兼容更新）**
+
+#### **1. Qwen提供商认证迁移**
+
+* • 移除已弃用的`qwen-portal-auth` OAuth集成（适配portal.qwen.ai），该认证方式不再可用。
+* • 迁移方案：切换至Model Studio认证，使用命令`openclaw onboard --auth-choice modelstudio-api-key`完成配置。
+
+#### **2. 配置迁移规则调整**
+
+* • 自动配置迁移功能仅保留近两个月内的配置项，超过两个月的旧版配置不再自动迁移。
+* • 极旧的遗留配置密钥加载时不再自动重写，而是直接触发验证失败，需手动更新配置。
+
+### **三、核心功能更新与优化**
+
+#### **（一）模型提供商适配增强**
+
+##### **1. xAI（Grok）功能升级**
+
+* • 捆绑的xAI提供商迁移至Responses API，新增原生`x_search`搜索能力。
+* • 自动启用xAI插件，无需手动切换，基于已有的网页搜索与工具配置，即可直接使用Grok认证与搜索流程。
+* • 新增Grok网页搜索插件引导：在`openclaw onboard`和`openclaw configure --section web`流程中，提供可选的`x_search`设置，包含共享xAI密钥的模型选择器。
+
+##### **2. MiniMax图像生成能力新增**
+
+* • 新增MiniMax图像生成提供商，支持`image-01`模型。
+* • 核心能力：支持图像生成、图像到图像编辑，可自定义图像宽高比。
+* • 模型目录精简：仅保留M2.7模型，移除M2、M2.1、M2.5、VL-01等旧版模型。
+
+##### **3. OpenAI/Codex功能优化**
+
+* • 为OpenAI与OpenAI Codex模型默认启用`apply_patch`功能。
+* • 对齐`apply_patch`的沙箱策略访问权限与写入权限，保障操作安全性。
+
+#### **（二）插件系统全面升级**
+
+##### **1. 工具执行审批机制增强**
+
+* • 插件钩子新增`async requireApproval`（`before_tool_call`钩子），可暂停工具执行，向用户发起审批请求。
+* • 审批渠道：支持执行审批覆盖层、Telegram按钮、Discord交互、任意频道`/approve`命令。
+* • 命令统一：`/approve`命令同时处理执行与插件审批，自动降级适配不同场景。
+
+##### **2. CLI后端与启动优化**
+
+* • 捆绑的Claude CLI、Codex CLI、Gemini CLI推理默认配置迁移至插件层面，新增Gemini CLI后端支持。
+* • 命令替换：`gateway run --claude-cli-logs`替换为通用`--cli-backend-logs`，保留旧命令作为兼容别名。
+* • 自动加载：从显式配置引用中自动加载捆绑的提供商与CLI后端插件，无需手动配置`plugins.allow`条目。
+
+##### **3. 运行时与依赖优化**
+
+* • 插件运行时系统命名空间暴露`runHeartbeatOnce`，支持触发单次心跳周期，可指定消息投递目标（如`heartbeat: { target: "last" }`）。
+* • 内存管理：预压缩内存刷新计划迁移至活跃内存插件合约，由内存核心模块控制刷新提示与目标路径策略，替代硬编码逻辑。
+* • 依赖保障：打包更新时预加载捆绑的`@pierre/diffs`运行时依赖，确保全局安装与更新后差异查看器正常加载。
+* • 主题兼容：加载捆绑的Pierre主题时移除JSON模块导入，适配新版Node.js构建环境。
+
+##### **4. 插件卸载与配置清理**
+
+* • 卸载频道插件时，自动移除对应的`channels.<id>`配置项。
+* • 卸载预览与显式频道所有权规则对齐，内置频道与共享密钥不受影响。
+
+#### **（三）多平台交互功能优化**
+
+##### **1. ACP（Agent Control Plane）频道绑定**
+
+* • 为Discord、BlueBubbles、iMessage新增当前对话ACP绑定功能。
+* • 命令支持：`/acp spawn codex --bind here`可将当前聊天直接转为Codex工作区，无需创建子线程。
+* • 文档完善：明确区分聊天界面、ACP会话、运行时工作区的概念差异。
+
+##### **2. Slack文件操作增强**
+
+* • 新增显式`upload-file` Slack操作，通过现有Slack上传通道处理文件上传。
+* • 支持自定义：可覆盖频道与私信的文件名、标题、备注信息。
+
+##### **3. 多平台文件发送统一**
+
+* • 基于`upload-file`操作统一文件优先发送逻辑，新增Microsoft Teams、Google Chat显式支持。
+* • BlueBubbles文件发送通过`upload-file`实现，保留`sendAttachment`旧别名兼容。
+
+##### **4. Matrix平台功能优化**
+
+* • TTS回复：自动TTS回复以原生Matrix语音气泡形式发送，替代通用音频附件。
+* • 媒体处理：保留入站媒体的发送者文件名，将`originalFilename`转发至`saveMediaBuffer`。
+* • 提及识别：支持识别`matrix.to`提及（可见标签为机器人房间显示名），`requireMention: true`的房间可在新版Matrix客户端正常响应。
+* • DM路由：选择外发直接房间时优先显式DM信号，避免严格双人回退房间覆盖真实DM。
+* • 认证配置：启动时解析环境变量-backed的`accessToken`与`password` SecretRefs，正式支持SecretRef格式的`accessToken`配置。
+* • 加密优化：E2EE加密图像缩略图使用`thumbnail_file`，未加密房间保留`thumbnail_url`预览，兼顾安全性与可用性。
+* • 依赖加载：通过`createRequire(...)`加载捆绑的`@matrix-org/matrix-sdk-crypto-nodejs`，保障打包ESM构建中E2EE媒体收发的原生绑定正常工作。
+
+##### **5. Microsoft Teams主动DM优化**
+
+* • 发送用户消息时，优先选择最新的个人会话引用，避免回复指向陈旧DM线程。
+
+##### **6. Telegram论坛话题支持**
+
+* • 保留论坛线程命令上下文的话题目标，`/new`、`/reset`命令始终路由至活跃话题。
+
+##### **7. Discord功能优化**
+
+* • 回复格式：剥离内联回复标签时保留前导缩进，纯文本与代码块格式不受影响。
+* • 子代理通知：恢复BlueBubbles等扩展频道的完成通知投递。
+
+#### **（四）容器部署与系统优化**
+
+##### **1. Podman容器简化**
+
+* • 简化当前无root用户的容器设置，将启动助手安装至`~/.local/bin`目录。
+* • 工作流优化：推荐使用`openclaw --container <name> ...`主机CLI命令，替代专用`openclaw`服务用户。
+
+##### **2. 网关与代理稳定性增强**
+
+* • 工具调用复用：构建HTTP`/tools/invoke`工具列表时复用会话工作区，默认推断会话代理工作区，避免工作区插件重复注册。
+* • 错误分类：将HTTP 410错误默认归类为可重试超时，同时保留会话过期、计费、认证等显式信号。
+* • 状态展示：`openclaw daemon status`优先展示轻量级探测的网关关闭原因， concrete认证/配对失败信息替代通用超时提示。
+
+#### **（五）CLI工具与配置管理**
+
+##### **1. 新增配置Schema命令**
+
+* • 新增`openclaw config schema`命令，可打印`openclaw.json`的生成JSON Schema，便于配置校验与开发。
+
+##### **2. TTS配置自动迁移**
+
+* • 常规读取与密钥解析时自动迁移旧版语音配置，保留Doctor诊断功能。
+* • 移除常规运行时对旧版`tts.<provider> API-key`格式的降级支持。
+
+##### **3. Ollama思考模式优化**
+
+* • `thinkingLevel=off`通过Ollama扩展请求路径传递，支持思考能力的Ollama模型接收`think: false`参数，避免静默生成隐藏推理Token。
+
+##### **4. Brave搜索适配**
+
+* • 请求与缓存键生成前，将不支持的Brave国家过滤器归一化为`ALL`，避免`VN`等地区值触发上游422验证错误。
+
+##### **5. 入站附件处理**
+
+* • `inbound_claim`钩子元数据传递完整入站附件数组，保留旧版单一媒体附件字段以兼容旧插件。
+
+##### **6. 代理压缩刷新**
+
+* • 陈旧使用预飞行压缩时保留压缩后AGENTS刷新，保障Discord兼容上游beta构造器变更。
+
+### **四、总结**
+
+代码地址：bgithub.xyz/openclaw/openclaw
+
+openclaw v2026.3.28版本聚焦**模型适配、插件安全、多平台交互、部署简化**四大核心方向，通过Breaking变更清理历史包袱，同时新增多项实用功能，大幅提升AI智能体开发与运行的效率与安全性。开发者需重点关注Qwen认证迁移、配置迁移规则调整，按需升级模型与插件配置，充分利用xAI搜索、MiniMax图像生成、工具审批等新特性，构建更强大、更安全的AI应用。
+
+·
+
+---
+
+> 我们相信人工智能为普通人提供了一种“增强工具”，并致力于分享全方位的AI知识。在这里，您可以找到最新的AI科普文章、工具评测、提升效率的秘籍以及行业洞察。
+> 欢迎关注“福大大架构师每日一题”，发消息可获得面试资料，让AI助力您的未来发展。
+
+·
+
+本文参与 [腾讯云自媒体同步曝光计划](/developer/support-plan)，分享自微信公众号。原始发表：2026-03-29，如有侵权请联系 [cloudcommunity@tencent.com](mailto:cloudcommunity@tencent.com) 删除[配置](/developer/tag/17393)[优化](/developer/tag/17554)[迁移](/developer/tag/10967)[插件](/developer/tag/17209)[模型](/developer/tag/17381)
+
+本文分享自 福大大架构师每日一题 微信公众号，前往查看
+
+如有侵权，请联系 [cloudcommunity@tencent.com](mailto:cloudcommunity@tencent.com) 删除。
+
+本文参与 [腾讯云自媒体同步曝光计划](/developer/support-plan)  ，欢迎热爱写作的你一起参与！
+
+[配置](/developer/tag/17393)[优化](/developer/tag/17554)[迁移](/developer/tag/10967)[插件](/developer/tag/17209)[模型](/developer/tag/17381)评论登录后参与评论0 条评论热度最新登录 后参与评论推荐阅读目录
+
+* 一、版本概览
+
+* 二、Breaking变更（不兼容更新）
+  + 1. Qwen提供商认证迁移
+  + 2. 配置迁移规则调整
+
+* 三、核心功能更新与优化
+  + （一）模型提供商适配增强
+    - 1. xAI（Grok）功能升级
+    - 2. MiniMax图像生成能力新增
+    - 3. OpenAI/Codex功能优化
+  + （二）插件系统全面升级
+    - 1. 工具执行审批机制增强
+    - 2. CLI后端与启动优化
+    - 3. 运行时与依赖优化
+    - 4. 插件卸载与配置清理
+  + （三）多平台交互功能优化
+    - 1. ACP（Agent Control Plane）频道绑定
+    - 2. Slack文件操作增强
+    - 3. 多平台文件发送统一
+    - 4. Matrix平台功能优化
+    - 5. Microsoft Teams主动DM优化
+    - 6. Telegram论坛话题支持
+    - 7. Discord功能优化
+  + （四）容器部署与系统优化
+    - 1. Podman容器简化
+    - 2. 网关与代理稳定性增强
+  + （五）CLI工具与配置管理
+    - 1. 新增配置Schema命令
+    - 2. TTS配置自动迁移
+    - 3. Ollama思考模式优化
+    - 4. Brave搜索适配
+    - 5. 入站附件处理
+    - 6. 代理压缩刷新
+
+* 四、总结
+相关产品与服务容器服务腾讯云容器服务（Tencent Kubernetes Engine, TKE）基于原生 kubernetes 提供以容器为核心的、高度可扩展的企业级容器管理服务。首创单集群混合节点的资源管理模式，全面围绕 Agentic AI 应用部署与极致资源效能提供全场景解决方案，为用户释放 AI 时代的无限算力。[产品介绍](https://cloud.tencent.com/product/tke?from=21341&from_column=21341)[产品文档](https://cloud.tencent.com/document/product/457?from=21342&from_column=21342)[2026采购季 | AI焕新·智启新局](https://cloud.tencent.com/act/pro/featured-202604?from=21344&from_column=21344)领券
+
+* ### 社区
+  
+  + [技术文章](/developer/column)
+  + [技术问答](/developer/ask)
+  + [技术沙龙](/developer/salon)
+  + [技术视频](/developer/video)
+  + [学习中心](/developer/learning)
+  + [技术百科](/developer/techpedia)
+  + [技术专区](/developer/zone/list)
+* ### 活动
+  
+  + [自媒体同步曝光计划](/developer/support-plan)
+  + [邀请作者入驻](/developer/support-plan-invitation)
+  + [自荐上首页](/developer/article/1535830)
+  + [技术竞赛](/developer/competition)
+* ### 圈层
+  
+  + [腾讯云最具价值专家](/tvp)
+  + [腾讯云架构师技术同盟](/developer/program/tm)
+  + [腾讯云创作之星](/developer/program/tci)
+  + [腾讯云TDP](/developer/program/tdp)
+* ### 关于
+  
+  + [社区规范](/developer/article/1006434)
+  + [免责声明](/developer/article/1006435)
+  + [联系我们](mailto:cloudcommunity@tencent.com)
+  + [友情链接](/developer/friendlink)
+  + [MCP广场开源版权声明](/developer/article/2537547)
+### 腾讯云开发者
+
+![]()
+
+扫码关注腾讯云开发者
+
+领取腾讯云代金券
+
+### 热门产品
+
+* [域名注册](/product/domain?from=20064&from_column=20064)
+* [云服务器](/product/cvm?from=20064&from_column=20064)
+* [区块链服务](/product/tbaas?from=20064&from_column=20064)
+* [消息队列](/product/message-queue-catalog?from=20064&from_column=20064)
+* [网络加速](/product/ecdn?from=20064&from_column=20064)
+* [云数据库](/product/tencentdb-catalog?from=20064&from_column=20064)
+* [域名解析](/product/dns?from=20064&from_column=20064)
+* [云存储](/product/cos?from=20064&from_column=20064)
+* [视频直播](/product/css?from=20064&from_column=20064)
+### 热门推荐
+
+* [人脸识别](/product/facerecognition?from=20064&from_column=20064)
+* [腾讯会议](/product/tm?from=20064&from_column=20064)
+* [企业云](/act/pro/enterprise2022?from=20064&from_column=20064)
+* [CDN加速](/product/cdn?from=20064&from_column=20064)
+* [视频通话](/product/trtc?from=20064&from_column=20064)
+* [图像分析](/product/imagerecognition?from=20064&from_column=20064)
+* [MySQL 数据库](/product/cdb?from=20064&from_column=20064)
+* [SSL 证书](/product/ssl?from=20064&from_column=20064)
+* [语音识别](/product/asr?from=20064&from_column=20064)
+### 更多推荐
+
+* [数据安全](/solution/data_protection?from=20064&from_column=20064)
+* [负载均衡](/product/clb?from=20064&from_column=20064)
+* [短信](/product/sms?from=20064&from_column=20064)
+* [文字识别](/product/ocr?from=20064&from_column=20064)
+* [云点播](/product/vod?from=20064&from_column=20064)
+* [大数据](/product/bigdata-class?from=20064&from_column=20064)
+* [小程序开发](/solution/la?from=20064&from_column=20064)
+* [网站监控](/product/tcop?from=20064&from_column=20064)
+* [数据迁移](/product/cdm?from=20064&from_column=20064)
+
+Copyright © 2013 - 2026 Tencent Cloud. All Rights Reserved. 腾讯云 版权所有
+
+[深圳市腾讯计算机系统有限公司](https://qcloudimg.tencent-cloud.cn/raw/986376a919726e0c35e96b311f54184d.jpg) ICP备案/许可证号：[粤B2-20090059](https://beian.miit.gov.cn/#/Integrated/index)![]()[粤公网安备44030502008569号](https://beian.mps.gov.cn/#/query/webSearch?code=44030502008569)
+
+[腾讯云计算（北京）有限责任公司](https://qcloudimg.tencent-cloud.cn/raw/a2390663ee4a95ceeead8fdc34d4b207.jpg) 京ICP证150476号 |  [京ICP备11018762号](https://beian.miit.gov.cn/#/Integrated/index)
+
+[问题归档](/developer/ask/archives.html)[专栏文章](/developer/column/archives.html)[快讯文章归档](/developer/news/archives.html)[关键词归档](/developer/information/all.html)[开发者手册归档](/developer/devdocs/archives.html)[开发者手册 Section 归档](/developer/devdocs/sections_p1.html)
+
+Copyright © 2013 - 2026 Tencent Cloud.
+
+All Rights Reserved. 腾讯云 版权所有
+
+登录 后参与评论000推荐

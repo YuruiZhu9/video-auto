@@ -1,0 +1,111 @@
+# Source URL: https://blink.new/blog/openclaw-2026-3-28-whats-new-update-guide
+# Content Length: 17734 characters
+# Extracted at: 2026-04-03 22:34:13
+#============================================================
+
+[Back to blog](https://blink.new/blog)
+![OpenClaw 2026.3.28 Update: What's New + Critical Security Patches](https://blink.new/\_next/image?url=%5BREDACTED%5D%2Fcms%2Fmcp-uploads%2Fopenclaw-2026-3-28-whats-new-update-guide-mngzk0wkdyll.png&w=3840&q=75)
+On this page
+# [OpenClaw 2026.3.28 Update: What's New and Why You Must Update Now](https://blink.new/blog/openclaw-2026-3-28-whats-new-update-guide\#openclaw-2026328-update-whats-new-and-why-you-must-update-now)
+\*\*OpenClaw 2026.3.28 closes privilege escalation and sandbox file read paths, adds plug-in approval hooks, xAI Grok with x\\_search, and Discord/iMessage ACP channels, plus 45 features, 13 breaking changes, and 82 fixes. OpenClaw has 247,000+ GitHub stars; 2026.3.31 (April 1) adds QQ bot bundle, LINE Media, Background Task Flows, and CJK TTS. Manual Docker updates take 30–60 minutes; Blink Claw patches within hours.\*\*
+If you run OpenClaw where untrusted code, plug-ins, or broad channel access meet your filesystem and process boundaries, treating 2026.3.28 as optional maintenance is the wrong call. The [OpenClaw security audit checklist for 2026](https://blink.new/blog/%5BREDACTED%5D/blog/openclaw-security-audit-checklist-2026) gives you a repeatable pass/fail frame before and after you upgrade. This article summarizes what changed in 2026.3.28 and 2026.3.31, why the security delta matters, how self-hosted operators apply images, and how [Blink Claw managed hosting with auto-patching](https://blink.new/blog/%5BREDACTED%5D/blog/openclaw-managed-hosting-auto-patching-security-2026) compresses the time between upstream disclosure and your fleet running patched bits.
+## [What Is in the OpenClaw 2026.3.28 Update?](https://blink.new/blog/openclaw-2026-3-28-whats-new-update-guide\#what-is-in-the-openclaw-2026328-update)
+OpenClaw 2026.3.28 (March 28) is a full platform drop, not a cosmetic bump: \*\*45\*\* new features, \*\*13\*\* breaking changes, and \*\*82\*\* bug fixes ship together, so release notes and migration guidance deserve a scheduled read before you flip traffic.
+\*\*Plug-in approval hook.\*\* Operators gain an explicit gate before new or updated plug-ins execute in sensitive contexts. You define policy at the hook: approve, deny, or route through a human or automation step. That control layer shrinks the blast radius when a supply-chain package, mislabeled skill, or overly powerful extension reaches your agent host—especially relevant if you sync skills from community paths. Pair this hook with the hygiene patterns in [Is OpenClaw safe? A ClawHub malware guide for 2026](https://blink.new/blog/%5BREDACTED%5D/blog/is-openclaw-safe-clawhub-malware-guide-2026) so approvals rest on provenance checks, not gut feel.
+\*\*xAI Responses API plus Grok `x\_search`.\*\* Agents now call xAI's Responses API with Grok models and can issue `x\_search` backed lookups when your workflow needs fresh web signal instead of stale training cutoffs. Use this stack for research-heavy automations—incident summaries, competitive scans, policy monitoring—where latency and citation-style answers beat a single completion without tools.
+\*\*Discord and iMessage ACP channels.\*\* Apple Continuity Platform (ACP) style wiring lands for Discord and iMessage, expanding where your gateway receives and sends agent traffic without bolting on unofficial bridges. Teams that already standardize on those surfaces get first-class paths to route prompts, approvals, and alerts into the same OpenClaw session graph you run for Slack or Telegram.
+\*\*Scale context.\*\* OpenClaw sits at \*\*247,000+\*\* GitHub stars—signal that regressions and breaking changes receive fast scrutiny. Plan for the \*\*13\*\* breaking changes: diff `openclaw.json`, gateway auth profiles, and channel tokens against the official migration notes before you declare the upgrade done.
+## [What Critical Security Vulnerabilities Were Patched in 2026.3.28?](https://blink.new/blog/openclaw-2026-3-28-whats-new-update-guide\#what-critical-security-vulnerabilities-were-patched-in-2026328)
+A PSA trending on r/selfhosted captures the tone serious operators already adopted: \*\*"Update OpenClaw to 2026.3.28 now — Critical privilege escalation and sandbox file read patched."\*\* Treat Reddit as an alarm bell, then verify details in OpenClaw's GitHub releases and Security Advisories—those sources own CVE identifiers, affected tags, and exact fixed revisions.
+\*\*Privilege escalation (patched in 2026.3.28).\*\* In vulnerable builds, an attacker who already influences agent inputs or plug-in loading paths edges toward executing actions with more privilege than the sandbox and role model intend—think host-level side effects or cross-tenant bleed on shared infra. The 2026.3.28 line draws a hard boundary again: upgrade every runtime that executes untrusted or semi-trusted code.
+\*\*Sandbox file read (patched in 2026.3.28).\*\* A flawed sandbox read path exposes files the agent must never see—SSH keys, `.env` dumps, private prompts, customer attachments—straight into model context or exfiltration channels. The patch removes that read primitive; staying on a pre-2026.3.28 tag keeps the hole open.
+\*\*Action item.\*\* Move production gateways, workers, and CI sandboxes to \*\*2026.3.28 or newer\*\* before you prioritize feature work. If you need a structured review cadence, walk the controls in the [security audit checklist](https://blink.new/blog/%5BREDACTED%5D/blog/openclaw-security-audit-checklist-2026) immediately after you deploy the new image.
+## [What New Features Shipped in the 2026.3.31 Release?](https://blink.new/blog/openclaw-2026-3-28-whats-new-update-guide\#what-new-features-shipped-in-the-2026331-release)
+Tag \*\*2026.3.31\*\* published \*\*April 1\*\*—calendar date, not an April Fools drop—extends the March security baseline with operator-facing channel and media upgrades.
+\*\*QQ bot bundle.\*\* APAC teams and cross-border support desks pick up a packaged QQ integration instead of stitching unofficial bots. "Bundle" here means dependencies, defaults, and channel wiring ship together so your gateway configuration stays coherent across regions.
+\*\*LINE Media.\*\* LINE stops being text-only in practice: richer media handling lands for the channel, which matters for OCR-heavy tickets, receipt photos, and mixed-language threads common in Japan, Thailand, and Taiwan.
+\*\*Background Task Flows.\*\* Long-running jobs—queued summarization, large file ingestion, multi-step approvals—gain a durability story that keeps state out of fragile one-shot completions. Operators see fewer dropped tasks when laptops sleep or containers restart mid-run.
+\*\*CJK TTS upgrades.\*\* Japanese, Chinese, and Korean text-to-speech paths receive quality and locale coverage improvements, tightening voice responses for agents that serve multilingual customers without forcing English fallbacks.
+## [How Do You Update OpenClaw to the Latest Version?](https://blink.new/blog/openclaw-2026-3-28-whats-new-update-guide\#how-do-you-update-openclaw-to-the-latest-version)
+\*\*Docker path (most common).\*\* Pull the current image, recycle the stack, and verify health checks:
+```
+docker pull openclaw/openclaw:latest && docker-compose down && docker-compose up -d
+```
+Budget \*\*30–60 minutes\*\* per self-hosted upgrade once you count image pulls, compose churn, smoke tests, and channel reconnects—not just the shell command.
+\*\*Pre-flight checklist.\*\*
+1. Snapshot volumes that hold workspace files, SQLite or local stores, and uploaded media.
+2. Export `openclaw.json`, gateway tokens, and connector secrets from your secret manager—never rely on a single disk copy.
+3. Read the \*\*13\*\* breaking changes for 2026.3.28; grep your repo for deprecated flags before restart.
+4. Stage a canary host or namespace if you run multiple agents; promote traffic after gateway and plug-in hooks pass tests.
+\*\*Post-flight verification.\*\* Open the gateway UI or WS client, send a probe message on each channel (Slack, Discord, iMessage ACP, etc.), run one plug-in workflow under the new approval hook, and confirm logs show the \*\*2026.3.28\*\* or \*\*2026.3.31\*\* build string.
+\*\*Non-Docker paths.\*\* Bare-metal and cloud-VM installs follow the same discipline: sync to the tagged release, rebuild binaries or pull OCI artifacts, restart systemd units, validate ports. For cloud-only installs without local Docker, follow [How to run OpenClaw without Docker in the cloud (2026)](https://blink.new/blog/%5BREDACTED%5D/blog/how-to-run-openclaw-without-docker-cloud-2026) so parity checks match your hosting model.
+## [Are You Running Self-Hosted OpenClaw? What Does the Update Process Look Like?](https://blink.new/blog/openclaw-2026-3-28-whats-new-update-guide\#are-you-running-self-hosted-openclaw-what-does-the-update-process-look-like)
+Self-hosted operators own the full stack: kernel updates, container runtime, volume backups, TLS certificates, and the OpenClaw image tag. When upstream publishes a security fix, your delay equals detection time plus maintenance calendar availability—often \*\*days to weeks\*\* if teams batch weekend work.
+| Update experience | Self-hosted OpenClaw | Blink Claw (managed) |
+| --- | --- | --- |
+| Time to apply update | 30–60 minutes | 0 minutes (auto) |
+| Downtime during update | Yes (varies) | Zero downtime rolling updates |
+| Security patch delay | Days to weeks | Within hours of release |
+| Breaking change handling | Manual config migration | Handled automatically |
+| Rollback capability | Manual | One-click |
+The table highlights why high-severity releases such as 2026.3.28 strain DIY schedules: each manual cycle burns the same \*\*30–60 minutes\*\* of engineering time, while risk compounds every hour you remain on a vulnerable tag.
+## [How Does Blink Claw Handle Security Patching?](https://blink.new/blog/openclaw-2026-3-28-whats-new-update-guide\#how-does-blink-claw-handle-security-patching)
+[Blink Claw](https://blink.new/blog/%5BREDACTED%5D/blog/openclaw-managed-hosting-auto-patching-security-2026) tracks OpenClaw upstream releases and rolls images \*\*within hours\*\*—not after the next sprint planning session. Rolling updates remove the "restart everything" cliff: gateways stay reachable while new nodes pick up 2026.3.28's privilege and sandbox fixes, then traffic shifts without a hard downtime window.
+You still own connector OAuth apps, API tokens, and workspace content under `/data/workspace`, consistent with AGENTS.md guidance in the Blink Claw docs. Blink manages the bits that touch CVE exposure: base image, OpenClaw version pin, and runtime hardening. When \*\*13\*\* breaking changes land upstream, managed environments absorb migrations that self-hosted teams must script by hand.
+Resource note: plan for \*\*4GB RAM\*\* minimum on comparable xCloud-style footprints so Grok, media channels, and background flows retain headroom—undersized VMs stall exactly when you lean on the new features.
+## [What Should You Do If You Can't Update Immediately?](https://blink.new/blog/openclaw-2026-3-28-whats-new-update-guide\#what-should-you-do-if-you-cant-update-immediately)
+Deferral is expensive when privilege escalation and sandbox file read issues apply to your deployment topology. If a hard stop blocks the upgrade today, execute compensating controls now, not tomorrow:
+- Block untrusted plug-ins and third-party skills at the network and filesystem layer until 2026.3.28 is live.
+- Remove gateway admin interfaces from the public internet; force VPN or identity-aware proxy paths.
+- Rotate secrets that ever sat on hosts reachable by agent sandboxes pre-patch.
+- Schedule the maintenance window within \*\*24 hours\*\* and run the `docker pull … && docker-compose down && docker-compose up -d` sequence in staging first.
+This triage does not replace the patch—it buys calendar space while you drive the real fix.
+## [What Are the Most Frequently Asked Questions About OpenClaw 2026.3.28 and 2026.3.31?](https://blink.new/blog/openclaw-2026-3-28-whats-new-update-guide\#what-are-the-most-frequently-asked-questions-about-openclaw-2026328-and-2026331)
+### [Is OpenClaw 2026.3.28 safe to install?](https://blink.new/blog/openclaw-2026-3-28-whats-new-update-guide\#is-openclaw-2026328-safe-to-install)
+Yes—when you install official artifacts from OpenClaw's published registries or signed release bundles and verify checksums. The 2026.3.28 line specifically removes the privilege escalation and sandbox file read weaknesses that made older tags unsafe for exposed deployments.
+### [What CVEs were fixed in OpenClaw 2026.3.28?](https://blink.new/blog/openclaw-2026-3-28-whats-new-update-guide\#what-cves-were-fixed-in-openclaw-2026328)
+OpenClaw documents coordinated disclosures for the privilege escalation and sandbox file read classes in its GitHub Security Advisories and release notes. Pull the exact CVE IDs, CVSS scores, affected tags, and fixed revisions from those primary sources when you file compliance paperwork—do not rely on forum copy alone.
+### [How do I update OpenClaw without losing my data?](https://blink.new/blog/openclaw-2026-3-28-whats-new-update-guide\#how-do-i-update-openclaw-without-losing-my-data)
+Back up mounted volumes, export `openclaw.json` and secrets, run the controlled `docker-compose down` / `up` cycle, and confirm databases and workspace directories remount cleanly. Keep backups immutable for at least \*\*7 days\*\* so you retain rollback copies across the \*\*82\*\* bug fixes that touch storage edge cases.
+### [Does Blink Claw auto-update when new OpenClaw versions release?](https://blink.new/blog/openclaw-2026-3-28-whats-new-update-guide\#does-blink-claw-auto-update-when-new-openclaw-versions-release)
+Yes. Blink Claw monitors upstream OpenClaw releases and deploys patches \*\*within hours\*\*, beating weekly batched maintenance on most teams. Read the [managed hosting auto-patching deep dive](https://blink.new/blog/%5BREDACTED%5D/blog/openclaw-managed-hosting-auto-patching-security-2026) for the responsibility split between Blink infra and your connector configuration.
+### [What is the plug-in approval hook in OpenClaw 2026.3.28?](https://blink.new/blog/openclaw-2026-3-28-whats-new-update-guide\#what-is-the-plug-in-approval-hook-in-openclaw-2026328)
+It is a governance gate that runs before a plug-in executes, letting you approve, deny, or escalate based on policy. Hook handlers see metadata about the plug-in source and requested capabilities so risky community packages never silently gain the same privileges as first-party tools.
+### [What new bots were added in OpenClaw 2026.3.31?](https://blink.new/blog/openclaw-2026-3-28-whats-new-update-guide\#what-new-bots-were-added-in-openclaw-2026331)
+Tag 2026.3.31 ships the \*\*QQ bot bundle\*\* for Tencent QQ alongside improved \*\*LINE Media\*\* handling. Pair those channel upgrades with the Discord and iMessage ACP additions from 2026.3.28 when you map global coverage.
+### [How long does it take to apply OpenClaw security patches manually?](https://blink.new/blog/openclaw-2026-3-28-whats-new-update-guide\#how-long-does-it-take-to-apply-openclaw-security-patches-manually)
+Expect \*\*30–60 minutes\*\* per self-hosted cycle including pulls, compose restarts, and validation. Security patch lag stretches to \*\*days or weeks\*\* when teams defer maintenance; Blink Claw closes that gap to \*\*hours\*\* after each upstream release.
+\*\*Deploy on Blink Claw (from $45/month) → blink.new/claw\*\*
+[#openclaw](https://blink.new/blog/tag/openclaw) [#update](https://blink.new/blog/tag/update) [#security](https://blink.new/blog/tag/security) [#cve](https://blink.new/blog/tag/cve) [#2026](https://blink.new/blog/tag/2026)
+Share
+![Blink Team](https://blink.new/\_next/image?url=%2Fblink%2Fblink-logo-icon--dark.png&w=128&q=75)
+Blink Team• Building the future of development
+We're the team behind Blink — engineers, designers, and dreamers working to make development faster and more enjoyable.
+## Related Posts
+[![OpenClaw vs OpenAI Assistants API: Which AI Agent Platform Wins?](https://blink.new/\_next/image?url=%5BREDACTED%5D%2Fcms%2Fmcp-uploads%2Fopenclaw-vs-openai-assistants-api-comparison-2026-mngzkdbi51gc.png&w=3840&q=75)\\
+\\
+Tutorial•Apr 2, 2026\\
+\\
+\*\*OpenClaw vs OpenAI Assistants API: Which AI Agent Platform Wins?\*\* \\
+\\
+OpenClaw vs OpenAI Assistants API in 2026 — privacy, cost, autonomy, and deployment compared. See which agent platform fits your use case and budget.\\
+\\
+11 min read](https://blink.new/blog/openclaw-vs-openai-assistants-api-comparison-2026) [![OpenClaw for Project Managers: Automate Your Entire Workflow](https://blink.new/\_next/image?url=%5BREDACTED%5D%2Fcms%2Fmcp-uploads%2Fopenclaw-for-project-managers-workflow-automation-2026-mngzkjpwp0xa.png&w=3840&q=75)\\
+\\
+Tutorial•Apr 2, 2026\\
+\\
+\*\*OpenClaw for Project Managers: Automate Your Entire Workflow\*\* \\
+\\
+OpenClaw for project managers automates status updates, meeting notes, task tracking, and stakeholder reporting. Cut 10+ hours/week with your AI PM assistant.\\
+\\
+9 min read](https://blink.new/blog/openclaw-for-project-managers-workflow-automation-2026) [![OpenClaw for Nonprofits: AI Automation on a Tight Budget](https://blink.new/\_next/image?url=%5BREDACTED%5D%2Fcms%2Fmcp-uploads%2Fopenclaw-for-nonprofits-ai-automation-2026-mngzkpfgprl2.png&w=3840&q=75)\\
+\\
+Tutorial•Apr 2, 2026\\
+\\
+\*\*OpenClaw for Nonprofits: AI Automation on a Tight Budget\*\* \\
+\\
+OpenClaw for nonprofits automates grant writing, donor outreach, volunteer coordination, and reporting — for under $50/month. Here's how to set it up.\\
+\\
+13 min read](https://blink.new/blog/openclaw-for-nonprofits-ai-automation-2026)
+Documentation
+Open in new tabClose documentation

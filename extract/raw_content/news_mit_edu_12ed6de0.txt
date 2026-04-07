@@ -1,0 +1,169 @@
+# Source URL: https://news.mit.edu/2025/can-ai-really-code-study-maps-roadblocks-to-autonomous-software-engineering-0716
+# Content Length: 22050 characters
+# Extracted at: 2026-03-27 11:44:54
+#============================================================
+
+[Skip to content ↓](https://news.mit.edu/2025/can-ai-really-code-study-maps-roadblocks-to-autonomous-software-engineering-0716#main)
+[Massachusetts Institute of Technology](http://web.mit.edu/)
+Search websites, locations, and people
+See More Results
+[Suggestions or feedback?](http://web.mit.edu/feedback)
+Enter keywords to search for news articles:Submit
+## Browse By
+### Topics
+[View All](https://news.mit.edu/topics) →
+Explore:
+- [Machine learning](https://news.mit.edu/topic/machine-learning)
+- [Sustainability](https://news.mit.edu/topic/sustainability)
+- [Startups](https://news.mit.edu/topic/startups)
+- [Black holes](https://news.mit.edu/topic/black-holes)
+- [Classes and programs](https://news.mit.edu/topic/classes-and-programs)
+### Departments
+[View All](https://news.mit.edu/departments) →
+Explore:
+- [Aeronautics and Astronautics](https://news.mit.edu/department/aeronautics-and-astronautics)
+- [Brain and Cognitive Sciences](https://news.mit.edu/department/brain-and-cognitive-sciences)
+- [Architecture](https://news.mit.edu/department/architecture)
+- [Political Science](https://news.mit.edu/department/political-science)
+- [Mechanical Engineering](https://news.mit.edu/department/mechanical-engineering)
+### Centers, Labs, & Programs
+[View All](https://news.mit.edu/centers-labs-programs) →
+Explore:
+- [Abdul Latif Jameel Poverty Action Lab (J-PAL)](https://news.mit.edu/clp/abdul-latif-jameel-poverty-action-lab-j-pal)
+- [Picower Institute for Learning and Memory](https://news.mit.edu/clp/picower-institute)
+- [Media Lab](https://news.mit.edu/clp/media-lab)
+- [Lincoln Laboratory](https://news.mit.edu/clp/lincoln-laboratory)
+### Schools
+- [School of Architecture + Planning](https://news.mit.edu/school/architecture-and-planning)
+- [School of Engineering](https://news.mit.edu/school/engineering)
+- [School of Humanities, Arts, and Social Sciences](https://news.mit.edu/school/humanities-arts-and-social-sciences)
+- [Sloan School of Management](https://news.mit.edu/school/management)
+- [School of Science](https://news.mit.edu/school/science)
+- [MIT Schwarzman College of Computing](https://news.mit.edu/school/mit-schwarzman-college-computing)
+[View all news coverage of MIT in the media](https://news.mit.edu/in-the-media) →
+[Listen to audio content from MIT News](https://news.mit.edu/podcasts) →
+[Subscribe to MIT newsletter](http://web.mit.edu/subscribe/) →
+[Close](https://news.mit.edu/2025/can-ai-really-code-study-maps-roadblocks-to-autonomous-software-engineering-0716#)
+#### Breadcrumb
+1. [MIT News](https://news.mit.edu/)
+2. Can AI really code? Study maps the roadblocks to autonomous software engineering
+# Can AI really code? Study maps the roadblocks to autonomous software engineering
+A team of researchers has mapped the challenges of AI in software development, and outlined a research agenda to move the field forward.
+Rachel Gordon\|MIT CSAIL
+Publication Date:
+July 16, 2025
+[Press Inquiries](https://news.mit.edu/2025/can-ai-really-code-study-maps-roadblocks-to-autonomous-software-engineering-0716#press-inquiries)
+### Press Contact:
+Rachel
+Gordon
+Email:
+[rachelg@csail.mit.edu](mailto:rachelg@csail.mit.edu)
+Phone:
+617-258-0675
+MIT Computer Science and Artificial Intelligence Laboratory
+[Close](https://news.mit.edu/2025/can-ai-really-code-study-maps-roadblocks-to-autonomous-software-engineering-0716#)
+![A 3D cartoon robot appears confused, standing in front of different newspaper headlines about the progress of AI coding. Blocks of code are visible behind a red background.](https://news.mit.edu/sites/default/files/styles/news\_article\_\_image\_gallery/public/images/202507/MIT%20News-AI%20coding%20.png?itok=Y2s\_xKEX)
+Caption:
+A new paper by MIT CSAIL researchers maps the many software-engineering tasks beyond code generation, identifies bottlenecks, and highlights research directions to overcome them. The goal: to let humans focus on high-level design, while routine work is automated.
+Credits:
+Image: Alex Shipps/MIT CSAIL, using assets from Shutterstock and Pixabay
+Previous imageNext image
+Imagine a future where artificial intelligence quietly shoulders the drudgery of software development: refactoring tangled code, migrating legacy systems, and hunting down race conditions, so that human engineers can devote themselves to architecture, design, and the genuinely novel problems still beyond a machine’s reach. Recent advances appear to have nudged that future tantalizingly close, but a new paper by researchers at MIT’s Computer Science and Artificial Intelligence Laboratory (CSAIL) and several collaborating institutions argues that this potential future reality demands a hard look at present-day challenges.
+Titled “ [Challenges and Paths Towards AI for Software Engineering](https://arxiv.org/pdf/2503.22625),” the work maps the many software-engineering tasks beyond code generation, identifies current bottlenecks, and highlights research directions to overcome them, aiming to let humans focus on high-level design while routine work is automated.
+“Everyone is talking about how we don’t need programmers anymore, and there’s all this automation now available,” says Armando Solar‑Lezama, MIT professor of electrical engineering and computer science, CSAIL principal investigator, and senior author of the study. “On the one hand, the field has made tremendous progress. We have tools that are way more powerful than any we’ve seen before. But there’s also a long way to go toward really getting the full promise of automation that we would expect.”
+Solar-Lezama argues that popular narratives often shrink software engineering to “the undergrad programming part: someone hands you a spec for a little function and you implement it, or solving LeetCode-style programming interviews.” Real practice is far broader. It includes everyday refactors that polish design, plus sweeping migrations that move millions of lines from COBOL to Java and reshape entire businesses. It requires nonstop testing and analysis — fuzzing, property-based testing, and other methods — to catch concurrency bugs, or patch zero-day flaws. And it involves the maintenance grind: documenting decade-old code, summarizing change histories for new teammates, and reviewing pull requests for style, performance, and security.
+Industry-scale code optimization — think re-tuning GPU kernels or the relentless, multi-layered refinements behind Chrome’s V8 engine — remains stubbornly hard to evaluate. Today’s headline metrics were designed for short, self-contained problems, and while multiple-choice tests still dominate natural-language research, they were never the norm in AI-for-code. The field’s de facto yardstick, SWE-Bench, simply asks a model to patch a GitHub issue: useful, but still akin to the “undergrad programming exercise” paradigm. It touches only a few hundred lines of code, risks data leakage from public repositories, and ignores other real-world contexts — AI-assisted refactors, human–AI pair programming, or performance-critical rewrites that span millions of lines. Until benchmarks expand to capture those higher-stakes scenarios, measuring progress — and thus accelerating it — will remain an open challenge.
+If measurement is one obstacle, human‑machine communication is another. First author Alex  Gu, an MIT graduate student in electrical engineering and computer science, sees today’s interaction as “a thin line of communication.” When he asks a system to generate code, he often receives a large, unstructured file and even a set of unit tests, yet those tests tend to be superficial. This gap extends to the AI’s ability to effectively use the wider suite of software engineering tools, from debuggers to static analyzers, that humans rely on for precise control and deeper understanding. “I don’t really have much control over what the model writes,” he says. “Without a channel for the AI to expose its own confidence — ‘this part’s correct … this part, maybe double‑check’ — developers risk blindly trusting hallucinated logic that compiles, but collapses in production. Another critical aspect is having the AI know when to defer to the user for clarification.”
+Scale compounds these difficulties. Current AI models struggle profoundly with large code bases, often spanning millions of lines. Foundation models learn from public GitHub, but “every company’s code base is kind of different and unique,” Gu says, making proprietary coding conventions and specification requirements fundamentally out of distribution. The result is code that looks plausible yet calls non‑existent functions, violates internal style rules, or fails continuous‑integration pipelines. This often leads to AI-generated code that “hallucinates,” meaning it creates content that looks plausible but doesn’t align with the specific internal conventions, helper functions, or architectural patterns of a given company.
+Models will also often retrieve incorrectly, because it retrieves code with a similar name (syntax) rather than functionality and logic, which is what a model might need to know how to write the function. “Standard retrieval techniques are very easily fooled by pieces of code that are doing the same thing but look different,” says Solar‑Lezama.
+The authors mention that since there is no silver bullet to these issues, they’re calling instead for community‑scale efforts: richer, having data that captures the process of developers writing code (for example, which code developers keep versus throw away, how code gets refactored over time, etc.), shared evaluation suites that measure progress on refactor quality, bug‑fix longevity, and migration correctness; and transparent tooling that lets models expose uncertainty and invite human steering rather than passive acceptance. Gu frames the agenda as a “call to action” for larger open‑source collaborations that no single lab could muster alone. Solar‑Lezama imagines incremental advances—“research results taking bites out of each one of these challenges separately”—that feed back into commercial tools and gradually move AI from autocomplete sidekick toward genuine engineering partner.
+“Why does any of this matter? Software already underpins finance, transportation, health care, and the minutiae of daily life, and the human effort required to build and maintain it safely is becoming a bottleneck. An AI that can shoulder the grunt work — and do so without introducing hidden failures — would free developers to focus on creativity, strategy, and ethics” says Gu. “But that future depends on acknowledging that code completion is the easy part; the hard part is everything else. Our goal isn’t to replace programmers. It’s to amplify them. When AI can tackle the tedious and the terrifying, human engineers can finally spend their time on what only humans can do.”
+“With so many new works emerging in AI for coding, and the community often chasing the latest trends, it can be hard to step back and reflect on which problems are most important to tackle,” says Baptiste Rozière, an AI scientist at Mistral AI, who wasn’t involved in the paper. “I enjoyed reading this paper because it offers a clear overview of the key tasks and challenges in AI for software engineering. It also outlines promising directions for future research in the field.”
+Gu and Solar-Lezama wrote the paper with University of California at Berkeley Professor Koushik Sen and PhD students Naman Jain and Manish Shetty, Cornell University Assistant Professor Kevin Ellis and PhD student Wen-Ding Li, Stanford University Assistant Professor Diyi Yang and PhD student Yijia Shao, and incoming Johns Hopkins University assistant professor Ziyang Li. Their work was supported, in part, by the National Science Foundation (NSF), SKY Lab industrial sponsors and affiliates, Intel Corp. through an NSF grant, and the Office of Naval Research.
+The researchers are presenting their work at the International Conference on Machine Learning (ICML).
+### Share this news article on:
+- [X](https://twitter.com/share?url=https://news.mit.edu/2025/can-ai-really-code-study-maps-roadblocks-to-autonomous-software-engineering-0716)
+- [Facebook](https://www.facebook.com/sharer/sharer.php?u=https://news.mit.edu/2025/can-ai-really-code-study-maps-roadblocks-to-autonomous-software-engineering-0716)
+- [LinkedIn](https://www.linkedin.com/sharing/share-offsite/?url=https://news.mit.edu/2025/can-ai-really-code-study-maps-roadblocks-to-autonomous-software-engineering-0716)
+- [Reddit](http://www.reddit.com/submit?url=https://news.mit.edu/2025/can-ai-really-code-study-maps-roadblocks-to-autonomous-software-engineering-0716&title=Can%20AI%20really%20code%3F%20Study%20maps%20the%20roadblocks%20to%20autonomous%20software%20engineering)
+- [Print](https://news.mit.edu/2025/can-ai-really-code-study-maps-roadblocks-to-autonomous-software-engineering-0716#)
+[Paper: “Challenges and Paths Towards AI for Software Engineering”](https://arxiv.org/pdf/2503.22625)
+### NBC News
+Researchers at MIT have uncovered a variety of obstacles of AI in software development, reports Rob Wile for NBC News. They have found “the main obstacles come when AI programs are asked to develop code at scale, or with more complex logic,” writes Wile.
+[Full story via NBC News](https://www.nbcnews.com/tech/innovation/ai-fuels-tech-job-cuts-efficiency-questions-workers-rcna219364) →
+Previous itemNext item
+## Related Links
+- [Alex Gu](https://minimario.github.io/)
+- [Armando Solar-Lezama](https://people.csail.mit.edu/asolar/)
+- [Computer Science and Artificial Intelligence Laboratory (CSAIL)](https://www.csail.mit.edu/)
+- [Department of Electrical Engineering and Computer Science (EECS)](https://www.eecs.mit.edu/)
+- [School of Engineering](https://engineering.mit.edu/)
+- [MIT Schwarzman College of Computing](https://computing.mit.edu/)
+## Related Topics
+- [Research](https://news.mit.edu/topic/research)
+- [Artificial intelligence](https://news.mit.edu/topic/artificial-intelligence2)
+- [Machine learning](https://news.mit.edu/topic/machine-learning)
+- [Algorithms](https://news.mit.edu/topic/algorithms)
+- [Software](https://news.mit.edu/topic/software)
+- [Programming](https://news.mit.edu/topic/programming)
+- [Computer science and technology](https://news.mit.edu/topic/computers)
+- [Programming languages](https://news.mit.edu/topic/programming-languages)
+- [Human-computer interaction](https://news.mit.edu/topic/human-computer-interaction)
+- [National Science Foundation (NSF)](https://news.mit.edu/topic/nsf)
+- [Computer Science and Artificial Intelligence Laboratory (CSAIL)](https://news.mit.edu/topic/computer-science-and-artificial-intelligence-laboratory-csail)
+- [Electrical engineering and computer science (EECS)](https://news.mit.edu/topic/electrical-engineering-computer-science-eecs)
+- [MIT Schwarzman College of Computing](https://news.mit.edu/topic/mit-schwarzman-college-computing)
+- [School of Engineering](https://news.mit.edu/topic/school-engineering)
+## Related Articles
+[![Looping SQL programming text](https://news.mit.edu/sites/default/files/styles/news\_article\_\_archive/public/images/202504/MIT-Probalistic-Control-compressed.gif?itok=CxXvodpz)](https://news.mit.edu/2025/making-ai-generated-code-more-accurate-0418)
+### [Making AI-generated code more accurate in any language](https://news.mit.edu/2025/making-ai-generated-code-more-accurate-0418)
+[![Very close-up photo of a computer chip, with mostly green and yellow components](https://news.mit.edu/sites/default/files/styles/news\_article\_\_archive/public/images/202502/silicon-chip.jpg?itok=Av3waIgA)](https://news.mit.edu/2025/high-performance-computing-with-much-less-code-0313)
+### [High-performance computing, with much less code](https://news.mit.edu/2025/high-performance-computing-with-much-less-code-0313)
+[![3 Serbo-Croatian words, “Bogat, Blag, Zelen” with a robot hand adding the letter “a” to them.](https://news.mit.edu/sites/default/files/styles/news\_article\_\_archive/public/images/202208/MIT-Synth-Language-01-press.jpg?itok=NEKZuKUj)](https://news.mit.edu/2022/ai-learn-patterns-language-0830)
+### [AI that can learn the patterns of human language](https://news.mit.edu/2022/ai-learn-patterns-language-0830)
+[![Researchers have developed a flexible way of combining deep learning and symbolic reasoning to teach computers to write short computer programs. Here, Armando Solar-Lezama (left), a professor at CSAIL, speaks with graduate student Maxwell Nye. ](https://news.mit.edu/sites/default/files/styles/news\_article\_\_archive/public/images/201906/Armando\_Solar-Lezama\_graduate\_student\_Maxwel\_Nye.jpeg?itok=-A9O834e)](https://news.mit.edu/2019/toward-artificial-intelligence-that-learns-to-write-code-0614)
+### [Toward artificial intelligence that learns to write code](https://news.mit.edu/2019/toward-artificial-intelligence-that-learns-to-write-code-0614)
+Previous itemNext item
+## More MIT News
+[![Bryan Bryson in cluttered lab](https://news.mit.edu/sites/default/files/styles/news\_article\_\_recent\_news/public/images/202601/MIT-Bryan-Bryson-01-press.jpg?itok=djkWcFRW)](https://news.mit.edu/2026/bryan-bryson-engineering-solutions-tough-problem-tuberculosis-0125)
+### [Bryan Bryson: Engineering solutions to the tough problem of tuberculosis](https://news.mit.edu/2026/bryan-bryson-engineering-solutions-tough-problem-tuberculosis-0125)
+By analyzing how Myobacterium tuberculosis interacts with the immune system, the associate professor hopes to find new vaccine targets to help eliminate the disease.
+[Read full story](https://news.mit.edu/2026/bryan-bryson-engineering-solutions-tough-problem-tuberculosis-0125) →
+[![Pablo Jarillo-Herrero holds a translucent black disk comprised of hexagonal cells](https://news.mit.edu/sites/default/files/styles/news\_article\_\_recent\_news/public/images/202601/mit-physics-Jarillo-Herrero.jpg?itok=gRikYnoG)](https://news.mit.edu/2026/pablo-jarillo-herrero-wins-bbva-foundation-frontiers-knowledge-award-0123)
+### [Pablo Jarillo-Herrero wins BBVA Foundation Frontiers of Knowledge Award](https://news.mit.edu/2026/pablo-jarillo-herrero-wins-bbva-foundation-frontiers-knowledge-award-0123)
+MIT physicist shares 400,000-euro award for influential work on “magic-angle” graphene.
+[Read full story](https://news.mit.edu/2026/pablo-jarillo-herrero-wins-bbva-foundation-frontiers-knowledge-award-0123) →
+[![A grid of multicolored circles with a black sketch of the p53 protein inside each. Two with a particular configuration are circled.](https://news.mit.edu/sites/default/files/styles/news\_article\_\_recent\_news/public/images/202601/shoulders-p53-variants\_0.png?itok=mHylNvN-)](https://news.mit.edu/2026/cancers-secret-safety-net-0123)
+### [Cancer’s secret safety net](https://news.mit.edu/2026/cancers-secret-safety-net-0123)
+Researchers uncover a hidden mechanism that allows cancer to develop aggressive mutations.
+[Read full story](https://news.mit.edu/2026/cancers-secret-safety-net-0123) →
+[![Richard Hynes in a gallery with large research images on one wall](https://news.mit.edu/sites/default/files/styles/news\_article\_\_recent\_news/public/images/202601/MIT-koch-Richard-Hynes-obit.jpg?itok=KrrqTirR)](https://news.mit.edu/2026/richard-hynes-dies-0123)
+### [Richard Hynes, a pioneer in the biology of cellular adhesion, dies at 81](https://news.mit.edu/2026/richard-hynes-dies-0123)
+Professor, mentor, and leader at MIT for more than 50 years shaped fundamental understandings of cell adhesion, the extracellular matrix, and molecular mechanisms of metastasis.
+[Read full story](https://news.mit.edu/2026/richard-hynes-dies-0123) →
+[![3D rendering shows magenta hued, very branchy neurons densely clustered in tightly-packed circuits.](https://news.mit.edu/sites/default/files/styles/news\_article\_\_recent\_news/public/images/202601/mit-picower-neurons.jpg?itok=Dd562U9h)](https://news.mit.edu/2026/biology-based-brain-model-matches-animal-learning-enables-new-discovery-0122)
+### [Biology-based brain model matches animals in learning, enables new discovery](https://news.mit.edu/2026/biology-based-brain-model-matches-animal-learning-enables-new-discovery-0122)
+New “biomimetic” model of brain circuits and function at multiple scales produced naturalistic dynamics and learning, and even identified curious behavior by some neurons.
+[Read full story](https://news.mit.edu/2026/biology-based-brain-model-matches-animal-learning-enables-new-discovery-0122) →
+[![Two engineers inspect a small CubeSat (about the size of a loaf of bread) on a lab table. ](https://news.mit.edu/sites/default/files/styles/news\_article\_\_recent\_news/public/images/202601/mit-lincoln-TROPICS.jpg?itok=NqG0VDIB)](https://news.mit.edu/2026/how-tiny-satellites-help-track-hurricanes-0121)
+### [Featured video: How tiny satellites help us track hurricanes and other weather events](https://news.mit.edu/2026/how-tiny-satellites-help-track-hurricanes-0121)
+Mini microwave sounders developed at Lincoln Laboratory, demonstrated on a NASA mission, and now transferred to industry, are expanding storm-forecasting capabilities.
+[Read full story](https://news.mit.edu/2026/how-tiny-satellites-help-track-hurricanes-0121) →
+- [More news on MIT News homepage](https://news.mit.edu/) →
+[Massachusetts Institute of Technology](http://web.mit.edu/)
+[Massachusetts Institute of Technology](http://web.mit.edu/)
+77 Massachusetts Avenue, Cambridge, MA, USA
+Recommended Links:
+- [Visit](http://web.mit.edu/visitmit)
+- [Map (opens in new window)](http://whereis.mit.edu/)
+- [Events (opens in new window)](http://calendar.mit.edu/)
+- [People (opens in new window)](http://web.mit.edu/people.html)
+- [Careers (opens in new window)](http://careers.mit.edu/)
+- [Contact](http://web.mit.edu/contact)
+- [Privacy](http://web.mit.edu/privacy)
+- [Accessibility](http://web.mit.edu/accessibility)
+- [Social Media Hub](http://socialmediahub.mit.edu/)
+- [MIT on X](https://twitter.com/mit)
+- [MIT on Facebook](https://www.facebook.com/MITnews)
+- [MIT on YouTube](https://www.youtube.com/mit)
+- [MIT on Instagram](https://www.instagram.com/mit)

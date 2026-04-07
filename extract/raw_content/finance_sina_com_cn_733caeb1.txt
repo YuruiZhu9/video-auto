@@ -1,0 +1,423 @@
+# Source URL: https://finance.sina.com.cn/tech/digi/2026-03-26/doc-inhshtfc9087525.shtml
+# Content Length: 8092 characters
+# Extracted at: 2026-03-27 12:03:41
+#============================================================
+
+
+
+
+
+谷歌推出压缩算法 TurboQuant：AI 运行内存占用锐降至 1/6|内存|谷歌|算法\_新浪科技\_新浪网
+
+
+
+
+
+
+
+
+
+
+
+
+![]()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+* [新浪首页](http://www.sina.com.cn/)
+* [新闻](http://news.sina.com.cn/)
+* [体育](http://sports.sina.com.cn/)
+* [财经](http://finance.sina.com.cn/)
+* [娱乐](http://ent.sina.com.cn/)
+* [科技](http://tech.sina.com.cn/)
+* [博客](http://blog.sina.com.cn/)
+* [图片](http://photo.sina.com.cn/)
+* [专栏](http://zhuanlan.sina.com.cn/)
+* [更多](#)
+
+* [汽车](http://auto.sina.com.cn/)[教育](http://edu.sina.com.cn/)[时尚](http://fashion.sina.com.cn/)[女性](http://eladies.sina.com.cn/)[星座](http://astro.sina.com.cn/)[健康](http://health.sina.com.cn/)
+* [房产](http://www.leju.com/#source=pc_sina_dbdh1&source_ext=pc_sina)[历史](http://history.sina.com.cn/)[视频](http://video.sina.com.cn/)[收藏](http://collection.sina.com.cn/)[育儿](http://baby.sina.com.cn/)[读书](http://book.sina.com.cn/)
+* [佛学](http://fo.sina.com.cn/)[游戏](http://games.sina.com.cn/)[旅游](http://travel.sina.com.cn/)[邮箱](http://mail.sina.com.cn/)[导航](http://news.sina.com.cn/guide/)
+
+
+[移动客户端](#)
+
+* [新浪微博](http://m.sina.com.cn/m/weibo.shtml)
+* [新浪新闻](http://news.sina.com.cn/m/sinanews.html)
+* [新浪财经](http://finance.sina.com.cn/mobile/comfinanceweb.shtml?source=daohang01)
+* [新浪体育](http://m.sina.com.cn/m/sinasports.shtml)
+* [新浪众测](http://zhongce.sina.com.cn/about/app)
+* [新浪博客](http://blog.sina.com.cn/lm/z/app/)
+* [新浪视频](http://video.sina.com.cn/app)
+* [新浪游戏](http://games.sina.com.cn/o/kb/12392.shtml)
+* [天气通](http://m.sina.com.cn/m/weather.shtml)
+
+
+[我的收藏](http://my.sina.com.cn/#location=fav)
+
+
+[注册](https://login.sina.com.cn/signup/signup?entry=tech)
+[![]()登录](#)
+
+
+
+
+
+
+
+
+[![]()](https://finance.sina.com.cn/mobile/comfinanceweb.shtml?source=zwkeywordbanner)
+[![]()](https://5g.sina.com.cn/)
+
+
+[![]()](https://finance.sina.com.cn/mobile/comfinanceweb.shtml?source=cjzhengwen08)
+
+
+
+
+
+ 
+[新浪科技](http://tech.sina.com.cn/)> 数码 > 正文
+
+
+
+
+谷歌推出压缩算法 TurboQuant：AI 运行内存占用锐降至 1/6
+====================================
+
+
+
+
+谷歌推出压缩算法 TurboQuant：AI 运行内存占用锐降至 1/6
+2026年03月26日 10:57
+[IT之家](https://www.ithome.com/0/932/786.htm)
+
+[新浪财经APP](https://finance.sina.com.cn/mobile/comfinanceweb.shtml)
+[缩小字体](javascript:;)
+[放大字体](javascript:;)
+[收藏](javascript:;)
+[微博](javascript:;)
+[微信](javascript:;)
+[分享](javascript:;)
+
+[腾讯QQ](javascript:;)
+[QQ空间](javascript:;)
+
+
+
+
+
+
+
+
+IT之家 3 月 26 日消息，谷歌研究院昨日（3 月 25 日）发布博文，推出全新极端压缩算法 TurboQuant，有望重塑 AI 运行效率并解决大模型键值缓存（KV Cache）的内存瓶颈。
+
+向量是 AI 模型理解和处理信息的基础，但高维向量会消耗海量内存，从而在键值缓存（KV Cache）中引发严重的性能瓶颈。
+
+IT之家注：键值缓存是大语言模型生成文本时使用的一种高速缓存机制，通过存储历史计算结果来避免重复计算，但极易造成内存瓶颈。
+
+传统的高维向量量化技术虽然能压缩数据，却常常因为需要为微小数据块计算和存储量化常数，引入了额外的“内存开销”。这种额外负担部分抵消了压缩原本带来的优势，导致 AI 大模型在处理长文本或大规模搜索时依然受限。
+
+谷歌研究院为彻底解决这一难题，推出了全新压缩算法 TurboQuant。同时，研究团队还公布了支撑该算法的两项核心底层技术：量化 Johnson-Lindenstrauss（QJL）和 PolarQuant（将亮相 AISTATS 2026）。
+
+这三项技术协同工作，为高度依赖数据压缩的 AI 与搜索业务带来了全新解法，能够在完全不牺牲 AI 模型预测性能的前提下，大幅削减键值缓存的内存占用。
+
+在运行机制方面，TurboQuant 分为两个关键步骤。首先，它利用 PolarQuant 方法进行高质量的主体压缩。该方法打破常规，放弃了传统的笛卡尔坐标系，转而将数据向量转换为极坐标。
+
+这种转换将数据映射到边界已知的固定“圆形”网格上，免去了昂贵的数据归一化步骤，彻底消除了传统方法的内存开销。
+
+![]()
+
+随后，TurboQuant 利用 QJL 算法处理第一步遗留的微小误差。QJL 仅需 1 比特的残差压缩算力，就能像数学纠错机一样消除偏差，确保模型计算出精准的注意力分数。
+
+研究团队在 Gemma 和 Mistral 等开源大模型上进行了严格的基准测试。实验数据表明，TurboQuant 无需任何预训练或微调，就能极其高效地将键值缓存压缩至 3 比特，并在“大海捞针”等长上下文测试中实现零精度损失，同时将内存占用降低至 1/6。
+
+此外，在 H100 GPU 加速器上，4 比特 TurboQuant 的运行速度比未量化的 32 比特基准提升了高达 8 倍。
+
+![]()![]()
+
+
+
+
+
+
+关键词 : 
+[内存](http://tags.tech.sina.com.cn/内存)[谷歌](http://tags.tech.sina.com.cn/谷歌)[算法](http://tags.tech.sina.com.cn/算法)[AI](http://tags.tech.sina.com.cn/AI)[比特](http://tags.tech.sina.com.cn/比特)
+
+
+
+
+[![]()
+![]()](http://zhongce.sina.com.cn/about/app?frompage=doc)
+
+
+
+![]()
+
+新浪科技公众号
+
+“掌”握科技鲜闻 （微信搜索techsina或扫描左侧二维码关注）
+
+![]()
+
+
+
+
+
+
+
+
+
+
+
+
+[相关新闻](javascript:;)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### 创事记
+
+
+
+* [“不好看就退票”服务，能救电影院吗？](https://finance.sina.com.cn/tech/csj/2026-03-18/doc-inhrkfva3438787.shtml)
+* [微信封禁自家“兄弟”红包，打的什么牌？](https://finance.sina.com.cn/tech/csj/2026-02-05/doc-inhktfxv3179505.shtml)
+* [华住，比携程还会捞金？](https://finance.sina.com.cn/tech/csj/2026-01-18/doc-inhhthyv8769042.shtml)
+
+
+
+
+
+### [阅读排行榜](javascript:;)
+
+### [评论排行榜](javascript:;)
+
+
+
+
+* [一路走好！张雪峰追悼会将于本周六举行](https://finance.sina.com.cn/tech/roll/2026-03-26/doc-inhshhra0415147.shtml)
+* [华为Mate 90首发！鸿蒙7已在路上：打破垄断 和安卓iOS三分天下](https://finance.sina.com.cn/tech/discovery/2026-03-25/doc-inhseupz9782198.shtml)
+* [降价超10万 华为乾崑智驾上车！全新一代奥迪A6L上市：32.29万起](https://finance.sina.com.cn/tech/roll/2026-03-25/doc-inhsffcv9678819.shtml)
+* [投资150亿元！刘强东将在大连造游艇](https://finance.sina.com.cn/tech/roll/2026-03-26/doc-inhshhra0413130.shtml)
+* [上海警方深入推进“涉企网络谣言”打击整治：处置 270 余个违规账号，AI 洗稿编造车企销量下滑等行为被严惩](https://finance.sina.com.cn/tech/digi/2026-03-25/doc-inhseqhc9834763.shtml)
+* [全球首台阔比例大折叠手机来了！华为Pura X2定档4月发布：提前苹果半年](https://finance.sina.com.cn/tech/discovery/2026-03-25/doc-inhseupu1002068.shtml)
+* [“竖店”崛起遇到AI冲击　微短剧行业再寻破局之路](https://finance.sina.com.cn/tech/roll/2026-03-26/doc-inhshhra0415049.shtml)
+* [腾讯15年前经典IP新作！《洛克王国：世界》今日开服：不卖数值 不氪也能玩](https://finance.sina.com.cn/tech/discovery/2026-03-26/doc-inhshhra0440448.shtml)
+* [两人编造车企销量下滑谣言：使用AI洗稿70余万篇 获利8万余元已被抓](https://finance.sina.com.cn/tech/discovery/2026-03-25/doc-inhseyvx9718490.shtml)
+* [剧版《哈利·波特》首支预告发布 黑人脏辫斯内普教授引热议 网友：两眼一黑](https://finance.sina.com.cn/tech/roll/2026-03-26/doc-inhshnwy0342545.shtml)
+
+* [旧手机回收价狂涨五六倍！回收商：开不了机的照样高价收](https://finance.sina.com.cn/tech/roll/2026-03-25/doc-inhseupw6804972.shtml)
+* [国产笔记本CPU偷梁换柱翻车！官方终于回应：生产失误、全额退款](https://finance.sina.com.cn/tech/discovery/2026-03-25/doc-inhseixy1054975.shtml)
+* [广汽埃安 N60 开启盲订：号称“年轻人的第一台国民智驾好车”](https://finance.sina.com.cn/tech/digi/2026-03-25/doc-inhseiyf9855840.shtml)
+* [黄仁勋罕见谈生死：希望在工作中突然离世，重申不信任“继任者计划”](https://finance.sina.com.cn/tech/roll/2026-03-25/doc-inhseqhc9799198.shtml)
+* [于东来嫌票价高：现场宣布每人退3000元 胖东来的智慧在于愿意舍弃利益](https://finance.sina.com.cn/tech/discovery/2026-03-25/doc-inhseupz9735698.shtml)
+* [3月30日施行！官方新规禁止将居民住宅专门用于安放骨灰 网友点赞支持](https://finance.sina.com.cn/tech/roll/2026-03-25/doc-inhsffcv9688180.shtml)
+* [降价超10万 华为乾崑智驾上车！全新一代奥迪A6L上市：32.29万起](https://finance.sina.com.cn/tech/roll/2026-03-25/doc-inhsffcv9678819.shtml)
+* [苹果联合创始人沃兹尼亚克：AI 体验常令人失望，自己很少使用](https://finance.sina.com.cn/tech/digi/2026-03-24/doc-inhscaew0399366.shtml)
+* [一路走好！张雪峰追悼会将于本周六举行](https://finance.sina.com.cn/tech/roll/2026-03-26/doc-inhshhra0415147.shtml)
+* [皮肤也能“分期付款”：腾讯《王者荣耀》S43 新赛季「陌上相逢」官宣将至](https://finance.sina.com.cn/tech/digi/2026-03-24/doc-inhsavwy0477259.shtml)
+
+
+
+
+
+
+### 科学探索
+
+
+
+
+
+* [威马递表港交所 累计售车不足10万去年亏...](https://finance.sina.com.cn/tech/2022-06-01/doc-imizmscu4512038.shtml)
+
+
+
+
+### 科学大家
+
+
+
+* [《科学大家》| 新冠疫苗接种已不是选择题...](https://finance.sina.com.cn/tech/2021-05-29/doc-ikmxzfmm5316237.shtml)
+
+
+
+
+
+
+### 苹果汇
+
+
+
+
+
+* [因iPhone包装不含充电器，苹果在美国...](https://finance.sina.com.cn/tech/2022-12-29/doc-imxyhwer5110881.shtml)
+
+
+
+
+
+
+### 众测
+
+
+
+
+
+* [华为路由X3 Pro体验评测](https://zhongce.sina.com.cn/article/view/194217/)
+
+
+
+
+
+
+### 来电聊
+
+
+
+
+
+* [2018新浪科技风云榜回顾](http://tech.sina.com.cn/zt_d/2018techfyb/)
+
+
+
+
+
+
+### 专题
+
+
+
+
+
+* [海外周选——每周一个有趣故事](https://tech.sina.com.cn/zt_d/weeklystory/)
+
+
+
+
+### 官方微博
+
+
+[![]()](http://weibo.com/p/1002061642634100/home)
+[![]()](http://weibo.com/p/1002061960631174/home)
+[![]()](http://weibo.com/p/1002061642632024/home)
+[![]()](http://weibo.com/p/1002061642632622/home)
+[![]()](http://weibo.com/p/1002061987543647/home)
+[![]()](http://weibo.com/xinlangzhongce)
+
+
+
+
+
+### 公众号
+
+
+![]()
+
+新浪科技
+
+新浪科技为你带来最新鲜的科技资讯
+
+
+![]()
+
+苹果汇
+
+苹果汇为你带来最新鲜的苹果产品新闻
+
+
+![]()
+
+新浪众测
+
+新酷产品第一时间免费试玩
+
+
+![]()
+
+新浪探索
+
+提供最新的科学家新闻，精彩的震撼图片
+
+
+
+
+
+
+
+
+
+[新浪科技意见反馈留言板](http://news.sina.com.cn/feedback/post.html)
+
+[新浪简介](http://corp.sina.com.cn/chn/)|[广告服务](http://emarketing.sina.com.cn/)|[About Sina](http://corp.sina.com.cn/eng/)
+  
+
+[联系我们](http://www.sina.com.cn/contactus.html)|[招聘信息](http://corp.sina.com.cn/chn/sina_job.html)|[通行证注册](https://login.sina.com.cn/signup/signup.php)
+  
+
+[产品答疑](http://help.sina.com.cn/)|[网站律师](http://www.sina.com.cn/intro/lawfirm.shtml)|[SINA English](http://english.sina.com)
+
+Copyright © 1996-2026 SINA Corporation
+
+All Rights Reserved 新浪公司 [版权所有](http://www.sina.com.cn/intro/copyright.shtml)
+
+
+
+
+
+
+
+
+
+
+
+
+
+[新浪首页](http://www.sina.com.cn/)
+[新浪众测
+![]()](http://zhongce.sina.com.cn/about/app?frompage=doc)
+[语音播报](javascript:;)
+[相关新闻](javascript:;)
+
+[返回顶部](javascript:;)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,252 @@
+# Source URL: https://www.aihub.cn/ai-model/step-audio/
+# Content Length: 11688 characters
+# Extracted at: 2026-03-27 20:40:50
+#============================================================
+
+Step-Audio：阶跃星辰推出的开源语音交互模型 - AIHub
+![](https://www.aihub.cn/wp-content/uploads/thumb/2024/11/exactW\_w96\_h\_g0\_mark\_AIHub-bg.jpg)
+[![](https://www.aihub.cn/wp-content/uploads/2023/08/aihub\_cn\_logo.png)](https://www.aihub.cn)
+\* [首页](https://www.aihub.cn)
+\* [AI工具](https://www.aihub.cn/tools/)
++ [AI写作工具](https://www.aihub.cn/tools/writing/)
++ [AI图像生成](https://www.aihub.cn/tools/image/)
++ [AI视频工具](https://www.aihub.cn/tools/video/)
++ [AI办公工具](https://www.aihub.cn/tools/work/)
++ [AI开发编程](https://www.aihub.cn/tools/coding/)
++ [AI设计工具](https://www.aihub.cn/tools/design/)
++ [AI智能体](https://www.aihub.cn/agents/)
++ [AI聊天助手](https://www.aihub.cn/tools/chatbot/)
++ [AI搜索引擎](https://www.aihub.cn/tools/search/)
++ [AI教育学习](https://www.aihub.cn/tools/study/)
++ [AI提示指令](https://www.aihub.cn/prompts/)
++ [AI音乐生成](https://www.aihub.cn/tools/music/)
++ [AI音频处理](https://www.aihub.cn/tools/audio/)
++ [AI法律助手](https://www.aihub.cn/tools/lawyer/)
++ [AI算力平台](https://www.aihub.cn/ai-computing-power/)
+\* [AI资源](#)
++ [AI教程](https://www.aihub.cn/tutorials/)
++ [AI课程](https://www.aihub.cn/courses/)
++ [AI模型](https://www.aihub.cn/ai-model/)
+\* [AI资讯](https://www.aihub.cn/news/)
+\* [关于我们](#)
++ [关于我们](https://www.aihub.cn/about/)
++ [合作联系](https://www.aihub.cn/contact/)
+[文章](javascript:void(0))
+[文章](javascript:void(0))
+[![](https://www.aihub.cn/wp-content/uploads/2026/02/doubao-banner-202602.webp)](https://www.aihub.cn/go/doubao)
+当前位置：[首页](https://www.aihub.cn)>[AI模型](https://www.aihub.cn/ai-model/)>Step-Audio：阶跃星辰推出的开源语音交互模型
+# Step-Audio：阶跃星辰推出的开源语音交互模型
+\* [AI模型](https://www.aihub.cn/ai-model/)
+\* 25年2月18日
+目录
+[Toggle](#)
+\* [Step-Audio是什么？](#Step-Audio%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F)
+\* [Step-Audio的主要特性](#Step-Audio%E7%9A%84%E4%B8%BB%E8%A6%81%E7%89%B9%E6%80%A7)
+\* [Step-Audio的性能评测](#Step-Audio%E7%9A%84%E6%80%A7%E8%83%BD%E8%AF%84%E6%B5%8B)
+\* [Step-Audio的应用场景](#Step-Audio%E7%9A%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF)
+\* [如何使用Step-Audio？](#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8Step-Audio%EF%BC%9F)
+## Step-Audio是什么？
+\*\*Step-Audio\*\* 是阶跃星辰与吉利联合开发的业内首款开源产品级语音交互模型。它能够根据不同的场景需求，生成具有情绪、方言、语种、歌声及个性化风格的语音，支持自然、高质量的对话。Step-Audio生成的语音具有流畅、情商高等特点，并能够支持不同角色的音色克隆，广泛适用于影视娱乐、社交、游戏等行业场景。其在多个公开测试集中的表现均超过同类开源语音模型，尤其在中文处理方面表现突出，深刻理解和生成中文对话。
+![](https://www.aihub.cn/wp-content/uploads/2025/02/WX20250218-095734@2x.webp)
+## Step-Audio的主要特性
+\* \*\*多样化语音生成\*\*：支持生成具有情绪、方言、语种、歌声及个性化风格的语音，适应不同场景需求。
+\* \*\*高情商对话\*\*：生成的语音自然流畅，情商高，能够进行高质量的人机对话，满足复杂的交流需求。
+\* \*\*音色克隆功能\*\*：能够支持不同角色的音色克隆，适合影视、游戏、社交等场景中对多角色音频的需求。
+\* \*\*中文理解和生成\*\*：特别擅长中文对话处理，能够深刻理解和生成中文语境下的对话，尤其在中文博大精深的表达上表现出色。
+\* \*\*音乐和韵律能力\*\*：不仅能理解语言的韵律和节奏，还能生成如Rap等富有节奏感的语音内容，具备一定的创作能力。
+\* \*\*强大的模型性能\*\*：在多个主流语音测试集上超越其他开源语音模型，尤其在HSK-6评测中，表现优异，堪称最懂中国话的开源语音交互大模型。
+\* \*\*全面评估体系\*\*：提供StepEval-Audio-360基准测试，全面评估语音模型在角色扮演、逻辑推理、生成控制等多个维度的表现，确保多场景适应能力。
+## Step-Audio的性能评测
+在 LlaMA Question、Web Questions 等五大主流公开测试集中，Step-Audio 模型性能均超过了行业内同类型开源模型，位列第一。Step-Audio 在 HSK-6（汉语水平考试六级）评测中的表现尤为突出，是最懂中国话的开源语音交互大模型。
+![](https://www.aihub.cn/wp-content/themes/b2/Assets/fontend/images/default-img.jpg)
+## Step-Audio的应用场景
+\* \*\*语音助手与智能客服\*\*：利用Step-Audio的高情商对话和自然语音生成能力，可为智能助手和客服系统提供更加流畅、亲切的语音交互体验。
+\* \*\*影视与游戏制作\*\*：通过音色克隆和多角色语音生成，Step-Audio可用于角色配音、动画制作和游戏中的动态对话生成。
+\* \*\*教育与培训\*\*：可以生成富有情感和互动性的教学音频，帮助构建更生动的学习场景，提升学习体验。
+\* \*\*语音导航与智能硬件\*\*：在智能家居设备和车载系统中，Step-Audio可提供个性化的语音交互，提升用户体验。
+\* \*\*娱乐与社交应用\*\*：支持生成歌声、语音合成以及具有情感和风格的语音内容，适用于社交平台、语音社交和娱乐应用中。
+\* \*\*语音合成与个性化定制\*\*：可以进行音色克隆和风格化语音生成，广泛应用于广播、广告、播客等需要个性化语音的场景。
+## 如何使用Step-Audio？
+\*\*1、在线体验\*\*：
+可以在[跃问](https://www.aihub.cn/tools/chatbot/stepchat/)APP中体验，感兴趣可以前往[跃问官网](https://yuewen.cn/?utm\_source=aihub.cn)下载APP。
+\*\*2、开源资源\*\*：
+阶跃星辰开源了Step-Audio模型，相关资源如下：
+\* \*\*\*GitHub：\*\*\*[https://github.com/stepfun-ai/Step-Audio](https://github.com/stepfun-ai/Step-Audio/?utm\_source=aihub.cn)
+\* \*\*\*Hugging Face：\*\*\*
+\* \*\*\*技术报告：\*\*\*
+\*\*©版权声明：\*\*如无特殊说明，本站所有内容均为[AIHub.cn](https://www.aihub.cn/)原创发布和所有。任何个人或组织，在未征得本站同意时，禁止复制、盗用、采集、发布本站内容到任何网站、书籍等各类媒体平台。否则，我站将依法保留追究相关法律责任的权利。
+[![](https://www.aihub.cn/wp-content/uploads/2026/03/Coze-banner-0310.webp)](https://www.coze.cn/overview?utm\_medium=daohang&utm\_source=aihub&utm\_term=49156769w)
+\*\*海报分享\*\*\*\*收藏\*\*\*\*举报\*\*
+[语音模型](https://www.aihub.cn/tag/%e8%af%ad%e9%9f%b3%e6%a8%a1%e5%9e%8b/)
+猜你喜欢
+## [GLM-4-Voice：智谱推出的端到端情感语音模型](https://www.aihub.cn/ai-model/glm-4-voice/)
+24年10月29日03.7k
+## [雅意大模型-中科闻歌推出的企业级大模型](https://www.aihub.cn/ai-model/yayi/)
+24年1月6日05.3k
+## [Gemini 1.5-谷歌发布的新一代AI大模型](https://www.aihub.cn/ai-model/gemini-1-5/)
+24年2月16日010.9k
+## [Gemma-谷歌发布的最新开放模型，小尺寸可商用](https://www.aihub.cn/ai-model/gemma/)
+24年2月22日018.6k
+[![](https://www.aihub.cn/wp-content/uploads/2026/03/bohr-banner.webp)](https://www.bohrium.com/membership-redeem?activityId=1200283&code=AIHUBVIP&utm\_source=wutingting&utm\_campaign=www.aihub.cn&utm\_term=AIHUB)[![](https://www.aihub.cn/wp-content/uploads/2025/07/trae\_131505-1.png)](https://www.aihub.cn/go/trae)
+## 热门工具
+\* TOP1
+![](https://www.aihub.cn/wp-content/uploads/thumb/2024/05/fill\_w100\_h62\_g0\_mark\_doubao-logo2.jpg)
+## 豆包 - 字节跳动旗下免费AI智能助手
+23年8月17日
+\* TOP2
+![](https://www.aihub.cn/wp-content/uploads/thumb/2024/10/fill\_w100\_h62\_g0\_mark\_chanjing-ai.webp)
+## 蝉镜-AI数字人视频创作平台
+24年4月21日
+\* TOP3
+![](https://www.aihub.cn/wp-content/uploads/thumb/2025/02/fill\_w100\_h62\_g0\_mark\_AIPPT-logo.webp)
+## AIPPT: AI一键生成高质量PPT
+23年8月28日
+\* ![](https://www.aihub.cn/wp-content/uploads/thumb/2025/07/fill\_w100\_h62\_g0\_mark\_trae\_131505-1.png)
+## TRAE编程 - 字节跳动推出的AI代码助手
+25年1月20日
+\* ![](https://www.aihub.cn/wp-content/themes/b2/Assets/fontend/images/default-img.jpg)
+## 笔灵AI论文写作 - 专业AI论文写作平台
+23年12月10日
+\* ![](https://www.aihub.cn/wp-content/themes/b2/Assets/fontend/images/default-img.jpg)
+## 蛙蛙写作-AI免费写小说工具
+23年11月15日
+## 最新内容
+\* TOP1
+![](https://www.aihub.cn/wp-content/themes/b2/Assets/fontend/images/default-img.jpg)
+## SciClaw - 专为科学研究打造的AI协同系统
+3月26日
+\* TOP2
+![](https://www.aihub.cn/wp-content/themes/b2/Assets/fontend/images/default-img.jpg)
+## DuMate - 百度推出的桌面级 AI 办公智能体，企业级满血版OpenClaw
+3月22日
+\* TOP3
+![](https://www.aihub.cn/wp-content/themes/b2/Assets/fontend/images/default-img.jpg)
+## 微信Clawbot - 微信官方龙虾插件，在微信内直接使用 OpenClaw 能力
+3月22日
+\* ![](https://www.aihub.cn/wp-content/themes/b2/Assets/fontend/images/default-img.jpg)
+## 虾小宝 - 专为中国用户优化的 AI Agent Skills 安全社区
+3月21日
+\* ![](https://www.aihub.cn/wp-content/themes/b2/Assets/fontend/images/default-img.jpg)
+## 飞书 Aily - 飞书旗下AI智能体与企业Agent开发平台
+3月20日
+\* ![](https://www.aihub.cn/wp-content/themes/b2/Assets/fontend/images/default-img.jpg)
+## Xiaomi MiMo-V2-TTS：小米语音合成大模型，自然语言控制情感风格，支持方言、角色扮演与歌声合成
+3月19日
+## AI标签
+[AI](https://www.aihub.cn/tag/ai/)[AI Agent](https://www.aihub.cn/tag/ai-agent/)[AIGC](https://www.aihub.cn/tag/aigc/)[AI代理](https://www.aihub.cn/tag/ai%e4%bb%a3%e7%90%86/)[AI写作](https://www.aihub.cn/tag/ai%e5%86%99%e4%bd%9c/)[AI写作工具](https://www.aihub.cn/tag/ai%e5%86%99%e4%bd%9c%e5%b7%a5%e5%85%b7/)[AI写论文](https://www.aihub.cn/tag/ai%e5%86%99%e8%ae%ba%e6%96%87/)[AI大模型](https://www.aihub.cn/tag/ai%e5%a4%a7%e6%a8%a1%e5%9e%8b/)[AI提示词](https://www.aihub.cn/tag/ai%e6%8f%90%e7%a4%ba%e8%af%8d/)[AI搜索](https://www.aihub.cn/tag/ai%e6%90%9c%e7%b4%a2/)[AI搜索引擎](https://www.aihub.cn/tag/ai%e6%90%9c%e7%b4%a2%e5%bc%95%e6%93%8e/)[AI数字人](https://www.aihub.cn/tag/ai%e6%95%b0%e5%ad%97%e4%ba%ba/)[AI智能体](https://www.aihub.cn/tag/ai%e6%99%ba%e8%83%bd%e4%bd%93/)[AI模型](https://www.aihub.cn/tag/ai%e6%a8%a1%e5%9e%8b/)[AI生成视频](https://www.aihub.cn/tag/ai%e7%94%9f%e6%88%90%e8%a7%86%e9%a2%91/)[AI绘画](https://www.aihub.cn/tag/ai%e7%bb%98%e7%94%bb/)[AI绘画工具](https://www.aihub.cn/tag/ai%e7%bb%98%e7%94%bb%e5%b7%a5%e5%85%b7/)[AI编程](https://www.aihub.cn/tag/ai%e7%bc%96%e7%a8%8b/)[AI编程工具](https://www.aihub.cn/tag/ai%e7%bc%96%e7%a8%8b%e5%b7%a5%e5%85%b7/)[AI聊天机器人](https://www.aihub.cn/tag/ai%e8%81%8a%e5%a4%a9%e6%9c%ba%e5%99%a8%e4%ba%ba/)[AI视频](https://www.aihub.cn/tag/ai%e8%a7%86%e9%a2%91/)[AI视频生成](https://www.aihub.cn/tag/ai%e8%a7%86%e9%a2%91%e7%94%9f%e6%88%90/)[AI论文写作](https://www.aihub.cn/tag/ai%e8%ae%ba%e6%96%87%e5%86%99%e4%bd%9c/)[AI设计](https://www.aihub.cn/tag/ai%e8%ae%be%e8%ae%a1/)[AI设计工具](https://www.aihub.cn/tag/ai%e8%ae%be%e8%ae%a1%e5%b7%a5%e5%85%b7/)[AI音乐](https://www.aihub.cn/tag/ai%e9%9f%b3%e4%b9%90/)[ChatGPT](https://www.aihub.cn/tag/chatgpt/)[Meta](https://www.aihub.cn/tag/meta/)[Midjourney](https://www.aihub.cn/tag/midjourney/)[OpenAI](https://www.aihub.cn/tag/openai/)[OpenClaw](https://www.aihub.cn/tag/openclaw/)[prompt](https://www.aihub.cn/tag/prompt/)[Stability AI](https://www.aihub.cn/tag/stability-ai/)[Stable Diffusion](https://www.aihub.cn/tag/stable-diffusion/)[人工智能](https://www.aihub.cn/tag/%e4%ba%ba%e5%b7%a5%e6%99%ba%e8%83%bd/)[字节跳动](https://www.aihub.cn/tag/%e5%ad%97%e8%8a%82%e8%b7%b3%e5%8a%a8/)[开源模型](https://www.aihub.cn/tag/%e5%bc%80%e6%ba%90%e6%a8%a1%e5%9e%8b/)[百度](https://www.aihub.cn/tag/%e7%99%be%e5%ba%a6/)[科大讯飞](https://www.aihub.cn/tag/iflytek/)[腾讯](https://www.aihub.cn/tag/%e8%85%be%e8%ae%af/)[视频生成](https://www.aihub.cn/tag/%e8%a7%86%e9%a2%91%e7%94%9f%e6%88%90/)[讯飞星火](https://www.aihub.cn/tag/%e8%ae%af%e9%a3%9e%e6%98%9f%e7%81%ab/)[语音合成](https://www.aihub.cn/tag/%e8%af%ad%e9%9f%b3%e5%90%88%e6%88%90/)[通义千问](https://www.aihub.cn/tag/%e9%80%9a%e4%b9%89%e5%8d%83%e9%97%ae/)[阿里巴巴](https://www.aihub.cn/tag/%e9%98%bf%e9%87%8c%e5%b7%b4%e5%b7%b4/)
+×
+![](https://www.aihub.cn/wp-content/uploads/2023/08/aihub\_cn\_logo.png)
+使用邀请码，您将获得一份特殊的礼物！
+请输入邀请码
+[获取邀请码](#)
+\*\*跳过\*\*提交
+\*\*登录\*\*
+\*\*可爱的昵称\*\*\*\*登录用户名\*\*
+用作登录：字母或数字的组合，最少6位字符
+用作登录
+\*\*验证码\*\*\*\*密码\*\*\*\*重复新密码\*\*
+最少6位字符
+快速登录
+[忘记密码？](javascript:void(0))新用户？[注册](javascript:void(0))
+## 请输入验证码
+请输入图片中的验证码点击发送按钮获取验证码
+[取消](javascript:void(0))发送
+![](https://www.aihub.cn/wp-content/uploads/2023/08/aihub\_cn\_logo.png)
+×
+搜索一下可能来得更快
+搜索
+![]()
+×
+取消发送
+×
+![]()
+￥undefined
+请打开手机使用微信扫码支付
+「」
+×
+## ....支付确认中....
+「」
+×
+支付金额
+\*￥\*
+请选择支付方式
+undefined
+×
+积分支付
+您当前的积分为0
+您当前的积分不足，请 [购买积分](https://www.aihub.cn/gold//credit)
+支付
+检测到您未绑定微信账户，请先绑定微信
+立刻绑定
+[确定](javascript:void(0))
+×
+## 举报
+### 请选择举报类型\\*
+政治有害
+不友善
+垃圾广告
+违法违规
+色情低俗
+涉嫌侵权
+网络暴力
+涉未成年
+自杀自残
+不实信息
+引人不适
+抄袭
+扰乱社区秩序
+请输入举报内容 \\*
+提交
+举报提交后，我们会以邮件的形式向您反馈处理结果。
+![](https://www.aihub.cn/wp-content/uploads/2023/08/aihub\_cn\_logo.png)
+×
+使用邀请码，您将获得一份特殊的礼物！
+请输入邀请码
+[获取邀请码](#)
+\*\*跳过\*\*提交
+打开微信扫一扫
+扫码并「关注我们的公众号」安全快捷登录
+×
+![]()
+为了确保您的账户安全请您设置一个\*\*登录用户名\*\*和密码
+\*\*登录用户名\*\*
+请填写您的的登录用户名
+\*\*验证码\*\*\*\*发送验证码\*\*\*\*密码\*\*
+最少6位字符
+提交
+×
+分享到：
+微博QQ好友QQ空间
+下载海报：
+海报创建中
+## 关于我们
+![](https://www.aihub.cn/wp-content/uploads/2023/08/aihub\_cn\_logo.png)
+AIHub.cn创建于2021年6月，专注于分享全球优质AI产品、资源和资讯。我们希望通过努力，让更多个人和组织掌握AI，用好AI，因AI而强大！Ctrl+D 或 ⌘+D收藏本站到浏览器书签栏。
+## 热门工具
+- [豆包AI助手](https://www.aihub.cn/tools/chatbot/doubao/)
+- [Trae AI编程](https://www.aihub.cn/tools/coding/trae-ai/)
+- [AI生成PPT](https://www.aihub.cn/tools/work/aippt/)
+- [笔灵AI写作](https://www.aihub.cn/tools/writing/aipaper/)
+- [Liblib AI](https://www.aihub.cn/tools/image/liblibai/)
+- [全部AI工具](https://www.aihub.cn/tools/)
+## 热门分类
+- [AI写作工具](https://www.aihub.cn/tools/writing)
+- [AI视频工具](https://www.aihub.cn/tools/video)
+- [AI图像工具](https://www.aihub.cn/tools/image)
+- [AI办公工具](https://www.aihub.cn/tools/work/)
+- [AI论文写作](https://www.aihub.cn/tools/ai-paper/)
+- [全部分类](https://www.aihub.cn/tools/)
+## 联系我们
+- [关于我们](https://www.aihub.cn/about/)
+- [合作联系](https://www.aihub.cn/contact)
+- [提交产品](https://www.aihub.cn/write)
+- [隐私政策](https://www.aihub.cn/privacy-policy/)
+## 关注我们
+![](https://www.aihub.cn/wp-content/uploads/2023/12/aihub\_weixin\_logo.jpeg)
+微信扫一扫，关注公众号
+Copyright © 2026[AIHub](https://www.aihub.cn)
+・[皖ICP备2021007650号](https://beian.miit.gov.cn)・[![](https://www.aihub.cn/wp-content/themes/b2/Assets/fontend/images/beian-ico.png)皖公网安备34019202002050号](https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=34019202002050)
+查询 119 次，耗时 0.2085 秒
+发布文章
+发布快讯
+发布网址导航

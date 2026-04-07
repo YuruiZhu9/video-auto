@@ -1,0 +1,414 @@
+# Source URL: https://learn.microsoft.com/zh-cn/azure/azure-video-indexer/prompt-overview
+# Content Length: 6708 characters
+# Extracted at: 2026-03-15 11:51:14
+#============================================================
+
+ 
+带有 LLM 提示的 Azure AI 视频索引器 | Microsoft Learn
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[跳至主要内容](#main)
+[跳到 Ask Learn 聊天体验](#)
+
+
+此浏览器不再受支持。
+
+请升级到 Microsoft Edge 以使用最新的功能、安全更新和技术支持。
+
+[下载 Microsoft Edge](https://go.microsoft.com/fwlink/p/?LinkID=2092881 )
+[有关 Internet Explorer 和 Microsoft Edge 的详细信息](https://learn.microsoft.com/en-us/lifecycle/faq/internet-explorer-microsoft-edge)
+
+
+
+
+
+
+
+
+
+
+
+ 目录 
+
+退出编辑器模式
+
+
+
+
+
+
+询问 Learn
+
+
+询问 Learn
+
+
+焦点模式
+
+
+
+目录
+
+[使用英语阅读](#)
+
+
+添加
+
+
+添加到计划
+
+---
+
+#### 通过
+
+[Facebook](#)
+[x.com 共享](#)
+[领英](#)
+[电子邮件](#)
+
+---
+
+
+
+
+复制 Markdown
+
+
+打印
+
+
+
+
+
+
+
+---
+
+
+
+
+注意
+
+访问此页面需要授权。 可以尝试[登录](#)或更改目录。
+
+访问此页面需要授权。 可以尝试更改目录。
+
+
+
+
+带有 LLM 提示的 Azure AI 视频索引器
+=========================
+
+
+* 适用于: Azure AI Video Indexer enabled by Azure Arc, Cloud-based Azure AI Video Indexer
+
+
+反馈
+
+
+
+本文内容
+----
+
+
+Azure AI 视频索引器与大型语言模型（LLM）集成。 LLM 是自然语言 AI 模型，可用于询问有关视频内容的问题等等。 将 Azure AI 视频索引器的见解提取到可以与 LLM 一起使用的提示就绪格式。 无需重新编制视频索引即可创建视频的提示就绪格式。
+
+可以在云端将 LLM 提示与 Azure AI 频索引器结合使用，也可以在数据中心使用 [Arc 启用的 Azure AI 视频索引器](arc/azure-video-indexer-enabled-by-arc-overview)。
+
+用例
+--
+
+**生成视频摘要：** 可以要求 LLM 模型生成整个视频或视频段的摘要。 可以组合这些段落来创建多种类型的摘要，例如信息摘要、引言或其他摘要，具体取决于你的需求。
+
+**可搜索性：** 通过将视频内容转换为基于文本的提示就绪格式，你可以在视频内容中执行详细的自然语言搜索。 它可以显著改善基于特定查询的大型视频库中的可发现性。
+
+**内容创建**：可以查询视频库，了解与某些情绪或事件关联的视频中的特定时刻。 例如，可以从视频系列中检索*有趣*或*悲伤*的时刻，并使用它来创建宣传片或亮点。 同样，可以检索与特定感兴趣的事件相关的时刻，例如“过去十年的地震”。
+
+**教育目的**：从讲座视频创建摘要，使学生更容易查看和理解材料。 学生还可以询问与讲座材料相关的具体问题。 可以观看视频中讨论文章的确切部分，使学习体验更高效。
+
+**交互式体验：可以创建交互式体验**，例如基于视频的聊天机器人或虚拟助手，可以根据视频的内容回答用户查询。
+
+工作原理
+----
+
+要使输出处于提示就绪状态，视频拆分为符合视频本质和提示大小的一致部分。 这些部分基于 Azure AI 视频索引器场景分段和其他见解进行划分。 提示内容的结果按区段单独合并和生成。 例如：
+
+### 洞察力
+
+下表包含用于生成提示的见解。
+
+| **VI Insight** | **标记和格式** |
+| --- | --- |
+| 视频标题 | [视频标题] <视频标题> |
+| 对象检测 | [检测到的对象] <object 1>， <object 2>， ... |
+| 标签 | [视觉对象标签] <label 1>， <label 2>， ... |
+| OCR | [OCR] <ocr cluster1><ocr cluster2> ... |
+| 文稿和主讲人 | [脚本] <发言人名称>： <听录行>\n<说话人名称>： <听录行>\n ... |
+| 面 | [已知人员] <人脸 1>， <人脸 2>， ... |
+| 音频效果 （AED） | [音频效果] < 效果 1>， <效果 2>， ... |
+| 视频中的区段位置 | [标记][开始，中间，结束，滚动字幕] |
+
+为视频创建提示内容
+---------
+
+使用索引视频上的提示内容 API，以便为每个区段获取提示就绪格式。
+
+注意
+
+提示内容见解取决于用于为视频编制索引的特定预设。
+
+* 若要生成提示内容 API，请使用 [POST 创建提示内容](https://api-portal.videoindexer.ai/api-details#api=Operations&operation=Create-Prompt-Content) API 请求。
+* 若要查看提示内容，请使用 [Get PromptContent](https://api-portal.videoindexer.ai/api-details#api=Operations&operation=Get-PromptContent) API 请求。
+
+### 示例请求
+
+使用您的 AVI 账户 ID 和视频 ID。
+
+```
+POST https://api.videoindexer.ai/trial/Accounts/{accountId}/Videos/{videoId}/PromptContent
+
+```
+### 示例响应
+
+```
+index
+{
+  "algoVersion": "2.0.0",
+  "schemaVersion": "0.0.1",
+  "partition": null,
+  "name": "10_best_dressed_grammy",
+  "sections": [
+    {
+      "id": 0,
+      "start": "0:00:00",
+      "end": "0:00:40.915875",
+      "content": "[Video title] 10_best_dressed_grammy\n[Detected objects] necktie\n[Visual labels] human face, clothing, person, woman, suit, wedding dress, dress, indoor, wall, carpet, rug, fashion, lady, long hair, fashion accessory, fashion design\n[OCR] TROPHy, LIFE, SPECIAL, EDITION, news FEED, BY
+
+ CLEVVER, CLEVVER, @NazPerez, BEST DRESSED CELEBS AT 2018 GRAMMYS\n[Transcript] Check out the 10 best dressed celebs from the 2018 Grammy Awards and don't forget to subscribe to our channel to get all the latest celebrity updates.\nFrom white roses to white hot looks, this year's Grammy Awards was a feast of fashion thanks to so many celebs bringing their A game to the show.\nSo let's kick off this list of the best dress from the red carpet, starting with Lady Gaga.\nGaga looked like a gothic Princess in her dramatic all black ball gown.\nThe Armani Preve dress featured A Lacy bodysuit and billowing black skirt with a huge train.\nAga's black heeled boots were also some of the highest we've ever seen, like ever, but we wouldn't expect anything less from Mama Monster.\nAnother look we love from the carpet was Anna Kendrick's sexy suit by Belmont."
+    },
+    {
+      "id": 1,
+      "start": "0:00:40.915875",
+      "end": "0:01:17.202125",
+      "content": "[Video title] 10_best_dressed_grammy\n[Detected objects] remote\n[Visual labels] human face, clothing, person, dress, carpet, rug, fashion, lady, furniture, female person, fashion model, model, haute couture, smile\n[OCR] TROPHy, LIFE, news FEED, BEST DRESSED CELEBS AT 2018 GRAMMYS, D CELEBS AT 2018 GRAMMYS, BEST DRESSED\n[Transcript] Anna gave the structured look a sexy feminine touch by wearing a Lacy strapless top underneath and some pale pink stilettos.\nHer suit may have said business, but her relaxed WAVY hairstyle said I came to get down.\nNext on our list is the literally red hot Camila Cabello.\nCamila was all glitzing glam in her strapless Vivian Westwood gown.\nThat humped her curves perfectly.\nCamila opted to wear her hair up and accessorized with some serious bling, but it's that plunging neckline that has this unable to look away.\nAnother look we loved came courtesy of Miley Cyrus, who absolutely slayed in this black velvet bodysuit.\nMiley looked beyond chic, from her classic Hollywood hairstyle to her glitter heels."
+    },
+}
+
+```
+
+检查作业状态
+------
+
+提示作业需要几分钟才能完成。 如果要检查作业状态，可以使用 [“获取作业状态](https://api-portal.videoindexer.ai/api-details#api=Operations&operation=Get-Job-Status) API”请求。
+
+使用关键帧以视觉方式提示 LLM
+----------------
+
+提示内容请求支持可以在提示中使用视觉输入的语言模型。 选择 GPT-4V 模型时，可以包含关键帧作为提供给模型的提示的一部分。 提示内容响应中返回的帧表示视频的关键帧。 对于视频中具有有限或没有脚本的视频，或者想要为语言模型提供更多上下文以改进其结果时，建议使用此功能。
+
+### 创建并发送提示内容请求
+
+如前所述，提示的文本内容位于 JSON 响应中。 JSON 响应的“frames”部分中的每个字符串都是关键帧的 ID。 使用 [获取视频缩略图](https://api-portal.videoindexer.ai/api-details#api=Operations&operation=Get-Video-Thumbnail)，`ThumbnailId`是来自`FrameId`提示内容。 一旦获得了文本内容和关键帧工件，就可以将它们结合起来，作为您所选 AI 模型的提示。
+
+限制
+--
+
+提示功能针对包含尽可能多的见解的视频进行优化。
+
+相关内容
+----
+
+* [Azure AI 视频索引器文档](./)
+
+
+
+
+
+---
+
+反馈
+--
+
+此页面是否有帮助？
+
+
+是
+
+
+否
+
+
+否
+
+需要有关本主题的帮助？
+
+想要尝试使用 Ask Learn 阐明或指导你完成本主题？
+
+
+
+询问 Learn
+
+
+询问 Learn
+
+
+ 建议修复？ 
+
+
+
+
+
+
+
+
+
+---
+
+其他资源
+----
+
+
+
+
+
+
+---
+
+* Last updated on 
+  2025-10-06
+
+
+
+
+### 本文内容
+
+
+
+此页面是否有帮助？
+
+
+是
+
+
+否
+
+
+否
+
+需要有关本主题的帮助？
+
+想要尝试使用 Ask Learn 阐明或指导你完成本主题？
+
+
+
+询问 Learn
+
+
+询问 Learn
+
+
+ 建议修复？ 
+
+
+
+
+
+
+
+
+ 
+
+ 
+[zh-cn](#)
+[你的隐私选择](https://aka.ms/yourcaliforniaprivacychoices)
+
+
+主题
+
+
+
+* 亮
+* 暗
+* 高对比度
+
+
+
+* [AI 免责声明](https://learn.microsoft.com/zh-cn/principles-for-ai-generated-content)
+* [早期版本](https://learn.microsoft.com/zh-cn/previous-versions/)
+* [博客](https://techcommunity.microsoft.com/t5/microsoft-learn-blog/bg-p/MicrosoftLearnBlog)
+* [参与](https://learn.microsoft.com/zh-cn/contribute)
+* [隐私](https://go.microsoft.com/fwlink/?LinkId=521839)
+* [Consumer Health Privacy](https://go.microsoft.com/fwlink/?linkid=2259814)
+* [使用条款](https://learn.microsoft.com/zh-cn/legal/termsofuse)
+* [商标](https://www.microsoft.com/legal/intellectualproperty/Trademarks/)
+* © Microsoft 2026
+
+

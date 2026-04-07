@@ -1,0 +1,119 @@
+# Source URL: https://zhuanlan.zhihu.com/p/667653241
+# Content Length: 7399 characters
+# Extracted at: 2026-03-11 12:01:20
+#============================================================
+
+![NLP从0到1之LLM：LLM fine-tuning 理论篇](data:image/svg+xml;utf8,)
+## 1 背景知识
+整个 RLHF (基于人类反馈的强化学习) 分为这么三步：
+- \*\*SFT\*\* (Supervised Fine-Tuning): 有监督的微调，使用正常的 instruction following 或者对话的样本，来训练模型的基础对话、听从 prompt 的能力；
+- \*\*RM\*\* (Reward Modeling): 基于人类的偏好和标注，来训练一个能模拟人偏好的打分模型；
+- \*\*RL\*\* (Reinforcement Learning): 在前面的 SFT 模型的基础上，借助 RM 提供反馈，来不断通过 PPO 的强化学习框架来调整模型的行为。
+> 强烈建议阅读本篇之前，复习一个特征值、特征向量、SVD，不然你很难看懂。
+>
+> 1\. 特征值分解（EVD）、奇异值分解（SVD）： [奇异值分解(SVD)原理详解及推导\\_svd分解-CSDN博客](https://link.zhihu.com/?target=https%3A//blog.csdn.net/zhongkejingwang/article/details/43053513)
+>
+> 关于SVD记住这个结论：A 的 左奇 异向量（left singular vector）是 AA^T 的特征向量。A 的 右奇异向量（right singular vector）是 A^TA 的特征向量。A 的非零奇异值是 A^TA 特征值的平方根，同时也是 AA^T 特征值的平方根。
+>
+> 现在你明白考研时为何的线性代数题总是考特征值、特征向量了吧 :)
+\* \* \*
+以下是 LLM finetuning的理论篇，介绍几种常见的LLM finetuning算法。懂理论+会实践，而后才能自己创造 :)
+因为LLM的基座模型参数动不动都几十B，LLM finetunging的算法都是围绕着参数优化进行的，即：fine tuning时如何尽可能少的更新权重参数。
+注：因为这些论文已经发出来好久了，已经有别人做过paper note，我做的时候，如果感觉别人写的很好，就直接拿过来用了。不保证100%原创，只保证学习的时候，更加通俗易懂、并且系统性学习。参考的文章在文章结尾。
+## 2 LoRA (2022, ICLR)
+> 1\. 论文：\[ [2106.09685\] LoRA: Low-Rank Adaptation of Large Language Models (arxiv.org)](https://link.zhihu.com/?target=https%3A//arxiv.org/abs/2106.09685)
+>
+> 2\. 代码： [microsoft/LoRA: Code for loralib, an implementation of "LoRA: Low-Rank Adaptation of Large Language Models" (github.com)](https://link.zhihu.com/?target=https%3A//github.com/microsoft/LoRA)
+### 2.1 解决的问题（有什么用）？
+没有Lora之前，LLM在下游应用（fine tuning）的时候，需要全量更新base 模型的权重，但是一般base 模型都非常大，导致 fine tuning特别耗费资源。Lora 用于通过少量资源进行 LLM fine-tuning。
+LoRA 的最大优势是速度更快，使用的内存更少；因此，可以在消费级硬件上运行。
+### 2.2 一句话总结
+LoRA：固定transformer结构中原本的模型参数，并引入可训练的分解矩阵。
+![](https://picx.zhimg.com/v2-304a6c9aa1664b150ae56c3d56acc1a9\_1440w.jpg)一幅图说明具体的方法
+笔者注：看完上面的图，是不是想起来线性代数里面的矩阵分解、求特征值、特征向量了？为啥别人提出来了，觉得方法好简单，为啥自己没提前想到呢？发一篇博士学位是不是就拿到手了？手动狗头\\*100 :) 看论文中提到了 r = d\\_{model} ，我猜作者应该是受 Attention 公式得到的启发。论文中使用了大量公式论证，作者这为审稿人定向优化的功力还是很厉害的 :)
+### 2.3 模型方法
+具体的方法是：
+在原始的PLM旁边增加一个新的通路，通过前后两个矩阵A、B相乘，第一个矩阵A负责降维，第二个矩阵B负责升维，中间层维度为r，从而来模拟所谓的intrinsic rank（预训练模型在各类下游任务上泛化的过程其实就是在优化各类任务的公共低维本征（low-dimensional intrinsic）子空间中非常少量的几个自由参数）。
+在下游任务训练时，固定模型的其他参数，只优化新增的两个矩阵的权重参数，将PLM跟新增的通路两部分的结果 \*\*加起来\*\* 作为最终的结果（两边通路的输入跟输出维度是一致的），即 h=Wx+BAx。
+通常，第一个矩阵的A的权重参数会通过 \*\*高斯函数\*\* 得到，而第二个矩阵的B的参数则是零矩阵，这样能保证训练开始时，新增的通路 BA=0，从而对模型结果没有影响。
+在推理时，将左右两部分的结果加到一起即可，h=Wx+BAx=(W+BA)x，所以只要将训练完成的矩阵乘积 \*\*BA跟原本的权重矩阵W加到一起\*\*，作为新权重参数替换原本PLM的W即可，不会增加额外的计算资源。
+一般情况下，r 会远小于模型原本的维度m，所以LoRA训练的模型参数相比于模型原本的参数而言非常轻量。对于下游任务而言，原本的模型参数可以公摊到多个下游任务中去，每个下游任务只独立维护自身的LoRA的矩阵BA参数，从而省下了大量内存跟存储资源。同时，冻结语言模型原本的参数，只更新新增通路的少量参数也能节省大量计算资源跟IO成本，从而提升模型训练速度。
+### 2.4 使用场景
+Lora 用在下游任务fine tuning大模型时，减少fine tuning 的参数量。
+### 2.5.1 实践Tips：LORA应该作用于Transformer的哪个参数矩阵？
+- 将所有微调参数都放到attention的某一个参数矩阵的效果并不好，将可微调参数平均分配到 $W\\_q$ 和 $W\\_k$ 的效果最好
+- 即使是秩仅取4也能在 ΔW 中获得足够的信息
+因此在实际操作中， \*\*应当将可微调参数分配到多种类型权重矩阵中\*\*，而不应该用更大的秩单独微调某种类型的权重矩阵。
+### 2.5.2 LORA最优的秩r是多少？
+论文中的图，得出来：r=8 和 4=64中的top奇异向量重叠得最多。
+## 3 Qlora (2023, NIPS投稿)
+> 1\. 论文： [QLoRA: Efficient Finetuning of Quantized LLMs (arxiv.org)](https://link.zhihu.com/?target=https%3A//arxiv.org/abs/2305.14314)
+>
+> 2\. 代码： [artidoro/qlora: QLoRA: Efficient Finetuning of Quantized LLMs (github.com)](https://link.zhihu.com/?target=https%3A//github.com/artidoro/qlora)
+### 3.1 解决的问题（有什么用）？
+Qlora 也是用于低资源 进行LLM fine tuning.
+效果：能让65B的LLM跑在48G的GPU上，并且效果能匹敌16 bit 的全量fine tuning。这效果逆天了 :dog:，再配合白菜价格的天玑9300，24G内存的手机也才两千块，预测一年之内端上LLM会有很多潜力 :blossom:
+### 3.2 一句话总结
+Qlora 是在 Lora 的基础上进行了优化，具体有：
+1. 提出 4-bit NormalFloat(NF4) 数据类型
+2. Double Quantization：
+3. Paged Optimizer：优化内存毛刺
+### 3.3 模型方法
+参考 [LORA微调系列(二)：QLORA和它的基本原理 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/648239462) ，作者说的很好，不总结了 :)
+## 4 AdaLora (2023, ICLR)
+> 1\. 论文： [Adaptive Budget Allocation for Parameter-Efficient Fine-Tuning (arxiv.org)](https://link.zhihu.com/?target=https%3A//arxiv.org/abs/2303.10512)
+>
+> 2\. 代码： [QingruZhang/AdaLoRA: AdaLoRA: Adaptive Budget Allocation for Parameter-Efficient Fine-Tuning (ICLR 2023). (github.com)](https://link.zhihu.com/?target=https%3A//github.com/QingruZhang/AdaLoRA)
+### 4.1 一句话总结
+LORA固定增量矩阵秩r的方式无法达到全局最优。具体是：LORA的局限性在于其预先规定了每个增量矩阵Δ的秩 r 必须相同，这样就忽略了不同层、不同类型参数对下游任务的重要程度。（笔者注：是不是很像 Attention 的思想？）
+AdaLORA改进了LORA可微调参数的分配方式，根据每个参数的重要程度自动得为其分配可微调参数的预算。具体的：AdaLORA采用奇异值分解(SVD)的形式参数化增量更新。 \*\*这种参数化方式在规避大量SVD运算的同时，允许我们高效裁剪不重要更新中的奇异值，降低增量过程中的资源消耗。\*\*
+### 4.2 模型方法
+论文中大量采用数学公式，这是为了迎合审稿人服务的。但如果你按照本篇开头说的复习了SVD，慢慢读下来论文，自己是能从看似很难的论文中逐步抽丝剥茧出来的。
+### 4.2.1 创新点1: SVD-Based Adaptation
+简言之：就是反向传播求梯度变化量 $\\Delta$ 时，先这个矩阵用SVD进行改造，再优化SVD的求解过程。对应的是公式：
+$$ \\begin{align} W &= W^{(0)} + \\Delta \\\ &= W^{(0)} + P \\Lambda Q \\end{align} $$
+拆开揉碎了讲，一共两个关键点：
+1. 第一步：是将 $\\Lambda$ 求奇异值和奇异值向量
+和Lora思想都是将矩阵拆分成小矩阵，减少计算量
+1. 第二步：如何减少计算量？
+2. SVD的计算复杂度是 O(min(d\\_1, d\\_2)d\\_1 d\\_2) ， d\\_1 和 d\\_2 的含义是：P的维度是 d\\_1 \\* r ，Q的维度是 r \\* d\\_2 。如果朴素的使用SVD方式计算，计算量减少的还不够多。因为 \\Lambda 是对角矩阵，如果 \*\*将不重要的奇异值置为0（奇异值向量不变）\*\*，就可以避免SVD密集计算。那怎么衡量哪些奇异值不重要？答案看下面的第二个创新点。
+### 4.2.2 创新点2: Importance-aware Rank Allocation
+\_SVD-Based Adaptation\_ 用在 W\\_f, W\\_q, W\\_k, W\\_v 等参数矩阵上。为了控制可微调参数量的预算，在训练过程总需要动态的为每个参数分配可训练参数。Importance-aware Rank Allocation 方法是为了解决重要性这个点的。
+公式自己看论文好了。作者这里的做法一句话总结就是：如果 \\Lambda 中的一个参数被裁剪了之后，Loss 变化很大，这个参数就应该被保留，反之就应该被裁剪。是不是和 Tokenizer 训练时token的裁剪做法一毛一样？ :)
+## 5 BitFit（2022，ACL）
+> 1\. 论文： [BitFit: Simple Parameter-efficient Fine-tuning for Transformer-based Masked Language-models (arxiv.org)](https://link.zhihu.com/?target=https%3A//arxiv.org/abs/2106.10199)
+>
+> 2\. 代码： [benzakenelad/BitFit: Simple Parameter-efficient Fine-tuning for Transformer-based Masked Language-models (github.com)](https://link.zhihu.com/?target=https%3A//github.com/benzakenelad/BitFit)
+特别注意：本篇适用于 Transformer-based Masked Language-models，并不适用于GPT这种语言模型，这一点从论文标题中就体现出来了。学习的时候要明白方法的适用场景，不然学了却不知道如何使用，那学了不等于没学么，花了时间和脑力又不是为了凑论文数量 :dog: :)
+### 5.1 一句话总结
+本文适用于 Transformer-based Masked Language-models，fine-tunging 时固定t ransformer-encoder的参数， \*\*只更新模型中的bias参数（占总参数量的不到0.1%）、以及task-speicific final linear classifier layer\*\*，极大程度的减少下游任务需要训练的参数数量，并且取得不错的效果。
+### 5.2 模型方法
+具体的方法没啥好说的，上面已经一句话概括了，论文中虽然写了很多，但都是数学论证而已，并不是方法很复杂。方法无论是否复杂还是简单，效果好就行。
+既然论文说只更新bias，还是需要了解具体涉及到的bias参数有哪些：
+1. attention模块中，计算 query, key, value 跟合并多个attention结果时涉及到的bias
+2. MLP层中的bias
+3. Layernormalization层的bias参数。
+关于模型的效果，看下图所示。根据作者的数据，相差很小很小。
+![](https://pica.zhimg.com/v2-75ea6d329700afaae7524429a74acbdc\_1440w.jpg)
+关于推理速度提升，从bias的参数量角度说明：像Bert base跟Bert large这种模型里的bias参数占模型全部参数量的0.08%～0.09%。这样看的话，相比于原生的全量参数fine-tuning，大概只有千分之一。
+## 6 References
+1. [LORA微调系列(一)：LORA和它的基本原理 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/646791309)
+2. [LORA微调系列(二)：QLORA和它的基本原理 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/648239462)
+3. [LORA微调系列(三)：AdaLORA和它的基本原理 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/649756885)
+4. [Parameter-efficient transfer learning系列之LoRA与BitFit - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/558411888)
+发布于 2023-11-19 17:39・北京
+[深度学习（Deep Learning）](https://www.zhihu.com/topic/19813032)
+[LLM](https://www.zhihu.com/topic/20660508)
+[自然语言处理](https://www.zhihu.com/topic/19560026)
+​赞同 88​​添加评论
+​分享
+​喜欢​收藏​申请转载
+​
+关于作者
+[![Alex](https://picx.zhimg.com/v2-114ac264c5837e765b12dc64863948e9\_l.jpg?source=172ae18b)](https://www.zhihu.com/people/alex\_notes)
+[Alex](https://www.zhihu.com/people/alex\_notes)
+NLP
+[回答](https://www.zhihu.com/people/alex\_notes/answers) [文章](https://www.zhihu.com/people/alex\_notes/posts) [关注者](https://www.zhihu.com/people/alex\_notes/followers)
+​关注他​发私信
+大家都在搜
+换一换

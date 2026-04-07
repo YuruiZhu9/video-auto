@@ -1,0 +1,229 @@
+# Source URL: https://zhuanlan.zhihu.com/p/1892673287777149475
+# Content Length: 12047 characters
+# Extracted at: 2026-04-02 12:04:16
+#============================================================
+
+![](https://zhuanlan.zhihu.com/p/1892673287777149475)
+![Llama 4技术全景与代码解读：MoE架构革新、10M上下文突破](https://picx.zhimg.com/v2-d2618c9339a85b520577d0950a247326\_720w.jpg?source=172ae18b)
+## 引言
+近期，Meta正式推出Llama系列的全新力作——[Llama 4](https://zhida.zhihu.com/search?content\_id=256109977&content\_type=Article&match\_order=1&q=Llama+4&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTI5MDAsInEiOiJMbGFtYSA0IiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjU2MTA5OTc3LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.qRveXkc1SL9UiQ1QJNV50Ixk33JmGghVUzFEX-da8y4&zhida\_source=entity)，标志着开源大模型技术进入了一个全新的时代。作为人工智能领域的研究者，我们有幸见证了这一里程碑式的技术突破。Llama 4不仅在模型架构上实现了重大创新，更在多模态支持、训练效率和安全性等方面树立了新的行业标杆。
+\*\*核心技术创新速览\*\*：
+1. \*\*混合专家架构革新\*\*：采用[动态激活参数机制](https://zhida.zhihu.com/search?content\_id=256109977&content\_type=Article&match\_order=1&q=%E5%8A%A8%E6%80%81%E6%BF%80%E6%B4%BB%E5%8F%82%E6%95%B0%E6%9C%BA%E5%88%B6&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTI5MDAsInEiOiLliqjmgIHmv4DmtLvlj4LmlbDmnLrliLYiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTYxMDk5NzcsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.a6dDeRJcCA8RFNMxJJ2LfZ6-jSOcdXrNKBDfgdoOOVU&zhida\_source=entity)（如Llama 4 Maverick仅激活17B参数/总参400B）
+2. \*\*超长上下文突破\*\*：Llama 4 Scout支持千万级token上下文处理，代码理解能力超越GPT-4o
+3. \*\*蒸馏技术升级\*\*：基于2T参数的[Behemoth教师模型](https://zhida.zhihu.com/search?content\_id=256109977&content\_type=Article&match\_order=1&q=Behemoth%E6%95%99%E5%B8%88%E6%A8%A1%E5%9E%8B&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTI5MDAsInEiOiJCZWhlbW90aOaVmeW4iOaooeWeiyIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI1NjEwOTk3NywiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.KsBruDjZzhxbCOodbSGXUUXmXdL2F39NkARYu7KzJlw&zhida\_source=entity)，创新动态权重蒸馏函数显著提升小模型性能
+4. \*\*训练效率革命\*\*：[FP8混合精度训练](https://zhida.zhihu.com/search?content\_id=256109977&content\_type=Article&match\_order=1&q=FP8%E6%B7%B7%E5%90%88%E7%B2%BE%E5%BA%A6%E8%AE%AD%E7%BB%83&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTI5MDAsInEiOiJGUDjmt7flkIjnsr7luqborq3nu4MiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTYxMDk5NzcsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.YHj-I3ZJ6TQsK5hph2a6IW2k4labG8wduYbVR\_Ep2u8&zhida\_source=entity)结合32K GPU集群，实现390 TFLOPs/GPU的惊人效率
+5. \*\*安全体系完善\*\*：首创[GOAT自动化对抗测试框架](https://zhida.zhihu.com/search?content\_id=256109977&content\_type=Article&match\_order=1&q=GOAT%E8%87%AA%E5%8A%A8%E5%8C%96%E5%AF%B9%E6%8A%97%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTI5MDAsInEiOiJHT0FU6Ieq5Yqo5YyW5a-55oqX5rWL6K-V5qGG5p62IiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjU2MTA5OTc3LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.xz1FAnujte8n1-MP\_HFKei761-Xq0HtImyG2XjIrIjE&zhida\_source=entity)，政治偏见率较Llama 3下降71%
+本文将深入解析Llama 4的技术创新点，从模型架构到训练策略，从多模态支持到安全体系，为读者呈现一个全面的技术全景图。
+![](https://pic1.zhimg.com/v2-016c0c378c315ab6e9cea34c0cb1d166\_1440w.jpg)
+Llama4训练流程图
+文章结构如下：
+![](https://pic1.zhimg.com/v2-95d7b91e72dad21b8b3b3f289116e964\_1440w.jpg)
+## 模型架构：重新定义效率边界
+## 三阶模型矩阵设计
+![](https://pic2.zhimg.com/v2-6100de2360eb3cfa5056194e4dd2e285\_1440w.jpg)
+三阶模型矩阵
+Llama 4构建了覆盖全场景的模型矩阵，满足不同应用场景的需求：
+- \*\*Llama 4 Behemoth\*\*：2万亿总参数/288B激活参数，16专家，STEM领域性能超越GPT-4.5
+- \*\*Llama 4 Maverick\*\*：400B总参数/17B激活参数，128专家，单卡部署即可击败GPT-4o
+- \*\*Llama 4 Scout\*\*：109B总参数/17B激活参数，16专家，支持10M上下文窗口
+\*\*架构创新亮点解析\*\*：
+1. \*\*Dense-MoE交替结构\*\*：在标准Transformer层与MoE层之间实现交替布局，兼顾参数利用率和计算效率
+2. \*\*共享专家机制\*\*：每个MoE层包含1个共享专家+128个路由专家，确保基础能力不退化
+3. \*\*i[RoPE位置编码](https://zhida.zhihu.com/search?content\_id=256109977&content\_type=Article&match\_order=1&q=RoPE%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTI5MDAsInEiOiJSb1BF5L2N572u57yW56CBIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjU2MTA5OTc3LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.RaD4Kxz1h33R9ZUBEe0IhCHsraK6HH9-hSiF7X0v80Q&zhida\_source=entity)\*\*：通过温度缩放注意力+无位置嵌入层设计，实现从256K到10M上下文的外推能力
+![](https://picx.zhimg.com/v2-5ae413b8f22b49234ba0414d85aeecf7\_1440w.jpg)
+MoE结构
+![](https://pic3.zhimg.com/v2-b31fea6d7e686722f8d34b739b2923d8\_1440w.jpg)
+模型架构示意图
+值得注意的是，虽然2T参数的Behemoth模型表现出色，但其性能提升与参数量增长的关系仍有优化空间。
+## 原生多模态融合技术
+Llama 4突破性地采用 \*\*早期融合（Early Fusion）策略\*\*：
+- [视觉编码器](https://zhida.zhihu.com/search?content\_id=256109977&content\_type=Article&match\_order=1&q=%E8%A7%86%E8%A7%89%E7%BC%96%E7%A0%81%E5%99%A8&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTI5MDAsInEiOiLop4bop4nnvJbnoIHlmagiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTYxMDk5NzcsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.3qzFecA8OcgAD3M7k6-FGPR12Npy-XV67jK6hs9zFOk&zhida\_source=entity)基于[MetaCLIP](https://zhida.zhihu.com/search?content\_id=256109977&content\_type=Article&match\_order=1&q=MetaCLIP&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTI5MDAsInEiOiJNZXRhQ0xJUCIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI1NjEwOTk3NywiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.R1hz1llhV34WcmoTOaYj8QjGpwwUL-rVtpTPrHVG8O0&zhida\_source=entity)改进，与文本token在首层即进行联合嵌入
+- 预训练阶段混合30T文本+48图像/视频帧数据，建立跨模态联合表征空间
+- 后训练支持8图多轮对话，实现真正的多模态理解
+## 训练体系：效率与质量的双重进化
+## 预训练技术创新
+\*\*[MetaP超参控制技术](https://zhida.zhihu.com/search?content\_id=256109977&content\_type=Article&match\_order=1&q=MetaP%E8%B6%85%E5%8F%82%E6%8E%A7%E5%88%B6%E6%8A%80%E6%9C%AF&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTI5MDAsInEiOiJNZXRhUOi2heWPguaOp-WItuaKgOacryIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI1NjEwOTk3NywiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.wpp1OUTvVlwZzKgbKXSUZQbbA7fB6Xp\_8aT9194OtSQ&zhida\_source=entity)\*\*：
+- 通过动态感知批量大小、模型宽度等变量，自动优化层间学习率与初始化尺度
+- 在200种语言（含100+低资源语种）上验证参数泛化能力，每种语种训练数据超10亿token
+\*\*FP8混合精度训练突破\*\*：
+- 在32K GPU集群上达成390 TFLOPs/GPU的惊人利用率
+- 通过创新的梯度缩放技术，保持训练稳定性同时大幅降低显存占用
+## 后训练策略变革
+突破传统SFT→RLHF→DPO流程，提出 \*\*轻量级三阶段方案\*\*：
+1. \*\*困难样本筛选\*\*：利用Llama 3作为裁判模型，智能剔除50%简单指令，保留数学/编码/推理等高价值难题
+2. \*\*在线强化学习\*\*：动态过滤advantage=0的prompt，构建难度递进的学习课程（Curriculum）
+3. \*\*轻量[DPO调优](https://zhida.zhihu.com/search?content\_id=256109977&content\_type=Article&match\_order=1&q=DPO%E8%B0%83%E4%BC%98&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTI5MDAsInEiOiJEUE\_osIPkvJgiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTYxMDk5NzcsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.Ux-fZcCVOpCT4H5KaLr12hLa0EzOItC0hBnwVDmy1jg&zhida\_source=entity)\*\*：专注于解决极端边界案例，提升模型鲁棒性
+\*\*10M上下文实现路径\*\*：
+- 预训练阶段采用强制256K窗口滑动采样，培养模型长度泛化能力
+- 渐进式增加上下文窗口，避免一次性扩展带来的训练不稳定
+![](https://pic1.zhimg.com/v2-fd6fc7443e719b66e00065326fdff5b2\_1440w.jpg)
+10M上下文
+## 安全体系：从被动防御到主动免疫
+## GOAT对抗测试框架
+突破传统红队测试局限：
+- \*\*生成式对抗测试（GOAT）\*\*：模拟多种攻击角色（如中级黑客、社会工程专家）
+- 自动化生成多轮对抗prompt，覆盖更全面的攻击场景
+- 实时反馈机制，快速迭代模型防御能力
+## 偏见消除技术
+- 采用多层次去偏策略，从数据清洗到模型微调全方位控制
+- 引入文化敏感度评估指标，确保模型输出符合全球多元价值观
+## 代码深度解析
+Llama4的模型结构清晰地分为视觉和文本两个处理模块：
+![](https://pic2.zhimg.com/v2-5e052c1093bbf5841469c5cfbf0fd273\_1440w.jpg)
+![](https://pic2.zhimg.com/v2-b68cc75a6489ee46bfbfb89c9f500f91\_1440w.jpg)
+核心处理流程：
+1. 多模态输入处理：图像通过视觉编码器转换为特征向量
+2. 特征投影：视觉特征通过多模态投影器映射到文本嵌入空间
+3. 特征融合：在文本序列中替换对应的
+![](https://pica.zhimg.com/v2-4f89913ab376925632be5823a038f938\_1440w.png)
+标记位置
+1. 文本处理：融合后的特征输入语言模型进行后续处理
+![](https://picx.zhimg.com/v2-a842928b1ee129c932238c49c415778b\_1440w.jpg)
+Llama4流程
+```text
+class Llama4ForConditionalGeneration(Llama4PreTrainedModel, GenerationMixin):
+# 初始化多模态组件
+def \_\_init\_\_(self, config: Llama4Config):
+super().\_\_init\_\_(config)
+self.vision\_model = Llama4VisionModel(config.vision\_config)
+self.multi\_modal\_projector = Llama4MultiModalProjector(config)
+self.language\_model = Llama4ForCausalLM(config.text\_config)
+# ...其他初始化代码...
+# 核心前向传播逻辑
+def forward(self, input\_ids=None, pixel\_values=None, ...):
+# 处理视觉输入
+if pixel\_values is not None:
+image\_features = self.get\_image\_features(pixel\_values,...)
+projected\_vision = self.multi\_modal\_projector(image\_features)
+# 替换文本中的标记
+inputs\_embeds = self.\_replace\_image\_tokens(inputs\_embeds, projected\_vision)
+# 语言模型处理
+outputs = self.language\_model(
+inputs\_embeds=inputs\_embeds,
+# ...其他参数...
+)
+return outputs
+```
+## 文本解码器创新
+Llama4TextDecoderLayer采用创新的交替注意力机制：
+- 每4层中3层使用标准RoPE注意力
+- 第4层采用无RoPE的Dense注意力，配合温度调节技术
+- MoE层与非MoE层交替布局，平衡计算效率与模型容量
+```text
+class Llama4TextDecoderLayer(nn.Module):
+def \_\_init\_\_(self, config, layer\_idx):
+# ...初始化代码...
+self.use\_rope = int((layer\_idx + 1) % 4 != 0) # 交替使用RoPE
+self.is\_moe\_layer = layer\_idx in config.moe\_layers
+if self.is\_moe\_layer:
+self.feed\_forward = Llama4TextMoe(config)
+else:
+self.feed\_forward = Llama4TextMLP(config)
+def forward(self, hidden\_states, ...):
+# 注意力处理
+if not self.use\_rope and self.attn\_temperature\_tuning:
+# 应用温度调节
+query\_states = query\_states \* attn\_scales
+# ...其余前向传播逻辑...
+```
+## MoE实现细节
+Llama4的MoE实现采用共享专家机制：
+- 每个MoE层包含1个共享专家和127个专业专家
+- 通过轻量级路由网络选择激活专家
+- 共享专家确保基础能力，专业专家提供领域 specialization
+```text
+class Llama4TextMoe(nn.Module):
+def \_\_init\_\_(self, config):
+super().\_\_init\_\_()
+self.top\_k = config.num\_experts\_per\_tok # 通常为1
+self.experts = Llama4TextExperts(config)
+self.shared\_expert = Llama4TextMLP(config) # 共享专家
+def forward(self, hidden\_states):
+# 路由计算
+router\_logits = self.router(hidden\_states)
+# 专家选择与计算
+routed\_out = self.experts(routed\_in)
+# 共享专家计算
+out = self.shared\_expert(hidden\_states)
+# 结果融合
+out.scatter\_add\_(..., routed\_out)
+return out
+```
+## 视觉模块设计
+Llama4的视觉处理采用类ViT架构，但有以下创新：
+- 引入旋转位置编码(RoPE)处理视觉特征
+- 使用像素重组MLP进行特征适配
+- 支持多帧视频输入处理
+```text
+class Llama4VisionModel(Llama4PreTrainedModel):
+def \_\_init\_\_(self, config):
+super().\_\_init\_\_(config)
+self.patch\_embedding = Llama4UnfoldConvolution(config)
+self.rotary\_embedding = Llama4VisionRotaryEmbedding(config)
+self.vision\_adapter = Llama4VisionPixelShuffleMLP(config)
+# ...其余初始化...
+def forward(self, pixel\_values):
+# 图像分块嵌入
+hidden\_state = self.patch\_embedding(pixel\_values)
+# 应用RoPE
+freqs\_ci = self.rotary\_embedding(pixel\_values)
+# 通过视觉Transformer
+output = self.model(hidden\_state, freqs\_ci=freqs\_ci)
+# 特征适配
+hidden\_state = self.vision\_adapter(output.last\_hidden\_state)
+return hidden\_state
+```
+## 总结
+Llama 4的发布标志着大模型技术正式进入 \*\*工业化应用深水区\*\*。通过对模型架构、训练策略和安全体系的全面革新，Meta再次提升了开源大模型的技术标杆。
+值得关注的三大技术趋势：
+1. \*\*模型蒸馏工业化\*\*：从Behemoth到Maverick的蒸馏流程展示了大规模模型产品化的可行路径
+2. \*\*在线RL主导进化\*\*：后训练阶段RL数据占比显著提升，推动模型推理能力质变
+3. \*\*硬件协同设计\*\*：FP8训练与MoE架构的完美结合，实现前所未有的算力利用率
+感兴趣的可以关注联系哈～
+http://weixin.qq.com/r/Sy-ZwSvE3XairW\\_i93pZ (二维码自动识别)
+发布于 2025-04-07 08:23・浙江
+[llama4](https://www.zhihu.com/topic/1892128893449793914)
+​赞同 5​​添加评论​3 ​1
+​分享
+​申请转载​
+​
+暂无评论
+关于作者
+[![JMXGODLZ](https://pic1.zhimg.com/v2-ac8f2924f38329395c991f891ba684e2\_l.jpg?source=172ae18b)](https://www.zhihu.com/people/jmxgodlz)
+[JMXGODLZ](https://www.zhihu.com/people/jmxgodlz)
+算法打杂，精通各种炼丹炸炉方法～
+[​](https://zhuanlan.zhihu.com/p/96956163)
+阿里巴巴 从业人员
+[回答](https://www.zhihu.com/people/jmxgodlz/answers) [文章](https://www.zhihu.com/people/jmxgodlz/posts) [关注者](https://www.zhihu.com/people/jmxgodlz/followers)
+​关注他​发私信
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码

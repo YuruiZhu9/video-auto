@@ -1,0 +1,255 @@
+# Source URL: https://zhuanlan.zhihu.com/p/2020163691258094433
+# Content Length: 11389 characters
+# Extracted at: 2026-04-04 23:04:35
+#============================================================
+
+![](https://zhuanlan.zhihu.com/p/2020163691258094433)
+![2026年3月最新｜OpenClaw对接Telegram/QQ机器人保姆级教程，零踩坑完整配置指南](https://pic1.zhimg.com/v2-58166bb15ef44c279df02832c19e70ce\_720w.jpg?source=172ae18b)
+当初为了把OpenClaw分别接到Telegram和QQ上，我结结实实踩了一周的坑：
+Telegram这边要解决网络环境、webhook回调死活校验不通过、群聊里机器人装死不回复；QQ那边更折腾，机器人权限申请、事件订阅地址验证失败、配置全对但机器人就是不说话，网上的教程要么步骤过时，要么只扔代码不讲避坑点，反复调试了无数次才终于跑通。
+所以整理了这篇2026最新的零踩坑教程，从机器人创建、凭证获取、OpenClaw端配置，到功能测试、高频报错全解决，哪怕你是刚接触OpenClaw的纯新手，跟着走也能一次对接成功。
+当然，如果你不想敲代码、不想反复调试webhook、不想处理一堆复杂的权限配置，我也把自己踩完坑后找到的 \*\*懒人零代码方案\*\* 放在了文末，就是OpenClaw的国产平替 \*\*EasyClaw\*\*，Telegram/QQ/微信全平台一键对接，不用改一行代码，10分钟就能让机器人上线。
+## 先划重点！对接前必须做好的4件事，少一步都白搭
+很多人对接失败，根本不是代码写错了，而是前置准备没做全，这里先把必做项列清楚，从源头避开90%的基础坑：
+1. \*\*OpenClaw环境必须正常\*\*：不管是本地还是云服务器部署，都要升级到2026最新稳定版，终端执行`openclaw -v`能正常输出版本号，执行`openclaw gateway start`能正常启动网关。
+> 避坑提醒：生产环境强烈推荐用云服务器，能7×24小时在线，本地电脑一关机器人就下线，而且Telegram对接对网络环境要求高，云服务器能解决大部分网络问题。
+1. \*\*大模型必须配置完成\*\*：提前把[阿里云百炼](https://zhida.zhihu.com/search?content\_id=271995719&content\_type=Article&match\_order=1&q=%E9%98%BF%E9%87%8C%E4%BA%91%E7%99%BE%E7%82%BC&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzU0ODc4NzAsInEiOiLpmL\_ph4zkupHnmb7ngrwiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNzE5OTU3MTksImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.zaH74bO3cXlxZCmETQwcjkx2cKLN6NomCczIv\_04yKY&zhida\_source=entity)/[DeepSeek](https://zhida.zhihu.com/search?content\_id=271995719&content\_type=Article&match\_order=1&q=DeepSeek&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzU0ODc4NzAsInEiOiJEZWVwU2VlayIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI3MTk5NTcxOSwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.\_bATjA34edFTppPbw-Zwy-xruGj1BMohcxZzpjbitH0&zhida\_source=entity)/[Ollama](https://zhida.zhihu.com/search?content\_id=271995719&content\_type=Article&match\_order=1&q=Ollama&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzU0ODc4NzAsInEiOiJPbGxhbWEiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNzE5OTU3MTksImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.kG2IIGMq-U2Pwt5YW2XhnbUDzmcMdn1QULbDnuWF8us&zhida\_source=entity)等模型对接好，终端执行`openclaw llm test`能正常返回模型回复，不然机器人就算连上了也不会说话。
+2. \*\*核心端口必须放行\*\*：一定要在服务器防火墙/安全组里，把OpenClaw的核心端口 \*\*TCP 18789\*\* 放开，不然webhook回调根本通不了。
+这里给大家放不同环境的端口放行操作截图，新手直接照着做就行：
+\*\*阿里云轻量应用服务器端口放行（新手首选）\*\*
+操作步骤：进入实例详情页→防火墙→添加规则，端口范围填18789，授权对象填0.0.0.0/0，备注填OpenClaw端口，点击确定立即生效。
+\*\*Linux服务器命令行放行端口\*\*
+```bash
+# 永久放行OpenClaw核心18789端口
+firewall-cmd --add-port=18789/tcp --permanent
+# 重启防火墙使配置生效
+firewall-cmd --reload
+# 验证端口是否放行成功，输出结果包含18789/tcp即为正常
+firewall-cmd --list-ports | grep 18789
+```
+\*\*Windows服务器防火墙端口放行\*\*
+![](https://pic4.zhimg.com/v2-5a80028fe62a3bb0e61465b96aaf992d\_1440w.jpg)
+1. \*\*平台账号要求\*\*：Telegram账号能正常访问@BotFather，无封禁限制；QQ账号要完成实名认证，能正常登录QQ机器人开放平台。
+## 第一部分：OpenClaw对接Telegram机器人，5分钟零失败步骤
+Telegram应该是对机器人最友好的平台了，接口开放、无严格调用频率限制，也是海外用户用OpenClaw做AI助手的首选，全程跟着走，5分钟就能搞定。
+### 步骤1：Telegram端创建机器人，拿核心API Token
+这一步是基础，一定要用官方的BotFather，别用任何第三方工具，避免账号和Token泄露。
+1. 打开Telegram客户端，顶部搜索栏搜\\*\\*@BotFather\\*\\*，认准带官方蓝标的那个，点进对话页。
+![](https://pic2.zhimg.com/v2-e743b8f9108ed9efa4b988f739b4f741\_1440w.jpg)
+2.点击底部的START按钮，发送`/newbot`指令，开始创建你的机器人。
+![](https://pic4.zhimg.com/v2-d0ef05e7ac8e2b42cf8d4467d06c7c59\_1440w.jpg)
+3.跟着BotFather的提示走，先给机器人起个名字（随便起，支持中文），再设置机器人的 \*\*用户名\*\*，注意！用户名必须以`bot`结尾，比如`OpenClaw\_AI\_Test\_bot`，而且是全局唯一的，重复了就换一个。
+![](https://pic3.zhimg.com/v2-0545eb23dafaf8f7625afa7c5f86bb40\_1440w.jpg)
+4.设置完成后，BotFather会直接给你生成一串 \*\*API Token\*\*，格式大概是`7123456789:AAHdqTcvCH1vGWJxfSeofSAs0K5PALDsaw`， \*\*这个Token一定要复制好存起来，后面配置全靠它，千万别泄露给别人\*\*。
+![](https://pica.zhimg.com/v2-6c820aebb5ec384a4b664b3e248d1ac4\_1440w.jpg)
+5.【必做群聊配置】给BotFather发送`/setprivacy`指令，选择你刚创建的机器人，把隐私模式改成 \*\*Disable\*\*。
+> 避坑提醒：这步不做，机器人进群后只能收到@它的消息，甚至直接装死，改成Disable后才能正常获取群聊消息，实现群聊AI助手功能。
+### 步骤2：OpenClaw端添加Telegram通道配置
+这里给大家提供两种配置方式，新手推荐用CLI命令配置，不容易出错；有基础的用户可以直接修改配置文件。
+\*\*方式一：CLI命令配置（新手零出错首选）\*\*
+1. 打开终端，执行以下命令，进入通道配置向导：
+```text
+openclaw channels add
+```
+2.在平台列表中选择 \*\*Telegram (Bot API)\*\*，按回车确认。
+3.粘贴你刚才从BotFather获取的Bot Token，按回车确认。
+4.私聊访问策略选择`open`（所有人都能对话），群聊策略选择`open`，完成配置。
+![](https://picx.zhimg.com/v2-a5d64b20c11a2bf6faaf22c9569284b7\_1440w.jpg)
+\*\*方式二：配置文件修改（有基础用户推荐）\*\*
+1. 执行对应系统的命令，打开OpenClaw核心配置文件：
+```bash
+# Windows系统（管理员PowerShell执行）
+notepad "$env:USERPROFILE\.openclaw\config.json"
+# Mac/Linux系统终端执行
+vim ~/.openclaw/config.json
+```
+2.在配置文件里找到`channels`节点，把下面的Telegram配置代码复制进去，只需要把`token`换成你自己的，其他参数按注释改就行：
+```json
+{
+"models": [\
+// 这里是你之前配好的大模型参数，不用动！\
+],
+"channels": {
+// 这里是你之前配好的其他通道，不用动！
+"telegram": {
+"enabled": true, // 必须设为true，不然通道不启用
+"token": "你从BotFather拿到的API Token",
+"webhook\_url": "https://你的服务器公网IP:18789/telegram/webhook",
+"group\_policy": "open", // open=所有群聊都能用，allowlist=仅白名单群聊可用
+"allow\_from": [] // 白名单里填用户ID/群聊ID，不想限制就空着
+}
+}
+}
+```
+### 步骤3：重启网关，自动完成webhook配置
+保存好配置后，回到终端执行这两行命令，重启网关让配置生效：
+```bash
+# 重启OpenClaw网关服务
+openclaw gateway restart
+# 查看通道状态，Telegram显示configured就是配置成功了
+openclaw channels list
+```
+> 这里划重点：OpenClaw会自动帮你完成Telegram webhook的注册和校验，不用你手动调用Telegram接口，终端不报错就代表配置成了，不用额外操作。
+### 步骤4：测试机器人，验证对接成功
+1. 打开Telegram，搜你刚创建的机器人用户名，点进对话页，发一句“你好”，机器人正常回复，就代表单聊对接成功了。
+![](https://pic1.zhimg.com/v2-1a41be4a242610c04e857b544c5bef0e\_1440w.jpg)
+2.群聊测试：把机器人拉进Telegram群聊，随便发句话并@机器人，能正常回复就代表群聊功能也正常了。
+3.进阶测试：直接给机器人发PDF、图片，测试文件解析、图文理解能力，OpenClaw的所有功能都能在Telegram里直接用。
+\* \* \*
+## 第二部分：OpenClaw对接QQ机器人，官方通道稳定不封号
+很多人用OpenClaw接QQ，都是为了做社群运营、群聊智能客服、私域自动回复，这里用的是QQ官方机器人开放平台的接口，不是第三方非官方插件，稳定性拉满，基本没有封号风险。
+### 步骤1：QQ开放平台创建机器人，拿核心凭证
+1. 打开 \*\*QQ机器人开放平台\*\*（官网地址： [https://q.qq.com/](https://link.zhihu.com/?target=https%3A//q.qq.com/)），用你的QQ号扫码登录，先完成账号实名认证，没认证是创建不了机器人的。
+2. 点首页的「创建机器人」，类型选 \*\*私域机器人\*\*（个人用、社群用都选这个，单聊群聊都支持），点下一步。
+![](https://picx.zhimg.com/v2-8ab6edc2049c507d58f089f3a7c8e451\_1440w.jpg)
+![](https://picx.zhimg.com/v2-84f2f6c96a757c875e84c74f13268081\_1440w.jpg)
+![](https://pic3.zhimg.com/v2-a4b9f40b524b8839734e11fce779e6f6\_1440w.jpg)
+3.填机器人的基础信息：上传头像、起名字、写功能介绍、选标签，填完点「确认」就行，审核很快，基本秒过。
+![](https://pic3.zhimg.com/v2-0ddbea486258b5afa1cb106dd80965c6\_1440w.jpg)
+4.机器人创建好后，进入管理后台，点左侧「开发设置」-「基础信息」，这里能拿到3个核心凭证， \*\*一定要复制存好，后面配置全靠它，千万别泄露\*\*：
+1. AppID：机器人的唯一ID
+2. Token：接口调用令牌
+3. AppSecret：接口签名密钥
+![](https://pic4.zhimg.com/v2-59e2eb4a2417d714946113c62f26eab1\_1440w.jpg)
+4.【必做】IP白名单配置：在「开发管理」页面，找到「IP白名单」，把你的OpenClaw服务器公网IP添加进去，不然接口请求会被拦截。
+![](https://picx.zhimg.com/v2-a89365122661e01cc769b8c579c08ec7\_1440w.jpg)
+5.再点左侧「开发设置」-「事件订阅」，先把这个页面放着，后面配完OpenClaw再回来填地址，顺便把「单聊消息、群聊消息、@机器人消息」的权限都开了。
+### 步骤2：OpenClaw端添加QQ通道配置
+同样给大家提供新手友好的可视化配置，和手动配置两种方式。
+\*\*方式一：Web控制台可视化配置（新手首选）\*\*
+1. 打开浏览器，输入`http://你的服务器公网IP:18789`，登录OpenClaw Web控制台。
+2. 进入「渠道管理」>「QQ」>「配置」。
+3. 填写从QQ开放平台获取的AppID、AppSecret、机器人QQ号，点击「保存」，等待配置生效即可。
+![](https://pic1.zhimg.com/v2-b69be051d5e4d0a8013cb2a34cbf7284\_1440w.jpg)
+\*\*方式二：配置文件手动配置\*\*
+1. 同样的，打开OpenClaw的核心配置文件，命令和上面Telegram的一样：
+```bash
+# Windows系统（管理员PowerShell）
+notepad "$env:USERPROFILE\.openclaw\config.json"
+# Mac/Linux系统
+vim ~/.openclaw/config.json
+```
+2.在`channels`节点里，加上QQ机器人的配置代码，把对应的凭证换成你自己的就行：
+```json
+{
+"models": [\
+// 这里是你之前配好的大模型参数，不用动！\
+],
+"channels": {
+// 这里是你之前配好的其他通道，不用动！
+"qq": {
+"enabled": true, // 必须设为true，不然通道不启用
+"app\_id": "你的机器人AppID",
+"token": "你的机器人Token",
+"app\_secret": "你的机器人AppSecret",
+"webhook\_url": "http://你的服务器公网IP:18789/qq/webhook",
+"intents": ["direct\_message", "group\_at\_message"]
+}
+}
+}
+```
+> 参数说明：`intents`就是你要订阅的消息类型，`direct\_message`是单聊消息，`group\_at\_message`是群聊里@机器人的消息，想要更多功能可以按官方文档加对应的事件类型。
+### 步骤3：重启网关，完成事件订阅验证
+1. 保存配置文件，执行命令重启OpenClaw网关，让配置生效：
+```bash
+# 重启网关服务
+openclaw gateway restart
+# 查看通道状态，QQ显示configured就是配置成功了
+openclaw channels list
+```
+1. 回到QQ机器人开放平台的「事件订阅」页面，把消息接收地址填成：`http://你的服务器公网IP:18789/qq/webhook`，点「保存验证」。
+2. 页面提示「验证成功」，就代表webhook配置完成了，OpenClaw和QQ机器人已经打通了。
+### 步骤4：测试机器人，验证对接成功
+1. 打开QQ客户端，搜你创建的机器人QQ号，加为好友，发一句“你好，帮我写一份周末出游攻略”，机器人正常回复，就代表单聊对接成功了。
+![](https://pic3.zhimg.com/v2-8a562c84660a9944140f58599217b686\_1440w.jpg)
+2.群聊测试：把机器人拉到QQ群里，@机器人+消息，比如“@OpenClaw助手 帮我写一份群规”，能正常回复就代表群聊功能也正常了。
+3.进阶测试：可以测试定时消息推送、关键词自动回复、文件解析这些功能，完美适配社群运营的各种场景。
+\* \* \*
+## 90%的人都会踩的坑！全场景报错解决方案
+我把自己踩过的、评论区高频问的报错都整理好了，遇到问题直接对着找，基本都能解决。
+### Telegram对接高频报错
+1. \*\*配置全对，但给机器人发消息没任何回复\*\*
+1. 最常见原因：API Token填错了，检查一下Token是不是和BotFather给的完全一致，有没有多复制空格、少复制字符；
+2. 第二常见原因：服务器访问不了Telegram接口，测试一下服务器能不能ping通`api.telegram.org`，不通的话换个海外节点的云服务器；
+3. 终极解决：重启网关`openclaw gateway restart`，再看终端有没有报错。
+3. \*\*webhook注册失败，提示invalid url\*\*
+1. 原因1：18789端口没放行，去服务器防火墙/安全组里放开TCP 18789端口；
+2. 原因2：webhook\\_url写错了，检查IP、端口、路径是不是完全正确，路径必须是`/telegram/webhook`；
+3. 原因3：HTTPS证书无效，先用HTTP地址测试，Telegram对HTTP地址兼容度很高。
+5. \*\*单聊正常，群聊里机器人装死不回复\*\*
+1. 原因：机器人隐私模式没关，给@BotFather发`/setprivacy`，把对应机器人的隐私模式改成Disable；
+2. 补充：把机器人设为群聊管理员，能拿到完整的群聊消息权限，基本不会出现收不到消息的情况。
+### QQ对接高频报错
+1. \*\*事件订阅地址验证失败，死活保存不了\*\*
+1. 原因1：18789端口没放行，去服务器防火墙/安全组里放开TCP 18789端口；
+2. 原因2：webhook\\_url写错了，检查IP、端口、路径和配置文件里的是不是完全一致；
+3. 原因3：AppID、Token、AppSecret填错了，核对一下和QQ开放平台里的是不是完全一样；
+4. 原因4：IP白名单没配置，把服务器公网IP添加到QQ开放平台的IP白名单里。
+3. \*\*能收到消息，但机器人不回复\*\*
+1. 原因1：大模型配置错了，执行`openclaw llm test`看看模型能不能正常调用，检查API密钥有没有过期、额度够不够；
+2. 原因2：消息事件权限没开，去QQ开放平台把单聊、群聊的消息权限都打开，配置文件里的`intents`和开启的权限要对应；
+3. 原因3：机器人没发布上线，去QQ开放平台提交机器人发布审核，通过后就能全平台正常用了。
+5. \*\*单聊正常，群聊里@机器人没反应\*\*
+1. 原因：群聊@消息的权限没开，去QQ开放平台开启「群聊@机器人消息」权限，配置文件里的`intents`加上`group\_at\_message`；
+2. 补充：把机器人设为群聊管理员，确保消息接收权限正常。
+\* \* \*
+## 不想折腾代码？懒人零代码一键对接方案
+说实话，我当初为了把这两个平台的机器人跑通，前前后后踩了一周的坑，不是webhook调不通，就是机器人装死不回复，哪怕一个参数错了，整个流程就全白费了。
+![](https://pic4.zhimg.com/v2-4f1a19dd86abb5c2c34ef03fbbc52bdb\_1440w.jpg)
+后来我用了 \*\*EasyClaw\*\*，才发现原来对接机器人可以这么简单，它是OpenClaw的国产友好平替，把所有复杂的底层配置都封装好了，对新手极度友好：
+- 不用改一行配置文件、不用敲一条终端命令，全中文可视化界面，只需要填一下机器人的凭证，系统自动帮你完成对接，Telegram/QQ/微信/企业微信全平台都支持；
+- 不用手动调试webhook、不用配置端口放行、不用处理平台接口签名，所有底层操作系统自动完成，不用你操一点心；
+- 内置了社群运营、智能客服、私域自动回复、海外AI助手几十种现成的模板，不用二次开发，直接就能用；
+- 官方提供云端托管，不用自己买服务器，7×24小时稳定在线，Telegram的网络问题也直接解决了，不用担心服务宕机。
+如果你只是想快速用上OpenClaw的AI能力，不想折腾代码和配置，直接用EasyClaw真的能省超多事，我自己现在也主要用它来做多平台机器人管理。
+## 最后说两句
+以上就是2026最新的OpenClaw Telegram/QQ机器人对接全流程教程，所有步骤都是我实测跑通的，跟着走基本不会踩坑，哪怕是零基础的新手，也能一次对接成功。
+如果在操作过程中遇到了任何问题，欢迎在评论区留言，我看到都会一一回复；也可以关注我，后续会持续更新OpenClaw的进阶玩法、模型调优、自动化工作流搭建等内容。
+当然，如果你想省去所有折腾，直接快速上线多平台AI机器人，也可以直接用 \*\*EasyClaw\*\*，一键搞定所有配置。
+编辑于 2026-03-25 04:06・广东
+[OpenClaw](https://www.zhihu.com/topic/1999063153082913027)
+[openclaw用法](https://www.zhihu.com/topic/2010468921422136918)
+[openclaw教程](https://www.zhihu.com/topic/2015373739529906012)
+​赞同 1​​添加评论​1 ​喜欢
+​分享
+​申请转载​
+​
+暂无评论
+关于作者
+[![EasyClaw](https://picx.zhimg.com/v2-46ea702989e6efc4ada3cd5b60934d00\_l.jpg?source=172ae18b)](https://www.zhihu.com/org/easyclaw)
+[EasyClaw](https://www.zhihu.com/org/easyclaw)
+[​](https://zhuanlan.zhihu.com/p/96956163)
+已认证机构号
+[回答](https://www.zhihu.com/org/easyclaw/answers) [文章](https://www.zhihu.com/org/easyclaw/posts) [关注者](https://www.zhihu.com/org/easyclaw/followers)
+​关注​发私信
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码

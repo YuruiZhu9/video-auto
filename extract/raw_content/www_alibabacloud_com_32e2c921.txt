@@ -1,0 +1,510 @@
+# Source URL: https://www.alibabacloud.com/blog/qwen3-6-plus-towards-real-world-agents_603005
+# Content Length: 25554 characters
+# Extracted at: 2026-04-04 13:40:50
+#============================================================
+
+
+
+Qwen3.6-Plus: Towards Real World Agents - Alibaba Cloud Community
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+Community
+=========
+
+[Blog](https://www.alibabacloud.com/blog/)
+[Events](https://resource.alibabacloud.com/event/index)
+[Webinars](https://resource.alibabacloud.com/webinar/index.htm)
+[Tutorials](https://community.alibabacloud.com/tags/type_blog-tagid_28404/)
+[Forum](https://www.alibabacloud.com/forum)
+
+* ![]()![]()
+
+
+
+
+1. [Blog](https://community.alibabacloud.com)
+2. [Events](https://resource.alibabacloud.com/event/index)
+3. [Webinars](https://resource.alibabacloud.com/webinar/index.htm)
+4. [Tutorials](https://www.alibabacloud.com/getting-started/projects)
+5. [Forum](https://www.alibabacloud.com/forum)
+
+[Create Account](https://account.alibabacloud.com/register/register.htm?from_type=yqclub&oauth_callback=https%3A%2F%2Fwww.alibabacloud.com%2Fblog%2Fqwen3-6-plus-towards-real-world-agents_603005%3Fdo%3Dlogin)
+[Log In](https://account.alibabacloud.com/login/login.htm?from_type=yqclub&oauth_callback=https%3A%2F%2Fwww.alibabacloud.com%2Fblog%2Fqwen3-6-plus-towards-real-world-agents_603005%3Fdo%3Dlogin)
+
+
+×
+
+
+
+
+
+[Community](https://community.alibabacloud.com)
+
+[Blog](https://www.alibabacloud.com/blog/)
+
+Qwen3.6-Plus: Towards Real World Agents
+
+Qwen3.6-Plus: Towards Real World Agents
+=======================================
+
+[Alibaba Cloud Community](https://community.alibabacloud.com/users/5337701737861729)
+April 2, 2026
+![]() 3,346
+
+[**0**](#comment)
+
+
+
+Following the release of the Qwen3.5 series in February, we are thrilled to announce the official launch of Qwen3.6-Plus.
+
+![]()
+
+Following the release of the Qwen3.5 series in February, we are thrilled to announce the official launch of Qwen3.6-Plus. Available immediately via our API, this release represents a massive capability upgrade over its predecessor. Most notably, we have drastically enhanced the model’s agentic coding capabilities. From frontend web development to complex, repository-level problem solving, Qwen3.6-Plus sets a new state-of-the-art standard. Furthermore, Qwen3.6-Plus perceives the world with greater accuracy and sharper multimodal reasoning. By directly addressing community feedback from the Qwen3.5-Plus deployment, this release offers a highly stable and reliable foundation for the developer ecosystem, delivering a truly transformative “vibe coding” experience.
+
+> **Qwen3.6-Plus** is the hosted model available via [Alibaba Cloud Model Studio](https://modelstudio.alibabacloud.com/?spm=a2ty_o06.30285417.0.0.a321c921ZZnweu), featuring:  
+> • a 1M context window by default  
+> • significantly improved agentic coding capability  
+> • better multimodal perception and reasoning ability
+
+![]()
+
+Performance
+-----------
+
+Below we present the comprehensive evaluation of our models against frontier models in a wide range of evaluation tasks, covering different tasks and modalities.
+
+### Language
+
+Qwen3.6-Plus achieves comprehensive improvements in coding agents, general agents, and tool usage by deeply integrating reasoning, memory, and execution capabilities.
+
+In the field of **coding agents**, Qwen3.6-Plus demonstrates strong practical engineering performance. It not only closely matches industry leaders on mainstream code repair benchmarks but also excels in complex terminal operations and automated task execution.
+
+For **general-purpose agents and tool usage**, the model makes significant breakthroughs. It achieves top results in multiple challenging long-horizon planning tasks and leads across various tool-calling benchmarks.
+
+Regarding **general capabilities**, Qwen3.6-Plus maintains leading performance: it sets new records in key evaluations spanning difficult STEM reasoning, precise information extraction from ultra-long contexts, and broad adaptation to multilingual environments.
+
+We believe Qwen3.6-Plus’s advancement lies not only in surpassing metrics across the board but also in its organic integration of deep logical reasoning, extensive contextual memory, and precise tool execution. This “all-rounder” characteristic enables it to confidently handle real-world challenges—from complex code management to cross-domain long-term planning—marking the Qwen series’ accelerated evolution toward highly autonomous super-agents.
+
+![]()
+
+  
+SWE-Bench Series: Internal agent scaffold (bash + file-edit tools); temp=1.0, top\_p=0.95, 200K context window.  
+SWE-bench Pro: We correct some problematic tasks in SWE-bench Pro and evaluate all baselines on the refined benchmark.  
+Terminal-Bench 2.0: Harbor/Terminus-2 harness; 3h timeout, 32 CPU/48 GB RAM; temp=1.0, top\_p=0.95, top\_k=20, max\_tokens=80K, 256K ctx; avg of 5 runs.  
+Claw-Eval: Temp=0.6, 256K ctx.  
+SkillsBench: Claude Opus 4.5 from official leaderboard (87 tasks); others are evaluated via OpenCode on 78 tasks (self-contained subset, excluding API-dependent tasks); avg of 5 runs.  
+NL2Repo: Claude Opus 4.5 from official leaderboard; others are evaluated via Claude Code (temp=1.0, top\_p=0.95, max\_turns=900).  
+QwenClawBench: an internal real-user-distribution Claw agent benchmark (open-sourcing soon); temp=0.6, 256K ctx.  
+QwenWebBench: an internal front-end code generation benchmark; bilingual (EN/CN), 7 categories (Web Design, Web Apps, Games, SVG, Data Visualization, Animation, and 3D); auto-render + multimodal judge (code/visual correctness); BT/Elo rating system.  
+TAU3-Bench: We use the official user model (gpt-5.2, low reasoning effort) + default BM25 retrieval.  
+VITA-Bench: Avg subdomain scores; using claude-4-sonnet as judger, as the official judger (claude-3.7-sonnet) is no longer available.  
+MCPMark: GitHub MCP v0.30.3; Playwright responses truncated at 32K tokens.  
+MCP-Atlas: Public set score; gemini-2.5-pro judger.  
+HLE w/ tool: 256K ctx w/ context-folding; prunes older tool responses upon threshold breach.  
+WideSearch: 256K ctx w/ management; prunes ≥49,152 tool tokens when >208,896 used.  
+HLE-Verified: a verified and revised version of Humanity's Last Exam (HLE), accompanied by a transparent, component-wise verification protocol and a fine-grained error taxonomy. We open-source the dataset at <https://huggingface.co/datasets/skylenage/HLE-Verified.>  
+AIME 26: We use the full AIME 2026 (I & II), where the scores may differ from Qwen 3.5 notes.  
+MMLU-ProX: Avg accuracy across 29 languages.  
+WMT24++: a harder WMT24 subset; avg scores on 55 langs via XCOMET-XXL.  
+MAXIFE: Accuracy on EN + multilingual prompts (23 settings total).  
+
+### Vision Language
+
+Qwen3.6-Plus marks a steady progress in multimodal capabilities, evolving across three core dimensions: advanced reasoning, enhanced applicability, and ability to execute complex tasks.
+
+**Advanced Multimodal Reasoning**: Qwen3.6-Plus delivers substantial breakthroughs in complex document understanding, physical world visual analysis, video reasoning, and visual coding. The model now excels at integrating cross-modal information to perform sophisticated analysis and decision-making.
+
+**Real-World Applicability:** Optimized for genuine business scenarios, Qwen3.6-Plus demonstrates superior stability and usability. It handles demanding tasks ranging from instruction following, challenging text and general object recognition, to fine-grained visual perception, proving effective in practical applications like retail intellegence.
+
+We believe the future of multimodal AI lies not just in isolated task performance, but in providing holistic support for workflow-oriented operations. As its capabilities in understanding, reasoning, and action continue to converge, Qwen3.6-Plus is evolving into a native multimodal agent, capable of continuously perceiving, reasoning, and acting within real-world environments.
+
+![]()
+
+  
+MathVision: Our model’s score is evaluated using a fixed prompt, e.g., “Please reason step by step, and put your final answer within boxed{}.” For other models, we report the higher score between runs with and without the boxed{} formatting.  
+`V*` and TIR-Bench: Scores reported as "with CI / without CI".  
+Empty cells (--) indicate scores not yet available or not applicable.  
+
+Build with Qwen3.6-Plus
+-----------------------
+
+Qwen3.6-Plus is now generally available through our official API via [Alibaba Cloud Model Studio](https://modelstudio.alibabacloud.com/?spm=a2ty_o06.30285417.0.0.a321c921ZZnweu). You can seamlessly integrate the API with popular third-party coding assistants, including OpenClaw, Claude Code, Qwen Code, Kilo Code, Cline, and OpenCode, to streamline development workflows and enable efficient, context-aware coding experiences.
+
+### API Usage
+
+This release introduces a new feature to the API designed to improve performance on complex, multistep tasks:
+
+* `preserve_thinking`: Preserve thinking content from all preceding turns in messages. **Recommended for agentic tasks.** This capability is particularly beneficial for agent scenarios, where maintaining full reasoning context can enhance decision consistency and, in many cases, reduce overall token consumption by minimizing redundant reasoning. This feature is disabled by default, i.e., `preserve_thinking` defaults to false, meaning the thinking content in preceding turns are discarded, and only the thinking content generated in handling the latest user message is kept (interleaved thinking).
+
+### Alibaba Cloud Model Studio
+
+Alibaba Cloud Model Studio supports industry-standard protocols, including chat completions and responses APIs compatible with OpenAI’s specification, as well as an API interface compatible with Anthropic.
+
+Example code for chat completions API is provided below:
+
+```
+"""
+Environment variables (per official docs):
+  DASHSCOPE_API_KEY: Your API Key from https://modelstudio.console.alibabacloud.com
+  DASHSCOPE_BASE_URL: (optional) Base URL for compatible-mode API.
+  DASHSCOPE_MODEL: (optional) Model name; override for different models.
+  DASHSCOPE_BASE_URL:
+    - Beijing: https://dashscope.aliyuncs.com/compatible-mode/v1
+    - Singapore: https://dashscope-intl.aliyuncs.com/compatible-mode/v1
+    - US (Virginia): https://dashscope-us.aliyuncs.com/compatible-mode/v1
+"""
+from openai import OpenAI
+import os
+
+api_key = os.environ.get("DASHSCOPE_API_KEY")
+if not api_key:
+    raise ValueError(
+        "DASHSCOPE_API_KEY is required. "
+        "Set it via: export DASHSCOPE_API_KEY='your-api-key'"
+    )
+
+client = OpenAI(
+    api_key=api_key,
+    base_url=os.environ.get(
+        "DASHSCOPE_BASE_URL",
+        "https://dashscope-intl.aliyuncs.com/compatible-mode/v1",
+    ),
+)
+
+messages = [{"role": "user", "content": "Introduce vibe coding."}]
+
+model = os.environ.get(
+    "DASHSCOPE_MODEL",
+    "qwen3.6-plus",
+)
+completion = client.chat.completions.create(
+    model=model,
+    messages=messages,
+    extra_body={
+        "enable_thinking": True,
+        # "preserve_thinking": True,
+    },
+    stream=True
+)
+
+reasoning_content = ""  # Full reasoning trace
+answer_content = ""  # Full response
+is_answering = False  # Whether we have entered the answer phase
+print("\n" + "=" * 20 + "Reasoning" + "=" * 20 + "\n")
+
+for chunk in completion:
+    if not chunk.choices:
+        print("\nUsage:")
+        print(chunk.usage)
+        continue
+
+    delta = chunk.choices[0].delta
+
+    # Collect reasoning content only
+    if hasattr(delta, "reasoning_content") and delta.reasoning_content is not None:
+        if not is_answering:
+            print(delta.reasoning_content, end="", flush=True)
+        reasoning_content += delta.reasoning_content
+
+    # Received content, start answer phase
+    if hasattr(delta, "content") and delta.content:
+        if not is_answering:
+            print("\n" + "=" * 20 + "Answer" + "=" * 20 + "\n")
+            is_answering = True
+        print(delta.content, end="", flush=True)
+        answer_content += delta.content
+```
+
+For more information, please visit the [API doc.](https://modelstudio.console.alibabacloud.com/?spm=a2ty_o06.30285417.0.0.a321c921ZZnweu&tab=doc#/doc/?type=model&url=2840915)
+
+### Coding & Agents
+
+Qwen3.6-Plus features excellent frontend development capabilities and can be seamlessly integrated into popular third-party coding assistants, including OpenClaw, Claude Code, and Qwen Code, to streamline development workflows.
+
+### Web Dev
+
+Qwen3.6-Plus enhances frontend development capabilities, delivering superior performance on complex projects like 3D scenes and games, while maintaining excellence in web page design.
+
+### OpenClaw
+
+Qwen3.6-Plus is compatible with [OpenClaw](https://openclaw.ai/?spm=a2ty_o06.30285417.0.0.a321c921ZZnweu) (formerly Moltbot / Clawdbot), a self-hosted open-source AI coding agent. Connect it to [Model Studio](https://www.alibabacloud.com/help/en/model-studio/openclaw?spm=a2ty_o06.30285417.0.0.a321c921ZZnweu) to get a full agentic coding experience in the terminal. Get started with the following script:
+
+```
+# Node.js 22+
+curl -fsSL https://molt.bot/install.sh | bash   # macOS / Linux
+
+# Set your API key
+export DASHSCOPE_API_KEY=<your_api_key>
+
+# Launch OpenClaw
+openclaw dashboard # web browser
+# openclaw tui # Open a new terminal and start the TUI
+```
+
+On first use, edit `~/.openclaw/openclaw.json` to point OpenClaw at Model Studio. Find or create the following fields and merge them — **do not overwrite the entire file** to preserve your existing settings:
+
+```
+{
+    "models": {
+        "providers": [
+            {
+                "name": "alibaba-coding-plan",
+                "baseUrl": "https://coding-intl.dashscope.aliyuncs.com/v1",
+                "apiKey": "${DASHSCOPE_API_KEY}",
+                "models": [
+                    {
+                        "id": "qwen3.6-plus",
+                        "reasoning": true
+                    }
+                ]
+            }
+        ]
+    },
+    "agents": {
+            "defaults": {
+                "models": ["qwen3.6-plus"]
+        }
+    }
+}
+```
+### Qwen Code
+
+Qwen3.6-Plus is compatible with [Qwen Code](https://qwen.ai/qwencode?spm=a2ty_o06.30285417.0.0.a321c921ZZnweu), an open-source AI agent designed for the terminal and deeply optimized for the Qwen Series. It helps you understand complex codebases, automate tedious work, and ship faster. Get started with the following script:
+
+```
+# Node.js 20+
+npm install -g @qwen-code/qwen-code@latest
+
+# Start Qwen Code (interactive)
+qwen
+
+# Then, in the session:
+/help
+/auth
+```
+
+On first use, you’ll be prompted to sign in. You can run `/auth` anytime to switch authentication methods. Sign in with Qwen Code OAuth to instantly experience the latest Qwen3.6-Plus model—every user gets 1,000 free calls per day.
+
+### Claude Code
+
+Qwen APIs also support the Anthropic API protocol, meaning you can use it with tools like **Claude Code** for elevated coding experience:
+
+```
+# Install Claude Code
+npm install -g @anthropic-ai/claude-code
+
+# Configure environment
+export ANTHROPIC_MODEL="qwen3.6-plus"
+export ANTHROPIC_SMALL_FAST_MODEL="qwen3.6-plus"
+export ANTHROPIC_BASE_URL=https://dashscope-intl.aliyuncs.com/apps/anthropic
+export ANTHROPIC_AUTH_TOKEN=<your_api_key>
+
+# Launch the CLI
+claude
+```
+
+Visual Agents
+-------------
+
+Qwen3.6-Plus continues to advance along a clear capability trajectory in multimodality: from visual perception, to multimodal reasoning, to agentic execution. Our goal is not just for the model to “see” images and videos, but to equip it with a full capability loop spanning perception, understanding, reasoning, and task execution—moving step by step toward more practical native multimodal agents.
+
+### Visual Reasoning
+
+Built on continuously improving perception capabilities, Qwen3.6-Plus further enhances its ability to understand, analyze, and reason over various visual inputs. Rather than stopping at shallow recognition of visual content, the model can combine reasoning, grounding, and OCR capabilities to perform deeper analysis of complex visual inputs, supporting practical tasks such as document understanding, chart parsing, UI understanding, and fine-grained localization. In other words, the model can go beyond answering “what is in the image” to also infer “how the information is related” and “how to act on it to complete a task.”
+
+### Visual Coding
+
+We further enhanced the model’s capabilities in visual understanding, content generation, and tool use. Based on UI screenshots, product prototypes, design mockups, or natural multimodal instructions, the model can generate frontend pages, complete code, and refine interactions, gradually closing the loop from “understanding an interface” to “generating code” and then to “using tools to modify it.” This also makes multimodal models substantially more practical in real-world development workflows.
+
+### Video Understanding
+
+Qwen3.6-Plus not only continues to improve its understanding of video content itself, but also increasingly supports video analysis and processing scenarios that are closer to real-world tasks. Compared with static images, video understanding requires the model to jointly handle temporal information, dynamic changes, and cross-frame relationships, making it a stronger test of the model’s ability to move from perception to understanding and processing. Our goal is for the model not only to understand what is happening in a video, but also to perform further analysis, extraction, and processing based on video content.
+
+### Visual Agent Applications
+
+Our focus is on how the model can continuously perceive, reason, and take action in an environment. In GUI Agent scenarios, for example, the model can understand the current state of a screen and combine this with planning capabilities to decide and execute the next step. Explorations such as OpenClaw further highlight the potential of multimodal models to complete complex interactive tasks in open environments. Combined with Claude Code-style workflows, multi-hop search, CI, and external tool use, the model can gradually evolve from a single-turn assistant into an execution system for real-world tasks: first understanding the problem, then retrieving information, generating solutions, invoking tools, and iterating based on feedback.
+
+Summary & Future Work
+---------------------
+
+Qwen3.6-Plus marks a critical milestone in our journey toward native multimodal agents, delivering an unprecedented leap in agentic coding. By directly addressing real-world developer needs, we have laid a robust and reliable foundation for next-generation AI applications. Building on this momentum, our immediate focus shifts to the full rollout of the Qwen3.6 series. In the coming days, we will also open-source smaller-scale variants, reaffirming our commitment to accessibility and community-driven innovation. Looking further ahead, we will continue pushing the boundaries of model autonomy, targeting increasingly complex, long-horizon repository-level tasks. We are deeply grateful for the invaluable feedback from the Qwen3.5 era and eagerly anticipate the groundbreaking projects you will create with Qwen3.6-Plus.
+
+Citation
+--------
+
+Feel free to cite the following article if you find Qwen3.6-Plus helpful:
+
+```
+@misc{qwen36plus,
+    title = {{Qwen3.6-Plus}: Towards Real World Agents},
+    url = {https://qwen.ai/blog?id=qwen3.6},
+    author = {{Qwen Team}},
+    month = {April},
+    year = {2026}
+}
+```
+
+---
+
+*[Source](https://qwen.ai/blog?id=qwen3.6)*
+
+
+[AI](https://community.alibabacloud.com/tags/type_blog-tagid_3219/)
+[Artificial Intelligence](https://community.alibabacloud.com/tags/type_blog-tagid_16441/)
+[Developers](https://community.alibabacloud.com/tags/type_blog-tagid_16445/)
+[Generative AI](https://community.alibabacloud.com/tags/type_blog-tagid_36033/)
+[GenAI](https://community.alibabacloud.com/tags/type_blog-tagid_36358/)
+[Qwen](https://community.alibabacloud.com/tags/type_blog-tagid_36919/)
+[Alibaba Cloud Model Studio](https://community.alibabacloud.com/tags/type_blog-tagid_37001/)
+[Model Studio](https://community.alibabacloud.com/tags/type_blog-tagid_37002/)
+[AI Agents](https://community.alibabacloud.com/tags/type_blog-tagid_38621/)
+[Agentic AI](https://community.alibabacloud.com/tags/type_blog-tagid_39148/)
+[Qwen3.6-Plus](https://community.alibabacloud.com/tags/type_blog-tagid_39788/)
+[Coding agents](https://community.alibabacloud.com/tags/type_blog-tagid_39790/)
+
+[0](#comment)
+
+**1**
+
+**0**
+
+
+**Share on**
+
+
+
+
+
+Read previous post:
+-------------------
+
+[Alibaba Unveils Qwen3.6-Plus to Accelerate Agentic AI Deployment for Enterprises and Alibaba’s AI Applications](/blog/alibaba-unveils-qwen3-6-plus-to-accelerate-agentic-ai-deployment-for-enterprises-and-alibaba%E2%80%99s-ai-applications_603000)
+
+
+Read next post:
+---------------
+
+[Alibaba Unveils Qwen3.6-Plus to Advance the Agentic AI](/blog/alibaba-unveils-qwen3-6-plus-to-advance-the-agentic-ai_603007)
+
+
+
+[![]()](https://community.alibabacloud.com/users/5337701737861729)
+
+[Alibaba Cloud Community](https://community.alibabacloud.com/users/5337701737861729)
+====================================================================================
+
+1,370 posts | 487 followers
+
+[Follow](#)
+
+
+### You may also like
+
+* [Alibaba Unveils Qwen3.6-Plus to Accelerate Agentic AI Deployment for Enterprises and Alibaba’s AI Applications](/blog/alibaba-unveils-qwen3-6-plus-to-accelerate-agentic-ai-deployment-for-enterprises-and-alibaba%E2%80%99s-ai-applications_603000)
+  
+  Alibaba Cloud Community - April 2, 2026
+* [Alibaba Unveils Qwen3.6-Plus to Advance the Agentic AI](/blog/alibaba-unveils-qwen3-6-plus-to-advance-the-agentic-ai_603007)
+  
+  Alibaba Cloud Community - April 3, 2026
+* [Qwen3.5: Towards Native Multimodal Agents](/blog/qwen3-5-towards-native-multimodal-agents_602894)
+  
+  Alibaba Cloud Community - February 17, 2026
+* [Flink Agents: An Event-Driven AI Agent Framework Based on Apache Flink](/blog/flink-agents-an-event-driven-ai-agent-framework-based-on-apache-flink_602505)
+  
+  Apache Flink Community - September 1, 2025
+* [Development Trends and Open Source Technology Practices of AI Agents](/blog/development-trends-and-open-source-technology-practices-of-ai-agents_602037)
+  
+  Alibaba Cloud Native Community - March 6, 2025
+* [Is AI a Risk to Humanity?](/blog/is-ai-a-risk-to-humanity_510573)
+  
+  Alibaba Clouder - March 5, 2018
+
+### Comments
+
+
+
+Post
+
+
+
+
+
+[![]()](https://community.alibabacloud.com/users/5337701737861729)
+
+[Alibaba Cloud Community](https://community.alibabacloud.com/users/5337701737861729)
+====================================================================================
+
+1,370 posts | 487 followers
+
+[Follow](#)
+
+
+
+Related Products
+================
+
+* [Container Compute Service (ACS)](https://community.alibabacloud.com/go/1/478)
+  ------------------------------------------------------------------------------
+  
+  A cloud computing service that provides container compute resources that comply with the container specifications of Kubernetes
+  
+  [Learn More](https://community.alibabacloud.com/go/1/478)
+* [Container Service for Kubernetes](https://community.alibabacloud.com/go/1/214)
+  -------------------------------------------------------------------------------
+  
+  Alibaba Cloud Container Service for Kubernetes is a fully managed cloud container management service that supports native Kubernetes and integrates with other Alibaba Cloud products.
+  
+  [Learn More](https://community.alibabacloud.com/go/1/214)
+* [Tongyi Qianwen (Qwen)](https://community.alibabacloud.com/go/1/472)
+  --------------------------------------------------------------------
+  
+  Top-performance foundation models from Alibaba Cloud
+  
+  [Learn More](https://community.alibabacloud.com/go/1/472)
+* [Alibaba Cloud for Generative AI](https://community.alibabacloud.com/go/1/463)
+  ------------------------------------------------------------------------------
+  
+  Accelerate innovation with generative AI to create new business success
+  
+  [Learn More](https://community.alibabacloud.com/go/1/463)
+
+**More Posts**
+by Alibaba Cloud Community
+
+
+[See All](https://community.alibabacloud.com/users/5337701737861729/article)
+
+
+
+* [Alibaba Unveils Qwen3.6-Plus to Advance the Agentic AI](/blog/alibaba-unveils-qwen3-6-plus-to-advance-the-agentic-ai_603007)
+* [Alibaba Unveils Qwen3.6-Plus to Accelerate Agentic AI Deployment for Enterprises and Alibaba’s AI Applications](/blog/alibaba-unveils-qwen3-6-plus-to-accelerate-agentic-ai-deployment-for-enterprises-and-alibaba%E2%80%99s-ai-applications_603000)
+* [Hailiang Group × Quick BI: Data-driven "See-Know-Act" to Build an Enterprise-level Intelligent Decision-making Hub](/blog/hailiang-group-%C3%97-quick-bi-data-driven-see-know-act-to-build-an-enterprise-level-intelligent-decision-making-hub_602998)
+* [From "Static Dashboards" to "Decision Engine": Why Your Data Analytics Platform Needs a Professional Upgrade?](/blog/from-static-dashboards-to-decision-engine-why-your-data-analytics-platform-needs-a-professional-upgrade_602997)
+* [Alibaba Unveils Wan2.7 Redefining Personalized and Precision Image Creation](/blog/alibaba-unveils-wan2-7-redefining-personalized-and-precision-image-creation_602995)
+* [Meet Spring 2026 Alibaba Cloud MVPs](/blog/meet-spring-2026-alibaba-cloud-mvps_602989)
+* [Alibaba Only Asian AI Honoree on Fast Company’s Most Innovative Companies List](/blog/alibaba-only-asian-ai-honoree-on-fast-company%E2%80%99s-most-innovative-companies-list_602976)
+* [Alibaba Cloud Storage Wins Best Paper Award at Global Top Conference FAST](/blog/alibaba-cloud-storage-wins-best-paper-award-at-global-top-conference-fast_602973)
+* [Qwen3.5-Max-Preview Unveiled!](/blog/qwen3-5-max-preview-unveiled_602969)
+
+
+
+
+
+

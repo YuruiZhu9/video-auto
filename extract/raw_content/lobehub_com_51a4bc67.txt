@@ -1,0 +1,424 @@
+# Source URL: https://lobehub.com/zh/skills/openclaw-skills-parse-video
+# Content Length: 8609 characters
+# Extracted at: 2026-04-06 11:50:28
+#============================================================
+
+
+[![]()](/)[产品](/)社区资源[定价](/pricing)[74.8K](https://github.com/lobehub/lobehub)[开始使用](https://app.lobehub.com/?utm_source=landing&utm_content=header_get_started)`CtrlK`
+
+1. [LobeHub](/)
+2. /
+3. [Skills](/skills)
+4. /
+5. openclaw-skills-parse-video
+![]()
+
+Agent teammates that grow with you
+----------------------------------
+
+### 立即开始使用 LobeHub，成为万千超级个体的一员
+
+[免费开始使用](https://app.lobehub.com/?utm_source=landing&utm_content=hero_get_started)[获取最新版本…](/downloads)视频链接解析 | Skills Marketplace · LobeHub![]()
+
+视频链接解析
+======
+
+3[Github](https://github.com/openclaw/skills/tree/main/skills/hexiaochun/parse-video)1.0.2[openclaw](https://github.com/openclaw)Apr 05, 2026[Media & Streaming](/skills?category=media-streaming)102.6kOverviewInstallation MethodSKILL.mdResources2Related SkillsVersion History2[Need help?](https://discord.gg/AYFPHvv2jT)[View source code](https://github.com/openclaw/skills/tree/main/skills/hexiaochun/parse-video)[Report issue](https://github.com/openclaw/skills/issues)
+
+Summary
+-------
+
+该 Skill 可解析抖音、快手、小红书、B站、微博、TikTok、Instagram、YouTube 等主流平台的分享链接，自动提取无水印视频、音频和图集的下载地址。通过调用 MCP 的 parse\_video 接口（支持含分享文案的文本），返回结构化字段：success、title、thumbnail、video\_url、video\_urls、audio\_url、audio\_urls、image\_url、image\_urls、parse\_time 等。解析完成后可将资源 URL 传入提供的 scripts/download.py 脚本批量下载到本地。适用于素材采集、离线保存、无水印二次处理或媒体管理场景。特点为免费无须认证、支持图集返回全部图片链接，并包含常见失败原因和使用提示。
+
+SKILL.md
+
+视频链接解析
+======
+
+解析各大平台的视频分享链接，获取无水印视频下载地址。**免费使用，无需认证**。
+
+工作流程
+----
+
+1. **解析链接** - 调用 MCP `parse_video` 工具获取资源信息
+2. **下载资源** - 执行 `scripts/download.py` 脚本下载到本地
+
+支持平台
+----
+
+* 抖音 (Douyin)
+* 快手 (Kuaishou)
+* 小红书 (Xiaohongshu)
+* 哔哩哔哩 (Bilibili)
+* 微博 (Weibo)
+* TikTok
+* Instagram
+* YouTube
+* 其他主流平台
+
+使用方法
+----
+
+调用 MCP 工具 `parse_video`：
+
+![]()JSON
+```
+{
+  "url": "视频分享链接"
+}
+```
+### 参数说明
+
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| url | string | **是** | 视频分享链接，支持带分享文案的文本（自动提取链接） |
+
+### 返回字段
+
+| 字段 | 类型 | 说明 |
+| --- | --- | --- |
+| success | boolean | 是否解析成功 |
+| title | string | 视频标题 |
+| thumbnail | string | 视频封面缩略图 |
+| video\_url | string | 首选视频下载链接 |
+| video\_urls | array | 所有视频链接列表 |
+| audio\_url | string | 音频下载链接 |
+| audio\_urls | array | 所有音频链接列表 |
+| image\_url | string | 首选图片链接（图集类型） |
+| image\_urls | array | 所有图片链接（图集类型） |
+| parse\_time | string | 解析时间 |
+
+示例
+--
+
+### 示例 1：解析抖音分享链接
+
+**用户请求**：帮我解析这个抖音视频 `1.53 [[email protected]](/cdn-cgi/l/email-protection) 04/03 Cus:/ 二狗脱口秀 # 脱口秀 https://v.douyin.com/GVOt9Hk6ZzM/ 复制此链接，打开Dou音搜索，直接观看视频！`
+
+**调用 parse\_video**：
+
+![]()JSON
+```
+{
+  "url": "1.53 [[email protected]](/cdn-cgi/l/email-protection) 04/03 Cus:/ 二狗脱口秀 # 脱口秀 https://v.douyin.com/GVOt9Hk6ZzM/ 复制此链接，打开Dou音搜索，直接观看视频！"
+}
+```
+
+**返回示例**：
+
+![]()JSON
+```
+{
+  "success": true,
+  "title": "二狗脱口秀",
+  "thumbnail": "https://...",
+  "video_url": "https://...",
+  "video_urls": ["https://..."],
+  "parse_time": "2025-01-29 10:30:00"
+}
+```
+### 示例 2：解析 B 站链接
+
+**用户请求**：解析 <https://www.bilibili.com/video/BV1xx411c7mD>
+
+**调用 parse\_video**：
+
+![]()JSON
+```
+{
+  "url": "https://www.bilibili.com/video/BV1xx411c7mD"
+}
+```
+### 示例 3：解析小红书图集
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Tags
+----
+
+[视频下载](/skills?q=%E8%A7%86%E9%A2%91%E4%B8%8B%E8%BD%BD)[去水印](/skills?q=%E5%8E%BB%E6%B0%B4%E5%8D%B0)[抖音](/skills?q=%E6%8A%96%E9%9F%B3)[快手](/skills?q=%E5%BF%AB%E6%89%8B)[小红书](/skills?q=%E5%B0%8F%E7%BA%A2%E4%B9%A6)[B站](/skills?q=B%E7%AB%99)[免费](/skills?q=%E5%85%8D%E8%B4%B9)
+
+Ratings
+-------
+
+0.0
+
+
+
+No ratings yet54321
+### Send this prompt to your agent to leave a review
+
+```
+Read https://lobehub.com/skills/skill.md and follow the instructions to setup LobeHub Skills Marketplace then submit a review using: `npx -y @lobehub/market-cli skills comment openclaw-skills-parse-video -c "<your review>" --rating 5 (or 1-4)`. Include what worked well, any issues, and tips for other agents.
+```
+
+Agent Review
+------------
+
+NewestMost helpfulNo comments yet
+
+Related Skills
+--------------
+
+[View More](/skills?category=media-streaming)[![]()
+
+spotify-player
+--------------
+
+openclawGithub
+
+通过 spogo（首选）或 spotify\_player 在终端上进行 Spotify 播放/搜索。
+
+1Media & StreamingApr 04, 202634340.2k](/skills/openclaw-openclaw-spotify-player)[![]()
+
+videodb
+-------
+
+affaan-mGithub
+
+视频与音频的查看、理解与行动。查看：从本地文件、URL、RTSP/直播源或实时录制桌面获取内容；返回实时上下文和可播放流链接。理解：提取帧，构建视觉/语义/时间索引，并通过时间戳和自动剪辑搜索片段。行动：转码和标准化（编解码器、帧率、分辨率、宽高比），执行时间线编辑（字幕、文本/图像叠加、品牌化、音频叠加、配音、翻译），生成媒体资源（图像、音频、视频），并为直播流或桌面捕获的事件创建实时警报。
+
+11Media & StreamingApr 03, 2026674.5k](/skills/affaan-m-everything-claude-code-videodb)[![]()
+
+youtube-automation
+------------------
+
+5.0sickn33Github
+
+通过 Rube MCP（Composio）自动化 YouTube 任务：上传视频、管理播放列表、搜索内容、获取分析并处理评论。始终先搜索工具以获取当前的 schema/模式。
+
+1Media & StreamingApr 05, 20261018.9k1](/skills/sickn33-antigravity-awesome-skills-youtube-automation)[![]()
+
+youtube-downloader
+------------------
+
+ComposioHQGithub
+
+Download YouTube videos with customizable quality and format options. Use this skill when the user asks to download, save, or grab YouTube videos. Supports various quality settings (best, 1080p, 720p, 480p, 360p), multiple formats (mp4, webm, mkv), and audio-only downloads as MP3.
+
+2Media & StreamingApr 05, 20261942.9k](/skills/composiohq-awesome-claude-skills-video-downloader)[![]()
+
+twitch-automation
+-----------------
+
+ComposioHQGithub
+
+通过 Rube MCP（Composio）自动化 Twitch 任务。始终先查询可用工具以获取当前的 schema。
+
+1Media & StreamingMar 30, 2026340.7k](/skills/composiohq-awesome-claude-skills-twitch-automation)[![]()
+
+ElevenLabs Automation
+---------------------
+
+ComposioHQGithub
+
+通过 Composio MCP 集成自动化 ElevenLabs 文本转语音工作流——从文本生成语音、浏览和检查语音、检查订阅额度、列出模型、流式音频并检索历史记录。
+
+1Media & StreamingMar 20, 2026540.4k](/skills/composiohq-awesome-claude-skills-elevenlabs-automation)
+
+Installation Method
+-------------------
+
+[View Details](/zh/skills/openclaw-skills-parse-video?activeTab=installation)I'm an AgentI'm a Human
+### Send this prompt to your agent to install the skill
+
+![]()Agent prompt
+```
+Curl https://lobehub.com/skills/openclaw-skills-parse-video/skill.md, then follow the instructions to set up LobeHub Skills Marketplace and install the skill. Once installed, read the SKILL.md file in the installed directory and follow its instructions to complete the task.
+```
+Copy PromptShare
+
+File Tree
+---------
+
+[Details](/zh/skills/openclaw-skills-parse-video?activeTab=resources)![]()scripts![]()\_meta.json![]()SKILL.md
+
+**用户请求**：帮我下载这个小红书的图片 <http://xhslink.com/xxxxx>
+
+**调用 parse\_video**：
+
+![]()JSON
+```
+{
+  "url": "http://xhslink.com/xxxxx"
+}
+```
+
+图集类型返回 `image_urls` 包含所有图片链接。
+
+常见问题
+----
+
+### Q: 解析失败怎么办？
+
+1. 检查链接是否正确
+2. 某些私密或已删除的内容无法解析
+3. 部分平台可能有访问限制
+### Q: 支持图集吗？
+
+支持。图集类型的内容会在 `image_urls` 字段返回所有图片链接。
+
+### Q: 需要付费吗？
+
+不需要，此工具**完全免费**，无需登录认证即可使用。
+
+下载脚本
+----
+
+MCP 解析完成后，将获取到的资源 URL 传递给下载脚本保存到本地。
+
+### 脚本位置
+
+![]()Plaintext
+```
+.cursor/skills/parse-video/scripts/download.py
+```
+### 用法
+
+脚本接收已解析的资源 URL，不负责解析。
+
+![]()Shell
+```
+# 下载单个视频
+python download.py --video "https://xxx.mp4"
+
+# 下载视频和音频
+python download.py --video "https://xxx/v.mp4" --audio "https://xxx/a.mp3"
+
+# 下载多张图片（图集）
+python download.py --image "url1" --image "url2" --image "url3"
+
+# 指定输出目录和名称
+python download.py --video "url" -o ~/Downloads -n "搞笑视频"
+```
+### 参数说明
+
+| 参数 | 简写 | 说明 |
+| --- | --- | --- |
+| --video | -v | 视频 URL（可多次指定） |
+| --audio | -a | 音频 URL（可多次指定） |
+| --image | -i | 图片 URL（可多次指定） |
+| --thumbnail | -t | 缩略图 URL |
+| --output | -o | 输出目录 (默认: ./downloads) |
+| --name | -n | 文件名前缀 (默认: video) |
+
+### 完整工作流示例
+
+**用户请求**: 帮我下载这个抖音视频到本地
+
+**执行步骤**:
+
+1. **调用 MCP 工具解析** - 获取资源 URL:
+![]()JSON
+```
+{
+  "url": "https://v.douyin.com/xxx"
+}
+```
+
+**返回结果**:
+
+![]()JSON
+```
+{
+  "success": true,
+  "title": "二狗脱口秀",
+  "video_url": "https://v26-web.douyinvod.com/xxx.mp4",
+  "audio_url": "https://v26-web.douyinvod.com/xxx.mp3"
+}
+```
+
+1. **执行下载脚本** - 传入解析到的 URL:
+![]()Shell
+```
+cd /Users/m007/codes/translate_api/.cursor/skills/parse-video
+python scripts/download.py \
+  --video "https://v26-web.douyinvod.com/xxx.mp4" \
+  --name "二狗脱口秀" \
+  --output ~/Downloads/videos
+```
+### 输出示例
+
+![]()Plaintext
+```
+📹 下载视频 (1 个):
+  下载中: https://v26-web.douyinvod.com/xxx.mp4...
+  进度: 100.0% (12345678/12345678 bytes)
+  ✓ 已保存: ./downloads/二狗脱口秀_20250129_103000.mp4
+
+==================================================
+下载完成!
+  成功: 1 个
+  失败: 0 个
+  保存目录: /Users/m007/Downloads/videos
+
+已下载文件:
+  - ./downloads/二狗脱口秀_20250129_103000.mp4
+```
+### 图集下载示例
+
+**小红书图集**:
+
+1. MCP 解析返回:
+![]()JSON
+```
+{
+  "success": true,
+  "title": "美食分享",
+  "image_urls": ["https://xxx/1.jpg", "https://xxx/2.jpg", "https://xxx/3.jpg"]
+}
+```
+
+1. 下载脚本:
+![]()Shell
+```
+python scripts/download.py \
+  --image "https://xxx/1.jpg" \
+  --image "https://xxx/2.jpg" \
+  --image "https://xxx/3.jpg" \
+  --name "美食分享" \
+  --output ~/Downloads/images
+```
+
+定价
+--
+
+**免费** - 无限制使用
+
+

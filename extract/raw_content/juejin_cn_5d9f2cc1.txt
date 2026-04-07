@@ -1,0 +1,245 @@
+# Source URL: https://juejin.cn/post/7616025751746674694
+# Content Length: 6227 characters
+# Extracted at: 2026-03-12 22:30:52
+#============================================================
+
+OpenClaw 定时任务cron配置指南：飞书渠道避坑详解一、问题背景 在使用 OpenClaw 配置飞书群聊定时任务 - 掘金
+![](//lf-web-assets.juejin.cn/obj/juejin-web/xitu\_juejin\_web/e08da34488b114bd4c665ba2fa520a31.svg)![](//lf-web-assets.juejin.cn/obj/juejin-web/xitu\_juejin\_web/6c61ae65d1c41ae8221a670fa32d05aa.svg)
+\* + [首页](/)
++ [沸点](/pins)
++ [课程](/course)
++ [数据标注
+HOT](https://aidp.juejin.cn)
++ [AI Coding](https://aicoding.juejin.cn)
++ [更多](javascript:void(0);)
+- [直播](/live)
+- [活动](/events/all)
+- [APP](/app?utm\_source=jj\_nav)
+- [插件](https://juejin.cn/extension?utm\_source=jj\_nav)
++ [直播](/live)
++ [活动](/events/all)
++ [APP](/app?utm\_source=jj\_nav)
++ [插件](https://juejin.cn/extension?utm\_source=jj\_nav)
++ - 搜索历史
+清空
+- 创作者中心
+\* 写文章
+\* 发沸点
+\* 写笔记
+\* 写代码
+\* 草稿箱
+创作灵感
+查看更多
++ 登录
+注册
+# OpenClaw 定时任务cron配置指南：飞书渠道避坑详解
+[zzcmaple](/user/4306164760718071/posts)
+2026-03-12
+29
+阅读5分钟
+> \*\*摘要\*\*：本文详细记录了在 OpenClaw 中配置飞书（Feishu）定时任务的完整过程，包括常见错误、排查方法和正确配置方式。如果你也遇到"定时任务不执行"、"消息发不出去"的问题，这篇文章能帮你快速解决。
+## 一、问题背景
+在使用 OpenClaw 配置飞书群聊定时任务时，遇到了以下问题：
+1. 定时任务创建了，但到时间不执行
+2. 任务显示"已执行"，但群里没收到消息
+3. 各种报错信息看不懂，不知道如何排查
+经过一下午的调试和日志分析，终于找到了所有坑点。本文将完整记录整个排查过程和解决方案。
+## 二、环境信息
+\* \*\*OpenClaw 版本\*\*：2026.3.8
+\* \*\*渠道\*\*：飞书（Feishu）群聊
+\* \*\*任务类型\*\*：一次性定时任务（at）
+## 三、错误排查全过程
+### 错误 1：未指定目标聊天 ID
+\*\*错误命令\*\*：
+```
+openclaw cron add --name "提醒" --at "2026-03-12T17:13:00+08:00" --message "该上厕所了"
+```
+\*\*错误日志\*\*：
+```
+{"error":"Delivering to Feishu requires target ","reason":"permanent error"}
+```
+\*\*问题分析\*\*：
+飞书渠道必须明确指定消息发送目标，不能依赖默认的 `"channel": "last"` 配置。
+\*\*解决方案\*\*：
+添加 `--channel feishu` 和 `--to` 参数：
+```
+--channel feishu --to "chat:群聊ID"
+```
+### 错误 2：Feishu 账户配置错误
+\*\*错误命令\*\*：
+```
+openclaw cron add --name "提醒" --at "2026-03-12T17:30:00+08:00" \
+--channel feishu --to "chat:oc\_xxx" \
+--message "该吃冰淇淋了"
+```
+\*\*错误日志\*\*：
+```
+{"error":"Error: Feishu account "default" not configured","reason":"permanent error"}
+```
+\*\*问题分析\*\*：
+OpenClaw 的飞书配置中，账户名是 `"main"`，但定时任务默认使用 `"default"` 账户。需要在命令中明确指定账户。
+\*\*查看当前飞书账户配置\*\*：
+```
+# 查看 openclaw.json 中的 channels.feishu.accounts 配置cat ~/.openclaw/openclaw.json | grep -A 20 '"feishu"'
+```
+\*\*解决方案\*\*：
+添加 `--account main` 参数（账户名根据你的配置调整）：
+```
+--account main
+```
+### 错误 3：时间格式错误
+\*\*错误命令\*\*：
+```
+openclaw cron add --at "+1m" ...
+openclaw cron add --at "17:30" ...
+```
+\*\*错误信息\*\*：
+```
+Error: Invalid --at; use ISO time or duration like 20m
+```
+\*\*问题分析\*\*：
+`--at` 参数要求 ISO 8601 时间格式（带时区）或纯持续时间（如 `20m`），不支持 `+1m` 或 `HH:MM` 格式。
+\*\*解决方案\*\*：
+使用完整的 ISO 时间格式：
+```
+--at "2026-03-12T17:30:00+08:00"
+```
+或者使用纯持续时间（从当前时间开始计算）：
+```
+--at "20m"# 20 分钟后
+```
+## 四、正确配置方式（最终版）
+### 完整命令模板
+```
+openclaw cron add \
+--name "任务名称" \
+--at "2026-03-12T17:40:00+08:00" \
+--account main \
+--channel feishu \
+--to "chat:oc\_1f179c606f60946f0a411a786b2df6a1" \
+--message "🍦 该吃冰淇淋啦！享受甜蜜时刻～" \
+--delete-after-run
+```
+### 参数详解
+| 参数 | 必填 | 说明 | 示例 |
+| --- | --- | --- | --- |
+| `--name` | ✅ | 任务名称 | `"吃冰淇淋提醒"` |
+| `--at` | ✅ | 执行时间（ISO 格式） | `"2026-03-12T17:40:00+08:00"` |
+| `--account` | ✅ | 飞书账户名 | `main`（根据配置） |
+| `--channel` | ✅ | 渠道类型 | `feishu` |
+| `--to` | ✅ | 目标 ID | `chat:群聊 ID` 或 `user:用户 OpenID` |
+| `--message` | ✅ | 消息内容 | `"提醒内容"` |
+| `--delete-after-run` | ⭕ | 执行后自动删除 | （一次性任务推荐） |
+### 目标 ID 格式
+\* \*\*群聊\*\*：`chat:oc\_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`
+\* \*\*私聊\*\*：`user:ou\_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`
+## 五、调试技巧
+### 1. 查看任务列表
+```
+openclaw cron list
+```
+输出示例：
+```
+ID Name Schedule Next Status
+799a799c-ebaa-4460-b821-c42850992a19 吃冰淇淋提醒 at 2026-03-1209:30Z in3m idle
+```
+### 2. 查看任务详情
+```
+cat ~/.openclaw/cron/jobs.json
+```
+### 3. 查看执行日志
+```
+# 查看最近的 cron 相关日志tail -100 /tmp/openclaw/openclaw-2026-03-12.log | grep -i cron
+# 查看特定任务的日志tail -100 /tmp/openclaw/openclaw-2026-03-12.log | grep "任务 ID"
+```
+### 4. 常见错误关键词
+```
+# 搜索错误日志
+grep -E "Delivering to Feishu|Feishu account.\*not configured|cron.\*error" /tmp/openclaw/\*.log
+```
+## 六、进阶配置
+### 循环任务（每天执行）
+```
+openclaw cron add \
+--name "每日晨报" \
+--cron "0 8 \* \* \*" \
+--account main \
+--channel feishu \
+--to "chat:oc\_xxx" \
+--message "☀️ 早上好！新的一天开始啦～" \
+--tz "Asia/Shanghai"
+```
+### 带模型配置的任务
+```
+openclaw cron add \
+--name "AI 日报" \
+--at "2026-03-12T18:00:00+08:00" \
+--account main \
+--channel feishu \
+--to "chat:oc\_xxx" \
+--message "请帮我总结一下今天的 AI 热点新闻" \
+--model "bailian/qwen3.5-plus" \
+--delete-after-run
+```
+## 七、常见问题 FAQ
+### Q1: 任务创建了但没执行？
+\*\*A\*\*: 检查日志，看是否有 `cron: job added` 和 `cron: timer armed` 日志。如果没有，可能是 Gateway 需要重启。
+### Q2: 任务执行了但没收到消息？
+\*\*A\*\*: 检查日志中的 `error` 字段，常见原因是：
+\* 未指定 `--to` 参数
+\* `--account` 账户名错误
+\* 飞书 Bot 权限不足
+### Q3: 如何获取飞书群聊 ID？
+\*\*A\*\*: 在飞书群聊中，群 ID 通常以 `oc\_` 或 `chat:` 开头。可以通过以下方式获取：
+1. 查看 OpenClaw 消息元数据
+2. 在飞书开发者后台查看
+3. 使用 `openclaw status` 查看当前会话信息
+### Q4: 任务执行后想保留记录？
+\*\*A\*\*: 去掉 `--delete-after-run` 参数，任务会保留在列表中（状态变为已执行）。
+## 八、总结
+配置 OpenClaw 飞书定时任务的关键点：
+1. ✅ \*\*必须指定 `--account`\*\*（和你的飞书账户配置一致）
+2. ✅ \*\*必须指定 `--channel feishu`\*\*
+3. ✅ \*\*必须指定 `--to`\*\*（chat:群聊 ID 或 user:用户 OpenID）
+4. ✅ \*\*时间格式用 ISO 8601\*\*（带时区）
+5. ✅ \*\*查看日志排查问题\*\*（`/tmp/openclaw/\*.log`）
+按照这个配置，定时任务应该能正常工作了。如果还有问题，欢迎在评论区交流！
+## 参考资料
+\* [OpenClaw 官方文档](https://link.juejin.cn?target=https%3A%2F%2Fdocs.openclaw.ai)
+\* [OpenClaw CLI 文档](https://link.juejin.cn?target=https%3A%2F%2Fdocs.openclaw.ai%2Fcli%2Fcron)
+\* [飞书开放平台](https://link.juejin.cn?target=https%3A%2F%2Fopen.feishu.cn%2Fdocument)
+> 如果这篇文章帮到了你，欢迎点赞、收藏、转发！🍊
+[![](https://p26-passport.byteacctimg.com/img/mosaic-legacy/3795/3033762272~200x200.image)
+zzcmaple
+前段](/user/4306164760718071/posts)
+[2
+文章](/user/4306164760718071/posts)[56
+阅读](/user/4306164760718071/posts)[1
+粉丝](/user/4306164760718071/followers)
+目录
+收起
+\* [一、问题背景](#heading-0)
+\* [二、环境信息](#heading-1)
+\* [三、错误排查全过程](#heading-2)
++ [错误 1：未指定目标聊天 ID](#heading-3)
++ [错误 2：Feishu 账户配置错误](#heading-4)
++ [错误 3：时间格式错误](#heading-5)
+\* [四、正确配置方式（最终版）](#heading-6)
++ [完整命令模板](#heading-7)
++ [参数详解](#heading-8)
++ [目标 ID 格式](#heading-9)
+\* [五、调试技巧](#heading-10)
++ [1. 查看任务列表](#heading-11)
++ [2. 查看任务详情](#heading-12)
++ [3. 查看执行日志](#heading-13)
++ [4. 常见错误关键词](#heading-14)
+\* [六、进阶配置](#heading-15)
++ [循环任务（每天执行）](#heading-16)
++ [带模型配置的任务](#heading-17)
+\* [七、常见问题 FAQ](#heading-18)
++ [Q1: 任务创建了但没执行？](#heading-19)
++ [Q2: 任务执行了但没收到消息？](#heading-20)
++ [Q3: 如何获取飞书群聊 ID？](#heading-21)
++ [Q4: 任务执行后想保留记录？](#heading-22)
+\* [八、总结](#heading-23)
+\* [参考资料](#heading-24)

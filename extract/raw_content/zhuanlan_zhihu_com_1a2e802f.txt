@@ -1,0 +1,537 @@
+# Source URL: https://zhuanlan.zhihu.com/p/19923334099
+# Content Length: 51686 characters
+# Extracted at: 2026-03-19 11:33:29
+#============================================================
+
+![](https://zhuanlan.zhihu.com/p/19923334099)
+![一文梳理业界落地LLM4Rec的若干范式](https://picx.zhimg.com/v2-e52950f7c84f7d768f8f22c405371582\_720w.jpg?source=172ae18b)
+​
+目录
+大家好, 我是州懂, 本文是笔者对过去一年[LLM4Rec](https://zhida.zhihu.com/search?content\_id=253007083&content\_type=Article&match\_order=1&q=LLM4Rec&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzI5Njk0OTQsInEiOiJMTE00UmVjIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjUzMDA3MDgzLCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.0G\_-esnbxzrE\_oTKGiUCZFeZikIbEO4sv1oHKwP6Cno&zhida\_source=entity)相关文章的一些梳理, 内容比较多, 也加了一些自己的部分实践, 希望能对大家有所启发。
+> 随着近年来LLM的各种突破性进展, 工业界也在不断尝试将LLM与推荐系统结合起来,以期吃到LLM带来的技术红利。最近一年各大互联网公司相继提出了各种落地LLM4Rec的方案, 笔者在公众号历史文章中对大多数方案都做了介绍。本文希望能从更加全面&更加细致的维度梳理这些技术方案, 以期对LLM4Rec形成更加体系性的认识。同时, 也非常希望&欢迎大家能在评论区多多留言讨论或者私信我, 一起学习总结并完善这里的内容知识。
+最近一年业界LLM4Rec的工作整体可以划分成3类范式:
+- \*\*LLM-to-Rec:\*\* 以推荐系统为主导, 主要使用LLM的能力做特征增强/样本增强等, 以提升推荐系统的整体效果。这种方式成本相对可控, 是工业界尝试最多也是相对比较容易拿到收益的方式。
+- \*\*Rec-to-LLM:\*\* 以LLM为主导, 将推荐系统的用户行为用自然语言形式描述, 以期LLM能捕获用户兴趣。这种方式主要应用在对LLM特别擅长领域有特别要求的业务场景, 比如对会话能力有要求的对话式推荐系统, 以及对推理能力有要求的可解释性推荐场景等。
+- \*\*Towards RecLM:\*\* 这里的目标是探索推荐系统的Scale Law, 以期能通过拓展模型参数量、数据量、算力或其它要素显著提升推荐效果。这种方法可能非常吃算力/成本, 其中最引起广泛讨论的就是Meta提出的GRs了。
+本文整体的思维导图如下图所示, 基本上覆盖了最近一年LLM4Rec的重点工作, 如有遗漏, 欢迎补充。另外, 如对其中所涉及的各技术方案细节希望更加深入了解的, 也可以在笔者个人公众号(搜素"州懂学习笔记")或知乎(搜素"州懂")上查看对应历史文章的解说。下面进行详细陈述。
+![](https://pica.zhimg.com/v2-74e5b0e429fcf2154224ea256ab7bbc8\_1440w.jpg)
+## 1\. LLM-to-Rec范式
+随着ChatGPT的爆火, 各大公司&机构纷纷加入了LLM军事竞赛之中, LLM的综合能力也是屡破新高。预训练的LLM现在已经具备非常丰富的世界知识, 这是传统以ID为主并以协同信息为监督信号的推荐算法所欠缺的。相对而言, 将预训练LLM应用于推荐场景是一种成本比较可控的方式。但在将LLM应用于推荐系统的过程中, 根据不同的业务场景特点及成本因素考虑, 工业界在使用LLM的方法上有着很大的区别。对于这部分内容, 笔者尝试从以下6个部分细粒度对这些方法进行梳理。
+![](https://pica.zhimg.com/v2-7b4a286da3ae7c6d300cc474de9b520a\_1440w.jpg)
+### 1.1 利用LLM的哪些信息？
+LLM拥有非常优秀的综合能力, 并且积累了很多可被推荐借鉴的一些实践经验, 在LLM-to-Rec的范式下, 首先要回答的第1个问题是, 在实际应用中, LLM有哪些实践经验或者有用信息可以被推荐借鉴或使用的呢。
+### 1.1.1 借鉴LLM的有效经验
+LLM领域的发展沉淀了很多不错的实践, 比如LLM的架构的有效性已被大量验证, 检索增强是增升LLM表现的一大利器, 好的Prompt对LLM的效结果提升至关重要等。
+### 1) 借鉴LLM架构(快手[KuaiFormer](https://zhida.zhihu.com/search?content\_id=253007083&content\_type=Article&match\_order=1&q=KuaiFormer&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzI5Njk0OTQsInEiOiJLdWFpRm9ybWVyIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjUzMDA3MDgzLCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.4vJR3PQoQXFO2ctuipX7ulsgDO\_9ABPryHK4CeV97wM&zhida\_source=entity)方法)
+快手这里的KuaiFormer直接以Llama Transformer架构作为Backbone, 并结合快手的业务场景进行训练上的适配和优化, 除了用了架构, 基本上和LLM本身没有太大关系了, 其整体框架如下图所示:
+![](https://pic2.zhimg.com/v2-c70daeb2e76bd9ac01b736464ebae84d\_1440w.jpg)
+这里只简单做些介绍, 主要的思想包括:
+- \*\*扩展至更长的序列长度(从64->256):\*\* 作者将用户历史行为序列, 按交互时间顺序分成了早中晚3部分(早64\\times2组、中16\\times5组、晚1\\times64组), 对早中部分分别做了聚合处理。
+- \*\*扩展至多兴趣:\*\* 作者这里使用了多个特殊的token \\{\\mathbf{q}\\_1, \\dots, \\mathbf{q}\\_k\\}作为用户的k个兴趣query token, 将这k个token对应位置的输出作为用户的多兴趣表示\\mathbf{u}\\_1, \\dots, \\mathbf{u}\\_k。
+- \*\*加速训练:\*\* 在数十亿候选Item量级下, 基于Transformer架构下, 传统softmax的效率太低, 为加速训练, 使用使用In-batch softmax + LogQ方法:
+\\begin{split} \\mathcal{L}\\_{\\texttt{logQ}} &= -\\log(\\texttt{Score}\\_{x\\_{n+1}}^{\\texttt{logQ}}) \\\ &= -\\log \\left( \\frac{ e^{\\texttt{Score}\\_{x\\_{n+1}} - \\log (Q\\_u(x\\_{n+1}))} }{ e^{\\texttt{Score}\\_{x\\_{n+1}} - \\log (Q\\_u(x\\_{n+1}))} + \\displaystyle\\sum\\_{\\bar{x}\\_{n+1} \\in \\mathcal{B}} e^{\\texttt{Score}\\_{\\bar{x}\\_{n+1}} - \\log (Q\\_u(\\bar{x}\\_{n+1}))} } \\right) \\end{split} \\\
+- \*\*标签平滑:\*\* 作者引入标签平滑方法, 避免使用严格的0-1标签进行模型训练:
+\\begin{split} \\mathcal{L}^{\\texttt{smooth}}\\_{\\texttt{logQ}} = \\left\\{ \\begin{aligned} -(1-\\alpha)\\log(\\texttt{Score}\\_{x\\_{n+1}}^{\\texttt{logQ}}) \\\ \\sum^\\mathcal{B}\\_{\\bar{x}\\_{n+1}}-\\frac{\\alpha}{\|\\mathcal{B}\|}\\log(\\texttt{Score}\\_{\\bar{x}\\_{n+1}}^{\\texttt{logQ}}) \\\ \\end{aligned} \\right. \\end{split} \\\
+### 2) 借鉴检索增强思想(WWW'24\|华为[RAT](https://zhida.zhihu.com/search?content\_id=253007083&content\_type=Article&match\_order=1&q=RAT&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzI5Njk0OTQsInEiOiJSQVQiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTMwMDcwODMsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.z41XORXRwPvFHhgvmrhPq3J1yUt1ggAJJ0SUudEbeRA&zhida\_source=entity)方法)\\*\\*
+华为这里提出RAT方法借鉴LLM的检索增强的思想来提升推荐效果, 其整体框架如下图所示
+![](https://pic1.zhimg.com/v2-8d7a597814ecf4f114c090d76d53f3ea\_1440w.jpg)
+这里也简单介绍其思想,主要包括:
+- 使用BM25算法基于target sample x\\_i从内容池里检索出K个样本,用于下面的样本增强
+- 为检索样本与目标样本增加一个Field标识, 使得样本对应的输入变成:
+\\tilde{E}\\_i=\[E\\_i;E\\_{c\\_1};E\\_{c\\_2};\\cdots;E\\_{c\\_K}\]\\in\\mathbb{R}^{(K+1) \\times (F+1) \\times D} \\\
+- 解耦样本内&跨样本间的特征交叉, 以提高计算效率
+![](https://pic3.zhimg.com/v2-955ddbc13bc013248f980e6cd682001e\_1440w.jpg)
+### 3) 借鉴提示学习思想(快手[RecGPT](https://zhida.zhihu.com/search?content\_id=253007083&content\_type=Article&match\_order=1&q=RecGPT&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzI5Njk0OTQsInEiOiJSZWNHUFQiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTMwMDcwODMsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.i62Wwwm7Ud6Q-uHa9mr2BOHzXLeZBYRfupOxGGMKRmc&zhida\_source=entity)方法)\\*\\*
+快手这篇论文提出的RecGPT首先会预训练个性化自回归生成的Transformer模型, 然后会使用这个预训练模型, 为每个用户请求基于user id和用户行为序列item id构建生成个性化提示, 得到个性化提示后再加入原用户行为序列中作为补充。其大致流程简化如下, 有种流水线作业的即视感:
+![](https://pic2.zhimg.com/v2-e232dc9a54da635a807d9dba4f624a57\_1440w.jpg)
+上图中的k个Item就充当着个性化提示的作用, 加入到用户行为序列中作为片段进行补充。不过这种强加Item作提示的方法, 有效性并不令人信服, 线上也没有特别好的收益, 不过多陈述。
+### 1.1.2 利用LLM Embedding
+传统基于ID的推荐模型在语义信息/内容理解上是比较缺乏的, 这也使得其在新冷内容/长尾内容上表现欠佳。LLM可以基于用户和物品信息生成用户和物品的Embedding向量, 而这些Embedding向量蕴含着丰富的语义信息, 可以作为传统基于ID的推荐模型的一个很好的信息补充。LLM(以及多模态LLM)的Embedding由于具有格式统一&语义信息丰富&易于获取等诸多优点, 现有LLM-to-Rec的主流方法多是利用LLM Embeding信息。
+常见的获取LLM Embedding的方式有三种:
+### 1) 通过Embedding API方式(Google [STAR](https://zhida.zhihu.com/search?content\_id=253007083&content\_type=Article&match\_order=1&q=STAR&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzI5Njk0OTQsInEiOiJTVEFSIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjUzMDA3MDgzLCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.tiKesDhkXOMN73jq5kRrb3ZeaC5W81sCNAP32Yublas&zhida\_source=entity)方法, 离线)
+Google提出的STAR方法首先将Item的标题、描述、类目、品牌、销售量排名以及价格等信息都输入到提示中, 然后再通过LLM的Embedding API直接获取语义向量。下图给出了一个提示的示例:
+![](https://pic4.zhimg.com/v2-1b9f47dd7827d3bd093f5caf67b02157\_1440w.jpg)
+### 2) 取某一隐含向量做Pooling(AAAI‘25\|快手[LEARN](https://zhida.zhihu.com/search?content\_id=253007083&content\_type=Article&match\_order=1&q=LEARN&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzI5Njk0OTQsInEiOiJMRUFSTiIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI1MzAwNzA4MywiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.f9cE7iLwVJ4t5Qtdm3GGr0ZmfztBZYWwxWyDgz64EM0&zhida\_source=entity)方法)
+快手提出的LEARN方法首先对用户行为序列U^{\\text {hist}}中的每个Item, 先按下图的提示组织其文本描述(包括标题、类别、品牌、价格、关键词和属性):
+![](https://pic1.zhimg.com/v2-822c7f67237ca381c9ad25c1610c6366\_1440w.jpg)
+然后, 再将这些Item描述输入到参数冻结的预训练LLM(论文使用了Baichuan2-7B)中, 最后, 再将最后一层的隐含向量做AvgPooling后得到该Item最后的内容表征E^{c}。
+### 3) 通过增加特殊Token方式(WWW'24\|[NoteLLM](https://zhida.zhihu.com/search?content\_id=253007083&content\_type=Article&match\_order=1&q=NoteLLM&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzI5Njk0OTQsInEiOiJOb3RlTExNIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjUzMDA3MDgzLCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.iDi0SX7k0Um7cM53SZM9fhmJEPrKLK1KDN22G\_l8qso&zhida\_source=entity)方法)
+这种方式业界使用的也比较多, 比如Meta里的[EmbSum](https://zhida.zhihu.com/search?content\_id=253007083&content\_type=Article&match\_order=1&q=EmbSum&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzI5Njk0OTQsInEiOiJFbWJTdW0iLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTMwMDcwODMsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.gQPgk4SVOO2tYukKaD6JC\_zmCf\_vSk72wjhnix6lfgo&zhida\_source=entity)方法, 字节的HLLM方法, 小红书的NoteLLM方法。以小红书NoteLLM为例, 作者使用统一的笔记压缩提示(Note Compression Prompt)同时用于I2I推荐以及主题标签/类目生成任务。具体的, 输入NoteLLM的Prompt的格式模板如下:
+![](https://pic4.zhimg.com/v2-584dd66d944964cff3144b9c8cf2dbbb\_1440w.jpg)
+其中, \[BOS\], \[EMB\]和\[EOS\]为特殊token, 特别注意的是, \[EMB\]占位符是为了学习目标笔记的表征。而, , 和为占位符, 对于不同的任务会使用不同特定的内容来替换。
+1. \*\*类别生成任务\*\* 的笔记压缩提示模板如下:
+![](https://pic1.zhimg.com/v2-f34e7df3e7b038cd31ca988ca3c562a4\_1440w.jpg)
+1. \*\*主题标签生成任务\*\* 的笔记压缩提示模板如下:
+![](https://pic2.zhimg.com/v2-cab6f00b49f84c9fe005d8cbc4076129\_1440w.jpg)
+然后, 小红书这里对每个笔记提取\[EMB\]前一Token位置对应的隐含层状态作为给定笔记压缩后的语义信息和协同信号的表征。正常来说, 这里应该可能直接取\[EMB\]对应位置的隐含向量会更直接, 不知道小红书这里取前一Token还有没其它考虑。
+### 1.1.3 利用LLM Token(KDD'24\|Adobe CoRAL,离线)
+也有一些方法提出使用LLM根据用户和物品信息生成用户偏好的描述, 如Adobe这里就在提示中使用了这一信息。对于每个item i^{z}\\_t都会有对应的meta信息描述, 记为\\textbf{desc}\\_{\\mathcal{I}}(i^{z}\\_t), 作者将用户行为的协同信息整合到提示中, 作为提示的一部分:
+> \*\*角色扮演:\*\* 假设你作为推荐系统，请解决以下问题
+>
+> \*\*协同信息:\*\* 对于\\mathcal{I}^{\\mathit{coll}}\\_{z}中的每个内容i \\in \\mathcal{I}^{\\mathit{coll}}\\_{z}，\\qquad \\quad \\quad \\left\\{ \\begin{array}{l} \\text {内容} \\textbf{desc}\\_{\\mathcal{I}}(i) \\text {被用户群体} \\textbf{POS}(i, \\mathcal{U}^{\\mathit{coll}}\\_{z})喜欢 \\\ \\text {内容} \\textbf{desc}\\_{\\mathcal{I}}(i) \\text {被用户群体} \\textbf{NEG}(i, \\mathcal{U}^{\\mathit{coll}}\\_{z})不喜欢 \\end{array}\\right.
+>
+> \*\*总结:\*\* 尝试基于上述信息理解内容\\textbf{desc}\\_{\\mathcal{I}}(i)会被哪些用户喜欢的模式
+这种方式虽然看起来比较直接, 但由于输出格式不统一, 将其应用到推荐系统时还需要做特定的兼容处理, 这种方式笔者暂时还没发现在工业界落地应用比较好的案例, 就不过多陈述, 大家如有发现, 可以做下补充。
+### 1.1.4 利用LLM Summary(RecSys'24\|Meta:EmbSum方法, 离线)
+相比于小模型, LLM具有非常不错的长程记忆能力, 在处理长文本内容上有非常强的优势。严格意义上讲, LLM的摘要能力也是属于LLM token的一种形式, 只是由于比较特殊, 这里单独拎出来。为了更好的理解&捕获用户兴趣, Meta提出了EmbSum方法(类似双塔), 利用LLM的摘要能力辅助训练小模型, 其整体框架如下图所示, 具体地
+![](https://picx.zhimg.com/v2-5df6331a6fbea64061ae0c0ac2efd481\_1440w.jpg)
+\*\*Step1: 用户历史行为Session编码\*\*
+由于Transformer Encoder(论文使用T5-small, 60M)能处理的行为序列长度有限, 作者将用户历史交互的行为序列E\\_{u\\_i}=\\{e\\_1, e\\_2, \\dots, e\\_k\\}按时间顺序将其划分成若干个Session E\\_{u\\_i} = \\{\\eta\\_1, \\eta\\_2, \\dots, \\eta\\_g\\}, 然后每个Session会单独过Transformer Encoder进行编码, 再把每个文本内容开始符号\[SOS\]所对应的隐层状态作为该文本内容的表征。整体流程示例图如下:
+![](https://pica.zhimg.com/v2-b5e9111b9a5433dc061cf062c50efd7c\_1440w.jpg)
+\*\*Step2:使用LLM生成用户兴趣摘要\*\*
+具体地, LLM作者使用Mixtral-8x22B-Instruct, 输入用户历史交互内容, 生成一些用户兴趣摘要。这里, 作者给了个求例, 如下图所示:
+![](https://pic1.zhimg.com/v2-3aa7c732407e54029daa0422d0af8e1a\_1440w.jpg)
+\*\*Step3:监督Transformer Decoder训练\*\*
+前面用户Session编码环节Encoder所有token隐含状态会输入到T5 decoder中, 而大模型生成的这些用户兴趣摘要, 在自回归训练方式下, 大模型摘要的next token则起到监督信号的作用, 辅助Decoder更好的总结用户兴趣, 而最后位置所对应的隐含层表示则充当着小模型Decoder对用户交互内容的全局表征, 如下图所示。
+![](https://picx.zhimg.com/v2-83918239a1503b14d9136934a61a8a13\_1440w.jpg)
+\*\*Step4: User侧Poly-attention机制\*\*
+前面所对应的d维隐含状态作为用户交互内容的全局表征, 再与k个d维Concat起来得到Z\\in \\mathrm{R}^{(k+1)\\times d}的矩阵, 再做poly-attention，如下图所示:
+![](https://pic1.zhimg.com/v2-a0e8587f96728ae2256e8ff266efef7c\_1440w.jpg)
+这里最后会得到m个向量, 拼接起来得到A\\in \\mathrm{R}^{m\\times d}, 作为最终的用户表征，论文这里称它们为User Poly-Embedding(UPE)。
+\*\*Step5: Item侧Content Modeling\*\*
+在前面Session编码中, 作者直接使用每个文本内容开始符号所对应的隐含状态来作为相应Item的表征, 这里对于候选Item, 作者并没有这么去做, 而是将该候选Item内容过Encoder后的所有隐含状态也像User Poly-Embedding类似处理, 如下图所示:
+![](https://pic2.zhimg.com/v2-7549bbaf87bb042c5f62b008992683ad\_1440w.jpg)
+在这个过程中, 可以得到的n个表征, 将它们拼接起来就可以得到矩阵B \\in \\mathrm{R}^{n \\times d}, 这个矩阵就作为最终的候选Item的内容表征, 论文这里称它们为Content Poly-Embedding (CPE)
+\*\*Step6: 用于CTR预估\*\*
+对于用户i和内容j, 在前面得到的用户poly embed A\\_i和内容poly embed B\\_j后, 作者使用下面方式预估相关性得分s^i\\_j。
+首先, 将用户表征和候选内容表征相乘后再做flatten:
+K^i\\_j = \\text{flatten} (A\\_i^\\top B\\_j) \\\
+这样就得到K^i\\_j \\in R^{mn}的向量, 然后再做attention:
+W^p = \\text{softmax}(\\text{flatten}(A \\cdot \\text{gelu}(B W^s)^\\top)) \\\ s^i\\_j = W^p \\cdot K^i\\_j \\\
+### 1.2 冻结LLM Vs 微调LLM
+预训练的LLM虽然已经具备了非常丰富的世界知识, 但很多研究都提到, 使用下游任务对LLM进一步微调能显著提高LLM在下游任务的性能。根据是否使用推荐场景数据微调LLM可以分成以下两类
+### 1.2.1 使用冻结的LLM
+微调LLM虽好, 但使用冻结的LLM也有一些好处, 一是不会导致世界知识的灾难性遗忘问题, 二是最经济&便捷,无需额外训练, 工业界很多业务场景可能没有太多的成本投入。使用冻结的LLM主要指LLM的语义向量, 比如设计特定的prompt,使用文本描述内容信息, 再通过LLM的Embedding API获取语义向量。然后再基于这种冻结的LLM的语义Embed进一步处理成推荐模型所需的输入。
+### 1) 用于构造语义相似度信息(Google STAR方法,离线)
+谷歌提出的STAR模型的召回环节就用冻结的LLM来计算用户历史行为与Target Item的语义相似度, 再与User-Item的协同信号进行融合。其框架如下图所示:
+![](https://pica.zhimg.com/v2-49eb1fa700f550012832f5afe0702efc\_1440w.jpg)
+整体流程如下:
+- \*\*Step1:\*\* 首先通过LLM的Embedding API获取全量Item集的语义向量。
+- \*\*Step2:\*\* 然后使用余弦相似度计算用户行为序列中的Item(如上图左上角的#1~3号)与候选Item(如上图左上角的#4号)的语义相似度得分, 记为R\\_{\\text{S}}。
+- \*\*Step3:\*\* 接着, 作者统计出每个Item的用户交互, 得到User-Item交互矩阵C \\in \\mathbb{R}^{n \\times m}(如使用0-1值表示该User和Item是否有过交互), 其中n是Item数, m是用户数, 再通过余弦相似度计算两两Item的得分得到协同共现得分, 记为R\\_{\\text{C}}
+- \*\*Step4:\*\* 在得到候选Item x与用户行为序列中每个Item s\\_j的语义得分R\\_{\\text{S}}^{xj}和协同共现得分R\\_{\\text{C}}^{xj}之后, 作者将这两个分数按下面的方式进行融合: \\textbf{score}(x) = \\frac{1}{n} \\sum\\_{j=1}^{n} r\\_j \\cdot \\lambda^{t\\_j} \\cdot \\left\[ a \\cdot R\\_{\\text{S}}^{xj} + (1-a) \\cdot R\\_{\\text{C}}^{xj} \\right\] , 其中, r\\_j是用户对历史交互Item的评价得分, 比如用户对看过的电影进行评分, \\lambda^{t\\_j}是以用户行为序列中的顺序为指数的时间衰减因子, a是融合的超参。
+- \*\*Step5:\*\* 召回流程以得分最高的top k个item作为最终输出:
+### 2) 用于获取用户行为的浅层语义表示(SIGIR'24\|蚂蚁[BAHE](https://zhida.zhihu.com/search?content\_id=253007083&content\_type=Article&match\_order=1&q=BAHE&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzI5Njk0OTQsInEiOiJCQUhFIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjUzMDA3MDgzLCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.Dz3T0YsuEBXZG6myZgDFVlfeB9s6NKQjLQAVW6pp6zM&zhida\_source=entity)方法)
+严格意义上讲, 蚂蚁提出的BAHE方法没有太特别的地方, 也是使用LLM去获取用户行为序列以及候选Item的语义Embedding, 只不过它获取的是LLM的浅层LLM\\_{low}原子行为的表征, 再使用LLM\\_{L\\_{high}}去做用户行为序列的理解。这里更多的是出于业务场景和计算效率上的考虑。
+在蚂蚁金服的业务场景, 用户的历史行为可以使用简单的自然语言描述, 如"Purchase Starbucks", "Order takeout"等。这些用户历史行为存在大量的重复, 如果每个用户的每种行为都过下LLM, 那会造成很多重复编码计算。为此, 作者提出从这些用户行为里, 得到去重的原子性的行为, 事先使用LLM编码&聚合后得到d维的表征, 离线存储在数据库中。
+![](https://picx.zhimg.com/v2-953af6b5c2f9cd70514ea9530119be85\_1440w.jpg)
+具体地:
+- \*\*Step1:\*\* 构建全量的原子行为集合H
+- \*\*Step2:\*\* 使用预训练大语言模型的浅层对每个原子行为a\\_i \\in H进行编码得到对应的隐含层状态LLM\\_{L\\_{low}}(a\\_i) \\in R ^ {K \\times d}
+- \*\*Step3:\*\* 将隐含层状态做pooling得到原子行为表征E\\_{a\\_i} = F\\_{p}(LLM\\_{L\\_{low}}(a\\_i)), 其中F\\_{p}: R^{K\\times d} \\Rightarrow R^{d}是pooling函数。
+这些编码后的原子行为表征后续LLM\\_{L\\_{high}}使用时就变成embedding lookup table方式, 然后再做深层次的行为交互, 这样就可以减少LLM浅层的冗余计算。
+### 3) 用于User/Item的SideInfo特征增强(QQ音乐推荐)
+将LLM处理后的物品的语义Embedding视作SideInfo, 用于推荐模型的特征增强也是一种很常见的做法。但是, 一些语义Embedding的维度很高, 并且由于语义空间与ID行为空间的差异, 如果直接将LLM的语义Embedding与推荐系统的ID Embedding拼接起来, 那基本上是没有效果的, 甚至可能因为引入额外的噪声导致数据负向。
+为了克服原始的LLM语义表征维度过高且与ID行为空间不一致的问题, 笔者提出额外增加一个Encoder实现对高维语义表征做降维映射的方案, 而这个Encoder可以无痛兼容现有的推荐DNN模型支持一起End2End训练。
+![](https://pic1.zhimg.com/v2-f3cdd4c79b052475c9546e0bbf011f58\_1440w.jpg)
+通过Encoder降维映射后表征可当作常规SideInfo的Embedding去使用, 这种方式有很高的灵活性, 比如下文1.4章节将介绍的将SideInfo与ID Embed进行融合的方案都可以直接尝试。这种End2End映射降维训练的方式在我们QQ音乐的多个业务场景中都有落地并取得不错的业务收益。
+### 1.2.2 微调LLM的方法
+使用下游任务的数据进一步微调LLM通常可以让LLM更加适配推荐下游任务。根据用于微调LLM任务的数据是否涉及协同共现信息, 可分成两类:
+### 1) 使用领域模态数据微调(WWW'24\|京东[PPM](https://zhida.zhihu.com/search?content\_id=253007083&content\_type=Article&match\_order=1&q=PPM&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzI5Njk0OTQsInEiOiJQUE0iLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTMwMDcwODMsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.8arFeOAa606JErWQ7N96oL4O2ztIlo4PW5mtrq6IkfY&zhida\_source=entity)方法)
+预训练LLM使用的语料信息比较泛, 不一定能很好的适配下游推荐场景的模态信息。为此, 可以补充下游推荐场景高质量的语料数据, 以使预训练LLM能更好的学习&理解下游任务的领域模态知识。这一部分不涉及下游推荐场景的共现数据。
+京东提出的PPM方法中, 基于电商场景数据, 在模态编码层(Modality Encoder Layer)使用查询匹配(Query Matching)任务和实体预测(Entity Prediction)任务对预训练模型(BERT和ResNet)进行微调, 以期获取高质量的文本模态表征和图像视觉模态表征。具体地:
+1. \*\*查询匹配任务:\*\* 同SimCSE, 作者结合用户行为反馈(是否点击), 使用对比查询匹配任务来微调文本模型。记(x\\_i, y\\_i)为文本的pair对, 分别表示搜索的Query以及对应用户点击商品的文本序列信息, 在经过文本模型编码后, 得到对应的文本表征, 分别记为h\\_{x\\_i}和h\\_{y\\_i}。然后使用对比学习(InfoNCE)进行训练: \\mathcal{L}\\_{QM} = -\\sum\\_{i}\\text{log}\\frac{e^{sim(h\\_{x\\_i}, h\\_{y\\_i})/\\tau}}{\\sum\\_{j=1}^{B}e^{sim(h\\_{x\\_i}, h\\_{y\\_j})/\\tau}} , 其中, B表示batch size, 而\\tau为温度系数.
+2. \*\*实体预测任务:\*\* 作者使用ResNet-101作为Vision的基模型, 然后使用电商场景数据, 基于物品预测任务来进行模型微调。具体地, 在给定商品I\\_i的图片, 模型的目标是要去预测图片中的关键实体P(E\|I\\_i), 训练目标是:\\mathcal{L}\\_{EP} = - \\sum\\_{i}\\text{log}P(E\\_i\|I\\_i)。
+### 2) 使用推荐协同共现数据微调(WWW'24\|小红书NoteLLM等)
+与其它领域对比, 推荐系统最大的一个特色就是协同信号, 而现代推荐系统主要也是基于协同信号驱动的。LLM4Rec其中的一个核心问题就是要解决模态语义信息与推荐协同信号的融合。业界的实践表明, 在微调LLM的过程中, 引入下游推荐任务的协同信号做监督对下游任务的整体性能会有帮助。出于模型性能和训练成本等多方面的考虑, 业界一般会构造推荐的共现数据去做微调。这些方案整体思路差异不大, 大多都直接使用对比学习的方式训练, 核心的差异点在于数据集的构造。比如小红书的NoteLLM(以及NoteLLM-v2)方法, 淘宝的MAKE方法, 快手的[QARM](https://zhida.zhihu.com/search?content\_id=253007083&content\_type=Article&match\_order=1&q=QARM&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzI5Njk0OTQsInEiOiJRQVJNIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjUzMDA3MDgzLCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.xljDUO227B\_c-Nw9Tmx3b5Bn9jQlgU1Vy90Q1OBZci4&zhida\_source=entity)方法, 他们在各自的业务场景下, 数据集的构造以及训练细节上会有一些差异, 大家可以做下对比, 下面分别介绍:
+- \*\*小红书NoteLLM(WWW'24)\*\*
+NoteLLM-V2和NoteLLM在使用共现数据上的方式是类似的, 这里就只介绍NoteLLM。NoteLLM的整体框架如下图所示。
+![](https://pica.zhimg.com/v2-714e64a004c00819c79fc5dec478f8a2\_1440w.jpg)
+\*\*Step1: 使用笔记压缩提示获取目标笔记表征\*\*
+作者使用前面提到的笔记压缩提示方法来获取笔记表征, 这里不做赘述。
+\*\*Step2: 提取共现笔记数据\*\*
+作者从用户行为数据中提取共现笔记, 构建相关笔记的Pair对数据, 具体的
+![](https://pic1.zhimg.com/v2-be20165a1332ad3d9a9c1e62700ba1fe\_1440w.jpg)
+- 统计一周内行为数据中用户看了笔记n\\_A随后又点击了笔记n\\_B的数据, 计算笔记n\\_A\\rightarrow笔记n\\_B的共现分数: s\\_{n\\_A\\rightarrow n\\_B} = \\sum^{U}\\_{i=1}\\frac{1}{N\\_i}, 其中, U表示所收集的行为数据中用户的数量, N\\_i表示行为数据中第i个用户点击的笔记的数量。这里, 可以理解为, 基于不同用户的活跃程度给不同用户赋予了不同的点击权重, 可以规避掉特别活跃用户数据的误导。
+- 对于每个笔记n\\_A, 计算得到其它笔记与它的共现分数后, 过滤掉共现分数不在(l,u)区间的相关笔记, 再对剩下的相关笔记依共现分数取top t笔记作为笔记n\\_A的相关笔记。
+\*\*Step3: 生成式对比学习(Generative-Contrastive Learning,简称GCL)\*\*
+构造出相关笔记pair对数据(n\\_i, n\\_i^+)后, 再使用对比学习将协同信号融入到LLMs中,具体的
+![](https://pic4.zhimg.com/v2-e20afb3c8439ece1389efdcffc5097dd\_1440w.jpg)
+作者对每个笔记提取\[EMB\]之前一个Token的隐含层状态作为给定笔记压缩后的语义信息和协同信号的表征, 再通过一个linear layer映射成d维的embedding向量\\boldsymbol{n}\\_i。然后, 使用Batch内对比学习计算Loss
+L\\_{cl} =- \\frac{1}{2B}\\sum\\_{i=1}^{2B}log\\frac{e^{sim(\\boldsymbol{n}\\_i,\\boldsymbol{n}\\_i^+)\\cdot e^{\\tau}}}{\\sum\\_{j\\in \[2B\]\\verb\|\\\|\\{i\\}}e^{sim(\\boldsymbol{n}\\_i,\\boldsymbol{n}\\_j)\\cdot e^{\\tau}}} \\\
+其中, \\boldsymbol{n}\\_i^+为对应的pair对与该笔记相关的笔记的embedding向量, B表示BatchSize, 由于输入的是pair对笔记, 因此总共有2B个笔记, \\tau为温度系数, 这里使用余弦相似sim(a, b) = a^\\top b /(\\Vert a \\Vert \\Vert b \\Vert)计算相似度。
+- \*\*淘宝MAKE(CIKM'24)\*\*
+与NoteLLM只构造共现笔记方式不同, 淘宝这里基于电商场景的用户行为数据, 人为定义了语义相似(正样本)和不相似(负样本)的样本对。
+\*\*Step1: 相似样本构造\*\*
+相似样本需要结合用户行为来构造, 在电商场景, 用户的搜索-购买行为链可以用来定义语义相似商品Pair
+![](https://pic3.zhimg.com/v2-b105f84c18e7b6b13af0fc49c2931142\_1440w.jpg)
+- 对于图片, 可以拿用户搜索的图片, 与用户最终所购买的商品的图片, 作为视觉模态的正样本Pair。
+- 对于文本, 也是类似, 拿用户搜索的文本, 与用户最终所购买商品的文本描述作为文本模态的正样本Pair。
+同时, 论文作者认为, 像swing i2i这样常见的基于用户行为定义的相似度指标, 可能并不适合作为多模态预训练的label, 因为这样可能会导致多模态Encoder的学习退化为ID表征，学习不到商品的多模态语义信息。关于这点, 大家看法不一, 比如下面介绍的快手QARM倒是这么做的。
+\*\*Step2: 负样本构造\*\*
+负样本的构造最简单的方式就是in-batch负采样, 但这种方式会受限于batch size的大小。
+通常认为, 扩大负样本的数量可以进一步提升效果。因此, 作者参考MoCo的动量更新方法, 设置了个更大的memory bank用于采样更多的负样本。
+此外, 作者还额外增加了一些难负样本的学习, 作者把一次搜索返回的结果中, 那些被用户点击但没有购买行为的商品所对应的图片, 作为难负样本, 认为它们与正样本具有一定的视觉相似, 但又有一些差别。
+\*\*Step3: 训练Loss\*\*
+对于普通的负样本, 与NoteLLM一样, 作者使用InfoNCE损失, 以期在表征空间拉近语义相似样本对的距离，疏远语义不相似样本对的距离。
+L\\_{\\text{InfoNCE}} = -\\log\\frac{\\exp(q\\cdot k\\_{+})/\\tau }{\\sum\\_{i=0}^{K}\\exp(q\\cdot k\\_{i})/\\tau } \\\
+其中, \\tau为温度系数, K是memory bank的大小, 作者设置为196800。
+对于难负样本, 作者使用Triplet损失强化正负样本的距离差距。
+L\\_{\\text{triplet}} = \\max(d(q,k\\_+)-d(q,k\\_-) + m, 0) \\\
+最后, 将两者进行按一定超参进行融合
+L\\_{\\text{pretrain}} = \\alpha L\\_{\\text{triplet}} + (1-\\alpha) L\\_{\\text{InfoNCE}} \\\
+- \*\*快手QARM\*\*
+与淘宝MAKE单独微调各模态的方式不同, 快手这里同时微调对齐多模态(文本/图片/视频)表征, 另外快手这里倾向于使用现有模型来辅助构造生成高质量的Item2Item的Pair对(Trigger Item, Target Item)数据集来做微调。具体地, pair对样本的构造有两种方式:
+1. \*\*基于U2I召回模型:\*\* 对于每个用户正向点击的目标Item，从最近的50个点击Item中选择与目标Item在ID表征空间中最相似的Item作为触发Item
+2. \*\*基于I2I召回模型:\*\* 利用现有模型学习到的具有高相似度的稳定Item Pair对作为数据源, 比如Swing召回
+在生成高质量的Item Pair对数据集\\mathcal{D}后, 训练一个纯多模态表征的Item对齐模型:
+\\textbf{M}\\_{\\texttt{trigger}} = \\texttt{MLLM}(\\mathbf{T}^{\\texttt{text}}\\_{\\texttt{trigger}}, \\mathbf{T}^{\\texttt{audio}}\\_{\\texttt{trigger}}, \\mathbf{T}^{\\texttt{image}}\\_{\\texttt{trigger}}) \\\\\textbf{M}\\_{\\texttt{target}} = \\texttt{MLLM}(\\mathbf{T}^{\\texttt{text}}\\_{\\texttt{target}}, \\mathbf{T}^{\\texttt{audio}}\\_{\\texttt{target}}, \\mathbf{T}^{\\texttt{image}}\\_{\\texttt{target}}) \\\
+其中, \\textbf{M}\\_{\\texttt{trigger}}/\\textbf{M}\\_{\\texttt{target}}\\in \\mathbb{R}^{\|\\mathcal{B}\|\\times d}为Batch内的多模态表征, 而\\mathbf{T}表示各种模态输入。
+然后, 同样的, 也是在Batch \\mathcal{B}内优化Item对齐损失，鼓励多模态模型表征适配推荐下游任务的协同信号。
+\\mathcal{L}\\_{\\texttt{align}} = \\texttt{Batch-Contrastive}(\\textbf{M}\\_{\\texttt{trigger}}, \\textbf{M}\\_{\\texttt{target}}, \\mathcal{B}) \\\
+### 1.3 如何使用LLM语义Embedding?
+由于LLM Embedding有着结构一致、信息丰富等诸多优点, LLM的语义Embedding是业界LLM-to-Rec范式下使用&尝试最多的信息了。但是, 最直接的将LLM Embedding与推荐常规的ID Embedding直接拼接起来的方式, 基本上是无效的, 因为LLM的语义空间与推荐行为空间天然就无法对齐, 直接引入LLM Embedding甚至可能因为加入额外的噪声带来数据负向。在这一方面, 近年来业界也是做了比较多的探索, 也有了一些相对成熟的处理方案。
+### 1.3.1 直方图统计(CIKM'24\|淘宝SimTier方法)
+SimTier的思想是通过构造Target Item与用户行为序列的语义相似度分桶的频次分布, 然后把这个分布当作特征来使用。下面结合一个例子来解释。
+假设target Item的多模态表征为v\\_c, 用户的行为序列长度为100, 可以基于v\\_c与这100个行为序列所对应的多模态表征分别计算Cos相似度得分, 这样会得到范围在\[-1.0, 1.0\]的100个相似度分数, 基于预设定的等宽分桶后, 如按0.1大小分成20个分桶, 就会得到20个频次统计分布, 如(3, 2, ..., 0, 3)这样20维大小的数据, 然后再把这20维的数据作为特征与其它ID Embed一起使用。
+作者还很贴心地给出了TensorFlow版的伪代码实现, 就4行代码也是相当直接。
+![](https://pic4.zhimg.com/v2-d9f12bdf860816fa2334d271e34aa8a1\_1440w.jpg)
+### 1.3.2 量化编码(快手QARM)
+\*\*动机\*\*
+在得到基于下游任务微调后的多模态表征后, 最简单的方法是使用这个固定的表征作为输入,直接给到下游推荐模型中, 但这种表征不更新的特征输入对下游推荐任务并不友好。
+对于这个问题, 业界一种最直接&广泛应用的trick, 是使用多模态表征来构造语义相似Item的ID list, 然后以ID List作为该item的语义特征输入到推荐模型, 一定程度上间接规避了多模态表征不更新的问题。
+快手QARM是把这类思路做的更极致了, 首先是将多模态表征量化压缩成语义ID, 再将语义ID输入到推荐模型中。这种方式的好处有两个:
+1. 量化压缩后的语义ID一定程度上保留了原始多模态表征的语义信息
+2. 和推荐模型其它ID Embed一样, 输入的语义ID的embedding是可学习的。
+下面介绍作者使用的两种量化机制。
+\*\*向量量化机制(Vector-Quantized, 简称VQ)\*\*
+Vector-Quantized是最常使用的量化方法, 它首先训练一个大规模的编码表(codebook matrix)，然后利用top-k最近邻搜索来哈希表示。
+这里, 作者没有重新训练编码表, 而是直接将所有Item的多模型表征直接作为codebook matrix, 这样, 向量量化机制其实就等价于从全表查找最近邻的top-k的item的索引, 再把这些索引作为VQ Code
+v\\_1, v\\_2, \\dots, v\\_K = \\texttt{TopKCode}(\\mathbf{V}, \\mathbf{m}, K) \\\
+这种方式, 其实就是前面提到的trick了, (v\\_1, v\\_2, \\dots, v\\_K)就是对应的向量量化编码。
+\*\*残差量化机制(Residual-Quantized, 简称RQ)\*\*
+与向量量化使用一个大的编码表方式不同, 残差量化会使用固定大小的L层编码表, 比如下图中就有3层的codebook。
+![](https://pic1.zhimg.com/v2-5a01a8676001e6c4fac3406c76124834\_1440w.jpg)
+\*\*Step1:\*\* 残差量化编码表的构造
+L层的编码表通过递归方式得到。具体地, 每一层使用Kmeans算法对Item表征集合\\mathbf{M}^{k-1}做聚类, 得到N个聚类中心, 然后每个Item都减去最近邻的聚类中心后得到新的Item表征集合\\mathbf{M}^{k}。形式化描述如下:
+\\begin{split} \\mathbf{R}^1 &= \\texttt{Kmeans}(\\mathbf{M}, N), \\quad \\mathbf{M}^1 = \\mathbf{M}-\\texttt{NearestRep}(\\mathbf{M}, \\mathbf{R}^1)\\\ \\mathbf{R}^2 &= \\texttt{Kmeans}(\\mathbf{M}^1, N), \\quad \\mathbf{M}^2 = \\mathbf{M}^1-\\texttt{NearestRep}(\\mathbf{M}^1, \\mathbf{R}^2)\\\ &\\quad \\dots,\\quad \\\ \\mathbf{R}^L &= \\texttt{Kmeans}(\\mathbf{M}^{L-1}, N)\\\ \\end{split} \\\
+\*\*Step2:\*\* 获取残差量化编码\\*\\*
+在得到L个codebook \[\\mathbf{R}^1, \\mathbf{R}^2, \\dots, \\mathbf{R}^L\]之后, 每个Item的多模态表征都可以做量化。逐层地基于当前的残差表征从对应的codebook中查找最近邻的聚类中心的下标作为code id, 如上图的示例中, 依次的code id为(3, 4, 1, ...)。这里的过程形式化描述如下:
+\\begin{split} r\\_1 &= \\texttt{NearestCode}(\\mathbf{R}^1, \\mathbf{m}, 1), \\quad \\mathbf{m}^1 = \\mathbf{m}-\\mathbf{R}^1\\_{r\\_1}\\\ r\\_2 &= \\texttt{NearestCode}(\\mathbf{R}^2, \\mathbf{m}^1, 1), \\quad \\mathbf{m}^2 = \\mathbf{m}^1-\\mathbf{R}^1\\_{r\\_2}\\\ &\\quad \\dots,\\quad \\\ \\quad r\\_L &= \\texttt{NearestCode}(\\mathbf{R}^L, \\mathbf{m}^{L-1}, 1)\\\ \\end{split} \\\
+这样, 得到的(r\\_1, r\\_2, \\dots, r\\_L)即为对应的残差量化编码了。
+### 1.3.3 用作(ID) Embedding初始化(微信PRECISE)
+腾讯于RecSys'24上Rethinking-PLM-in-RS的那篇文章提出将经过行为微调的LLM Embedding直接用作ID Embedding的初始化是一种比较经济实用的方式。
+而在微信提出的PRECISE方法里, 笔者认为其思想也是类似的。在微信中, 各种模态的内容都可以用文本形式来表示, 因此, 作者这里主要使用LLM提取物品语义信息, 当然, 也可以使用多模态LLM来提取内容语义信息来替换。
+将物品的文本token输入LLM中, 获取对应的token embeddings \\boldsymbol{x}\\_i =LLM(T\\_i), 如下图所示:
+![](https://picx.zhimg.com/v2-249def9fe9747e974017cd97c3e78839\_1440w.jpg)
+注意到这里LLM是冻结的, 但token embedding是learnable的, 所以某种程度上也可以认为这里它是使用LLM去做token embedding的初始化。
+然后, 微信还使用了MoE框架去聚合Token Embeding. 具体地, 使用门控网络计算每个专家(共8个)的得分, 再基于这些得分取topk(取k=2)个最高得分的专家进行激活, 并进行融合得到最终的文本模态表征。
+![](https://picx.zhimg.com/v2-95cdbd8612f5952bacde41e2864b992d\_1440w.jpg)
+### 1.3.4 使用语义相似与行为共现做聚合(CIKM'24\|小红书AlignRec,离线)
+小红书提出的AlignRec使用了聚合模块来做ID Embed与多模态Embed的聚合, 其核心思想是引入了内容语义先验, 使用内容语义相似来聚合ID Embed从而得到物品侧的模态感知的Item MM Embed, 再通过行为聚合得到用户侧的模态感知的User MM Embed, 其示意图如下:
+![](https://pic2.zhimg.com/v2-51c0644376f7503aaabc385cd05363f7\_1440w.jpg)
+这个聚合模块的流程根据输出的依赖关系, 可以分成以下3个步骤完成
+\*\*Step1: User侧和Item侧的ID模态\*\*
+这里直接使用了LightGNN来做聚合得到User侧\\mathbf{h}^u\\_{id}和Item侧的ID表征\\mathbf{h}^i\\_{id}, 这里没有什么细节, 不详细展开。
+\*\*Step2: 物品侧的多模态表征\*\*
+对于物品侧的多模态表征, 作者首先将前面统一的内容模态表征经过一个MLP进行映射, 再做Element-wise乘积与ID Embed进行融合, 得到融合了内容先验知识的内容表征
+\\mathbf{h}^i\\_{con}=\\mathbf{e}^i\\_{id}\\odot \\sigma \\left(MLP(\\mathbf{h}^i\\_{enc})\\right) \\\
+然后, 作者会基于前面统一的内容模态表征, 构造物品侧的相似矩阵S, 每个物品取与它最相似的10个Item做聚合, 得到物品侧的多模态表征输出
+\\mathbf{h}^i\\_{mm}=\\sum\\_{j\\in \\mathcal{I}}\\mathbf{S}\\_{ij}\\mathbf{h}^i\\_{con} \\\
+\*\*Step3: 用户侧的多模态表征\*\*
+对于User侧, 通过聚合用户历史交互过的Item得到用户侧的多模态表征
+\\mathbf{h}^u\\_{mm} =\\sum\\_{j\\in \\mathcal{I}}\\hat{\\mathbf{R}}\\_{uj}\\mathbf{h}^j\\_{mm} \\\
+其中, \\hat{\\mathbf{R}}\\in \\mathbb{R}^{\|\\mathcal{U}\|\\times\|\\mathcal{I}\|}为归一化后的交互矩阵。
+### 1.3.5 处理成SideInfo(RecSys'24\|快手M3CSR)
+某种意义上, LLM Embedding也是一种SideInfo, 但是, 和其它SideInfo(如类目ID Embed)不同的是, 在模型训练过程中LLM的Embedding是静态的(Non-trainable), 无法更新。由于LLM Embedding语义空间与推荐行为空间的不一致, 为了能将LLM的Embedding也当成SideInfo使用, 业界验证可能比较行之有效的两种方案是, 表征映射和模态聚类ID方法。
+- \*\*多模态表征映射:\*\* 将原始的LLM Embedding过一个映射函数映射, 正如前面1.2.1章节笔者在QQ音乐推荐场景介绍的, 所以在这问题大家思路还是比较一致的, 这种方式相对Soft一些。
+- \*\*多模态聚类ID:\*\* 将原始的LLM Embedding做k-mean聚类, 得到聚类ID, 作为分类型特征使用, 再过embedding layer得到Cluster Embed。这种方式可以看成是上面残差量化编码中只有一个codebook的简化版了, 相对Hard一些。
+快手提出的M3CSR方法里, 在Modal Encoder模块将这两种方法后的Embedding一起Concat起来了, 得到的表征可以当作一般的SideInfo去使用, 如下图所示:
+![](https://pica.zhimg.com/v2-bb5f88d055f9a446178da475968a66d2\_1440w.jpg)
+当LLM Embedding处理成SideInfo有很多好处, 可以将这种Embedding形式的多模态SideInfo与ID Embedding做融合。将SideInfo与ID Embed融合也是推荐系统的一个子问题, 今年有不少论文也都提出的一些想法。将LLM Embedding处理成SideInfo之后, 可以直接借鉴现有关于SideInfo与ID融合的文献, 思路是不是一下就打开了。所以从这一点来看, 笔者认为SideInfo与ID的融合还蛮重要的, 为此, 笔者下面的单独一个章节做介绍。
+### 1.4 融合SideInfo与ID Embedding的若干方法
+SideInfo与ID Embedding的融合主要体现在注意力机制上, 基于不同的业务场景、业务理解以及其它模型输入上的差异, 大家在做法上会有区别, 这里给出几篇比较有代表性的案例。
+### 1.4.1 ID Embed引导SideInfo学习(RecSys'24\|快手M3CSR方法)
+现代推荐系统里ID Embed还是起主导作用, 它是最适配推荐系统的, 因此, 可以用它来引导SideInfo的学习, 让SideInfo起到补充的作用, 实现1+1>1的效果。
+注意, 笔者这里所说的“ID Embed指导SideInfo的学习”, 并不是指直接拿ID Embedding去做Label让多模态Embed这样的SideInfo逼近的意思, 当然, 业界确实是有这么去做的, 比如用MSE Loss让多模态Embed收敛到DSSM Item Embed的方法, 但笔者并不认为这是一种正确的做法。笔者比较认可的是快手提出的M3CSR方法, 其整体框架如下图所示:
+![](https://pica.zhimg.com/v2-0d0b9fb7512dd0be4b4cba077ded4b9c\_1440w.jpg)
+其中, 这里的Modal Encoder模块用于产出多模态的表征, 在M3CSR框架下它是learnable的, 这个在1.3.4章节里已经做介绍了, 这里就不做赘述, 这里重点看User Tower的注意力机制以及Item Tower表征融合。
+\*\*User Tower注意力机制\*\*
+对于文本、图片、音频模态的表征, 作者会分别计算多头注意力机制。
+\\mathbf{h}\\_u^m=\\mathrm{MH}\\left(Q=\\oslash\\left(\\mathrm{e}\\_u^{i d}\\right), K=\\mathbf{H}\\_u^m, V=\\mathbf{H}\\_u^m\\right), m \\in \\mathcal{M} \\\
+这里, ID Embed会作为多头注意力计算的Query, 它是Stop Gradient的, 而\\mathbf{H}\\_u^m为对应模态的模态表征, 会作为多头注意力的Key和Value。所以它其实是让冻结的ID Embed去引导多模态Embed学习。
+快手这里处理的是多模态的信息输入, 考虑到不同用户对不同模态的兴趣偏好/强度会有差异, 作者还使用了基于ID计算出来的注意力结果去做多模态注意力结果的缩放, 具体地:
+首先, 计算各模态表征的缩放因子(兴趣强度)
+\\lambda\\_m=\\mathbf{w}\\_{\\text {int }}^{\\top} \\text { concat }\\left(\\oslash\\left(\\mathbf{h}\\_u\\right), \\mathbf{h}\\_u^m\\right), m \\in \\mathcal{M} \\\\\bar{\\lambda}\\_m=\\frac{\\exp \\left(\\lambda\\_m / \\tau\\right)}{\\sum\\_{j \\in \\mathcal{M}} \\exp \\left(\\lambda\\_j / \\tau\\right)}, m \\in \\mathcal{M} \\\
+再将对应的多模态表征进行缩放
+\\widetilde{\\mathbf{h}}\\_u^m=\\bar{\\lambda}\\_m \\mathbf{h}\\_u^m, m \\in \\mathcal{M} \\\
+然后, 再将缩放后的多模态表征与ID Embed直接Concat起来作为User 塔最后的表征
+\\mathbf{h}\\_u^{\\text {final }}=\\operatorname{concat}\\left(\\mathbf{h}\\_u, \\widetilde{\\mathbf{h}}\\_u^v, \\widetilde{\\mathbf{h}}\\_u^t, \\widetilde{\\mathbf{h}}\\_u^a\\right) \\\
+\*\*Item Tower表征融合\*\*
+考虑到新冷内容的ID Embedding可能学习不充分, 因此, 作者这里引入受欢迎程度的门控网络来控制ID Embed和多模态Embed的表达, 让热门内容更多依赖ID Embed, 而新冷内容则减少ID Embed, 以使在冷启阶段更好的捕获内容的多模态信号, 具体的:
+\\delta=\\operatorname{sigmoid}\\left(\\mathbf{w}\\_{p o p}^{\\top} \\mathbf{e}\\_i^{p o p}+b\\_{p o p}\\right) \\\
+作者使用了视频的交互次数来做分桶, 使用可学习的分桶embed, 即上面的\\mathbf{e}^{pop}。其实, 理想情况下, 笔者认为使用Item被参与训练的次数作为这里门控机制的输入会可能会更合适, 因为离在线的可能存在的一些diff, 即使是热门的Item在推理时它的Item Embedding可能学习的也不充分。可能这个被参与训练的次数信息在获取会比较麻烦, 但确实是可以直接在框架层去实现的, 笔者前阵子就借鉴LogQ的方法实现了对应的方案, 有兴趣的同学也可以试试这个思路。
+最后, 将门控的权重加上再拼接起来后, 就得到Item塔最后的表征:
+\\mathbf{h}\\_i^{\\text {final }}=\\operatorname{concat}\\left((1-\\delta) \\mathbf{e}\\_i^{i d}, \\delta \\mathbf{h}\\_i^v, \\delta \\mathbf{h}\\_i^t, \\delta \\mathbf{h}\\_i^a\\right) \\\
+### 1.4.2 对注意力QKV的改写(WWW'24\|闲鱼MetaSplit方法)
+闲鱼商品推荐作为B2C和C2C共存的业务场景, 其User侧的用户行为序列以及Item侧都大量存在未训练充分的孤品信息。
+作者首先将用户行为序列\\boldsymbol{E}\\_{\\text {Seq}}按照是否为孤品(即数量只有1件), 序列可以拆分成\\boldsymbol{E}\\_{B\\_{seq}}和\\boldsymbol{E}\\_{C\\_{seq}},分别对应常规商品行为序列, 以及孤品行为序列。
+\*\*出发点\*\*
+作者提出, 在C2C的业务场景下, 现有DIN的序列建模方案存在一些缺陷。回顾下DIN序列建模的计算逻辑
+User Interest = att(Q \\* K) \\* V \\\
+- 先看Q和K。 这里Q和K是用来做相似度计算, 作为Attention Score来使用。如果Q或K所对应的Item是孤品, 这时ID Embed是学习不充分的, 计算相似度得分时应该强化Side Info的表达.
+- 再看V。V是最终用来返回向量做聚合使用的, 当对应的Item是孤品时, 它的ID Embed是有偏的, 直接返回对应的ID Embed可能也是有偏的, 应该借助Side Info做改进后再返回。
+针对上述两个分析, 作者分别提出元缩放网络和元位移网络。
+\*\*元缩放网络\*\*
+元缩放网络旨在学习在孤品Q和K中,Side Info应该要被强化的程度。它会使用ID Embed去学习生成各个Side Info Embed的权重系数(或称缩放系数)
+\\boldsymbol{\\delta}\\_{\\text {weight}} = DNN\\left( \\oslash\\boldsymbol{E}\\left(\\mathcal{S}\\_{ID}\\right) \\right) \\\
+其中, \\oslash表示Stop Gradient。这里的思想是, 如果ID Embed学习的不充分, 则应该强化Side Info的作用。
+然后,再使用对应的缩放系数, 对Side Info Embed进行缩放.
+Re\\\\_E\\left(\\mathcal{S}\\_{Side}\\right) = \\boldsymbol{\\delta}\\_{\\text {weight }} \\otimes E\\left(\\mathcal{S}\\_{Side}\\right) \\\
+这样, 最终孤品的Q和K可被改写成:
+Final\\\\_E\\left(\\mathcal{K}\\right) = Concat \[E\\left(\\mathcal{S}\\_{ID}\\right), Re\\\\_E\\left(\\mathcal{S}\\_{Side}\\right)\] \\\
+\*\*元位移网络\*\*
+元位移网络旨在使用Side Info改进孤品V中的ID Embed部分。它会使用Side Info的Embed去生成一个"元Id表征", 作为当前ID Embed学习不充分时的补充:
+\\boldsymbol{\\delta}\\_{\\text {Meta ID }} = DNN\\left( \\oslash\\boldsymbol{E}\\left(\\mathcal{S}\\_{Side}\\right) \\right) \\\
+同样地, 在这个过程中, Side Info Embed是被\\oslash的, 而\\boldsymbol{\\delta}\\_{\\text {Meta ID }}是一个与ID Embed同维度大小的向量, 这个向量会与ID Embed做如下方式融合, 得到修正后的ID Embed
+Re\\\\_E\\left(\\mathcal{S}\\_{ID}\\right) = v \\odot \\boldsymbol{\\delta}\\_{\\text {Meta ID }} \\oplus (1-v) \\odot \\boldsymbol{E}\\left(\\mathcal{S}\\_{ID}\\right) \\\
+其中, v为融合系数, 它由元ID表征的模与当前ID Embed的模做归一化计算得到:
+v = \\frac{Norm(\\boldsymbol{\\delta}\\_{\\text {Meta ID }})}{Norm(\\boldsymbol{\\delta}\\_{\\text {Meta ID }}) + Norm(\\boldsymbol{E}\\left(\\mathcal{S}\\_{ID}\\right))} \\\
+这样, 就可以实现对孤品V部分的改写:
+Final\\\\_E\\left(\\mathcal{V}\\right) = Concat \[Re\\\\_E\\left(\\mathcal{S}\\_{ID}\\right), E\\left(\\mathcal{S}\\_{Side}\\right)\] \\\
+### 1.4.3 SideInfo注意力与ID Embed注意力的融合(WWW'24\|蚂蚁ASIF)
+蚂蚁的这篇文章对SideInfo注意力与ID Embed注意力融合的方法做了很详细的归类与总结。
+现有的序列推荐场景基于self attention方式在做Side Info融合时, 其方法大致可以分成以下3类, 如下图所示
+![](https://picx.zhimg.com/v2-74399cd2592d789351a2d0872252e5d1\_1440w.jpg)
+- \*\*Early Fusion:\*\* 将ID与Side Info在注意力计算之前融合, 但这种方式可能会干扰ID的学习(即信息入侵)从而带来负向影响。代表方法是\\text{SASRec}\\_F。
+- \*\*Late Fusion:\*\* 将ID与Side Info单独进行注意力计算, 在后期对两者的注意力做融合, 但这种方式缺少了ID和Side Info的有效交叉。代表方法有FDSA。
+- \*\*Hybrid Fusion:\*\* Side Info仅参与到Attention Score的计算, 即只在Q和K中融合Side Info, V还是只使用ID, 在引入ID和Side Info交叉的同时, 也规避信息入侵风险。代表方法有NOVA, DIF-SR等, 但这类方法也存在一些缺点。
+论文对现有Hybrid Fusion方法做了些改进, 这里不做详细解说, 有兴趣的同学可以看对应的论文或笔者的历史公众号文章。
+### 1.4.4 使用GNN融合SideInfo(WWW'24\|港大PromptMM等,离线)
+也有一些文献是使用GNN来融合SideInfo, 比如港大提出的PromptMM, 不过这篇论文写的相当复杂, 工业界实操性不强, 另外, GNN最近在推荐领域也有失宠的趋势, 这里就不花笔墨再介绍了。
+### 1.5 生成式训练or判别式训练
+在谈论生成式推荐和判别式推荐之前, 我们先明确下生成式推荐的定义。文献\[1\]提到"A generative recommender system directly generates recommendations or recommendation-related content without the need to calculate each candidate’s ranking score one by one." 对应到推荐系统里, 生成式推荐一般采用类似LLM "next token prediction"的训练方式。
+![](https://pic3.zhimg.com/v2-147c07a192a18a63cbf256c4f8312044\_1440w.jpg)
+下面结合案例做下介绍。
+### 1.5.1 生成式训练范式(微信PRECISE方法)
+生成式训练有两种训练方式: SASRec方式和CPC方式, 形式化描述就是 作者使用交叉熵作为Loss:
+\\left\\{\\begin{array}{c} -\\sum\\_{u \\in U} \\sum\\_{t \\in N}\\left\[\\log \\sigma\\left(h\\_t^u \\cdot \\boldsymbol{e}\\_{t+1}^u\\right)+\\log \\left(1-\\sigma\\left(h\\_t^u \\cdot \\boldsymbol{e}\\_j\\right)\\right)\\right\] \\text { SASRec } \\\ \\quad -\\sum\\_{u \\in U}\\left\[\\log \\sigma\\left(h\\_t^u \\cdot \\boldsymbol{e}\\_{n+1}^u\\right)+\\log \\left(1-\\sigma\\left(h\\_t^u \\cdot \\boldsymbol{e}\\_j\\right)\\right)\\right\] \\text { CPC } \\end{array}\\right. \\\
+微信所提出的PRECISE方法采用生成式训练范式, 在所提方案中同时用到了这两者。其所提方案的整体框架如下图所示, 分成Embedding Fusion, Universal Training以及Targeted Training三个模块。Embedding Fusion在前面的内容中已经提过, 这里不做赘述, 主要看下后面两个模块。
+![](https://pic1.zhimg.com/v2-1624ce733ca451524d16cbf5da2b78e2\_1440w.jpg)
+\*\*1) 通用训练模块\*\*
+中间的通用训练模块是基于全域(包括看一看/听一听/视频号等)行为序列数据做预训练的, 它基于decoder-only的Transformer模型(因果解码器)进行训练, 每个Transformer层最终会输出一系列embedding, 位置i的embedding用于预测序列下一位置的物品(即自回归的方式)。
+对于Loss部分, 考虑到推荐系统中候选Item数以亿计, 直接全部计算Softmax是不现实的。因此, 对于序列中的每个Item, 作者会从其它序列中采样一些Item作为负样本, 再使用Cross Entropy进行Loss计算:
+L\\_{nip} = -\\sum\\limits\\_{u\\in U,i\\in S\\_u}\\frac{ log(h\\_{u,i}^H \\cdot \\boldsymbol{e}\\_{i+1}) }{ log(h\\_{u,i}^H \\cdot \\boldsymbol{e}\\_{i+1}) + \\sum\\limits\\_{j\\in N\\_u, j\\neq i+1}log(h\\_{u,i}^H \\cdot \\boldsymbol{e}\\_{j}) } \\\
+其中, N\\_u表示从其他序列中随机采样的Item集合。关于加速训练的方法, 除了这种采样方式, 还可以前面快手的KuaiFormer的使用In-batch softmax+LogQ的方法。
+\*\*2) 目标场景训练模块\*\*
+目标场景训练模块, 是基于前面预训练的通用模型中参数热启动的, 不过为了更好地适应目标场景的推荐任务，这里作者做了两处改动:
+1. 在计算行为序列中物品之间的注意力权重时, 作者使用了双向注意力机制, 也就是去掉了掩码矩阵。这种方法的优点是序列中的每个Item的表示是基于完整序列计算的。
+2. 为了利用每个用户行为序列中的所有Item的Embedding, 作者将最终Transformer层所有Item的Embedding都拼接起来, 再过一个MLP去学习计算用户最终的Embedding。
+Loss部分, 对于长度为n的序列, 仅预测第n+1个Item:
+L\\_{bpr} = - \\sum\\limits\\_{u\\in U}\\sum\\limits\\_{u'\\in U, u'\\neq u} log(h'\\_{u} \\cdot \\boldsymbol{e}\\_{u,n+1} - h'\\_{u'} \\cdot \\boldsymbol{e}\\_{u,n+1} ) \\\
+### 1.5.2 判别式训练范式(字节HLLM方法)
+字节所提的HLLM方法其实是判别式和生成式融合的方法, 不过由于它对判别式训练范式介绍的比较好,这里就以它来介绍了。字节HLLM的整体框架如下图所示, 分为Item LLM和User LLM。
+![](https://pica.zhimg.com/v2-440a0ab73b18441cd394d0c34a51dcfe\_1440w.jpg)
+\*\*1) Item LLM\*\*
+Item LLM的作用是作为特征提取器, 如下图所示, 使用Item的标题、标签、描述的文本信息作为输入, 并在最后位置额外增加了一个特殊Token \\texttt{\[}\\operatorname{ITEM}\\texttt{\]}, 最终的输入为\\{t\\_1, t\\_2, \\dots, t\\_m, \\texttt{\[}\\operatorname{ITEM}\\texttt{\]}\\}, 其中m为文本token的长度, 而特殊Token对应的输出的隐含状态则作为该Item的Embedding。
+\*\*2) User LLM\*\*
+User LLM的输入是用户历史交互序列U = \\{I\\_1, I\\_2, \\dots, I\\_n\\}, 前面的Item LLM就起到传统深度模型的Embedding Lookup Table的作用, 这样就将用户行为序列转化成\\{E\\_1, E\\_2, \\dots, E\\_n\\}, 再将这些Embedding作为输入, 进行Next Item Prediction, 预测下一位置的Item Embedding。这里User LLM对于Next Item Prediction的训练目标, 按照训练方式的差异, 可以分成生成式训练与判别式训练, 而HLLM同时使用了这两种, 使用超参做了融合。生成式训练的Loss和前面HLLM没有太大区别, 这里不做追溯, 重点看下判别式训练这里。
+判别式推荐的训练方式主要有两种: Early Fusion和Late Fusion, 作者在实际在落地使用的是Late Fusion。
+![](https://pica.zhimg.com/v2-7ce3a4819559c924898c0b9c043cdbe8\_1440w.jpg)
+- \*\*Early Fusion\*\*
+Early Fusion是将Target Item的Embedding E\\_{\\text{tgt}}拼接在用户行为序列的最后, 再输入给User LLM, 然后再将对应位置的输出做分类预测。Early Fusion方式的优点是, Target Item可与用户行为序列在User LLM中进行充分的特征交叉, 它的效果一般会更好, 但效率较低。这个类比于常规推荐的精排。
+- \*\*Late Fusion\*\*
+Late Fusion首先在用户行为序列的最后拼接一个特殊Token \\texttt{\[}\\operatorname{USER}\\texttt{\]}, 类似Item LLM的方式, 再使用User LLM编码用户行为序列, 提取得到用户的Embedding(即\\texttt{\[}\\operatorname{USER}\\texttt{\]}位置对应的输出), 再将其与E\\_{\\text{tgt}}拼接起来去预测分类。Late Fusion在后期再实现特征交叉, 效果一般会差一些, 但在推理时效率更高。比如当Prediction Head是使用内积去计算User Embedding与Target Item的Logit时, 那Late Fusion的User LLM就是一个双塔模型, 就可以直接使用向量索引做召回。
+对于预测部分, 它是个二分类问题，训练损失函数如下：
+\\mathcal{L}\\_{cls} = - \\left(y \\cdot \\log(x) + (1-y) \\cdot \\log(1-x) \\right) \\\
+其中，y表示训练样本的Label, x表示预测的logit。
+### 1.6 LLM-to-Rec范式下的训练&推理策略
+LLM-to-Rec范式下, 需要特别注意模型训练效率以及模型更新效率的问题。以最常见的使用LLM Embed方法为例, 与ID Embedding对比:
+- LLM Embedding的维度(如2048)可能是推荐的ID Embed(如32维)数十倍, 会使存储和训练计算上都会有一定的压力
+- LLM Embedding是静态的, 与它相关的模型参数多为Dense参数, 其参数更新过程相对缓慢&平稳
+- ID Embeding初始化后, 随着流式或batch方式的训练, 推荐系统的ID Embed通常更新是比较快的
+- 对于新内容, 预训练的LLM Embed通常可以异步实时拉取, 但基于多模态的模型由于计算较重, 模型的更新频率一般较慢, 推理时会出现OOV的问题。
+为此, 业界提出的LLM4Rec的方案里, 也会适配一些特定的训练/推理策略。这里介绍下一些方案。
+### 1.6.1 插件式的异步训练策略(WWW'24\|京东PPM)
+京东PPM的整体框架如下图所示, 左侧是与多模态Embed相关的预训练的CTR模块部分, CTR模块这里的输出会用于右侧统一排序模型(URM)的特征增强, 右侧统一排序模型倒没太特别的, 我们主要看下左侧的多模态预训练CTR模型。
+![](https://pic2.zhimg.com/v2-e9af5fb00c4943c01ec73856edf2d247\_1440w.jpg)
+\*\*多模态预训练CTR模型PPM\*\*
+首先, 京东这里会基于电商的领域场景数据对模态编码层做微调, 这部分在1.2.2章节中已经做过介绍, 不做赘述。模态编码层的输出就是多模态Embedding, 如下图所示, 其中, U\\_1,...,U\\_{\|U\|}为用户的交互历史的物品多模态表征。
+![](https://pic4.zhimg.com/v2-0fae33ea31115837c4d28fffe8b1b159\_1440w.jpg)
+然后再使用双向Transformer去捕获上下文信息, 如下图所示:
+![](https://pic3.zhimg.com/v2-814e6baefe128db67d550cbe63e5955e\_1440w.jpg)
+从示意图来看, 这里是self-attention + target attention的双层attention方法, 一步步来看这里的过程:
+Step1: 以用户交互历史的模态表征E\\_{modal}为输入, 同时也考虑位置编码E\\_{position}和时间间隔编码E\\_{recency}, 即:
+E = E\\_{modal} + E\\_{position} + E\\_{recency} \\\
+这里位置编码和时间间隔编码一开始是做随机初始化。
+Step2: 拼接用户交互历史表征:
+h^u\\_0=\[e\\_1^u, e\\_2^u, ..., e\\_{\|\\mathcal{S}^u\|}^u\] \\\
+Step3: 基于双向Transformer模块计算:
+h^u\\_i=\\text{Trm}(h^u\\_{i-1}, h^u\\_{i-1}, h^u\\_{i-1}) \\\
+其中,i表示Transformer模块的第i层, \\text{Trm}表示双向Transformer模块, 其对应的输入q,k,v都使用h^u。
+Step4: 以Target Item的模态表征作为Query, 上面的输出作为Key和Value, 再做Target Attention, 最后一层的输出即作为融合User和Item后的表征。
+然后, 通过将Transformer模块得到的user和target item的表征concat起来, 再过几层MLP去预测点击率。需要留意的是, 这里只使用点击单目标, 不同于后面的URM会使用点击&下单的多目标。损失函数使用交叉熵损失:
+L=-\\frac{1}{N}\\sum\\_{(x,y) \\in \\mathcal D }{ylogp(x)+(1-y)log(1-p(x))} \\\
+\*\*异步更新策略\*\*
+URM在线上的整体流程如下图所示, PPM是T-2更新的, URM是T-1更新的:
+![](https://picx.zhimg.com/v2-f1b811cf61c25148b6bafe9a0cd5808b\_1440w.jpg)
+笔者猜测, 这里异步更新的原因主要在于PPM由于Embedding维度比较大, 这部分的训练开销还是比较大的, 更新比较缓慢, 并且这里由于只是纯多模态的输入, 可以多Epoch训练, 并不需要像ID模型那样对实时性要求这么强。这里不确定URM在增量训练时, PPM的结果是否需要缓存起来去做加速, 看上面的流程图貌似是没有的。
+### 1.6.2 分离式的异步训练策略(CIKM'24\|淘宝MAKE方法)
+由于泛化能力的不同，基于ID的模型和基于多模态的模型对于训练所需epoch数存在差异。基于ID的模型通常只训练一个epoch，以避免过拟合。而基于纯多模态表征的模型由于其良好的泛化性，可以进行多个epoch的训练，并且随着训练epoch数的增加, 其模型效果还能提一步提升。
+![](https://picx.zhimg.com/v2-0c30b1c21098ab7d9b1509ef5448e2cb\_1440w.jpg)
+淘宝这里提出的MAKE(多模块知识抽取模块, \*\*M\*\* ultimod \*\*A\*\* l \*\*K\*\* nowledge \*\*E\*\* xtractor)方法其实也是采用了与PPM类似的训练策略, 将与多模态表征相关参数的优化与其他参数优化分离开来,以支持多模态模块的多Epoch训练, 如下图(b)所示。
+![](https://pic2.zhimg.com/v2-d25b7ca3246d153ddefe5f3f0df02527\_1440w.jpg)
+MAKE模块主要包括以下两个步骤
+\*\*1) 多Epoch训练纯多模态序列建模模块\*\*
+这一部分使用了常规的DIN, 只是将ID Embed替换成多模态表征。
+\\bf{v}\\_\\text{MAKE} = \\text{DIN}(\\{\\bf{v}\\_i\\}\\_{i=0}^{L}, \\bf{v}\\_c) \\\
+\*\*2) 多模态知识与ID模型融合\*\*
+为了让ID模型主导的模型也能融合多模态知识, 作者将DIN的输出\\bf{v}\\_\\text{MAKE}, MAKE模块浅层MLP的中间层输出, 以及最后的Logits分别与ID模型对应地进行拼接, 再进行联合训练。
+### 1.6.3 两阶段的交替训练策略(微信PRECISE方法)
+微信提出的PRECISE方法里, 会将使用MoE处理后的LLM token Embedding(处理方式见1.3.3章节)与ID embedding拼接起来, 得到物品的最终表征, 即:
+\\boldsymbol{e}\\_i = ID(i)\\oplus MoE(\\boldsymbol{x}\\_i) = ID(i)\\oplus \\sum\\limits\\_{j=1}^K (gate(\\boldsymbol{x}\\_i)\\_j\\cdot Attn\\_j(\\boldsymbol{x}\\_i) ) \\\
+这里ID embedding和token都是可训练的变量。但是, 在模型训练过程中，作者观察到由于文本表示来自训练有素的LLM，因此模型训练严重依赖语义Embedding, 导致ID表示训练不足。
+![](https://pic2.zhimg.com/v2-9f3738f6c3963cd61a26babd6ec12757\_1440w.jpg)
+以上图(b)来说明这个问题, 作者基于物品的Embedding采样了被认为彼此相似的物品对, 然后, 计算他们的ID Embedding的余弦相似度。蓝色线表示ID Embedding与Token Embedding一起训练的ID Embedding的相似度分布, 而橙色线表示在token embedding冻结起来时, 训练的ID Embedding的相似度分布。蓝色的线的相似度基本在0.55左右, 略高于0.5, 说明这时ID Embedding的更新幅度很小。为此, 作者采取了两阶段交替训练的策略:
+- 首先固定token embedding，仅训练ID embedding
+- 当IDembedding收敛后，才允许训练token embedding
+### 1.6.4 多阶段预训练的训练策略(字节HLLM方法)
+字节提出的HLLM其实是计算很重的方法, 论文后面的实验介绍了它使用多阶段的训练方式: End2End -> Finetune -> Freeze。
+![](https://pic4.zhimg.com/v2-b756975d5cd5e533ba024f501558e81b\_1440w.jpg)
+具体地, 训练过程分成3个阶段:
+- \*\*Stage1:\*\* 对HLLM的所有参数进行End2End训练，包括Item LLM和User LLM，采用判别损失函数。另外, 为加速训练，用户历史序列长度被截断至150。
+- \*\*Stage2:\*\* 首先使用Stage1训练好的Item LLM对所有Item进行编码并存储其Embedding, 然后再继续训练User LLM。这个过程由于仅训练User LLM, 训练成本没那么高, 因此, 作者把用户序列长度从 150扩展至1000，以进一步提升User LLM的效果
+- \*\*Stage3:\*\* 经过前两个阶段的大规模数据训练后，HLLM模型参数不再更新。作者为所有用户提取User LLM的User Embedding，并将其与Item LLM输出的Embedding以及其他现有特征结合，输入在线推荐模型进行训练。
+字节果然豪横, Stage1的End2End训练这里做了笔者想做但没资源做的一个事情, 可能也确实是成本太高了, 最终在Stage3使用时只是作为离线的多模态的特征提取器。
+### 1.6.5 内容与模型的异步更新策略(QQ音乐)
+在1.2.3章节里, 笔者介绍了在自己的业务场景里使用了模态编码Encoder来对音频表征做降维映射处理成SideInfo的方式, 在训练时这个Encoder与其它DNN模块是End2End学习的。由于数据依赖、计算成本以及业务逻辑上的一些考虑, 这个模型现阶段还是天级更新的。
+模型天级更新存在的一个问题是, 对于新上架的歌曲, 模型侧多模态Embed是缺失的, 为此, 笔者提出的缓解方案是, 在推理时, 对于新歌Target Item, 会实时拉取音频表征并输入给模型, 其它Item的音频表征由于已经存在于模型中, 只需要模型侧通过lookup table操作即可, 这样可以保证在Target Item侧音频表征基本都能覆盖的, 且不会额外增加多少推理的时延。
+## 2\. Rec-to-LLM范式
+Rec-to-LLM范式以LLM为主, 大多数是将用户历史行为数据以自然语言描述作为输入, 再由LLM给出具体的输出。从笔者了解到的一些文献来看, Rec-to-LLM目前在工业界的应用比较少, 即使是工业界发表的论文, 大多没有直接说明业务落地应用的具体场景以及在线实验的数据对比。
+笔者将Rec-to-LLM范式简单分成三类:
+### 2.1 使用LLM作为Ranking Function(Google STAR方法,离线)
+Google提出的STAR方法, 将LLM当成了Ranker, 具体地包含两个步骤:
+\*\*Step1: 构造Item提示信息\*\*
+下图给出了排序过程的prompt构造, 除了一些Item的meta信息之外, 还额外补充了流行度信息以及共现信息
+![](https://pic3.zhimg.com/v2-fd38890f58f1d68ce53764ef1906c236\_1440w.jpg)
+1. \*\*流行度信息:\*\* 统计Item在数据集中的交互次数, 如"购买该Item的用户数:###"
+2. \*\*共现信息:\*\* 统计两个Item的共现交互次数, 如"同时购买该商品和用户历史商品#1的用户数量:###"
+\*\*Step2: 制定排序策略\*\*
+作者将检索部分得到的Item按得分顺序作为输入, 然后使用了三种不同的排序策略:
+1. \*\*point-wise:\*\* 基于用户序列S\\_u独立评估每个Item x \\in I\\_k的得分，以确定用户u将与Item x交互的可能性有多大。如果两个Item得分相同, 则将检索的得分打的排前面。
+2. \*\*pair-wise:\*\* 基于用户序列S\\_u评估两个Item之间的偏好。具体地, 作者使用滑动窗口方法, 对列表按检索分数从低到高比较列表, 进行位置交换, 类似冒泡排序。
+3. \*\*list-wise:\*\* 也是使用滑动窗口方法, 对窗口大小w个Item进行比较, 并按步幅d进行滑动。pair-wise可以看作是(w=2, d=1)的list-wise。
+论文没有给出在实际业务中的应用场景, 另外, 这种方式感觉很弱啊, 不建议参考。
+### 2.2 使用LLM获取推荐结果(RecSys'24\|Spotify:Text2Tracks,离线)
+Spotify的这篇文章笔者认为算是Rec-to-LLM范式里比较完整的一个工作了, 除了没有实际落地业务的相关收益描述外, 不过大概可以拆测到应该是在AI助手这样LLM赋能的对话式推荐场景使用的。比如"可以推荐一些经典摇滚风格的歌曲吗?", 作者将这种基于提示词的音乐推荐问题看成是 \*\*生成式检索问题\*\* Generative Retrieval problem(简称GR)。
+传统的基于LLM的方法流程如下图所示:
+![](https://pic4.zhimg.com/v2-b555c52f3234a21619f9b86b39283e1d\_1440w.jpg)
+但是, 这种方式存在着一些缺点:
+- \*\*严重依赖于文本token而不是歌曲item本身:\*\* 歌名相似的两首歌曲的流派风格可能完全不同
+- \*\*需要单独的实体解析去得到对应的歌曲ID:\*\* 即使给了正确的歌手&歌名, 但一首歌经常有很多版本(如live,翻唱等), 要得到对应的歌曲ID也需要费一些工夫
+- \*\*解码步数与歌手歌名的长度呈线性关系:\*\* 有些"歌手+歌名"长度会很长, 导致推理速度很慢
+为此, 作者提出了Text2Tracks的框架, 如下图所示:
+![](https://pica.zhimg.com/v2-d3f7b62d8a9e878b99c1af17f874c1a4\_1440w.jpg)
+其中, Q为对应的Query, 在对话式推荐中, Q=\\operatorname{concat}\\left(\\left\\{u\\_0, \\ldots, u\\_\\tau\\right\\}\\right), 会将截至到当前对话轮数\\tau的历史对话语句concat起来, \\phi(t)为ID策略, 用于将每首歌曲t映射成String形式的标识符, 再作为语言模型输入的一部分, 这是论文最核心的内容。论文的核心其实就是这里的ID策略了, 作者给出了3种类型的ID策略, 如下图所示:
+![](https://pica.zhimg.com/v2-908cfd632a9a5f04a14849f8b065a6f4\_1440w.jpg)
+\*\*基于内容的ID策略\*\*
+基于内容的ID策略是把歌曲的一些元信息(文本)用分隔符"\\_"拼接起来, 如"周杰伦\\_夜曲"这种以"歌手\\_歌名"的方式。这种方式的优点是预训练语言模型中关于这些元信息的知识(权重)可以被充分利用起来, 也不需要额外将这些元信息文本加入到LLM的词表中。
+\*\*三种基于整数的ID策略\*\*
+基于整数的ID策略是使用随机整数来表示歌曲或用于表示歌曲的元信息, 具体地, 作者给了3种策略:
+- \*\*track-int:\*\* 每首歌随机分配一个整数ID, 其实就是平常推荐系统里的ItemId, 如周杰伦的《夜曲》可以表示成"10001", 这种策略下的这些整数ID是不会加入到LLM的词表中的, 因为这些ItemID并不具备可扩展性。
+- \*\*artist-int-track-seq:\*\* 由于歌曲的元信息本身是层次结构的, 因此可以为每种元信息内容都按顺序分配一个整数,再用分隔符"\\_"拼接起来, 如周杰伦的《夜曲》可以表示成“1001\\_1001”,《晴天》可以表示成"1001\\_1002", 前面是给歌手分配的整数, 后面是给歌名分配的整数。同样的, 这些给歌曲元信息分配的整数也不会加入到词表中。
+- \*\*artist-iid-track-seq:\*\* 这个策略与artist-int-track-seq的区别在于, 给头部歌手(论文这里是top5W)所分配的整数会被加入到词表, 这样, 周杰伦的《夜曲》可以表示成“<1001>\\_1”, 这里的<1001>表示它是被加入到词表中, 而其它部分与前面策略没有差异。
+这里的策略设置其实是有比较多的细节的, 感兴趣的同学可以看我公众号文章的解读。
+\*\*可学习的树结构ID策略\*\*
+在离线实验中, 作者发现这种方法其实效果不太行, 这里不做详细展开描述。效果最好的是前面比较简单的"artist-iid-track-seq"策略。
+### 2.3 使用LLM构造推荐响应(RecSys'24最佳长论文\|腾讯ECR,离线)
+近年来, 对话系统的发展促使自然语言对话与推荐系统深度融合, 催生了对话式推荐系统(conversational recommender system, 简称CRS)。CRS通常包含内容推荐和回复生成两个子任务, 它通过多轮对话与用户产生互动以更好的捕捉用户偏好。腾讯这篇论文提出的ECR方法主要是为了解决传统CRS方法经常忽略了用户语言中的情感而导致推荐不合适内容以及给用户的响应内容里过于生硬缺乏情感的问题。其整体框架如下图所示, 主要包含情感感知的内容推荐模块和情感对齐的回复生成模块, 这里不做详细介绍。
+![](https://pic4.zhimg.com/v2-23f92df3107df1d928aa081dc5c59a69\_1440w.jpg)
+## 3\. Towards RecLM范式
+这里的核心在于探讨如何实现推荐系统的Scale Law。
+### 3.1 简单堆叠模型参数(ICML'24\|Meta:WuKong方法)
+Meta在设计Wukong架构时, 主要目标有两个:
+1. 可以有效地捕获复杂的高阶特征交互能力
+2. 确保模型性能上存在缩放规律
+Wukong的整体结构比较简洁, 低层是embedding层, 上面堆叠了多层的交互模块, 最后是一个MLP, 如下图所示:
+![](https://picx.zhimg.com/v2-3e8b3cb5aa0bef3b4f8848dd1a2b2bef\_1440w.jpg)
+Wukong的结构非常简洁, 本质上是把DeepFM做了很多层的堆叠, 实现特别高阶的特征交叉, 是一种比较暴力的方案。这个方案直觉上上限不高, 没听说业界有哪些团队在follow的。
+### 3.2 极致的工程优化(快手海外MARM)
+相比于Meta提出的一些验证Scale Law的方法, 快手海外Kwai提出的MARM方案, 感觉更接地气一些。由于有着更加严格的成本约束，并且需要在已经迭代多年的推荐模型上持续拿到增量收益（模型中已经包含SIM等多种序列建模方案），难度是更大的，所以作者希望能够有一个更加务实高效的方案能够验证推荐系统中的Scaling Law。
+![](https://picx.zhimg.com/v2-4aaef53d2b1ddc4139e9debea1a0987b\_1440w.jpg)
+上面的示例图非常简介明了的阐述了论文的核心思想, 其本质上是用空间换时间, 做了多层缓存机制。
+考虑到Masked-Self-Attention计算复杂度的问题, 作者将它都替换成复杂度低的Target Attention, 并且将中间结果都直接缓存起来，大大减少模型的推理复杂度&时延。
+![](https://pic1.zhimg.com/v2-29af281b8bbd6cacdb92154d2fd66390\_1440w.jpg)
+作者在快手海外版Kwai拿到了非常不错的收益。这里的实现比较依赖工程能力改造。
+### 3.3 重构推荐范式(ICML’24\|Meta:GRs)
+Meta提出的GRs基本上属于对现有推荐范式的重构了, 在生成式推荐系统GRs里, 作者将推荐系统的sparse特征和dense特征转换成了统一的时间序列来处理, 如下图所示, 具体处理如下:
+![](https://pic4.zhimg.com/v2-87a270503cb6b41bf849976793a72c69\_1440w.jpg)
+然后, 标准的召回和排序, 在GRs框架下, 其输入输出可以表示如下:
+![](https://pica.zhimg.com/v2-4c7ceb2b4798fb2556fa06b6b7eb712a\_1440w.jpg)
+关于GRs, 一经提出后, 现网已经在非常多的论文解读, 业界也有一些业务在follow这种方式的实现并且已经取得一些业务收益, 这里就不再详细陈述了。
+## 4\. 总结
+本文基于24年各大互联网公司公开发表的论文, 从各个维度拆解现在LLM4Rec落地的各种实践方法, 方便大家在各自业务场景中, 按图索骥, 互相验证。
+LLM的突破性进展给推荐带来了一定的想象空间, 24年LLM在推荐领域的应用落地确实也取得了一定的进展, 虽然这个进展与NLP/CV等领域相比可能还是有点小巫见大巫了, 但24年这个领域的发展确实也带来了一些惊喜。
+受制于ID模型及传统推荐模型的训练范式, 推荐模型在新冷内容推荐上效果不佳, 难以见到推荐领域的scale law。随着LLM对现在推荐模型能力的补充, 特别是LLM Embedding的利用, 笔者相信现在LLM-to-Rec的范式一定能实现1+1>1的效果。笔者也相信推荐系统的scale law will be coming soon.
+## 5\. 文献
+- \[1\] Song C, Shen C, Gu H, et al. PRECISE: Pre-training Sequential Recommenders with Collaborative and Semantic Information\[J\]. arXiv preprint arXiv:2412.06308, 2024.
+- \[2\] Zhang X, Xie R, Lyu Y, et al. Towards empathetic conversational recommender systems\[C\]//Proceedings of the 18th ACM Conference on Recommender Systems. 2024: 84-93.
+- \[3\] Lee D H, Kraft A, Jin L, et al. STAR: A Simple Training-free Approach for Recommendations using Large Language Models\[J\]. arXiv preprint arXiv:2410.16458, 2024.
+- \[4\] Liu C, Cao J, Huang R, et al. KuaiFormer: Transformer-Based Retrieval at Kuaishou\[J\]. arXiv preprint arXiv:2411.10057, 2024.
+- \[5\] Qu Z, Xie R, Xiao C, et al. The elephant in the room: rethinking the usage of pre-trained language model in sequential recommendation\[C\]//Proceedings of the 18th ACM Conference on Recommender Systems. 2024: 53-62.
+- \[6\] Jia J, Wang Y, Li Y, et al. LEARN: Knowledge Adaptation from Large Language Model to Recommendation for Practical Industrial Application\[J\]. 2025.
+- \[7\] Luo X, Cao J, Sun T, et al. QARM: Quantitative Alignment Multi-Modal Recommendation at Kuaishou\[J\]. arXiv preprint arXiv:2411.11739, 2024.
+- \[8\] Palumbo E, Penha G, Damianou A, et al. Text2Tracks: Generative Track Retrieval for Prompt-based Music Recommendation\[J\]. 2022.
+- \[9\] Zhai J, Liao L, Liu X, et al. Actions speak louder than words: Trillion-parameter sequential transducers for generative recommendations\[J\]. arXiv preprint arXiv:2402.17152, 2024.
+- \[10\] Zhang C, Sun Y, Wu M, et al. EmbSum: Leveraging the Summarization Capabilities of Large Language Models for Content-Based Recommendations\[C\]//Proceedings of the 18th ACM Conference on Recommender Systems. 2024: 1010-1015.
+- \[11\] Chen J, Chi L, Peng B, et al. Hllm: Enhancing sequential recommendations via hierarchical large language models for item and user modeling\[J\]. arXiv preprint arXiv:2409.12740, 2024.
+- \[12\] Wu J, Chang C C, Yu T, et al. Coral: collaborative retrieval-augmented large language models improve long-tail recommendation\[C\]//Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining. 2024: 3391-3401.
+- \[13\] Liu Y, Zhang K, Ren X, et al. AlignRec: Aligning and Training in Multimodal Recommendations\[C\]//Proceedings of the 33rd ACM International Conference on Information and Knowledge Management. 2024: 1503-1512.
+- \[14\] Wu W, Zhou J, He A, et al. MetaSplit: Meta-Split Network for Limited-Stock Product Recommendation\[C\]//Companion Proceedings of the ACM on Web Conference 2024. 2024: 216-225.
+- \[15\] Wang S, Shen B, Min X, et al. Aligned Side Information Fusion Method for Sequential Recommendation\[C\]//Companion Proceedings of the ACM on Web Conference 2024. 2024: 112-120.
+- \[16\] Zhang C, Zhang H, Wu S, et al. NoteLLM-2: Multimodal Large Representation Models for Recommendation\[J\]. arXiv preprint arXiv:2405.16789, 2024.
+- \[17\] Sheng X R, Yang F, Gong L, et al. Enhancing Taobao Display Advertising with Multimodal Representations: Challenges, Approaches and Insights\[C\]//Proceedings of the 33rd ACM International Conference on Information and Knowledge Management. 2024: 4858-4865.
+- \[18\] Zhang C, Wu S, Zhang H, et al. NoteLLM: A Retrievable Large Language Model for Note Recommendation\[C\]//Companion Proceedings of the ACM on Web Conference 2024. 2024: 170-179.
+- \[19\] Geng B, Huan Z, Zhang X, et al. Breaking the length barrier: Llm-enhanced CTR prediction in long textual user behaviors\[C\]//Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval. 2024: 2311-2315.
+- \[20\] Gao Y, Lin P, Wang D, et al. PPM: A Pre-trained Plug-in Model for Click-through Rate Prediction\[C\]//Companion Proceedings of the ACM on Web Conference 2024. 2024: 311-318.
+- \[21\] Wei W, Tang J, Xia L, et al. Promptmm: Multi-modal knowledge distillation for recommendation with prompt-tuning\[C\]//Proceedings of the ACM on Web Conference 2024. 2024: 3217-3228.
+- \[22\] Zhang B, Luo L, Chen Y, et al. Wukong: Towards a Scaling Law for Large-Scale Recommendation\[J\]. arXiv preprint arXiv:2403.02545, 2024.
+- \[23\] Lv X, Cao J, Guan S, et al. MARM: Unlocking the Future of Recommendation Systems through Memory Augmentation and Scalable Complexity\[J\]. arXiv preprint arXiv:2411.09425, 2024.
+- \[24\] Li L, Zhang Y, Liu D, et al. Large language models for generative recommendation: A survey and visionary discussions\[J\]. arXiv preprint arXiv:2309.01157, 2023.
+- \[25\] Zhang Y, Yu W, Zhang E, et al. RecGPT: Generative Personalized Prompts for Sequential Recommendation via ChatGPT Training Paradigm\[J\]. arXiv preprint arXiv:2404.08675, 2024.
+- \[26\] Chen G, Sun R, Jiang Y, et al. A Multi-modal Modeling Framework for Cold-start Short-video Recommendation\[C\]//Proceedings of the 18th ACM Conference on Recommender Systems. 2024: 391-400.
+编辑于 2025-02-17 10:22・广东
+[LLM](https://www.zhihu.com/topic/20660508)
+[推荐系统](https://www.zhihu.com/topic/19563024)
+​赞同 383​​21 条评论​703 ​51
+​分享
+​申请转载​
+​
+暂无评论
+关于作者
+[![州懂](https://picx.zhimg.com/v2-f6b12ae25d2bd5b668e6832b64566a5a\_l.jpg?source=172ae18b)](https://www.zhihu.com/people/14jzzhan)
+[州懂](https://www.zhihu.com/people/14jzzhan)
+公众号:州懂学习笔记 & 某大厂算法工程师
+[回答](https://www.zhihu.com/people/14jzzhan/answers) [文章](https://www.zhihu.com/people/14jzzhan/posts) [关注者](https://www.zhihu.com/people/14jzzhan/followers)
+​关注他​发私信
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码

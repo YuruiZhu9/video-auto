@@ -1,0 +1,831 @@
+# Source URL: https://www.php.cn/faq/2212797.html
+# Content Length: 12279 characters
+# Extracted at: 2026-03-27 06:54:28
+#============================================================
+
+
+
+
+
+
+
+
+
+
+
+
+OpenClaw高频报错\_OpenClaw报错汇总解答【汇总】-人工智能-PHP中文网
+
+
+
+
+
+
+
+
+
+
+
+
+
+[讲师中心](/teacher.html)
+微信公众号
+![]()
+
+扫码关注*官方订阅号*
+注册 / 登录
+
+
+
+[首页](/) 
+[文章](/article.html)
+ [后端开发](/be/) 
+ [web前端](/web-designer.html) 
+ [数据库](/shujuku-tutorials.html) 
+ [开发工具](/tool/) 
+ [php框架](/phpkj/) 
+ [常见问题](/faq/) 
+ [人工智能](/keji/) 
+ [Java](/java/) 
+ [系统教程](/system-tutorial/) 
+ [电脑教程](/computer-tutorial/) 
+ [硬件教程](/hardware-tutorial/) 
+ [手机教程](/mobile-tutorial/) 
+ [软件教程](/software-tutorials/) 
+ [游戏教程](/mobile-game-tutorial/) 
+ [自媒体](/we-media/) 
+ [新闻](/xinwen/) 
+
+
+
+[专题](/faq/zt)
+[后端开发](/be-zt/)
+[web前端](/web-designer-zt.html)
+[数据库](/shujuku-tutorials-zt.html)
+[开发工具](/tool-zt/)
+[php框架](/phpkj-zt/)
+[人工智能](/keji-zt/)
+[Java](/java-zt/)
+[系统教程](/system-tutorial-zt/)
+[电脑教程](/computer-tutorial-zt/)
+[硬件教程](/hardware-tutorial-zt/)
+[手机教程](/mobile-tutorial-zt/)
+[软件教程](/software-tutorials-zt/)
+[游戏教程](/mobile-game-tutorial-zt/)
+[新闻](/xinwen-zt/)
+
+
+
+[AI工具](/ai)
+[AI聊天问答](/ai/tag/chat)
+[Agent智能体](/ai/tag/ai-agent)
+[AI文本写作](/ai/tag/text)
+[AI绘画作图](/ai/tag/image)
+[AI设计工具](/ai/tag/design)
+[AI视频创作](/ai/tag/ai-video-creation)
+[AI音频制作](/ai/tag/audio)
+[AI办公学习](/ai/tag/office)
+[AI编程开发](/ai/tag/code)
+[AI提示词](/ai/tag/prompt)
+
+
+
+[学习](/course/sort_new.html)
+[大前端](/course/list/1.html)
+[后端开发](/course/list/3.html)
+[数据库](/course/list/4.html)
+[移动端](/course/list/5.html)
+[运维开发](/course/list/9.html)
+[计算机基础](/course/list/10.html)
+
+
+
+[编程手册](/course/type/3.html)
+[大前端](/course/list/1/type/3.html)
+[后端开发](/course/list/3/type/3.html)
+[数据库](/course/list/4/type/3.html)
+[移动端](/course/list/5/type/3.html)
+[运维开发](/course/list/9/type/3.html)
+[计算机基础](/course/list/10/type/3.html)
+
+
+
+[下载](/xiazai/)
+[js特效](/xiazai/js)
+[网站源码](/xiazai/code)
+[工具下载](/xiazai/gongju)
+[类库下载](/xiazai/leiku)
+[网站素材](/xiazai/sucai)
+[学习资源](/xiazai/learn)
+[插件扩展](/xiazai/plugin)
+[手机游戏](/game)
+
+
+
+[最近更新](/new/)
+
+
+
+![]()
+
+
+
+
+
+
+
+
+![]()
+当前位置：[首页](/)
+> [人工智能](/keji/)
+> [人工智能](/ai-articles/)
+>
+
+正文
+
+
+
+![]()
+![]()
+
+0
+
+
+![]()
+![]()
+
+0
+
+
+
+OpenClaw高频报错\_OpenClaw报错汇总解答【汇总】
+================================
+
+[![]()](/member/1522153.html) 
+
+絕刀狂花
+
+发布时间：2026-03-16 20:04:31
+
+|
+
+686人浏览过
+
+|
+
+来源于php中文网
+
+
+
+原创
+
+
+
+
+> OpenClaw高频报错需按五类排查：一、CUDA初始化失败，检查nvidia-smi、nvcc版本及torch.cuda.is\_available()；二、ClawModule加载失败，确认安装方式与环境路径；三、图像预处理断言失败，校验RGB顺序、分辨率与归一化；四、多线程崩溃，确保线程独享model实例并禁用PyTorch多线程；五、GPU内存超时，及时empty\_cache、加no\_grad、监控显存。
+
+[**☞☞☞AI 智能聊天, 问答助手, AI 智能搜索, 免费无限量使用 DeepSeek R1 模型☜☜☜**](https://pan.quark.cn/s/55dc67d30d8e#/list/share)
+
+![]()
+
+如果您在使用OpenClaw过程中频繁遭遇报错提示，可能是由于环境配置异常、依赖版本冲突、GPU驱动不兼容或输入数据格式不规范所致。以下是针对高频报错现象的多种排查与修复路径：
+
+一、CUDA初始化失败（Error: cuInit failed: CUDA\_ERROR\_UNKNOWN）
+-------------------------------------------------------
+
+该错误表明OpenClaw无法完成CUDA运行时初始化，常见于NVIDIA驱动未加载、驱动版本过低或CUDA Toolkit未正确安装。需确认底层GPU支持能力及运行时环境连通性。
+
+1、执行 **nvidia-smi** 命令，验证GPU设备是否被系统识别且驱动状态正常。
+
+2、运行 **nvcc --version** 检查CUDA编译器是否存在，输出版本号应不低于OpenClaw要求的最低版本（如11.2）。
+
+3、在Python环境中执行 **import torch; print(torch.cuda.is\_available())**，确认PyTorch CUDA后端可调用。
+
+二、ClawModule加载失败（ModuleNotFoundError: No module named '[openclaw](https://www.php.cn/zt/214490.html).claw'）
+-----------------------------------------------------------------------------------------------------------
+
+该错误说明Python解释器未能定位OpenClaw核心模块，通常由安装路径错误、包未正确构建或PYTHONPATH缺失引起。
+
+1、检查当前工作目录下是否存在 **setup.py** 或 **pyproject.toml** 文件，确认为源码安装模式。
+
+2、使用 **pip install -e .**（非wheel安装）进行可编辑模式安装，确保模块路径动态注入到site-packages。
+
+3、若通过conda安装，运行 **conda list | grep openclaw** 验证包是否存在于当前激活环境中。
+
+三、图像预处理阶段断言失败（AssertionError: Input tensor shape mismatch）
+----------------------------------------------------------
+
+该错误发生在数据送入ClawNet前的校验环节，表明输入张量维度、通道数或数值范围不符合模型预期输入规范。
+
+1、确认输入图像是否已通过 **cv2.cvtColor(..., cv2.COLOR\_BGR2RGB)** 转换为RGB顺序。
+
+[![]()](/ai/2024)
+[畅图](/ai/2024)
+
+AI可视化工具
+
+
+[下载](/ai/2024) 
+
+2、检查图像尺寸是否统一缩放至模型指定分辨率（如 **256x256**），禁止直接传入原始分辨率视频帧。
+
+3、验证像素值是否归一化至 **[0.0, 1.0]** 区间，避免使用 **[0, 255]** 整型张量直接输入。
+
+四、多线程推理崩溃（Segmentation fault (core dumped)）
+-------------------------------------------
+
+该崩溃通常由CUDA上下文跨线程共享引发，OpenClaw默认不支持在非主线程中复用同一ClawModel实例。
+
+1、确保每个工作线程独立创建 **ClawModel(device='cuda:0')** 实例，禁止全局单例跨线程调用。
+
+2、在线程启动前调用 **torch.set\_num\_threads(1)**，关闭PyTorch内部线程池干扰。
+
+3、使用 **threading.local()** 为各线程缓存专属model句柄，避免实例被多个线程并发访问。
+
+五、日志中反复出现“Timeout waiting for GPU memory”
+-----------------------------------------
+
+该提示反映CUDA内存分配阻塞超时，根源在于显存碎片化严重或存在未释放的tensor引用，导致后续alloc失败。
+
+1、在每次推理完成后插入 **torch.cuda.empty\_cache()** 强制回收未被引用的缓存显存。
+
+2、检查代码中是否存在未加 **with torch.no\_grad():** 包裹的前向推理，避免计算图隐式构建占用显存。
+
+3、使用 **nvidia-smi -l 1** 实时监控显存变化，定位显存持续增长的代码段并添加del语句释放中间变量。
+
+
+相关文章
+
+
+[OpenClaw如何扫描内存数值\_OpenClaw数值搜索入门操作【技巧】](/faq/2258928.html)
+[OpenClaw低配电脑卡顿怎么救\_OpenClaw轻量模式性能优化方案【详解】](/faq/2258874.html)
+[OpenClaw内存占用飙升怎么降\_OpenClaw性能优化实用调整【技巧】](/faq/2258805.html)
+[OpenClaw文件自动整理怎么设\_OpenClaw桌面乱象一键解决方法【教程】](/faq/2258799.html)
+[OpenClawMac Mini一键部署\_OpenClaw苹果硬件极简安装教程【操作】](/faq/2258777.html)
+
+相关标签:
+
+[openclaw](/zt/214490.html) [AI编程开发](/search?q=AI编程开发) [智能编程](/search?q=智能编程) 
+
+本站声明：本文内容由网友自发贡献，版权归原作者所有，本站不承担相应法律责任。如您发现有涉嫌抄袭侵权的内容，请联系admin@php.cn
+
+[上一篇：UizardAI如何快速修改设计\_UizardAI设计编辑方法【操作】](/faq/2212795.html)
+[下一篇：如何像程序员一样思考？掌握提示词工程背后的逻辑实战](/faq/2212798.html)
+
+
+ 
+
+作者最新文章
+
+
+
+[全民淘金，橙装自由！《暗黑破坏神：不朽》攻略——采集&打造功能上线](/faq/2258410.html)
+
+2026-03-26 19:05
+
+
+
+
+[HTML怎么添加关键词\_HTML meta keywords使用说明【介绍】](/faq/2258437.html)
+
+2026-03-26 19:10
+
+
+
+
+[openclawAI能否运行容器应用\_openclawAI容器化支持情况说明【介绍】](/faq/2258462.html)
+
+2026-03-26 19:15
+
+
+
+
+[Gemini如何隐藏敏感信息\_Gemini隐私保护设置【技巧】](/faq/2258488.html)
+
+2026-03-26 19:20
+
+
+
+
+[PHP怎么实现递归函数\_避免无限递归的终止条件【教程】](/faq/2258494.html)
+
+2026-03-26 19:21
+
+
+
+
+[HTML怎么创建模态框关闭区域标注\_HTML点击遮罩关闭说明【技巧】](/faq/2258505.html)
+
+2026-03-26 19:24
+
+
+
+
+[HTML怎么标注保修状态查询\_HTML序列号输入验证区【方法】](/faq/2258560.html)
+
+2026-03-26 19:36
+
+
+
+
+[MuleRun如何申请创作者\_MuleRun创作者资格审核流程详解](/faq/2258586.html)
+
+2026-03-26 19:41
+
+
+
+
+[PHP怎么获取客户端IP地址真实值【汇总】](/faq/2258626.html)
+
+2026-03-26 19:50
+
+
+
+
+[PHP函数如何识别高速网络接口卡\_PHP检测10GbE/25GbE硬件【技巧】](/faq/2258636.html)
+
+2026-03-26 19:51
+
+
+
+
+
+ 
+
+热门AI工具
+
+
+[更多](/ai)
+
+[![]()](/ai/723)
+[DeepSeek](/ai/723)
+
+幻方量化公司旗下的开源大模型平台
+
+[AI编程开发](/ai/tag/code)[AI聊天问答](/ai/tag/chat) 
+
+
+
+[![]()](/ai/726)
+[豆包大模型](/ai/726)
+
+字节跳动自主研发的一系列大型语言模型
+
+[AI编程开发](/ai/tag/code)[AI大模型](/ai/tag/code/large-model) 
+
+
+
+[![]()](/ai/2686)
+[WorkBuddy](/ai/2686)
+
+腾讯云推出的AI原生桌面智能体工作台
+
+[AI办公学习](/ai/tag/office)[Agent智能体](/ai/tag/ai-agent) 
+
+
+
+[![]()](/ai/854)
+[腾讯元宝](/ai/854)
+
+腾讯混元平台推出的AI助手
+
+[文档处理](/ai/tag/office/docs)[Excel 表格](/ai/tag/office/excel) 
+
+
+
+[![]()](/ai/724)
+[文心一言](/ai/724)
+
+文心一言是百度开发的AI聊天机器人，通过对话可以生成各种形式的内容。
+
+[AI编程开发](/ai/tag/code)[AI文本写作](/ai/tag/text) 
+
+
+
+[![]()](/ai/1507)
+[讯飞写作](/ai/1507)
+
+基于讯飞星火大模型的AI写作工具，可以快速生成新闻稿件、品宣文案、工作总结、心得体会等各种文文稿
+
+[AI文本写作](/ai/tag/text)[中文写作](/ai/tag/text/chinese-writing) 
+
+
+
+[![]()](/ai/1115)
+[即梦AI](/ai/1115)
+
+一站式AI创作平台，免费AI图片和视频生成。
+
+[图片拼接](/ai/tag/image/image-titching)[图画生成](/ai/tag/image/image-create) 
+
+
+
+[![]()](/ai/808)
+[ChatGPT](/ai/808)
+
+最最强大的AI聊天机器人程序，ChatGPT不单是聊天机器人，还能进行撰写邮件、视频脚本、文案、翻译、代码等任务。
+
+[AI编程开发](/ai/tag/code)[AI文本写作](/ai/tag/text) 
+
+
+
+[![]()](/ai/821)
+[智谱清言 - 免费全能的AI助手](/ai/821)
+
+智谱清言 - 免费全能的AI助手
+
+[AI编程开发](/ai/tag/code)[Agent智能体](/ai/tag/ai-agent) 
+
+
+
+
+
+
+
+
+ 
+
+相关专题
+
+
+[更多](/faq/zt)
+
+[![]()](/faq/layuibgxgjchj)
+[layui表格相关教程合集](/faq/layuibgxgjchj)
+
+本专题整合了layui表格相关教程合集，阅读专题下面的文章了解更多详细操作。
+
+ 
+
+5
+
+
+ 
+
+2026.03.26
+
+
+
+
+
+[![]()](/faq/pythonjbyxjch)
+[Python脚本运行教程合集](/faq/pythonjbyxjch)
+
+本专题整合了python脚本相关教程，阅读专题下面的文章了解更多详细内容。
+
+ 
+
+5
+
+
+ 
+
+2026.03.26
+
+
+
+
+
+[![]()](/faq/pythondrw)
+[Python多任务](/faq/pythondrw)
+
+本专题整合了Python多任务多线程、多任务处理等等教程，阅读专题下面的文章了解更多详细内容。
+
+ 
+
+5
+
+
+ 
+
+2026.03.26
+
+
+
+
+
+[![]()](/faq/cssdtszjchj)
+[CSS动态设置教程合集](/faq/cssdtszjchj)
+
+本专题整合了CSS动态样式、动态设置等等内容，阅读专题下面的文章了解更多详细内容。
+
+ 
+
+5
+
+
+ 
+
+2026.03.26
+
+
+
+
+
+[![]()](/faq/thinkphpmxxj)
+[ThinkPHP模型详解](/faq/thinkphpmxxj)
+
+本专题整合了ThinkPHP模型相关内容，阅读专题下面的文章了解更多详细介绍。
+
+ 
+
+3
+
+
+ 
+
+2026.03.26
+
+
+
+
+
+[![]()](/faq/javajsonwj)
+[Java JSON文件](/faq/javajsonwj)
+
+本专题整合了Java读取JSON文件、解析json文件等等内容，阅读专题下面的文章了解更多详细操作。
+
+ 
+
+47
+
+
+ 
+
+2026.03.25
+
+
+
+
+
+[![]()](/faq/winqxyhccszjc)
+[win7系统恢复出厂设置教程](/faq/winqxyhccszjc)
+
+本专题整合了win7系统恢复出厂设置相关内容，阅读专题下面的文章了解更多详细操作。
+
+ 
+
+87
+
+
+ 
+
+2026.03.25
+
+
+
+
+
+[![]()](/faq/aiscspgjrktj)
+[AI生成视频工具入口推荐](/faq/aiscspgjrktj)
+
+本专题整合了AI做视频工具推荐、视频生成入口地址汇总等等内容，阅读专题下面的文章了解更多详细内容。
+
+ 
+
+122
+
+
+ 
+
+2026.03.25
+
+
+
+
+
+[![]()](/faq/btmbrzfxyfwq)
+[宝塔面板日志分析与服务器监控实践](/faq/btmbrzfxyfwq)
+
+本专题围绕服务器监控与日志分析展开，讲解访问日志、错误日志查看方法及系统资源监控策略，帮助用户快速定位网站问题。
+
+ 
+
+8
+
+
+ 
+
+2026.03.25
+
+
+
+
+
+
+
+ 
+
+热门下载
+
+
+[更多](/xiazai)
+
+网站特效   /
+网站源码  /
+网站素材  /
+前端模板 
+
+* [[图片特效]jQuery响应式卡片轮播切换代码](/xiazai/js/9095)
+* [[图片特效]百度翻译手机版jQuery焦点图](/xiazai/js/9094)
+* [[图片特效]jQuery仿百度新闻首页焦点图](/xiazai/js/9093)
+* [[图片特效]jQuery zoom相册弹出层插件](/xiazai/js/9092)
+* [[图片特效]jquery虚拟桌面图片拖拽](/xiazai/js/9091)
+* [[图片特效]jQuery响应式幻灯片代码](/xiazai/js/9090)
+* [[图片特效]Jquery图片展示放大增加代码](/xiazai/js/9089)
+* [[图片特效]jQuery图片展示插件Revealing](/xiazai/js/9088)
+* [[图片特效]带缩略图移动端jQuery幻灯片](/xiazai/js/9087)
+* [[图片特效]jQuery仿京东商城图片变亮变暗效果](/xiazai/js/9086)
+
+* [[企业站源码]得推智能多语言企业建站系统1.0](/xiazai/code/11356)
+* [[电商源码]openaishop](/xiazai/code/11355)
+* [[其它模板]思翔企(事)业单位文件柜 build 20080313](/xiazai/code/11354)
+* [[企业站源码]雅龙智能装备工业设备类WordPress主题1.0](/xiazai/code/11353)
+* [[电商源码]威发卡自动发卡系统](/xiazai/code/11352)
+* [[电商源码]卡密分发系统](/xiazai/code/11351)
+* [[电商源码]中华陶瓷网](/xiazai/code/11350)
+* [[电商源码]简洁粉色食品公司网站](/xiazai/code/11349)
+* [[电商源码]极速网店系统](/xiazai/code/11348)
+* [[电商源码]淘宝妈妈\_淘客推广系统](/xiazai/code/11347)
+
+* [[网站素材]极简咖啡书店标志矢量模板](/xiazai/sucai/4589)
+* [[网站素材]水彩春季浆果合集矢量素材](/xiazai/sucai/4588)
+* [[网站素材]复活节主题中横幅banner设计下载](/xiazai/sucai/4587)
+* [[网站素材]水彩萌趣丛林动物合集矢量素材](/xiazai/sucai/4586)
+* [[网站素材]婚礼邀请卡展示样机ps素材下载](/xiazai/sucai/4585)
+* [[网站素材]极简城市地标线稿合集矢量素材](/xiazai/sucai/4584)
+* [[网站素材]手绘快餐汉堡套餐插画矢量素材](/xiazai/sucai/4583)
+* [[网站素材]蓝色风格愚人节海报PSD模板设计下载](/xiazai/sucai/4582)
+* [[网站素材]旅行出游元素图标合集矢量素材](/xiazai/sucai/4581)
+* [[网站素材]视觉艺术商务宣传INS模板设计下载](/xiazai/sucai/4580)
+
+* [[前端模板]驾照考试驾校HTML5网站模板](/xiazai/code/8590)
+* [[前端模板]驾照培训服务机构宣传网站模板](/xiazai/code/8589)
+* [[前端模板]HTML5房地产公司宣传网站模板](/xiazai/code/8588)
+* [[前端模板]新鲜有机肉类宣传网站模板](/xiazai/code/8587)
+* [[前端模板]响应式天气预报宣传网站模板](/xiazai/code/8586)
+* [[前端模板]房屋建筑维修公司网站CSS模板](/xiazai/code/8585)
+* [[前端模板]响应式志愿者服务网站模板](/xiazai/code/8584)
+* [[前端模板]创意T恤打印店网站HTML5模板](/xiazai/code/8583)
+* [[前端模板]网页开发岗位简历作品展示网页模板](/xiazai/code/8582)
+* [[前端模板]响应式人力资源机构宣传网站模板](/xiazai/code/8581)
+
+
+
+ 
+
+相关下载
+
+
+[更多](/xiazai)
+
+[php商城系统](/xiazai/code/11178)
+[淘源码商城PHP淘宝查信誉](/xiazai/code/11177)
+[PHP房产程序[BBWPS]](/xiazai/code/11165)
+[PHP简约自动发卡平台个人版](/xiazai/code/11128)
+[ERMEB域名PHP离线网络授权系统](/xiazai/code/11040)
+[Difeye-敏捷的轻量级PHP框架](/xiazai/code/11037)
+[大泉州汽车网PHP整站程序](/xiazai/code/10963)
+
+
+ 
+
+精品课程
+
+
+[更多](/course/sort_new.html)
+
+相关推荐   /
+热门推荐  /
+最新课程 
+
+
+[![]()](/course/1656.html)
+[JavaScript ES5基础线上课程教学](/course/1656.html)
+
+共6课时 | 11.4万人学习
+
+
+
+
+[![]()](/course/812.html)
+[最新ThinkPHP 5.1全球首发视频教程(60天成就PHP大牛线上培训班课)](/course/812.html)
+
+共79课时 | 154.6万人学习
+
+
+
+
+[![]()](/course/639.html)
+[phpStudy极速入门视频教程](/course/639.html)
+
+共6课时 | 53.7万人学习
+
+
+
+
+
+[![]()](/course/1714.html)
+[Google Gemini 聊天生成式 AI 最全攻略：从新手到专精，超详细使用教学指南](/course/1714.html)
+
+共2课时 | 18人学习
+
+
+
+
+[![]()](/course/1696.html)
+[最新Python教程 从入门到精通](/course/1696.html)
+
+共4课时 | 22.6万人学习
+
+
+
+
+[![]()](/course/1656.html)
+[JavaScript ES5基础线上课程教学](/course/1656.html)
+
+共6课时 | 11.4万人学习
+
+
+
+
+
+
+
+ 
+
+最新文章
+
+
+更多
+
+[骡子快跑手机版怎么下载 骡子快跑APP使用方法](/faq/2259127.html)
+[Perplexity AI怎么做需求文档\_Perplexity AI软件需求规格撰写【产品】](/faq/2259126.html)
+[性能优化指南：如何通过 Prompt 压缩技术显著降低 Gemini 的首字延迟](/faq/2259125.html)
+[Midjourney做视频的秘密入口 结合AI工具实现动画效果](/faq/2259117.html)
+[MuleRun如何注册账号\_MuleRun账号注册与激活完整指南](/faq/2259116.html)
+[WorkBuddy AI怎么做课件\_WorkBuddy AI教学课件PPT生成教程【入门】](/faq/2259110.html)
+[OpenClawAI能跑Phi-3吗\_OpenClawAI部署Phi-3模型的方法【方法】](/faq/2259100.html)
+[AI视频时长限制怎么办？突破限制的拼接与扩展技巧。](/faq/2259078.html)
+[Mulerun如何删除作品 Mulerun库文件管理方法](/faq/2259076.html)
+[AI视频生成领域的“文心一言”：百度家的视频工具有多强？](/faq/2259067.html)
+
+
+
+
+
+
+[关于我们](/about/us.html)
+[免责申明](/about/disclaimer.html)
+[举报中心](/about/jbzx.html)
+[意见反馈](javascript:;)
+[讲师合作](https://www.php.cn/teacher.html)
+[广告合作](https://www.php.cn/blog/detail/20304.html)
+[最新更新](/new/)
+
+
+php中文网：公益在线php培训，帮助PHP学习者快速成长！
+[关注服务号](javascript:;)
+*微信扫码  
+关注PHP中文网服务号
+
+![]()*
+
+[技术交流群](tencent://message/?uin=27220243&Site=www.php.cn&Menu=yes)
+*QQ扫码  
+加入技术交流群
+
+![]()*
+
+
+
+
+
+![]()
+PHP中文网订阅号
+每天精选资源文章推送
+
+
+
+
+
+Copyright 2014-2026 <https://www.php.cn/> All Rights Reserved | php.cn | [湘ICP备2023035733号](https://beian.miit.gov.cn/)
+
+
+
+
+
+
+
+
+ 
+
+- [PHP学习](/k24.html)
+- [技术支持](https://www.php.cn/blog/detail/1047189.html)
+- [返回顶部](#)
+
+
+
+
+
+

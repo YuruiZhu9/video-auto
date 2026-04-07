@@ -1,0 +1,703 @@
+# Source URL: https://www.programmercarl.com/0052.N%E7%9A%87%E5%90%8EII.html
+# Content Length: 12025 characters
+# Extracted at: 2026-04-03 07:05:01
+#============================================================
+
+
+
+
+52. N皇后II | 回溯 | 剪枝 | 代码随想录
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ [![]() 代码随想录](/)  [首页](/)[拓展阅读](/前序/时间复杂度.html)[卡码投递表
+  (opens new window)](https://toudi.kamacoder.com/)[大厂算法](/ke/bishi.html)[🔥卡码笔记
+  (opens new window)](https://notes.kamacoder.com)[⭐️知识星球⭐️](/other/kstar.html)⭐️训练营⭐️  ⭐️训练营⭐️ 
+
+* [算法训练营](/xunlian/xunlianying.html)
+* [八股训练营](/xunlian/bagu.html)
+* [卡码大模型训练营（校招、社招](/xunlian/damoxing.html)
+* [卡码C++训练营（校招、社招](/xunlian/kamac.html)
+* [卡码Java/Go训练营（校招、社招突击](/xunlian/houduan.html)
+* [卡码Java/Go训练营1V1私教（社招系统提升](/xunlian/houduan1v1.html)
+* [华为OD专项练习](/xunlian/huaweiod.html)
+免费资源  免费资源 
+
+* [完整PDF下载](/qita/algo_pdf.html)
+* [ACM模式输出输出练习](/qita/acm1.html)
+* [代码随想录题单](/qita/12.list.html)
+[Github
+  (opens new window)](https://github.com/youngyangyang04/leetcode-master)   [首页](/)[拓展阅读](/前序/时间复杂度.html)[卡码投递表
+  (opens new window)](https://toudi.kamacoder.com/)[大厂算法](/ke/bishi.html)[🔥卡码笔记
+  (opens new window)](https://notes.kamacoder.com)[⭐️知识星球⭐️](/other/kstar.html)⭐️训练营⭐️  ⭐️训练营⭐️ 
+
+* [算法训练营](/xunlian/xunlianying.html)
+* [八股训练营](/xunlian/bagu.html)
+* [卡码大模型训练营（校招、社招](/xunlian/damoxing.html)
+* [卡码C++训练营（校招、社招](/xunlian/kamac.html)
+* [卡码Java/Go训练营（校招、社招突击](/xunlian/houduan.html)
+* [卡码Java/Go训练营1V1私教（社招系统提升](/xunlian/houduan1v1.html)
+* [华为OD专项练习](/xunlian/huaweiod.html)
+免费资源  免费资源 
+
+* [完整PDF下载](/qita/algo_pdf.html)
+* [ACM模式输出输出练习](/qita/acm1.html)
+* [代码随想录题单](/qita/12.list.html)
+[Github
+  (opens new window)](https://github.com/youngyangyang04/leetcode-master) 
+
+* 编程语言基础
+  
+  + [编程语言基础课](/qita/language.html)
+* 数组
+* 链表
+* 哈希表
+* 字符串
+* 双指针法
+* 栈与队列
+* 二叉树
+* 回溯算法
+* 贪心算法
+* 动态规划
+* 单调栈
+* 图论
+* 额外题目 
+  
+  + [本模块说明](/qita/ewaishuoming.html)
+  + [数组：有多少小于当前数字的数字](/1365.有多少小于当前数字的数字.html)
+  + [数组：有效的山脉数组](/0941.有效的山脉数组.html)
+  + [数组：独一无二的出现次数](/1207.独一无二的出现次数.html)
+  + [数组：移动零](/0283.移动零.html)
+  + [数组：旋转数组](/0189.旋转数组.html)
+  + [数组：寻找数组的中心索引](/0724.寻找数组的中心索引.html)
+  + [数组：在排序数组中查找元素的第一个和最后一个位置](/0034.在排序数组中查找元素的第一个和最后一个位置.html)
+  + [数组：按奇偶排序数组II](/0922.按奇偶排序数组II.html)
+  + [数组：搜索插入位置](/0035.搜索插入位置.html)
+  + [链表：两两交换链表中的节点](/0024.两两交换链表中的节点.html)
+  + [链表：回文链表](/0234.回文链表.html)
+  + [链表：重排链表](/0143.重排链表.html)
+  + [链表：环形链表](/0141.环形链表.html)
+  + [链表：相交链表](/0160.相交链表.html)
+  + [哈希表：同构字符串](/0205.同构字符串.html)
+  + [哈希表：查找常用字符](/1002.查找常用字符.html)
+  + [字符串：长按键入](/0925.长按键入.html)
+  + [字符串：比较含退格的字符串](/0844.比较含退格的字符串.html)
+  + [二叉树：求根到叶子节点数字之和](/0129.求根到叶子节点数字之和.html)
+  + [二叉树：将二叉搜索树变平衡](/1382.将二叉搜索树变平衡.html)
+  + [二叉树：相同的树](/0100.相同的树.html)
+  + [二叉树：填充每个节点的下一个右侧节点指针](/0116.填充每个节点的下一个右侧节点指针.html)
+  + [回溯算法：N皇后II](/0052.N皇后II.html)
+    - [思路](/0052.N皇后II.html#思路)
+    - [其他语言补充](/0052.N皇后II.html#其他语言补充)
+  + [贪心：Dota2参议院](/0649.Dota2参议院.html)
+  + [贪心：分割平衡字符串](/1221.分割平衡字符串.html)
+  + [动态规划：最长回文子串](/0005.最长回文子串.html)
+  + [动态规划：分割回文串II](/0132.分割回文串II.html)
+  + [动态规划：最长递增子序列的个数](/0673.最长递增子序列的个数.html)
+  + [图论：钥匙和房间](/0841.钥匙和房间.html)
+  + [图论：单词接龙](/0127.单词接龙.html)
+  + [并查集：冗余连接](/0684.冗余连接.html)
+  + [并查集：冗余连接II](/0685.冗余连接II.html)
+  + [模拟：机器人能否返回原点](/0657.机器人能否返回原点.html)
+  + [模拟：下一个排列](/0031.下一个排列.html)
+  + [模拟：岛屿的周长](/0463.岛屿的周长.html)
+  + [位运算：根据数字二进制下1的数目排序](/1356.根据数字二进制下1的数目排序.html)
+* 持续更新中...
+* 感悟
+  
+  + [通关代码随想录](/qita/say_feel.html)
+  
+
+[#](#_52-n皇后ii) 52. N皇后II
+=========================
+
+题目链接：[https://leetcode.cn/problems/n-queens-ii/  (opens new window)](https://leetcode.cn/problems/n-queens-ii/)
+
+n 皇后问题研究的是如何将 n 个皇后放置在 n×n 的棋盘上，并且使皇后彼此之间不能相互攻击。
+
+上图为 8 皇后问题的一种解法。
+
+![]()
+
+给定一个整数 n，返回 n 皇后不同的解决方案的数量。
+
+示例:
+
+输入: 4
+
+输出: 2
+
+解释: 4 皇后问题存在如下两个不同的解法。
+
+解法 1
+
+[
+ [".Q..",
+  "...Q",
+  "Q...",
+  "..Q."],
+
+解法 2
+
+["..Q.",
+  "Q...",
+  "...Q",
+  ".Q.."]
+]
+
+[#](#思路) 思路
+-----------
+
+详看：[51.N皇后  (opens new window)](https://mp.weixin.qq.com/s/lU_QwCMj6g60nh8m98GAWg) ，基本没有区别
+
+```
+class Solution {
+private:
+int count = 0;
+void backtracking(int n, int row, vector<string>& chessboard) {
+    if (row == n) {
+        count++;
+        return;
+    }
+    for (int col = 0; col < n; col++) {
+        if (isValid(row, col, chessboard, n)) {
+            chessboard[row][col] = 'Q'; // 放置皇后
+            backtracking(n, row + 1, chessboard);
+            chessboard[row][col] = '.'; // 回溯
+        }
+    }
+}
+bool isValid(int row, int col, vector<string>& chessboard, int n) {
+    int count = 0;
+    // 检查列
+    for (int i = 0; i < row; i++) { // 这是一个剪枝
+        if (chessboard[i][col] == 'Q') {
+            return false;
+        }
+    }
+    // 检查 45度角是否有皇后
+    for (int i = row - 1, j = col - 1; i >=0 && j >= 0; i--, j--) {
+        if (chessboard[i][j] == 'Q') {
+            return false;
+        }
+    }
+    // 检查 135度角是否有皇后
+    for(int i = row - 1, j = col + 1; i >= 0 && j < n; i--, j++) {
+        if (chessboard[i][j] == 'Q') {
+            return false;
+        }
+    }
+    return true;
+}
+
+public:
+    int totalNQueens(int n) {
+        std::vector<std::string> chessboard(n, std::string(n, '.'));
+        backtracking(n, 0, chessboard);
+        return count;
+
+    }
+};
+
+```
+1  
+2  
+3  
+4  
+5  
+6  
+7  
+8  
+9  
+10  
+11  
+12  
+13  
+14  
+15  
+16  
+17  
+18  
+19  
+20  
+21  
+22  
+23  
+24  
+25  
+26  
+27  
+28  
+29  
+30  
+31  
+32  
+33  
+34  
+35  
+36  
+37  
+38  
+39  
+40  
+41  
+42  
+43  
+44  
+45  
+46  
+47  
+
+[#](#其他语言补充) 其他语言补充
+-------------------
+
+### [#](#javascript) JavaScript
+
+```
+var totalNQueens = function(n) {
+    let count = 0;
+    const backtracking = (n, row, chessboard) => {
+        if(row === n){
+            count++;
+            return;
+        }
+        for(let col = 0; col < n; col++){
+            if(isValid(row, col, chessboard, n)) { // 验证合法就可以放
+                chessboard[row][col] = 'Q'; // 放置皇后
+                backtracking(n, row + 1, chessboard);
+                chessboard[row][col] = '.'; // 回溯
+            }
+        }
+    }
+
+    const isValid = (row, col, chessboard, n) => {
+        // 检查列
+        for(let i = 0; i < row; i++){ // 这是一个剪枝
+            if(chessboard[i][col] === 'Q'){
+                return false;
+            }
+        }
+        // 检查 45度角是否有皇后
+        for(let i = row - 1, j = col - 1; i >= 0 && j >= 0; i--, j--){
+            if(chessboard[i][j] === 'Q'){
+                return false;
+            }
+        }
+        // 检查 135度角是否有皇后
+        for(let i = row - 1, j = col + 1; i >= 0 && j < n; i--, j++){
+            if(chessboard[i][j] === 'Q'){
+                return false;
+            }
+        }
+        return true;
+    }
+    const chessboard = new Array(n).fill([]).map(() => new Array(n).fill('.'));
+    backtracking(n, 0, chessboard);
+    return count;
+};
+
+```
+1  
+2  
+3  
+4  
+5  
+6  
+7  
+8  
+9  
+10  
+11  
+12  
+13  
+14  
+15  
+16  
+17  
+18  
+19  
+20  
+21  
+22  
+23  
+24  
+25  
+26  
+27  
+28  
+29  
+30  
+31  
+32  
+33  
+34  
+35  
+36  
+37  
+38  
+39  
+40  
+41  
+### [#](#typescript) TypeScript
+
+```
+// 0-该格为空，1-该格有皇后
+type GridStatus = 0 | 1;
+function totalNQueens(n: number): number {
+    let resCount: number = 0;
+    const chess: GridStatus[][] = new Array(n).fill(0)
+        .map(_ => new Array(n).fill(0));
+    backTracking(chess, n, 0);
+    return resCount;
+    function backTracking(chess: GridStatus[][], n: number, startRowIndex: number): void {
+        if (startRowIndex === n) {
+            resCount++;
+            return;
+        }
+        for (let j = 0; j < n; j++) {
+            if (checkValid(chess, startRowIndex, j, n) === true) {
+                chess[startRowIndex][j] = 1;
+                backTracking(chess, n, startRowIndex + 1);
+                chess[startRowIndex][j] = 0;
+            }
+        }
+    }
+};
+function checkValid(chess: GridStatus[][], i: number, j: number, n: number): boolean {
+    // 向上纵向检查
+    let tempI: number = i - 1,
+        tempJ: number = j;
+    while (tempI >= 0) {
+        if (chess[tempI][tempJ] === 1) return false;
+        tempI--;
+    }
+    // 斜向左上检查
+    tempI = i - 1;
+    tempJ = j - 1;
+    while (tempI >= 0 && tempJ >= 0) {
+        if (chess[tempI][tempJ] === 1) return false;
+        tempI--;
+        tempJ--;
+    }
+    // 斜向右上检查
+    tempI = i - 1;
+    tempJ = j + 1;
+    while (tempI >= 0 && tempJ < n) {
+        if (chess[tempI][tempJ] === 1) return false;
+        tempI--;
+        tempJ++;
+    }
+    return true;
+}
+
+```
+1  
+2  
+3  
+4  
+5  
+6  
+7  
+8  
+9  
+10  
+11  
+12  
+13  
+14  
+15  
+16  
+17  
+18  
+19  
+20  
+21  
+22  
+23  
+24  
+25  
+26  
+27  
+28  
+29  
+30  
+31  
+32  
+33  
+34  
+35  
+36  
+37  
+38  
+39  
+40  
+41  
+42  
+43  
+44  
+45  
+46  
+47  
+48  
+### [#](#c) C
+
+```
+//path[i]为在i行，path[i]列上存在皇后
+int *path;
+int pathTop;
+int answer;
+//检查当前level行index列放置皇后是否合法
+int isValid(int index, int level) {
+    int i;
+    //updater为若斜角存在皇后，其所应在的列
+    //用来检查左上45度是否存在皇后
+    int lCornerUpdater = index - level;
+    //用来检查右上135度是否存在皇后
+    int rCornerUpdater = index + level;
+    for(i = 0; i < pathTop; ++i) {
+        //path[i] == index检查index列是否存在皇后
+        //检查斜角皇后：只要path[i] == updater，就说明当前位置不可放置皇后。
+        //path[i] == lCornerUpdater检查左上角45度是否有皇后
+        //path[i] == rCornerUpdater检查右上角135度是否有皇后
+        if(path[i] == index || path[i] == lCornerUpdater || path[i] == rCornerUpdater)
+            return 0;
+        //更新updater指向下一行对应的位置
+        ++lCornerUpdater;
+        --rCornerUpdater;
+    }
+    return 1;
+}
+
+//回溯算法：level为当前皇后行数
+void backTracking(int n, int level) {
+    //若path中元素个数已经为n，则证明有一种解法。answer+1
+    if(pathTop == n) {
+        ++answer;
+        return;
+    }
+
+    int i;
+    for(i = 0; i < n; ++i) {
+        //若当前level行，i列是合法的放置位置。就将i放入path中
+        if(isValid(i, level)) {
+            path[pathTop++] = i;
+            backTracking(n, level + 1);
+            //回溯
+            --pathTop;
+        }
+    }
+}
+
+int totalNQueens(int n){
+    answer = 0;
+    pathTop = 0;
+    path = (int *)malloc(sizeof(int) * n);
+
+    backTracking(n, 0);
+
+    return answer;
+}
+
+```
+1  
+2  
+3  
+4  
+5  
+6  
+7  
+8  
+9  
+10  
+11  
+12  
+13  
+14  
+15  
+16  
+17  
+18  
+19  
+20  
+21  
+22  
+23  
+24  
+25  
+26  
+27  
+28  
+29  
+30  
+31  
+32  
+33  
+34  
+35  
+36  
+37  
+38  
+39  
+40  
+41  
+42  
+43  
+44  
+45  
+46  
+47  
+48  
+49  
+50  
+51  
+52  
+53  
+54  
+55  
+### [#](#java) Java
+
+```
+class Solution {
+    int count = 0;
+    public int totalNQueens(int n) {
+        char[][] board = new char[n][n];
+        for (char[] chars : board) {
+            Arrays.fill(chars, '.');
+        }
+        backTrack(n, 0, board);
+        return count;
+    }
+    private void backTrack(int n, int row, char[][] board) {
+        if (row == n) {
+            count++;
+            return;
+        }
+        for (int col = 0; col < n; col++) {
+            if (isValid(row, col, n, board)) {
+                board[row][col] = 'Q';
+                backTrack(n, row + 1, board);
+                board[row][col] = '.';
+            }
+        }
+    }
+    private boolean isValid(int row, int col, int n, char[][] board) {
+        // 检查列
+        for (int i = 0; i < row; ++i) {
+            if (board[i][col] == 'Q') {
+                return false;
+            }
+        }
+        // 检查45度对角线
+        for (int i = row - 1, j = col - 1; i >= 0 && j >= 0; i--, j--) {
+            if (board[i][j] == 'Q') {
+                return false;
+            }
+        }
+        // 检查135度对角线
+        for (int i = row - 1, j = col + 1; i >= 0 && j <= n - 1; i--, j++) {
+            if (board[i][j] == 'Q') {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+```
+1  
+2  
+3  
+4  
+5  
+6  
+7  
+8  
+9  
+10  
+11  
+12  
+13  
+14  
+15  
+16  
+17  
+18  
+19  
+20  
+21  
+22  
+23  
+24  
+25  
+26  
+27  
+28  
+29  
+30  
+31  
+32  
+33  
+34  
+35  
+36  
+37  
+38  
+39  
+40  
+41  
+42  
+43  
+44  
+45  
+  上次更新：: 3/20/2026, 7:00:13 PM 
+
+
+←
+[二叉树：填充每个节点的下一个右侧节点指针](/0116.填充每个节点的下一个右侧节点指针.html) [贪心：Dota2参议院](/0649.Dota2参议院.html)
+→
+
+
+ 
+### 评论
+
+ 
+
+验证登录状态...
+
+    
+@2021-2026 代码随想录 版权所有
+**[粤ICP备19156078号](https://beian.miit.gov.cn)**  ![]() 侧边栏 ![]() 夜间 [![]() 卡码简历](https://jianli.kamacoder.com/) [![]() 最强八股文🔥](https://notes.kamacoder.com) [![]() 卡码投递表🔥](https://toudi.kamacoder.com) ![]() 算法群  添加客服微信 ![]()
+PS：通过微信后，请发送**姓名-学校/城市-年级/岗位-组队刷题** ![]() 2026实习校招群  添加客服微信 ![]()
+PS：通过微信后，请发送**姓名-学校-年级-2026实习/校招** ![]() PDF下载  添加客服微信，发你《代码随想录》PDF ![]()
+PS：通过微信后，**姓名-学校/城市-年级/岗位-PDF** ![]() 支持代码随想录  鼓励/支持/赞赏Carl ![]()   
+1. 如果感觉本站对你很有帮助，也可以请Carl喝杯奶茶，金额大小不重要，心意已经收下
+  
+2. 希望大家都能梦想成真，有好的前程，加油💪
+  
+
+

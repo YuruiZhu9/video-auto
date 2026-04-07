@@ -1,0 +1,1336 @@
+# Source URL: https://blog.lightnote.com.cn/openclaw-complete-tutorial-from-beginner-to-expert/
+# Content Length: 34041 characters
+# Extracted at: 2026-04-05 05:03:17
+#============================================================
+
+
+OpenClaw 完全教程：从入门到精通
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[![]()](https://blog.lightnote.com.cn)
+
+
+
+* [首页](https://blog.lightnote.com.cn/)
+* [关于](https://blog.lightnote.com.cn/about/)
+* [MCP集合](https://blog.lightnote.com.cn/tag/mcp/)
+* [QQ的文章](https://blog.lightnote.com.cn/author/qq/)
+* [音乐学习](https://www.lightnote.com.cn/)
+* [开发者小工具](https://tool.lightnote.com.cn/)
+
+[Sign in](#/portal/signin)
+[Subscribe](#/portal/signup)
+
+
+
+
+[AI新概念](/tag/ai/)
+
+ Featured
+
+OpenClaw 完全教程：从入门到精通
+====================
+
+OpenClaw 是一个开源、自托管的 AI Agent 网关，绰号「龙虾」（Lobster）。它的核心理念是：将 AI 大模型的能力接入你日常使用的每一个消息平台，让 AI 真正成为你 24 小时在线的个人助理。
+
+* [![]()](/author/qq/)
+
+#### [为什么叫QQ？](/author/qq/)
+
+13 3月 2026
+• 39 min read
+
+
+
+
+![]()
+
+
+> **版本说明**：本教程基于 OpenClaw v2026.3.8（2026年3月），内容涵盖安装部署、渠道接入、Skills系统、模型配置、安全防护与成本控制全流程。
+
+目录
+--
+
+1. [什么是 OpenClaw](#1-什么是-openclaw)
+2. [核心架构解析](#2-核心架构解析)
+3. [安装与初始化](#3-安装与初始化)
+4. [部署方案选择](#4-部署方案选择)
+5. [渠道接入指南](#5-渠道接入指南)
+6. [Skills 技能系统](#6-skills-技能系统)
+7. [模型配置与选型](#7-模型配置与选型)
+8. [安全防护指南](#8-安全防护指南)
+9. [成本控制策略](#9-成本控制策略)
+10. [国内生态与平替产品](#10-国内生态与平替产品)
+11. [常见问题 FAQ](#11-常见问题-faq)
+12. [命令速查表](#12-命令速查表)
+13. [资源链接](#13-资源链接)
+
+1. 什么是 OpenClaw
+---------------
+
+OpenClaw 是一个**开源、自托管的 AI Agent 网关**，绰号「龙虾」（Lobster）。它的核心理念是：将 AI 大模型的能力接入你日常使用的每一个消息平台，让 AI 真正成为你 24 小时在线的个人助理。
+
+与 ChatGPT 等对话式 AI 的本质区别在于，OpenClaw 是一个**主动执行任务的 Agent**，而非被动回答问题的顾问。它可以管理你的邮件、操作浏览器、执行 Shell 命令、读写文件，并且所有数据完全存储在你自己的服务器上。
+
+### 1.1 项目基本信息
+
+| 属性 | 详情 |
+| --- | --- |
+| **开源协议** | MIT（完全免费） |
+| **GitHub Stars** | 约 60,000+（2026年3月） |
+| **贡献者** | 1,075+ |
+| **更新频率** | 近乎每日更新 |
+| **当前推荐版本** | v2026.3.8 |
+| **官网** | [openclaw.ai](https://openclaw.ai/?ref=blog.lightnote.com.cn) |
+| **GitHub** | [github.com/openclaw/openclaw](https://github.com/openclaw/openclaw?ref=blog.lightnote.com.cn) |
+
+### 1.2 OpenClaw 能做什么
+
+OpenClaw 的核心能力可以概括为三类场景：
+
+**生活自动化**：接管邮件、日历、消息管理；浏览网页、填写表单、数据抽取；文件读写、Shell 命令执行；智能提醒与行程规划。
+
+**多平台接入**：支持 20+ 聊天平台，包括 Telegram、Discord、WhatsApp、Slack、飞书、钉钉、QQ、企业微信等。一个 Agent 实例可以同时在所有平台上响应你的指令。
+
+**企业部署**：作为客服机器人、运营助手、数据分析员，通过 openclaw-china 插件三步完成国内企业平台的 Docker 部署。
+
+### 1.3 OpenClaw 与 ChatGPT 的区别
+
+| 维度 | ChatGPT | OpenClaw |
+| --- | --- | --- |
+| **角色定位** | 顾问（你问它答） | 员工（主动执行任务） |
+| **数据归属** | 存储在 OpenAI 服务器 | 完全在你自己的服务器 |
+| **平台接入** | 仅 ChatGPT 界面 | 20+ 消息平台 |
+| **持久记忆** | 有限的会话记忆 | 四层记忆系统，长期学习 |
+| **可扩展性** | 有限 | ClawHub 13,729+ Skills |
+| **成本结构** | 订阅制 | 软件免费，自付 API 费用 |
+
+2. 核心架构解析
+---------
+
+理解 OpenClaw 的架构是用好它的前提。整个系统由三个核心层次构成：
+
+![]()
+### 2.1 Gateway（网关）
+
+Gateway 是 OpenClaw 的核心枢纽，默认监听 `ws://127.0.0.1:18789`。它负责：
+
+* 统一接收来自所有消息平台的消息
+* 将消息路由给 AI 模型进行处理
+* 将 AI 的响应发回对应平台
+* 管理 Skills 的加载与执行
+
+启动 Gateway 的基本命令：
+
+```
+openclaw gateway --port 18789 --verbose
+
+```
+### 2.2 四层记忆系统
+
+OpenClaw 的记忆系统是它区别于普通聊天机器人的关键特性。四层记忆从持久到临时依次为：
+
+![]()
+
+| 层级 | 文件 | 说明 | 持久性 |
+| --- | --- | --- | --- |
+| **第一层** | `SOUL.md` | Agent 的核心人格与行为准则，每次会话都会加载 | 永久 |
+| **第二层** | `TOOLS.md` | 可用工具列表，由系统自动生成 | 自动维护 |
+| **第三层** | `USER.md` | 用户偏好与习惯，长期学习积累 | 长期 |
+| **第四层** | Session Memory | 当前会话上下文，会话结束后清除 | 临时 |
+
+> **重要提示**：`SOUL.md` 是 Agent 的「灵魂文件」。ClawHavoc 供应链攻击中，恶意 Skill 专门篡改此文件来「洗脑」Agent。请务必定期检查其内容。
+
+### 2.3 配置文件体系
+
+OpenClaw 使用两个主要配置文件：
+
+* **`openclaw.yaml`**：渠道配置文件，定义各消息平台的连接参数（Bot Token、App ID 等）
+* **`~/.openclaw/openclaw.json`**：核心配置文件，定义模型提供商、Agent 行为、环境变量、预算限制等
+
+3. 安装与初始化
+---------
+
+### 3.1 环境要求
+
+| 依赖 | 最低版本 | 说明 |
+| --- | --- | --- |
+| **Node.js** | >= 22 | 必须 |
+| **npm** | 最新版 | 用于安装 OpenClaw |
+| **操作系统** | macOS / Linux / Windows | 均支持 |
+| **内存** | 1GB+ | 建议 2GB 以上 |
+
+### 3.2 标准安装流程
+
+**第一步：全局安装 OpenClaw**
+
+```
+npm install -g openclaw@latest
+
+```
+> **安全警告**：请务必使用官方包名 `openclaw`，不要安装任何带前缀的变体（如 `@openclaw-ai/openclawai`）。2026年3月曾出现恶意 npm 包 `@openclaw-ai/openclawai` 伪装成官方安装器，实际安装的是 GhostLoader 远程访问木马。
+
+**第二步：引导式初始化**
+
+```
+openclaw onboard --install-daemon
+
+```
+
+此命令会引导你完成：
+
+* 选择 AI 模型提供商并配置 API Key
+* 选择消息渠道（Telegram、Discord 等）
+* 安装守护进程（确保 Gateway 开机自启）
+
+**第三步：诊断检查**
+
+```
+openclaw doctor
+
+```
+
+`openclaw doctor` 会检查以下项目并给出修复建议：
+
+* Node.js 版本是否满足要求（>= 22）
+* 必要的系统依赖是否已安装
+* Gateway 连接是否正常
+* 已配置的模型 API Key 是否有效
+* 守护进程状态
+* 网络连通性
+
+### 3.3 版本管理
+
+OpenClaw 提供三个更新渠道，根据需求选择：
+
+| 渠道 | 命令 | 更新频率 | 稳定性 | 适合人群 |
+| --- | --- | --- | --- | --- |
+| `stable` | `openclaw update --channel stable` | 每周 | 高 | 大多数用户 |
+| `beta` | `openclaw update --channel beta` | 几乎每天 | 中 | 想尝鲜新功能的用户 |
+| `dev` | `openclaw update --channel dev` | 持续 | 低 | 开发者、贡献者 |
+
+### 3.4 本地备份（v2026.3.8+）
+
+v2026.3.8 新增了本地备份工具，强烈建议在升级版本或修改配置前先创建备份：
+
+```
+# 创建完整备份
+openclaw backup create
+
+# 仅备份配置文件
+openclaw backup create --only-config
+
+# 验证备份完整性
+openclaw backup verify
+
+```
+
+---
+
+4. 部署方案选择
+---------
+
+根据你的技术背景和使用需求，OpenClaw 提供四种主要部署方式：
+
+![]()
+### 4.1 本地安装（npm）
+
+**适合人群**：开发者、希望完全控制环境的用户
+
+**优点**：免费（仅需支付 API 费用）、配置灵活、调试方便
+
+**缺点**：需要保持电脑开机，不适合 24/7 在线场景
+
+```
+npm install -g openclaw@latest
+openclaw onboard --install-daemon
+
+```
+### 4.2 Docker 部署
+
+**适合人群**：有 Docker 使用经验的用户
+
+**优点**：环境隔离、易于更新、可移植性强
+
+```
+# 后台启动
+docker-compose up -d
+
+# 查看实时日志
+docker-compose logs -f
+
+# 更新到最新镜像
+docker-compose pull && docker-compose up -d
+
+```
+### 4.3 云服务器部署（推荐）
+
+**适合人群**：需要 24/7 在线服务的大多数用户
+
+**优点**：稳定在线、成本低廉（国内云服务器约 68 元/年起）、支持一键部署
+
+国内主流云服务器方案：
+
+| 方案 | 月费 | 说明 |
+| --- | --- | --- |
+| 阿里云轻量服务器 | 约 ¥6-9/月 | 新用户优惠，2vCPU+2GB 即可运行，最受欢迎 |
+| 腾讯云 Lighthouse | 约 ¥8-12/月 | 类似方案，社区支持好 |
+| Fly.io | 免费起步 | 有免费额度，适合轻度使用 |
+
+### 4.4 一键部署平台
+
+**适合人群**：非技术用户、希望最简部署的用户
+
+* **1Panel**：服务器管理面板，一键部署 OpenClaw，同时管理服务器上的其他服务
+* **Umbrel**：家庭服务器 OS，在个人 NAS/服务器上一键安装 OpenClaw
+
+### 4.5 远程访问配置
+
+当 OpenClaw 运行在远程服务器上时，有以下访问方案：
+
+**Tailscale（官方推荐）**
+
+```
+# Serve：仅 Tailscale 网络内可访问（适合自己的设备访问）
+tailscale serve --bg https+insecure://127.0.0.1:18789
+
+# Funnel：公网可访问（适合 webhook 回调）
+tailscale funnel --bg https+insecure://127.0.0.1:18789
+
+```
+
+**SSH 端口转发**
+
+```
+# 将远程服务器的 18789 端口转发到本地
+ssh -L 18789:127.0.0.1:18789 user@your-server
+
+# 后台运行
+ssh -fNL 18789:127.0.0.1:18789 user@your-server
+
+```
+> **核心建议**：大部分渠道（Telegram long-polling、Discord、Slack Socket Mode、钉钉 Stream 模式）都是 bot 主动连接服务器，不需要公网 IP。只有需要 webhook 回调的场景才需要 Funnel 暴露公网地址。
+
+5. 渠道接入指南
+---------
+
+OpenClaw 通过 Gateway 架构统一连接 20+ 聊天平台。所有渠道共享同一套三步接入模式。
+
+![]()
+### 5.1 统一接入流程
+
+```
+在平台创建凭证 → 写入 openclaw.yaml → 启动 Gateway → 完成配对
+
+```
+
+配对模式（`dmPolicy: pairing`）默认启用，未知发送者需要验证码才能与 bot 对话，这是防止陌生人滥用你的 Agent 的重要安全机制。
+
+### 5.2 新手推荐接入顺序
+
+| 梯队 | 平台 | 耗时 | 推荐理由 |
+| --- | --- | --- | --- |
+| **第一梯队** | Telegram、QQ、微信 | 5-10 分钟 | Telegram 不需公网 IP；QQ 和微信有腾讯官方支持，扫码 1 分钟绑定 |
+| **第二梯队** | Discord、飞书 | 15-20 分钟 | Discord 文档齐全；飞书自 2026.2 起内置支持 |
+| **第三梯队** | WhatsApp、Slack、钉钉、企业微信 | 25-40 分钟 | 配置稍复杂，但社区方案成熟 |
+| **第四梯队** | iMessage、微信个人号 | 需额外条件 | 需要特殊硬件或存在封号风险 |
+
+### 5.3 Telegram（推荐入门 · 5 分钟）
+
+Telegram 是 OpenClaw 官方推荐的入门渠道。使用 long-polling 模式，bot 主动轮询 Telegram 服务器拉取消息，**不需要公网 IP、反向代理或端口转发**。
+
+**接入步骤：**
+
+1. 在 Telegram 搜索 `@BotFather`，向它发送 `/newbot` 命令
+2. 按提示设置 bot 的显示名称和 username（必须以 `bot` 结尾，如 `my_openclaw_bot`）
+3. 创建成功后，BotFather 会返回一个 Bot Token
+4. 将 Token 写入 `openclaw.yaml`：
+
+```
+channels:
+  telegram:
+    enabled: true
+    botToken: "YOUR_BOT_TOKEN"
+    dmPolicy: pairing  # 需配对码才能使用
+
+```
+
+1. 重启 Gateway，在 Telegram 中给你的 bot 发送任意消息，输入配对码即可开始对话
+
+### 5.4 Discord（社区场景首选 · 15-20 分钟）
+
+Discord 适合社区管理和团队协作场景。需要在 Developer Portal 创建 Application 和 Bot。
+
+**接入步骤：**
+
+1. 前往 [discord.com/developers/applications](https://discord.com/developers/applications?ref=blog.lightnote.com.cn)，点击 **New Application**
+2. 进入 Bot 页面，点击 **Reset Token**，复制生成的 Token
+3. 在 Bot 页面开启两个权限：**Message Content Intent** 和 **Server Members Intent**（没有这两个权限 bot 无法读取消息内容）
+4. 在 OAuth2 → URL Generator 中勾选 `bot` scope 和所需权限，生成邀请链接，将 bot 添加到你的 Discord 服务器
+5. 在 Discord 中开启 Developer Mode（设置 → 高级 → 开发者模式），右键复制 Server ID 和你的 User ID
+6. 将这些信息写入 `openclaw.yaml`，启动 Gateway
+7. 在 Discord 中私聊你的 bot，输入配对码（1 小时有效）完成绑定
+
+### 5.5 WhatsApp（日常通讯 · 10-15 分钟）
+
+WhatsApp 使用 Baileys 库通过 QR 码扫码连接，**不需要 WhatsApp Business API**。
+
+**接入步骤：**
+
+1. 安装 OpenClaw 后运行 `openclaw onboard`，选择 WhatsApp 渠道
+2. 终端会显示 QR 码，打开手机 WhatsApp → 设置 → 已连接设备 → 连接新设备，扫描 QR 码
+3. 配对完成后即可在 WhatsApp 中与 bot 对话
+
+> **注意**：建议使用独立号码运行 WhatsApp，不要用主号。Gateway 运行时建议用 Node 而非 Bun（Bun 在 WhatsApp 场景下不稳定）。Session 凭证要当密码管理，session 过期需要重新扫码。
+
+### 5.6 Slack（企业/团队场景 · 25-40 分钟）
+
+Slack 默认使用 Socket Mode（WebSocket），**不需要公网 URL**。
+
+**接入步骤：**
+
+1. 前往 [api.slack.com/apps](https://api.slack.com/apps?ref=blog.lightnote.com.cn)，点击 **Create New App → From scratch**，选择目标 Workspace
+2. 在 Socket Mode 页面启用，生成 App-Level Token（以 `xapp-` 开头），scope 选择 `connections:write`
+3. 在 OAuth & Permissions 中添加权限：`chat:write`、`channels:history`、`channels:read`、`im:write`、`im:history`、`im:read`、`users:read`、`reactions:read`、`reactions:write`、`files:write`
+4. 将 App 安装到 Workspace，获取 Bot User OAuth Token（以 `xoxb-` 开头）
+5. 将 Token 写入 `openclaw.yaml`，启动 Gateway
+
+> **安全提示**：OpenClaw 可以在你的机器上执行真实命令，存在 prompt injection 风险。在 Slack 等多人环境中，建议不要在主力机器上运行 Gateway，使用 VM 或专用服务器。
+
+### 5.7 国内平台接入
+
+#### QQ（国内首选 · 扫码即用）
+
+腾讯官方开放了 QQ Bot 能力给 OpenClaw，扫码 1 分钟即可完成绑定。支持 Markdown、图片、语音、文件等多媒体消息。
+
+1. 用手机 QQ 扫码完成开发者注册（未实名认证的账号需要先完成实名，单个账号最多创建 5 个 Bot）
+2. 在 QQ 开放平台一键创建 Bot，获取 App ID 和 Token
+3. 在 OpenClaw 运行环境中完成配置绑定
+
+### 微信（国内首选 · 扫码即用）
+
+腾讯微信官方开放了 插件能力给 OpenClaw，扫码 1 分钟即可完成绑定。
+
+![]()
+
+1. 打开微信 → 我 → 设置
+2. 关于微信 → 确认版本是 **8.0.70**（必须是最新版）
+3. 返回设置 → 插件
+4. 找到「微信 ClawBot」→ 点详情
+5. 复制安装命令：`npx -y @tencent-weixin/openclaw-weixin-cli@latest install`
+6. 在运行 OpenClaw 的电脑上执行这条命令 → 扫描二维码 → 连接完成
+
+![]()
+#### 飞书（国内企业首选 · OpenClaw 2026.2 起内置）
+
+飞书自 OpenClaw 2026.2 起获得原生内置支持，使用 WebSocket 事件订阅。
+
+1. 在飞书开放平台（[open.feishu.cn](https://open.feishu.cn/?ref=blog.lightnote.com.cn)）创建企业自建应用，获取 App ID 和 App Secret
+2. 运行 `openclaw onboard`，选择 Feishu channel，粘贴 App ID 和 App Secret
+3. 重启 Gateway 后即可在飞书中与 bot 对话
+
+#### 钉钉（社区插件 · Stream 模式免公网）
+
+钉钉通过社区插件接入 OpenClaw，消息接收使用 Stream 模式（WebSocket 长连接），**不需要公网地址**。
+
+```
+# 安装社区插件
+openclaw plugins install @soimy/dingtalk
+
+```
+#### 企业微信（两种模式）
+
+企业微信有两种接入模式：
+
+* **Agent 模式**：XML 回调经典模式
+* **Bot 模式**：JSON 回调，原生 stream 支持
+
+已被腾讯云、火山引擎、天翼云等公有云平台采纳验证。
+
+#### 微信个人号（高风险，谨慎使用）
+
+个人微信没有官方 Bot API，所有方案都是非官方的，**封号风险始终存在**。
+
+| 方案 | 说明 | 风险 |
+| --- | --- | --- |
+| **方案 A：企业微信中转（推荐）** | 通过企业微信接入，再用微信插件打通个人微信 | 低，合法合规 |
+| **方案 B：iPad 协议 + 中转网关** | 走 iPad 协议，稳定性更高 | 中，非官方 |
+| **方案 C：微信小程序** | 2026 年新方案，通过小程序对接 | 低，阿里云/腾讯云有预置镜像 |
+
+#### openclaw-china 统一插件
+
+[BytePioneer-AI/openclaw-china](https://github.com/BytePioneer-AI/openclaw-china?ref=blog.lightnote.com.cn) 提供一站式国内平台支持，覆盖飞书、钉钉、QQ、企业微信、微信五个平台：
+
+```
+git clone https://github.com/BytePioneer-AI/openclaw-china.git
+cd openclaw-china
+pnpm install && pnpm build
+openclaw china setup  # 交互式配置向导
+
+```
+
+6. Skills 技能系统
+--------------
+
+Skills 是 OpenClaw 的能力扩展单元，相当于 AI Agent 的「插件」。
+
+### 6.1 三层优先级体系
+
+OpenClaw 的 Skill 有三个来源，按优先级从高到低排列：
+
+![]()
+
+| 优先级 | 位置 | 说明 |
+| --- | --- | --- |
+| **最高** | `<workspace>/skills/` | 项目级 Skills，只对当前工作区生效 |
+| **中** | `~/.openclaw/skills/` | 用户级 Skills，全局生效，通过 ClawHub 安装 |
+| **最低** | bundled skills | 内置的 55 个 Skills，随 OpenClaw 版本发布，开箱即用 |
+
+如果同名 Skill 存在于多个层级，高优先级会覆盖低优先级。这意味着你可以在 workspace 级别「重写」一个内置 Skill 的行为，而不影响其他项目。
+
+### 6.2 Skill 加载过程
+
+当 OpenClaw 启动或收到消息时，Skills 的加载遵循以下流程：
+
+1. **读取 Skill 元数据**：扫描三层目录，读取每个 Skill 的 `SKILL.md` 文件，解析名称、描述、触发条件、所需环境变量等元信息
+2. **应用环境变量**：如果 Skill 声明了需要的 API Key 或环境变量（如 `GITHUB_TOKEN`），系统会从 `openclaw.json` 的 `env` 字段中注入；缺少必要变量的 Skill 会被静默跳过
+3. **构建 System Prompt**：将所有可用 Skills 的描述注入到 system prompt 中，告知模型当前可以调用哪些能力
+4. **运行后恢复**：Skill 执行完毕后，恢复原始环境变量和上下文状态，避免 Skill 之间互相干扰
+
+### 6.3 ClawHub 技能市场
+
+[ClawHub](https://clawhub.com/?ref=blog.lightnote.com.cn)（`clawhub.com`）是 OpenClaw 的官方 Skill 注册表，类似 npm 之于 Node.js。
+
+| 指标 | 数据 |
+| --- | --- |
+| 总注册技能 | 13,729 |
+| 精选技能（awesome 列表筛选） | 5,494 |
+| 被过滤技能（垃圾/重复/恶意） | 6,940 |
+| 被标记为恶意的 | 800+（约 20%） |
+
+> **重要警告**：ClawHub 的质量问题非常严重。社区项目 [awesome-openclaw-skills](https://github.com/VoltAgent/awesome-openclaw-skills?ref=blog.lightnote.com.cn)（31.4K Stars）从 13,729 个技能中只精选了 5,494 个，剩下的大部分是垃圾、重复或低质量内容。**安装任何第三方 Skill 前，务必查看源码。**
+
+**常用 Skills 管理命令：**
+
+```
+# 安装 Skill
+openclaw skills install <skill-name>
+
+# 搜索 Skill（支持自然语言）
+openclaw skills search "browser automation"
+
+# 列出已安装的 Skills
+openclaw skills list
+
+# 卸载 Skill
+openclaw skills uninstall <skill-name>
+
+```
+### 6.4 必装 Top 10 Skills
+
+| 排名 | Skill 名称 | 用途 |
+| --- | --- | --- |
+| 1 | **Gmail / Google** | 邮件收发、日历管理、Google Docs 读写。基础设施级 Skill |
+| 2 | **Agent Browser** | 浏览器自动化：登录后台、填写表单、截图、导出 PDF |
+| 3 | **Summarize** | 视频、网页、邮件内容的自动摘要 |
+| 4 | **GitHub** | 仓库管理、Issue 处理、PR 审查 |
+| 5 | **Claude Code** | 通过 MCP 协议桥接 Claude Code 能力（Bash、Read、Write、Edit 等） |
+| 6 | **Web Search** | 联网搜索，让 Agent 能获取实时信息 |
+| 7 | **File Manager** | 本地文件的读写、移动、重命名等操作 |
+| 8 | **Calendar** | 日程查看与管理，支持 Google Calendar 等 |
+| 9 | **Translator** | 多语言翻译 |
+| 10 | **Image Gen** | AI 图片生成，集成 DALL-E、Stable Diffusion 等后端 |
+
+> **实用建议**：不要一次性安装太多 Skills。每个 Skill 都会增加 system prompt 的长度，占用上下文窗口。建议从 Top 10 中选择你真正需要的 3-5 个开始，用熟了再逐步扩展。
+
+### 6.5 自建 Skill 指南
+
+一个 Skill 的最小单位就是一个目录加一个 `SKILL.md` 文件。
+
+**目录结构：**
+
+```
+my-skill/
+├── SKILL.md          # 必须。Skill 的核心定义文件
+├── scripts/          # 可选。辅助脚本
+│   └── helper.py
+├── templates/        # 可选。模板文件
+│   └── report.md
+└── README.md         # 可选。说明文档
+
+```
+
+**`SKILL.md` 格式示例：**
+
+```
+# My Custom Skill
+
+## Description
+帮助用户进行每日工作汇总，生成结构化的日报。
+
+## Trigger
+当用户提到「日报」「工作总结」「今日汇报」时激活。
+
+## Instructions
+1. 询问用户今天完成了哪些工作
+2. 按项目分类整理
+3. 标注每项工作的状态（已完成 / 进行中 / 阻塞）
+4. 生成 markdown 格式的日报
+5. 保存到 ~/reports/YYYY-MM-DD.md
+
+## Environment Variables
+- REPORTS_DIR: 日报存储目录（默认 ~/reports）
+
+## Tools Required
+- file_write
+- memory_search
+
+```
+
+**安装方式：**
+
+| 方式 | 位置 | 生效范围 |
+| --- | --- | --- |
+| 项目级 | `<workspace>/skills/my-skill/` | 仅当前工作区 |
+| 全局 | `~/.openclaw/skills/my-skill/` | 所有会话 |
+
+**发布到 ClawHub：**
+
+```
+openclaw clawhub login
+openclaw clawhub publish ./my-skill
+
+```
+### 6.6 Skills 安全警告
+
+**ClawHavoc 供应链攻击（2026年1月-2月）** 是 OpenClaw 历史上最严重的安全事件：
+
+| 指标 | 数据 |
+| --- | --- |
+| 当时 ClawHub 技能总数 | 约 2,857 个 |
+| 初步确认恶意 Skills | 341 个（约 12%） |
+| 后续扫描发现的恶意 Skills | 800+（约 20%） |
+| 受影响设备 | 135,000+ |
+
+攻击者的手法：上传看似专业的 Skill（如「advanced-code-review」「smart-scheduler」），诱导用户安装后植入 Atomic macOS Stealer（AMOS）信息窃取木马，并专门篡改 `SOUL.md` 和 `MEMORY.md` 来「洗脑」Agent。
+
+**安全红线**：拒绝任何要求你「下载 zip 文件」「执行 shell 脚本」「输入密码」的 Skill。
+
+7. 模型配置与选型
+----------
+
+OpenClaw 最大的优势之一是**模型自由**：你不被绑定在某一家厂商上，可以灵活切换主力模型、设置 Fallback 备选链、甚至让不同任务走不同模型。
+
+### 7.1 模型价格全景
+
+![]()
+### 7.2 三个核心配置概念
+
+理解以下三个概念，就能掌握 OpenClaw 的模型配置：
+
+**内置 Provider**：Anthropic、OpenAI、Google、智谱（zai）等无需额外配置，设置 API Key 即可使用。
+
+**自定义 Provider**：DeepSeek、豆包、Kimi 等需要在 `models.providers` 中手动添加。
+
+**Fallback 机制**：主模型不可用时自动切换到备选，这是最核心的省钱策略。
+
+```
+{
+  "env": { "API_KEY_NAME": "sk-xxx" },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "provider/model-name",
+        "fallbacks": ["provider/model-b"]
+      }
+    }
+  },
+  "models": {
+    "mode": "merge",
+    "providers": { /* 自定义 provider 配置 */ }
+  }
+}
+
+```
+> **重要**：设置 `models.mode: "merge"` 非常重要。它能保留所有内置 Provider 的同时叠加你的自定义配置。如果不设置，自定义配置会覆盖内置 Provider。
+
+### 7.3 国际模型配置
+
+#### Anthropic Claude（默认模型，Agent 效果最佳）
+
+Claude 是 OpenClaw 的默认模型提供商，Sonnet 4.6 在工具调用的准确率和稳定性上显著领先其他模型。
+
+| 模型 | 输入 /1M | 输出 /1M | 上下文 | 定位 |
+| --- | --- | --- | --- | --- |
+| Claude Opus 4.6 | $5.00 | $25.00 | 200K | 最强推理，复杂任务 |
+| Claude Sonnet 4.6 | $3.00 | $15.00 | 200K | 主力模型，性价比之选 |
+| Claude Haiku 4.5 | $1.00 | $5.00 | 200K | 轻量任务，高速低成本 |
+
+```
+# 环境变量方式配置
+ANTHROPIC_API_KEY=sk-ant-xxx
+
+```
+> **重要警告**：Anthropic 已封杀 OAuth 认证方式。使用 Claude Pro/Max 订阅账户通过 OAuth 连接 OpenClaw 的用户会收到警告甚至被锁定账户。目前唯一合法路径是使用 API Key（按量付费）。
+
+**省钱技巧**：Batch API 可享 50% 折扣；Prompt Caching 可降低重复上下文成本达 90%；日常任务用 Sonnet 即可，复杂任务再升级 Opus。
+
+#### OpenAI GPT
+
+| 模型 | 输入 /1M | 输出 /1M | 上下文 |
+| --- | --- | --- | --- |
+| GPT-5.4 | $2.50 | $15.00 | 272K（标准） |
+| GPT-5.4（>272K） | $5.00 | $15.00 | 1.05M |
+| GPT-5 | $1.25 | $10.00 | — |
+
+```
+OPENAI_API_KEY=sk-xxx
+
+```
+#### Google Gemini
+
+| 模型 | 输入 /1M | 输出 /1M | 上下文 |
+| --- | --- | --- | --- |
+| Gemini 3 Pro（≤200K） | $2.00 | $12.00 | 200K |
+| Gemini 3 Pro（>200K） | $4.00 | $18.00 | 2M |
+| Gemini 3 Flash | $0.50 | $3.00 | — |
+
+Gemini 的独家优势是 2M 超长上下文窗口和慷慨的免费额度（Flash 每日有免费请求）。**Gemini Flash 的免费额度非常适合用作心跳（Heartbeat）和定时任务（Cron）的模型**，可以把这部分成本降到零。
+
+### 7.4 国产模型配置
+
+#### DeepSeek（性价比之王）
+
+DeepSeek-V3.2.2 是当前稳定版，输入价格仅 $0.14/M tokens，是目前 OpenClaw 社区最常用的低成本模型。
+
+| 模型 | 输入 /1M | 输出 /1M | 定位 |
+| --- | --- | --- | --- |
+| DeepSeek-V3.2.2 | $0.14 | $0.28 | 当前稳定版，极致低价 |
+| DeepSeek-R1 | $0.55~0.70 | $2.19~2.50 | 深度推理 |
+
+```
+{
+  "env": { "DEEPSEEK_API_KEY": "sk-xxx" },
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "deepseek": {
+        "baseUrl": "https://api.deepseek.com/v1",
+        "apiKey": "${DEEPSEEK_API_KEY}",
+        "api": "openai-completions",
+        "models": [
+          { "id": "deepseek-chat", "contextWindow": 128000, "maxTokens": 8192 }
+        ]
+      }
+    }
+  }
+}
+
+```
+> **注意**：DeepSeek 高峰期偶有延迟甚至不可用，不建议作为唯一 Provider。务必搭配 Fallback 模型兜底。
+
+#### 智谱 GLM（国产最强代码能力）
+
+GLM-5 在 SWE-bench 上拿到了开源模型最高分，价格仅 $0.80/M 输入。OpenClaw 内置了 zai Provider，配置极为简单。
+
+| 模型 | 输入 /1M | 输出 /1M | 定位 |
+| --- | --- | --- | --- |
+| GLM-5 | $0.80 | $2.56 | 最新旗舰，代码能力强 |
+| GLM-4.5 | $0.60 | $2.20 | 上一代主力 |
+| GLM-4.7-Flash | 免费 | 免费 | 轻量免费 |
+
+```
+# 快速配置（内置支持）
+openclaw onboard --auth-choice zai-api-key
+
+```
+#### 通义千问 Qwen
+
+Qwen 3.5 是阿里 2026 年 2 月发布的最新版本（397B 总参数/17B 激活，MoE 架构，已开源）。
+
+| 模型 | 输入 /1M | 输出 /1M | 定位 |
+| --- | --- | --- | --- |
+| Qwen 3.5 Max | $1.20 | $6.00 | 旗舰模型 |
+| Qwen 3.5 Plus | $0.40 | $1.20 | 主力平衡 |
+| Qwen 3.5 Coder | $0.22 | $1.00 | 代码专用，性价比极高 |
+| Qwen 3.5 8B | $0.05 | $0.40 | 轻量低成本 |
+
+```
+# 通过插件接入，设备码认证（无需 API Key）
+openclaw plugins enable qwen-portal-auth
+openclaw gateway restart
+openclaw models auth login --provider qwen-portal --set-default
+
+```
+
+每日 2,000 次免费请求。
+
+#### 其他国产模型
+
+| 提供商 | 代表模型 | 输入 /1M | 输出 /1M | 特色 |
+| --- | --- | --- | --- | --- |
+| 豆包 | Seed 2.0 Pro | $0.47 | $2.37 | 批量处理、低成本 |
+| Kimi | Kimi K2.5 | $0.60 | $3.00 | 中文 Agent、长上下文 |
+| MiniMax | MiniMax M2.5 | $0.50 | $2.00 | SWE-bench 80.2%，代码能力突出 |
+| 百度文心 | 文心 5.0 | ~$0.58 | ~$1.16 | 百度云生态用户 |
+
+### 7.5 聚合平台
+
+**硅基流动 SiliconFlow（国内首选）**：国内最大的模型聚合平台，一个 API 调用多个开源模型，延迟低，有免费额度。
+
+**OpenRouter（国际首选）**：290+ 模型，OpenClaw 内置支持，但有 5.5% 平台费。
+
+```
+openclaw onboard --auth-choice apiKey --token-provider openrouter --token "$OPENROUTER_API_KEY"
+
+```
+### 7.6 本地模型（完全免费）
+
+通过 Ollama 或 LM Studio 运行本地模型，可以实现零 API 成本。
+
+**推荐本地模型：**
+
+| 模型 | 参数量 | 推荐场景 | 最低内存 |
+| --- | --- | --- | --- |
+| Qwen3.5-Coder:32B | 32B | 代码生成、Agent 任务 | 32GB RAM |
+| Devstral-24B | 24B | Agent/工具调用 | 32GB RAM |
+| DeepSeek-R1:14B | 14B | 推理任务 | 16GB RAM |
+| Llama 3.3 | 8B-70B | 通用任务 | 16-64GB RAM |
+
+**Ollama 配置：**
+
+```
+# 拉取模型
+ollama pull qwen2.5:32b
+
+# 设置环境变量（任意值即可）
+OLLAMA_API_KEY=ollama-local
+
+```
+> **注意**：不要使用 `/v1` OpenAI 兼容 URL，会导致工具调用异常。让 OpenClaw 使用原生 Ollama API URL 进行自动发现。
+
+### 7.7 五套推荐方案
+
+根据预算和需求，选择最适合你的方案：
+
+| 方案 | 月均成本 | 主力模型 | 适合人群 |
+| --- | --- | --- | --- |
+| **极致省钱** | <$5 | DeepSeek-V3.2 | 个人开发者、学习探索 |
+| **国产性价比** | $5-15 | GLM-5 | 国内用户，追求中文体验和稳定性 |
+| **国际平衡** | $10-30 | Claude Sonnet 4.6 | 追求 Agent 效果最优、预算充足 |
+| **混合最优（推荐）** | $5-20 | Sonnet + DeepSeek Fallback | 大多数用户的最佳选择 |
+| **完全免费** | $0 | 本地 Ollama 或免费 API 组合 | 隐私敏感、纯实验用途 |
+
+**混合最优方案（推荐）配置示例：**
+
+```
+{
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "anthropic/claude-sonnet-4-6",
+        "fallbacks": [
+          "anthropic/claude-haiku-4-5",
+          "deepseek/deepseek-chat"
+        ]
+      }
+    }
+  }
+}
+
+```
+
+8. 安全防护指南
+---------
+
+![]()
+### 8.1 默认安全机制
+
+OpenClaw 的安全模型建立在「默认不信任」的基础上，提供以下内置保护：
+
+**DM 配对保护**：当未知用户通过任何消息渠道给你的 OpenClaw 发私信时，系统不会处理消息，而是返回一个配对码。只有你手动批准后，该用户的消息才会被处理。
+
+**群组沙箱模式**：在群组环境中，每个群组的会话互相隔离，`MEMORY.md`（长期记忆）只在私聊的 main session 中加载，群组看不到。可以配置 `requireMention`，只有 @ 提及时才响应。
+
+**工具访问控制**：
+
+| 配置项 | 作用 |
+| --- | --- |
+| `allowlist` | 白名单模式，只允许列出的工具被调用 |
+| `denylist` | 黑名单模式，禁止列出的工具 |
+| `browser` 开关 | 可完全禁用浏览器自动化能力 |
+| `canvas` 开关 | 可禁用 Canvas 可视化 |
+| `nodes` 开关 | 可禁用对本地设备节点的控制 |
+
+**v2026.3.7 Gateway 认证要求**：Gateway 认证现在要求显式设置 `gateway.auth.mode`，必须明确选择 `token` 或 `password` 认证方式：
+
+```
+{
+  "gateway": {
+    "auth": {
+      "mode": "token",
+      "token": "your-secret-token"
+    }
+  }
+}
+
+```
+
+**v2026.3.8 ACP 身份验证**：引入了 ACP Provenance（代理身份验证）功能，让 Agent 能验证「谁在跟它交互」：
+
+```
+openclaw acp --provenance off          # 关闭（默认）
+openclaw acp --provenance meta         # 注入来源元数据
+openclaw acp --provenance meta+receipt # 元数据 + 可见回执
+
+```
+### 8.2 已知重大安全事件
+
+| 事件 | 时间 | 影响 | 状态 |
+| --- | --- | --- | --- |
+| **CVE-2026-25253 RCE 漏洞** | 2026年初 | 攻击者可远程在服务器上执行任意代码，CVSS 8.8/10 | 已修复（v2026.3.2） |
+| **ClawHavoc 供应链攻击** | 2026年1-2月 | 135,000+ 设备受影响，约 20% Skills 被确认为恶意 | 已清理 |
+| **Anthropic 封杀 OAuth** | 2026年1月 | 大量用户账号被警告或锁定 | 请切换 API Key |
+| **谷歌封号事件** | 2026年2月 | 大量 OpenClaw 用户 Google 账号被封禁 | 使用专用账号 |
+| **30,000+ 未认证暴露实例** | 持续 | 任何人可连接并向 Agent 发送指令 | 配置认证 |
+| **工信部安全预警** | 2026年3月8-9日 | 国内官方机构首次对开源 AI Agent 项目发出安全预警 | 加强防护 |
+| **ClawJacked 零点击漏洞** | 2026年3月初 | 恶意网站可通过浏览器会话静默接管本地 OpenClaw 实例 | 保持更新 |
+
+### 8.3 安全最佳实践
+
+1. **安装前审查源码**：永远不要盲目安装 ClawHub 上的 Skill。去 GitHub 查看源码，特别注意任何要求额外安装「helper」或「agent」的内容。
+2. **优先使用精选列表**：参考 [awesome-openclaw-skills](https://github.com/VoltAgent/awesome-openclaw-skills?ref=blog.lightnote.com.cn) 项目（31.4K Stars）的精选列表。
+3. **定期检查 SOUL.md 和 MEMORY.md**：养成习惯，定期检查这两个文件有没有被异常修改。如果发现不认识的内容，立即回滚并排查所有已安装的 Skill。
+4. **不要在公网暴露未认证的 Gateway**：如果你的 OpenClaw 部署在云服务器上，请立即检查 Gateway 是否只绑定了 localhost，防火墙是否开放了 18789 端口。
+
+**使用 SecureClaw 扫描**：
+
+```
+npm install -g secureclaw
+secureclaw scan ~/.openclaw/skills/
+
+```
+> **创始人的坦诚**：OpenClaw 创始人 Peter Steinberger 曾公开表示：「This is all vibe code. Prompt injection hasn't been solved. There are absolute risks.」（这全是 vibe code。Prompt injection 没有被解决。存在绝对风险。）如果你要在生产环境中使用 OpenClaw，安全防护必须由你自己负责。
+
+---
+
+9. 成本控制策略
+---------
+
+API 费用是 OpenClaw 运营的最大成本。不做控制，真的会一觉醒来收到 $1,100 的账单（社区真实案例）。
+
+![]()
+### 9.1 为什么成本会失控
+
+OpenClaw 的 Token 消耗远超普通聊天场景，原因有几个：
+
+* 每次 Agent 思考都是多轮推理：一个简单的任务可能触发 5-10 次 API 调用
+* Skills 的描述会注入 system prompt，增加每次请求的输入 token
+* 记忆系统（MEMORY.md + Daily Logs）会在每次请求中附带上下文
+* Agent 24/7 运行，定时任务（cron）不断触发 API 调用
+
+多轮思考 + 多工具调用的 Token 消耗可能是传统聊天的**几十甚至上百倍**。
+
+### 9.2 Fallback 链：核心省钱策略
+
+Fallback 链是 OpenClaw 最核心的省钱策略。不同方案的成本对比：
+
+| 策略 | 主力模型 | 输入价格/百万 token | 相对成本 |
+| --- | --- | --- | --- |
+| 全用 Claude Sonnet | Claude Sonnet 4.6 | $3.00 | 100%（基准） |
+| Sonnet + Haiku Fallback | Sonnet → Haiku | $3.00 / $1.00 | 约 50-60% |
+| 三级 Fallback | Sonnet → Haiku → DeepSeek | $3.00 / $1.00 / $0.14 | **约 5-20%** |
+| 纯 DeepSeek | DeepSeek-V3 | $0.14 | 约 5% |
+| 本地 Ollama | Qwen3-Coder 等 | $0 | 0%（仅电费） |
+
+从 Claude Sonnet 切换到「Sonnet → Haiku → DeepSeek」三级 Fallback 链，可以**降低 80-95% 的 API 成本**。
+
+### 9.3 预算限制设置
+
+强烈建议所有用户都设置日预算上限：
+
+```
+{
+  "agents": {
+    "defaults": {
+      "budget": {
+        "maxTokensPerDay": 500000,
+        "maxCostPerDay": 5.00
+      }
+    }
+  }
+}
+
+```
+
+哪怕你不差钱，一个每日 $5 的上限也能在 Agent 进入循环推理时保护你的钱包。
+
+### 9.4 国内 Coding Plan 包月套餐
+
+2026 年，国内主要 AI 厂商和云平台纷纷推出了面向 AI 编程工具的 Coding Plan 包月套餐：
+
+| 厂商 | 套餐 | 月费 | 模型 | 特色 |
+| --- | --- | --- | --- | --- |
+| 智谱 GLM | Max | ~160 元 | GLM-4.7 + GLM-5 | 唯一含 GLM-5 |
+| Kimi | Allegretto | 199 元 | Kimi K2.5 | 每 5 小时 100-500 次请求 |
+| MiniMax | Starter | 29 元 | M2.5 | 无每周限额，性价比最高 |
+| 阿里云百炼 | Lite | 40 元（首月 7.9 元） | Qwen + GLM + Kimi + MiniMax | ~18,000 次/月 |
+| 腾讯云 | Lite | 40 元（首月 7.9 元） | 混元 + GLM-5 + Kimi + M2.5 | 每 5h ~1,200 次 |
+| 火山引擎 | Lite | 40 元（首月 8.91 元） | 豆包 + GLM + DeepSeek + Kimi | 每 5h ~1,200 次 |
+
+**选型建议**：首月体验推荐阿里云百炼或腾讯云 Lite 档（首月仅 7.9 元）；长期性价比推荐 MiniMax Starter（29 元/月）；重度用户建议直接使用 API 按量付费。
+
+10. 国内生态与平替产品
+-------------
+
+### 10.1 国内生态概况
+
+「云养虾」社区用户超 10 万，OpenClaw 在中国的落地速度超出所有人预期：
+
+* 深圳龙岗 AI（机器人）局 2026 年 3 月 8 日发布 OpenClaw 使用支持措施征求意见稿
+* 腾讯云总部 3 月 6 日近千人排队安装 OpenClaw
+* B 站、知乎、博客园大量部署教程
+
+**对国内用户来说，最省心的方案**：阿里云一键部署 + openclaw-china 插件接入钉钉/QQ + DeepSeek 或 GLM-5 作为主力模型。整套成本可以控制在每月 100 元以内（服务器 68 元/年 + API 费用约几十元/月）。
+
+### 10.2 OpenClaw vs Claude Code
+
+OpenClaw 和 Claude Code 是**互补关系，不是替代关系**：
+
+| 维度 | OpenClaw | Claude Code |
+| --- | --- | --- |
+| **定位** | 通用 AI 生活助手 / Life OS | 专业编程 Agent |
+| **运行环境** | 自托管服务器，消息平台网关 | 终端 CLI / Web / Desktop |
+| **连接对象** | 20+ 通信/办公平台 | 代码库、文件系统 |
+| **记忆系统** | 四层记忆，长期可持续 | 会话级 + CLAUDE.md 持久化 |
+| **模型支持** | 多模型（Claude/GPT/DeepSeek/Ollama 等） | 仅 Claude |
+| **开源/费用** | MIT 开源免费，自付 API 费用 | 闭源 CLI，按 API 计费（$20/月起） |
+| **编程能力** | 一般，简单任务可以 | 强，专为编程优化 |
+| **日常自动化** | 强，多平台接入，长期在线 | 弱，主要在终端内使用 |
+
+**最佳实践**：用 OpenClaw 管理你的数字生活（消息、邮件、日程、网页操作），用 Claude Code 管理你的代码库（编码、调试、重构、测试）。两者组合是 2026 年最完整的 AI 驱动工作流。
+
+社区开发了 [openclaw-claude-code-skill](https://github.com/Enderfga/openclaw-claude-code-skill?ref=blog.lightnote.com.cn)，通过 MCP 协议桥接两者，你可以在飞书里跟 OpenClaw 说「帮我重构这段代码」，它会自动调用 Claude Code 来完成。
+
+### 10.3 国产平替产品
+
+OpenClaw 爆火后，国内大厂纷纷推出自己的「龙虾」产品，分为两大阵营：
+
+**OpenClaw 封装版**（与 OpenClaw 生态兼容，Skills 通用）：QClaw（腾讯）、MaxClaw（MiniMax）、KimiClaw（月之暗面）、AutoClaw（智谱 AI）、ArkClaw（字节/火山引擎）
+
+**独立自研版**（不兼容 ClawHub Skills 生态）：miclaw（小米）、LobsterAI（网易有道）、CoPaw（阿里通义）
+
+| 产品 | 公司 | 形态 | 价格 | 核心卖点 |
+| --- | --- | --- | --- | --- |
+| MaxClaw | MiniMax | 云端 | ¥39/月起 | 18 秒部署，价格最低，飞书 5 分钟接入 |
+| AutoClaw | 智谱 AI | 客户端 | 免费+积分 | 96 个预置 Skills，AutoGLM 浏览器自动化 |
+| QClaw | 腾讯 | 客户端 | 内测免费 | 微信/QQ 直连，一键安装，数据留本地 |
+| ArkClaw | 字节/火山引擎 | 云端 SaaS | Coding Plan Pro 附赠 | 开箱即用，飞书深度适配 |
+| LobsterAI | 网易有道 | 开源客户端 | 免费开源 | GUI 界面，沙箱隔离，Office 能力强 |
+| CoPaw | 阿里通义 | 开源 | 免费开源 | 端+云双部署，钉钉/飞书/QQ 多频道 |
+| miclaw | 小米 | 移动端 | 封测免费 | 手机原生运行，米家 IoT 生态 10 亿+ 设备联动 |
+
+**按场景推荐**：
+
+| 你的需求 | 首选 | 备选 |
+| --- | --- | --- |
+| 零基础想最快体验 | AutoClaw | MaxClaw |
+| 微信/QQ 用户 | QClaw | WorkBuddy |
+| 飞书生态 | ArkClaw | AutoClaw |
+| 预算敏感 | LobsterAI | CoPaw |
+| 想完全控制和深度折腾 | 原版 OpenClaw | CoPaw |
+| 手机端 + 智能家居 | miclaw | — |
+
+> **选购提醒**：大部分封装版产品会锁定默认模型，不能像原版 OpenClaw 那样自由切换。如果你对模型选择有强需求，优先考虑原版 OpenClaw 或支持多模型的产品（AutoClaw、WorkBuddy、LobsterAI）。
+
+---
+
+11. 常见问题 FAQ
+------------
+
+**Q1：OpenClaw 是免费的吗？**
+
+OpenClaw 本身是 MIT 开源免费的。但运行它需要两项成本：一是服务器（本地电脑或云服务器），二是 AI 模型的 API 费用。如果你用本地模型（Ollama），API 费用也可以免费。总结：**软件免费，算力不免费**。
+
+**Q2：我需要什么样的技术水平才能用 OpenClaw？**
+
+能用命令行安装 npm 包就够了。最基础的安装只需要两行命令：`npm install -g openclaw@latest` 和 `openclaw onboard --install-daemon`。如果用阿里云/腾讯云的一键部署方案，门槛更低。
+
+**Q3：一个月大概花多少钱？**
+
+取决于你的使用方式和模型选择。参考区间：完全免费（本地模型）→ $2-5/月（DeepSeek 为主）→ $5-15/月（GLM-5 为主）→ $10-30/月（Claude Sonnet 为主）。最大的成本陷阱是 OpenClaw 的多轮工具调用会消耗大量 Token，**务必设置消费限额**。
+
+**Q4：安全吗？我的数据会泄露吗？**
+
+OpenClaw 是自托管的，数据默认存储在你自己的服务器上，不经过第三方。但需要注意三个安全风险：(1) CVE-2026-25253 RCE 漏洞（已修复，务必更新到最新版本）；(2) ClawHavoc 供应链攻击（安装第三方 Skill 前务必审查源代码）；(3) Gateway 如果暴露在公网上需要设置认证（`gateway.auth.mode`）。
+
+**Q5：可以用国产模型吗？效果怎么样？**
+
+完全可以。DeepSeek-V3（$0.14/M 输入）和 GLM-5（$0.80/M 输入）是最受国内用户欢迎的选择。GLM-5 的代码能力接近 Claude Opus 4.5 水平，DeepSeek-V3 则是极致性价比。效果肯定不如 Claude Sonnet（Agent 任务公认最强），但对于大部分日常任务已经够用。推荐用 Fallback 机制混合搭配。
+
+**Q6：Anthropic 封杀了 OAuth，我该怎么用 Claude？**
+
+使用 Anthropic API Key（按量付费）。在 [Anthropic Console](https://console.anthropic.com/?ref=blog.lightnote.com.cn) 创建 API Key，然后在 OpenClaw 中配置 `ANTHROPIC_API_KEY` 环境变量。不要尝试通过 OAuth 连接 Claude Pro/Max 订阅账户，会被封号。
+
+**Q7：OpenClaw 创始人加入 OpenAI 后，项目还会继续吗？**
+
+会。Peter Steinberger 加入 OpenAI 后，OpenClaw 正在转为开源基金会运营。OpenAI 已承诺赞助项目但不干预开发方向。截至 2026 年 3 月，项目仍然保持近乎每日更新的节奏，有 1,075+ 贡献者。
+
+**Q8：ClawHub 上的 Skill 安全吗？**
+
+不能盲目信任。ClawHub 的 13,729 个 Skill 中，经社区审计约 20% 存在问题（垃圾/重复/恶意）。建议：只安装 starred 数量多的 Skill、安装前审查源代码、使用 [awesome-openclaw-skills](https://github.com/VoltAgent/awesome-openclaw-skills?ref=blog.lightnote.com.cn) 精选列表（已过滤问题 Skill）。
+
+**Q9：能接入微信吗？**
+
+可以，但不是直接接入个人微信。通过 openclaw-china 插件的企业微信（自建应用）方案可以间接接入个人微信。钉钉和 QQ Bot 的接入最简单。飞书是国内最主流的接入渠道之一，OpenClaw 和飞书官方都提供了丰富的集成文档。
+
+**Q10：OpenClaw 和 Claude Code 可以一起用吗？**
+
+可以，而且是推荐用法。社区开发了 openclaw-claude-code-skill，通过 MCP 协议桥接两者。OpenClaw 负责消息平台接入和生活自动化，Claude Code 负责编程任务。两者组合是 2026 年最完整的 AI 工作流。
+
+12. 命令速查表
+---------
+
+### 安装与更新
+
+| 命令 | 说明 |
+| --- | --- |
+| `npm install -g openclaw@latest` | 全局安装 OpenClaw |
+| `openclaw onboard --install-daemon` | 初始化配置 + 安装守护进程 |
+| `openclaw update --channel stable` | 更新到最新稳定版 |
+| `openclaw update --channel beta` | 更新到 Beta 版（ |
+
+尝鲜） |  
+| `openclaw doctor` | 诊断检查，排查常见问题 |  
+| `openclaw --version` | 查看当前版本 |  
+| `openclaw backup create` | 创建完整备份 |  
+| `openclaw backup verify` | 验证备份完整性 |
+
+### 日常使用
+
+| 命令 | 说明 |
+| --- | --- |
+| `openclaw gateway --port 18789 --verbose` | 启动 Gateway（详细日志模式） |
+| `openclaw gateway restart` | 重启 Gateway（改配置后必须执行） |
+| `openclaw agent --message "xxx"` | 直接发送消息给 Agent |
+| `openclaw devices pair` | 设备配对（新设备首次连接） |
+| `openclaw models list` | 列出已配置的模型 |
+| `openclaw models status --probe` | 测试模型连通性 |
+| `openclaw config set agents.defaults.model.primary provider/model` | 设置主力模型 |
+
+### Skills 管理
+
+| 命令 | 说明 |
+| --- | --- |
+| `openclaw skills install <name>` | 安装 Skill |
+| `openclaw skills search "keyword"` | 搜索 Skill（支持自然语言） |
+| `openclaw skills list` | 列出已安装 Skills |
+| `openclaw skills uninstall <name>` | 卸载 Skill |
+| `openclaw clawhub login` | 登录 ClawHub |
+| `openclaw clawhub publish ./my-skill` | 发布 Skill 到 ClawHub |
+
+### 插件管理
+
+| 命令 | 说明 |
+| --- | --- |
+| `openclaw plugins install <name>` | 安装插件 |
+| `openclaw plugins enable <name>` | 启用插件 |
+| `openclaw plugins list` | 列出已安装插件 |
+| `openclaw plugins install @openclaw-china/channels` | 安装中国 IM 插件 |
+| `openclaw china setup` | 配置中国 IM 平台（需先安装插件） |
+
+### 模型认证
+
+| 命令 | 说明 |
+| --- | --- |
+| `openclaw onboard --auth-choice zai-api-key` | 配置智谱 GLM |
+| `openclaw onboard --auth-choice apiKey --token-provider openrouter --token "$KEY"` | 配置 OpenRouter |
+| `openclaw models auth login --provider qwen-portal --set-default` | 通义千问 OAuth 登录 |
+
+### 聊天命令（在对话中使用）
+
+| 命令 | 说明 |
+| --- | --- |
+| `/status` | 会话概览（当前模型、Token 用量） |
+| `/new` | 清空会话历史，开始新对话 |
+| `/think <level>` | 调整推理深度（off/minimal/low/medium/high/xhigh） |
+| `/usage off\|tokens\|full` | 控制回复页脚的用量显示 |
+| `/activation mention\|always` | 群消息处理模式 |
+
+### Docker 部署
+
+| 命令 | 说明 |
+| --- | --- |
+| `docker-compose up -d` | 后台启动 OpenClaw 容器 |
+| `docker-compose logs -f` | 查看实时日志 |
+| `docker-compose pull && docker-compose up -d` | 更新到最新镜像 |
+
+### 安全相关
+
+| 命令 | 说明 |
+| --- | --- |
+| `npm install -g secureclaw` | 安装 SecureClaw 安全扫描工具 |
+| `secureclaw scan ~/.openclaw/skills/` | 扫描已安装的 Skills |
+| `openclaw acp --provenance meta` | 启用 ACP 身份验证 |
+
+
+---
+
+13. 资源链接
+--------
+
+### 官方资源
+
+| 资源 | 地址 |
+| --- | --- |
+| GitHub 仓库 | [github.com/openclaw/openclaw](https://github.com/openclaw/openclaw?ref=blog.lightnote.com.cn) |
+| 官方文档 | [docs.openclaw.ai](https://docs.openclaw.ai/?ref=blog.lightnote.com.cn) |
+| 官网 | [openclaw.ai](https://openclaw.ai/?ref=blog.lightnote.com.cn) |
+| ClawHub 技能市场 | [clawhub.ai](https://clawhub.ai/?ref=blog.lightnote.com.cn) |
+| Moltbook（Agent 社交网络） | [moltbook.com](https://moltbook.com/?ref=blog.lightnote.com.cn) |
+| GitHub Releases | [github.com/openclaw/openclaw/releases](https://github.com/openclaw/openclaw/releases?ref=blog.lightnote.com.cn) |
+
+### 社区资源
+
+| 资源 | 地址 | 说明 |
+| --- | --- | --- |
+| awesome-openclaw-skills | [github.com/VoltAgent/awesome-openclaw-skills](https://github.com/VoltAgent/awesome-openclaw-skills?ref=blog.lightnote.com.cn) | 5,494 个精选 Skill，31.4K Stars |
+| awesome-openclaw-usecases | [github.com/hesamsheikh/awesome-openclaw-usecases](https://github.com/hesamsheikh/awesome-openclaw-usecases?ref=blog.lightnote.com.cn) | 社区用例合集，21K Stars |
+| openclaw-claude-code-skill | [github.com/Enderfga/openclaw-claude-code-skill](https://github.com/Enderfga/openclaw-claude-code-skill?ref=blog.lightnote.com.cn) | 桥接 Claude Code 能力 |
+| SecureClaw | npm: `secureclaw` | Skill 安全扫描工具 |
+
+### 国内资源
+
+| 资源 | 地址 | 说明 |
+| --- | --- | --- |
+| openclaw-china 插件 | [github.com/BytePioneer-AI/openclaw-china](https://github.com/BytePioneer-AI/openclaw-china?ref=blog.lightnote.com.cn) | 钉钉/QQ/企微/微信接入 |
+| OpenClaw 中文文档 | [openclaw.cc](https://openclaw.cc/?ref=blog.lightnote.com.cn) | 社区维护的中文文档 |
+| 阿里云部署文档 | [help.aliyun.com](https://help.aliyun.com/?ref=blog.lightnote.com.cn)（搜索 OpenClaw） | 轻量应用服务器一键部署 |
+| B 站部署教程 | BV1MfFAz6EnR | 保姆级：接入微信/飞书/钉钉/QQ |
+
+### 模型提供商 API 控制台
+
+| 提供商 | API 控制台 |
+| --- | --- |
+| Anthropic Claude | [console.anthropic.com](https://console.anthropic.com/?ref=blog.lightnote.com.cn) |
+| OpenAI | [platform.openai.com](https://platform.openai.com/?ref=blog.lightnote.com.cn) |
+| Google AI Studio | [aistudio.google.com](https://aistudio.google.com/?ref=blog.lightnote.com.cn) |
+| DeepSeek | [platform.deepseek.com](https://platform.deepseek.com/?ref=blog.lightnote.com.cn) |
+| 智谱 GLM | [bigmodel.cn](https://bigmodel.cn/?ref=blog.lightnote.com.cn) |
+| 通义千问 | [dashscope.aliyun.com](https://dashscope.aliyun.com/?ref=blog.lightnote.com.cn) |
+| 月之暗面 Kimi | [platform.moonshot.cn](https://platform.moonshot.cn/?ref=blog.lightnote.com.cn) |
+| 硅基流动 | [siliconflow.cn](https://siliconflow.cn/?ref=blog.lightnote.com.cn) |
+| OpenRouter | [openrouter.ai](https://openrouter.ai/?ref=blog.lightnote.com.cn) |
+| 火山引擎（豆包） | [console.volcengine.com](https://console.volcengine.com/?ref=blog.lightnote.com.cn) |
+
+> **本教程参考了 OpenClaw 官方文档、GitHub 仓库及社区资料。内容的准确性与时效性仅供参考，如有变更请以官方最新文档为准。**  
+>   
+> 来源：[docs.openclaw.ai](https://docs.openclaw.ai/?ref=blog.lightnote.com.cn) · [github.com/openclaw/openclaw](https://github.com/openclaw/openclaw?ref=blog.lightnote.com.cn) · [clawhub.com](https://clawhub.com/?ref=blog.lightnote.com.cn)
+
+
+
+
+注册以获取更多类似内容。
+------------
+
+[Enter your email
+Subscribe](#/portal)
+
+
+[![]()](/stop-using-ai-to-write-code-directly/)
+[放弃让AI直接写代码吧，这才是正确姿势
+-------------------
+
+
+你可能觉得，AI编程就是给大模型发一句指令，然后让它直接把代码写出来。毕竟，现在的模型越来越聪明了，对吧？很多人认为，只要给AI足够的自由度，它就能创造奇迹。但事实真的如此吗？当我们把AI投入到真实的商业项目中时，这种"放养"模式往往会带来灾难性的后果。代码质量参差不齐，逻辑漏洞百出，甚至连最基本的运行都无法保证。为什么会这样？因为我们对AI的期望和它的实际能力之间，存在着巨大的鸿沟。](/stop-using-ai-to-write-code-directly/)
+29 3月 2026
+22 min read
+
+
+
+[![]()](/google-turboquant-deepseek-moment/)
+[DeepSeek 时刻！Google TurboQuant，算力霸权被彻底打破
+---------------------------------------
+
+
+Google 刚发布的 TurboQuant 论文在 X（原 Twitter）上引发了超过 1000 万次阅读，整个 AI 工程圈都在讨论这项技术。但网上很多解读要么停留在表面，要么误解了它真正提速的底层逻辑。本文将剥离复杂的公式，用最直白的语言，把这项技术的本质讲透——小学水平也能看懂。](/google-turboquant-deepseek-moment/)
+28 3月 2026
+9 min read
+
+
+
+[![]()](/gtc-2026-reasoning-era-token-factories-and-the-software-engineer-shift/)
+[GTC 2026 深度解读：推理时代、Token工厂与软件工程师的范式转移
+-------------------------------------
+
+
+当黄仁勋在GTC 2026的舞台上宣布"推理时代到来，龙虾（OpenClaw）就是新操作系统"时，整个科技界感受到了一次深刻的震动 。这不仅是一场关于硬件性能的展示，更是对未来十年计算范式、商业模式以及软件工程师职业生涯的重新定义。](/gtc-2026-reasoning-era-token-factories-and-the-software-engineer-shift/)
+18 3月 2026
+14 min read
+
+
+
+
+
+
+[为什么叫QQ](https://blog.lightnote.com.cn) © 2026
+
+* [联系我](https://blog.lightnote.com.cn/contact/)
+* [音乐学习](https://www.lightnote.com.cn/)
+* [B站](https://space.bilibili.com/280534030)
+* [知乎](https://www.zhihu.com/people/zhu-yong-chun-46-1)
+
+[Powered by Ghost](https://ghost.org/)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

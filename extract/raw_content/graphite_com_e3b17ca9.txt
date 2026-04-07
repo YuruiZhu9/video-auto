@@ -1,0 +1,217 @@
+# Source URL: https://graphite.com/guides/best-practices-ai-coding-assistants
+# Content Length: 10896 characters
+# Extracted at: 2026-03-26 09:07:50
+#============================================================
+
+
+Best practices for using AI coding assistants effectively[Skip to content](#main-content)[Cursor Cloud Agents are now in Graphite. Create, review, and ship without leaving your PR.
+
+Read more](/blog/cursor-cloud-agents)
+
+* Features
+* Resources
+* [Customers](/customers)
+* [Docs](/docs)
+* [Pricing](/pricing)
+* [Contact](/contact-us)
+[Log inG](https://app.graphite.com)[Sign up](https://app.graphite.com/signup)Menu
+
+Index
+
+* Series
+* [Merge queues](/guides)
+  + [What is a merge queue](/guides/what-is-a-merge-queue)
+  + [Defining merge skew](/guides/merge-skew)
+* Guides by topic
+* [graphite](/guides/topic/graphite)
+* [stacked diffs](/guides/topic/stacked-diffs)
+* [code review](/guides/topic/code-review)
+* [Developer productivity](/guides/topic/developer-productivity)
+* [github](/guides/topic/github)
+* [git](/guides/topic/git)
+* [AI](/guides/topic/ai)
+* [CI-CD](/guides/topic/ci-cd)
+* [software development](/guides/topic/software-development)
+* [monorepo](/guides/topic/monorepo)
+* [version control](/guides/topic/version-control)
+* [quality assurance](/guides/topic/quality-assurance)
+* [merging](/guides/topic/merging)
+* [security](/guides/topic/security)
+* [code quality](/guides/topic/code-quality)
+* [programming](/guides/topic/programming)
+* [tools](/guides/topic/tools)
+* [sapling](/guides/topic/sapling)
+* [phabricator](/guides/topic/phabricator)
+* [VS Code](/guides/topic/vs-code)
+* [pull requests](/guides/topic/pull-requests)
+* [analytics](/guides/topic/analytics)
+* [agile development](/guides/topic/agile-development)
+* [typescript](/guides/topic/typescript)
+* [bug tracking](/guides/topic/bug-tracking)
+* [gerrit](/guides/topic/gerrit)
+* [GitHub Actions](/guides/topic/github-actions)
+* [GitHub Copilot](/guides/topic/github-copilot)
+* [repo configuration](/guides/topic/repo-configuration)
+* [automation](/guides/topic/automation)
+* [Monorepos](/guides/topic/monorepos)
+* [merge queue](/guides/topic/merge-queue)
+
+Best practices for using AI coding assistants effectively
+=========================================================
+
+![]()Greg FosterGraphite software engineer [Try Graphite](https://app.graphite.com/signup)
+
+---
+
+Table of contents
+=================
+
+1. [Understanding AI coding assistants](#understanding-ai-coding-assistants)
+2. [Crafting effective prompts](#crafting-effective-prompts)
+3. [Integrating AI coding assistants into your workflow](#integrating-ai-coding-assistants-into-your-workflow)
+4. [Reviewing AI-generated code with Graphite Agent](#reviewing-ai-generated-code-with-Graphite Agent)
+5. [Common pitfalls and how to avoid them](#common-pitfalls-and-how-to-avoid-them)
+6. [Conclusion](#conclusion)
+
+AI coding assistants have transformed software development by automating repetitive tasks, suggesting code snippets, and enhancing productivity. Tools like [GitHub Copilot](https://github.com/features/copilot), [Tabnine](https://www.tabnine.com/), and [Graphite Agent](https://graphite.com/features/agent) offer developers powerful features to streamline coding processes. However, to fully leverage these tools, it's essential to follow best practices that prioritize code quality and maintainability.
+
+### Understanding AI coding assistants
+
+AI coding assistants are tools powered by large language models (LLMs) trained on extensive codebases. They assist developers by:
+
+* **Code autocompletion**: Suggesting code snippets based on context.
+* **Bug detection**: Identifying potential errors in code.
+* **Documentation generation**: Creating comments and documentation for functions and classes.
+* **Code refactoring**: Suggesting improvements for code structure and efficiency.
+
+Popular AI coding assistants include:
+
+* **[GitHub Copilot](https://github.com/features/copilot)**: Integrates with IDEs to provide real-time code suggestions.
+* **[Tabnine](https://www.tabnine.com/)**: Offers intelligent code completions using machine learning models.
+* **[Graphite Agent](https://graphite.com/features/agent)**: Specializes in reviewing AI-generated code for quality assurance.
+
+### Crafting effective prompts
+
+The quality of AI-generated code heavily depends on the prompts provided. To craft effective prompts:
+
+* **Be specific**: Clearly define the task or function you want the AI to perform.
+* **Provide context**: Include relevant code snippets or descriptions to guide the AI.
+* **Set constraints**: Specify any limitations or requirements, such as performance considerations or coding standards.
+
+For example, instead of asking, "Write a sorting function," specify, "Write a Python function that sorts a list of integers using the quicksort algorithm."
+
+Here are some examples of good prompts:
+
+Terminal
+```
+# Good prompt example 1"""Write a React component that displays a user profile card with:- Profile picture (circular, 100px)- Name (bold)- Email- Role- Last active timestampUse Tailwind CSS for styling."""
+# Good prompt example 2"""Debug this Python function that's causing a memory leak:[existing code]The function processes large CSV files and should handle files up to 1GB."""
+
+```
+### Integrating AI coding assistants into your workflow
+
+To effectively integrate AI coding assistants:
+
+1. **Choose the right tool**: Select an assistant aligned with your programming language and development environment.
+2. **Start with small tasks**: Use AI for minor functions or code snippets to build trust in its capabilities.
+3. **Review and test**: Always review AI-generated code and test it thoroughly before integration.
+4. **Provide feedback**: Many AI tools improve through feedback; provide corrections to enhance future suggestions.
+
+Common use cases where AI assistants excel:
+
+* **Boilerplate code generation**: Creating standard project structures, configuration files, or common patterns
+* **Documentation**: Generating JSDoc comments, README files, or API documentation
+* **Test cases**: Writing unit tests based on existing code
+* **Code refactoring**: Suggesting improvements for performance or readability
+* **Bug fixing**: Identifying and fixing common programming errors
+
+Tools like [GitHub Copilot](https://github.com/features/copilot) and [Tabnine](https://www.tabnine.com/) can be integrated seamlessly into popular IDEs, enhancing development workflows.
+
+### Reviewing AI-generated code with Graphite Agent
+
+[Graphite Agent](https://graphite.com/features/agent) is an AI code review tool designed to assess and improve AI-generated code. It helps developers by:
+
+* **Identifying code smells**: Detecting patterns that indicate potential issues.
+* **Suggesting improvements**: Offering recommendations for code optimization.
+* **Ensuring compliance**: Checking code against coding standards and best practices.
+
+Integrating [Graphite Agent](https://graphite.com/features/agent) into your workflow can help maintain high code quality and minimize technical debt.
+
+### Common pitfalls and how to avoid them
+
+While AI coding assistants offer numerous benefits, consider these potential pitfalls:
+
+* **Overreliance**: Don't depend solely on AI; always apply your judgment.
+* **Lack of understanding**: Ensure you comprehend the AI-generated code to maintain control over your codebase.
+* **Security concerns**: AI may suggest insecure code; review carefully for vulnerabilities.
+* **Context limitations**: AI may not fully grasp broader contexts; always provide sufficient information in prompts.
+
+Practical tips to avoid these pitfalls:
+
+1. **Always review generated code**: Don't blindly accept AI suggestions
+2. **Test thoroughly**: Write unit tests for AI-generated code
+3. **Understand the logic**: Make sure you can explain how the code works
+4. **Check for security**: Look for common vulnerabilities like SQL injection or XSS
+5. **Consider performance**: Evaluate if the suggested solution scales well
+
+### Conclusion
+
+AI coding assistants can significantly enhance development efficiency and code quality when used effectively. By crafting precise prompts, thoughtfully integrating tools, and leveraging review tools like [Graphite Agent](https://graphite.com/features/agent), developers can harness the full potential of AI in programming. Always remain vigilant, review AI-generated code critically, and apply best practices consistently to maintain high standards in your software development projects. Remember: AI coding assistants are powerful tools that complement your skills, not replace them. The best results come from combining AI capabilities with your expertise and judgment.
+
+Related guides[### Best practices for pair programming with AI assistants
+
+This guide explores essential best practices for pair programming with AI assistants, including code...](/guides/ai-pair-programming-best-practices)[### An overview of using DeepCode AI for code review
+
+This guide will show you how to leverage DeepCode AI for static application security testing and enh...](/guides/using-deepcode-ai-for-code-review)[### Balancing code quality and delivery speed in software teams
+
+This guide explores current and timeless best practices to optimize code standards and team producti...](/guides/balancing-code-quality-delivery-speed-software-teams)
+
+Last modified 10 months ago
+
+0 min readOn this page
+
+* [Understanding AI coding assistants](#understanding-ai-coding-assistants)
+* [Crafting effective prompts](#crafting-effective-prompts)
+* [Integrating AI coding assistants into your workflow](#integrating-ai-coding-assistants-into-your-workflow)
+* [Reviewing AI-generated code with Graphite Agent](#reviewing-ai-generated-code-with-graphite-agent)
+* [Common pitfalls and how to avoid them](#common-pitfalls-and-how-to-avoid-them)
+* [Conclusion](#conclusion)
+ShareGit inspiredGraphite's CLI and VS Code extension make working with Git effortless.   
+[Learn more](/features#cli)
+
+Built for the world’s fastest engineering teams, now available for everyone.
+----------------------------------------------------------------------------
+
+[Request a demo](/contact-us)[Start free trial](https://app.graphite.com/signup)
+### Features
+
+* [CLI](/features#cli)
+* [Merge queue](/features#merge-queue)
+* [Insights](/features#insights)
+* [PR inbox](/features#inbox)
+* [AI Reviews](/features/ai-reviews)
+* [AgentsNew](/features/agents)
+* [Graphite Chat](/features/chat)
+### Company
+
+* [Blog](/blog)
+* [Customers](/customers)
+* [Careers0](/careers)
+* [Privacy policy](/privacy)
+* [Terms of service](/terms-of-service)
+### Resources
+
+* [Docs](/docs)
+* [Pricing](/pricing)
+* [Status](https://status.graphite.com)
+* [Guides](/guides)
+* [Stacking workflow](/stacking)
+### Connect
+
+* [Contact us](/contact-us)
+* [Community Slack](https://community.graphite.com)
+* [GitHub](https://github.com/withgraphite/)
+* [X (Twitter)](https://x.com/graphite/)
+* [LinkedIn](https://www.linkedin.com/company/withgraphite/)
+* [YouTube](https://www.youtube.com/@withgraphite)
+[Loading](https://status.graphite.com)© Graphite 2026![]()![]()

@@ -1,0 +1,209 @@
+# Source URL: https://docs.openclaw.ai/tools
+# Content Length: 7894 characters
+# Extracted at: 2026-03-31 06:56:43
+#============================================================
+
+
+Tools and Plugins - OpenClaw[Skip to main content](#content-area)[OpenClaw home page![]()![]()](/)![]()EnglishSearch...⌘K
+
+* [GitHub](https://github.com/openclaw/openclaw)
+* [Releases](https://github.com/openclaw/openclaw/releases)
+* [Discord](https://discord.com/invite/clawd)
+Search...NavigationOverviewTools and Plugins[Get started](/)[Install](/install)[Channels](/channels)[Agents](/concepts/architecture)[Tools & Plugins](/tools)[Models](/providers)[Platforms](/platforms)[Gateway & Ops](/gateway)[Reference](/cli)[Help](/help)
+##### Overview
+
+* [Tools and Plugins](/tools)
+##### Plugins
+
+* [Install and Configure](/tools/plugin)
+* [Community Plugins](/plugins/community)
+* [Plugin Bundles](/plugins/bundles)
+* [Voice Call Plugin](/plugins/voice-call)
+* Building Plugins
+* SDK Reference
+##### Skills
+
+* [Skills](/tools/skills)
+* [Creating Skills](/tools/creating-skills)
+* [Skills Config](/tools/skills-config)
+* [Slash Commands](/tools/slash-commands)
+* [ClawHub](/tools/clawhub)
+* [OpenProse](/prose)
+##### Automation
+
+* [Automation Overview](/automation)
+* [Hooks](/automation/hooks)
+* [Standing Orders](/automation/standing-orders)
+* [Cron Jobs](/automation/cron-jobs)
+* [Cron vs Heartbeat](/automation/cron-vs-heartbeat)
+* [Background Tasks](/automation/tasks)
+* [Automation Troubleshooting](/automation/troubleshooting)
+* [Webhooks](/automation/webhook)
+* [Gmail PubSub](/automation/gmail-pubsub)
+* [Polls](/automation/poll)
+* [Auth Monitoring](/automation/auth-monitoring)
+##### Tools
+
+* [apply\_patch Tool](/tools/apply-patch)
+* Web Browser
+* Web Tools
+* [BTW Side Questions](/tools/btw)
+* [Code Execution](/tools/code-execution)
+* [Diffs](/tools/diffs)
+* [Elevated Mode](/tools/elevated)
+* [Exec Tool](/tools/exec)
+* [Exec Approvals](/tools/exec-approvals)
+* [Image Generation](/tools/image-generation)
+* [LLM Task](/tools/llm-task)
+* [Lobster](/tools/lobster)
+* [Tool-loop detection](/tools/loop-detection)
+* [PDF Tool](/tools/pdf)
+* [Reactions](/tools/reactions)
+* [Thinking Levels](/tools/thinking)
+##### Agent coordination
+
+* [Agent Send](/tools/agent-send)
+* [Sub-Agents](/tools/subagents)
+* [ACP Agents](/tools/acp-agents)
+* [Multi-Agent Sandbox & Tools](/tools/multi-agent-sandbox-tools)
+On this page
+
+* [Tools and Plugins](#tools-and-plugins)
+* [Tools, skills, and plugins](#tools-skills-and-plugins)
+* [Built-in tools](#built-in-tools)
+* [Plugin-provided tools](#plugin-provided-tools)
+* [Tool configuration](#tool-configuration)
+* [Allow and deny lists](#allow-and-deny-lists)
+* [Tool profiles](#tool-profiles)
+* [Tool groups](#tool-groups)
+* [Provider-specific restrictions](#provider-specific-restrictions)
+Overview
+
+Tools and Plugins
+=================
+
+[​](#tools-and-plugins)Tools and Plugins
+========================================
+
+Everything the agent does beyond generating text happens through **tools**.
+Tools are how the agent reads files, runs commands, browses the web, sends
+messages, and interacts with devices.
+
+[​](#tools-skills-and-plugins)Tools, skills, and plugins
+--------------------------------------------------------
+
+OpenClaw has three layers that work together:
+1
+
+Tools are what the agent calls
+
+A tool is a typed function the agent can invoke (e.g. `exec`, `browser`,
+`web_search`, `message`). OpenClaw ships a set of **built-in tools** and
+plugins can register additional ones.The agent sees tools as structured function definitions sent to the model API.2
+
+Skills teach the agent when and how
+
+A skill is a markdown file (`SKILL.md`) injected into the system prompt.
+Skills give the agent context, constraints, and step-by-step guidance for
+using tools effectively. Skills live in your workspace, in shared folders,
+or ship inside plugins.[Skills reference](/tools/skills) | [Creating skills](/tools/creating-skills)3
+
+Plugins package everything together
+
+A plugin is a package that can register any combination of capabilities:
+channels, model providers, tools, skills, speech, image generation, and more.
+Some plugins are **core** (shipped with OpenClaw), others are **external**
+(published on npm by the community).[Install and configure plugins](/tools/plugin) | [Build your own](/plugins/building-plugins)
+
+[​](#built-in-tools)Built-in tools
+----------------------------------
+
+These tools ship with OpenClaw and are available without installing any plugins:
+
+| Tool | What it does | Page |
+| --- | --- | --- |
+| `exec` / `process` | Run shell commands, manage background processes | [Exec](/tools/exec) |
+| `code_execution` | Run sandboxed remote Python analysis | [Code Execution](/tools/code-execution) |
+| `browser` | Control a Chromium browser (navigate, click, screenshot) | [Browser](/tools/browser) |
+| `web_search` / `x_search` / `web_fetch` | Search the web, search X posts, fetch page content | [Web](/tools/web) |
+| `read` / `write` / `edit` | File I/O in the workspace |  |
+| `apply_patch` | Multi-hunk file patches | [Apply Patch](/tools/apply-patch) |
+| `message` | Send messages across all channels | [Agent Send](/tools/agent-send) |
+| `canvas` | Drive node Canvas (present, eval, snapshot) |  |
+| `nodes` | Discover and target paired devices |  |
+| `cron` / `gateway` | Manage scheduled jobs, restart gateway |  |
+| `image` / `image_generate` | Analyze or generate images |  |
+| `sessions_*` / `agents_list` | Session management, sub-agents | [Sub-agents](/tools/subagents) |
+
+
+For image work, use `image` for analysis and `image_generate` for generation or editing. If you target `openai/*`, `google/*`, `fal/*`, or another non-default image provider, configure that provider’s auth/API key first.
+### [​](#plugin-provided-tools)Plugin-provided tools
+
+Plugins can register additional tools. Some examples:
+
+* [Lobster](/tools/lobster) — typed workflow runtime with resumable approvals
+* [LLM Task](/tools/llm-task) — JSON-only LLM step for structured output
+* [Diffs](/tools/diffs) — diff viewer and renderer
+* [OpenProse](/prose) — markdown-first workflow orchestration
+
+[​](#tool-configuration)Tool configuration
+------------------------------------------
+
+### [​](#allow-and-deny-lists)Allow and deny lists
+
+Control which tools the agent can call via `tools.allow` / `tools.deny` in
+config. Deny always wins over allow.
+```
+{
+  tools: {
+    allow: ["group:fs", "browser", "web_search"],
+    deny: ["exec"],
+  },
+}
+
+```
+### [​](#tool-profiles)Tool profiles
+
+`tools.profile` sets a base allowlist before `allow`/`deny` is applied.
+Per-agent override: `agents.list[].tools.profile`.
+
+| Profile | What it includes |
+| --- | --- |
+| `full` | All tools (default) |
+| `coding` | File I/O, runtime, sessions, memory, image |
+| `messaging` | Messaging, session list/history/send/status |
+| `minimal` | `session_status` only |
+
+### [​](#tool-groups)Tool groups
+
+Use `group:*` shorthands in allow/deny lists:
+
+| Group | Tools |
+| --- | --- |
+| `group:runtime` | exec, bash, process, code\_execution |
+| `group:fs` | read, write, edit, apply\_patch |
+| `group:sessions` | sessions\_list, sessions\_history, sessions\_send, sessions\_spawn, sessions\_yield, subagents, session\_status |
+| `group:memory` | memory\_search, memory\_get |
+| `group:web` | web\_search, x\_search, web\_fetch |
+| `group:ui` | browser, canvas |
+| `group:automation` | cron, gateway |
+| `group:messaging` | message |
+| `group:nodes` | nodes |
+| `group:openclaw` | All built-in OpenClaw tools (excludes plugin tools) |
+
+### [​](#provider-specific-restrictions)Provider-specific restrictions
+
+Use `tools.byProvider` to restrict tools for specific providers without
+changing global defaults:
+```
+{
+  tools: {
+    profile: "coding",
+    byProvider: {
+      "google-antigravity": { profile: "minimal" },
+    },
+  },
+}
+
+```
+[Install and Configure](/tools/plugin)⌘I[Powered byThis documentation is built and hosted on Mintlify, a developer documentation platform](https://www.mintlify.com?utm_campaign=poweredBy&utm_medium=referral&utm_source=clawdhub)

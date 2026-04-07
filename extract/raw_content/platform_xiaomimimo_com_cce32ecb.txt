@@ -1,0 +1,117 @@
+# Source URL: https://platform.xiaomimimo.com/#/docs/usage-guide/speech-synthesis
+# Content Length: 6617 characters
+# Extracted at: 2026-03-24 13:50:54
+#============================================================
+
+📢 Xiaomi's all-new MiMo series models MiMo-V2-Pro, MiMo-V2-Omni, and MiMo-V2-TTS are now officially launched. Free globally for the first week in partnership with multiple mainstream development tools! ✨
+📢 Xiaomi's all-new MiMo series models MiMo-V2-Pro, MiMo-V2-Omni, and MiMo-V2-TTS are now officially launched. Free globally for the first week in partnership with multiple mainstream development tools! ✨
+📢 Xiaomi's all-new MiMo series models MiMo-V2-Pro, MiMo-V2-Omni, and MiMo-V2-TTS are now officially launched. Free globally for the first week in partnership with multiple mainstream development tools! ✨
+📢 Xiaomi's all-new MiMo series models MiMo-V2-Pro, MiMo-V2-Omni, and MiMo-V2-TTS are now officially launched. Free globally for the first week in partnership with multiple mainstream development tools! ✨
+📢 Xiaomi's all-new MiMo series models MiMo-V2-Pro, MiMo-V2-Omni, and MiMo-V2-TTS are now officially launched. Free globally for the first week in partnership with multiple mainstream development tools! ✨
+📢 Xiaomi's all-new MiMo series models MiMo-V2-Pro, MiMo-V2-Omni, and MiMo-V2-TTS are now officially launched. Free globally for the first week in partnership with multiple mainstream development tools! ✨
+📢 Xiaomi's all-new MiMo series models MiMo-V2-Pro, MiMo-V2-Omni, and MiMo-V2-TTS are now officially launched. Free globally for the first week in partnership with multiple mainstream development tools! ✨
+# Speech synthesis
+Speech Synthesis (Text-to-Speech) automatically converts input text into natural and fluent speech output. You can configure parameters such as speech style to generate expressive and vivid speech content.
+\*\*Core Capabilities\*\*
+- \*\*Provides built-in voices:\*\* Built-in default tones meet the needs for quick use.
+- \*\*Diverse speech styles:\*\* Supports specifying speech styles for more vivid and natural voices.
+## Supported Models
+Only the `mimo-v2-tts` model is currently supported.
+## Preparation
+For preparations such as obtaining the API Key, please refer to [First API Call](https://platform.xiaomimimo.com/#/docs/quick-start/first-api-call).
+## Available Built-in Voices
+You may set the built-in voice in `{"audio": {"voice": "mimo\_default"}}`.
+| \*\*Voice Name\*\* | \*\*Voice Parameter\*\* |
+| --- | --- |
+| MiMo-Default | mimo\\_default |
+| MiMo-Chinese Female Voice | default\\_zh |
+| MiMo-English Female Voice | default\\_en |
+> Currently, voice cloning is not supported.
+## Style Control
+### Overall Voice Style Control
+Place `` at the beginning of the target text for conversion, where `style` is the audio style to be generated. If multiple styles need to be set, place multiple style names within the same `Content to be synthesized`.
+The following are some recommended styles, and styles not on the list are also supported.
+| \*\*Style Type\*\* | \*\*Style Example\*\* |
+| --- | --- |
+| Speech rate control | \_Speed up / Slow down\_ |
+| Emotional changes | \_Happy / Sad / Angry\_ |
+| Role-playing | \_Sun Wukong / Lin Daiyu\_ |
+| Style change | \_Whisper / Clamped voice / Taiwanese accent\_ |
+| Dialect | \_Northeastern dialect / Sichuan dialect / Henan dialect / Cantonese\_ |
+\*\*Sample:\*\*
+- `Tomorrow is Friday, so happy!`
+- `Oh my goodness, it's so cold today! You know that wind, it's howling like a knife, cutting into your face!`
+### Fine-grained Control of Audio Tags
+Through \[Audio Tags\], you can exercise fine-grained control over sound, precisely adjusting tone, emotion, and expression style—whether it's a whisper, a hearty laugh, or a little rant with a touch of emotion. You can also flexibly insert breaths, pauses, coughs, etc., all of which can be easily achieved. The speaking speed can also be flexibly adjusted, ensuring that every sentence has its proper rhythm.
+\*\*Sample:\*\*
+- Achoo! Ahem. I—I really \[cough\] think I am coming down with a terrible \[cough\] terrible cold.
+- \[heavy breathing\] Just... give me... a second. I ran... all the way... from the station.
+- I just feel... \_long sigh\_... like I'm constantly treading water, you know?
+- It's just so stupid! (sobbing) We spent all that money on the cake and the dog just... (sudden laugh) he just ate the whole thing in one bite!
+## Code Sample
+\*\*Notes\*\*
+- The target text for speech synthesis must be placed in a message with `role`: `assistant`, not in a message with `role`: `user`.
+- The message of the `user` role is an optional parameter, but it is recommended that users carry it. You can adjust the tone and style of speech synthesis in some scenarios.
+- To specify the speech style, place `` at the beginning of the target text.
+- To achieve a better singing style, you must add only the tag `` at the very beginning of the target text, in the format: `target\_text`.
+\*\*Curl\*\*
+```bash
+curl --location --request POST 'https://api.xiaomimimo.com/v1/chat/completions' \
+--header "api-key: $MIMO\_API\_KEY" \
+--header 'Content-Type: application/json' \
+--data-raw '{
+"model": "mimo-v2-tts",
+"messages": [\
+{\
+"role": "user",\
+"content": "Hello, MiMo, have you had lunch?"\
+},\
+{\
+"role": "assistant",\
+"content": "Yes, I had a sandwich."\
+}\
+],
+"audio": {
+"format": "wav",
+"voice": "mimo\_default"
+}
+}'
+```
+\*\*Python\*\*
+```python
+import os
+from openai import OpenAI
+import base64
+client = OpenAI(
+api\_key=os.environ.get("MIMO\_API\_KEY"),
+base\_url="https://api.xiaomimimo.com/v1"
+)
+completion = client.chat.completions.create(
+model="mimo-v2-tts",
+messages=[\
+{\
+"role": "user",\
+"content": "Hello, MiMo, have you had lunch?"\
+},\
+{\
+"role": "assistant",\
+"content": "Yes, I had a sandwich."\
+}\
+],
+audio={
+"format": "wav",
+"voice": "mimo\_default"
+}
+)
+message = completion.choices[0].message
+audio\_bytes = base64.b64decode(message.audio.data)
+with open("audio\_file.wav", "wb") as f:
+f.write(audio\_bytes)
+```
+## Price
+- Billing: Free for a limited time.
+- View Bill: You can view your usage on the [Billing](https://platform.xiaomimimo.com/#/console/usage) page in the Console.
+Update Time March 19, 2026
+[Video Understanding](https://platform.xiaomimimo.com/#/docs/usage-guide/multimodal-understanding/video-understanding) [FAQ](https://platform.xiaomimimo.com/#/docs/faq)
+We use cookies and similar technologies of our own to ensure the proper functioning of the website, customize content according to user preferences and analyze users' interactions on the website, as well as their browsing habits. You can find more information in our Cookie Policy. Select an option or go to Cookie Settings to manage your preferences. [Learn More](https://platform.xiaomimimo.com/#/cookie-policy).
+Cookie SettingsAccept AllDecline All

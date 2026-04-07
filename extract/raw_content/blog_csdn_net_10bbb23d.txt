@@ -1,0 +1,996 @@
+# Source URL: https://blog.csdn.net/xyghehehehe/article/details/159487221
+# Content Length: 20543 characters
+# Extracted at: 2026-03-27 12:03:42
+#============================================================
+
+ 
+
+
+
+
+
+TurboQuant革命：KV Cache压缩让百万Token上下文可负担-CSDN博客
+
+
+
+
+
+
+
+TurboQuant革命：KV Cache压缩让百万Token上下文可负担
+=====================================
+
+
+原创
+已于 2026-03-26 08:49:26 修改
+·
+991 阅读
+·
+![]()
+![]()
+9
+
+
+·
+![]()
+![]()
+8
+·
+CC 4.0 BY-SA版权
+版权声明：本文为博主原创文章，遵循 [CC 4.0 BY-SA](http://creativecommons.org/licenses/by-sa/4.0/) 版权协议，转载请附上原文出处链接和本声明。
+
+
+
+
+
+文章标签：
+
+[#开源](https://so.csdn.net/so/search/s.do?q=%E5%BC%80%E6%BA%90&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#人工智能](https://so.csdn.net/so/search/s.do?q=%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#AIGC](https://so.csdn.net/so/search/s.do?q=AIGC&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#gpt](https://so.csdn.net/so/search/s.do?q=gpt&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#AI写作](https://so.csdn.net/so/search/s.do?q=AI%E5%86%99%E4%BD%9C&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#算法](https://so.csdn.net/so/search/s.do?q=%E7%AE%97%E6%B3%95&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#agi](https://so.csdn.net/so/search/s.do?q=agi&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+
+
+
+于 2026-03-26 08:44:51 首次发布
+
+
+
+
+[![]()
+AI大模型技术
+专栏收录该内容](https://blog.csdn.net/xyghehehehe/category_13145483.html)
+
+15 篇文章
+
+订阅专栏
+
+
+
+
+[![]()
+新星杯·14天创作挑战营·第20期
+10w+人浏览
+685人参与
+
+![]()](https://activity.csdn.net/writing?id=11142)
+
+
+---
+
+⬅️ 上一篇：[2026年3月全球大模型全景：国产登顶、百万上下文、智能体爆发](https://blog.csdn.net/xyghehehehe/article/details/159487080?spm=1011.2415.3001.5331)
+
+➡️ 下一篇：[Vibe Coding时代：AI编程工具全景与Claude Code的Agent革命](https://blog.csdn.net/xyghehehehe/article/details/159487534?spm=1011.2415.3001.5331)
+
+---
+
+### 摘要
+
+2026年3月，Google Research在ICLR 2026发表TurboQuant算法，专门解决大模型长上下文推理的"显存瓶颈"问题。TurboQuant通过PolarQuant（随机旋转量化）和QJL（Johnson-Lindenstrauss零开销压缩）双核技术，将KV缓存量化至3bit，实现内存压缩6倍以上、H100上推理加速最高8倍，且无需任何训练或微调即可零精度损失部署。该算法为百万Token上下文的大规模商用扫清了最后一道算力障碍。
+
+> **核心结论**：TurboQuant将KV缓存从"推理最贵的成本项"变为"可以忽略不计的开销"，是2026年大模型推理基础设施领域最重要的技术突破之一。
+
+---
+
+### 什么是KV Cache？为什么它是长上下文的瓶颈？
+
+**KV Cache（Key-Value缓存）** 是大语言模型自回归推理的核心机制：每生成一个新Token，模型需要与上文所有Token做注意力计算。为避免重复计算，模型将过往Token的Key和Value向量缓存在GPU显存中——这就是KV Cache。
+
+**问题在于，KV Cache随上下文长度线性增长**：
+
+```
+KV Cache大小 = 层数 × 2（K和V）× 序列长度 × 头数 × 每头维度 × 精度字节数
+
+以 Llama-3.1-70B (FP16) 为例：
+- 80层 × 2 × 128000 Token × 64头 × 128维 × 2字节
+- ≈ 约 320GB VRAM
+（超出单张H100 80GB显存的4倍）
+
+```
+
+这意味着即使模型权重可以用量化压缩到可接受大小，超长上下文的KV Cache仍会将推理成本推至不可负担的水平——这是百万Token上下文商业化的核心障碍（来源：Google Research，2026年3月）。
+
+---
+
+### 一、TurboQuant：三层技术架构
+
+TurboQuant由三个递进的核心技术组成，从理论到工程逐层构建：
+
+#### 1.1 PolarQuant：随机旋转消除量化误差
+
+传统量化（如INT8）将浮点数映射到低比特整数时，误差集中在数值分布的"尾部"——如果某个维度的数值异常大，量化精度会急剧下降。
+
+PolarQuant的解决思路是**在量化前对向量进行随机正交旋转**：
+
+```
+# PolarQuant 核心思路（伪代码）
+def polar_quant(key_vector, rotation_matrix):
+    # 步骤1：随机正交旋转，均匀化数值分布
+    rotated = key_vector @ rotation_matrix  # 旋转后各维度方差趋于一致
+    
+    # 步骤2：在均匀分布上执行量化，误差大幅降低
+    quantized = quantize_to_bits(rotated, bits=3)
+    
+    return quantized, rotation_matrix  # 解码时只需逆旋转
+
+```
+
+数学原理：正交旋转不改变向量的L2范数（欧氏距离），因此不影响注意力分数的相对大小。旋转后各维度方差趋于均匀，消除了异常大数值导致的量化误差集中。
+
+**效果**：在3bit精度下实现接近零的精度损失。
+
+#### 1.2 QJL：零内存开销的Value压缩
+
+Key向量用于计算注意力权重（softmax），Value向量用于加权求和得到输出。QJL（基于Johnson-Lindenstrauss变换）专门针对Value向量设计：
+
+**Johnson-Lindenstrauss引理**：将高维向量投影到低维空间时，如果随机矩阵满足特定条件，向量间的距离关系可以得到保持。
+
+```
+# QJL 核心思路（伪代码）
+def qjl_compress(value_vector, projection_matrix):
+    # 步骤1：JL随机投影，大幅降维
+    projected = projection_matrix @ value_vector
+    
+    # 步骤2：只保留符号位（+1 或 -1），极限压缩
+    signs = torch.sign(projected)  # 每个维度只用1bit
+    
+    return signs  # 内存开销接近于零
+
+```
+
+配合特殊的**混合精度注意力估计器**，QJL可以从符号位直接准确还原注意力输出，额外内存开销接近于零（来源：ICLR 2026论文，Google Research）。
+
+#### 1.3 TurboQuant统一框架：PolarQuant + QJL组合
+
+TurboQuant将以上两者有机结合：Key使用PolarQuant（随机旋转+3bit量化），Value使用QJL（JL投影+符号位），形成轻量化、在线应用、GPU原生加速的统一压缩方案：
+
+```
+TurboQuant 完整流程
+
+输入Token → 计算K/V向量
+│
+├─ Key向量 → [PolarQuant]
+│   ├─ 随机正交旋转
+│   └─ 3bit量化
+│   → 压缩Key（仅3bit/维度）
+│
+└─ Value向量 → [QJL]
+    ├─ Johnson-Lindenstrauss投影
+    └─ 符号位提取（1bit）
+    → 压缩Value（~0额外开销）
+
+注意力计算：使用混合精度估计器从压缩KV中恢复精确注意力输出
+
+```
+
+---
+
+### 二、性能数据：压缩6倍，加速8倍，零精度损失
+
+#### 2.1 内存压缩
+
+| 精度 | 内存缩减 | 典型场景 |
+| --- | --- | --- |
+| FP16（基线） | 1× | 原始KV Cache |
+| INT8量化 | 2× | 传统量化方案 |
+| TurboQuant 3bit | **≥6×** | 新方案，无精度损失 |
+| TurboQuant 2.5bit | ≥7× | 极限压缩场景 |
+
+以前述Llama-3.1-70B为例，128K上下文的KV Cache从**320GB → 约53GB**，可以在单张H100上完整部署（来源：Google Research，ICLR 2026）。
+
+#### 2.2 推理加速
+
+在NVIDIA H100 GPU上，4bit配置的TurboQuant计算注意力logits的速度相比FP32基线提升**最高8倍**。这是因为：
+
+1. 更小的内存占用 → 更少的GPU内存带宽需求（内存带宽是注意力计算的主要瓶颈）
+2. 量化算子原生适配现代GPU Tensor Core
+
+#### 2.3 精度损失对比
+
+在LongBench、Needle in a Haystack、RULER、L-Eval五大主流长上下文基准测试上：
+
+| 方法 | 精度保留 | 是否需要校准数据 | 是否需要自定义CUDA |
+| --- | --- | --- | --- |
+| KIVI（2024） | 中等，sub-4bit有损 | 否 | 否 |
+| KVQuant（UC Berkeley，2024） | 较好 | **是** | **是** |
+| TurboQuant | **零精度损失** | **否** | **否** |
+
+特别是在\*\*“大海捞针”\*\*（Needle in a Haystack）长文本精确检索任务中，TurboQuant实现了完美的检索精度——意味着压缩后的KV Cache不丢失任何位置信息（来源：ICLR 2026，Google Research）。
+
+---
+
+### 三、与现有方案的比较
+
+#### 3.1 TurboQuant vs KVQuant（UC Berkeley）
+
+KVQuant（2024年最佳KV压缩方案）在3bit下实现约4.8倍压缩，但依赖校准数据集和自定义CUDA内核，部署门槛较高。TurboQuant在同等精度下：
+
+* 压缩率提升25%（6× vs 4.8×）
+* **不需要校准数据**（完全数据无关）
+* **不需要自定义CUDA**（使用标准PyTorch/CUDA算子）
+
+#### 3.2 TurboQuant vs 标准INT4量化
+
+主流INT4量化（如bitsandbytes）主要针对权重量化，应用于KV Cache时精度损失明显，且不针对注意力计算优化。TurboQuant专为注意力KV Cache设计，理论保证更强。
+
+---
+
+### 四、工程影响：谁将从中受益？
+
+#### 4.1 模型服务提供商（OpenAI、Anthropic等）
+
+对于服务百万Token上下文的云端推理集群，TurboQuant可将**单卡服务并发数提升6倍以上**，或将相同成本下可处理的上下文长度提升6倍。这直接降低了API定价，推动百万Token上下文大众化。
+
+#### 4.2 企业私有化部署
+
+原本需要8×H100才能部署百万Token上下文模型，TurboQuant后**2×H100即可满足同等负载**，私有化部署成本门槛大幅降低。对于金融、法律、医疗等对数据隐私有严格要求的行业具有直接价值。
+
+#### 4.3 边缘设备与端侧推理
+
+配合量化模型权重，TurboQuant使得**在消费级GPU（如RTX 4090）上运行128K上下文的70B模型成为可能**，为端侧超长上下文应用打开了想象空间。
+
+---
+
+### 五、值得关注的局限性
+
+1. **尚未开源**：截至2026年3月，Google Research未宣布开源TurboQuant实现代码，社区复现需要依赖论文细节重新实现。
+2. **适用范围**：目前在基于Transformer注意力机制的模型上验证，对Mamba、RWKV等线性注意力架构的适用性尚待研究。
+3. **硬件适配**：虽然不需要自定义CUDA内核，但最优性能仍依赖NVIDIA GPU；在Apple Silicon、AMD GPU上的适配工作需要额外开发。
+
+---
+
+### FAQ
+
+**Q: TurboQuant与GPTQ、AWQ等权重量化有什么区别？**
+
+A: GPTQ、AWQ等是**权重量化**，压缩模型参数本身，减少模型加载的内存；TurboQuant是**KV缓存量化**，压缩推理过程中的中间状态，减少长上下文推理的动态内存。两者互补，可以同时使用：权重量化 + TurboQuant KV压缩可以实现最大程度的内存节省。
+
+**Q: 为什么随机旋转能减少量化误差？**
+
+A: 直觉上，未旋转的K/V向量各维度方差差异巨大（某些维度方差可能是其他维度的100倍以上）。量化时只能对整体数值范围设置一个步长，大方差维度过度压缩导致误差集中。随机正交旋转将方差"抹平"到所有维度，每个维度量化误差均匀分布，整体误差大幅下降——这与BatchNorm的思想有相似之处。
+
+**Q: TurboQuant会影响模型的数学输出吗？**
+
+A: 理论上，PolarQuant的旋转 + 解旋转操作是完全可逆的；QJL通过JL变换在理论上保证注意力分数估计的无偏性。实验结果也验证了在5大基准测试上零精度损失。但在极端case（非常罕见的数值分布）下理论上仍有微小误差，这也是论文中注明"接近零"而非绝对零的原因。
+
+**Q: 开发者现在可以如何使用TurboQuant相关技术？**
+
+A: 目前可以参考已有开源替代方案实践类似思路：① 使用 `bitsandbytes` 的KV Cache量化功能；② 参考 `KVQuant` 开源实现；③ 关注Google Research官方博客和GitHub，等待TurboQuant开源发布。实际生产中，vLLM、TGI等推理框架也在积极集成各类KV Cache压缩技术。
+
+---
+
+⬅️ 上一篇：[2026年3月全球大模型全景：国产登顶、百万上下文、智能体爆发](https://blog.csdn.net/xyghehehehe/article/details/159487080?spm=1011.2415.3001.5331)
+
+➡️ 下一篇：[Vibe Coding时代：AI编程工具全景与Claude Code的Agent革命](https://blog.csdn.net/xyghehehehe/article/details/159487534?spm=1011.2415.3001.5331)
+
+---
+
+### 参考资料
+
+1. Google Research官方博客，TurboQuant发布说明，2026-03-25，research.google/blog/turboquant
+2. ICLR 2026论文：TurboQuant: Redefining AI Efficiency with Extreme Compression，Google Research
+3. ChooseAI工具导航，TurboQuant详细解析，2026-03-25
+4. KVQuant: Towards 10 Million Context Length LLM Inference，UC Berkeley，NeurIPS 2024
+5. KIVI: A Tuning-Free Asymmetric 2bit Quantization for KV Cache，Arxiv 2024
+6. 阿里云资深技术总监张为，GTC 2026演讲，InfoQ，2026年3月
+
+---
+
+
+
+
+
+
+
+
+![]()
+确定要放弃本次机会？
+
+福利倒计时
+
+*:*
+
+*:*
+
+
+![]()
+立减 ¥
+
+
+普通VIP年卡可用
+
+[立即使用](https://mall.csdn.net/vip)
+
+
+[![]()
+柯儿的天空](https://blog.csdn.net/xyghehehehe)
+
+[关注](javascript:;)
+关注
+
+
+* ![]()
+  ![]()
+  ![]()
+  9
+  点赞
+* ![]()
+  ![]()
+  踩
+* [![]()
+  ![]()
+  ![]()
+  8](javascript:;)
+  收藏
+  
+  
+  
+  觉得还不错?
+  一键收藏
+  
+  ![]()
+* ![]()
+  知道了
+  
+  [![]()
+  0](#commentBox)
+  评论
+* [![]()
+  分享](javascript:;)
+  复制链接
+  
+  分享到 QQ
+  
+  分享到新浪微博
+  
+  ![]()扫一扫
+* ![]()
+  ![]()
+  举报
+  
+  ![]()
+  举报
+
+专栏目录
+
+
+
+
+[*KV*缓存*压缩**:*长*上下文*能力的代价是什么?](https://steper.blog.csdn.net/article/details/140143554)
+
+[步子哥的博客](https://blog.csdn.net/weixin_36829761)
+
+07-08
+![]()
+1377
+
+
+
+
+[长*上下文*能力是大型语言模型(LLM)的一项关键能力,它可以帮助我们处理长篇文本,完成复杂的任务,如图书摘要、代码辅助等。然而,基于Transformer的LLM在处理长*上下文*输入时面临着巨大的挑战,主要是由于*KV*缓存(Key-Value *Cache*)的大小随着输入长度线性增长,以及注意力机制对长序列的内在复杂性。为了解决这些问题,研究人员提出了多种效率驱动的方法,包括*KV*缓存量化、*token*丢弃、prompt*压缩*、线性时间序列模型和混合架构等。尽管这些方法取得了显著进展,但目前还没有对这些方法在合理对齐的环](https://steper.blog.csdn.net/article/details/140143554)
+
+
+
+
+[论文阅读：*Cache*Gen*:* *KV* *Cache* Compression and Streaming for Fast LargeLanguage Model Serving](https://blog.csdn.net/weixin_54641008/article/details/147321988)
+
+[weixin\_54641008的博客](https://blog.csdn.net/weixin_54641008)
+
+05-20
+![]()
+1268
+
+
+
+
+[*Cache*Gen通过创新性地将视频编码思想迁移至LLM服务场景，成功解决了长*上下文*处理中的网络传输瓶颈。其核心技术——基于差分与分组的*KV**压缩*、带宽自适应的流式传输——在多个维度上超越现有方法，*压缩*率提升3.5倍以上，TTFT降低至2秒级，同时保持生成质量损失小于2%。实验表明，*Cache*Gen具备优异的动态适应能力与系统兼容性，可广泛应用于法律助手、金融分析、多轮对话等场景。未来，结合增量传输与智能缓存策略，有望推动LLM在实时交互、边缘计算等领域的规模化落地，为*AI*服务的效率*革命*提供关键技术支持。](https://blog.csdn.net/weixin_54641008/article/details/147321988)
+
+
+
+
+
+参与评论
+您还未登录，请先
+登录
+后发表或查看评论
+
+
+[大模型推理--*KV* *Cache**压缩*](https://devpress.csdn.net/v1/article/detail/145812216)
+
+[姚光超的专栏](https://blog.csdn.net/yutianzuijin)
+
+02-23
+![]()
+3151
+
+
+
+
+[这篇博客本应完成于24年9月，但是由于入职新公司之后上下班距离较远下班之后无力再动脑，遂拖到现在才完成，而且再看文章内容感觉不少部分都已过时，但还是可以当做一篇综述性文章来读，了解*KV* *Cache**压缩*的历史。在之前的博客《》中我们简单提到了*KV* *Cache*在超长*上下文*下过大的问题。为了使得大模型推理能支持超长*上下文*，我们必须要对*KV* *Cache*进行*压缩*，本博客就介绍一下目前常用的*压缩*手段。我们还是引用PagedAttention中给出的例子，看一下*KV* *Cache*到底有多大。](https://devpress.csdn.net/v1/article/detail/145812216)
+
+
+
+[大模型*Token*节省技巧：*KV* *Cache*复用与剪枝策略](https://devpress.csdn.net/v1/article/detail/156402647)
+
+[weixin\_29041443的博客](https://blog.csdn.net/weixin_29041443)
+
+12-29
+![]()
+661
+
+
+
+
+[大模型推理中显存瓶颈常源于*KV* *Cache*的无节制增长。通过*KV* *Cache*复用避免重复计算，结合剪枝策略剔除低价值缓存，可在几乎不影响生成质量的前提下显著降低显存占用、提升推理速度。这些技术已成为高效部署LLM的核心手段。](https://devpress.csdn.net/v1/article/detail/156402647)
+
+
+
+
+[*KV* *cache* 内存不足-降低模型*上下文*长度*:* ValueError*:* models‘s max seq len (262144)](https://devpress.csdn.net/v1/article/detail/156049700)
+
+[专注于AI领域前沿技术学习与分享：目标检测、图像修复、超分重建、AI工程化](https://blog.csdn.net/sinat_28442665)
+
+12-19
+![]()
+1190
+
+
+
+
+[这篇文章讨论了在使用vLLM引擎运行Qwen3-VL-4B多模态模型时遇到的*KV*缓存内存不足问题。主要错误显示模型需要36GB显存来处理262144的最大序列长度，而用户显卡仅能提供7.84GB。作者建议通过限制max\_model\_len参数来解决，推荐设置为8192或16384 *token*s来处理单张图片，并提供了具体的代码修改方案。对于12GB显卡用户，还给出了优化显存利用率的建议，包括调整gpu\_memory\_utilization参数和可能的模型量化方案。](https://devpress.csdn.net/v1/article/detail/156049700)
+
+
+
+[大模型推理引擎vLLM(0)*:* *KV* *Cache*原理](https://devpress.csdn.net/v1/article/detail/156105295)
+
+[C/C++、嵌入式开发、深度学习算法、模型部署与推理优化](https://blog.csdn.net/u013171226)
+
+12-22
+![]()
+805
+
+
+
+
+[大模型推理引擎vLLM(0)*:* *KV* *Cache*原理](https://devpress.csdn.net/v1/article/detail/156105295)
+
+
+
+[LLMs之LCM：《*Cache*Gen*:* *KV* *Cache* Compression and Streaming for Fast Large Language Model Serving》翻译与解读](https://yunyaniu.blog.csdn.net/article/details/142439851)
+
+[头部AI社区如有邀博主AI主题演讲请私信—心比天高，仗剑走天涯，保持热爱，奔赴向梦想！低调，专注，谦虚，自律，反思，成长，还算比较正能量的博主，公益免费传播…内心特别想在AI界做出一些可以推进历史进程影响力的技术(兴趣使然，有点小情怀，也有点使命感呀](https://blog.csdn.net/qq_41185868)
+
+09-22
+![]()
+2387
+
+
+
+
+[​
+LLMs之LCM：《*Cache*Gen*:* *KV* *Cache* Compression and Streaming for Fast Large Language Model Serving》翻译与解读
+目录
+《*Cache*Gen*:* *KV* *Cache* Compression and Streaming for Fast Large Language Model Serving》翻译与解读
+Abstract
+1 Introduction
+9 Discussion an](https://yunyaniu.blog.csdn.net/article/details/142439851)
+
+
+
+[彻底搞懂 vLLM 的 PagedAttention：*KV* *Cache* 不再爆显存的秘密](https://devpress.csdn.net/v1/article/detail/156724383)
+
+[携梦问道的博客](https://blog.csdn.net/qq_41797451)
+
+01-08
+![]()
+757
+
+
+
+
+[vLLM通过创新的PagedAttention机制解决了大语言模型推理中的*KV* *Cache*管理难题。该技术借鉴操作系统分页思想，将*KV* *Cache*划分为固定大小的Block进行动态管理，实现了显存的高效利用。相比传统连续分配方式，PagedAttention显著降低了显存碎片，提升了并发处理能力，尤其适合长*上下文*和动态变化的服务场景。其核心在于解耦逻辑序列与物理存储，通过Block Table实现非连续*KV* *Cache*的高效访问。这一技术突破使大模型推理具备了操作系统级别的内存管理能力，成为vLLM高性能的](https://devpress.csdn.net/v1/article/detail/156724383)
+
+
+
+[GQA，MLA之外的另一种*KV* *Cache**压缩*方式：动态内存*压缩*（DMC）](https://blog.csdn.net/just_sort/article/details/139537213)
+
+[I good vegetable a!](https://blog.csdn.net/just_sort)
+
+06-08
+![]()
+1834
+
+
+
+
+[Transformer 已经成为大型语言模型 (LLM) 的核心。然而，由于需要在内存中存储过去*token*的key value的缓存（*KV* *Cache*），而缓存的大小与输入序列长度和batch大小线性相关，因此生成仍然效率低下。为了解决这个问题，paper提出了动态内存*压缩* (DMC)，一种在推理时对*KV* *Cache*进行在线*压缩*的方法。最重要的是，模型学习在不同的注意力头和layer中应用不同的*压缩*率。](https://blog.csdn.net/just_sort/article/details/139537213)
+
+
+
+[Claude Sonnet 4*百万**Token**上下文*窗口：大规模*上下文*处理的技术突破与架构优化](https://blog.csdn.net/chaofan980/article/details/150346431)
+
+[chaofan980的博客](https://blog.csdn.net/chaofan980)
+
+08-13
+![]()
+1273
+
+
+
+
+[本文分析了Anthropic发布的ClaudeSonnet4 API支持100万*token**上下文*窗口的技术突破。重点探讨了Transformer架构在长*上下文*处理中面临的计算复杂度O(n²)和内存管理挑战，介绍了分层计费模式反映的技术成本结构，以及分块注意力、稀疏注意力等优化策略。文章详细解析了该API在代码库全局分析、批处理优化等方面的技术实现方案，并对比了不同厂商的长*上下文*处理技术特点。通过提示缓存、*上下文*窗口管理等最佳实践，开发者可以在性能与成本间取得平衡，构建更智能的*上下文*感知应用。](https://blog.csdn.net/chaofan980/article/details/150346431)
+
+
+
+[*KV* *cache**压缩*策略](https://blog.csdn.net/weixin_46878020/article/details/141065191)
+
+[weixin\_46878020的博客](https://blog.csdn.net/weixin_46878020)
+
+08-13
+![]()
+1791
+
+
+
+
+[前面的4中*KV**压缩*方法，都有一个特点都是完整保留最后一部分*token*s的*KV*值，然后对于前面*token*s的*KV*，不同的方法去选择他们认为比较重要*token*s的*KV*，把这两部分的*KV*拼接起来便*压缩*了*KV*。最近*token*s的*KV*所有方法都保留了，虽然每种方法都有自己的说法，说明了最近*token*s *KV*的重要性。](https://blog.csdn.net/weixin_46878020/article/details/141065191)
+
+
+
+[2.5GB 塞进浏览器：Mistral *开源*实时语音识别，延迟不到半秒](https://blog.csdn.net/CooVally_AI/article/details/159388482)
+
+[Coovally\_AI的博客](https://blog.csdn.net/CooVally_AI)
+
+03-23
+![]()
+529
+
+
+
+
+[与离线模型的关系：Voxtral Realtime 不是要替代 Whisper 或 *GPT*-4o Transcribe 等离线模型，而是填补"需要实时输出"的场景空白。在 480ms 延迟下，它的精度与离线 Whisper 的差距控制在 1% WER 以内（长音频场景甚至更优），这是此前流式模型难以达到的水平。与 Moonshine 等轻量端侧模型的定位差异：Moonshine（27M-61M 参数）面向极端资源受限的设备，仅支持英语，模型极小但精度有限。](https://blog.csdn.net/CooVally_AI/article/details/159388482)
+
+
+
+[Vaultwarden：轻量级*开源*密码管理器，自建服务器实现密码自由](https://devpress.csdn.net/v1/article/detail/159392021)
+
+
+03-23
+![]()
+408
+
+
+
+
+[详解Vaultwarden这款轻量级*开源*密码管理方案，兼容Bitwarden客户端，Docker部署简单，资源占用极低，是个人和团队密码管理的最佳*开源*选择](https://devpress.csdn.net/v1/article/detail/159392021)
+
+
+
+[基于 OpenMVG + OpenMVS 的*开源*多视图三维重建系统（包括资源下载与演示视频、系统整体架构与核心原理）](https://devpress.csdn.net/v1/article/detail/159507850)
+
+[DL\_data\_set的博客](https://blog.csdn.net/DL_data_set)
+
+03-26
+![]()
+253
+
+
+
+
+[针对传统多视图三维重建方案中商业软件授权成本高、*开源*流程碎片化、操作门槛高、重建效率低、过程不可量化等痛点，本文提出一款基于 OpenMVG+OpenMVS 双*开源*库的一体化三维重建系统。该系统创新性集成 Flood Fill 自动去背景、EXIF 相机内参自动计算、稠密点云实时预览、GPU 加速网格 / 纹理映射、全维度重建日志输出五大核心功能，构建了「拍照 - 预处理 - 稀疏重建 - 稠密重建 - 模型生成」的闭环工作流。](https://devpress.csdn.net/v1/article/detail/159507850)
+
+
+
+[LuxTTS 完整入门指南：150倍实时速度的*开源*声音克隆工具，1GB显存即可运行
+最新发布](https://devpress.csdn.net/v1/article/detail/159515279)
+
+[2401\_88055648的博客](https://blog.csdn.net/2401_88055648)
+
+03-26
+![]()
+166
+
+
+
+
+[它不靠堆参数量来提升效果，而是走轻量化路线——整体设计用于高质量声音克隆和写实语音生成，同时把速度控制在超过实时 150 倍的水平，并且能塞进 1GB 显存以内，也就是说任何有独立显卡的机器都能跑起来。而自己部署*开源* TTS 模型，以前的问题是要么速度慢，要么对显卡要求高，普通人一台 10 系、20 系显卡根本跑不顺畅。LuxTTS 在 GitHub 上 Star 数量不算多，但从技术路线来看，它选择的方向是对的——把一个大模型能做的事，用更少的资源来完成，这才是个人用户真正需要的东西。](https://devpress.csdn.net/v1/article/detail/159515279)
+
+
+
+[2026 企业知识库首选：PandaWiki AGPL-3.0 *开源*，无绑定+合规+降本三不误](https://blog.csdn.net/2503_93533101/article/details/159392145)
+
+[2503\_93533101的博客](https://blog.csdn.net/2503_93533101)
+
+03-23
+![]()
+217
+
+
+
+
+[市面上的知识库工具，要么闭源绑定、成本高企，要么*开源*风险高、功能弱，而PandaWiki AGPL-3.0 *开源*模式，兼顾安全可控、成本低廉、功能硬核、合规适配四大核心优势，是中小企业、大型集团、政企单位的首选知识库工具，真正实现降本增效、无后顾之忧。](https://blog.csdn.net/2503_93533101/article/details/159392145)
+
+
+
+[字节*开源* DeerFlow 2.0：从 Deep Research 到 Super Agent Harness 的进化之路](https://blog.csdn.net/qq_38610923/article/details/159416289)
+
+[qq\_38610923的博客](https://blog.csdn.net/qq_38610923)
+
+03-24
+![]()
+494
+
+
+
+
+[GitHub Trending 冠军项目，字节跳动完全*开源*的超级智能体框架。支持子代理、沙箱执行、长期记忆、技能扩展，可完成从几分钟到几小时的复杂任务。本文深度解析架构设计、安装实战、技能系统，并附上独家配置指南。](https://blog.csdn.net/qq_38610923/article/details/159416289)
+
+
+
+[本地部署*开源* LLM 应用观测与调试平台 Langfuse 并实现外部访问](https://devpress.csdn.net/v1/article/detail/159513417)
+
+[lyxnwct的博客](https://blog.csdn.net/lyxnwct)
+
+03-26
+![]()
+236
+
+
+
+
+[Langfuse 是一款*开源*的 LLM 应用观测与调试平台，它支持记录提示、模型输出、用户反馈、延迟、成本等关键指标，并提供可视化界面进行分析，帮助团队快速发现性能瓶颈、监控质量变化、进行 A/B 测试，从而高效迭代 LLM 应用，用于追踪、评估和优化基于大模型的应用。本文将详细介绍如何利用 Docker 在局域网内部署 Langfuse 并结合路由侠实现外网访问局域网内部署的 Langfuse。](https://devpress.csdn.net/v1/article/detail/159513417)
+
+
+
+[docker部署*开源*的SQL审核平台Yearning](https://blog.csdn.net/weimeilayer/article/details/159487003)
+
+[曼陀罗的博客](https://blog.csdn.net/weimeilayer)
+
+03-26
+![]()
+206
+
+
+
+
+[通过 Docker Compose 的方式，我们仅需几分钟即可完成 Yearning SQL 审核平台的部署。Yearning 提供了完整的 SQL 审核流程，支持工单管理、SQL 语法检查、权限控制等功能，是 DBA 和开发团队的得力助手。如需了解更多高级配置（如 LDAP 接入、钉钉/企业微信通知等），可参考Yearning 官方文档。](https://blog.csdn.net/weimeilayer/article/details/159487003)
+
+
+
+
+
+
+
+
+
+
+[![]()
+[![]()](https://blog.csdn.net/xyghehehehe)](https://blog.csdn.net/xyghehehehe)
+
+[柯儿的天空](https://blog.csdn.net/xyghehehehe)
+
+
+博客等级
+
+![]()
+
+码龄17年
+
+
+
+[60
+原创](https://blog.csdn.net/xyghehehehe)
+
+626
+点赞
+
+495
+收藏
+
+36
+粉丝
+
+
+关注
+
+[私信](https://im.csdn.net/chat/xyghehehehe)
+
+
+
+[![]()](https://ai.csdn.net/workbench/wallet?utm_source=xtai_slb_bloglb)
+
+### 热门文章
+
+* [警惕动态代理导致的Metaspace内存泄漏问题
+  ![]()
+  9686](https://blog.csdn.net/xyghehehehe/article/details/78820135)
+* [OpenClaw技术架构深度解析：原理、核心与源码全面解读
+  ![]()
+  2440](https://blog.csdn.net/xyghehehehe/article/details/159002615)
+* [【OpenClaw 全面解析：从零到精通】第 002 篇：解剖“龙虾“——OpenClaw 核心技术原理全解析
+  ![]()
+  2230](https://blog.csdn.net/xyghehehehe/article/details/159155472)
+* [【OpenClaw 全面解析：从零到精通】第 001 篇：一只“龙虾“如何改变了 AI 世界——OpenClaw 的诞生与历史背景
+  ![]()
+  1686](https://blog.csdn.net/xyghehehehe/article/details/159155420)
+* [【OpenClaw 全面解析：从零到精通】第 022 篇：OpenClaw + MCP 协议深度集成实战——用 Model Context Protocol 连接一切
+  ![]()
+  1622](https://blog.csdn.net/xyghehehehe/article/details/159380149)
+
+
+### 分类专栏
+
+* [![]()
+  OpenClaw 全面解析：从零到精通](https://blog.csdn.net/xyghehehehe/category_13142645.html)
+  26篇
+* [![]()
+  AI大模型技术](https://blog.csdn.net/xyghehehehe/category_13145483.html)
+  15篇
+* [![]()
+  大数据技术](https://blog.csdn.net/xyghehehehe/category_13006991.html)
+  2篇
+
+
+上一篇：
+
+[2026年3月全球大模型全景：国产登顶、百万上下文、智能体爆发](https://blog.csdn.net/xyghehehehe/article/details/159487080)
+
+
+下一篇：
+
+[Vibe Coding时代：2026年AI编程工具全景与Agent革命](https://blog.csdn.net/xyghehehehe/article/details/159487534)
+
+
+
+### 大家在看
+
+* [测试岗面试十大核心问题解析
+  ![]()
+  444](https://blog.csdn.net/qq_46887726/article/details/153261008)
+* [AI 早报 | Anthropic 胜诉、Google TurboQuant 发布](https://blog.csdn.net/weixin_53236070/article/details/159540602)
+* [VSCode配置Qt5.12 QML开发全流程
+  ![]()
+  9](https://blog.csdn.net/qq_28372005/article/details/159527624)
+* [Python调用音乐搜索API实战
+  ![]()
+  570](https://blog.csdn.net/qq_45662588/article/details/159383012)
+* [深度学习赋能有限元：AI时代的高效仿真](https://blog.csdn.net/2301_77964523/article/details/159540556)
+
+
+### 最新文章
+
+* [last30days-skill深度解析：让AI Agent成为跨平台趋势猎手](https://blog.csdn.net/xyghehehehe/article/details/159525815)
+* [【OpenClaw 全面解析：从零到精通】第 026 篇：OpenClaw 接入国产大模型实战：DeepSeek V3.2 + 通义千问 Qwen 全链路配置指南](https://blog.csdn.net/xyghehehehe/article/details/159525630)
+* [大模型推理加速2026：从500ms到80ms的完整优化路径](https://blog.csdn.net/xyghehehehe/article/details/159523795)
+
+
+2026
+[03月
+57篇](https://blog.csdn.net/xyghehehehe?type=blog&year=2026&month=03)
+
+
+[2025年2篇](https://blog.csdn.net/xyghehehehe?type=blog&year=2025&month=07)
+[2017年1篇](https://blog.csdn.net/xyghehehehe?type=blog&year=2017&month=12)
+
+
+
+
+![]()
+
+· AI 阅读助手
+
+
+
+
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+
+
+![]()
+
+· AI 阅读助手
+
+
+
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+上一篇：
+
+[2026年3月全球大模型全景：国产登顶、百万上下文、智能体爆发](https://blog.csdn.net/xyghehehehe/article/details/159487080)
+
+
+下一篇：
+
+[Vibe Coding时代：2026年AI编程工具全景与Agent革命](https://blog.csdn.net/xyghehehehe/article/details/159487534)
+
+
+
+### 分类专栏
+
+* [![]()
+  OpenClaw 全面解析：从零到精通](https://blog.csdn.net/xyghehehehe/category_13142645.html)
+  26篇
+* [![]()
+  AI大模型技术](https://blog.csdn.net/xyghehehehe/category_13145483.html)
+  15篇
+* [![]()
+  大数据技术](https://blog.csdn.net/xyghehehehe/category_13006991.html)
+  2篇
+
+展开全部 ![]()
+收起 ![]()
+
+
+
+
+
+
+### 目录
+
+
+
+
+
+
+
+
+
+
+
+
+
+评论
+![]()
+
+![]()被折叠的  条评论
+[为什么被折叠?](https://blogdev.blog.csdn.net/article/details/122245662)
+[![]()到【灌水乐园】发言](https://bbs.csdn.net/forums/FreeZone)
+
+
+查看更多评论![]()
+
+
+
+添加红包
+
+
+祝福语
+
+
+请填写红包祝福语或标题
+
+
+红包数量
+
+个
+
+红包个数最小为10个
+
+
+红包总金额
+
+元
+
+红包金额最低5元
+
+
+余额支付
+当前余额3.43元
+[前往充值 >](https://i.csdn.net/#/wallet/balance/recharge)
+
+
+需支付：10.00元
+
+取消
+确定
+
+
+
+
+![]()
+下一步
+
+![]()
+知道了
+
+
+
+![]()
+成就一亿技术人!
+
+
+
+领取后你会自动成为博主和红包主的粉丝
+规则
+
+
+
+![]()
+hope\_wisdom 发出的红包
+
+
+
+
+
+
+
+
+
+实付元
+[使用余额支付](javascript:;)
+![]()
+点击重新获取
+
+
+![]()![]()![]()扫码支付
+
+
+
+
+钱包余额
+0
+![]()
+
+抵扣说明：
+
+1.余额是钱包充值的虚拟货币，按照1:1的比例进行支付金额的抵扣。  
+ 2.余额无法直接购买下载，可以购买VIP、付费专栏及课程。
+
+
+
+
+
+[![]()余额充值](https://i.csdn.net/#/wallet/balance/recharge)
+
+![]()
+
+
+
+
+
+

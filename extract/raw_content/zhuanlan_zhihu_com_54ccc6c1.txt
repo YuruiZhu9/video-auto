@@ -1,0 +1,189 @@
+# Source URL: https://zhuanlan.zhihu.com/p/1980596094028239486
+# Content Length: 13960 characters
+# Extracted at: 2026-04-06 19:39:19
+#============================================================
+
+![](https://zhuanlan.zhihu.com/p/1980596094028239486)
+![最新语音合成TTS开源](https://pic1.zhimg.com/v2-447bf82a1761d57430008f6cfcdb7ad9\_720w.jpg?source=172ae18b)
+## 1\. \*\*[IndexTTS-2](https://zhida.zhihu.com/search?content\_id=267278566&content\_type=Article&match\_order=1&q=IndexTTS-2&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3Njc2MTYxMjAsInEiOiJJbmRleFRUUy0yIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjY3Mjc4NTY2LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.Qmdd78T0qpOKgZ6nlcm\_ph09VQmnriWEdqTo2DLgIds&zhida\_source=entity)\*\*（Bilibili）
+GitHub: [https://github.com/index-tts/index-tts](https://link.zhihu.com/?target=https%3A//github.com/index-tts/index-tts)
+\*\*创新点：\*\* 自回归可控时长（duration control）；情绪/音色解耦；软指令情绪控制；GPT 语义增强；精确对口型模式。
+\*\*语音质量：\*\* 近真人；低 WER；情绪细腻（哭腔/颤音突出）。
+\*\*Zero-shot 克隆：\*\* 5–10 秒样本即可；支持跨语种克隆。
+\*\*情绪/风格控制：\*\* 8 类基础情绪 + 连续强度；软文本提示；音色与情绪可独立调整。
+\*\*支持语种：\*\* 中文、英文；日语（部分）。
+\*\*模型大小：\*\* ~1B。
+\*\*推理延迟：\*\* 单句约 3–5s；非实时但可接受。
+## \*\*2\. [Chatterbox-TTS](https://zhida.zhihu.com/search?content\_id=267278566&content\_type=Article&match\_order=1&q=Chatterbox-TTS&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3Njc2MTYxMjAsInEiOiJDaGF0dGVyYm94LVRUUyIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI2NzI3ODU2NiwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.KZoP9kuSgtYO5Ks3Kys4lGAl5kWcmmMrkAN4CggR7\_Q&zhida\_source=entity)（Resemble AI）\*\*
+GitHub: [https://github.com/resemble-ai/chatterbox](https://link.zhihu.com/?target=https%3A//github.com/resemble-ai/chatterbox)
+\*\*创新点：\*\* 多语统一模型；情绪幅度调节（exaggeration）；内置水印；高质量开源多语 TTS。
+\*\*语音质量：\*\* 商用品质；情绪饱满；多语自然度领先开源同类。
+\*\*Zero-shot 克隆：\*\* 5 秒样本即可；跨语种效果强；音色保真度高。
+\*\*情绪/风格控制：\*\* 情绪强度滑杆；口音控制；上下文驱动风格。
+\*\*支持语种：\*\* 23+。
+\*\*模型大小：\*\* ~0.5B。
+\*\*推理延迟：\*\* TTFB ~200ms；接近实时。
+## \*\*3\. [Orpheus TTS](https://zhida.zhihu.com/search?content\_id=267278566&content\_type=Article&match\_order=1&q=Orpheus+TTS&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3Njc2MTYxMjAsInEiOiJPcnBoZXVzIFRUUyIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI2NzI3ODU2NiwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.RjsTfd2yjak1doHqKJoG4qtidWR9Uw6m8MzGz6HZjUE&zhida\_source=entity)（Canopy）\*\*
+GitHub: [https://github.com/canopyai/Orpheus-TTS](https://link.zhihu.com/?target=https%3A//github.com/canopyai/Orpheus-TTS)
+\*\*创新点：\*\* 150M–3B 多尺寸；文本标签控制非语言声音（ 等）；专注对话/角色表达。
+\*\*语音质量：\*\* 英文表现突出；多角色语气自然；声线稳定。
+\*\*Zero-shot 克隆：\*\* 支持；不同尺寸间可迁移音色。
+\*\*情绪/风格控制：\*\* 文本标注（laugh/sigh）；支持角色化表达。
+\*\*支持语种：\*\* 英文主力；含中文/日语/韩语等共 7 种。
+\*\*模型大小：\*\* 150M–3B。
+\*\*推理延迟：\*\* 大模型 ~200ms；小模型可实时。
+## \*\*4\. [Dia 1.6B](https://zhida.zhihu.com/search?content\_id=267278566&content\_type=Article&match\_order=1&q=Dia+1.6B&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3Njc2MTYxMjAsInEiOiJEaWEgMS42QiIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI2NzI3ODU2NiwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.wBc1fljiH2gEJeZNrc44RsF2S6P3p6HbnNwM4pH85O0&zhida\_source=entity)（Nari Labs）\*\*
+Github: [https://github.com/nari-labs/dia](https://link.zhihu.com/?target=https%3A//github.com/nari-labs/dia)
+\*\*创新点：\*\* 面向有声书/广播剧的多角色情绪演绎；支持笑声/叹气等非语言信号。
+\*\*语音质量：\*\* 故事类表现极佳；叙述自然度强；对话时序好。
+\*\*Zero-shot 克隆：\*\* 支持；但不如 IndexTTS/Chatterbox。
+\*\*情绪/风格控制：\*\* 文本标注（laugh/sigh/cough）。
+\*\*支持语种：\*\* 英文。
+\*\*模型大小：\*\* 1.6B。
+\*\*推理延迟：\*\* 非实时；适合离线内容生成。
+## \*\*5\. [OpenAudio S1](https://zhida.zhihu.com/search?content\_id=267278566&content\_type=Article&match\_order=1&q=OpenAudio+S1&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3Njc2MTYxMjAsInEiOiJPcGVuQXVkaW8gUzEiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNjcyNzg1NjYsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.XwXE9jX2surVz46t88DnfMGnHsveImPE64-Z9jdnEgQ&zhida\_source=entity) / S1-mini（Fish Audio）\*\*
+GitHub: [https://github.com/fishaudio/fish-speech](https://link.zhihu.com/?target=https%3A//github.com/fishaudio/fish-speech)
+\*\*创新点：\*\* 大规模情绪标签体系（50+）；RLHF 提升自然度；跨语种统一表达；强声码器。
+\*\*语音质量：\*\* MOS ~4.8–5.0；清晰度业内顶尖。
+\*\*Zero-shot 克隆：\*\* 10–30 秒样本；跨语种一致性强。
+\*\*情绪/风格控制：\*\* 丰富情绪标签（cry/shout/laugh）；精细韵律控制。
+\*\*支持语种：\*\* 中/英/日/韩 \+ 多欧洲语种（8+）。
+\*\*模型大小：\*\* 4B / 0.5B。
+\*\*推理延迟：\*\* S1 ~7× RT；S1-mini 可实时。
+## \*\*6\. [Kokoro v1.0](https://zhida.zhihu.com/search?content\_id=267278566&content\_type=Article&match\_order=1&q=Kokoro+v1.0&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3Njc2MTYxMjAsInEiOiJLb2tvcm8gdjEuMCIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI2NzI3ODU2NiwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.5K10hgzzvooEtOxAe2WvX0-OcizxREFD5JzI-XThOmY&zhida\_source=entity)\*\*
+GitHub: [https://github.com/thewh1teagle/kokoro-onnx](https://link.zhihu.com/?target=https%3A//github.com/thewh1teagle/kokoro-onnx)
+\*\*创新点：\*\* 82M 小模型达到大模型音质；支持声线混合（voice-blending）。
+\*\*语音质量：\*\* 小模型中最强；自然度高。
+\*\*Zero-shot 克隆：\*\* 不支持（但可混合内置声线）。
+\*\*情绪/风格控制：\*\* 限于不同声线风格。
+\*\*支持语种：\*\* 英/中/日/韩/法等 6–8 种。
+\*\*模型大小：\*\* 82M。
+\*\*推理延迟：\*\* CPU 近实时；GPU 超实时。
+## \*\*7\. [Sesame CSM](https://zhida.zhihu.com/search?content\_id=267278566&content\_type=Article&match\_order=1&q=Sesame+CSM&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3Njc2MTYxMjAsInEiOiJTZXNhbWUgQ1NNIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjY3Mjc4NTY2LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.bWwEP\_QxII2cxY008VlppU5jUfZhcxmkTcZknCQaP48&zhida\_source=entity)\*\*
+GitHub: [https://github.com/SesameAILabs/csm](https://link.zhihu.com/?target=https%3A//github.com/SesameAILabs/csm)
+\*\*创新点：\*\* text+audio 多模态输入；上下文连续对话建模；面向语音助手。
+\*\*语音质量：\*\* 清晰稳定；对话一致性优良。
+\*\*Zero-shot 克隆：\*\* 支持；保真度中等。
+\*\*情绪/风格控制：\*\* 上下文驱动；无显式标签。
+\*\*支持语种：\*\* 英文为主。
+\*\*模型大小：\*\* 1B。
+\*\*推理延迟：\*\* 接近实时。
+## \*\*8\. UniVoice\*\*
+GitHub: [https://github.com/gwh22/UniVoice](https://link.zhihu.com/?target=https%3A//github.com/gwh22/UniVoice)
+\*\*创新点：\*\* ASR+TTS 统一架构；音频 infill；flow-matching 声音生成。
+\*\*语音质量：\*\* 高质量但略低于 CosyVoice/IndexTTS。
+\*\*Zero-shot 克隆：\*\* 支持；稳定性好。
+\*\*情绪/风格控制：\*\* 主要依赖参考音频风格迁移。
+\*\*支持语种：\*\* 多语训练；开源版本以英文为主。
+\*\*模型大小：\*\* ~0.4B + 组件。
+\*\*推理延迟：\*\* diffusion 推理较慢；不实时。
+## \*\*9\. [Coqui XTTS v2](https://zhida.zhihu.com/search?content\_id=267278566&content\_type=Article&match\_order=1&q=Coqui+XTTS+v2&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3Njc2MTYxMjAsInEiOiJDb3F1aSBYVFRTIHYyIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjY3Mjc4NTY2LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.MrjP6KVaBjRMyJng9aZTB2LiToUgHp3TyORCvduyWI4&zhida\_source=entity)\*\*
+GitHub: [https://github.com/coqui-ai/TTS](https://link.zhihu.com/?target=https%3A//github.com/coqui-ai/TTS)
+\*\*创新点：\*\* 早期跨语种开源克隆 SOTA；社区语言扩展丰富。
+\*\*语音质量：\*\* MOS ~4.2；多语一致性好。
+\*\*Zero-shot 克隆：\*\* 强；17 种语言跨语种克隆。
+\*\*情绪/风格控制：\*\* 引用音频进行 style transfer。
+\*\*支持语种：\*\* 17。
+\*\*模型大小：\*\* ~467M。
+\*\*推理延迟：\*\* GPU 下接近实时；不支持 streaming。
+## \*\*10\. [CosyVoice 2.0](https://zhida.zhihu.com/search?content\_id=267278566&content\_type=Article&match\_order=1&q=CosyVoice+2.0&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3Njc2MTYxMjAsInEiOiJDb3N5Vm9pY2UgMi4wIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjY3Mjc4NTY2LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.X9TtkDnYyzyTRRhgiiYWWp8qWLUxBac8Gt52jWXmiuE&zhida\_source=entity)（Alibaba）\*\*
+GitHub: [https://github.com/FunAudioLLM/CosyVoice](https://link.zhihu.com/?target=https%3A//github.com/FunAudioLLM/CosyVoice)
+\*\*创新点：\*\* LLM-TTS 架构；中英日混合 code-switching；RAS 去重复；150ms streaming。
+\*\*语音质量：\*\* MOS 4.7–4.8；口型/韵律极自然。
+\*\*Zero-shot 克隆：\*\* 非常强；跨语种一致性好。
+\*\*情绪/风格控制：\*\* 多情绪、多口音；prosody 控制明显增强。
+\*\*支持语种：\*\* 中/英/日/韩 \+ 部分方言。
+\*\*模型大小：\*\* ~0.5B。
+\*\*推理延迟：\*\* streaming TTFB ~150ms（实时级）。
+编辑于 2025-12-06 20:08・北京
+[语音](https://www.zhihu.com/topic/19581580)
+[大模型](https://www.zhihu.com/topic/25402720)
+​赞同 7​​1 条评论
+​分享
+​喜欢​收藏​申请转载
+​
+![](https://pic1.zhimg.com/v2-d41c2ceaed8f51999522f903672a521f\_l.jpeg)
+未登录用户
+1 条评论
+默认
+最新
+[![YiFrank](https://picx.zhimg.com/v2-3602c254e3897eacac701f59d38d27ee\_l.jpg?source=06d4cd63)](https://www.zhihu.com/people/5fd40edd52f3b7bc8f9c1b2949661c33)
+[YiFrank](https://www.zhihu.com/people/5fd40edd52f3b7bc8f9c1b2949661c33)
+建议做成表格.....
+2025-12-07 · 北京
+​回复​喜欢
+关于作者
+[![怎么去火星](https://picx.zhimg.com/v2-272ba64204de55f35c41535c6f8fce6d\_l.jpg?source=32738c0c&needBackground=1)](https://www.zhihu.com/people/wzzzt-47)
+[怎么去火星](https://www.zhihu.com/people/wzzzt-47)
+go to mars
+[回答\\
+\\
+\*\*1\*\*](https://www.zhihu.com/people/wzzzt-47/answers) [文章\\
+\\
+\*\*10\*\*](https://www.zhihu.com/people/wzzzt-47/posts) [关注者\\
+\\
+\*\*6\*\*](https://www.zhihu.com/people/wzzzt-47/followers)
+​关注​发私信
+大家都在搜
+换一换
+[特朗普下令空袭委内瑞拉386 万](https://www.zhihu.com/search?q=%E7%89%B9%E6%9C%97%E6%99%AE%E4%B8%8B%E4%BB%A4%E7%A9%BA%E8%A2%AD%E5%A7%94%E5%86%85%E7%91%9E%E6%8B%89&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[超级月亮386 万](https://www.zhihu.com/search?q=%E8%B6%85%E7%BA%A7%E6%9C%88%E4%BA%AE&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[美军空袭委内瑞拉首都加拉加斯385 万](https://www.zhihu.com/search?q=%E7%BE%8E%E5%86%9B%E7%A9%BA%E8%A2%AD%E5%A7%94%E5%86%85%E7%91%9E%E6%8B%89%E9%A6%96%E9%83%BD%E5%8A%A0%E6%8B%89%E5%8A%A0%E6%96%AF&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[王楚钦拟记大功377 万](https://www.zhihu.com/search?q=%E7%8E%8B%E6%A5%9A%E9%92%A6%E6%8B%9F%E8%AE%B0%E5%A4%A7%E5%8A%9F&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[「最快女护士」张水华宣布辞职376 万](https://www.zhihu.com/search?q=%E3%80%8C%E6%9C%80%E5%BF%AB%E5%A5%B3%E6%8A%A4%E5%A3%AB%E3%80%8D%E5%BC%A0%E6%B0%B4%E5%8D%8E%E5%AE%A3%E5%B8%83%E8%BE%9E%E8%81%8C&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[司晓迪称与十余名男星有亲密关系342 万](https://www.zhihu.com/search?q=%E5%8F%B8%E6%99%93%E8%BF%AA%E7%A7%B0%E4%B8%8E%E5%8D%81%E4%BD%99%E5%90%8D%E7%94%B7%E6%98%9F%E6%9C%89%E4%BA%B2%E5%AF%86%E5%85%B3%E7%B3%BB&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[年度报告为啥不显示「熬穿了」326 万](https://www.zhihu.com/search?q=%E5%B9%B4%E5%BA%A6%E6%8A%A5%E5%91%8A%E4%B8%BA%E5%95%A5%E4%B8%8D%E6%98%BE%E7%A4%BA%E3%80%8C%E7%86%AC%E7%A9%BF%E4%BA%86%E3%80%8D&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[司晓迪曝关晓彤王安宇在一起了312 万](https://www.zhihu.com/search?q=%E5%8F%B8%E6%99%93%E8%BF%AA%E6%9B%9D%E5%85%B3%E6%99%93%E5%BD%A4%E7%8E%8B%E5%AE%89%E5%AE%87%E5%9C%A8%E4%B8%80%E8%B5%B7%E4%BA%86&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[张水华300 万](https://www.zhihu.com/search?q=%E5%BC%A0%E6%B0%B4%E5%8D%8E&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[委内瑞拉总统宣布国家紧急状态300 万](https://www.zhihu.com/search?q=%E5%A7%94%E5%86%85%E7%91%9E%E6%8B%89%E6%80%BB%E7%BB%9F%E5%AE%A3%E5%B8%83%E5%9B%BD%E5%AE%B6%E7%B4%A7%E6%80%A5%E7%8A%B6%E6%80%81&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[广告\\
+\\
+![广告](https://pic3.zhimg.com/v2-6d1986925d2611de34ef6354e0e29105\_720w.webp?source=d6434cab)](https://ima.qq.com/download/?webFrom=10000435&channel=10000435&cb=https%3A%2F%2Fsugar.zhihu.com%2Fplutus\_adreaper\_callback%3Fsi%3Df441f0cf-54e9-48c4-821c-5ef4949dcc3a%26os%3D3%26zid%3D6001%26zaid%3D3671772%26zcid%3D3629523%26cid%3D3629523%26event%3D\_\_EVENTTYPE\_\_%26value%3D\_\_EVENTVALUE\_\_%26ts%3D\_\_TIMESTAMP\_\_%26cts%3D\_\_TS\_\_%26mh%3D\_\_MEMBERHASHID\_\_%26adv%3D703838%26ocg%3D4%26cp%3D5000%26ocs%3D1%26aic%3D0%26ct%3D2%26ed%3DGiBNJgVz857s0Q6BUU8%3D&spu=biz%3D0%26ci%3D3629523%26si%3D8ae1862d-6a39-4b1a-bf5b-05f748feae37%26ts%3D1767443323%26zid%3D6001)
+### 推荐阅读
+[![最新开源TTS语音克隆，本地部署实测！跨语言、高保真。。。](https://pic1.zhimg.com/v2-ca7dba445e4d7cbf3dd945bbb56fb09d\_250x0.jpg?source=172ae18b)\*\*最新开源TTS语音克隆，本地部署实测！跨语言、高保真。。。\*\* \\
+\\
+AI码上来](https://zhuanlan.zhihu.com/p/28969033095) [![一款刚刚开源的TTS语音模型！25ms超低延迟支持实时对话，4种规格适配全场景！](https://pic1.zhimg.com/v2-aa9c99419322a097ecd5fd2cdf21b8bd\_250x0.jpg?source=172ae18b)\*\*一款刚刚开源的TTS语音模型！25ms超低延迟支持实时对话，4种规格适配全场景！\*\* \\
+\\
+梓羽文谲](https://zhuanlan.zhihu.com/p/31739692960) [![太给力了！刚刚开源的TTS模型，1:1零样本声音克隆，连呼吸节奏都能控制！](https://pica.zhimg.com/v2-090bd3d659179c2d615635a7a4a80135\_250x0.jpg?source=172ae18b)\*\*太给力了！刚刚开源的TTS模型，1:1零样本声音克隆，连呼吸节奏都能控制！\*\* \\
+\\
+梓羽文谲](https://zhuanlan.zhihu.com/p/28815422279) [![语音合成（TTS）开源调研与测评](https://picx.zhimg.com/v2-49735e9ed679e311289513f295273a90\_250x0.jpg?source=172ae18b)\*\*语音合成（TTS）开源调研与测评\*\* \\
+\\
+元宁](https://zhuanlan.zhihu.com/p/687094556)
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_
+打开知乎App
+在「我的页」右上角打开扫一扫
+![](https://picx.zhimg.com/v2-9e41ea16bdfbe9cf4896617ecad5b4ca.png)
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+中国 +86
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+打开知乎App
+在「我的页」右上角打开扫一扫
+![](https://picx.zhimg.com/v2-9e41ea16bdfbe9cf4896617ecad5b4ca.png)
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+中国 +86
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+![](https://static.zhihu.com/heifetz/assets/liukanshan-peek.a71ecf3e.png)登录即可查看 超5亿 专业优质内容
+超 5 千万创作者的优质提问、专业回答、深度文章和精彩视频尽在知乎。
+立即登录/注册

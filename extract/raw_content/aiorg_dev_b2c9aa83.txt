@@ -1,0 +1,325 @@
+# Source URL: https://aiorg.dev/blog/claude-code-best-practices
+# Content Length: 17966 characters
+# Extracted at: 2026-03-25 20:22:46
+#============================================================
+
+
+Claude Code Best Practices: 15 Tips from 6 Projects (2026) | aiorg.dev Blog[aiorg.dev](/)[Newsletter](https://buttondown.com/lukaszfryc)[Blog](/blog)[Docs](/docs)Support
+
+Claude Code Best Practices: 15 Tips from 6 Projects (2026)
+==========================================================
+
+15 Claude Code best practices from running 6 production projects. CLAUDE.md setup, prompting patterns, custom commands, and workflows that ship 10x faster.
+
+![]()Lukas, FounderFebruary 6, 202610 min readOn this page[Project Setup: Essential Claude Code Configuration](#project-setup-essential-claude-code-configuration)[1. Write a CLAUDE.md File](#1-write-a-claude-md-file)[Tech Stack](#tech-stack)[Architecture](#architecture)[Rules](#rules)[Commands](#commands)[2. Use .claude/rules/ for Domain-Specific Rules](#2-use-claude-rules-for-domain-specific-rules)[3. Add a .claude/commands/ Directory](#3-add-a-claude-commands-directory)[4. Set Up .claudeignore](#4-set-up-claudeignore)[Claude Code Prompting Patterns](#claude-code-prompting-patterns)[5. Start with the "What" and "Why", Not "How"](#5-start-with-the-what-and-why-not-how)[6. Break Large Tasks into Phases](#6-break-large-tasks-into-phases)[7. Reference Existing Patterns](#7-reference-existing-patterns)[8. Ask for Plans Before Execution](#8-ask-for-plans-before-execution)[Claude Code Workflow Best Practices](#claude-code-workflow-best-practices)[9. Commit Before Big Changes](#9-commit-before-big-changes)[10. Use /compact When Context Gets Long](#10-use-compact-when-context-gets-long)[11. Let Claude Code Run Tests](#11-let-claude-code-run-tests)[Commands](#commands)[12. One Task Per Session](#12-one-task-per-session)[Advanced Claude Code Tips](#advanced-claude-code-tips)[13. Use Hooks for Automation](#13-use-hooks-for-automation)[14. Build Project-Specific Kits](#14-build-project-specific-kits)[15. Review Before Approving](#15-review-before-approving)[The Compound Effect](#the-compound-effect)[Frequently Asked Questions](#frequently-asked-questions)[What is CLAUDE.md and why does it matter?](#what-is-claude-md-and-why-does-it-matter)[How do I make Claude Code follow my coding style?](#how-do-i-make-claude-code-follow-my-coding-style)[Can Claude Code run tests automatically?](#can-claude-code-run-tests-automatically)[How do I reduce Claude Code costs?](#how-do-i-reduce-claude-code-costs)[How do I set up Claude Code for a new project?](#how-do-i-set-up-claude-code-for-a-new-project)[What are the most useful Claude Code commands?](#what-are-the-most-useful-claude-code-commands)
+
+**Claude Code best practices** boil down to three categories: project setup (CLAUDE.md, rules, commands), prompting patterns (context over instructions, phased execution), and workflow habits (commit often, compact regularly, one task per session). Getting these right is the difference between "Claude Code is okay" and "Claude Code is incredible."
+
+**Key Takeaway:** The single highest-impact practice is creating a CLAUDE.md file. It takes 10 minutes and makes every subsequent session dramatically more productive.
+
+These 15 tips come from running 6 production projects simultaneously — real patterns that work, not theory.
+
+Still deciding between AI coding tools? See our [Cursor vs Claude Code comparison](/blog/cursor-vs-claude-code) first.
+
+**Quick summary of all 15 tips:**
+
+1. **Write a CLAUDE.md file** — the single highest-impact setup step
+2. **Use .claude/rules/** — domain-specific rules loaded on demand
+3. **Add custom commands** — turn repetitive prompts into one-word shortcuts
+4. **Set up .claudeignore** — reduce noise, keep context focused
+5. **Start with "what" and "why"** — let Claude Code make architectural decisions
+6. **Break large tasks into phases** — each phase gets full attention
+7. **Reference existing patterns** — point to a file, Claude Code replicates the pattern
+8. **Ask for plans before execution** — catch problems before 15 files change
+9. **Commit before big changes** — one `git reset` away from the last good state
+10. **Use /compact regularly** — compress history when context gets long
+11. **Let Claude Code run tests** — automated test-fix loops beat copy-paste
+12. **One task per session** — focused context produces better results
+13. **Use hooks for automation** — auto-lint, auto-format on every file write
+14. **Build project-specific kits** — package your setup for reuse across projects
+15. **Review before approving** — trust but verify, especially for large changes
+
+Project Setup: Essential Claude Code Configuration
+--------------------------------------------------
+
+### 1. Write a CLAUDE.md File
+
+This is the single highest-impact thing you can do. [`CLAUDE.md`](https://docs.anthropic.com/en/docs/claude-code/memory#claudemd) lives in your project root and Claude Code reads it at the start of every session.
+
+Without it, every session starts with Claude Code knowing nothing about your project. With it, Claude Code immediately understands your stack, your patterns, and your rules.
+
+A good CLAUDE.md includes:
+
+```
+# Project Name
+
+Brief description of what this project does.
+
+## Tech Stack
+- Next.js 15 (App Router)
+- Supabase (auth + database)
+- Stripe (payments)
+- Tailwind CSS v4
+
+## Architecture
+- /src/app — pages and API routes
+- /src/lib — shared utilities and services
+- /src/components — React components (use shadcn/ui)
+
+## Rules
+- Always use TypeScript strict mode
+- Use server components by default, 'use client' only when needed
+- Error handling: use Result pattern, not try/catch
+- Tests: use Vitest, co-locate with source files
+- Never use default exports (except pages)
+
+## Commands
+- Dev: pnpm dev
+- Test: pnpm test
+- Build: pnpm build
+- Lint: pnpm lint
+
+```
+
+This takes 10 minutes to write and saves hours of repeated explanations. [Research on AI-assisted coding](https://github.blog/news-insights/research/research-quantifying-github-copilots-impact-on-developer-productivity-and-happiness/) shows developers with proper context complete tasks up to 55% faster — CLAUDE.md is how you give Claude Code that context.
+
+### 2. Use .claude/rules/ for Domain-Specific Rules
+
+CLAUDE.md covers the whole project. For domain-specific rules, create files in `.claude/rules/`:
+
+```
+.claude/rules/
+├── api-routes.md      # How to write API routes
+├── database.md        # Migration and query patterns
+├── testing.md         # Testing conventions
+└── components.md      # Component patterns
+
+```
+
+Each file is loaded when relevant. Claude Code reads `api-routes.md` when working on API routes, not when styling a button. This keeps context focused.
+
+### 3. Add a .claude/commands/ Directory
+
+[Custom commands](https://docs.anthropic.com/en/docs/claude-code/tutorials#create-custom-slash-commands) turn repetitive prompts into one-word shortcuts:
+
+```
+# .claude/commands/new-feature.md
+
+Create a new feature following our standard pattern:
+1. Create the API route in /src/app/api/
+2. Create the database migration in /supabase/migrations/
+3. Create the React component in /src/components/
+4. Add a Vitest test file next to each new file
+5. Update the sidebar navigation if needed
+
+```
+
+Now instead of typing all that every time, you just run `/new-feature` in Claude Code.
+
+### 4. Set Up .claudeignore
+
+Just like `.gitignore`, `.claudeignore` tells Claude Code which files to skip. This reduces noise and keeps context focused:
+
+```
+node_modules/
+.next/
+dist/
+*.lock
+*.log
+coverage/
+.env*
+
+```
+
+Less context to read means faster, more accurate responses.
+
+Claude Code Prompting Patterns
+------------------------------
+
+### 5. Start with the "What" and "Why", Not "How"
+
+Bad prompt:
+
+> Create a file called auth.ts in src/lib with a function called verifyToken that takes a JWT string and returns the decoded payload using jose library
+
+Good prompt:
+
+> I need JWT verification for my API routes. Users authenticate via Supabase, but I need to verify tokens in edge functions where the Supabase client isn't available.
+
+The second prompt gives Claude Code context to make architectural decisions. It might suggest a different approach than jose. It might notice you already have a verification pattern elsewhere. Let it think.
+
+### 6. Break Large Tasks into Phases
+
+Don't ask for an entire feature in one prompt. Instead:
+
+1. **Plan:** "I need to add a billing system with Stripe. What's your plan?"
+2. **Review the plan**, adjust if needed
+3. **Execute phase 1:** "Let's start with the Stripe webhook handler"
+4. **Verify** (run tests, check the code)
+5. **Execute phase 2:** "Now add the pricing page"
+6. Continue...
+
+Each phase gets full attention. Claude Code won't rush through step 5 because it's trying to remember step 1.
+
+### 7. Reference Existing Patterns
+
+> Add a new API route for /api/projects. Follow the same pattern as /api/teams — same error handling, same auth middleware, same response format.
+
+Claude Code will read the referenced file and replicate the pattern exactly. This is far more reliable than describing the pattern in words.
+
+### 8. Ask for Plans Before Execution
+
+For any task touching more than 3 files:
+
+> Plan how you'd implement user notifications. Don't write code yet — just outline the approach.
+
+Review the plan. Catch problems before 15 files are modified. Then say "looks good, execute it."
+
+This saves significant time on reverts and redos.
+
+Claude Code Workflow Best Practices
+-----------------------------------
+
+### 9. Commit Before Big Changes
+
+Before asking Claude Code to refactor anything significant:
+
+```
+git add -A && git commit -m "checkpoint before refactor"
+
+```
+
+If the refactor goes wrong, you're one `git reset` away from the last good state. Without this, you're manually undoing changes across 20 files.
+
+### 10. Use /compact When Context Gets Long
+
+Long conversations degrade quality. Research on LLMs shows [performance degrades as context windows fill up](https://arxiv.org/abs/2307.03172), and Claude Code is no exception — it spends tokens processing old, irrelevant context instead of focusing on the current task.
+
+When you notice responses getting slower or less accurate, use `/compact`. It compresses the conversation history while keeping the essential context.
+
+Rule of thumb: compact after every major task completion.
+
+### 11. Let Claude Code Run Tests
+
+Don't copy-paste test output into the chat. Instead, tell Claude Code your test command in CLAUDE.md:
+
+```
+## Commands
+- Test: pnpm vitest run
+- Test watch: pnpm vitest
+
+```
+
+Then ask: "Run the tests and fix any failures." Claude Code will run the suite, read the failures, fix them, and re-run. This loop is much faster than manual copy-paste.
+
+### 12. One Task Per Session
+
+Claude Code works best with focused sessions. Don't do this:
+
+> Fix the login bug, then add dark mode, then refactor the API routes, then write tests.
+
+Instead, fix the login bug. Compact or start a new session. Add dark mode. New session. Each task gets fresh, focused context.
+
+Advanced Claude Code Tips
+-------------------------
+
+### 13. Use Hooks for Automation
+
+[Hooks](https://docs.anthropic.com/en/docs/claude-code/hooks) are shell commands that run automatically before or after Claude Code actions:
+
+```
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "command": "pnpm lint --fix $CLAUDE_FILE_PATH"
+      }
+    ]
+  }
+}
+
+```
+
+This auto-lints every file Claude Code writes. No more "fix the linting errors" follow-ups.
+
+### 14. Build Project-Specific Kits
+
+If you find yourself repeating the same setup across projects — same CLAUDE.md sections, same rules, same commands — package them into a kit:
+
+```
+.claude/
+├── commands/
+│   ├── new-feature.md
+│   ├── deploy.md
+│   └── test-all.md
+├── rules/
+│   ├── api-patterns.md
+│   └── testing.md
+├── knowledge/
+│   └── architecture.md
+└── CLAUDE.md
+
+```
+
+Copy this `.claude/` directory to any new project and Claude Code instantly knows your standards. This is exactly how [AI Org teams](https://aiorg.dev) work — pre-built `.claude/` directories for specific domains like marketing, QA, and product management.
+
+### 15. Review Before Approving
+
+Claude Code is fast, not infallible. Before accepting large changes:
+
+1. Run `git diff` to see everything that changed
+2. Check for hardcoded values, missing error handling, or security issues
+3. Run the full test suite
+4. Build the project to catch type errors
+
+Trust but verify. Claude Code handles 90% of the work. Your job is catching the 10% it misses. For visual code review, many developers open the changes in [Cursor or another IDE](/blog/cursor-vs-claude-code) to get inline diffs alongside the terminal output.
+
+The Compound Effect
+-------------------
+
+Any single tip here saves a few minutes. Combined, they transform the workflow. A well-configured project with CLAUDE.md, custom commands, and proper prompting patterns can ship features 5-10x faster than vanilla Claude Code.
+
+The setup takes an afternoon. The time savings compound every day after that. According to the [2024 Stack Overflow Developer Survey](https://survey.stackoverflow.co/2024/ai), 76% of developers now use or plan to use AI coding tools — but those who invest in proper configuration consistently report higher satisfaction and output.
+
+Frequently Asked Questions
+--------------------------
+
+### What is CLAUDE.md and why does it matter?
+
+CLAUDE.md is a file in your project root that Claude Code reads at the start of every session. It contains project context, coding standards, architecture decisions, and rules. Without it, Claude Code starts every session from zero. With it, Claude Code understands your project immediately.
+
+### How do I make Claude Code follow my coding style?
+
+Add examples of your preferred patterns to CLAUDE.md or .claude/rules/. Include: naming conventions, file structure patterns, error handling approach, testing patterns, and import ordering. Claude Code will follow these consistently across all generated code.
+
+### Can Claude Code run tests automatically?
+
+Yes. Claude Code can run any shell command, including test suites. It will run tests, read the output, fix failures, and re-run until they pass. Add your test command to CLAUDE.md so Claude Code knows how to run your tests.
+
+### How do I reduce Claude Code costs?
+
+Three main strategies: 1) Use CLAUDE.md to give context upfront (fewer clarification rounds). 2) Break large tasks into specific subtasks. 3) Use the /compact command to compress conversation history when context gets long.
+
+### How do I set up Claude Code for a new project?
+
+Create a CLAUDE.md file in your project root with your tech stack, architecture, coding rules, and common commands. Then add .claude/rules/ for domain-specific patterns and .claude/commands/ for reusable workflows. This 10-minute setup saves hours of repeated explanations every session.
+
+### What are the most useful Claude Code commands?
+
+The built-in /compact command is essential for managing long sessions. Beyond that, custom commands in .claude/commands/ are the biggest productivity boost — they turn multi-step workflows into single shortcuts. Common examples: /new-feature, /deploy, /test-all.
+
+### Skip the setup — start with a pre-built kit
+
+AI Org kits come with commands, rules, knowledge, and workflows ready to go. Install in seconds, start shipping immediately.
+
+[See all kits→](/#pricing)[#claude-code](/blog?tag=claude-code)[#best-practices](/blog?tag=best-practices)[#tips](/blog?tag=tips)[#productivity](/blog?tag=productivity)[#workflow](/blog?tag=workflow)[#developer-tools](/blog?tag=developer-tools)![]()LukasFounder
+
+15-year engineer building AI tools for solo founders. Running 6 projects simultaneously with AI Org kits.
+
+[LinkedIn](https://www.linkedin.com/in/lukaszfryc/)[X / Twitter](https://twitter.com/lukaszfryc)
+
+Frequently Asked Questions
+--------------------------
+
+What is CLAUDE.md and why does it matter?CLAUDE.md is a file in your project root that Claude Code reads at the start of every session. It contains project context, coding standards, architecture decisions, and rules. Without it, Claude Code starts every session from zero. With it, Claude Code understands your project immediately.How do I make Claude Code follow my coding style?Add examples of your preferred patterns to CLAUDE.md or .claude/rules/. Include: naming conventions, file structure patterns, error handling approach, testing patterns, and import ordering. Claude Code will follow these consistently across all generated code.Can Claude Code run tests automatically?Yes. Claude Code can run any shell command, including test suites. It will run tests, read the output, fix failures, and re-run until they pass. Add your test command to CLAUDE.md so Claude Code knows how to run your tests.How do I reduce Claude Code costs?Three main strategies: 1) Use CLAUDE.md to give context upfront (fewer clarification rounds). 2) Break large tasks into specific subtasks. 3) Use the /compact command to compress conversation history when context gets long. The Max $200/month plan offers the best value for heavy daily use.How do I set up Claude Code for a new project?Create a CLAUDE.md file in your project root with your tech stack, architecture, coding rules, and common commands. Then add .claude/rules/ for domain-specific patterns and .claude/commands/ for reusable workflows. This 10-minute setup saves hours of repeated explanations every session.Can Claude Code work with any programming language?Yes. Claude Code is language-agnostic — it works with Python, TypeScript, Rust, Go, Java, and any other language. The key is providing good context in your CLAUDE.md file about your stack and patterns. It adapts to whatever language and framework you use.What are the most useful Claude Code commands?The built-in /compact command is essential for managing long sessions. Beyond that, custom commands in .claude/commands/ are the biggest productivity boost — they turn multi-step workflows into single shortcuts. Common examples: /new-feature, /deploy, /test-all.

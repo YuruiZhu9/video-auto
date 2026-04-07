@@ -1,0 +1,1058 @@
+# Source URL: https://blog.csdn.net/qq_16038125/article/details/159238360
+# Content Length: 21595 characters
+# Extracted at: 2026-03-22 01:01:44
+#============================================================
+
+ 
+
+
+
+
+
+从“Vibe Coding“到“Agentic Engineering“：2026年AI编程术语全景指南，一文打通你的技术任督二脉\_vibe coding 下一个阶段-CSDN博客
+
+
+
+
+
+
+
+
+从“Vibe Coding“到“Agentic Engineering“：2026年AI编程术语全景指南，一文打通你的技术任督二脉
+=================================================================
+
+
+最新推荐文章于 2026-03-20 19:51:12 发布
+原创
+最新推荐文章于 2026-03-20 19:51:12 发布
+·
+44 阅读
+·
+![]()
+![]()
+0
+
+
+·
+![]()
+![]()
+0
+
+
+
+文章标签：
+
+[#AI编程](https://so.csdn.net/so/search/s.do?q=AI%E7%BC%96%E7%A8%8B&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#vibe coding](https://so.csdn.net/so/search/s.do?q=vibe+coding&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#人工智能](https://so.csdn.net/so/search/s.do?q=%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#术语](https://so.csdn.net/so/search/s.do?q=%E6%9C%AF%E8%AF%AD&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#Agentic](https://so.csdn.net/so/search/s.do?q=Agentic&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+
+
+
+
+
+
+
+[![]()
+AI技术解读
+专栏收录该内容](https://blog.csdn.net/qq_16038125/category_12621393.html)
+
+62 篇文章
+¥9.90
+¥99.00
+
+
+订阅专栏
+![]()超级会员免费看
+
+
+
+
+#### 文章目录
+
+* + [为什么你必须掌握这些术语？](#_1)
+  + [一、AI 基础概念](#AI__11)
+  + - [人工智能（AI）](#AI_13)
+    - [大语言模型（LLM）](#LLM_17)
+    - [Token](#Token_21)
+    - [输入 Token](#_Token_25)
+    - [输出 Token](#_Token_29)
+    - [模型参数](#_33)
+    - [模型训练](#_37)
+    - [推理](#_41)
+    - [模型微调（Fine-tuning）](#Finetuning_45)
+    - [上下文窗口](#_49)
+    - [视觉模型](#_53)
+    - [音频模型](#_57)
+    - [多模态模型](#_61)
+    - [MoE 混合专家架构](#MoE__65)
+  + [二、提示词相关](#_69)
+  + - [提示词（Prompt）](#Prompt_71)
+    - [系统提示词（System Prompt）](#System_Prompt_75)
+    - [用户提示词](#_79)
+    - [助手提示词](#_83)
+    - [提示词工程（Prompt Engineering）](#Prompt_Engineering_87)
+    - [零样本提示（Zero-shot）](#Zeroshot_91)
+    - [少样本提示（Few-shot）](#Fewshot_95)
+    - [思维链提示（Chain-of-Thought/CoT）](#ChainofThoughtCoT_99)
+  + [三、AI 编程模式](#AI__103)
+  + - [Vibe Coding（氛围编程）](#Vibe_Coding_105)
+    - [Agentic Engineering（智能体工程）](#Agentic_Engineering_109)
+    - [Agentic Coding（智能体编程）](#Agentic_Coding_113)
+    - [多智能体协作（Multi-Agent）](#MultiAgent_117)
+    - [智能体编排（Orchestration）](#Orchestration_121)
+    - [Subagents（子代理）](#Subagents_125)
+    - [Agent Teams（智能体团队）](#Agent_Teams_129)
+    - [Background Agent（后台 Agent）](#Background_Agent_Agent_133)
+    - [Agent Loop（智能体循环）](#Agent_Loop_137)
+    - [ReAct（推理与行动）](#ReAct_141)
+    - [深度思考（Deep Thinking）](#Deep_Thinking_145)
+    - [自适应思考（Adaptive Thinking）](#Adaptive_Thinking_149)
+  + [四、工具与协议](#_153)
+  + - [工具调用（Tool Use/Function Calling）](#Tool_UseFunction_Calling_155)
+    - [MCP（模型上下文协议）](#MCP_159)
+    - [Agent Skills（智能体技能）](#Agent_Skills_163)
+    - [Hooks（钩子）](#Hooks_167)
+    - [斜杠命令（Slash Commands）](#Slash_Commands_171)
+    - [A2A（Agent-to-Agent）](#A2AAgenttoAgent_175)
+    - [BMAD 敏捷 AI 开发方法](#BMAD__AI__179)
+    - [Browser Use（浏览器使用）](#Browser_Use_183)
+    - [Computer Use（计算机使用）](#Computer_Use_187)
+    - [Claude Cowork](#Claude_Cowork_191)
+  + [五、上下文管理](#_195)
+  + - [上下文（Context）](#Context_197)
+    - [上下文工程（Context Engineering）](#Context_Engineering_201)
+    - [上下文压缩（Context Compaction）](#Context_Compaction_205)
+    - [规则文件](#_209)
+    - [AGENTS.md](#AGENTSmdAGENTSmd_213)
+    - [SDD（规范驱动开发）](#SDD_217)
+    - [RAG（检索增强生成）](#RAG_221)
+    - [向量数据库](#_225)
+    - [嵌入（Embedding）](#Embedding_229)
+  + [六、AI 输出相关](#AI__233)
+  + - [AI 幻觉](#AI__235)
+    - [温度（Temperature）](#Temperature_239)
+    - [流式输出](#_243)
+    - [SSE（服务器推送事件）](#SSE_247)
+  + [七、BaaS 服务](#BaaS__253)
+### 为什么你必须掌握这些术语？
+
+2025年2月，Andrej Karpathy（前特斯拉AI总监、OpenAI创始成员）在Twitter上扔下一枚炸弹——**Vibe Coding**。
+
+三个月后的今天，如果你还不知道什么是Token、什么是RAG、什么是MCP，那你已经落后了整整一个技术周期。
+
+**这不是危言耸听。**
+
+今天这篇文章，把Vibe Coding到Agentic Engineering的核心术语一次性讲透。**看完这篇，你跟别人聊AI编程不会再露怯。**
+
+### 一、AI 基础概念
+
+#### 人工智能（AI）
+
+人工智能（Artificial Intelligence，简称 AI）是计算机科学的一个分支，目标是让机器能执行通常需要人类智能的任务，本质都是在特定约束下模拟智能行为的工具。AI 不是真的 “理解”，而是从海量数据中学到了规律。
+
+#### 大语言模型（LLM）
+
+大语言模型（Large Language Model，简称 LLM）是一类基础模型，经过大量数据训练，使其能够理解和生成自然语言和其他类型的内容，以执行各种任务。LLM 通常由包含数百亿以上参数的深度神经网络构建，使用自监督学习方法通过大量无标注文本进行训练。
+
+#### Token
+
+Token 是 AI 处理文本的最小单位，中文 1 个 token≈0.6\0
+
+
+
+
+
+
+
+
+[了解本专栏](https://blog.csdn.net/qq_16038125/category_12621393.html)
+![]()
+![]()
+订阅专栏 解锁全文
+![]()
+超级会员免费看
+
+![]()
+
+![]()
+确定要放弃本次机会？
+
+福利倒计时
+
+*:*
+
+*:*
+
+
+![]()
+立减 ¥
+
+
+普通VIP年卡可用
+
+[立即使用](https://mall.csdn.net/vip)
+
+
+[![]()
+猿与禅](https://yychan.blog.csdn.net)
+
+[关注](javascript:;)
+关注
+
+
+* ![]()
+  ![]()
+  ![]()
+  0
+  点赞
+* ![]()
+  ![]()
+  踩
+* [![]()
+  ![]()
+  ![]()
+  0](javascript:;)
+  收藏
+  
+  
+  
+  觉得还不错?
+  一键收藏
+  
+  ![]()
+* ![]()
+  知道了
+  
+  [![]()
+  0](#commentBox)
+  评论
+* [![]()
+  分享](javascript:;)
+  复制链接
+  
+  分享到 QQ
+  
+  分享到新浪微博
+  
+  ![]()扫一扫
+* [![]()
+  打赏](javascript:;)
+  打赏
+* ![]()
+  ![]()
+  打赏
+  ![]()
+  举报
+  
+  ![]()
+  举报
+
+专栏目录
+
+[订阅专栏](javascript:;)
+
+
+
+
+![]()
+
+[GLM-5 *技术*深度解析：从 *Vibe* *Coding* 到 *Agentic* *Engineering* 的范式跃迁](https://blog.csdn.net/m0_47999117/article/details/158806573)
+
+[m0\_47999117的博客](https://blog.csdn.net/m0_47999117)
+
+03-08
+![]()
+300
+
+
+
+
+[摘要：智谱*AI*发布新一代开源大模型GLM-5，参数规模达744B，在多项基准测试中表现优异。该模型采用MoE+MLA+DSA三重架构，通过稀疏注意力机制降低推理成本，并支持200K长上下文处理。训练流程包含预训练、多*阶段*RL对齐等环节，创新性地引入异步Agent RL框架提升训练效率。GLM-5特别强化了*Agentic* *Engineering*能力，支持自主完成端到端软件工程任务，标志着从"写代码"到"写工程"的范式转变。](https://blog.csdn.net/m0_47999117/article/details/158806573)
+
+
+
+
+
+参与评论
+您还未登录，请先
+登录
+后发表或查看评论
+
+
+[【*2026* *AI*GC行业白皮书】基于*Vibe* *Coding*的创作者经济模型构建：*2026**年**AI*生产力范式转型与上下文资产化商业应用](https://download.csdn.net/download/mboy2008/92570554)
+
+01-19
+
+
+
+[内容概要：本文《*AI*GCLink｜*2026* *AI*GC行业白皮书》系统性地预测了*2026**年**AI*行业的发展趋势，提出“*Vibe* *Coding*创作者经济”将成为新增长点，预计到2030*年*将催生300万名*Vibe* *Coding*创作者。白皮书指出，上下文资产将...](https://download.csdn.net/download/mboy2008/92570554)
+
+
+
+[*Agentic* *Coding* - 从*Vibe* *Coding*到超级个体的进化之路](https://devpress.csdn.net/v1/article/detail/158690829)
+
+[般若](https://blog.csdn.net/hwhsong)
+
+03-05
+![]()
+438
+
+
+
+
+[本文是对北京大学DeepSeek内部研讨系列《*Agentic* *Coding* - 从*Vibe* *Coding*到超级个体的进化之路》的总结及摘要，梳理了*AI**编程*的核心演进逻辑，解析全球主流*AI**编程*工具的特点与适用场景，探讨工具选型的核心思路，并展望*Agentic* *Coding*时代的未来趋势与挑战。](https://devpress.csdn.net/v1/article/detail/158690829)
+
+
+
+
+[*Vibe* *Coding* vs *Agentic* *Coding*：人类直觉与*AI*自主性的终极对决](https://devpress.csdn.net/v1/article/detail/157912765)
+
+[Geek\_King的博客](https://blog.csdn.net/Geek_King)
+
+02-09
+![]()
+724
+
+
+
+
+[*编程*范式正经历一场深刻变革，从精确指令的传统模式转向两种新兴方向：强调直觉与模糊性的*"*氛围编码*"*和追求自主执行的*"*代理编码*"*。氛围编码允许开发者用自然语言描述意图，*AI*则将其转化为代码，类似艺术创作中的整体感知；代理编码则让*AI*自主分解目标并执行，体现笛卡尔式的理性分析。这两种范式分别呼应东西方思维传统，但最理想的状态可能是*二*者的融合 - 人类把控整体方向与审美，*AI*负责具体实现。这种转变将重构开发者的角色，从代码编写者转变为*"*系统培育者*"*，需要兼具*技术*诗学素养和代理协调能力。](https://devpress.csdn.net/v1/article/detail/157912765)
+
+
+
+[GLM-5：从 *Vibe* *Coding* 走向 *Agentic* *Engineering* 的全栈路线图](https://blog.csdn.net/kebijuelun/article/details/158356096)
+
+[kebijuelun的博客](https://blog.csdn.net/kebijuelun)
+
+02-24
+![]()
+713
+
+
+
+
+[DSA 稀疏注意力：长上下文成本大幅降低。异步 *Agentic* RL 基建：训练吞吐稳定性全面提升。TITO + 双侧裁剪 IS：解决异步 RL off-policy 稳定问题。：多*阶段* RL 不再“能力丢失”。Chinese GPU 全栈适配：从 kernel 到 inference 完整*打通*。](https://blog.csdn.net/kebijuelun/article/details/158356096)
+
+
+
+[*AI* *Coding*：从*Vibe* *Coding*到*Agentic* *Engineering*](https://devpress.csdn.net/v1/article/detail/159129523)
+
+[qq\_39685066的博客](https://blog.csdn.net/qq_39685066)
+
+03-16
+![]()
+474
+
+
+
+
+[使用 *AI* 工具 ≠ 个人提效 ≠ 组织提效我们花了半*年*验证了一件事：从*"*用 *AI* 工具*"*到*"*组织真的提效*"*，中间差的不是更好的模型或更贵的订阅，是一套把团队的知识、流程、能力编码成 Agent 能读懂的指令的工程体系。Rules 编码知识，Skills 编码流程，MCP 编码能力。三样东西凑齐了，*AI* 才能从*一个**"*什么都会但什么都不深*"*的通才，变成*"*在这个项目里知道怎么干活*"*的专才。这条路没捷径。](https://devpress.csdn.net/v1/article/detail/159129523)
+
+
+
+[GLM-5：从*Vibe* *Coding*到*Agentic* *Engineering*的范式跃迁](https://blog.csdn.net/PAN_Andy/article/details/158357220)
+
+[PAN\_Andy的博客](https://blog.csdn.net/PAN_Andy)
+
+02-24
+![]()
+762
+
+
+
+
+[本文将介绍智谱*AI*与清华大学联合发布的下一代基础模型GLM-5，该模型在推理、编码和智能体能力方面取得重大突破，标志着*AI*从被动知识库向主动问题解决者的范式转变。](https://blog.csdn.net/PAN_Andy/article/details/158357220)
+
+
+
+[*Vibe* *Coding*氛围*编程*系列：*AI**编程*开发与辅助工具有哪些？](https://libin9ioak.blog.csdn.net/article/details/156399115)
+
+[猫头虎技术团队：授渔优于赠鱼，兴趣引领智慧，探索之乐尤显珍贵。商务合作+：Libin9iOak ，万粉变现+：CSDNWF，猫头虎承诺每年免费为100名C站创作者做账号流量诊断服务！全网搜：猫头虎技术团队，点击文章底部名片或直接私信我一切皆可谈，快找虎哥！](https://blog.csdn.net/qq_44866828)
+
+12-29
+![]()
+6401
+
+
+
+
+[摘要： *Vibe* *Coding*（氛围*编程*）是*AI*时代的工程化开发范式，强调规划、上下文与控制权，通过*AI*结对*编程*提升效率与代码质量。其核心是构建自我优化的*AI*系统，包含生成器（α-提示词）与优化器（Ω-提示词）的递归循环。方法论涵盖道（如“上下文优先”）、法（模块化拆解）、术（精准调试）三层，并推荐实用工具如Augment（上下文引擎）、Ollama（本地模型）、Merm*ai*d Chart（架构可视化）等。适用于从轻量原型到大型项目，目标是通过系统性流程避免*技术*债，实现可持续开发。 （150字）](https://libin9ioak.blog.csdn.net/article/details/156399115)
+
+
+
+[*2026**年*最新*AI*基础入门免费公开课：从*Vibe*-*Coding*到智能体Agent全栈教程](https://devpress.csdn.net/v1/article/detail/156774369)
+
+[猫头虎技术团队：授渔优于赠鱼，兴趣引领智慧，探索之乐尤显珍贵。商务合作+：Libin9iOak ，万粉变现+：CSDNWF，猫头虎承诺每年免费为100名C站创作者做账号流量诊断服务！全网搜：猫头虎技术团队，点击文章底部名片或直接私信我一切皆可谈，快找虎哥！](https://blog.csdn.net/qq_44866828)
+
+01-09
+![]()
+3096
+
+
+
+
+[*2026**年*最新*AI*免费公开课提供从*编程*基础到智能体开发的全栈教程，涵盖*Vibe*-*Coding*、Agent*技术*、大模型构建等核心领域。课程包括清华大学团队的Easy-*Vibe**编程*实践、Datawhale社区的Hello-Agents智能体开发、吴恩达*Agentic* *AI*中文教程等优质资源，适合不同基础的学习者。特别推出*AI*+硬件专题如具身智能入门和智能鲸鱼小车项目，结合理论与实践。所有课程均开源，为初学者和*技术*人员提供系统化学习路径，助力掌握*AI*核心技能与应用开发能力。（149字）](https://devpress.csdn.net/v1/article/detail/156774369)
+
+
+
+[*Vibe* *Coding* 氛围*编程*系列：*AI* *编程*资源与提示词模板有哪些？](https://devpress.csdn.net/v1/article/detail/156399066)
+
+[猫头虎技术团队：授渔优于赠鱼，兴趣引领智慧，探索之乐尤显珍贵。商务合作+：Libin9iOak ，万粉变现+：CSDNWF，猫头虎承诺每年免费为100名C站创作者做账号流量诊断服务！全网搜：猫头虎技术团队，点击文章底部名片或直接私信我一切皆可谈，快找虎哥！](https://blog.csdn.net/qq_44866828)
+
+12-29
+![]()
+7098
+
+
+
+
+[《*Vibe* *Coding*：*AI**编程*的系统化驾驭之道》摘要 本文深入探讨了*Vibe* *Coding*（氛围*编程*）这一*AI*结对*编程*方法论。作者猫头虎提出，未来*编程*的核心在于系统化驾驭*AI*的能力，而非单纯的手写代码速度。文章从三个维度展开： 核心理念：强调"规划就是一切"，主张人类负责顶层设计，*AI*执行具体编码，形成可控的工作流。 方法论体系： 提出α/Ω元提示词概念，构建自我进化的*AI*系统 介绍递归进化生命周期：创生→自省→创造→循环 提炼12条世界观原则和8项实操方法论 实用资源： 提供可直接](https://devpress.csdn.net/v1/article/detail/156399066)
+
+
+
+[北京大学-*Agentic* *Coding*：从*Vibe* *Coding*到超级个体的进化之路.pdf软件工程*AI**编程*范式演进：从*Vibe* *Coding*到*Agentic* *Coding*的*技术*变革与超级个体崛起路径](https://download.csdn.net/download/godlovedaniel/92740981)
+
+03-17
+
+
+
+[内容概要：本文系统阐述了*AI**编程*从辅助*编程*（Copilot）向氛围*编程*（*Vibe* *Coding*）及智能代理式*编程*（*Agentic* *Coding*）的演进历程，介绍了*Vibe* *Coding*的核心特征、*技术*支撑及其在SPEC *Coding*和ID *Coding*范式中的发展...](https://download.csdn.net/download/godlovedaniel/92740981)
+
+
+
+[*AI**编程*相关概念](https://devpress.csdn.net/v1/article/detail/159158748)
+
+[KevinChen2019的博客](https://blog.csdn.net/KevinChen2019)
+
+03-17
+![]()
+329
+
+
+
+
+[自定义命令的本质其实就是*一个* Markdown 文件，在 Cursor 中，只需要在项目的 .cursor/commands/ 目录下创建 .md 文件，里面写上你想要 *AI* 执行的指令，这个文件名就会变成*一个*斜杠命令。Agent Skills（智能体技能）是 Anthropic 在 2025 *年* 10 月推出的 一套开放标准，目的是让 *AI* 能够学习使用各种专业技能，快速扩展特定领域的专业能力。*二*者是互补关系，MCP 解决的是 *AI* 连接工具的问题，A2A 解决的是 *AI* 之间沟通协作的问题。](https://devpress.csdn.net/v1/article/detail/159158748)
+
+
+
+[*2026**年**AI**编程*智能体现状：从结对*编程*到自主*AI*团队](https://devpress.csdn.net/v1/article/detail/159245927)
+
+[web\_geek的博客](https://blog.csdn.net/web_geek)
+
+03-19
+![]()
+359
+
+
+
+
+[*2026**年**AI**编程*工具正从辅助工具向自主实体转变，核心*技术*架构呈现统一趋势，包括持久化上下文、环境交互、长时任务执行等能力。主流智能体分三类：CLI优先型（终端高效协作）、IDE原生型（无缝开发体验）和云端工程型（全任务委派）。*技术*特征转向主动式代码探索和角色化团队协作，开发者角色正从编码者转变为智能体管理者。领先平台各具特色，如ClaudeCode强推理、GitHubCopilot生态整合等，标志着软件开发范式向"智能体系统管理"的根本转型。](https://devpress.csdn.net/v1/article/detail/159245927)
+
+
+
+[老项目需求开发效率翻倍：*AI**编程*实战*指南*](https://blog.csdn.net/weixin_37598243/article/details/159238764)
+
+[dylan的博客](https://blog.csdn.net/weixin_37598243)
+
+03-19
+![]()
+341
+
+
+
+
+[老项目需求开发效率翻倍：*AI**编程*实战*指南*](https://blog.csdn.net/weixin_37598243/article/details/159238764)
+
+
+
+[*2026**年**AI**编程*辅助实战：国内镜像站如何使用Claude提升开发效率？
+最新发布](https://blog.csdn.net/guoji7788/article/details/159288760)
+
+[guoji7788的博客](https://blog.csdn.net/guoji7788)
+
+03-20
+![]()
+384
+
+
+
+
+[*一个*聚合平台允许开发者在同一界面内，根据当前任务（如“生成代码”或“审查安全”）无缝调用最合适的模型，实现效率的最大化。通过实践上述的“生成-审查-优化”流程，你将逐步建立起一套远超简单问答的、强大的个人开发辅助体系，从而在代码质量与开发速度上获得持续的竞争优势。你可以指令*AI*：“假设我是*一个*有Vue 2经验的开发者，请用对比的方式，教我Vue 3的Composition API的核心概念，并给出代码示例。​ *AI*生成的代码应被视为“高级草案”或“智能代码建议”。要求代码有清晰的错误处理。](https://blog.csdn.net/guoji7788/article/details/159288760)
+
+
+
+[基于code-server打造私有*AI**编程*工作站](https://devpress.csdn.net/v1/article/detail/159158487)
+
+[wbsu2004的博客](https://blog.csdn.net/wbsu2004)
+
+03-17
+![]()
+505
+
+
+
+
+[在群晖上部署 Code Server + HAPI，打造随时随地的 *AI* *编程*工作站，支持 Claude Code、Codex、 Gemini、OpenCode 等主流 *AI* CLI](https://devpress.csdn.net/v1/article/detail/159158487)
+
+
+
+[*AI* *编程*软件的邪修用法：让*AI**编程*软件为我们实现龙虾功能（目前好像实现不了）](https://devpress.csdn.net/v1/article/detail/159127747)
+
+[skywalk8163的专栏](https://blog.csdn.net/skywalk8163)
+
+03-17
+![]()
+532
+
+
+
+
+[本文探讨了一种巧妙利用*AI**编程*软件通用能力的"邪修"方法，通过将*编程*任务作为接口，实现数据处理、文档处理、知识管理等实际需求。文章详细介绍了五种"邪修"流派，包括数据加工流水线、文档工厂、多模态借壳等应用场景，并分析了其核心原理：利用*AI**编程*工具的大上下文窗口、代码执行能力和自主规划特性。同时提出了TaskFlow*AI*的设计构想，这是*一个*以结果为导向、隐藏*编程*过程的工具，具备意图识别层、执行引擎和三种执行模式等核心机制。文章也指出了这种方法的边界与风险，包括token](https://devpress.csdn.net/v1/article/detail/159127747)
+
+
+
+[*AI**编程* | 概念一览](https://devpress.csdn.net/v1/article/detail/159211776)
+
+[Ethan's Blog](https://blog.csdn.net/qq_39370934)
+
+03-18
+![]()
+369
+
+
+
+
+[*AI**编程*的一些概念，本文娓娓道来！](https://devpress.csdn.net/v1/article/detail/159211776)
+
+
+
+[*AI**编程*新范式：规范驱动开发SpecKit框架完全*指南*](https://blog.csdn.net/weixin_37598243/article/details/159276892)
+
+[dylan的博客](https://blog.csdn.net/weixin_37598243)
+
+03-20
+![]()
+290
+
+
+
+
+[SpecKit是GitHub推出的开源工具包，专为*AI*辅助*编程*设计，采用规范驱动开发(SDD)模式，通过五*阶段*结构化工作流（项目原则→需求规范→*技术*方案→任务拆分→代码实现）确保开发质量。](https://blog.csdn.net/weixin_37598243/article/details/159276892)
+
+
+
+
+
+
+
+
+
+
+[![]()](https://yychan.blog.csdn.net)
+
+[猿与禅](https://yychan.blog.csdn.net)
+
+
+博客等级
+
+![]()
+
+码龄12年
+
+
+
+[352
+原创](https://yychan.blog.csdn.net)
+
+963
+点赞
+
+1273
+收藏
+
+4498
+粉丝
+
+
+关注
+
+[私信](https://im.csdn.net/chat/qq_16038125)
+
+
+
+[![]()](https://ai.csdn.net/workbench/wallet?utm_source=xtai_slb_bloglb)
+
+![]()
+
+
+### 热门文章
+
+* [ftp-主动模式（PORT）和被动模式（PASV）
+  ![]()
+  100353](https://yychan.blog.csdn.net/article/details/72851142)
+* [2024年大数据高频面试题(下篇）
+  ![]()
+  20762](https://yychan.blog.csdn.net/article/details/140470256)
+* [elasticsearch-各版本特性
+  ![]()
+  20122](https://yychan.blog.csdn.net/article/details/88879294)
+* [spark-大表join优化方案
+  ![]()
+  18104](https://yychan.blog.csdn.net/article/details/72956949)
+* [jdbc-maven添加驱动包
+  ![]()
+  17275](https://yychan.blog.csdn.net/article/details/72672134)
+
+
+### 分类专栏
+
+* [![]()
+  AI技术解读
+  
+  付费](https://blog.csdn.net/qq_16038125/category_12621393.html)
+  62篇
+* [![]()
+  Java架构师面试
+  
+  付费](https://blog.csdn.net/qq_16038125/category_12672888.html)
+  27篇
+* [![]()
+  Java技术栈源码分析
+  
+  付费](https://blog.csdn.net/qq_16038125/category_12408833.html)
+  17篇
+* [![]()
+  MySQL底层原理及实战
+  
+  付费](https://blog.csdn.net/qq_16038125/category_12724040.html)
+  2篇
+* [![]()
+  量化投资
+  
+  付费](https://blog.csdn.net/qq_16038125/category_10470439.html)
+  2篇
+* [![]()
+  系统安全](https://blog.csdn.net/qq_16038125/category_13065768.html)
+  1篇
+* [![]()
+  认知训练营](https://blog.csdn.net/qq_16038125/category_12983122.html)
+  1篇
+* [![]()
+  面试](https://blog.csdn.net/qq_16038125/category_10441928.html)
+  7篇
+* [![]()
+  项目管理](https://blog.csdn.net/qq_16038125/category_12260364.html)
+  6篇
+* [![]()
+  模版](https://blog.csdn.net/qq_16038125/category_6331427.html)
+  3篇
+* [![]()
+  大数据](https://blog.csdn.net/qq_16038125/category_6342317.html)
+  94篇
+* [![]()
+  工具](https://blog.csdn.net/qq_16038125/category_6764808.html)
+  7篇
+* [![]()
+  爬虫](https://blog.csdn.net/qq_16038125/category_6764920.html)
+  2篇
+* [![]()
+  spark](https://blog.csdn.net/qq_16038125/category_6780828.html)
+  51篇
+* [![]()
+  数据挖掘](https://blog.csdn.net/qq_16038125/category_6809905.html)
+  22篇
+* [![]()
+  机器学习](https://blog.csdn.net/qq_16038125/category_6809906.html)
+  18篇
+* [![]()
+  springboot](https://blog.csdn.net/qq_16038125/category_6917652.html)
+  25篇
+* [![]()
+  jvm](https://blog.csdn.net/qq_16038125/category_6929202.html)
+  8篇
+* [![]()
+  微服务](https://blog.csdn.net/qq_16038125/category_6929767.html)
+  6篇
+* [![]()
+  j2ee](https://blog.csdn.net/qq_16038125/category_6934144.html)
+  93篇
+* [![]()
+  数据库](https://blog.csdn.net/qq_16038125/category_6946017.html)
+  20篇
+* [![]()
+  android](https://blog.csdn.net/qq_16038125/category_6949151.html)
+  2篇
+* [![]()
+  运维](https://blog.csdn.net/qq_16038125/category_6949813.html)
+  26篇
+* [![]()
+  编程思想](https://blog.csdn.net/qq_16038125/category_6950125.html)
+  6篇
+* [![]()
+  高并发](https://blog.csdn.net/qq_16038125/category_7221314.html)
+  6篇
+* [![]()
+  分布式](https://blog.csdn.net/qq_16038125/category_7776798.html)
+  6篇
+* [![]()
+  基础](https://blog.csdn.net/qq_16038125/category_8605624.html)
+  25篇
+* [![]()
+  前端](https://blog.csdn.net/qq_16038125/category_8830057.html)
+  8篇
+* [![]()
+  测试](https://blog.csdn.net/qq_16038125/category_8961470.html)
+
+展开全部 ![]()
+收起 ![]()
+
+
+上一篇：
+
+[装了”小龙虾“不知道干啥？OpenClaw系统级AI智能体的全场景应用与商业化变现探索 (上篇）](https://blog.csdn.net/qq_16038125/article/details/159214547)
+
+
+
+### 大家在看
+
+* [Windows 的 Git Bash 中使用 md5sum 命令非常简单 md5做文件完整性检测 WinRAR 可以计算文件的 MD5 值
+  ![]()
+  204](https://blog.csdn.net/zhangfeng1133/article/details/159304607)
+* [Windows PowerShell执行策略详解：从npm报错到完美解决](https://blog.csdn.net/2602_94958286/article/details/159324301)
+* [AI基础库一站式安装教程（小白0踩坑）
+  ![]()
+  302](https://blog.csdn.net/2602_94958286/article/details/159316450)
+* [attachGatewayWsHandlers 函数详细分析](https://blog.csdn.net/caimouse/article/details/159335954)
+
+
+### 最新文章
+
+* [装了”小龙虾“不知道干啥？OpenClaw系统级AI智能体的全场景应用与商业化变现探索 (上篇）](https://yychan.blog.csdn.net/article/details/159214547)
+* [RuoYi-Vue-Plus的企业级多租户设计原理深度解析](https://yychan.blog.csdn.net/article/details/159155268)
+* [企业级OpenClaw部署实战：10个关键配置让你从“养虾“到“精通“](https://yychan.blog.csdn.net/article/details/159155146)
+
+
+[2026年35篇](https://yychan.blog.csdn.net?type=blog&year=2026&month=03)
+[2025年36篇](https://yychan.blog.csdn.net?type=blog&year=2025&month=12)
+[2024年69篇](https://yychan.blog.csdn.net?type=blog&year=2024&month=12)
+[2023年26篇](https://yychan.blog.csdn.net?type=blog&year=2023&month=12)
+[2022年7篇](https://yychan.blog.csdn.net?type=blog&year=2022&month=12)
+[2021年66篇](https://yychan.blog.csdn.net?type=blog&year=2021&month=12)
+[2020年14篇](https://yychan.blog.csdn.net?type=blog&year=2020&month=12)
+[2019年38篇](https://yychan.blog.csdn.net?type=blog&year=2019&month=12)
+[2018年91篇](https://yychan.blog.csdn.net?type=blog&year=2018&month=12)
+[2017年148篇](https://yychan.blog.csdn.net?type=blog&year=2017&month=12)
+[2016年3篇](https://yychan.blog.csdn.net?type=blog&year=2016&month=08)
+
+
+
+![]()
+
+
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+
+
+![]()
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+![]()
+
+上一篇：
+
+[装了”小龙虾“不知道干啥？OpenClaw系统级AI智能体的全场景应用与商业化变现探索 (上篇）](https://blog.csdn.net/qq_16038125/article/details/159214547)
+
+
+
+### 分类专栏
+
+* [![]()
+  AI技术解读
+  
+  付费](https://blog.csdn.net/qq_16038125/category_12621393.html)
+  62篇
+* [![]()
+  Java架构师面试
+  
+  付费](https://blog.csdn.net/qq_16038125/category_12672888.html)
+  27篇
+* [![]()
+  Java技术栈源码分析
+  
+  付费](https://blog.csdn.net/qq_16038125/category_12408833.html)
+  17篇
+* [![]()
+  MySQL底层原理及实战
+  
+  付费](https://blog.csdn.net/qq_16038125/category_12724040.html)
+  2篇
+* [![]()
+  量化投资
+  
+  付费](https://blog.csdn.net/qq_16038125/category_10470439.html)
+  2篇
+* [![]()
+  系统安全](https://blog.csdn.net/qq_16038125/category_13065768.html)
+  1篇
+* [![]()
+  认知训练营](https://blog.csdn.net/qq_16038125/category_12983122.html)
+  1篇
+* [![]()
+  面试](https://blog.csdn.net/qq_16038125/category_10441928.html)
+  7篇
+* [![]()
+  项目管理](https://blog.csdn.net/qq_16038125/category_12260364.html)
+  6篇
+* [![]()
+  模版](https://blog.csdn.net/qq_16038125/category_6331427.html)
+  3篇
+* [![]()
+  大数据](https://blog.csdn.net/qq_16038125/category_6342317.html)
+  94篇
+* [![]()
+  工具](https://blog.csdn.net/qq_16038125/category_6764808.html)
+  7篇
+* [![]()
+  爬虫](https://blog.csdn.net/qq_16038125/category_6764920.html)
+  2篇
+* [![]()
+  spark](https://blog.csdn.net/qq_16038125/category_6780828.html)
+  51篇
+* [![]()
+  数据挖掘](https://blog.csdn.net/qq_16038125/category_6809905.html)
+  22篇
+* [![]()
+  机器学习](https://blog.csdn.net/qq_16038125/category_6809906.html)
+  18篇
+* [![]()
+  springboot](https://blog.csdn.net/qq_16038125/category_6917652.html)
+  25篇
+* [![]()
+  jvm](https://blog.csdn.net/qq_16038125/category_6929202.html)
+  8篇
+* [![]()
+  微服务](https://blog.csdn.net/qq_16038125/category_6929767.html)
+  6篇
+* [![]()
+  j2ee](https://blog.csdn.net/qq_16038125/category_6934144.html)
+  93篇
+* [![]()
+  数据库](https://blog.csdn.net/qq_16038125/category_6946017.html)
+  20篇
+* [![]()
+  android](https://blog.csdn.net/qq_16038125/category_6949151.html)
+  2篇
+* [![]()
+  运维](https://blog.csdn.net/qq_16038125/category_6949813.html)
+  26篇
+* [![]()
+  编程思想](https://blog.csdn.net/qq_16038125/category_6950125.html)
+  6篇
+* [![]()
+  高并发](https://blog.csdn.net/qq_16038125/category_7221314.html)
+  6篇
+* [![]()
+  分布式](https://blog.csdn.net/qq_16038125/category_7776798.html)
+  6篇
+* [![]()
+  基础](https://blog.csdn.net/qq_16038125/category_8605624.html)
+  25篇
+* [![]()
+  前端](https://blog.csdn.net/qq_16038125/category_8830057.html)
+  8篇
+* [![]()
+  测试](https://blog.csdn.net/qq_16038125/category_8961470.html)
+
+展开全部 ![]()
+收起 ![]()
+
+
+
+
+
+
+### 目录
+
+
+
+
+
+
+
+
+
+
+
+
+
+评论
+![]()
+
+![]()被折叠的  条评论
+[为什么被折叠?](https://blogdev.blog.csdn.net/article/details/122245662)
+[![]()到【灌水乐园】发言](https://bbs.csdn.net/forums/FreeZone)
+
+
+查看更多评论![]()
+
+
+
+添加红包
+
+
+祝福语
+
+
+请填写红包祝福语或标题
+
+
+红包数量
+
+个
+
+红包个数最小为10个
+
+
+红包总金额
+
+元
+
+红包金额最低5元
+
+
+余额支付
+当前余额3.43元
+[前往充值 >](https://i.csdn.net/#/wallet/balance/recharge)
+
+
+需支付：10.00元
+
+取消
+确定
+
+
+
+
+![]()
+下一步
+
+![]()
+知道了
+
+
+
+![]()
+成就一亿技术人!
+
+
+
+领取后你会自动成为博主和红包主的粉丝
+规则
+
+
+
+![]()
+hope\_wisdom 发出的红包
+
+
+
+
+
+
+
+
+
+打赏作者![]()
+
+[![]()](https://yychan.blog.csdn.net)
+
+猿与禅
+
+你的鼓励将是我创作的最大动力
+
+
+
+
+¥1
+¥2
+¥4
+¥6
+¥10
+¥20
+
+扫码支付：¥1
+
+![]()
+获取中
+
+
+![]()
+![]()
+扫码支付
+
+
+
+您的余额不足，请更换扫码支付或[充值](https://i.csdn.net/#/wallet/balance/recharge?utm_source=RewardVip)
+
+打赏作者
+
+
+
+
+实付元
+[使用余额支付](javascript:;)
+![]()
+点击重新获取
+
+
+![]()![]()![]()扫码支付
+
+
+
+
+钱包余额
+0
+![]()
+
+抵扣说明：
+
+1.余额是钱包充值的虚拟货币，按照1:1的比例进行支付金额的抵扣。  
+ 2.余额无法直接购买下载，可以购买VIP、付费专栏及课程。
+
+
+
+
+
+[![]()余额充值](https://i.csdn.net/#/wallet/balance/recharge)
+
+![]()
+
+
+
+
+
+

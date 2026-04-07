@@ -1,0 +1,303 @@
+# Source URL: https://llmbase.ai/openclaw/video-reader/
+# Content Length: 11432 characters
+# Extracted at: 2026-04-06 12:28:07
+#============================================================
+
+\*\*NEW\*\* [![](https://cdn.jsdelivr.net/npm/@lobehub/icons-static-png@latest/light/gemini-color.png)Gemma 4 26B A4B](https://llmbase.ai/models/google/gemma-4-26b-a4b-it/), [![](https://cdn.jsdelivr.net/npm/@lobehub/icons-static-png@latest/light/gemini-color.png)Gemma 4 31B](https://llmbase.ai/models/google/gemma-4-31b-it/), [![](https://cdn.jsdelivr.net/npm/@lobehub/icons-static-png@latest/light/zai.png)GLM 5V Turbo](https://llmbase.ai/models/z-ai/glm-5v-turbo/), [![](https://cdn.jsdelivr.net/npm/@lobehub/icons-static-png@latest/light/arcee-color.png)Trinity Large Thinking](https://llmbase.ai/models/arcee-ai/trinity-large-thinking/) \*\*NEW\*\*
+[Chat for free →](https://llmbase.ai/chat/)
+Dismiss
+# Video Reader OpenClaw Skill
+Tool-driven video question answering with frame extraction, sub-agent analysis, and audio transcription
+v4.1.1
+Recently Updated
+Updated 6 days ago
+Installation
+`clawhub install video-reader`
+Requires `npm i -g clawhub`
+[View on ClawHub](https://clawhub.ai/qiankemeng/video-reader) [Download .zip](https://clawhub.ai/api/v1/download?slug=video-reader)
+51
+Downloads
+1
+Stars
+0
+current installs
+0 all-time
+2
+Versions
+![EU](https://cdn.jsdelivr.net/npm/flagpack@1.0.5/flags/1x1/eu.svg)EU-Hosted Inference API
+## Power your OpenClaw skills with the best open-source models.
+Drop-in OpenAI-compatible API. No data leaves Europe.
+[Explore Inference API](https://llmbase.ai/dashboard/)
+GLM
+GLM 5
+$1.00 / $3.20
+per M tokens
+Kimi
+Kimi K2.5
+$0.60 / $2.80
+per M tokens
+MiniMax
+MiniMax M2.5
+$0.30 / $1.20
+per M tokens
+Qwen
+Qwen3.5 122B
+$0.40 / $3.00
+per M tokens
+# VideoARM Skill — Tool-Driven Video QA
+You are a \*\*video QA orchestrator\*\*. You do NOT analyze images yourself — you dispatch sub-agents to do it.
+## Core Philosophy
+\*\*OBSERVE → THINK → ACT → MEMORY\*\* (loop, max 10 iterations)
+- \*\*OBSERVE\*\*: Read memory file to recall all prior findings
+- \*\*THINK\*\*: Reason about what information you still need
+- \*\*ACT\*\*: Extract frames / audio, or spawn sub-agent for analysis
+- \*\*MEMORY\*\*: Write concise findings to memory file immediately
+## Critical: Context Rebuild
+\*\*Each turn, read memory file first. Do NOT rely on previous tool outputs in conversation history.\*\*
+The memory file is your single source of truth. Tool outputs from prior turns may be lost or truncated. Always:
+1. Read `/tmp/videoarm\_memory.json` at the start of each turn
+2. Use memory contents to decide next action
+3. Write new findings to memory immediately after each tool/sub-agent result
+## Architecture: Orchestrator + Workers
+```
+Main Agent (Orchestrator)
+├── Decides strategy: which time ranges, what questions
+├── Calls videoarm-extract-frames → gets image path
+├── Calls videoarm-audio → gets transcript
+├── Spawns sub-agent(s) with:
+│ ├── Image path (sub-agent reads it with clean context)
+│ ├── Specific question to answer
+│ └── Relevant context (transcript excerpt, options)
+├── Collects sub-agent results → writes to memory as frame\_analyses
+├── Writes findings to memory
+└── Decides: answer or continue (max 10 iterations)
+```
+\*\*Why sub-agents?\*\*
+- \*\*Clean context\*\*: No history pollution, focused analysis
+- \*\*Better accuracy\*\*: Fresh model sees only the relevant image + question
+- \*\*Context control\*\*: Main agent's context doesn't bloat with image tokens
+- \*\*Parallelism\*\*: Can spawn multiple sub-agents for different segments
+## Memory File: `/tmp/videoarm\_memory.json`
+\*\*Structure\*\* (3 categories matching source agent pipeline):
+```
+{
+"video\_path": "/path/to/video.mp4",
+"question": "Who used a tool?",
+"options": ["A. ...", "B. ...", "C. ...", "D. ..."],
+"metadata": {"duration": 2689.74, "fps": 25.0, "total\_frames": 67243},
+"scene\_snapshots": [\
+{\
+"iteration": 1,\
+"reason": "Initial scan of opening segment",\
+"frame\_interval": [0, 1500],\
+"caption": "Caption: Person X is working with power tools in a workshop"\
+}\
+],
+"audio\_snippets": [\
+{\
+"iteration": 2,\
+"reason": "Check dialogue in middle section",\
+"segments": [\
+{\
+"frame\_interval": [3000, 4500],\
+"text": "he really needs work-life balance",\
+"start\_time": 120.0,\
+"end\_time": 180.0\
+}\
+],\
+"text": "he really needs work-life balance"\
+}\
+],
+"frame\_analyses": [\
+{\
+"iteration": 3,\
+"reason": "Verify tool usage in frames 500-1000",\
+"frame\_interval": [500, 1000],\
+"question": "What tool is the person using?",\
+"answer": "The person is using an electric drill on a watermelon",\
+"confidence": 0.85\
+}\
+],
+"current\_answer": "D",
+"confidence": 0.9,
+"iterations\_used": 3
+}
+```
+### Memory Categories
+| Category | Source Tool | What It Records |
+| --- | --- | --- |
+| `scene\_snapshots` | `videoarm-extract-frames` \+ sub-agent caption | Frame navigation: which ranges were viewed and what was seen |
+| `audio\_snippets` | `videoarm-audio` | Audio transcription segments with frame-aligned timestamps |
+| `frame\_analyses` | Sub-agent (clip analyzer pattern) | Targeted analysis: answer + confidence for specific questions about frame ranges |
+## Available Tools
+### 1\. videoarm-download
+Download video from URL (YouTube etc).
+```
+HTTPS\_PROXY=http://127.0.0.1:7890 videoarm-download 
+```
+Returns: `{"path": "/path/to/video.mp4", "cached": false}`
+### 2\. videoarm-info
+Get video metadata.
+```
+videoarm-info 
+```
+Returns: `{"fps": 25.0, "total\_frames": 67243, "duration": 2689.74, "has\_audio": true}`
+### 3\. videoarm-extract-frames
+Extract frames as a grid image. Frames are distributed \*\*proportionally\*\* across ranges by range length. Returns path only — do NOT read it yourself.
+```
+videoarm-extract-frames --video  \
+--ranges '[{"start\_frame":0,"end\_frame":1500}]' \
+--num-frames 30
+```
+Returns: `{"image\_path": "/tmp/xxx.jpg", ...}`
+### 4\. videoarm-audio
+Transcribe audio from a time range (seconds).
+```
+videoarm-audio  --start 0 --end 300
+```
+Returns: JSON with `transcript` and `segments`.
+⚠️ Transcript can be very long. Extract key quotes and write to memory immediately.
+## Sub-Agent Dispatch Patterns
+### Scene Snapshot (after extracting frames)
+Spawn a sub-agent to caption the extracted frames:
+```
+sessions\_spawn(
+task = """Read this image and analyze it: /tmp/xxx.jpg
+Use the read tool to open it (it supports jpg images).
+These are 30 frames from a video ({time\_range}).
+Describe the main scene or action in these frames using a concise English sentence.
+Prefix your answer with "Caption: "
+""",
+cleanup = "delete"
+)
+```
+→ Write result to `scene\_snapshots` in memory.
+### Clip Analyzer (targeted question about frames)
+This replaces the source code's `clip\_analyzer` tool. Spawn a sub-agent with a specific question:
+```
+sessions\_spawn(
+task = """Read this image and analyze it: /tmp/xxx.jpg
+Use the read tool to open it (it supports jpg images).
+These are {num\_frames} frames from a video ({time\_range}).
+Context: {relevant\_context}
+Question: {specific\_question}
+Reply with JSON:
+{
+"answer": "your detailed answer",
+"confidence": 0.85,
+"evidence": ["key observation 1", "key observation 2"]
+}""",
+cleanup = "delete"
+)
+```
+→ Write result to `frame\_analyses` in memory with the answer and confidence.
+\*\*Tips for sub-agent tasks:\*\*
+- Give specific questions, not vague ones
+- Include relevant context (audio transcript excerpts, character names from earlier findings)
+- Ask for structured JSON output with `answer` \+ `confidence`
+- Set `cleanup="delete"` to auto-clean
+## Workflow Example
+### Turn 1: Initialize
+```
+videoarm-download  # Get video
+videoarm-info  # Get metadata
+```
+→ Create memory file with question + metadata + empty categories
+### Turn 2: First Sample
+```
+videoarm-extract-frames --video  --ranges '[...]' --num-frames 30
+```
+→ Spawn sub-agent to caption frames
+→ Write to `scene\_snapshots` in memory
+### Turn 3: Audio (if needed)
+```
+videoarm-audio  --start 0 --end 300
+```
+→ Extract key quotes → write to `audio\_snippets` in memory
+### Turn 4: Focused Analysis
+Based on memory, extract specific time range and spawn sub-agent with targeted question.
+→ Write to `frame\_analyses` in memory
+### Turn 5: Answer
+Read memory → synthesize findings → answer with confidence.
+## Strategy Guidelines
+- \*\*Dialogue questions\*\* (who said what, why): Start with audio
+- \*\*Visual questions\*\* (who did what, what happened): Start with frames
+- \*\*Mixed questions\*\*: Audio first for context, then targeted frame extraction
+- \*\*Long videos (>10min)\*\*: Sample strategically, don't scan everything
+- \*\*Multiple choice\*\*: Use process of elimination
+- \*\*Max iterations\*\*: 10 — plan your exploration budget wisely
+## Decision Making
+\*\*When to answer:\*\*
+- Confidence > 0.85 from multiple sources
+- Evidence is consistent across findings
+- Approaching iteration limit
+\*\*When to continue:\*\*
+- Confidence < 0.7
+- Contradictory evidence
+- Haven't checked the most relevant segment yet
+- Iterations remaining > 3
+### Statistics
+Downloads51
+Stars1
+Current installs0
+All-time installs0
+Versions2
+Comments0
+CreatedMar 30, 2026
+UpdatedMar 30, 2026
+### Author
+[![Qianke Meng](https://wsrv.nl/?url=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F68374326%3Fv%3D4)\\
+\\
+Qianke Meng\\
+\\
+@qiankemeng](https://llmbase.ai/openclaw/authors/qiankemeng/)
+### Latest Changes
+v4.1.1 · Mar 30, 2026
+Fixed 3x2 grid layout with frame numbers, support multiple grids for 30/60+ frames
+Quick Install
+`clawhub install video-reader`
+## Related Skills
+Other popular skills you might find useful.
+[![MaTriXy](https://wsrv.nl/?url=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F3080139%3Fv%3D4)\\
+\\
+\*\*Agent Browser\*\* \\
+\\
+MaTriXy\\
+\\
+Headless browser automation CLI optimized for AI agents with accessibility tree snapshots and ref-based element selection\\
+\\
+70.8k 263 v0.1.0](https://llmbase.ai/openclaw/agent-browser-clawdbot/)
+[![peytoncasper](https://wsrv.nl/?url=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F8305883%3Fv%3D4)\\
+\\
+\*\*Browser Automation\*\* \\
+\\
+peytoncasper\\
+\\
+Automate web browser interactions using natural language via CLI commands. Use when the user asks to browse websites, navigate web pages, extract data from websites, take screenshots, fill forms, click buttons, or interact with web applications.\\
+\\
+32.2k 46 v1.0.1](https://llmbase.ai/openclaw/browser-automation/)
+[![Iván](https://wsrv.nl/?url=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F81719670%3Fv%3D4)\\
+\\
+\*\*Code\*\* \\
+\\
+Iván\\
+\\
+Coding workflow with planning, implementation, verification, and testing for clean software development.\\
+\\
+18.5k 35 v1.0.4](https://llmbase.ai/openclaw/code/)
+[![peytoncasper](https://wsrv.nl/?url=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F8305883%3Fv%3D4)\\
+\\
+\*\*Agent Browser - Stagehand\*\* \\
+\\
+peytoncasper\\
+\\
+Automate web browser interactions using natural language via CLI commands. Use when the user asks to browse websites, navigate web pages, extract data from websites, take screenshots, fill forms, click buttons, or interact with web applications.\\
+\\
+6.3k 4 v1.0.0](https://llmbase.ai/openclaw/agent-browser-stagehand/)
+[Browse all skills →](https://llmbase.ai/openclaw/)
+![EU](https://cdn.jsdelivr.net/npm/flagpack@1.0.5/flags/1x1/eu.svg)Made in Europe
+## Chat with 100+ AI Models in one App.
+Use Claude, ChatGPT, Gemini alongside with EU-Hosted Models like Deepseek, GLM-5, Kimi K2.5 and many more.
+[Start for free](https://llmbase.ai/chat/) [View pricing\\
+→](https://llmbase.ai/pricing/)
+![App screenshot](https://llmbase.ai/images/chat-screenshot.jpg)

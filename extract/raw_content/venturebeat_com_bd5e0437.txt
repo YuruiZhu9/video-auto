@@ -1,0 +1,159 @@
+# Source URL: https://venturebeat.com/orchestration/mistral-ai-just-released-a-text-to-speech-model-it-says-beats-elevenlabs-and
+# Content Length: 19650 characters
+# Extracted at: 2026-03-28 19:43:18
+#============================================================
+
+
+Mistral AI just released a text-to-speech model it says beats ElevenLabs — and it's giving away the weights for free | VentureBeat
+
+* [Orchestration](/category/orchestration)
+* [Infrastructure](/category/infrastructure)
+* [Data](/category/data)
+* [Security](/category/security)
+More[Newsletters](/newsletters)Featured
+
+Mistral AI just released a text-to-speech model it says beats ElevenLabs — and it's giving away the weights for free
+====================================================================================================================
+
+[Michael Nuñez](/author/michael_nunez)
+March 26, 2026
+
+![]()
+
+
+
+Credit: VentureBeat made with Midjourney
+
+
+
+The enterprise voice AI market is in the middle of a land grab. [ElevenLabs](https://newsroom.ibm.com/2026-03-25-enterprise-ai-finds-its-voice-elevenlabs-and-ibm-bring-premium-voice-capabilities-to-agentic-ai) and [IBM](https://newsroom.ibm.com/2026-03-25-enterprise-ai-finds-its-voice-elevenlabs-and-ibm-bring-premium-voice-capabilities-to-agentic-ai) announced a collaboration just this week to bring premium voice capabilities into IBM's watsonx Orchestrate platform. [Google Cloud](https://techcrunch.com/2025/03/17/google-adds-its-hd-voice-model-chirp-3-to-its-vertex-ai-platform/) has been expanding its Chirp 3 HD voices. [OpenAI](https://developers.openai.com/api/docs/guides/text-to-speech) continues to iterate on its own speech synthesis. And the market underpinning all of this activity is enormous — voice AI crossed $22 billion globally in 2026, with the voice AI agents segment alone projected to reach [$47.5 billion by 2034](https://www.londondaily.news/__sentry?ctype=balanced&uri=/voice-ai-agents-market-to-hit-usd-47-5-billion-by-2034/), according to industry estimates.
+
+On Thursday morning, [Mistral AI](https://mistral.ai/) entered that fight with a fundamentally different proposition. The Paris-based AI startup released [Voxtral TTS](https://mistral.ai/news/voxtral-tts), what it calls the first frontier-quality, open-weight text-to-speech model designed specifically for enterprise use. Where every major competitor in the space operates a proprietary, API-first business — enterprises rent the voice, they don't own it — Mistral is releasing the full model weights, inviting companies to download [Voxtral TTS](https://mistral.ai/news/voxtral-tts), run it on their own servers or even on a smartphone, and never send a single audio frame to a third party.
+
+It is a bet that the future of enterprise voice AI will not be shaped by whoever builds the best-sounding model, but by whoever gives companies the most control over it. And it arrives at a moment when Mistral, valued at [$13.8 billion](https://www.cnbc.com/2025/09/09/ai-firm-mistral-valued-at-14-billion-as-asml-takes-major-stake.html) after a [$2 billion Series C round](https://www.cnbc.com/2025/09/09/ai-firm-mistral-valued-at-14-billion-as-asml-takes-major-stake.html) led by Dutch chipmaker [ASML](https://www.asml.com/en) last September, has been aggressively assembling the building blocks of a complete, enterprise-owned AI stack — from its [Forge](https://venturebeat.com/infrastructure/mistral-ai-launches-forge-to-help-companies-build-proprietary-ai-models) customization platform announced at Nvidia GTC earlier this month, to its [AI Studio](https://mistral.ai/products/studio) production infrastructure, to the [Voxtral Transcribe](https://mistral.ai/news/voxtral-transcribe-2) speech-to-text model released just weeks ago.
+
+[Voxtral TTS](https://mistral.ai/news/voxtral-tts) is the output layer that completes that picture, giving enterprises a speech-to-speech pipeline they can run end-to-end without relying on any external provider.
+
+"We see audio as a big bet and as a critical and maybe the only future interface with all the AI models," Pierre Stock, Mistral's vice president of science and the first employee hired at the company, said in an exclusive interview with VentureBeat. "This is something customers have been asking for."
+
+**A 3-billion-parameter model that fits on a laptop and runs six times faster than real-time speech**
+-----------------------------------------------------------------------------------------------------
+
+The technical specifications of [Voxtral TTS](https://mistral.ai/news/voxtral-tts) read like a deliberate inversion of industry norms. Where most frontier TTS models are large and resource-intensive, Mistral built its model to be roughly three times smaller than what it calls the industry standard for comparable quality.
+
+The architecture comprises three components: a 3.4-billion-parameter transformer decoder backbone, a 390-million-parameter flow-matching acoustic transformer, and a 300-million-parameter neural audio codec that Mistral developed in-house. The system is built on top of [Ministral 3B](https://docs.mistral.ai/models/ministral-3-3b-25-12), the same pretrained backbone that powers the company's [Voxtral Transcribe model](https://mistral.ai/news/voxtral-transcribe-2) — a design choice that Stock described as emblematic of Mistral's culture of efficiency and artifact reuse.
+
+In practice, the model achieves a time-to-first-audio of 90 milliseconds for a typical input and generates speech at approximately six times real-time speed. When quantized for inference, it requires roughly three gigabytes of RAM. Stock confirmed it can run on any laptop or smartphone, and even on older hardware it still operates in real time.
+
+"It's a 3B model, so it can basically run on any laptop or any smartphone," Stock told VentureBeat. "If you quantize it to infer, it's actually three gigabytes of RAM. And you can run it on super old chips — it's still going to be real time."
+
+The model supports nine languages — English, French, German, Spanish, Dutch, Portuguese, Italian, Hindi, and Arabic — and can adapt to a custom voice with as little as five seconds of reference audio. Perhaps more remarkably, it demonstrates zero-shot cross-lingual voice adaptation without explicit training for that task.
+
+Stock illustrated this with a personal example: he can feed the model 10 seconds of his own French-accented voice, type a prompt in German, and the model will generate German speech that sounds like him — complete with his natural accent and vocal characteristics. For enterprises operating across borders, this capability unlocks cascaded speech-to-speech translation that preserves speaker identity, a feature that has obvious applications in customer support, sales, and internal communications for multinational organizations.
+
+![]()
+
+
+
+Mistral's Voxtral TTS architecture: a transformer backbone ingests text tokens and a voice reference sample, then routes semantic representations through a flow-matching transformer to produce 80-millisecond audio frames. The system runs on roughly three gigabytes of memory. (Source: Mistral AI)
+
+
+
+**Human evaluators preferred Voxtral over ElevenLabs nearly 70 percent of the time on voice customization**
+-----------------------------------------------------------------------------------------------------------
+
+Mistral is not being coy about which competitor it intends to displace. In human evaluations conducted by the company, [Voxtral TTS](https://mistral.ai/news/voxtral-tts) achieved a 62.8 percent listener preference rate against [ElevenLabs Flash v2.5](https://elevenlabs.io/docs/overview/models) on flagship voices and a 69.9 percent preference rate in voice customization tasks. Mistral also claims the model performs at parity with [ElevenLabs v3](https://elevenlabs.io/v3) — the company's premium, higher-latency tier — on emotional expressiveness, while maintaining similar latency to the much faster Flash model.
+
+The evaluation methodology involved a comparative side-by-side test across all nine supported languages. Using two recognizable voices in their native dialects for each language, three annotators performed preference tests on naturalness, accent adherence, and acoustic similarity to the original reference. Mistral says [Voxtral TTS](https://mistral.ai/news/voxtral-tts) widened the quality gap to ElevenLabs v2.5 Flash especially in zero-shot multilingual custom voice settings, highlighting what the company calls the "instant customizability" of the model.
+
+ElevenLabs remains widely regarded as the benchmark for raw voice quality. Its Eleven v3 model has been described by multiple independent reviewers as the gold standard for emotionally nuanced AI speech. But ElevenLabs operates as a closed platform with tiered subscription pricing that scales from around $5 per month at the starter level to over $1,300 per month for business plans. It does not release model weights.
+
+Mistral's pitch is that enterprises shouldn't have to choose between quality and control — and that at scale, the economics of an open-weight model are dramatically more favorable.
+
+"What we want to underline is that we're faster and cheaper as well — and open source," Stock told VentureBeat. "When something is open source and cheap, people adopt it and people build on it."
+
+He framed the cost argument in terms that resonate with CTOs managing AI budgets: "AI is a transformative technology, but it has a cost. When you want to scale and have impact on a large business, that cost matters. And what we allow is to scale seamlessly while minimizing the cost and maximizing the accuracy."
+
+![]()
+
+
+
+In blind listening tests conducted by Mistral, human evaluators preferred Voxtral TTS over ElevenLabs Flash v2.5 roughly 63 percent of the time on flagship voices and nearly 70 percent of the time on voice customization tasks. (Source: Mistral AI)
+
+
+
+**Why Mistral thinks enterprises will want to own their voice AI rather than rent it**
+--------------------------------------------------------------------------------------
+
+To understand why Mistral is entering text-to-speech now, you have to understand the broader strategic architecture the company has been building for the past year. While [OpenAI](https://openai.com/) and [Anthropic](https://www.anthropic.com/) have captured the imagination of consumers, [Mistral](https://mistral.ai/) has quietly assembled what may be the most comprehensive enterprise AI platform in Europe — and increasingly, globally.
+
+CEO Arthur Mensch has said the company is on track to [surpass $1 billion in annual recurring revenue](https://techcrunch.com/2026/03/17/mistral-forge-nvidia-gtc-build-your-own-ai-enterprise/) this year, according to TechCrunch's reporting on the Forge launch. The Financial Times has reported that Mistral's annualized revenue run rate surged from $20 million to over $400 million within a single year. That growth has been powered by more than 100 major enterprise customers and a consistent thesis: companies should own their AI infrastructure, not rent it.
+
+[Voxtral TTS](https://mistral.ai/news/voxtral-tts) is the latest expression of that thesis, applied to what may be the most sensitive category of enterprise data there is. Voice recordings capture not just words but emotion, identity, and intent. They carry legal, regulatory, and reputational weight that text data often does not. For industries like financial services, healthcare, and government — all key Mistral verticals — sending voice data to a third-party API introduces risks that many compliance teams are unwilling to accept.
+
+Stock made the data sovereignty argument forcefully. "Since the models are open weights, we have no trouble and no problem actually giving the weights to the enterprise and helping them customize the models," he said. "We don't see the weights anymore. We don't see the data. We see nothing. And you are fully controlled."
+
+That message has particular resonance in Europe, where concern about technological dependence on American cloud providers has intensified throughout 2026. The EU currently sources more than 80 percent of its digital services from foreign providers, most of them American. Mistral has positioned itself as the answer to that anxiety — the only European frontier AI developer with the scale and technical capability to offer a credible alternative.
+
+**Voice agents are the enterprise use case that makes Mistral's full AI stack click into place**
+------------------------------------------------------------------------------------------------
+
+[Voxtral TTS](https://mistral.ai/news/voxtral-tts) is the final piece in a pipeline Mistral has been methodically assembling. Voxtral Transcribe handles speech-to-text. Mistral's language models — from Mistral Small to Mistral Large — provide the reasoning layer. Forge allows enterprises to customize any of these models on their own data. AI Studio provides the production infrastructure for observability, governance, and deployment. And Mistral Compute offers the underlying GPU resources.
+
+Together, these pieces form what Stock described as a "full AI stack, fully controllable and customizable" for the enterprise. Voice agents — AI systems that can listen to a customer, understand what they need, reason about the answer, and respond in natural-sounding speech — are the use case that ties all of these layers together.
+
+The applications Mistral envisions span customer support, where voice agents can route and resolve queries with brand-appropriate speech; sales and marketing, where a single voice can work across markets through cross-lingual emulation; real-time translation for cross-border operations; and even interactive storytelling and game design, where emotion-steering can control tone and personality.
+
+Stock was most animated when discussing how Voxtral TTS fits into the broader agentic AI trend that has dominated enterprise technology discussions in 2026. "We are totally building for a world in which audio is a natural interface, in particular for agents to which you can delegate work — extensions of yourself," he said. He described a scenario in which a user starts planning a vacation on a computer, commutes to work, and then picks up the workflow on a phone simply by asking for an update by voice.
+
+"To make that happen, you need a model you can trust, you need a model that's super efficient and super cheap to run — otherwise you won't use it for long — and you need a model that sounds super conversational and that you can interrupt at any time," Stock said.
+
+That emphasis on interruptibility and real-time responsiveness reflects a broader insight about voice interfaces that distinguishes them from text. A chatbot can take two or three seconds to respond without breaking the user experience. A voice agent cannot. The 90-millisecond time-to-first-audio that [Voxtral TTS](https://mistral.ai/news/voxtral-tts) achieves is not just a benchmark number — it is the threshold between a voice interaction that feels natural and one that feels robotic.
+
+**Mistral's open-weight approach aligns with a broader industry shift that even Nvidia is backing**
+---------------------------------------------------------------------------------------------------
+
+Mistral's decision to release Voxtral TTS with open weights is consistent with a movement that has been gathering momentum across the AI industry. At Nvidia GTC earlier this month, Nvidia CEO Jensen Huang declared that "proprietary versus open is not a thing — it's proprietary *and* open." Nvidia announced the [Nemotron Coalition](https://nvidianews.nvidia.com/news/nvidia-launches-nemotron-coalition-of-leading-global-ai-labs-to-advance-open-frontier-models), a first-of-its-kind collaboration of model builders working to advance open frontier-level foundation models, with Mistral as a founding member. The first project from that coalition will be a base model codeveloped by [Mistral AI](http://mistral.ai) and Nvidia.
+
+For Mistral, open weights serve a dual commercial purpose. They drive adoption — developers and enterprises can experiment without friction or commitment — while the company monetizes through its platform services, customization offerings, and managed infrastructure. The model is available to test in Mistral Studio and through the company's API, but the strategic play is to become embedded in enterprise voice pipelines as an owned asset, not a metered service.
+
+This mirrors the playbook that worked for Mistral's language models. As Mensch told CNBC in February, "[AI is making us able to develop software at the speed of light](https://www.cnbc.com/video/2026/03/18/mistral-ai-ceo-arthur-mensch-goes-one-on-one-with-jim-cramer.html)," predicting that "more than half of what's currently being bought by IT in terms of SaaS is going to shift to AI." He described a "[replatforming](https://www.cnbc.com/video/2026/03/18/mistral-ai-ceo-arthur-mensch-goes-one-on-one-with-jim-cramer.html)" taking place across enterprise technology, with businesses looking to replace legacy software systems with AI-native alternatives. An open-weight voice model that enterprises can customize and deploy on their own terms fits naturally into that narrative.
+
+**Mistral signals that end-to-end audio AI is where the company is headed next**
+--------------------------------------------------------------------------------
+
+When asked what comes after [Voxtral TTS](https://mistral.ai/news/voxtral-tts), Stock outlined two directions. The first is expanding language and dialect support, with particular attention to cultural nuance. "It's not the same to speak French in Paris than to speak French in Canada, in Montreal," he said. "We want to respect both cultures, and we want our models to perform in both contexts with all the cultural specifics."
+
+The second direction is more ambitious: a fully end-to-end audio model that doesn't just generate speech from text but understands the complete spectrum of human vocal communication.
+
+"We convey some meaning with the words we speak," Stock said. "We actually convey way more with the intonation, the rhythm, and how we say it. When people talk about end-to-end audio, that's what they mean — the model is able to pick up that you're in a hurry, for instance, and will go for the fastest answer. The model will know that you're joyful today and crack a joke. It's super adaptive to you, and that's where we want to go."
+
+That vision — an AI that speaks naturally, listens with nuance, responds with emotional intelligence, and runs on a model small enough to fit in your pocket — is the frontier every major AI lab is racing toward. For now, [Voxtral TTS](https://mistral.ai/news/voxtral-tts) gives Mistral a foundation to build on and enterprises a question they haven't had to answer before: if you could own your voice AI stack outright, at lower cost and with competitive quality, why would you keep renting someone else's?
+
+##### Subscribe to get latest news!
+
+Deep insights for enterprise AI, data, and security leaders
+
+VB DailyAI WeeklyAGI WeeklySecurity WeeklyData Infrastructure WeeklyVB EventsAll of them
+
+By submitting your email, you agree to our [Terms](/terms-of-service) and [Privacy Notice](/privacy-policy).
+
+Get updatesYou're in! Our latest news will be hitting your inbox soon.
+
+More
+----
+
+* [Press Releases](/press-releases)
+* [Contact Us](/contact-2)
+* [Advertise](https://media.venturebeat.com)
+* [Share a News Tip](/contact-2)
+* [Contribute](/guest-posts)
+
+* [Privacy Policy](/privacy-policy)
+* [Terms of Service](/terms-of-service)
+* [Consent Preferences](#)
+* [Do Not Sell or Share My Personal Information](https://app.termly.io/notify/f592675e-4484-4dc9-bb50-462a84720662)
+* [Limit the Use Of My Sensitive Personal Information](https://app.termly.io/notify/f592675e-4484-4dc9-bb50-462a84720662)
+
+© 2026 VentureBeat. All rights reserved.
+

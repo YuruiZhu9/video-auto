@@ -1,0 +1,347 @@
+# Source URL: https://caovan.com/kaiyuanaishengyinkelongchengxugpt-sovitsbendeyunxingjiaocheng-aishengyinkelongjiaocheng/.html
+# Content Length: 13576 characters
+# Extracted at: 2026-03-11 19:36:59
+#============================================================
+
+
+
+
+
+
+开源AI声音克隆程序GPT-SoVITS本地运行教程 | AI声音克隆教程 | 草凡博客
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[![]()](https://caovan.com/)
+
+
+* [草凡博客](https://caovan.com/caovanblog)
+* [人工智能](https://caovan.com/artificial-intelligence)
+  + [AI绘画](https://caovan.com/artificial-intelligence/ai-painting)
+  + [自然语言处理](https://caovan.com/artificial-intelligence/ai-text)
+  + [语音处理](https://caovan.com/artificial-intelligence/ai-voice)
+  + [Prompt](https://caovan.com/artificial-intelligence/ai-painting/prompt)
+* [草凡AIGC](https://aigc.caovan.cn)
+* [互联网](https://caovan.com/technology)
+  + [行业资讯](https://caovan.com/news)
+  + [SEO专区](https://caovan.com/seo)
+  + [跨境电商](https://caovan.com/entrepreneurship/kuajingdianshang)
+* [WEB3.0](https://caovan.com/web3)
+* [资源](https://caovan.com/ziyuanxiazai)
+* [问答墙](https://caovan.com/wendaqiang)
+ 
+ 
+[Sign in](https://caovan.com/login?modal-type=login)
+[Sign up](https://caovan.com/register?modal-type=register)
+
+[投稿](https://caovan.com/tougao) 
+
+
+
+
+ 
+[![]()](#) 
+
+开源AI声音克隆程序GPT-SoVITS本地运行教程 | AI声音克隆教程
+=====================================
+
+[朋远方](https://caovan.com/profile/arthur)
+
+•
+2024年2月11日 上午11:42 
+•
+[声音处理](https://caovan.com/artificial-intelligence/ai-voice) •
+8491 views
+
+
+[![]()](#)
+
+[GPT-SoVITS](https://caovan.com/tag/529)是目前为止我亲测过的效果最好的AI[声音克隆](https://caovan.com/tag/392)程序，我甚至已经用这个程序克隆的声音做了一期完整的视频！相比较于《[VALL-E X多语言文本到语音合成与语音克隆windows10本地部署教程](/vall-e-xduoyuyanwenbendaoyuyinhechengyuyuyinkelongwindows10bendebushujiaocheng/.html)》，GPT-SoVITS克隆的声音更加稳定，连贯性更好，下面我就来具体讲解下GPT-SoVITS在本地部署和运行的详细步骤！
+
+Table of Contents
+
+
+* [GPT-SoVITS功能](/kaiyuanaishengyinkelongchengxugpt-sovitsbendeyunxingjiaocheng-aishengyinkelongjiaocheng/.html#GPT-SoVITS%E5%8A%9F%E8%83%BD)
+  + [效果展示](/kaiyuanaishengyinkelongchengxugpt-sovitsbendeyunxingjiaocheng-aishengyinkelongjiaocheng/.html#%E6%95%88%E6%9E%9C%E5%B1%95%E7%A4%BA)
+* [安装方法](/kaiyuanaishengyinkelongchengxugpt-sovitsbendeyunxingjiaocheng-aishengyinkelongjiaocheng/.html#%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95)
+* [使用方法](/kaiyuanaishengyinkelongchengxugpt-sovitsbendeyunxingjiaocheng-aishengyinkelongjiaocheng/.html#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95)
+  + [训练模型](/kaiyuanaishengyinkelongchengxugpt-sovitsbendeyunxingjiaocheng-aishengyinkelongjiaocheng/.html#%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B)
+    - [人声伴奏分离&去混响（可选）](/kaiyuanaishengyinkelongchengxugpt-sovitsbendeyunxingjiaocheng-aishengyinkelongjiaocheng/.html#%E4%BA%BA%E5%A3%B0%E4%BC%B4%E5%A5%8F%E5%88%86%E7%A6%BB_%E5%8E%BB%E6%B7%B7%E5%93%8D%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89)
+      * [人声分离步骤](/kaiyuanaishengyinkelongchengxugpt-sovitsbendeyunxingjiaocheng-aishengyinkelongjiaocheng/.html#%E4%BA%BA%E5%A3%B0%E5%88%86%E7%A6%BB%E6%AD%A5%E9%AA%A4)
+      * [效果展示](/kaiyuanaishengyinkelongchengxugpt-sovitsbendeyunxingjiaocheng-aishengyinkelongjiaocheng/.html#%E6%95%88%E6%9E%9C%E5%B1%95%E7%A4%BA-2)
+    - [语音切割（必选）](https://caovan.com/kaiyuanaishengyinkelongchengxugpt-sovitsbendeyunxingjiaocheng-aishengyinkelongjiaocheng/.html/2/#%E8%AF%AD%E9%9F%B3%E5%88%87%E5%89%B2%EF%BC%88%E5%BF%85%E9%80%89%EF%BC%89)
+    - [语音文本校对标注（可选）](https://caovan.com/kaiyuanaishengyinkelongchengxugpt-sovitsbendeyunxingjiaocheng-aishengyinkelongjiaocheng/.html/2/#%E8%AF%AD%E9%9F%B3%E6%96%87%E6%9C%AC%E6%A0%A1%E5%AF%B9%E6%A0%87%E6%B3%A8%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89)
+    - [训练集格式化（必选）](https://caovan.com/kaiyuanaishengyinkelongchengxugpt-sovitsbendeyunxingjiaocheng-aishengyinkelongjiaocheng/.html/2/#%E8%AE%AD%E7%BB%83%E9%9B%86%E6%A0%BC%E5%BC%8F%E5%8C%96%EF%BC%88%E5%BF%85%E9%80%89%EF%BC%89)
+    - [微调训练（必选）](https://caovan.com/kaiyuanaishengyinkelongchengxugpt-sovitsbendeyunxingjiaocheng-aishengyinkelongjiaocheng/.html/3/#%E5%BE%AE%E8%B0%83%E8%AE%AD%E7%BB%83%EF%BC%88%E5%BF%85%E9%80%89%EF%BC%89)
+  + [推理](https://caovan.com/kaiyuanaishengyinkelongchengxugpt-sovitsbendeyunxingjiaocheng-aishengyinkelongjiaocheng/.html/3/#%E6%8E%A8%E7%90%86)
+    - [效果展示](https://caovan.com/kaiyuanaishengyinkelongchengxugpt-sovitsbendeyunxingjiaocheng-aishengyinkelongjiaocheng/.html/3/#%E6%95%88%E6%9E%9C%E5%B1%95%E7%A4%BA-3)
+
+GPT-SoVITS功能
+============
+
+1. **零样本文本到语音（TTS）：** 输入 5 秒的声音样本，即刻体验文本到语音转换。
+2. **少样本 TTS：** 仅需 1 分钟的训练数据即可微调模型，提升声音相似度和真实感。
+3. **跨语言支持：** 支持与训练数据集不同语言的推理，目前支持英语、日语和中文。
+4. **WebUI 工具：** 集成工具包括声音伴奏分离、自动训练集分割、中文自动语音识别(ASR)和文本标注，协助初学者创建训练数据集和 GPT/SoVITS 模型。
+
+效果展示
+----
+
+
+
+
+1. [原声](https://caovan.com/./uploads/2024/02/xiexiaofeng-voice.WAV_0_121920.wav)
+2. [克隆的声音](https://caovan.com/./uploads/2024/02/xinnian.wav)
+
+安装方法
+====
+
+GPT-SoVITS的github主页：[https://github.com/RVC-Boss/GPT-SoVITS](https://caovan.com/go?_=bbe8c9fec8aHR0cHM6Ly9naXRodWIuY29tL1JWQy1Cb3NzL0dQVC1Tb1ZJVFM%3D)
+
+GPT-SoVITS的huggingface下载地址：[https://huggingface.co/lj1995/GPT-SoVITS-windows-package/tree/main](https://caovan.com/go?_=0e9157ede9aHR0cHM6Ly9odWdnaW5nZmFjZS5jby9sajE5OTUvR1BULVNvVklUUy13aW5kb3dzLXBhY2thZ2UvdHJlZS9tYWlu)
+
+如果你无法访问huggingface，可以点击下面的代理链接下载：
+
+[GPT-SoVITS-beta.7z](https://caovan.com/go?_=c5726fd152aHR0cHM6Ly9odWdnaW5nZmFjZS4xMzE5bG0udG9wL2xqMTk5NS9HUFQtU29WSVRTLXdpbmRvd3MtcGFja2FnZS9yZXNvbHZlL21haW4vR1BULVNvVklUUy1iZXRhLjd6P2Rvd25sb2FkPXRydWU%3D)
+
+[GPT-SoVITS-beta0207.7z](https://caovan.com/go?_=8178827012aHR0cHM6Ly9odWdnaW5nZmFjZS4xMzE5bG0udG9wL2xqMTk5NS9HUFQtU29WSVRTLXdpbmRvd3MtcGFja2FnZS9yZXNvbHZlL21haW4vR1BULVNvVklUUy1iZXRhMDIwNy43ej9kb3dubG9hZD10cnVl)
+
+![]()![]()
+
+压缩包下载到本地后，解压到你自己选择的位置即可！双击“go-webui.bat”即可用运行“GPT-SoVITS”程序！
+
+![]()![]()
+
+使用方法
+====
+
+训练模型
+----
+
+程序的使用分为几个步骤，当然根据自己的实际情况，其中有些步骤并非必须的！
+
+### 人声伴奏分离&去混响（可选）
+
+这个步骤并非是必须的步骤，如果你的音频文件中没有背景音乐或者其他伴奏，你可以跳过该步骤！该步骤可以将你的音频文件中的纯人声单独分离出来，以便于后面的使用！
+
+#### 人声分离步骤
+
+一、点选“是否开启UVR5-WebUI”，会自动弹出一个新的页面；
+
+二、在新的页面中指定音频文件（可以指定包含1个或者多个音频文件的文件夹，也可以直接将音频文件拖入，2种方式二选一）；
+
+三、建议选择“HP5\_only\_main\_vocal”模型，输出的路径可以修改为你自己指定的路径，也可以保持默认的路径，导出文件格式建议选择wav；
+
+四、点击转换之后，会在设置的文件夹中生成2个音频文件，名称较短的那个就是纯人声的音频；
+
+![]()![]()
+![]()![]()
+![]()![]()
+
+#### 效果展示
+
+
+
+
+1. [原声](https://caovan.com/./uploads/2024/02/wbq.wav)
+2. [原声-纯人声](https://caovan.com/./uploads/2024/02/vocal_wbqb36pwxd8.WAV_10.wav)
+
+* 1 / 3
+* [1](https://caovan.com/kaiyuanaishengyinkelongchengxugpt-sovitsbendeyunxingjiaocheng-aishengyinkelongjiaocheng/.html)
+* [2](https://caovan.com/kaiyuanaishengyinkelongchengxugpt-sovitsbendeyunxingjiaocheng-aishengyinkelongjiaocheng/.html/2)
+* [3](https://caovan.com/kaiyuanaishengyinkelongchengxugpt-sovitsbendeyunxingjiaocheng-aishengyinkelongjiaocheng/.html/3)
+
+原创文章，作者：朋远方，如若转载，请注明出处：https://caovan.com/kaiyuanaishengyinkelongchengxugpt-sovitsbendeyunxingjiaocheng-aishengyinkelongjiaocheng/.html
+
+ 
+[AI声音](https://caovan.com/tag/390)[GPT-SoVITS](https://caovan.com/tag/529)[声音克隆](https://caovan.com/tag/392)
+ Like (3)
+ Donate 
+![]()
+微信扫一扫 
+
+
+
+[![]()朋远方](https://caovan.com/profile/arthur) 
+
+ [0](javascript:;)  [0](#comments) 
+[Generate poster](javascript:;) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[关于ComfyUI的insightface节点中的antelopev2模型经常被自动删除的解决方案](https://caovan.com/guanyucomfyuideinsightfacejiedianzhongdeantelopev2moxingjingchangbeizidongshanchudejiejuefangan/.html)
+ Previous
+2024年2月10日 下午10:09
+
+
+[一张照片生成指定姿势的Q版手办ComfyUI工作流 | AI绘画教程（VIP资源）](https://caovan.com/yizhangzhaopianshengchengzhidingzishideqbanshoubancomfyuigongzuoliu-aihuihuajiaochengvipziyuan/.html)
+Next 
+2024年2月13日 上午11:20
+
+
+
+### 相关推荐
+
+* [![]()](https://caovan.com/jiyuvitsdeyuyinzhuanhuanbianshengqikuangjiaretrieval-based-voice-conversion-webui/.html) 
+  [声音处理](https://caovan.com/artificial-intelligence/ai-voice) 
+  ### [基于VITS的语音转换（变声器）框架|Retrieval-based-Voice-Conversion-WebUI](https://caovan.com/jiyuvitsdeyuyinzhuanhuanbianshengqikuangjiaretrieval-based-voice-conversion-webui/.html)
+  
+  006.4K[0](https://caovan.com/jiyuvitsdeyuyinzhuanhuanbianshengqikuangjiaretrieval-based-voice-conversion-webui/.html#comments) 
+  [![]() 朋远方](https://caovan.com/profile/arthur)
+  2023年9月12日
+* [![]()](https://caovan.com/bushuyigezijizhuanshudewenbenzhuanyuyinwangzhan/.html) 
+  [声音处理](https://caovan.com/artificial-intelligence/ai-voice) 
+  ### [部署一个自己专属的文本转语音网站](https://caovan.com/bushuyigezijizhuanshudewenbenzhuanyuyinwangzhan/.html)
+  
+  021.3K[0](https://caovan.com/bushuyigezijizhuanshudewenbenzhuanyuyinwangzhan/.html#comments) 
+  [![]() 朋远方](https://caovan.com/profile/arthur)
+  2023年10月1日
+* [![]()](https://caovan.com/win10ollamaopen-webuibendebushullmllama3codeqwenllavadengyujiaohushikeshihualiaotianbendech/.html) 
+  [AI绘画](https://caovan.com/artificial-intelligence/ai-painting) 
+  ### [Win10+Ollama+Open webui本地部署LLM(llama3/Codeqwen/llava等)与交互式可视化聊天|本地ChatGPT|SD整合方案](https://caovan.com/win10ollamaopen-webuibendebushullmllama3codeqwenllavadengyujiaohushikeshihualiaotianbendech/.html)
+  
+  0414.3K[3](https://caovan.com/win10ollamaopen-webuibendebushullmllama3codeqwenllavadengyujiaohushikeshihualiaotianbendech/.html#comments) 
+  [![]() 朋远方](https://caovan.com/profile/arthur)
+  2024年4月24日
+* [![]()](https://caovan.com/paddlepaddlettsbendebushuliucheng/.html) 
+  [人工智能](https://caovan.com/artificial-intelligence) 
+  ### [paddlepaddle（TTS）本地部署流程](https://caovan.com/paddlepaddlettsbendebushuliucheng/.html)
+  
+  001.7K[0](https://caovan.com/paddlepaddlettsbendebushuliucheng/.html#comments) 
+  [![]() 朋远方](https://caovan.com/profile/arthur)
+  2024年6月28日
+* [![]()](https://caovan.com/ultimate-vocal-remover-zuiqiangrenshengyubanzoufenlichengxu-mianfeikaiyuan/.html) 
+  [互联网技术](https://caovan.com/technology) 
+  ### [Ultimate Vocal Remover | 最强人声与伴奏分离程序 | 免费开源](https://caovan.com/ultimate-vocal-remover-zuiqiangrenshengyubanzoufenlichengxu-mianfeikaiyuan/.html)
+  
+  003.7K[0](https://caovan.com/ultimate-vocal-remover-zuiqiangrenshengyubanzoufenlichengxu-mianfeikaiyuan/.html#comments) 
+  [![]() 朋远方](https://caovan.com/profile/arthur)
+  2023年9月18日
+* [![]()](https://caovan.com/aiyinleshengchanchengxuaudiocraftbendebushujiaochengmianfeikaiyuan/.html) 
+  [声音处理](https://caovan.com/artificial-intelligence/ai-voice) 
+  ### [AI音乐生产程序AudioCraft本地部署教程|免费开源](https://caovan.com/aiyinleshengchanchengxuaudiocraftbendebushujiaochengmianfeikaiyuan/.html)
+  
+  024.8K[0](https://caovan.com/aiyinleshengchanchengxuaudiocraftbendebushujiaochengmianfeikaiyuan/.html#comments) 
+  [![]() 朋远方](https://caovan.com/profile/arthur)
+  2023年9月19日
+
+### 发表回复
+
+You must be logged in to post a comment...Please [Login](https://caovan.com/login?modal-type=login) to Comment Submit 
+
+
+
+### 随机博文
+
+* [![]()](https://caovan.com/tongguolm-studioyunxingbendedellmdayuyanmoxing/.html) 
+  
+  [通过LM Studio运行本地的LLM大语言模型](https://caovan.com/tongguolm-studioyunxingbendedellmdayuyanmoxing/.html)
+  
+  2024年5月2日
+* [![]()](https://caovan.com/comfyuisvdshixianwenshengshipingongzuoliufenxiang/.html) 
+  
+  [ComfyUI+SVD实现文生视频工作流分享](https://caovan.com/comfyuisvdshixianwenshengshipingongzuoliufenxiang/.html)
+  
+  2023年12月2日
+* [![]()](https://caovan.com/jingjiangstable-diffusiondecontrolnetchajian/.html) 
+  
+  [精讲stable diffusion的controlNet插件](https://caovan.com/jingjiangstable-diffusiondecontrolnetchajian/.html)
+  
+  2023年10月8日
+* [![]()](https://caovan.com/06-scikit-learnjiaocheng/.html) 
+  
+  [06.Scikit-Learn教程](https://caovan.com/06-scikit-learnjiaocheng/.html)
+  
+  2022年11月14日
+* [![]()](https://caovan.com/macxitongruhedakaihuo-guanbisip-gongnengyipianwenzhangjiuxuehui/.html) 
+  
+  [Mac系统如何打开或 关闭SIP 功能一篇文章就学会](https://caovan.com/macxitongruhedakaihuo-guanbisip-gongnengyipianwenzhangjiuxuehui/.html)
+  
+  2020年9月6日
+* [bitsandbytes for windows](https://caovan.com/bitsandbytes-for-windows/.html)
+  
+  2024年3月1日
+* [![]()](https://caovan.com/mianfeikaiyuandemeta-llama-2dayuyanmoxingbendedajianjiaocheng/.html) 
+  
+  [免费开源的Meta LlaMA 2大语言模型本地搭建教程](https://caovan.com/mianfeikaiyuandemeta-llama-2dayuyanmoxingbendedajianjiaocheng/.html)
+  
+  2023年9月12日
+* [![]()](https://caovan.com/chromeyuanchengzhuomianlianjieubuntu-fuwuqidefangfaxiangjie/.html) 
+  
+  [Chrome远程桌面连接Ubuntu 服务器的方法详解](https://caovan.com/chromeyuanchengzhuomianlianjieubuntu-fuwuqidefangfaxiangjie/.html)
+  
+  2021年1月29日
+* [![]()](https://caovan.com/comfyuisvdgongzuoliushixiantupianzhuanshipin/.html) 
+  
+  [ComfyUI+SVD工作流实现图片转视频](https://caovan.com/comfyuisvdgongzuoliushixiantupianzhuanshipin/.html)
+  
+  2023年12月1日
+* [关于lora训练的一切，常见问题及报错](https://caovan.com/guanyuloraxunliandeyiqiechangjianwentijibaocuo/.html)
+  
+  2023年7月20日
+### 最新博文
+
+* [收藏！Crypto 圈术语词典（小白通俗解释版）](https://caovan.com/shoucangcrypto-quanshuyucidianxiaobaitongsujieshiban/.html)
+* [$10.96/年！RackNerd 高性价比VPS推荐！适合深度数字居民自建鸡场！](https://caovan.com/racknerd-gaoxingjiabivpstuijianshiheshendushuzijuminzijianjichang/.html)
+* [XRP瑞波币的传奇故事：从草根理想到金融巨头的过山车之路](https://caovan.com/xrpruibobidechuanqigushicongcaogenlixiangdaojinrongjutoudeguoshanchezhilu/.html)
+* [稳定币巨头USDT与USDC：起源、差异与盈利剖析](https://caovan.com/wendingbijutouusdtyuusdcqiyuanchayiyuyinglipouxi/.html)
+* [加密货币新风口：稳定币的机遇与潜在风险](https://caovan.com/jiamihuobixinfengkouwendingbidejiyuyuqianzaifengxian/.html)
+* [稳定币革命：特朗普签署“天才法案”的潜在危机、风险与投资策略](https://caovan.com/wendingbigemingtelangpuqianshutiancaifaandeqianzaiweijifengxianyutouzicelue/.html)
+* [SEC主席演讲全文解读：加密货币监管迎来历史性转折](https://caovan.com/seczhuxiyanjiangquanwenjiedujiamihuobijianguanyinglailishixingzhuanzhe/.html)
+* [香港稳定币条例详解：港元稳定币如何引领亚洲Web3金融革命](https://caovan.com/xianggangwendingbitiaolixiangjiegangyuanwendingbiruheyinlingyazhouweb3jinronggeming/.html)
+* [H100和A100](https://caovan.com/h100hea100/.html)
+* [系统变卡顿可能是冗余电源惹的祸](https://caovan.com/xitongbiankadunkenengshirongyudianyuanredehuo/.html)
+ 
+
+
+![]()
+
+* [草凡博客](https://caovan.com/caovanblog)
+* [人工智能](https://caovan.com/artificial-intelligence)
+* [草凡AIGC](https://aigc.caovan.cn)
+* [互联网](https://caovan.com/technology)
+* [WEB3.0](https://caovan.com/web3)
+* [资源](https://caovan.com/ziyuanxiazai)
+* [问答墙](https://caovan.com/wendaqiang)
+
+粤ICP备[2023053171](https://beian.miit.gov.cn/)号 Copyright © 2020-2025 草凡博客
+
+
+
+
+
+
+
+
+
+ 
+ 
+
+
+
+
+

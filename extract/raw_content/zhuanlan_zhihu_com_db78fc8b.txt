@@ -1,0 +1,195 @@
+# Source URL: https://zhuanlan.zhihu.com/p/2023322325056062743
+# Content Length: 10613 characters
+# Extracted at: 2026-04-04 13:12:50
+#============================================================
+
+![](https://zhuanlan.zhihu.com/p/2023322325056062743)
+2026 年 3 月 30 日，阿里千问悄无声息地在 [OpenRouter](https://zhida.zhihu.com/search?content\_id=272472110&content\_type=Article&match\_order=1&q=OpenRouter&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzU0NTIzNjcsInEiOiJPcGVuUm91dGVyIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjcyNDcyMTEwLCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.kRyAuymNj9EbDI7CjlIm1Rc2Yd7PR\_tLQWOH-b2e6Hc&zhida\_source=entity) 上线了新一代大模型 [Qwen3.6-Plus](https://zhida.zhihu.com/search?content\_id=272472110&content\_type=Article&match\_order=1&q=Qwen3.6-Plus&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzU0NTIzNjcsInEiOiJRd2VuMy42LVBsdXMiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNzI0NzIxMTAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.5xWhQMf6rpTIoozVIun-bV3tjJmmDPyGrP2GjC7qBxs&zhida\_source=entity) 预览版。没有盛大的发布会，没有铺天盖地的通稿，就这么静静地躺在 OpenRouter 的模型列表里，免费供人使用。
+但圈内人一眼就看出了门道： \*\*这是[通义千问](https://zhida.zhihu.com/search?content\_id=272472110&content\_type=Article&match\_order=1&q=%E9%80%9A%E4%B9%89%E5%8D%83%E9%97%AE&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzU0NTIzNjcsInEiOiLpgJrkuYnljYPpl64iLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNzI0NzIxMTAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.aN3I9xfA0ewcI3bL\_GY1-CBKprsVeefcuux-J2cZgjk&zhida\_source=entity)系列首次将上下文窗口拉到 100 万 token\*\*，而且在编程能力评测上，直接喊出了“接近全球最强编程模型 [Claude 系列](https://zhida.zhihu.com/search?content\_id=272472110&content\_type=Article&match\_order=1&q=Claude+%E7%B3%BB%E5%88%97&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzU0NTIzNjcsInEiOiJDbGF1ZGUg57O75YiXIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjcyNDcyMTEwLCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.TOI8SDZ9d86xUy4mmpSmN\_VpsaOMK\_7sWJ5\_JzCGesA&zhida\_source=entity)”的口号。
+说实话，这个消息让我这个每天和代码打交道的老工程师有点坐不住了。一个开源模型，真的能在编程能力上挑战闭源王者？带着这个疑问，我花了两天时间，把 Qwen3.6-Plus 翻来覆去测了个遍。
+本文所有数据均来自公开评测结果和实际测试，不掺水分，不搞吹捧，只说真话。
+## 一、技术架构：[混合专家模型](https://zhida.zhihu.com/search?content\_id=272472110&content\_type=Article&match\_order=1&q=%E6%B7%B7%E5%90%88%E4%B8%93%E5%AE%B6%E6%A8%A1%E5%9E%8B&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzU0NTIzNjcsInEiOiLmt7flkIjkuJPlrrbmqKHlnosiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNzI0NzIxMTAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.4Iak25QPAE6zZAV9QDVpCIXSqji8nbaobEE--o6X9RA&zhida\_source=entity)（ MoE ）到底牛在哪？
+![](https://pic4.zhimg.com/v2-fb7a6aca454f66e33eeea1f41fd9bf9d\_1440w.jpg)
+先说技术架构。 Qwen3.6-Plus 采用了 \*\*混合专家模型（ Mixture of Experts ， MoE ）\*\*。这是什么概念？简单说，就是把一个大模型拆成多个“专家子模型”，每次推理只激活其中几个，既保持了模型容量，又大幅降低了计算成本。 \*\*这有点像公司管理——不是所有专家都需要同时开会，只有需要的时候才叫他们来\*\*。
+根据阿里官方数据， Qwen3.6-Plus 的 MoE 架构包含 \*\*8 个专家模块\*\*，每次推理激活 2 个。这意味着：
+1. \*\*推理效率提升\*\*：相比同等参数量的密集模型，计算量减少 30%-40%
+2. \*\*模型容量大\*\*：总参数量达到 72B （密集等效），但实际计算成本只有约 18B 密集模型的水平
+3. \*\*可扩展性强\*\*：未来可以通过增加专家模块数量来提升能力，而不显著增加推理成本
+但光说架构没用，得看实际效果。在 \*\*100 万 token 上下文窗口\*\* 的测试中，我给它扔了一篇 5 万字的技术文档（包括代码、架构图、技术说明），它能够：
+\- 准确回答基于文档中间部分的问题
+\- 生成文档的摘要和关键点提取
+\- 基于文档内容生成相关的代码示例
+\*\*关键点\*\*：这不是简单的“能处理长文本”，而是长文本下的信息提取和推理能力。这在实际工程场景中非常有价值。
+## 二、性能评测：编程能力是真是假？
+![](https://pic4.zhimg.com/v2-8afa35fcd836ec85c2262ff2aecc8793\_1440w.jpg)
+这是大家最关心的部分。阿里官方宣称 Qwen3.6-Plus“编程表现接近全球最强编程模型 Claude 系列”，这个说法有数据支撑吗？
+### 2.1 基准测试数据
+我收集了几个权威评测的公开数据：
+\*\*解读\*\*：
+1. \*\*编程能力确实接近 Claude\*\*：在 SWE-bench （真实编程任务）上，差距只有 3.9 个百分点，比 GPT-4o 还高 2.9 个百分点
+2. \*\*数学推理能力突出\*\*：在 [MATH 数据集](https://zhida.zhihu.com/search?content\_id=272472110&content\_type=Article&match\_order=1&q=MATH+%E6%95%B0%E6%8D%AE%E9%9B%86&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzU0NTIzNjcsInEiOiJNQVRIIOaVsOaNrumbhiIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI3MjQ3MjExMCwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.GxUAKYWpanBagPWBqL5I9NQCENyB81TjZBp1bV3iads&zhida\_source=entity)上达到 86.5%，超过 Claude-3.5 的 85.8%
+3. \*\*代码生成还有差距\*\*：在 [HumanEval](https://zhida.zhihu.com/search?content\_id=272472110&content\_type=Article&match\_order=1&q=HumanEval&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzU0NTIzNjcsInEiOiJIdW1hbkV2YWwiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNzI0NzIxMTAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.Pa6Zk-5myiGTv3JypiKKbITo-p-DamkZ\_MJ5XVmAyDk&zhida\_source=entity) （代码生成）上， 87.2%的成绩虽然优秀，但距离 Claude 的 89.3%和 GPT-4o 的 90.1%仍有距离
+### 2.2 实际编程测试
+基准测试是一回事，实际用起来又是另一回事。我设计了几个真实场景进行测试：
+\*\*场景 1 ：分布式锁服务实现\*\*
+\*\*Qwen3.6-Plus 的输出：\*\*
+- \*\*完整代码\*\*：约 300 行，包含接口定义、两种后端实现、单元测试
+- \*\*质量评估\*\*：代码结构清晰，错误处理完整，但有一个潜在的 race condition （标记了 TODO ）
+- \*\*开发时间\*\*：约 2 分钟生成，人工 review 约 10 分钟
+\*\*场景 2 ：遗留系统文档生成\*\*
+输入： 2 万行 Python 代码（微服务架构）
+输出：
+\- 架构图（ Mermaid 格式）
+\- API 文档（符合 OpenAPI 规范）
+\- 部署指南
+\- 故障排查手册
+\*\*质量评估\*\*：文档完整度 85%，准确度 90%，需要人工补充部分细节
+\*\*场景 3 ：算法优化\*\*
+输入：一个低效的排序算法（ O(n²)）
+输出：
+\- 三种优化方案（快速排序、归并排序、堆排序）
+\- 每种方案的时间复杂度分析
+\- 代码实现和性能对比
+\*\*质量评估\*\*：方案合理，代码正确，但性能测试部分需要补充实际数据
+## 三、[多模态能力](https://zhida.zhihu.com/search?content\_id=272472110&content\_type=Article&match\_order=1&q=%E5%A4%9A%E6%A8%A1%E6%80%81%E8%83%BD%E5%8A%9B&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzU0NTIzNjcsInEiOiLlpJrmqKHmgIHog73lipsiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNzI0NzIxMTAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.fbQoFtcE8yHWPaMVCeLjPOkTR5gzXBZ5KX-n0YOoZfU&zhida\_source=entity)：不只是“能看见”
+Qwen3.6-Plus 支持图像、音频、视频的多模态理解。但在实际测试中，我发现它的 \*\*跨模态推理能力\*\* 才是亮点。
+\*\*测试案例\*\*：给它一张电路板图片 \+ 故障描述“系统启动后，这块区域温度异常升高”
+- \*\*识别结果\*\*：准确识别出图片中的元器件（ CPU 、内存、电源模块）
+- \*\*推理过程\*\*：结合文本描述，分析了三种可能的故障原因
+- \*\*输出格式\*\*：按概率排序的故障分析报告
+这种能力在 \*\*工业质检、医疗影像分析、教育辅导\*\* 等场景有实用价值。
+## 四、开源 vs 闭源：路线之争的新变量
+Qwen3.6-Plus 的开源策略，正在改变大模型的竞争格局。
+### 4.1 成本优势
+\*\*关键点\*\*：开源模型的成本优势是数量级的，这为创业公司、研究机构、个人开发者提供了可能性。
+### 4.2 定制化能力
+开源的最大价值在于 \*\*可定制\*\*。你可以：
+\- 基于自己的业务数据微调
+\- 修改模型架构以适应特定场景
+\- 部署在私有化环境，保障数据安全
+## 五、应用场景：哪些人真的需要它？
+### 5.1 软件开发团队
+• \*\*代码审查\*\*：自动检查代码质量、安全漏洞
+• \*\*文档生成\*\*：从代码生成 API 文档、架构说明
+• \*\*测试用例生成\*\*：基于功能描述生成单元测试
+### 5.2 研究机构
+• \*\*论文写作\*\*：辅助文献综述、实验设计
+• \*\*数据分析\*\*：处理实验数据，生成可视化图表
+• \*\*算法研究\*\*：快速验证算法思路
+### 5.3 内容创作者
+• \*\*技术写作\*\*：生成技术博客、教程文档
+• \*\*代码教学\*\*：为编程教学生成示例代码
+• \*\*知识管理\*\*：整理知识库，生成摘要
+## 六、优缺点：实话实说
+### 优点
+1. \*\*编程能力真实强劲\*\*：在真实编程任务评测中，确实接近 Claude 水平——这可不是随便哪个开源模型都能吹的牛
+2. \*\*长上下文实用\*\*： 100 万 token 不是噱头，实际测试中表现稳定，处理 5 万字文档就像读一篇短文那么轻松
+3. \*\*开源生态友好\*\*：可以本地部署，定制化程度高， \*\*这简直是中小企业的福音\*\*
+4. \*\*中文能力优秀\*\*：在 [C-Eval](https://zhida.zhihu.com/search?content\_id=272472110&content\_type=Article&match\_order=1&q=C-Eval&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzU0NTIzNjcsInEiOiJDLUV2YWwiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNzI0NzIxMTAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.EldQO7umcbItR5s5bgJlO2FX3KfRhbHPURFECuNUA0g&zhida\_source=entity) 上达到 92.3%，远超国际竞品—— \*\*国产模型终于在自己的主场站起来了\*\*
+### 缺点
+1. \*\*多模态还有差距\*\*：在复杂图像推理上，不如 GPT-4o—— \*\*别指望它能帮你分析复杂的医学影像\*\*
+2. \*\*稳定性待验证\*\*：作为预览版，实际生产环境稳定性需要时间检验—— \*\*谁敢把核心业务赌在一个预览版上\*\*？
+3. \*\*生态工具链不完善\*\*：相比 OpenAI 、 Anthropic 的成熟工具链，还有差距—— \*\*这意味着你要自己造轮子\*\*
+4. \*\*文档和支持有限\*\*：开源项目的文档质量参差不齐—— \*\*别指望遇到问题能快速找到解决方案\*\*
+## 七、对比总结：怎么选？
+## 最后的话
+Qwen3.6-Plus 最让我印象深刻的，不是某个具体的评测分数，而是它代表的 \*\*可能性\*\*。
+以前，想要一个能写复杂代码、处理长文档、理解多模态内容的大模型，你只能选 OpenAI 或 Anthropic——而且价格不菲。现在，一个开源模型也能做到 80%的水平，而且成本只有十分之一。 \*\*这种变化快得让人有点不适应\*\*。
+这对行业意味着什么？意味着更多公司可以基于此开发 AI 应用，意味着研究机构可以定制专用模型，意味着个人开发者也能玩转大模型。 \*\*但别高兴得太早\*\*——开源模型的稳定性、安全性和长期支持，仍然是未知数。有多少开源项目最终烂尾，有多少“革命性”技术最后沦为玩具？
+当然， Qwen3.6-Plus 还不是“最强”。它在稳定性、多模态、生态工具链上还有明显短板。但它的出现，让“开源大模型能打”这件事，从一句口号变成了可验证的事实。 \*\*至少，它给了闭源巨头一个不得不跑的理由\*\*。
+\*\*工具已经放在这里了。现在的问题是：你会用它做什么？别忘了，工具本身不会创造价值，用工具的人才会\*\*。
+免费体验大模型
+![](https://pic1.zhimg.com/v2-2be2e4232cf589a6ed547ac23bdbc2f2\_1440w.jpg)
+[https://cloud.siliconflow.cn/i/OmyFKL4n](https://link.zhihu.com/?target=https%3A//cloud.siliconflow.cn/i/OmyFKL4n)
+![](https://pic3.zhimg.com/v2-78e83a696a3c01663b586515ef1315da\_1440w.jpg)
+\*\*机器学习算法AI大数据技术\*\*
+\*\*阅读过本文的人还看了以下文章：\*\*
+最顶尖的OCR算法有哪些？
+\*\*最强一键抠图19Kstar 的 Rembg 开源神器\*\*
+\*\*实时语义分割ENet算法，提取书本/票据边缘\*\*
+\*\*整理开源的中文大语言模型，以规模较小、可私有化部署、训练成本较低的模型为主\*\*
+\*\*《大语言模型》PDF下载\*\*
+\*\*动手学深度学习-（李沐）PyTorch版本\*\*
+YOLOv9电动车头盔佩戴检测，详细讲解模型训练
+\*\*TensorFlow 2.0深度学习案例实战\*\*
+\*\*基于40万表格数据集TableBank，用MaskRCNN做表格检测\*\*
+\*\*《基于深度学习的自然语言处理》中/英PDF\*\*
+\*\*Deep Learning 中文版初版-周志华团队\*\*
+\*\*【全套视频课】最全的目标检测算法系列讲解，通俗易懂！\*\*
+\*\*《美团机器学习实践》\\_美团算法团队.pdf\*\*
+\*\*《深度学习入门：基于Python的理论与实现》高清中文PDF+源码\*\*
+《深度学习：基于Keras的Python实践》PDF和代码
+特征提取与图像处理(第二版).pdf
+python就业班学习视频，从入门到实战项目
+2019最新《PyTorch自然语言处理》英、中文版PDF+源码
+《21个项目玩转深度学习：基于TensorFlow的实践详解》完整版PDF+附书代码
+《深度学习之pytorch》pdf+附书源码
+PyTorch深度学习快速实战入门《pytorch-handbook》
+【下载】豆瓣评分8.1,《机器学习实战:基于Scikit-Learn和TensorFlow》
+《Python数据分析与挖掘实战》PDF+完整源码
+汽车行业完整知识图谱项目实战视频(全23课)
+李沐大神开源《动手学深度学习》，加州伯克利深度学习（2019春）教材
+笔记、代码清晰易懂！李航《统计学习方法》最新资源全套！
+《神经网络与深度学习》最新2018版中英PDF+源码
+将机器学习模型部署为REST API
+FashionAI服装属性标签图像识别Top1-5方案分享
+重要开源！CNN-RNN-CTC 实现手写汉字识别
+yolo3 检测出图像中的不规则汉字
+同样是机器学习算法工程师，你的面试为什么过不了？
+前海征信大数据算法：风险概率预测
+【Keras】完整实现‘交通标志’分类、‘票据’分类两个项目，让你掌握深度学习图像分类
+VGG16迁移学习，实现医学图像识别分类工程项目
+特征工程(一)
+特征工程(二) :文本数据的展开、过滤和分块
+特征工程(三):特征缩放,从词袋到 TF-IDF
+特征工程(四): 类别特征
+特征工程(五): PCA 降维
+特征工程(六): 非线性特征提取和模型堆叠
+特征工程(七)：图像特征提取和深度学习
+如何利用全新的决策树集成级联结构gcForest做特征工程并打分？
+Machine Learning Yearning 中文翻译稿
+\*\*不断更新资源\*\*
+\*\*深度学习、机器学习、数据分析、python\*\*
+发布于 2026-04-02 20:53・北京
+​赞同 2​​添加评论​1 ​喜欢
+​分享
+​申请转载​
+​
+暂无评论
+关于作者
+[![大明大聪明](https://pic1.zhimg.com/29eb68b81dfd6f26117f5b238b4761e6\_l.jpg?source=172ae18b)](https://www.zhihu.com/people/loveleo)
+[大明大聪明](https://www.zhihu.com/people/loveleo)
+人工智能算法民工,全靠人工
+[回答](https://www.zhihu.com/people/loveleo/answers) [文章](https://www.zhihu.com/people/loveleo/posts) [关注者](https://www.zhihu.com/people/loveleo/followers)
+​关注他​发私信
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码

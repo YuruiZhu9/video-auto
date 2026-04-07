@@ -1,0 +1,1275 @@
+# Source URL: https://www.computingforgeeks.com/claude-code-cheat-sheet/
+# Content Length: 41458 characters
+# Extracted at: 2026-04-05 01:05:11
+#============================================================
+
+
+
+
+Claude Code Cheat Sheet - Shortcuts, Commands, Tips [2026]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[Skip to content](#content) 
+
+[ComputingForGeeks](https://computingforgeeks.com/)
+
+[![]()](https://computingforgeeks.com/)
+ 
+Menu 
+
+* [Linux](https://computingforgeeks.com/category/linux-tutorials/)
+* [DevOps](https://computingforgeeks.com/category/automation/)
+* [Databases](https://computingforgeeks.com/category/databases/)
+* [Containers](https://computingforgeeks.com/category/containers/)
+* [Kubernetes](https://computingforgeeks.com/category/kubernetes/)
+* [Security](https://computingforgeeks.com/category/security/)
+* [Cloud](https://computingforgeeks.com/category/cloud/)
+* [More](#)
+  + [Virtualization](https://computingforgeeks.com/category/virtualization/)
+  + [Networking](https://computingforgeeks.com/category/networking/)
+  + [OpenStack](https://computingforgeeks.com/category/openstack/)
+  + [Monitoring](https://computingforgeeks.com/category/monitoring/)
+  + [Web Hosting](https://computingforgeeks.com/category/web-hosting/)
+ 
+
+
+
+[Home](https://computingforgeeks.com)
+/
+[AI](https://computingforgeeks.com/category/ai/)
+/
+Claude Code Cheat Sheet – Commands, Shortcuts, Tips
+
+[AI](https://computingforgeeks.com/category/ai/)
+
+Claude Code Cheat Sheet – Commands, Shortcuts, Tips
+===================================================
+
+![]()
+[Josphat Mutai](https://computingforgeeks.com/author/mutai-josphat/)
+Updated Apr 1, 2026 · 18 min read
+
+
+
+
+On this page
+
+* [Installation](#installation)
+* [Keyboard Shortcuts](#keyboard-shortcuts)
+* [Slash Commands Reference](#slash-commands-reference)
+* [CLI Flags - Non-Interactive and Automation](#cli-flags-non-interactive-and-automation)
+* [CLAUDE.md - Project Instructions](#claude-md-project-instructions)
+* [Permission Modes](#permission-modes)
+* [Models and Effort Levels](#models-and-effort-levels)
+* [MCP Servers - Extend Claude Code](#mcp-servers-extend-claude-code)
+* [Custom Skills - Your Own Slash Commands](#custom-skills-your-own-slash-commands)
+* [Custom Subagents](#custom-subagents)
+* [Hooks - Automation Triggers](#hooks-automation-triggers)
+* [Context Window Management](#context-window-management)
+* [Git Worktrees - Parallel Work](#git-worktrees-parallel-work)
+* [Settings File Reference](#settings-file-reference)
+* [Environment Variables](#environment-variables)
+* [File Structure Reference](#file-structure-reference)
+* [Practical Workflow Tips](#practical-workflow-tips)
+* [Prompting Tips - Get Better Results](#prompting-tips-get-better-results)
+* [Token Saving Strategies](#token-saving-strategies)
+* [Diagnostics - /doctor and /insights](#diagnostics-doctor-and-insights)
+* [IDE Integrations](#ide-integrations)
+* [Quick Reference Card](#quick-reference-card)
+* [Auto Mode](#auto-mode)
+* [/loop - Recurring Tasks](#loop-recurring-tasks)
+* [Subcommands Reference](#subcommands-reference)
+* [Claude Code for DevOps - Full Guide Series](#claude-code-for-devops-full-guide-series)
+* [Conclusion](#conclusion)
+
+[Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview) is Anthropic’s AI-powered CLI tool that reads your codebase, edits files, runs commands, and manages git workflows directly from the terminal. It operates as an agentic coding assistant – you describe what you want in plain English, and it figures out which files to read, what commands to run, and what changes to make. This cheat sheet covers every command, shortcut, configuration option, and workflow pattern you need to be productive with Claude Code.
+
+Original content from computingforgeeks.com - post 162997
+![]()
+
+This cheat sheet is also available as a [GitHub repository](https://github.com/jmutai/claude-code-cheat-sheet) you can star, fork, and reference offline. Contributions and suggestions are welcome there.
+
+Installation
+------------
+
+Install Claude Code on macOS, Linux, or Windows (WSL):
+
+```
+curl -fsSL https://claude.ai/install.sh | bash
+```
+
+On macOS via Homebrew:
+
+```
+brew install --cask claude-code
+```
+
+On Windows (PowerShell):
+
+```
+irm https://claude.ai/install.ps1 | iex
+```
+
+Verify and authenticate:
+
+```
+claude --version
+claude auth login
+```
+
+Keyboard Shortcuts
+------------------
+
+These work in the interactive Claude Code terminal. This is the most-referenced section – bookmark it.
+
+### Essential Shortcuts
+
+| Shortcut | Action |
+| --- | --- |
+| `Ctrl+C` | Cancel current generation or input |
+| `Ctrl+D` | Exit Claude Code |
+| `Ctrl+L` | Clear terminal screen |
+| `Ctrl+R` | Reverse search command history |
+| `Esc + Esc` | Rewind to previous checkpoint (undo) |
+| `Shift+Tab` | Cycle permission modes (default/plan/yolo) |
+| `Ctrl+G` | Open input in external editor (vim, etc.) |
+| `Ctrl+O` | Toggle verbose output |
+| `Ctrl+T` | Toggle task list |
+| `Ctrl+F` | Kill all background agents (press twice) |
+
+### Input and Editing
+
+| Shortcut | Action |
+| --- | --- |
+| `\ + Enter` | New line (multiline input) – works on macOS, Linux, and Windows |
+| `Option+Enter` (Mac) / `Alt+Enter` (Linux/Win) | New line (platform default) |
+| `Shift+Enter` | New line (iTerm2, WezTerm, Ghostty, Kitty, Windows Terminal) |
+| `Ctrl+K` | Delete to end of line |
+| `Ctrl+U` | Delete entire line |
+| `Ctrl+Y` | Paste deleted text |
+| `Alt+B` / `Alt+F` | Move cursor back/forward one word (all platforms) |
+| `Cmd+V` (Mac) / `Ctrl+V` (Linux/Win) | Paste image from clipboard |
+| `Up/Down` | Navigate command history |
+
+### Model and Mode Switching
+
+| Shortcut | Action |
+| --- | --- |
+| `Option+P` (Mac) / `Alt+P` (Linux/Win) | Switch model (Sonnet/Opus/Haiku) |
+| `Option+T` (Mac) / `Alt+T` (Linux/Win) | Toggle extended thinking |
+| `Shift+Tab` / `Alt+M` | Cycle permission mode (all platforms) |
+| `?` | Show all available shortcuts |
+
+### Quick Prefixes
+
+| Prefix | Action |
+| --- | --- |
+| `/` | Open slash command menu |
+| `!` | Run bash command directly |
+| `@` | Autocomplete file path mention |
+
+Slash Commands Reference
+------------------------
+
+### Session and Context Management
+
+| Command | What It Does |
+| --- | --- |
+| `/clear` | Wipe conversation history and free context window |
+| `/compact [focus]` | Summarize conversation to free context – optionally focus on specific topic |
+| `/cost` | Show token usage and API cost for current session |
+| `/context` | Visualize what is consuming your context window |
+| `/resume` | Pick and resume a previous session |
+| `/rename [name]` | Name current session for easy resuming later |
+| `/rewind` | Rewind to a previous checkpoint |
+| `/diff` | View interactive diff of all changes made |
+| `/copy` | Copy last response to clipboard |
+| `/export [file]` | Export conversation as text file |
+
+### Configuration and Model
+
+| Command | What It Does |
+| --- | --- |
+| `/model [name]` | Switch model (sonnet, opus, haiku) |
+| `/effort [level]` | Set reasoning effort (low, medium, high, max) |
+| `/config` | Open settings interface |
+| `/permissions` | View and manage tool permissions |
+| `/mcp` | Manage MCP server connections |
+| `/terminal-setup` | Configure terminal keybindings for your shell |
+| `/theme` | Change color theme |
+| `/vim` | Toggle vim keybinding mode |
+
+### Project and Code Tools
+
+| Command | What It Does |
+| --- | --- |
+| `/init` | Initialize project – generates CLAUDE.md with project context |
+| `/memory` | View and edit CLAUDE.md files and auto-memory |
+| `/security-review` | Scan pending changes for security vulnerabilities |
+| `/simplify` | Review changed code for quality issues and suggest improvements |
+| `/pr-comments [PR]` | Fetch and address GitHub PR review comments |
+| `/add-dir [path]` | Add another directory to the working context |
+| `/plan` | Enter plan mode – read-only exploration before making changes |
+| `/batch [task]` | Run large-scale changes across 5-30 parallel git worktrees |
+| `/debug [description]` | Troubleshoot problems in the current session |
+
+### System and Account
+
+| Command | What It Does |
+| --- | --- |
+| `/help` | Show all available commands |
+| `/doctor` | Diagnose installation, settings, auth, and MCP issues |
+| `/insights` | Generate session analysis report – patterns, efficiency, suggestions |
+| `/status` | Show version, model, and account info |
+| `/login` / `/logout` | Sign in or out |
+| `/bug` | Submit a bug report with session logs |
+| `/stats` | View usage patterns, daily streaks, and session history |
+| `/usage` | Show plan usage and rate limits |
+| `/release-notes` | View changelog for current version |
+| `/loop [interval] [prompt]` | Run a prompt or command on a recurring schedule |
+| `/voice` | Toggle push-to-talk voice dictation (hold Space) |
+| `/schedule` | Create, update, list, or run scheduled remote agents (cron tasks) |
+| `/fast` | Toggle fast mode (same model, faster output) |
+| `/hooks` | View and manage configured hooks |
+| `/desktop` | Hand off current session to the Desktop app |
+| `/teleport` | Pull a web/iOS session into your terminal |
+
+CLI Flags – Non-Interactive and Automation
+------------------------------------------
+
+### Starting Sessions
+
+```
+# Start interactive session
+claude
+
+# Start with initial prompt
+claude "refactor the auth module"
+
+# Continue most recent session
+claude -c
+
+# Resume specific session by name
+claude -r "auth-refactor"
+
+# Name a session for later
+claude -n "feature-payments"
+
+# Run in isolated git worktree
+claude -w feature-branch
+
+# Run in worktree with tmux panes
+claude -w feature-branch --tmux
+
+# Resume session linked to a GitHub PR
+claude --from-pr 42
+
+# Fork a session (new ID, keeps context)
+claude -c --fork-session
+
+# Enable auto mode (AI decides permissions)
+claude --permission-mode auto
+
+# Bare mode (skip hooks, plugins, auto-memory)
+claude --bare
+```
+### Print Mode (Non-Interactive / Piping)
+
+The `-p` flag runs Claude Code non-interactively – it processes the prompt and exits. This is the key to integrating Claude Code into scripts, CI/CD pipelines, and Unix pipes:
+
+```
+# Simple query
+claude -p "explain this error in server.log"
+
+# Pipe input
+cat error.log | claude -p "what caused this crash?"
+
+# Git diff review
+git diff main | claude -p "review for security issues"
+
+# JSON output for scripting
+claude -p "list all TODO comments" --output-format json
+
+# Structured output with schema validation
+claude -p "extract function names from auth.py" \
+  --output-format json \
+  --json-schema '{"type":"object","properties":{"functions":{"type":"array","items":{"type":"string"}}}}'
+
+# Auto-approve tools (careful with this)
+claude -p "run tests and fix failures" --allowedTools "Bash,Read,Edit"
+
+# Set spending limit
+claude -p "refactor the API layer" --max-budget-usd 5.00
+
+# Limit turns
+claude -p "fix the bug" --max-turns 3
+
+# Fallback model when primary is overloaded
+claude -p "review this code" --fallback-model haiku
+
+# Restrict available tools
+claude -p "analyze this" --tools "Read,Grep,Glob"
+
+# Block specific tools (deny list)
+claude -p "refactor auth module" --disallowedTools "Bash(rm:*),Bash(sudo:*)"
+
+# Override system prompt entirely
+claude -p "review this code" --system-prompt "You are a security auditor. Focus only on vulnerabilities."
+
+# Append to default system prompt
+claude -p "explain this function" --append-system-prompt "Always include time complexity analysis."
+
+# Load MCP servers from external config file
+claude -p "check open issues" --mcp-config ./ci-mcp.json
+
+# Disable session persistence (ephemeral, for CI/CD)
+claude -p "run lint check" --no-session-persistence
+
+# Debug mode (logs API calls, tool usage, timings)
+claude -p "fix the build" --debug
+
+# Debug with category filter
+claude -p "fix the build" --debug "api,hooks"
+
+# Write debug output to a file
+claude -p "fix the build" --debug-file /tmp/claude-debug.log
+
+# Select a specific agent
+claude -p "review auth.py" --agent code-reviewer
+
+# Enable Chrome debugging integration
+claude --chrome
+```
+### Model and Effort Flags
+
+```
+# Use specific model
+claude --model opus
+claude --model sonnet
+claude --model haiku
+
+# Set reasoning effort
+claude --effort high    # More thorough (costs more)
+claude --effort low     # Faster, cheaper
+
+# Custom system prompt
+claude --append-system-prompt "Always use TypeScript. Never use any."
+
+# Load system prompt from file
+claude --append-system-prompt-file ./coding-rules.txt
+```
+
+CLAUDE.md – Project Instructions
+--------------------------------
+
+CLAUDE.md is the single most important file for customizing Claude Code behavior on a per-project basis. It is loaded automatically at the start of every session.
+
+### File Locations and Scope
+
+| Location | Scope | Shared with Team? |
+| --- | --- | --- |
+| `./CLAUDE.md` | This project only | Yes (commit to git) |
+| `./.claude/CLAUDE.md` | This project only | Yes (commit to git) |
+| `~/.claude/CLAUDE.md` | All your projects | No (personal) |
+| `.claude/rules/*.md` | Path-specific rules | Yes (commit to git) |
+
+### Example CLAUDE.md
+
+```
+vi CLAUDE.md
+```
+
+Add your project instructions:
+
+```
+# My Project
+
+## Build and Test
+- Run tests: `npm test`
+- Build: `npm run build`
+- Lint: `npm run lint`
+
+## Code Style
+- Use TypeScript strict mode
+- Prefer functional components in React
+- All API responses must include error handling
+- Never commit .env files
+
+## Architecture
+- Backend: Express.js + PostgreSQL
+- Frontend: React + TailwindCSS
+- Auth: JWT tokens stored in httpOnly cookies
+
+See @README.md for project overview.
+See @package.json for available scripts.
+```
+
+The `@filename` syntax imports content from other files – Claude reads them automatically.
+
+### Path-Specific Rules
+
+Rules that only apply to certain files. Create `.claude/rules/api.md`:
+
+```
+vi .claude/rules/api.md
+```
+
+Add frontmatter with path patterns:
+
+```
+---
+paths:
+  - "src/api/**/*.ts"
+---
+
+# API Rules
+- All endpoints must validate input with Zod
+- Return proper HTTP status codes
+- Include rate limiting on public endpoints
+```
+
+Generate a CLAUDE.md automatically for any project with `/init`.
+
+Permission Modes
+----------------
+
+Claude Code asks permission before running commands or editing files. Toggle between modes with `Shift+Tab`:
+
+| Mode | Behavior | Use Case |
+| --- | --- | --- |
+| **default** | Prompts on first use of each tool | Normal interactive work |
+| **plan** | Read-only – no edits, no commands | Safe exploration and planning |
+| **acceptEdits** | Auto-approves file edits, prompts for commands | Trusted editing sessions |
+| **dontAsk** | Auto-denies unless pre-approved | Strict control |
+| **auto** | AI classifier decides allow/deny per tool call | Trusted projects with clear CLAUDE.md rules |
+| **bypassPermissions** | Skips all prompts (dangerous) | Containers/sandboxes only |
+
+### Pre-Approve Specific Tools
+
+In `.claude/settings.json` or via the CLI:
+
+```
+# Allow git commands and file reads without prompting
+claude --allowedTools "Read,Bash(git *)"
+
+# Block dangerous tools explicitly
+claude --disallowedTools "Bash(rm:*),Bash(sudo:*),Bash(chmod:*)"
+
+# Combine both: allow some, block others
+claude --allowedTools "Bash(git:*),Read,Edit" --disallowedTools "Bash(rm -rf:*)"
+```
+
+Or in settings:
+
+```
+vi .claude/settings.json
+```
+
+Add permission rules:
+
+```
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Bash(git *)",
+      "Bash(npm run *)",
+      "Bash(docker compose *)"
+    ],
+    "deny": [
+      "Bash(rm -rf *)"
+    ]
+  }
+}
+```
+
+Models and Effort Levels
+------------------------
+
+| Model | Best For | Speed |
+| --- | --- | --- |
+| **sonnet** (Claude Sonnet 4.6) | Daily coding – edits, refactors, tests | Fast |
+| **opus** (Claude Opus 4.6) | Complex architecture, debugging, multi-file changes | Slower |
+| **haiku** (Claude Haiku 4.5) | Simple tasks, quick questions | Fastest |
+
+Switch models mid-session with `/model opus` or `Option+P` (Mac) / `Alt+P` (Linux/Windows).
+
+Effort levels control how much reasoning Claude applies:
+
+| Level | Use Case |
+| --- | --- |
+| `/effort low` | Simple questions, quick lookups |
+| `/effort medium` | Default – balanced speed and quality |
+| `/effort high` | Complex debugging, architecture decisions |
+| `/effort max` | Hardest problems (Opus only, unlimited thinking budget) |
+
+MCP Servers – Extend Claude Code
+--------------------------------
+
+[MCP (Model Context Protocol)](https://modelcontextprotocol.io/) lets Claude Code connect to external tools and data sources. Configure servers in `.mcp.json` at the project root or `~/.claude/.mcp.json` for all projects.
+
+```
+vi .mcp.json
+```
+
+Example configuration with GitHub and PostgreSQL servers:
+
+```
+{
+  "mcpServers": {
+    "github": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "$GITHUB_TOKEN"
+      }
+    },
+    "postgres": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["@modelcontextprotocol/server-postgres"],
+      "env": {
+        "DATABASE_URL": "postgresql://user:pass@localhost:5432/mydb"
+      }
+    }
+  }
+}
+```
+
+Manage MCP connections with `/mcp` in the interactive session or pass a config file on the CLI:
+
+```
+# Load MCP servers from an external config
+claude --mcp-config ./team-mcp.json
+
+# Load multiple configs
+claude --mcp-config ./github-mcp.json ./db-mcp.json
+
+# Ignore all other MCP sources, only use this config
+claude --mcp-config ./ci-mcp.json --strict-mcp-config
+```
+
+The `--mcp-config` flag is useful in CI/CD where you need consistent MCP server configuration across runs. `--strict-mcp-config` ensures only the specified servers are loaded, ignoring any from `.mcp.json` or user settings.
+
+Custom Skills – Your Own Slash Commands
+---------------------------------------
+
+Skills are reusable prompts that show up as slash commands. Create them at `.claude/skills/` (project) or `~/.claude/skills/` (personal).
+
+Example – create a deploy skill:
+
+```
+mkdir -p .claude/skills/deploy
+vi .claude/skills/deploy/SKILL.md
+```
+
+Add the skill definition:
+
+```
+---
+name: deploy
+description: Deploy the application to production
+argument-hint: "[environment]"
+user-invocable: true
+---
+
+Deploy the application to the $0 environment (default: staging).
+
+Steps:
+1. Run the test suite
+2. Build the production bundle
+3. Deploy using the deploy script
+4. Verify the deployment health check
+```
+
+Now use it: `/deploy production`
+
+Custom Subagents
+----------------
+
+Subagents are specialized AI agents that Claude can delegate tasks to. Create them at `.claude/agents/`:
+
+```
+mkdir -p .claude/agents/code-reviewer
+vi .claude/agents/code-reviewer/AGENT.md
+```
+
+Define the agent:
+
+```
+---
+name: code-reviewer
+description: Expert code reviewer. Use proactively after code changes.
+tools: Read, Grep, Glob, Bash
+model: sonnet
+---
+
+You are a senior code reviewer. When reviewing code:
+- Check for security vulnerabilities (SQL injection, XSS, etc.)
+- Verify error handling is complete
+- Flag any hardcoded secrets or credentials
+- Suggest performance improvements
+- Check for proper input validation
+```
+
+Claude automatically delegates code review tasks to this agent, or you can invoke it directly with `@code-reviewer check my latest changes`.
+
+From the CLI, select an agent for the entire session:
+
+```
+# Use a named agent from .claude/agents/
+claude --agent code-reviewer
+
+# In print mode (CI/CD)
+claude -p "review the latest commit" --agent code-reviewer
+
+# Define agents inline (no files needed)
+claude --agents '{"qa": {"description": "QA tester", "prompt": "You are a QA engineer. Write test cases for every change."}}'
+```
+
+Hooks – Automation Triggers
+---------------------------
+
+Hooks run shell commands automatically in response to Claude Code events. Configure in `.claude/settings.json`:
+
+```
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npx prettier --write $(jq -r '.tool_input.file_path')"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "osascript -e 'display notification \"Claude needs input\" with title \"Claude Code\"'"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Common hook events: `SessionStart`, `PreToolUse`, `PostToolUse`, `Stop`, `Notification`, `UserPromptSubmit`.
+
+Context Window Management
+-------------------------
+
+Claude Code has a finite context window. Managing it well is the difference between a productive session and hitting walls.
+
+### Key Commands
+
+| Command | When to Use |
+| --- | --- |
+| `/compact` | Summarize conversation to free space mid-task |
+| `/compact Focus on auth module` | Summarize but keep specific context intact |
+| `/clear` | Complete reset between unrelated tasks |
+| `/context` | See what is consuming your context |
+
+### Tips for Long Sessions
+
+* Use `/clear` between unrelated tasks – do not carry old context into new work
+* Run `/compact` proactively when you notice slowdowns
+* Use subagents for verbose operations (test runs, log analysis) – their output stays in the subagent context
+* Move detailed instructions to skills instead of typing them every time
+* Keep CLAUDE.md under 200 lines – move details to separate files and import with `@filename`
+
+Git Worktrees – Parallel Work
+-----------------------------
+
+Work on multiple tasks simultaneously without branch switching conflicts:
+
+```
+# Start Claude in a new worktree
+claude -w feature-auth
+
+# Batch changes across many files in parallel
+/batch migrate all components from class-based to functional
+```
+
+The `-w` flag creates an isolated git worktree. Changes happen in the worktree without affecting your main working directory. When the agent finishes, merge the worktree branch back.
+
+Settings File Reference
+-----------------------
+
+| File | Scope |
+| --- | --- |
+| `.claude/settings.json` | Project (shared via git) |
+| `.claude/settings.local.json` | Project (gitignored, personal) |
+| `~/.claude/settings.json` | All projects (personal) |
+
+Common settings:
+
+```
+{
+  "model": "sonnet",
+  "effortLevel": "medium",
+  "defaultMode": "default",
+  "autoMemoryEnabled": true,
+  "permissions": {
+    "allow": ["Read", "Bash(git *)"],
+    "deny": ["Bash(rm -rf *)"]
+  }
+}
+```
+
+Environment Variables
+---------------------
+
+| Variable | Purpose |
+| --- | --- |
+| `ANTHROPIC_MODEL` | Default model (e.g., `opus`) |
+| `ANTHROPIC_API_KEY` | API key for direct API access |
+| `CLAUDE_CODE_EFFORT_LEVEL` | Default effort (low/medium/high/max) |
+| `CLAUDE_CODE_DISABLE_AUTO_MEMORY` | Set to `1` to disable auto-memory |
+| `CLAUDE_CODE_DISABLE_1M_CONTEXT` | Set to `1` to disable 1M token context |
+| `MAX_THINKING_TOKENS` | Custom thinking budget (default varies) |
+| `HTTPS_PROXY` | HTTP proxy for corporate networks |
+
+File Structure Reference
+------------------------
+
+```
+# User-level (personal, all projects)
+~/.claude/
+  settings.json          # Global settings
+  keybindings.json       # Custom keyboard shortcuts
+  CLAUDE.md              # Personal instructions
+  rules/                 # Personal rules
+  agents/                # Personal subagents
+  skills/                # Personal skills
+  .mcp.json              # Global MCP servers
+
+# Project-level (shared with team)
+.claude/
+  settings.json          # Project settings (git tracked)
+  settings.local.json    # Local overrides (gitignored)
+  CLAUDE.md              # Project instructions
+  rules/                 # Path-specific rules
+  agents/                # Project subagents
+  skills/                # Project skills
+.mcp.json                # Project MCP servers
+CLAUDE.md                # Project instructions (alternative location)
+```
+
+Practical Workflow Tips
+-----------------------
+
+### Start Every Project Right
+
+```
+# In your project root
+claude
+/init
+```
+
+This scans your project and generates a CLAUDE.md with build commands, test instructions, and code conventions. Review and edit it – this file shapes every future interaction.
+
+### Plan Before You Build
+
+Press `Shift+Tab` to enter plan mode before asking Claude to make changes. In plan mode, Claude reads and analyzes but cannot edit anything. Once you approve the plan, switch back to default mode and say “implement the plan”.
+
+### Undo Mistakes Instantly
+
+Press `Esc + Esc` to open the rewind menu. Choose “Restore code and conversation” to undo both the code changes and the conversation that led to them. This is faster than git stash for quick experiments.
+
+### Pipe Everything
+
+```
+# Analyze logs
+tail -500 /var/log/app.log | claude -p "find the root cause of errors"
+
+# Review a PR
+gh pr diff 42 | claude -p "security review this PR"
+
+# Generate commit message
+git diff --staged | claude -p "write a conventional commit message" --model haiku
+
+# Translate
+cat README.md | claude -p "translate to Japanese" > README.ja.md
+
+# Docker container analysis
+docker ps --format json | claude -p "which containers are using the most resources?"
+
+# Kubernetes pod debugging
+kubectl logs deployment/api --tail=200 | claude -p "why are requests failing?"
+
+# Database structure review
+pg_dump --schema-only mydb | claude -p "suggest index improvements"
+
+# Summarize recent commits
+git log --oneline -20 | claude -p "write release notes from these commits"
+
+# Find config issues
+cat /etc/nginx/nginx.conf | claude -p "check for misconfigurations"
+```
+
+For deeper walkthroughs of Docker and Kubernetes workflows with Claude Code, see the [Docker guide](https://computingforgeeks.com/claude-code-docker-guide/) and [Kubernetes guide](https://computingforgeeks.com/claude-code-kubernetes-guide/).
+
+### Automation Scripts
+
+Chain multiple `claude -p` calls in a bash script for repeatable workflows:
+
+```
+#!/bin/bash
+# Automated PR review pipeline
+git diff HEAD~1 > /tmp/diff.txt
+cat /tmp/diff.txt | claude -p "review for security issues" --model sonnet > security_review.md
+cat /tmp/diff.txt | claude -p "check for performance regressions" --model sonnet > perf_review.md
+cat /tmp/diff.txt | claude -p "write a one-paragraph summary" --model haiku > summary.md
+```
+
+Batch process multiple files:
+
+```
+#!/bin/bash
+# Generate docstrings for all Python files missing them
+for f in $(grep -rL '"""' src/*.py); do
+  claude -p "add docstrings to functions missing them in $f" \
+    --allowedTools "Read,Edit" --max-turns 3
+done
+```
+
+Generate a changelog from git tags:
+
+```
+git log v1.0.0..v2.0.0 --oneline | \
+  claude -p "create a changelog grouped by feature, fix, and chore" \
+  --output-format text > CHANGELOG.md
+```
+### Side Questions with /btw
+
+Need to ask something without derailing the current task? Use `/btw`:
+
+```
+/btw what was the name of that config file we edited earlier?
+```
+
+The response is ephemeral (not saved to context), low-cost (uses cache), and does not use any tools.
+
+### Cost Control
+
+* Use `/cost` to check spend at any time
+* Use Sonnet for most work, Opus only for complex problems
+* Use `/effort low` for simple tasks
+* Run `/compact` to reduce context size (fewer tokens per request)
+* Be specific in prompts – vague requests cause more back-and-forth
+* Use `--max-budget-usd 5.00` in CI/CD to prevent runaway costs
+
+Prompting Tips – Get Better Results
+-----------------------------------
+
+The quality of Claude Code’s output depends heavily on how you prompt it. These patterns consistently produce better results.
+
+### Be Specific, Not Vague
+
+| Bad Prompt | Good Prompt |
+| --- | --- |
+| “fix the bug” | “the login endpoint returns 500 when email contains a plus sign – fix the input validation in src/auth/login.ts” |
+| “make it faster” | “the /api/users endpoint takes 3s on 10k rows – add database indexing and pagination” |
+| “write tests” | “write unit tests for the calculateDiscount function in src/pricing.ts covering edge cases: zero price, negative quantity, expired coupon” |
+| “clean up the code” | “extract the duplicate validation logic in src/api/orders.ts and src/api/returns.ts into a shared validator” |
+
+### Use Plan Mode First
+
+For complex tasks, switch to plan mode (`Shift+Tab`) and ask Claude to explore before coding:
+
+```
+# In plan mode:
+"I need to add OAuth2 login with Google. Look at the existing auth flow
+in src/auth/ and propose where to add the Google provider without
+breaking the current email/password login."
+```
+
+Review the plan, then switch back to default mode and say “implement the plan”.
+
+### Give Verification Targets
+
+Tell Claude how to verify its own work:
+
+```
+"Add rate limiting to the /api/auth endpoints. After implementing,
+run npm test to make sure nothing breaks, and verify the rate limiter
+works by checking the middleware is registered in the Express app."
+```
+### Use @file Mentions for Context
+
+Point Claude at specific files instead of making it search:
+
+```
+"look at @src/db/schema.ts and @src/api/users.ts - the User model
+has a new 'role' field in the schema but the API doesn't expose it.
+Add the role field to the GET /users/:id response."
+```
+### Course-Correct Early
+
+If you see Claude going in the wrong direction, press `Ctrl+C` to stop and redirect. Do not wait for it to finish a large wrong change – interrupt and clarify. If it already made bad changes, press `Esc + Esc` to rewind.
+
+### Break Large Tasks Into Steps
+
+Instead of “build a user management system”, split it:
+
+1. “Create the User database schema with id, email, name, role, created\_at”
+2. “Add CRUD API endpoints for users with input validation”
+3. “Write tests for the user endpoints”
+4. “Add role-based access control middleware”
+
+Each step gets verified before moving to the next. This avoids wasting tokens on a bad foundation.
+
+Token Saving Strategies
+-----------------------
+
+Every message sent to Claude includes the full conversation context. Larger context means higher cost and slower responses. These strategies keep your sessions efficient.
+
+### Context Hygiene
+
+| Strategy | How | Savings |
+| --- | --- | --- |
+| Clear between tasks | `/clear` when switching to unrelated work | Biggest impact – resets to zero |
+| Compact proactively | `/compact Focus on the auth module changes` | Keeps relevant context, drops noise |
+| Check context usage | `/context` to see what is consuming space | Identifies bloat sources |
+| Use @file mentions | `@src/auth.ts` instead of “find the auth file” | Avoids exploratory file reads |
+| Use subagents | Delegate verbose tasks (test runs, log analysis) | Output stays in subagent context |
+
+### Model Selection
+
+| Task | Model | Effort |
+| --- | --- | --- |
+| Simple edits, renames, formatting | Sonnet | `/effort low` |
+| Standard coding, tests, refactoring | Sonnet | `/effort medium` |
+| Complex debugging, architecture | Opus | `/effort high` |
+| Quick questions | Haiku (via `/btw`) | N/A |
+
+### CLAUDE.md Optimization
+
+* Keep the main CLAUDE.md under 200 lines – it loads on every message
+* Move detailed instructions into skills – they only load when invoked
+* Use `@file` imports for large reference docs instead of pasting content
+* Put path-specific rules in `.claude/rules/` – they only load when Claude touches matching files
+
+### MCP and Tool Optimization
+
+* Disable unused MCP servers with `/mcp` – each server adds tool definitions to context
+* Use CLI tools (`gh`, `aws`, `gcloud`) instead of MCP when a single command works
+* Set `ENABLE_TOOL_SEARCH=auto:5` to auto-defer tool definitions when they exceed 5% of context
+
+### CI/CD Budget Controls
+
+```
+# Hard spending limit
+claude -p "fix failing tests" --max-budget-usd 2.00
+
+# Limit agentic turns
+claude -p "review this file" --max-turns 3
+
+# Use cheapest model for simple CI tasks
+claude -p "check for linting errors" --model haiku
+```
+
+Diagnostics – /doctor and /insights
+-----------------------------------
+
+Three tools for understanding what Claude Code is doing under the hood:
+
+### –debug – Verbose Logging
+
+When you need to see exactly what Claude Code is doing (API calls, tool invocations, timing), use `--debug`:
+
+```
+# Full debug output to stderr
+claude --debug
+
+# Filter to specific categories
+claude --debug "api,hooks"
+
+# Write debug logs to a file (keeps terminal clean)
+claude --debug-file /tmp/claude-debug.log
+```
+
+This is especially useful when MCP servers are not connecting, hooks are not firing, or API calls are failing silently.
+
+### /doctor – Health Check
+
+Run `/doctor` when something is not working right. It checks:
+
+* Claude Code version and auto-updater status
+* Authentication state and token validity
+* API connectivity
+* Settings file syntax and conflicts
+* MCP server health
+* Permission configuration
+
+### /insights – Session Analysis
+
+Run `/insights` after a long session to get an analysis report covering:
+
+* Token usage breakdown by category
+* Most expensive operations in the session
+* Patterns in how you use Claude Code
+* Suggestions for improving efficiency
+* Time spent waiting vs. actively working
+
+Use this to identify habits that waste tokens and adjust your workflow.
+
+IDE Integrations
+----------------
+
+Claude Code integrates with VS Code and JetBrains IDEs for inline diffs, context sharing, and side-by-side conversations.
+
+### VS Code
+
+* Install the “Claude Code” extension from the VS Code marketplace
+* Open Command Palette (`Cmd+Shift+P` on Mac / `Ctrl+Shift+P` on Linux/Windows) and search “Claude Code”
+* Works with Cursor editor too
+
+### JetBrains (IntelliJ, PyCharm, WebStorm, etc.)
+
+* Install “Claude Code” from the JetBrains Marketplace
+* Works across all JetBrains IDEs
+* Supports interactive diffs and context sharing
+
+Start Claude with IDE auto-detection:
+
+```
+claude --ide
+```
+
+Quick Reference Card
+--------------------
+
+The 20 commands and shortcuts you will use every day:
+
+| Action | How |
+| --- | --- |
+| Start new session | `claude` |
+| Continue last session | `claude -c` |
+| Initialize project | `/init` |
+| Switch to plan mode | `Shift+Tab` |
+| Switch model | `/model opus` or `Option+P` / `Alt+P` |
+| Undo changes | `Esc + Esc` |
+| Free context space | `/compact` |
+| Start fresh | `/clear` |
+| Check costs | `/cost` |
+| Review changes | `/diff` |
+| Security scan | `/security-review` |
+| Name session | `/rename my-feature` |
+| Resume session | `/resume` or `claude -r` |
+| Mention a file | `@path/to/file` |
+| Run bash directly | `!ls -la` |
+| Multiline input | `\ + Enter` |
+| Cancel generation | `Ctrl+C` |
+| Exit | `Ctrl+D` |
+| Non-interactive | `claude -p "query"` |
+| Show all commands | `/help` |
+
+Auto Mode
+---------
+
+Auto mode uses an AI classifier to decide whether each tool call needs your approval. Instead of prompting on every command, it allows safe operations (reads, git status, test runs) and blocks risky ones (force push, rm -rf, production deploys) automatically. Enable it with `--permission-mode auto` or press `Shift+Tab` to cycle to it.
+
+Inspect the classifier rules with the `claude auto-mode` subcommand:
+
+```
+# View current auto-mode config
+claude auto-mode config
+
+# View default allow/deny rules
+claude auto-mode defaults
+
+# Get AI feedback on your custom rules
+claude auto-mode critique
+```
+
+Customize rules in `.claude/settings.json` or `~/.claude/settings.json` under the `autoMode` key with `allow`, `soft_deny`, and `environment` arrays. The classifier reads these plus the defaults to make per-tool-call decisions.
+
+/loop – Recurring Tasks
+-----------------------
+
+The `/loop` slash command runs a prompt or another slash command on a repeating interval within your session. Useful for polling deploy status, watching test results, or checking a service health endpoint.
+
+```
+# Check deploy status every 5 minutes
+/loop 5m check if the deploy on staging is complete
+
+# Run tests every 10 minutes (default interval)
+/loop /test
+
+# Custom interval with a slash command
+/loop 2m /security-review
+```
+
+The loop runs in the background until you stop it or end the session. Each iteration gets its own context, so long-running loops do not bloat the conversation.
+
+Subcommands Reference
+---------------------
+
+Claude Code provides subcommands for management tasks outside of interactive sessions:
+
+| Subcommand | What It Does |
+| --- | --- |
+| `claude agents` | List configured agents and their descriptions |
+| `claude auth` | Manage authentication (login, logout, token info) |
+| `claude auto-mode config` | Print effective auto-mode classifier rules |
+| `claude auto-mode defaults` | Show default allow/deny rules |
+| `claude auto-mode critique` | Get AI feedback on your custom auto-mode rules |
+| `claude doctor` | Health check for auto-updater, auth, MCP, settings |
+| `claude install [target]` | Install specific version (stable, latest, or version number) |
+| `claude mcp` | Configure and manage MCP servers from the CLI |
+| `claude plugins` | Manage Claude Code plugins |
+| `claude setup-token` | Set up a long-lived auth token (requires subscription) |
+| `claude update` | Check for and install updates |
+
+Claude Code for DevOps – Full Guide Series
+------------------------------------------
+
+This cheat sheet covers the commands and configuration. The DevOps series goes deeper with real-world demos, tested on actual infrastructure:
+
+* [Set Up Claude Code for DevOps Engineers](https://computingforgeeks.com/claude-code-devops-engineers/) – CLAUDE.md rules, permission lockdowns, hooks, and safety configuration for production use
+* [Manage Servers with Claude Code via SSH](https://computingforgeeks.com/claude-code-ssh-server-management/) – multi-server health checks, log analysis, config audits, and incident response over SSH
+* [Build and Debug Docker Containers with Claude Code](https://computingforgeeks.com/claude-code-docker-guide/) – Dockerfile generation, multi-stage builds, Compose workflows, and container debugging
+* [Deploy Infrastructure with Claude Code and Terraform](https://computingforgeeks.com/claude-code-terraform-guide/) – HCL generation, plan review, state management, and module refactoring
+* [Generate and Debug Ansible Playbooks with Claude Code](https://computingforgeeks.com/claude-code-ansible-guide/) – playbook generation, role scaffolding, multi-OS support, and Vault integration
+* [Deploy and Debug Kubernetes Apps with Claude Code](https://computingforgeeks.com/claude-code-kubernetes-guide/) – manifest generation, pod debugging, Helm chart management, and cluster troubleshooting
+* [Set Up Claude Code in GitHub Actions for Infrastructure Review](https://computingforgeeks.com/claude-code-github-actions-infrastructure/) – automated PR reviews, Terraform plan analysis, and CI/CD integration
+
+Conclusion
+----------
+
+Claude Code replaces a large part of the manual terminal workflow for developers and sysadmins. The key to getting the most out of it: set up CLAUDE.md for every project, use plan mode before making changes, keep context clean with `/compact` and `/clear`, and use print mode (`-p`) to integrate it into your existing scripts and CI/CD pipelines. If you need multi-provider support, check out [OpenCode](https://computingforgeeks.com/setup-opencode-ai-coding-agent/) (75+ providers) or [Aider](https://computingforgeeks.com/setup-aider-ai-pair-programming/) (git-native AI pair programming). For the latest features and documentation, visit the [official Claude Code docs](https://docs.anthropic.com/en/docs/claude-code/overview).
+
+
+
+![]() 
+**[Josphat Mutai](https://computingforgeeks.com/author/mutai-josphat/)**
+
+Founder of Computingforgeeks. Expertise in Virtualization, Cloud, Linux/UNIX Administration, Automation,Storage Systems, Containers, Server Clustering e.t.c.
+
+
+
+### Related Articles
+
+[AI
+Deploy Infrastructure with Claude Code and Terraform](https://computingforgeeks.com/claude-code-terraform-guide/)
+[Automation
+Install Puppet 7 Server on CentOS 8|RHEL 8|Rocky Linux 8](https://computingforgeeks.com/install-puppet-master-server-on-centos-rhel-linux/)
+[Kubernetes
+Easily Setup EKS Kubernetes Cluster on AWS](https://computingforgeeks.com/easily-setup-kubernetes-cluster-on-aws-with-eks/)
+[Cloud
+Install XCP-ng 8.2 Virtualization Platform – Step by Step with Screenshots](https://computingforgeeks.com/installing-xcp-ng-virtualization-platform-steps-with-screenshots/)
+
+
+
+### Leave a Comment [Cancel reply](/claude-code-cheat-sheet/#respond)
+
+Comment
+
+Name
+Email
+Website
+
+ 
+
+
+ 
+
+
+
+
+
+![]() 
+
+Practical guides for Linux, DevOps, Cloud, and Infrastructure. Written by engineers, for engineers - since 2014.
+
+
+
+
+#### Topics
+
+* [Linux](https://computingforgeeks.com/category/linux-tutorials/)
+* [DevOps](https://computingforgeeks.com/category/automation/)
+* [Databases](https://computingforgeeks.com/category/databases/)
+* [Containers](https://computingforgeeks.com/category/containers/)
+* [Kubernetes](https://computingforgeeks.com/category/kubernetes/)
+* [Security](https://computingforgeeks.com/category/security/)
+* [Cloud](https://computingforgeeks.com/category/cloud/)
+* [Virtualization](https://computingforgeeks.com/category/virtualization/)
+* [Monitoring](https://computingforgeeks.com/category/monitoring/)
+
+#### Company
+
+* [About Us](https://computingforgeeks.com/about-us/)
+* [Contact](https://computingforgeeks.com/contact-us/)
+* [Terms of Service](https://computingforgeeks.com/terms-of-service/)
+* [Privacy Policy](https://computingforgeeks.com/privacy-policy/)
+* [Affiliate Disclosure](https://computingforgeeks.com/affiliate-links-disclosure/)
+
+#### Support
+
+* [Donate via PayPal](https://www.paypal.com/donate/?hosted_button_id=2SYKLLM9XTF4E)
+* [RSS Feed](https://computingforgeeks.com/feed/)
+* [Sitemap](https://computingforgeeks.com/sitemap_index.xml)
+
+
+© 2014 - 2026 ComputingForGeeks. All rights reserved.
+
+
+© 2026 ComputingForGeeks • Built with [GeneratePress](https://generatepress.com) 
+
+
+
+ 
+
+
+Press `ESC` to close
+
+
+
+
+
+
+

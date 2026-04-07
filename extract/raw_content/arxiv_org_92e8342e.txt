@@ -1,0 +1,103 @@
+# Source URL: https://arxiv.org/abs/2602.07774
+# Content Length: 9086 characters
+# Extracted at: 2026-03-21 11:34:32
+#============================================================
+
+# Computer Science > Information Retrieval
+\*\*arXiv:2602.07774\*\* (cs)
+\[Submitted on 8 Feb 2026 ( [v1](https://arxiv.org/abs/2602.07774v1)), last revised 22 Feb 2026 (this version, v4)\]
+# Title:Generative Reasoning Re-ranker
+Authors: [Mingfu Liang](https://arxiv.org/search/cs?searchtype=author&query=Liang,+M), [Yufei Li](https://arxiv.org/search/cs?searchtype=author&query=Li,+Y), [Jay Xu](https://arxiv.org/search/cs?searchtype=author&query=Xu,+J), [Kavosh Asadi](https://arxiv.org/search/cs?searchtype=author&query=Asadi,+K), [Xi Liu](https://arxiv.org/search/cs?searchtype=author&query=Liu,+X), [Shuo Gu](https://arxiv.org/search/cs?searchtype=author&query=Gu,+S), [Kaushik Rangadurai](https://arxiv.org/search/cs?searchtype=author&query=Rangadurai,+K), [Frank Shyu](https://arxiv.org/search/cs?searchtype=author&query=Shyu,+F), [Shuaiwen Wang](https://arxiv.org/search/cs?searchtype=author&query=Wang,+S), [Song Yang](https://arxiv.org/search/cs?searchtype=author&query=Yang,+S), [Zhijing Li](https://arxiv.org/search/cs?searchtype=author&query=Li,+Z), [Jiang Liu](https://arxiv.org/search/cs?searchtype=author&query=Liu,+J), [Mengying Sun](https://arxiv.org/search/cs?searchtype=author&query=Sun,+M), [Fei Tian](https://arxiv.org/search/cs?searchtype=author&query=Tian,+F), [Xiaohan Wei](https://arxiv.org/search/cs?searchtype=author&query=Wei,+X), [Chonglin Sun](https://arxiv.org/search/cs?searchtype=author&query=Sun,+C), [Jacob Tao](https://arxiv.org/search/cs?searchtype=author&query=Tao,+J), [Shike Mei](https://arxiv.org/search/cs?searchtype=author&query=Mei,+S), [Wenlin Chen](https://arxiv.org/search/cs?searchtype=author&query=Chen,+W), [Santanu Kolay](https://arxiv.org/search/cs?searchtype=author&query=Kolay,+S), [Sandeep Pandey](https://arxiv.org/search/cs?searchtype=author&query=Pandey,+S), [Hamed Firooz](https://arxiv.org/search/cs?searchtype=author&query=Firooz,+H), [Luke Simon](https://arxiv.org/search/cs?searchtype=author&query=Simon,+L)
+View a PDF of the paper titled Generative Reasoning Re-ranker, by Mingfu Liang and 22 other authors
+[View PDF](https://arxiv.org/pdf/2602.07774)
+> Abstract:Recent studies increasingly explore Large Language Models (LLMs) as a new paradigm for recommendation systems due to their scalability and world knowledge. However, existing work has three key limitations: (1) most efforts focus on retrieval and ranking, while the reranking phase, critical for refining final recommendations, is largely overlooked; (2) LLMs are typically used in zero-shot or supervised fine-tuning settings, leaving their reasoning abilities, especially those enhanced through reinforcement learning (RL) and high-quality reasoning data, underexploited; (3) items are commonly represented by non-semantic IDs, creating major scalability challenges in industrial systems with billions of identifiers. To address these gaps, we propose the Generative Reasoning Reranker (GR2), an end-to-end framework with a three-stage training pipeline tailored for reranking. First, a pretrained LLM is mid-trained on semantic IDs encoded from non-semantic IDs via a tokenizer achieving \\ge99% uniqueness. Next, a stronger larger-scale LLM generates high-quality reasoning traces through carefully designed prompting and rejection sampling, which are used for supervised fine-tuning to impart foundational reasoning skills. Finally, we apply Decoupled Clip and Dynamic sAmpling Policy Optimization (DAPO), enabling scalable RL supervision with verifiable rewards designed specifically for reranking. Experiments on two real-world datasets demonstrate GR2's effectiveness: it surpasses the state-of-the-art OneRec-Think by 2.4% in Recall@5 and 1.3% in NDCG@5. Ablations confirm that advanced reasoning traces yield substantial gains across metrics. We further find that RL reward design is crucial in reranking: LLMs tend to exploit reward hacking by preserving item order, motivating conditional verifiable rewards to mitigate this behavior and optimize reranking performance.
+| | |
+| --- | --- |
+| Comments: | 31 pages |
+| Subjects: | Information Retrieval (cs.IR); Artificial Intelligence (cs.AI) |
+| Cite as: | [arXiv:2602.07774](https://arxiv.org/abs/2602.07774) \[cs.IR\] |
+| | (or [arXiv:2602.07774v4](https://arxiv.org/abs/2602.07774v4) \[cs.IR\] for this version) |
+| | [https://doi.org/10.48550/arXiv.2602.07774](https://doi.org/10.48550/arXiv.2602.07774)  
+Focus to learn more  
+arXiv-issued DOI via DataCite |
+## Submission history
+From: Mingfu Liang \[ [view email](https://arxiv.org/show-email/99ab2b8b/2602.07774)\]
+\*\*[\[v1\]](https://arxiv.org/abs/2602.07774v1)\*\*
+Sun, 8 Feb 2026 02:12:24 UTC (459 KB)
+\*\*[\[v2\]](https://arxiv.org/abs/2602.07774v2)\*\*
+Tue, 10 Feb 2026 07:24:22 UTC (459 KB)
+\*\*[\[v3\]](https://arxiv.org/abs/2602.07774v3)\*\*
+Thu, 12 Feb 2026 09:37:17 UTC (459 KB)
+\*\*\[v4\]\*\*
+Sun, 22 Feb 2026 07:29:53 UTC (460 KB)
+Full-text links:
+## Access Paper:
+View a PDF of the paper titled Generative Reasoning Re-ranker, by Mingfu Liang and 22 other authors
+- [View PDF](https://arxiv.org/pdf/2602.07774)
+- [TeX Source](https://arxiv.org/src/2602.07774)
+[![license icon](https://arxiv.org/icons/licenses/by-nc-nd-4.0.png)view license](http://creativecommons.org/licenses/by-nc-nd/4.0/ "Rights to this article")
+Current browse context:
+cs.IR
+[< prev](https://arxiv.org/prevnext?id=2602.07774&function=prev&context=cs.IR "previous in cs.IR (accesskey p)")  \|  [next >](https://arxiv.org/prevnext?id=2602.07774&function=next&context=cs.IR "next in cs.IR (accesskey n)")
+[new](https://arxiv.org/list/cs.IR/new) \| [recent](https://arxiv.org/list/cs.IR/recent) \| [2026-02](https://arxiv.org/list/cs.IR/2026-02)
+Change to browse by:
+[cs](https://arxiv.org/abs/2602.07774?context=cs)
+[cs.AI](https://arxiv.org/abs/2602.07774?context=cs.AI)
+### References & Citations
+- [NASA ADS](https://ui.adsabs.harvard.edu/abs/arXiv:2602.07774)
+- [Google Scholar](https://scholar.google.com/scholar\_lookup?arxiv\_id=2602.07774)
+- [Semantic Scholar](https://api.semanticscholar.org/arXiv:2602.07774)
+export BibTeX citation
+### Bookmark
+[![BibSonomy logo](https://arxiv.org/static/browse/0.3.4/images/icons/social/bibsonomy.png)](http://www.bibsonomy.org/BibtexHandler?requTask=upload&url=https://arxiv.org/abs/2602.07774&description=Generative%20Reasoning%20Re-ranker "Bookmark on BibSonomy") [![Reddit logo](https://arxiv.org/static/browse/0.3.4/images/icons/social/reddit.png)](https://reddit.com/submit?url=https://arxiv.org/abs/2602.07774&title=Generative%20Reasoning%20Re-ranker "Bookmark on Reddit")
+Bibliographic Tools
+# Bibliographic and Citation Tools
+Bibliographic Explorer Toggle
+Bibliographic Explorer \_( [What is the Explorer?](https://info.arxiv.org/labs/showcase.html#arxiv-bibliographic-explorer))\_
+Connected Papers Toggle
+Connected Papers \_( [What is Connected Papers?](https://www.connectedpapers.com/about))\_
+Litmaps Toggle
+Litmaps \_( [What is Litmaps?](https://www.litmaps.co/))\_
+scite.ai Toggle
+scite Smart Citations \_( [What are Smart Citations?](https://www.scite.ai/))\_
+Code, Data, Media
+# Code, Data and Media Associated with this Article
+alphaXiv Toggle
+alphaXiv \_( [What is alphaXiv?](https://alphaxiv.org/))\_
+Links to Code Toggle
+CatalyzeX Code Finder for Papers \_( [What is CatalyzeX?](https://www.catalyzex.com/))\_
+DagsHub Toggle
+DagsHub \_( [What is DagsHub?](https://dagshub.com/))\_
+GotitPub Toggle
+Gotit.pub \_( [What is GotitPub?](http://gotit.pub/faq))\_
+Huggingface Toggle
+Hugging Face \_( [What is Huggingface?](https://huggingface.co/huggingface))\_
+Links to Code Toggle
+Papers with Code \_( [What is Papers with Code?](https://paperswithcode.com/))\_
+ScienceCast Toggle
+ScienceCast \_( [What is ScienceCast?](https://sciencecast.org/welcome))\_
+Demos
+# Demos
+Replicate Toggle
+Replicate \_( [What is Replicate?](https://replicate.com/docs/arxiv/about))\_
+Spaces Toggle
+Hugging Face Spaces \_( [What is Spaces?](https://huggingface.co/docs/hub/spaces))\_
+Spaces Toggle
+TXYZ.AI \_( [What is TXYZ.AI?](https://txyz.ai/))\_
+Related Papers
+# Recommenders and Search Tools
+Link to Influence Flower
+Influence Flower \_( [What are Influence Flowers?](https://influencemap.cmlab.dev/))\_
+Core recommender toggle
+CORE Recommender \_( [What is CORE?](https://core.ac.uk/services/recommender))\_
+- Author
+- Venue
+- Institution
+- Topic
+About arXivLabs
+# arXivLabs: experimental projects with community collaborators
+arXivLabs is a framework that allows collaborators to develop and share new arXiv features directly on our website.
+Both individuals and organizations that work with arXivLabs have embraced and accepted our values of openness, community, excellence, and user data privacy. arXiv is committed to these values and only works with partners that adhere to them.
+Have an idea for a project that will add value for arXiv's community? [\*\*Learn more about arXivLabs\*\*](https://info.arxiv.org/labs/index.html).
+[Which authors of this paper are endorsers?](https://arxiv.org/auth/show-endorsers/2602.07774) \|
+Disable MathJax ( [What is MathJax?](https://info.arxiv.org/help/mathjax.html))

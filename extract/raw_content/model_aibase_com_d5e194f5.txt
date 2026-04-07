@@ -1,0 +1,199 @@
+# Source URL: https://model.aibase.com/models/details/1915693321445597186
+# Content Length: 13084 characters
+# Extracted at: 2026-03-26 19:52:44
+#============================================================
+
+
+
+XTTS-v2 Open-Source Speech Generation Model - Free to Use, 6-Second Voice Cloning, Supports 17 Languages
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[Home](//www.aibase.com)[AI NEWS](//news.aibase.com)[AI Tools](//app.aibase.com)[AI Models](//model.aibase.com)[MCP](//mcp.aibase.com)AI ServicesAI Compute[AI Tutorial](//course.aibase.com)EN[Home](/)XTTS V2X
+
+XTTS V2
+=======
+
+ Developed by coquiⓍTTS is a revolutionary voice generation model that achieves cross-lingual voice cloning with just a 6-second audio clip, supporting 17 languages.[Speech Synthesis](/class/Speech Synthesis)[Open Source License:Other](/models?license=other)[#6-second voice cloning](/tag/6-second voice cloning)[#Cross-lingual speech synthesis](/tag/Cross-lingual speech synthesis)[#Multilingual support](/tag/Multilingual support) Downloads 1.7M Release Time : 10/31/2023 [Open Site](https://coqui.ai/)
+### Model Introduction
+
+### Content Details
+
+### Alternatives
+
+### Model Overview
+
+ⓍTTS is an advanced speech synthesis model capable of cloning voices from extremely short audio samples and supports multilingual speech synthesis with emotion and style transfer.
+### Model Features
+
+Rapid Voice CloningClones target voice with just 6 seconds of audioCross-lingual SupportSupports speech synthesis in 17 languagesEmotion and Style TransferAchieves emotion and style conversion through cloningHigh-Quality OutputDelivers high-fidelity audio with 24kHz sampling rateMulti-Reference Voice FusionSupports blending features from multiple reference voices
+### Model Capabilities
+
+Text-to-SpeechVoice CloningCross-lingual Speech SynthesisEmotion and Style TransferMultilingual Support
+### Use Cases
+
+Speech SynthesisPersonalized Voice AssistantsCreate personalized voices for voice assistantsAchieves natural and personalized voice interactionMultilingual Audio Content CreationGenerate speech content in different languages using the same voiceSimplifies multilingual content productionEntertainment ApplicationsGame Character VoiceoversQuickly generate personalized voices for game charactersReduces game voiceover costs
+
+🚀 ⓍTTS
+------
+
+ⓍTTS is a voice generation model that enables voice cloning across different languages using just a 6 - second audio clip, eliminating the need for extensive training data spanning countless hours. It's the same or similar model powering [Coqui Studio](https://coqui.ai/) and [Coqui API](https://docs.coqui.ai/docs).
+
+🚀 Quick Start
+-------------
+
+### Using 🐸TTS API
+
+```
+from TTS.api import TTS
+tts = TTS("tts_models/multilingual/multi-dataset/xtts_v2", gpu=True)
+
+# generate speech by cloning a voice using default settings
+tts.tts_to_file(text="It took me quite a long time to develop a voice, and now that I have it I'm not going to be silent.",
+                file_path="output.wav",
+                speaker_wav="/path/to/target/speaker.wav",
+                language="en")
+
+
+```
+### Using 🐸TTS Command line
+
+```
+ tts --model_name tts_models/multilingual/multi-dataset/xtts_v2 \
+     --text "Bugün okula gitmek istemiyorum." \
+     --speaker_wav /path/to/target/speaker.wav \
+     --language_idx tr \
+     --use_cuda true
+
+```
+### Using the model directly
+
+```
+from TTS.tts.configs.xtts_config import XttsConfig
+from TTS.tts.models.xtts import Xtts
+
+config = XttsConfig()
+config.load_json("/path/to/xtts/config.json")
+model = Xtts.init_from_config(config)
+model.load_checkpoint(config, checkpoint_dir="/path/to/xtts/", eval=True)
+model.cuda()
+
+outputs = model.synthesize(
+    "It took me quite a long time to develop a voice and now that I have it I am not going to be silent.",
+    config,
+    speaker_wav="/data/TTS-public/_refclips/3.wav",
+    gpt_cond_len=3,
+    language="en",
+)
+
+```
+
+✨ Features
+----------
+
+* Supports 17 languages.
+* Voice cloning with just a 6 - second audio clip.
+* Emotion and style transfer by cloning.
+* Cross - language voice cloning.
+* Multi - lingual speech generation.
+* 24khz sampling rate.
+
+📚 Documentation
+---------------
+
+### Updates over XTTS - v1
+
+* 2 new languages; Hungarian and Korean
+* Architectural improvements for speaker conditioning.
+* Enables the use of multiple speaker references and interpolation between speakers.
+* Stability improvements.
+* Better prosody and audio quality across the board.
+
+### Languages
+
+XTTS - v2 supports 17 languages: **English (en), Spanish (es), French (fr), German (de), Italian (it), Portuguese (pt), Polish (pl), Turkish (tr), Russian (ru), Dutch (nl), Czech (cs), Arabic (ar), Chinese (zh - cn), Japanese (ja), Hungarian (hu), Korean (ko), Hindi (hi)**.
+
+Stay tuned as we continue to add support for more languages. If you have any language requests, feel free to reach out!
+
+### Code
+
+The [code - base](https://github.com/coqui - ai/TTS) supports inference and [fine - tuning](https://tts.readthedocs.io/en/latest/models/xtts.html#training).
+
+### Demo Spaces
+
+* [XTTS Space](https://huggingface.co/spaces/coqui/xtts) : You can see how model performs on supported languages, and try with your own reference or microphone input
+* [XTTS Voice Chat with Mistral or Zephyr](https://huggingface.co/spaces/coqui/voice - chat - with - mistral) : You can experience streaming voice chat with Mistral 7B Instruct or Zephyr 7B Beta
+
+| Property | Details |
+| --- | --- |
+| 🐸💬 **CoquiTTS** | [coqui/TTS on Github](https://github.com/coqui-ai/TTS) |
+| 💼 **Documentation** | [ReadTheDocs](https://tts.readthedocs.io/en/latest/) |
+| 👩‍💻 **Questions** | [GitHub Discussions](https://github.com/coqui-ai/TTS/discussions) |
+| 🗯 **Community** | [Discord](https://discord.gg/5eXr5seRrv) |
+
+📄 License
+---------
+
+This model is licensed under [Coqui Public Model License](https://coqui.ai/cpml). There's a lot that goes into a license for generative models, and you can read more of [the origin story of CPML here](https://coqui.ai/blog/tts/cpml).
+
+📞 Contact
+---------
+
+Come and join in our 🐸Community. We're active on [Discord](https://discord.gg/fBC58unbKE) and [Twitter](https://twitter.com/coqui_ai). You can also mail us at info@coqui.ai.
+
+### Alternatives
+
+[Voxcpm1.5Apache-2.0VoxCPM is an innovative tokenizer-free end-to-end text-to-speech (TTS) system that overcomes the limitations of discrete tokenization by modeling speech in a continuous space. It has two core capabilities: context-aware speech generation and realistic zero-shot voice cloning. It can automatically adjust the prosody and style according to the text content and clone the speaker's timbre, accent, and emotion with just a short reference audio.Speech Synthesis Safetensors Supports Multiple LanguagesVopenbmb 363 39](/models/details/1998557615864680448)[Supertonic TTS ONNXOpenrailSupertonic-TTS-ONNX is a text-to-speech conversion model based on the ONNX format, capable of converting English text into natural and fluent speech. This model is developed based on the Supertone/supertonic basic model and is optimized for the Transformers.js library, supporting efficient operation in the browser environment.Speech Synthesis![]() Transformers EnglishSonnx-community 1,910 5](/models/details/1994345708752474112)[Vieneu TTS 1000hApache-2.0VieNeu-TTS-1000h is an advanced Vietnamese edge-side text-to-speech model. It is trained on approximately 1000 hours of high-quality Vietnamese speech data, has an instant voice cloning function, supports seamless switching between Vietnamese and English, and can synthesize 24kHz waveforms in real-time on CPU or GPU.Speech Synthesis![]() TensorBoard OtherVpnnbao-ump 122 7](/models/details/1991444546323746816)[Dia2 2BApache-2.0Dia2 is a streaming dialogue text-to-speech (TTS) model developed by Nari Labs. It supports real-time speech generation and can start generating audio without the full text. It can be adjusted according to the dialogue context to achieve a natural and smooth dialogue experience.Speech Synthesis Safetensors EnglishDnari-labs 576 6](/models/details/1993967893414678528)[Dia2 1BApache-2.0Dia2 is a streamed dialogue text-to-speech (TTS) model developed by Nari Labs. It supports real-time speech generation and can start generating audio without the need for the complete text. It is specifically designed for natural dialogue scenarios.Speech Synthesis Safetensors EnglishDnari-labs 255 9](/models/details/1994345708941217792)[Arabic TTS SparkThis is a text-to-speech model fine-tuned based on 300 hours of pure Arabic audio data, specifically designed to provide high-quality speech synthesis for Modern Standard Arabic with complete vowel symbols. It supports voice cloning and long text processing functions.Speech Synthesis Safetensors Supports Multiple LanguagesAIbrahimSalah 1,299 6](/models/details/1994345708848943104)[Marvis Tts 100m V0.2 MLX 6bitApache-2.0This is a text-to-speech model optimized based on the MLX framework, converted from the original model Marvis-AI/marvis-tts-100m-v0.2. It uses 6-bit quantization technology and is specifically optimized for Apple Silicon hardware, providing efficient speech synthesis capabilities.Speech Synthesis![]() Transformers Supports Multiple LanguagesMMarvis-AI 111 1](/models/details/1988134464852856832)[Neutts Air ViApache-2.0The NeuTTS-Air Vietnamese Text-to-Speech Model is a high-quality Vietnamese voice synthesis model fine-tuned from the NeuTTS-Air base model based on more than 2.6 million Vietnamese audio samples. This model can achieve natural and fluent Vietnamese voice synthesis, support the voice cloning function, and is optimized for the production environment.Speech Synthesis![]() Transformers OtherNdinhthuan 174 5](/models/details/1985515380835356672)[MOSS TTSD V0.7Apache-2.0MOSS-TTSD is an open-source bilingual spoken dialogue synthesis model that supports Chinese and English. It can convert two-person dialogue scripts into natural and expressive dialogue voices. It supports voice cloning, and the maximum duration of single-round voice generation can reach 1700 seconds.Speech Synthesis Safetensors Supports Multiple LanguagesMOpenMOSS-Team 3,112 5](/models/details/1988134462764093440)[Vieneu TTSApache-2.0VieNeu-TTS is the first Vietnamese text-to-speech model that can run on personal devices and has the ability of instant voice cloning. Fine-tuned based on NeuTTS Air, it can generate natural and realistic Vietnamese speech and has real-time performance on the CPU.Speech Synthesis Safetensors OtherVpnnbao-ump 204 9](/models/details/1984055195512082432)[Qwen.qwen3 VL 32B Thinking GGUFThis project provides a quantized version (Int4) of Qwen/Qwen3-VL-32B-Thinking, aiming to lower the hardware threshold for model deployment and make the knowledge of advanced visual language models accessible to everyone.Image-to-TextQDevQuasar 114 1](/models/details/1998557611175448576)[Qwen2.5 Coder 1.5B Instruct Gensyn Swarm Graceful Slender ToucanThis is a 🤗 Transformers model published on the Hugging Face Hub, and its model card is automatically generated by the system. Currently, most detailed information in the card (such as developers, model type, language, license, etc.) is pending completion.Large Language Model![]() TransformersQchunchiliu 1,818 1](/models/details/1998557667655946240)[Gemmamed CardioApache-2.0Gemma-UA-Cardio consists of two professional large language models specifically designed for the Ukrainian cardiology field. They are based on Google's Gemma and MedGemma models and have undergone two-stage fine-tuning (language adaptation and domain specialization). They can accurately provide cardiovascular medical information and answer clinical questions in Ukrainian, serving as auxiliary tools for medical professionals.Large Language Model![]() Transformers OtherGuaritm 350 1](/models/details/1998557667744026624)[Qwen Edit 2509 Light MigrationApache-2.0This is a LoRA fine-tuned model based on Qwen-Image-Edit-2509, specifically designed to solve the problem of secondary illumination processing for images. It can remove the illumination effect of the original image and regenerate realistic lighting and shadows for the target image according to the illumination and hue of the reference image, achieving the migration and fusion of image styles.Image GenerationQdx8152 122 61](/models/details/1998557692599472128)[Codev GGUFMITCodeV is a 7-billion-parameter vision-language model fine-tuned based on Qwen2.5-VL-7B-Instruct. Through two-stage training of supervised fine-tuning (SFT) and reinforcement learning (RL) based on tool-aware policy optimization (TAPO), it aims to achieve reliable and interpretable visual reasoning. It represents visual tools as executable Python code and ensures the consistency between tool usage and question evidence through a reward mechanism, solving the problem of irrelevant tool invocation under high accuracy.Multimodal Fusion![]() Transformers Supports Multiple LanguagesCprithivMLmods 262 1](/models/details/1998557611552935936)Empowering the Future, Your AI Solution Knowledge Base[English](/models/details/1915693321445597186)[简体中文](/zh/models/details/1915693321445597186)[繁體中文](/tw/models/details/1915693321445597186)[にほんご](/ja/models/details/1915693321445597186)© 2026AIBase

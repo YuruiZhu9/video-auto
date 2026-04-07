@@ -1,0 +1,228 @@
+# Source URL: https://stackoverflow.blog/2022/08/15/how-to-interrogate-unfamiliar-code/
+# Content Length: 25968 characters
+# Extracted at: 2026-04-05 09:06:29
+#============================================================
+
+
+How to interrogate unfamiliar code - Stack Overflow[Blog](/)Loading…
+
+* [Everything](/)
+* [Productivity](/productivity/)
+* [AI/ML](/ai/)
+* [Open Source](/open-source/)
+* [Business Hub](/business/)
+
+* [Company](/company/)
+* [Releases](/releases/)
+
+* [Podcast](/podcast/)
+* [Newsletter](/newsletter/)
+ [Stack Overflow Business](https://stackoverflow.co/) [**Stack Internal**: the knowledge intelligence layer that powers enterprise AI.](https://stackoverflow.co/internal/?utm_source=so-owned&utm_medium=blog&utm_campaign=nav-side-bar)[**Stack Data Licensing**: decades of verified, technical knowledge to boost AI performance and trust.](https://stackoverflow.co/data-licensing/?utm_source=so-owned&utm_medium=blog&utm_campaign=nav-side-bar)[**Stack Ads**: engage developers where it matters — in their daily workflow.](https://stackoverflow.co/advertising/employer-branding/?utm_source=so-owned&utm_medium=blog&utm_campaign=nav-side-bar) August 15, 2022
+
+How to interrogate unfamiliar code
+==================================
+
+Readable code is great, but not all code will be immediately readable. That's when you get your interrogation tools.
+
+![]()
+
+A [popular claim](https://skeptics.stackexchange.com/questions/48560/is-code-read-more-often-than-its-written) about code is that it’s read ten times as often as it’s written. This is generally used as an argument for fastidious coding: you’re going to be seeing your code a lot, so [spend some extra time on quality](https://stackoverflow.blog/2021/10/18/code-quality-a-concern-for-businesses-bottom-lines-and-empathetic-programmers/). [Peer-reviewed evidence](https://www.researchgate.net/publication/221501127_An_examination_of_software_engineering_work_practices) for this claim is scarce but everything I was able to find paints the 10-to-1 ratio as extremely conservative. The actual ratio is perhaps closer to 100 to 1. And the longer a product’s lifetime, the higher the ratio.
+
+In light of that information, it seems we underinvest in the skill of understanding code. Books and tutorials typically focus on the craft of code, the programmer’s ability to theorize, write, and modify code in an effective and readable way, rather than the far more common activity of reading and interpreting code that already exists. It’s true that reading code is a skill that lies downstream from writing it—if you can write Python, it stands to reason that you can understand it. But reading code is also a skill on its own.
+
+New developers sometimes feel that if they don’t spend a majority of their time adding new code to a project, they’re not being productive. This attitude can really hold you back. Effective coding requires both context and confidence: you need to understand the environment your code will live in and feel sure your work adds value. The first 80 to 95% of the time you spend on a task should be spent reading code and other forms of documentation. Sometimes it’s even 100%—in the process of studying existing code, you may learn enough to be able to say “this feature already exists, we’ve just forgotten about it” or “this will do more harm than good.”
+
+Reading code is time-consuming and often boring as well. It can involve tedious chases down rabbit holes, repetitive guessing and verifying, and combing through long lists of search results. It’s disciplined and thankless work. But it’s time well-spent and there’s no need to rush. And with the right approach, it doesn’t have to be burdensome.
+
+In this article, I’ll explain the most practical code-reading tactics I’ve picked up over the course of my career. They’re all useful tools to have in your belt, and you’ll mix and match them depending on the situation.
+
+1. Install useful plugins
+-------------------------
+
+Your [IDE](https://stackoverflow.blog/2020/11/09/modern-ide-vs-vim-emacs/) is an invaluable tool for understanding code. Editors like Visual Studio, VS Code, Eclipse, and IntelliJ IDEA live and die by the strength of their code parsing abilities and the size of their plugin libraries. Whatever language, framework, or cloud service you’re working with, you should take a few moments to install the associated plugins. These will help you navigate your codebase and notice problems more quickly. Official, first-party plugins are best if you can find them but popular community-supported plugins can be excellent as well.
+
+Look for the following features:
+
+* Syntax highlighting: shows keywords, class/method/field/variable names, and brackets in different colors to aid comprehension.
+* Auto-formatting: modifies whitespace, line length, and other elements of style to be more readable and consistent. You can usually set this up to happen on a keyboard shortcut or every time you save a file.
+* Static analysis: alerts you to problems in your code without actually running it. For example, if you misspell a variable name or use the wrong kind of quotes, the static analysis tools built into your IDE or all-in-one language plugin will underline it in red.
+* Contextual navigation: provides menu options like “Jump to Definition,” “See Implementations,” and “See References” when you open the context menu (right click) on an identifier.
+* Refactoring: automates common refactors like extracting logic to a method, changing method parameters, or renaming a variable.
+* [Code hinting](https://stackoverflow.blog/2022/07/19/code-completion-isnt-magic-it-just-feels-that-way-ep-464/): shows information (such as types, parameters, and handwritten documentation) about a class/method/field when you hover your cursor on it.
+* Test runner: provides a UI for running unit and integration tests and reports the results.
+* Debugger: lets you set breakpoints in your code so you can step through a particular process one line at a time and inspect the values in scope.
+* Version control integration: helps you sync and merge code with the rest of your team. Also provides information about the author and last edit date of each line of code.
+
+You can read code without these tools, and sometimes you might have to. But language-specific tooling makes it easier to check your assumptions and gather context, and you’re more likely to do what’s easy. In the end, better tooling usually means less guesswork.
+
+2. Read the code at least twice
+-------------------------------
+
+One read-through is almost never enough to fully understand what a piece of code is doing. Two is the bare minimum.
+
+On your first read, try to get the big picture by scanning through and building an outline in your mind (or on paper if it helps). Your goal is to be able to summarize what the code does. If you have a [rubber duck](https://en.wikipedia.org/wiki/Rubber_duck_debugging) handy, now’s the time to start talking to it. Explain the overall purpose of the code in basic terms. If you’re a little foggy on some parts, this will draw attention to them.
+
+The second read is more about details. Make sure you understand each line of code or at least have a theory about it. Pay special attention to external effects. What methods are being called? What shared values are being updated? What are the return values? Spend time diving into each of these so you can understand all the logic at play, even if it lives outside the code you’re studying. Click through to other methods (**ctrl** + click in most IDEs), hover on library methods to read the documentation, pop open a browser tab to check what a particular piece of syntax means. Look for import, include, or using statements at the top of the file to find out what namespaces and libraries are being used. When you finish, you’ll have theories about possible behaviors, edge cases, and failure conditions in the code.
+
+Remember that there’s no magic in code! There may be parts you don’t understand, but they nearly always follow simple rules that you can find in online documentation or learn from a teammate. It’s better to learn those rules than to rely on guesswork.
+
+A third read-through is valuable if the code contains complex logic. Choose simple values for any parameters or variables and imagine them flowing through the code from top to bottom. Calculate the results of each line. Don’t be afraid to reach for a [REPL](https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop) if you’re having a hard time visualizing a piece of logic.
+
+Realistically, each of these readings may involve multiple passes and a number of detours to Google and [Stack Overflow](https://stackoverflow.com/). It’s totally normal to read through a piece of code ten times or more before you really get it. Taking a long break or even a nap after your first several read-throughs may help, especially if you’re dealing with concepts that are new to you.
+
+3. Refactor local variable and method names
+-------------------------------------------
+
+Sometimes a piece of code is so vague or misleading it’s hard to reason about. One virtually risk-free way to make progress is to rename local variables and private methods to more accurately describe what they do. These types of changes won’t affect anything outside of the file you’re working in and won’t cause logical errors as long as you’re careful to avoid naming collisions. If possible, use your IDE’s refactoring tools (rather than a text find-and-replace) so you can rename something everywhere it’s used with one click.
+
+For example, consider the following piece of JavaScript:
+
+```
+function ib(a, fn) {
+  return (a || []).reduce((o, i) => {
+    o[fn(i)] = i;
+    return o;
+  }, {});
+}
+
+```
+
+It’s very hard to read and the name `ib` is useless at helping you understand what it does. You can make some inferences about it, though:
+
+* Since `reduce` is being called on `a` (and it falls back to an empty array), `a` is meant to be an array type.
+* The callback argument `i` will be an element of that array.
+* The second argument to `reduce`, an empty object literal `{}`, tells us that callback argument `o` is a dictionary (object).
+
+So a bit of renaming gets us here:
+
+```
+function ib(array, fn) {
+  return (array || []).reduce((dict, element) => {
+    dict[fn(element)] = element;
+    return dict;
+  }, {});
+}
+
+```
+
+You can see now that `fn` is used to turn an array element into a dictionary key. And that reveals the purpose of the function `ib`: to transform an array into a dictionary, using a custom callback to determine the key that indexes each element. You might rename `fn` to `getKey` for more clarity, and `ib` should be named `indexBy` or `toDictionary` or something like that. Almost anything would be an improvement on what it’s currently named.
+
+There may be other things we could improve in this function, but for now we’re just here to interpret it. Renaming a few identifiers has helped us understand the code without changing its logic or having to think about all of its parts at once.
+
+It’s up to you whether you commit these changes. Strongly consider it. Improving code readability will benefit the entire team over and over again, even if it doesn’t add or change functionality.
+
+4. Look at how the code is used
+-------------------------------
+
+Most code is used by other code. If you’re struggling with a piece of code but you understand a situation where it’s used, that can be valuable context for figuring out what it’s doing.
+
+Ideally your IDE will let you right-click the method name (or click a context hint button) and select “See References”. This will list all the places where the method is used. You can then browse through them for a context you understand.
+
+If your IDE doesn’t have that feature but you’re working in a compiled or transpiled language, another trick you can use is to rename the method to something ridiculous like `ThisBreaksOnPurpose`. Compilation errors will tell you where the method was being used–although in cases where it’s accessed by reflection you won’t see an error until runtime. Make sure to change the name back afterward.
+
+If neither of these is possible, you can fall back to a text search for the method name. If you’re lucky, the method has a name that’s unique within the codebase. If not, you may end up with a larger result set and have to dig through a lot of code that isn’t relevant.
+
+5. Search for similar code
+--------------------------
+
+Sometimes code is hard to understand even if all the identifiers are well-named and the use cases are familiar. Not all code is [idiomatic](https://stackoverflow.com/a/84270/4347245). Sometimes there is no idiom for a particular operation. And in the worst-case scenario, the code in question is either unique to the codebase you’re working in or there’s no obvious phrase you can Google to learn more about it.
+
+The good news is that truly unique code is rare in long-lived codebases, especially at the grain of a single expression or line of code. If you take a few minutes to search for similar code in the project, you might find something that unlocks the whole puzzle.
+
+Full text search is the simplest version of this. Choose a snippet of code that stands out and paste it into the universal search pane in your IDE (often bound to the **ctrl** + **shift** + **F** shortcut). Search tools usually include a “whole word” search option, meaning that a search for `care.exe` won’t return results like `scare.exertion`. If you want to narrow things down further, you can search with a regular expression instead of a text phrase, which is useful if you’re looking for something like “a number on both sides of either a `>>` or `<<` bitwise operator.”
+
+Occasionally, even a regex won’t narrow things down enough, and nobody wants to spend several hours sifting through search results for something that may not even help. It’s worth your time to learn some advanced search techniques. Many programmers favor Unix command-line tools like grep and awk or, on Windows, hand-written PowerShell scripts. My go-to is [JS Powered Search](https://marketplace.visualstudio.com/items?itemName=IsaacLyman.js-powered-search&ssr=false), a VS Code extension that lets you define a logical search query in JavaScript (full disclosure: I am the author of JSPS). Since I write JavaScript at my day job, that’s what’s easiest for me in a pinch.
+
+The goal is to narrow the search down to a few files that are most likely to mirror the process you’re studying. Once you do that, you’ve got another perspective for understanding the code.
+
+6. Run unit tests
+-----------------
+
+In a perfect codebase, [unit tests](https://stackoverflow.blog/2022/07/04/how-stack-overflow-is-leveling-up-its-unit-testing-game/) would be all you’d need to understand the behavior of any section of code. Most codebases don’t live up to that ideal; for efficiency reasons, tests tend to be on the vague side, and sometimes they describe obsolete behavior. Still, it’s a good idea to check for tests that execute the code you’re studying. At the very least, they’ll describe the inputs and outputs of the code.
+
+If the unit tests aren’t there or aren’t comprehensive enough, this is a second opportunity to make some positive changes. You could extract the code to a sandbox and run it there—sometimes this is the right move—but as long as you’re exploring its behavior, you might as well use a test runner. Write a test or two to answer the questions you still have about the code. You can commit your changes afterward, increasing the stability of the codebase and making it more self-documenting for anyone else who comes across it. You never have to worry that adding an automated test will break existing functionality.
+
+Tests take time to write but are far more effective than running code in your imagination. They’re actual evidence that the code works a certain way. And if you end up needing to modify the code, your tests will give you confidence that you’re not breaking it.
+
+7. Use the debugger
+-------------------
+
+Once you have some unit tests (or even just a simple one that executes the code without assertions), you’ve got a great setup for step-by-step debugging. Set a breakpoint (most IDEs let you do this by clicking next to the line number in the code editor) or add a breakpoint/debugger statement at the top of the piece of code. Then run the test. Once you’ve hit the breakpoint, execution will pause and you can advance one line at a time, step into and out of functions, and inspect the values of all variables in scope.
+
+If you know which user actions trigger the code in question, you can set your breakpoint and run the program normally, interacting with its interface to make the code run. The feedback loop is longer if you do it this way but it also uses more realistic data, which may help you notice things like null references and edge cases.
+
+Top-to-bottom debugging may be less useful for code that runs tens or hundreds of times, like a nested loop. For code like this you may want to add variables that aggregate data on each iteration so you can look at them afterward. Many IDEs also let you set conditional breakpoints (or put a breakpoint statement in an `if` block) so you can pause during an iteration that meets certain requirements.
+
+8. Search the knowledge base
+----------------------------
+
+If your team uses a knowledge base like [Stack Overflow for Teams](https://stackoverflow.co/teams/), Confluence, or a GitHub wiki, by now you should have a pretty good idea of what terms or concepts you could search for to find relevant documentation. You might jump to this step a lot sooner if your team writes documentation as a standard part of the development process. Keep in mind that documentation shouldn’t be your only source of truth—it starts going out of date the moment it’s published, and the only thing you can fully rely on to tell you how a piece of code behaves is the code itself. Still, even out-of-date documentation can give enough background information and context to help you avoid reaching faulty conclusions.
+
+Documentation may explain the “how” of a piece of code, but it’s often better at explaining “why.” Sometimes you understand what a piece of code is doing, but something about it just doesn’t seem right. Before you change it you should [make every effort to understand](https://josephwoodward.co.uk/2020/04/software-the-chestertons-fence-principle) what information or constraint the original programmer was acting on.
+
+A good piece of internal documentation may also point you toward a teammate who knows what’s going on. If you’ve made it this far, you’ve done more than enough work on your own to justify reaching out for help. Send a message or schedule a call with the teammate, making sure to be specific about what you’re working on and what problem you’re trying to solve. Paste the code in question for them to see; there’s a good chance they’ll notice something you didn’t. If you’re lucky, they’ll remember exactly what they were doing and why—but at the very least they should be able to help you figure it out.
+
+9. Use version control annotation (git blame)
+---------------------------------------------
+
+By now you’ve learned everything the code itself will tell you, as well as everything Google, Stack Overflow, and your team’s documentation will tell you. You’re an expert. And even then there may be missing pieces to the puzzle: a bizarre design decision, a method that breaks patterns the rest of the codebase follows, a code smell with no obvious justification. One last way to gather context is to track down the original author, commit message, and project management ticket associated with that code.
+
+Your version control system (Git, Subversion, Mercurial or whatever you use) has a tool that reveals the author and commit for any line of code in the codebase. In Git, this is the `git blame` command. Most systems call it either “blame” or “annotate.” You can run this on the command line or in your IDE. What comes up will be a line-by-line list of commits: a commit hash, a commit message, and an author. By looking up the commit hash in your team’s version control or project management app, you should be able to find the original pull request that included the code, and from there you can hopefully follow a link to the original ticket where the feature or bug fix was requested.
+
+If the most recent commit for that line of code isn’t meaningful—say, it’s a formatting or whitespace change—you may have to look through the file’s change history to find the commit where the line of code was introduced. Again, your version control system has tools to help you do this.
+
+Once you’ve got a PR and ticket in hand, you not only have valuable context from the time the code was written, you’ve found the names of everyone who had a hand in it: the code’s author, PR reviewers, anyone who commented on or updated the ticket, the person who signed off on QA. Any of these people may be able to offer information that helps you cross the finish line. If you didn’t talk with someone in the previous step, now’s the time.
+
+Understand first, write code second
+-----------------------------------
+
+The context and understanding you’ve gained over the course of these steps is likely to be valuable in the future. Before you move on, consider refactoring the code for clarity, creating new documentation, or even just sending out an email with your findings. Any time you invest here will pay dividends as you and your team interact with the code in the future.
+
+The ability to read code effectively is a secret weapon that will speed you through technical interviews and make you an essential member of any team. Programmers who are good at writing code are valuable, but programmers who are good at *reading* code are arguably even moreso. When there’s a bug in production or a feature urgently needs to be built, the first and most important step is understanding. Reading code is what will get you there.
+
+**Interested in contributing?** Submit an idea for an article and we may reach out to you in the future.  Login with your **stackoverflow.com** account to suggest an article.  Authors[Isaac Lyman![]()](/author/isaac-lyman/)[Code for a Living](/code-for-a-living/)[reading code](/reading-code/)[contributed](/contributed/) Recent articles  April 2, 2026[What the AI trust gap means for enterprise SaaS
+===============================================](/2026/04/02/what-the-ai-trust-gap-means-for-enterprise-saas/) March 26, 2026[Building shared coding guidelines for AI (and people too)
+=========================================================](/2026/03/26/coding-guidelines-for-ai-agents-and-people-too/) March 19, 2026[AI is becoming a second brain at the expense of your first one
+==============================================================](/2026/03/19/ai-is-becoming-a-second-brain-at-the-expense-of-your-first-one/) March 16, 2026[Domain expertise still wanted: the latest trends in AI-assisted knowledge for developers
+========================================================================================](/2026/03/16/domain-expertise-still-wanted-the-latest-trends-in-ai/) Latest Podcast  April 3, 2026[Seizing the means of messenger production
+=========================================](/2026/04/03/seizing-the-means-of-messenger-production/)
+
+Add to the discussion
+---------------------
+
+Login with your **stackoverflow.com** account to take part in the discussion.
+### Our Stack
+
+* [Stack Internal](https://stackoverflow.co/internal/?utm_source=blog&utm_medium=referral&utm_campaign=footer)
+  + [Features](https://stackoverflow.co/internal/features/?utm_source=blog&utm_medium=referral&utm_campaign=footer)
+  + [Customers](https://stackoverflow.co/internal/customers/?utm_source=blog&utm_medium=referral&utm_campaign=footer)
+  + [Security](https://stackoverflow.co/internal/security/?utm_source=blog&utm_medium=referral&utm_campaign=footer)
+  + [Pricing](https://stackoverflow.co/internal/pricing/?utm_source=blog&utm_medium=referral&utm_campaign=footer)
+* [Stack Data Licensing](https://stackoverflow.co/data-licensing/?utm_source=blog&utm_medium=referral&utm_campaign=footer)
+* [Stack Ads](https://stackoverflow.co/advertising/?utm_source=blog&utm_medium=referral&utm_campaign=footer)
+* [Partnerships](https://stackoverflow.co/partnerships/?utm_source=blog&utm_medium=referral&utm_campaign=footer)
+* [Services](https://stackoverflow.co/internal/services/?utm_source=blog&utm_medium=referral&utm_campaign=footer)
+* [Stack Overflow](https://stackoverflow.com/?utm_source=blog&utm_medium=referral&utm_campaign=footer)
+### Company
+
+* [Leadership](https://stackoverflow.co/company/leadership/?utm_source=blog&utm_medium=referral&utm_campaign=footer)
+* [Press](https://stackoverflow.co/company/press/?utm_source=blog&utm_medium=referral&utm_campaign=footer)
+* [Careers](https://stackoverflow.co/company/careers/?utm_source=blog&utm_medium=referral&utm_campaign=footer)
+* [Social Impact](https://stackoverflow.co/company/social-impact/?utm_source=blog&utm_medium=referral&utm_campaign=footer)
+### Support
+
+* [Contact](https://stackoverflow.com/contact/?utm_source=blog&utm_medium=referral&utm_campaign=footer)
+* [Stack Overflow help](https://stackoverflow.com/help/?utm_source=blog&utm_medium=referral&utm_campaign=footer)
+* [Stack Internal help](https://internal.stackoverflow.help/en/?utm_source=blog&utm_medium=referral&utm_campaign=footer)
+* [Terms](https://policies.stackoverflow.co/?utm_source=blog&utm_medium=referral&utm_campaign=footer)
+* [Privacy policy](https://stackoverflow.com/legal/privacy-policy/?utm_source=blog&utm_medium=referral&utm_campaign=footer)
+* [Cookie policy](https://stackoverflow.com/legal/cookie-policy/?utm_source=blog&utm_medium=referral&utm_campaign=footer)
+* Your Privacy Choices
+### Elsewhere
+
+* [Blog](https://stackoverflow.blog/)
+* [Dev Newsletter](https://stackoverflow.blog/newsletter/)
+* [Podcast](https://stackoverflow.blog/podcast/)
+* [Releases](https://stackoverflow.blog/releases/)
+* [Dev Survey](https://survey.stackoverflow.co/)
+ Site design / logo © 2026 Stack Exchange Inc. LightDarkAuto

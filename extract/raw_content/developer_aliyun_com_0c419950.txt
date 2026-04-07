@@ -1,0 +1,272 @@
+# Source URL: https://developer.aliyun.com/article/1647305
+# Content Length: 9430 characters
+# Extracted at: 2026-03-05 16:13:10
+#============================================================
+
+
+
+
+
+
+
+
+
+
+
+\N
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[大模型](https://www.aliyun.com/product/tongyi)[产品](https://www.aliyun.com/product/list)[解决方案](https://www.aliyun.com/solution/tech-solution/)[权益](https://www.aliyun.com/benefit)[定价](https://www.aliyun.com/price)[云市场](https://market.aliyun.com/)[伙伴](https://partner.aliyun.com/management/v2)[服务](https://www.aliyun.com/service)[了解阿里云](https://www.aliyun.com/about)
+查看 “
+” 全部搜索结果
+[![]()
+AI 助理](https://www.aliyun.com/ai-assistant?displayMode=side)[文档](https://help.aliyun.com/)[备案](https://beian.aliyun.com/)[控制台](https://home.console.aliyun.com/home/dashboard/ProductAndService)[开发者社区](https://developer.aliyun.com/)[![]()](/modelscope/)[首页](/modelscope/)[计算机视觉](/group/cv/)[自然语言处理](/group/nlp/)[语音](/group/speech/)[多模态](/group/multimodal/)[科学计算](/group/scientific-computing/)[魔搭社区官网](https://modelscope.cn/home)
+探索云世界
+
+热门
+
+[百炼大模型](https://developer.aliyun.com/modelstudio/)[Modelscope模型即服务](https://developer.aliyun.com/modelscope/)[弹性计算](https://developer.aliyun.com/ecs/)[通义灵码](https://developer.aliyun.com/lingma/)[云原生](https://developer.aliyun.com/cloudnative/)[数据库](https://developer.aliyun.com/database/)[云效DevOps](https://developer.aliyun.com/group/yunxiao/)[龙蜥操作系统](https://developer.aliyun.com/group/aliyun_linux/)[云计算](https://developer.aliyun.com/ecs/)[弹性计算](https://developer.aliyun.com/ecs/)[无影](https://developer.aliyun.com/group/wuying/)[存储](https://developer.aliyun.com/storage/)[网络](https://developer.aliyun.com/group/networking/)[倚天](https://developer.aliyun.com/yitian/)[云原生](https://developer.aliyun.com/cloudnative/)[容器](https://developer.aliyun.com/group/kubernetes/)[serverless](https://developer.aliyun.com/group/serverless/)[中间件](https://developer.aliyun.com/group/aliware/)[微服务](https://developer.aliyun.com/group/mse/)[可观测](https://developer.aliyun.com/group/arms/)[消息队列](https://developer.aliyun.com/group/rocketmq/)[数据库](https://developer.aliyun.com/database/)[关系型数据库](https://developer.aliyun.com/group/polardb/)[NoSQL数据库](https://developer.aliyun.com/group/hbasespark/)[数据仓库](https://developer.aliyun.com/group/analyticdb/)[数据管理工具](https://developer.aliyun.com/database/dm)[PolarDB开源](https://developer.aliyun.com/polardb/)[向量数据库](https://developer.aliyun.com/database/vectordatabase)[大数据](https://developer.aliyun.com/bigdata/)[大数据计算](https://developer.aliyun.com/group/maxcompute/)[实时数仓Hologres](https://developer.aliyun.com/group/hologres/)[实时计算Flink](https://developer.aliyun.com/group/sc/)[E-MapReduce](https://developer.aliyun.com/group/aliyunemr/)[DataWorks](https://developer.aliyun.com/group/dataworks/)[Elasticsearch](https://developer.aliyun.com/group/es/)[机器学习平台PAI](https://developer.aliyun.com/group/pai/)[智能搜索推荐](https://developer.aliyun.com/group/aios/)[数据可视化DataV](https://developer.aliyun.com/group/datav/)[人工智能](https://developer.aliyun.com/modelscope/)[机器学习平台PAI](https://developer.aliyun.com/group/pai/)[视觉智能开放平台](https://developer.aliyun.com/group/viapi/)[智能语音交互](https://developer.aliyun.com/group/speech/)[自然语言处理](https://developer.aliyun.com/group/nlp/)[多模态模型](https://developer.aliyun.com/group/multimodel/)[pythonsdk](https://developer.aliyun.com/group/pythonsdk/)[通用模型](https://developer.aliyun.com/group/others/)[开发与运维](https://developer.aliyun.com/group/othertech/)[云效DevOps](https://developer.aliyun.com/group/yunxiao/)[钉钉宜搭](https://developer.aliyun.com/group/yida/)[镜像站](https://developer.aliyun.com/group/mirror/)
+
+[开发者社区](/)
+[ModelScope模型即服务](/modelscope/)
+[计算机视觉](/group/cv/)
+[文章](/group/cv/article)
+正文
+
+video-analyzer：开源视频分析工具，支持提取视频关键帧、音频转录，自动生成视频详细描述
+=================================================
+
+2024-12-29
+3411
+
+
+版权
+
+
+
+版权声明：
+本文内容由阿里云实名注册用户自发贡献，版权归原作者所有，阿里云开发者社区不拥有其著作权，亦不承担相应法律责任。具体规则请查看《
+[阿里云开发者社区用户服务协议](https://developer.aliyun.com/article/768092)》和
+《[阿里云开发者社区知识产权保护指引](https://developer.aliyun.com/article/768093)》。如果您发现本社区中有涉嫌抄袭的内容，填写
+[侵权投诉表单](https://yida.alibaba-inc.com/o/right)进行举报，一经查实，本社区将立刻删除涉嫌侵权内容。
+
+
+
+
+
+
+**简介：**
+video-analyzer 是一款开源视频分析工具，结合 Llama 的 11B 视觉模型和 OpenAI 的 Whisper 模型，能够提取视频关键帧、转录音频并生成详细描述，支持本地运行和多种应用场景
+
+❤️ 如果你也关注 AI 的发展现状，且对 AI 应用开发非常感兴趣，我会每日跟你分享最新的 AI 资讯和开源应用，也会不定期分享自己的想法和开源实例，欢迎关注我哦！
+
+🥦 **微信公众号｜搜一搜：蚝油菜花** 🥦
+
+原文链接：<https://mp.weixin.qq.com/s/16_3VlrKWjk2AAjPbo4CwQ>
+
+---
+
+🚀 快速阅读
+======
+
+1. **功能**：支持本地视频分析、关键帧提取、音频转录和自然语言描述。
+2. **技术**：结合 Llama 的 11B 视觉模型和 OpenAI 的 Whisper 模型，实现帧提取与音频处理。
+3. **应用**：适用于内容审核、视频管理、教育培训、安全监控和媒体娱乐等领域。
+
+正文（附运行示例）
+=========
+
+video-analyzer 是什么
+------------------
+
+![]()
+
+video-analyzer 是一款开源的视频分析工具，结合了 Llama 的 11B 视觉模型和 OpenAI 的 Whisper 模型，能够从视频中提取关键帧、转录音频内容，并生成详细的视频描述。该工具支持完全本地运行，无需依赖云服务或 API 密钥，同时也可以通过 OpenRouter 的 LLM 服务提高处理速度和扩展性。
+
+video-analyzer 的应用场景广泛，包括监控、广告分析、内容分类等。它能够帮助用户深入分析视频内容，生成高质量的元数据和描述，便于后续的内容管理和检索。
+
+video-analyzer 的主要功能
+--------------------
+
+* **本地视频分析**：无需云服务或 API 密钥，支持在本地环境中处理视频。
+* **关键帧提取**：智能地从视频中提取关键帧，保留重要信息。
+* **音频转录**：使用 OpenAI 的 Whisper 模型进行高质量音频转录。
+* **自然语言描述**：生成视频内容的详细描述，便于理解和分析。
+* **音频处理**：自动处理低质量音频，确保转录的准确性。
+
+video-analyzer 的技术原理
+--------------------
+
+### 1. **帧提取与音频处理**：
+
+* 使用 OpenCV 库提取视频中的关键帧。
+* 通过 Whisper 模型处理音频，进行转录，并处理低质量音频。
+
+### 2. **帧分析**：
+
+* 基于 Llama 的 11B 视觉模型对每个关键帧进行分析，提取视觉信息。
+* 分析时考虑前一帧的上下文，保持视频内容的连贯性。
+
+### 3. **视频重建**：
+
+* 将帧分析结果按时间顺序组合，形成视频的逐帧描述。
+* 整合音频转录内容，使用视频的第一帧设定场景背景。
+* 创建综合的视频描述，包括视觉信息和音频信息。
+
+如何运行 video-analyzer
+-------------------
+
+### 安装与配置
+
+#### 1. 克隆仓库：
+
+```
+git clone https://github.com/byjlw/video-analyzer.git
+cd video-analyzer
+
+```
+#### 2. 创建并激活虚拟环境：
+
+```
+python3 -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
+
+```
+#### 3. 安装依赖：
+
+```
+pip install .
+
+```
+#### 4. 安装 FFmpeg：
+
+* Ubuntu/Debian：
+  ```
+  sudo apt-get update && sudo apt-get install -y ffmpeg
+  
+  ```
+* macOS：
+  ```
+  brew install ffmpeg
+  
+  ```
+* Windows：
+  ```
+  choco install ffmpeg
+  
+  ```
+
+### 运行示例
+
+使用默认的 Ollama 服务进行分析：
+
+```
+video-analyzer path/to/video.mp4
+
+```
+
+使用 OpenRouter 服务进行分析：
+
+```
+video-analyzer path/to/video.mp4 --openrouter-key your-api-key
+
+```
+
+资源
+--
+
+* **GitHub 仓库**：<https://github.com/byjlw/video-analyzer>
+* **Ollama 安装指南**：<https://ollama.ai>
+* **OpenRouter 官网**：<https://openrouter.ai>
+
+---
+
+❤️ 如果你也关注 AI 的发展现状，且对 AI 应用开发非常感兴趣，我会每日跟你分享最新的 AI 资讯和开源应用，也会不定期分享自己的想法和开源实例，欢迎关注我哦！
+
+🥦 **微信公众号｜搜一搜：蚝油菜花** 🥦
+
+
+
+
+
+[![]()](/profile/y4hwontyfrwnu)
+
+
+[蚝油菜花](/profile/y4hwontyfrwnu)
+
+
+
+目录
+
+
+
+
+
+
+热门文章
+最新文章
+
+
+
+
+
+
+
+
+
+
+
+
+
+### 为什么选择阿里云
+
+[什么是云计算](https://www.aliyun.com/about/what-is-cloud-computing)[全球基础设施](https://infrastructure.aliyun.com/)[技术领先](https://www.aliyun.com/why-us/leading-technology)[稳定可靠](https://www.aliyun.com/why-us/reliability)[安全合规](https://www.aliyun.com/why-us/security-compliance)[分析师报告](https://www.aliyun.com/analyst-reports)
+### 大模型
+
+[千问大模型](https://www.aliyun.com/product/tongyi)[大模型服务](https://bailian.console.aliyun.com/?tab=model#/model-market)[AI应用构建](https://bailian.console.aliyun.com/app-center?tab=app#/app-center)
+### 产品和定价
+
+[全部产品](https://www.aliyun.com/product/list)[免费试用](https://free.aliyun.com/)[产品动态](https://www.aliyun.com/product/news/)[产品定价](https://www.aliyun.com/price/detail)[配置报价器](https://www.aliyun.com/price/cpq/list)[云上成本管理](https://www.aliyun.com/price/cost-management)
+### 技术内容
+
+[技术解决方案](https://www.aliyun.com/solution/tech-solution)[帮助文档](https://help.aliyun.com/)[开发者社区](https://developer.aliyun.com/)[天池大赛](https://tianchi.aliyun.com/)[阿里云认证](https://edu.aliyun.com/)
+### 权益
+
+[免费试用](https://free.aliyun.com/)[解决方案免费试用](https://www.aliyun.com/solution/free)[高校计划](https://university.aliyun.com/)[5亿算力补贴](https://www.aliyun.com/benefit/form/index)[推荐返现计划](https://dashi.aliyun.com/?ambRef=shouYeDaoHang2&pageCode=yunparterIndex)
+### 服务
+
+[基础服务](https://www.aliyun.com/service)[企业增值服务](https://www.aliyun.com/service/supportplans)[迁云服务](https://www.aliyun.com/service/devopsimpl/devopsimpl_cloudmigration_public_cn)[官网公告](https://www.aliyun.com/notice/)[健康看板](https://status.aliyun.com/)[信任中心](https://security.aliyun.com/trust-center)
+### 关注阿里云
+
+关注阿里云公众号或下载阿里云APP，关注云资讯，随时随地运维管控云服务
+
+![]()![]()
+
+联系我们：4008013260
+
+[法律声明](https://help.aliyun.com/product/67275.html)[Cookies政策](https://terms.alicdn.com/legal-agreement/terms/platform_service/20220906101446934/20220906101446934.html)[廉正举报](https://aliyun.jubao.alibaba.com/)[安全举报](https://report.aliyun.com/)[联系我们](https://www.aliyun.com/contact)[加入我们](https://careers.aliyun.com/)
+### 友情链接
+
+[阿里巴巴集团](https://www.alibabagroup.com/cn/global/home)[淘宝网](https://www.taobao.com/)[天猫](https://www.tmall.com/)[全球速卖通](https://www.aliexpress.com/)[阿里巴巴国际交易市场](https://www.alibaba.com/)[1688](https://www.1688.com/)[阿里妈妈](https://www.alimama.com/index.htm)[飞猪](https://www.fliggy.com/)[阿里云计算](https://www.aliyun.com/)[万网](https://wanwang.aliyun.com/)[高德](https://mobile.amap.com/)[UC](https://www.uc.cn/)[友盟](https://www.umeng.com/)[优酷](https://www.youku.com/)[钉钉](https://www.dingtalk.com/)[支付宝](https://www.alipay.com/)[达摩院](https://damo.alibaba.com/)[淘宝海外](https://world.taobao.com/)[阿里云盘](https://www.aliyundrive.com/)[淘宝闪购](https://www.ele.me/)
+
+© 2009-现在 Aliyun.com 版权所有 增值电信业务经营许可证： [浙B2-20080101](http://beian.miit.gov.cn/) 域名注册服务机构许可： [浙D3-20210002](https://domain.miit.gov.cn/域名注册服务机构/互联网域名/阿里云计算有限公司 )
+
+[![]()](https://zzlz.gsxt.gov.cn/businessCheck/verifKey.do?showType=p&serial=91330106673959654P-SAIC_SHOW_10000091330106673959654P1710919400712&signData=MEUCIQDEkCd8cK7%2Fyqe6BNMWvoMPtAnsgKa7FZetfPkjZMsvhAIgOX1G9YC6FKyndE7o7hL0KaBVn4f%20V%2Fiof3iAgpsV09o%3D)[![]()浙公网安备 33010602009975号](http://www.beian.gov.cn/portal/registerSystemInfo)[浙B2-20080101-4](https://beian.miit.gov.cn/)
+
+
+

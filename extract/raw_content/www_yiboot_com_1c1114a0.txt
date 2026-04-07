@@ -1,0 +1,812 @@
+# Source URL: https://www.yiboot.com/article/userguide/qwen3-5-omni-01.html
+# Content Length: 23600 characters
+# Extracted at: 2026-04-02 13:10:00
+#============================================================
+
+
+
+
+
+
+
+
+Qwen3.5-Omni 重磅发布：真正“全模态 + 实时交互”的新一代大模型，语音与音视频能力全拉满 – 一步
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[![]()](https://www.yiboot.com)
+
+* [首页](https://www.yiboot.com/)
+* [AI中转](https://yibuapi.com)
+  + [登录注册](https://yibuapi.com/register)
+  + [充值兑换](https://yibuapi.com/topup)
+  + [API令牌](https://yibuapi.com/token)
+  + [调用日志](https://yibuapi.com/log)
+  + [模型列表](https://yibuapi.com/pricing)
+  + [余额查询](https://query.yibuapi.com)
+* [专题](https://www.yiboot.com/collection)
+* [文档](https://www.yiboot.com/document)
+
+
+[文章](javascript:void(0))
+[文章](javascript:void(0))
+
+
+
+
+
+
+
+
+
+[![]()](https://www.yiboot.com)
+
+* [首页](https://www.yiboot.com)
+* [AI中转](https://yibuapi.com)
+  + [登录注册](https://yibuapi.com/register)
+  + [充值兑换](https://yibuapi.com/console/topup)
+  + [API令牌](https://yibuapi.com/console/token)
+  + [调用日志](https://yibuapi.com/console/log)
+  + [模型列表](https://yibuapi.com/pricing)
+  + [余额查询](https://query.yibuapi.com)
+* [文章](https://www.yiboot.com/article)
+  + [工具配置](https://www.yiboot.com/article/ai-tools)
+  + [使用指南](https://www.yiboot.com/article/userguide)
+* [文档](https://www.yiboot.com//document)
+
+
+
+
+
+ 
+当前位置：[首页](https://www.yiboot.com)>[文章](https://www.yiboot.com/article)>[使用指南](https://www.yiboot.com/article/userguide)>Qwen3.5-Omni 重磅发布：真正“全模态 + 实时交互”的新一代大模型，语音与音视频能力全拉满 
+
+Qwen3.5-Omni 重磅发布：真正“全模态 + 实时交互”的新一代大模型，语音与音视频能力全拉满
+===================================================
+
+* [使用指南](https://www.yiboot.com/article/userguide)
+* 3月31日
+* 编辑
+
+
+
+文本是《[AI咨询（共128篇）](https://www.yiboot.com/collection/ai%e5%92%a8%e8%af%a2)》专题的第 126 篇。阅读本文前，建议先阅读前面的文章：
+
+* 1.[Gemini 3.0 要掀桌子了？它到底能不能影响到 GPT 和 Claude——以及\*\*](https://www.yiboot.com/article/userguide/gemini-3-shake-table.html)
+* 2.[🤖到底哪种AI才适合你？](https://www.yiboot.com/article/userguide/ai-selection-for-developers-yibuapi.html)
+* 3.[Claude”全能模型”？我来给你扒一扒他的真实战力](https://www.yiboot.com/article/userguide/claude-ai-capability-analysis.html)
+* 4.[为什么国内模型这么多，还是有很多人用国外的模型？](https://www.yiboot.com/article/userguide/china-ai-models-vs-foreign-comparison-2025.html)
+* 5.[2025编程AI模型终极省钱指南：又便宜又能干的”码农助手”怎么选？](https://www.yiboot.com/article/userguide/best-ai-coding-models-2025.html)
+* 6.[AI小白选择指南：别慌，我教你](https://www.yiboot.com/article/userguide/ai-selection-guide-2025.html)
+* 7.[公司批量跑图片数据？2025年最新模型全景选型指南](https://www.yiboot.com/article/userguide/ai-image-model-selection-guide-2025.html)
+* 8.[AI模型这么多，我难道要一个一个接入？](https://www.yiboot.com/article/userguide/ai-api-integration-guide.html)
+* 9.[纯小白的大模型API使用指南：从”这是啥”到”我会了”](https://www.yiboot.com/article/userguide/how-to-use-ai-model-api.html)
+* 10.[AI赋能企业：从”人工智障”到”人工智能”的华丽转身](https://www.yiboot.com/article/userguide/ai-enterprise-applications-guide-2025.html)
+* 11.[AI酒馆玩家必读:API中转站的六大核心优势](https://www.yiboot.com/article/userguide/ai-tavern-api-relay-advantages.html)
+* 12.[Claude Code写代码的好处：让AI当你的编程助手](https://www.yiboot.com/article/userguide/claude-code-benefits-guide.html)
+* 13.[Gemini 3全面评测：比Gemini 2.5强在哪？性能对比+实战测试【2025最新】](https://www.yiboot.com/article/userguide/gemini-3-vs-2-5-comprehensive-comparison.html)
+* 14.[详细教程：国内调用 Google Gemini 3.0 Pro API 接口（附 Python 示例）](https://www.yiboot.com/article/userguide/gemini-3-0-pro-api.html)
+* 15.[🚀 Claude Opus 4.5：Anthropic 2025年发布的旗舰级AI模型，全面升级！](https://www.yiboot.com/article/userguide/anthropic-cluade-opus-4-5-up.html)
+* 16.[🚀 Claude Opus 4.5 横空出世，国内调用教程（附 Python 示例）](https://www.yiboot.com/article/userguide/claude-opus-4-5-python.html)
+* 17.[无需翻墙！YibuAPI中转站带你直连Google Gemini 3，多模态AI能力即刻解锁](https://www.yiboot.com/article/userguide/gemini-3-0-pro-api-3.html)
+* 18.[Google Gemini 3.0 Pro国内接入指南：API中转破解三重困境](https://www.yiboot.com/article/userguide/gemini-3-0-pro-api-4.html)
+* 19.[最全 调用 Gemini 3.0 Pro 完整教程-附完整python代码（2025最新版）](https://www.yiboot.com/article/userguide/gemini-3-0-pro-api-6.html)
+* 20.[🚀 Google Gemini 3.0 Pro国内直连：API中转破困境，3步接入教程](https://www.yiboot.com/article/userguide/gemini-3-0-pro-api-8.html)
+* 21.[GPT-5：国内开发者零门槛接入指南，低价多模态API实战方案](https://www.yiboot.com/article/userguide/gpt-5-01.html)
+* 22.[Gemini3：国内开发者零门槛接入指南，原生多模态 API 实战方案](https://www.yiboot.com/article/userguide/gemini-3-0-pro-api-11.html)
+* 23.[Claude 4合规接入教程：国内支付+250万Token免费领，多模态API实战](https://www.yiboot.com/article/claude-4-01.html)
+* 24.[Java调用大模型API实战指南：从环境搭建到生产级适配](https://www.yiboot.com/article/openai-gpt-01.html)
+* 25.[GPT-5 API国内直连解决方案：开发者接入指南](https://www.yiboot.com/article/userguide/openai-gpt5-01.html)
+* 26.[无需费脑！YibuAPI中转站直连Claude Opus 4.5，解锁新一代超智能AI交互体验](https://www.yiboot.com/article/userguide/claude-4-5-02.html)
+* 27.[9步配置Sider+一步API：打造网页浏览最强AI助手（开发者避坑指南）](https://www.yiboot.com/article/userguide/openai-gpt-05.html)
+* 28.[打工人狂喜！GPT-5.2强势来袭，办公效率翻倍，YIBUAPI零门槛解锁](https://www.yiboot.com/article/userguide/openai-gpt5-2-01.html)
+* 29.[GPT-5.1与GPT-5.2全面评测及落地手册：能力迭代解析与一步API接入实操](https://www.yiboot.com/article/userguide/openai-gpt5-2-11.html)
+* 30.[破解AI模型集成的”多端适配困局”：一站式解决方案的技术实践](https://www.yiboot.com/article/userguide/openai-gpt5-2-23.html)
+* 31.[纯小白入门大模型API：从零基础到实战通关](https://www.yiboot.com/article/userguide/openai-gpt-111.html)
+* 32.[详细教程：国内调用 GPT-5.2 API 接口（附 Python 示例）](https://www.yiboot.com/article/userguide/openai-gpt5-2-33.html)
+* 33.[gpt-image-1.5 国内直连指南：解锁多模态AI创作新体验](https://www.yiboot.com/article/userguide/openai-image-01.html)
+* 34.[step-audio-2 解锁跨模态音频新纪元：国内无缝接入指南](https://www.yiboot.com/article/userguide/step-audio-20.html)
+* 35.[小米MiMo-V2-Flash：开源大模型的效率革命与全能突破](https://www.yiboot.com/article/userguide/xiaomi-mimo-20.html)
+* 36.[GPT-Image-1.5 性能巅峰！国内直连攻略（无壁垒接入）](https://www.yiboot.com/article/userguide/gpt-image-1-5-11.html)
+* 37.[Mistral 3系列模型国内直连指南：突破壁垒的API中转方案](https://www.yiboot.com/article/userguide/mistral-3-01.html)
+* 38.[PHP 项目调用大模型 API 全流程实战（适配 OpenAI/国内大模型）](https://www.yiboot.com/article/userguide/openai-php-1-01.html)
+* 39.[Claude Opus 4.5：凭何加冕编程新王？](https://www.yiboot.com/article/userguide/claude-4-5-001.html)
+* 40.[Gemini 3.0 Pro：多模态重塑编程生态，开启智能开发新纪元](https://www.yiboot.com/article/userguide/gemini-3-0-011.html)
+* 41.[GLM-4.7：开源大模型的全能进化，重新定义人机协同边界](https://www.yiboot.com/article/userguide/glm-4-7-001.html)
+* 42.[DeepSeek-V3.2重磅开源：340B混合专家架构，重塑开源大模型性能新标杆](https://www.yiboot.com/article/userguide/deepseek-001.html)
+* 43.[国内外主流AI大模型全景对比与国外大模型高效接入方案](https://www.yiboot.com/article/userguide/yibuapi-001.html)
+* 44.[解锁 AI 大模型价值：从低门槛接入到未来布局](https://www.yiboot.com/article/userguide/yibuapi-011.html)
+* 45.[开源突围VS闭源巅峰：DeepSeek-V3.2与GPT-5.2全方位实力对决](https://www.yiboot.com/article/userguide/deepseek-011.html)
+* 46.[双雄对决：DeepSeek-V3.2与Gemini 3.0 Pro的AI技术路径博弈](https://www.yiboot.com/article/userguide/deepseek-021.html)
+* 47.[GLM-4.7与GPT-5.2全面对比及一步API接入指南](https://www.yiboot.com/article/userguide/glm-4-7-011.html)
+* 48.[Grok-4.1：马斯克的AI新王，重新定义人机交互新范式](https://www.yiboot.com/article/userguide/grok-4-1-001.html)
+* 49.[Grok-4.1横空出世：双商驱动重构大模型竞争新秩序](https://www.yiboot.com/article/userguide/grok-4-1-011.html)
+* 50.[一步API：赋能企业高效链接全球AI大模型的核心枢纽](https://www.yiboot.com/article/userguide/yibuapi-021.html)
+* 51.[一步API：轻松打通GPT-5.2接入链路，赋能全场景AI应用](https://www.yiboot.com/article/userguide/yibuapi-031.html)
+* 52.[一步API：打通全球顶尖AI的桥梁，Gemini 3.0 Pro接入指南全解析](https://www.yiboot.com/article/userguide/yibuapi-041.html)
+* 53.[Sora Video2：次世代AI视频生成引擎，从功能突破到API实战接入](https://www.yiboot.com/article/userguide/sora-video-01.html)
+* 54.[Sora Video2：重塑AI视频生成生态，附完整API接入指南](https://www.yiboot.com/article/userguide/sora-video-11.html)
+* 55.[Sora Video2深度解析：核心能力与一步API接入全指南](https://www.yiboot.com/article/userguide/sora-video-21.html)
+* 56.[DeepSeek-V3.2：技术革新与一步API平台接入指南](https://www.yiboot.com/article/userguide/deepseek-041.html)
+* 57.[Sora Video2：重塑AI视频创作生态，一步API解锁国内零门槛接入](https://www.yiboot.com/article/userguide/sora-video-31.html)
+* 58.[Kimi K2.5：多模态全能模型的突破与一步API接入指南](https://www.yiboot.com/article/userguide/kimi-01.html)
+* 59.[Kimi K2.5：全能开源AI新标杆，一步API接入实战指南](https://www.yiboot.com/article/userguide/kimi-11.html)
+* 60.[ClaudeBox入门到实战：容器化AI编程环境+国内合规API接入全指南](https://www.yiboot.com/article/userguide/claudebox-01.html)
+* 61.[Clawdbot+一步API：破解国内AI智能体落地难题，打造本地化“数字员工”新范式](https://www.yiboot.com/article/userguide/clawdbot-01.html)
+* 62.[Clawdbot 与一步 API 深度集成：打造个人 AI 管家](https://www.yiboot.com/article/userguide/clawdbot-11.html)
+* 63.[Clawdbot（Moltbot）：本地优先的全能AI助手与一步API接入实战指南](https://www.yiboot.com/article/userguide/clawdbot-21.html)
+* 64.[OpenClaw+一步API接入指南：打通企业级AI能力，10分钟落地数字协作者](https://www.yiboot.com/article/userguide/openclaw-01.html)
+* 65.[揭秘AI漫剧制作全流程：从0到1低成本创作，一步API助力效率飙升](https://www.yiboot.com/article/userguide/manju-01.html)
+* 66.[Sora2政策收紧，Veo 3.1能否撑起AI漫剧生产力大旗？](https://www.yiboot.com/article/userguide/veo-01.html)
+* 67.[AI漫剧制作新纪元：4K高清+稳如磐石，一步API解锁创作新可能](https://www.yiboot.com/article/userguide/veo-11.html)
+* 68.[4K高清时代降临！Veo 3.1模型正式上线，一步API零门槛接入](https://www.yiboot.com/article/userguide/veo-21.html)
+* 69.[实测一步API跑Veo 3.1 4K：2026商用漫剧，画质与稳定才是生死线](https://www.yiboot.com/article/userguide/veo-31.html)
+* 70.[今日首发｜Claude Opus 4.6重磅登场，核心能力全面跃升，新功能解锁高效体验](https://www.yiboot.com/article/userguide/claude-4-6-01.html)
+* 71.[Claude Opus 4.6 版本特性解析及一步API接入指南](https://www.yiboot.com/article/userguide/claude-4-6-11.html)
+* 72.[双雄炸场！Claude Opus 4.6与GPT-5.3-Codex对决，AI编程迈入全能协作新纪元](https://www.yiboot.com/article/userguide/claude-4-6-21.html)
+* 73.[GPT-5.3-Codex重磅发布｜OpenAI最强编程智能体，一步API便捷接入适配全场景](https://www.yiboot.com/article/userguide/gpt-5-3-01.html)
+* 74.[doubao-Seedance-2.0：字节自研Seed基座重构AI视频创作，一步API接入开启全场景生产力](https://www.yiboot.com/article/userguide/doubao-seedance-2-0-01.html)
+* 75.[阿里Qwen-Image-2.0重磅发布：生编一体焕新AI图像创作，一步API平台便捷接入](https://www.yiboot.com/article/userguide/qwen-image-2-0-01.html)
+* 76.[GLM-5重磅来袭：开源SOTA旗舰模型，一步API轻松解锁全能AI能力](https://www.yiboot.com/article/userguide/glm-5-01.html)
+* 77.[豆包大模型2.0重磅发布 一步API开启企业AI升级高效接入新路径](https://www.yiboot.com/article/userguide/doubao-2-0-01.html)
+* 78.[除夕开源重磅：Qwen3.5重构大模型范式，开启效率与能力双优新时代](https://www.yiboot.com/article/userguide/qwen3-5-01.html)
+* 79.[跨代升级来袭！豆包大模型Seed-2.0正式发布，全维度解锁AI新能力](https://www.yiboot.com/article/userguide/doubao-2-0-11.html)
+* 80.[谷歌Gemini 3.1 Pro重磅发布：推理性能翻倍，一步API快速接入指南](https://www.yiboot.com/article/userguide/gemini-3-1-pro-01.html)
+* 81.[大年初二重磅！Anthropic 最强 Sonnet 来袭：Claude Sonnet 4.6 发布，一步API一键直连](https://www.yiboot.com/article/userguide/claude-sonnet-4-6-01.html)
+* 82.[Seedance-2.0：重构AI视频创作范式，开启导演级创作新纪元](https://www.yiboot.com/article/userguide/seedance-2-0-01.html)
+* 83.[Seedance-2.0重构AI漫剧/短剧生态：新手零门槛量产，全群体可API接入抢占百亿风口](https://www.yiboot.com/article/userguide/seedance-2-0-11.html)
+* 84.[百亿赛道突围：Seedance-2.0重构AI漫剧/短剧创作逻辑，全群体均可API接入量产](https://www.yiboot.com/article/userguide/seedance-2-0-21.html)
+* 85.[Seedream 5.0 Lite重磅上线：三大能力革新，一步API轻松接入解锁全场景创作](https://www.yiboot.com/article/userguide/seedream-5-0-lite.html)
+* 86.[阿里千问Qwen3.5-Flash重磅开源 一步API同步上线便捷接入通道](https://www.yiboot.com/article/userguide/qwen3-5-flash-01.html)
+* 87.[OpenRouter 全面封堵后：国内唯一稳定替代方案——一步API](https://www.yiboot.com/article/userguide/openrouter-01.html)
+* 88.[Nano Banana 2重磅发布！通过一步API平台，解锁闪电级AI图像生成能力](https://www.yiboot.com/article/userguide/nano-banana-2-01.html)
+* 89.[【保姆级教程】手把手教你安装 OpenClaw并配置使用一步API](https://www.yiboot.com/article/userguide/openclaw-001.html)
+* 90.[Seedance 2.0 创作指南：告别AI视频“抽卡式”生成，解锁导演级精准控片](https://www.yiboot.com/article/userguide/seedance-2-0-31.html)
+* 91.[200+可安装AI Skills全整理：让Agent秒变全能打工人，一步API加持更稳更强](https://www.yiboot.com/article/userguide/skills-001.html)
+* 92.[2026短剧行业大洗牌：真人退潮，AI上岸，一步API助力抓住生存线](https://www.yiboot.com/article/userguide/duanju-01.html)
+* 93.[GPT-5.3 Instant治愈AI“爹味”，一步API解锁开发者高效落地新姿势](https://www.yiboot.com/article/userguide/gpt-5-3-instant-11.html)
+* 94.[保姆级教程｜OpenClaw 飞书机器人对接，新手也能10分钟上手](https://www.yiboot.com/article/userguide/openclaw-011.html)
+* 95.[GPT-5.4重磅发布！原生操控电脑，一步API带你抢占智能体时代先机](https://www.yiboot.com/article/userguide/gpt-5-4-01.html)
+* 96.[小米miclaw封测来袭！OpenClaw 3.2降智避坑｜AI落地靠它稳了](https://www.yiboot.com/article/userguide/miclaw-001.html)
+* 97.[小龙虾接入QQ！官方直连超简单，无云主机无公网IP](https://www.yiboot.com/article/userguide/openclaw-021.html)
+* 98.[企业微信正式接入OpenClaw！超简单，打工人AI办公神器来了｜附一步API强力加持](https://www.yiboot.com/article/userguide/openclaw-051.html)
+* 99.[微信直连！腾讯QClaw重磅上线，OpenClaw平替一键本地部署](https://www.yiboot.com/article/userguide/qclaw-001.html)
+* 100.[OpenClaw 完整配置教程（含第三方中转接入，从零到实操）](https://www.yiboot.com/article/userguide/openclaw-101.html)
+* 101.[OpenClaw 安装运行使用常见错误总结与解决方案（Windows/macOS/Linux全平台）](https://www.yiboot.com/article/userguide/openclaw-102.html)
+* 102.[教你如何解决 OpenClaw 安装飞书插件失败的问题](https://www.yiboot.com/article/userguide/openclaw-103.html)
+* 103.[OpenClaw 完全上手指南：用聊天软件操控你的电脑，AI 员工时代正式开启](https://www.yiboot.com/article/userguide/openclaw-104.html)
+* 104.[OpenClaw MCP Adapter 完整教程：让任意 AI 客户端驱动 OpenClaw](https://www.yiboot.com/article/userguide/openclaw-105.html)
+* 105.[保姆级教程：Ubuntu 安装 OpenClaw + 接入飞书 + 配置 AKShare MCP](https://www.yiboot.com/article/userguide/openclaw-106.html)
+* 106.[OpenClaw 实战：搭建企业级 AI 客服与自动化销售系统](https://www.yiboot.com/article/userguide/openclaw-107.html)
+* 107.[用什么电脑？选哪个模型？接哪个软件？养虾(OpenClaw)全攻略一篇搞定](https://www.yiboot.com/article/userguide/openclaw-108.html)
+* 108.[国家应急中心点名了，养虾（OpenClaw）前这几个安全设置你必须做](https://www.yiboot.com/article/userguide/openclaw-109.html)
+* 109.[Gemini Embedding 2登场，多模态RAG新基准诞生，延迟狂降70%+一步API速用](https://www.yiboot.com/article/userguide/gemini-embedding-2-01.html)
+* 110.[OpenClaw Skills 热门技能排行榜 Top 10｜搭配一步API，AI开发效率直接拉满！](https://www.yiboot.com/article/userguide/openclaw-skills-001.html)
+* 111.[OpenClaw Skill 自制指南：零代码，10分钟拥有专属AI技能](https://www.yiboot.com/article/userguide/openclaw-skills-021.html)
+* 112.[还在部署OpenClaw？有人用AI当「赛博皇帝」，搭出全套数字化三省六部！](https://www.yiboot.com/article/ai-tools/openclaw-201.html)
+* 113.[智谱GLM-5-Turbo首发， OpenClaw专属优化，一步API一键接入](https://www.yiboot.com/article/userguide/glm-5-turbo-01.html)
+* 114.[OpenClaw优化设置指南（完整清单）：装完必看，少走弯路](https://www.yiboot.com/article/userguide/openclaw-211.html)
+* 115.[MiniMax M2.7震撼发布！首个自进化大模型，一步API快速接入解锁新可能](https://www.yiboot.com/article/userguide/minimax-m2-7-01.html)
+* 116.[炸场！小米一口气发布3个大模型，霸榜OpenRouter，国内第一梯队稳了](https://www.yiboot.com/article/userguide/mimo-v2-pro-01.html)
+* 117.[重磅！腾讯QClaw全面开放，无需邀请码！微信直接遥控电脑干活](https://www.yiboot.com/article/userguide/qclaw-01.html)
+* 118.[微信重磅更新！官方支持OpenClaw，人人都能养专属“龙虾”](https://www.yiboot.com/article/userguide/openclaw-wx-01.html)
+* 119.[Claude Code 究极配置指南：10个月实战验证，凭这套配置，效率直接翻5倍](https://www.yiboot.com/article/userguide/claude-code-01.html)
+* 120.[开源 Claude Code 工程级开发插件 Superpowers 完整上手攻略：安装 + 实战 + 技巧全解析](https://www.yiboot.com/article/userguide/superpowers-01.html)
+* 121.[刚开源就爆火！MiniMax 官方开源压箱底技能包，AI 编程直接封神](https://www.yiboot.com/article/userguide/minimax-01.html)
+* 122.[暴涨48.2K Stars！字节开源DeerFlow 2.0，让AI智能体搞定所有复杂任务](https://www.yiboot.com/article/userguide/deerflow-01.html)
+* 123.[一文掌握 Claude Code 最全快捷键与命令手册（2026最新版）](https://www.yiboot.com/article/userguide/claude-code-12.html)
+* 124.[飞书CLI正式开源，Claude Code无缝接管你的全量工作数据](https://www.yiboot.com/article/userguide/claude-code-22.html)
+* 125.[一文看懂 Harness Engineering：AI智能体编程的核心驾驭之道](https://www.yiboot.com/article/userguide/harness-engineering-01.html)
+
+过去一年，多模态大模型的竞争焦点逐渐从“能看图、能听音”转向更难的命题：**能否把文本、图像、音频、音视频统一理解、统一推理，并且做到实时、自然、可控的交互**。
+
+在这一方向上，Qwen 最新一代全模态模型 **Qwen3.5-Omni** 给出了更明确的答案：它不仅覆盖输入模态更全、上下文更长、训练更“原生”，还在实时语音交互、工具调用、可控表达等体验层面补齐关键拼图。
+
+---
+
+1）Qwen3.5-Omni 是什么：全模态、长上下文、原生多模态训练
+-----------------------------------
+
+**Qwen3.5-Omni** 是 Qwen 最新一代全模态大模型，支持：
+
+* **文本**
+* **图片**
+* **音频**
+* **音视频理解**
+
+同时，它提供 **Plus / Flash / Light** 三种尺寸的 **Instruct 版本**，覆盖从高性能到高效率的不同部署与应用需求。
+
+在能力边界上，Qwen3.5-Omni 的几个关键规格非常醒目：
+
+* **256k 长上下文**
+* 支持超过 **10 小时** 的音频输入
+* 支持超过 **400 秒的 720P（1 FPS）音视频输入**
+
+更重要的是，模型在训练上强调“原生多模态”：在**海量文本、视觉数据**以及**超过 1 亿小时的音视频数据**上进行预训练，从源头提升跨模态理解与生成的一致性与稳定性。
+
+---
+
+2）架构升级：Thinker–Talker 延续，但“对齐与实时”变得更强
+-------------------------------------
+
+Qwen3.5-Omni 延续 **Thinker–Talker** 架构，并在结构上进一步强化：
+
+* **Thinker 与 Talker 均采用 Hybrid-Attention MoE 架构**
+* Thinker 侧通过 **Vision Encoder** 与 **AuT** 接收视觉与音频信号
+* 音视频信号通过 **interleave 交织**，并配合 **TMRoPE** 编码位置信息
+* Thinker 负责处理全模态信号并输出文本
+* Talker 负责接收 Thinker 的多模态输入及文本输出，进行 **contextual 语音生成**
+* 语音表征使用 **RVQ 编码**替代繁重的 DiT 运算
+* 通过 **chunk-wise 流式输入 + 流式 Talker**，实现 **realtime interaction（实时交互）**
+
+一句话概括：它不是简单“加了语音/视频接口”，而是把多模态交织、位置编码、流式生成等机制打通，使得实时对话体验更接近“人类交流的节奏”。
+
+![]()
+
+---
+
+3）多语言跃迁：113 种语音识别 + 36 种语音生成
+----------------------------
+
+相较上一代 **Qwen3-Omni**，Qwen3.5-Omni 的多语言能力大幅增强：
+
+* **113 种语种和方言的语音识别**
+* **36 种语种和方言的语音生成**
+
+这意味着它不止能“听懂更多语言”，还更进一步能“用更多语言说得自然”，对跨境客服、海外内容创作、国际化语音助手等场景非常关键。
+
+![]()
+
+---
+
+4）Plus 版本战绩：215 项 SOTA，音频能力全面拉开差距
+---------------------------------
+
+在音频/音视频理解、推理和交互任务上，**Qwen3.5-Omni-Plus** 取得了 **215 项子任务/Benchmark 的 SOTA**，覆盖范围包括：
+
+* **3 个音视频 Benchmark**
+* **5 个音频 Benchmark**
+* **8 个 ASR Benchmark**
+* **156 个面向语种的 S2TT 任务**
+* **43 个面向语种的 ASR 任务**
+
+对比层面（按提供信息）：
+
+* **通用音频理解/推理/识别/翻译/对话全面超越 Gemini-3.1 Pro**
+* **音视频理解总体达到 Gemini-3.1 Pro 水平**
+* **视觉/文本能力达到同尺寸 Qwen3.5 模型效果**
+
+如果你关注“真实产品体验”，这些指标背后代表的往往是：识别更稳、推理更准、对话更顺、跨语言更可靠。
+
+---
+
+5）两个“很能打”的新能力：结构化音视频 Caption + Audio-Visual Vibe Coding
+-------------------------------------------------------
+
+### A. 音视频 Caption：可控、结构化、细粒度到“剧本级”
+
+Qwen3.5-Omni-Plus 的亮点 feature 之一是音视频 caption 能力：  
+
+可生成**可控的、详细的、结构化** caption，并给到“剧本级细粒度描述”，包括：
+
+* 自动切片
+* 时间戳打标
+* 人物与音频关系的详细介绍
+
+对内容行业来说，这相当于把“视频理解”从一句话概括升级到可用于生产的“结构化素材”，可直接对接检索、审核、二创、混剪脚本等链路。
+
+### B. Audio-Visual Vibe Coding：听着/看着指令就能写代码
+
+通过原生多模态 Scaling，团队观察到全模态模型**涌现**出一种能力：  
+
+可以根据音视频指令直接进行 coding，被称为 **Audio-Visual Vibe Coding**。
+
+这类能力的意义在于：未来“写代码”不再只依赖文本描述，可能变成“我给你看一段视频/录一段语音/指着界面说”，模型就能理解意图并生成实现。
+
+---
+
+6）交互体验专项增强：语义打断、工具调用、可控语音、音色克隆、ARIA 稳定性
+---------------------------------------
+
+Qwen3.5-Omni 不仅在基座能力上做强，也明显把资源投向“交互体验”的关键痛点：
+
+1. **语义打断（Turn-taking）**  
+   
+   基于 Omni 支持自动识别 turn-taking 意图，避免附和和无意义背景音打断；该能力在 API 中已原生支持。
+2. **原生 WebSearch + 复杂 Function Call**  
+   
+   模型可自主判断是否需要拉起 WebSearch 回答即时问题，并可调用复杂函数工具，面向 Agent 场景更友好。
+3. **端到端语音控制与对话**  
+   
+   可遵循指令对**音量、语速、情绪**等进行更自由控制，让语音交互从“能说”变为“会表达”。
+4. **音色克隆 + 可定制 Assistant**  
+   
+   支持用户上传音色定制 AI Assistant 音色，并允许通过修改 system prompt 来改变口语化程度、身份等行为表现；可在 **Realtime API** 体验。
+5. **ARIA：解决流式语音不稳定**  
+   
+   针对流式交互中常见的漏读、误读、数字发音模糊等问题，引入 **ARIA（自适应速率交错对齐，Adaptive Rate Interleave Alignment）**：  
+   
+   动态对齐文本与语音单元，在保证实时性的前提下，显著提升语音合成自然度与鲁棒性。  
+   
+   同时，Talker 的输入组织也从上一代“双轨”演进为基于 ARIA 的动态对齐与交错排布，进一步提升稳定性。
+
+---
+
+结语：全模态的胜负手，正在从“能不能”变为“好不好用”
+---------------------------
+
+Qwen3.5-Omni 的信息密度很高，但可以用一句话总结它的产品方向：  
+
+**把全模态能力做成可实时交互、可工具调用、可控表达、可规模落地的“完整系统”。**
+
+对于开发者与企业而言，它最直接的价值不只是“多了几项能力”，而是让多模态从 Demo 走向更可用、更可控、更稳定的应用形态：客服、内容理解、会议与媒体处理、多语种助手、语音 Agent、音视频检索与标注……都可能因此加速落地。
+
+欢迎关注**一步API（[https://yibuapi.com](https://www.yiboot.com/goto/hkki)）** ，我们还会持续分享更多AI咨询、AI工具、实战经验、踩坑记录，助力你高效玩转AI开发、避开行业弯路。
+
+![]()
+
+想了解更多细节、获取专属支持，可添加**客服微信：xuexiv5876 \ YibuDev**，随时咨询交流～
+
+您已阅读完《[AI咨询（共128篇）](https://www.yiboot.com/collection/ai%e5%92%a8%e8%af%a2)》专题的第 126 篇。请继续阅读该专题下面的文章：
+
+* 127.[深度揭秘 Anthropic Claude Code 架构设计，快速读懂 AI Agent 的核心秘密](https://www.yiboot.com/article/userguide/claude-code-31.html)
+* 128.[阿里Wan2.7-Image重磅发布：AI图像创作，从此告别”开盲盒”时代，一步API快速接入](https://www.yiboot.com/article/userguide/wan2-7-image-01.html)
+
+
+**海报分享**
+
+**{{postData.favorites\_isset ? '已收藏' : '收藏'}}**
+**举报**
+
+
+
+
+
+[Agent](https://www.yiboot.com/tag/agent)[AI工具](https://www.yiboot.com/tag/ai-tools)[claude](https://www.yiboot.com/tag/claude)[Claude Sonnet 4.6](https://www.yiboot.com/tag/claude-sonnet-4-6)[deepseek](https://www.yiboot.com/tag/deepseek)[gemini](https://www.yiboot.com/tag/gemini)[Gemini 3.1 Pro](https://www.yiboot.com/tag/gemini-3-1-pro)[GLM-5](https://www.yiboot.com/tag/glm-5)[grok](https://www.yiboot.com/tag/grok)[Python数组](https://www.yiboot.com/tag/python-array)[Qwen3.5-Omni](https://www.yiboot.com/tag/qwen3-5-omni)
+
+[使用指南](https://www.yiboot.com/article/userguide)
+
+[一文看懂 Harness Engineering：AI智能体编程的核心驾驭之道](https://www.yiboot.com/article/userguide/harness-engineering-01.html)
+---------------------------------------------------------------------------------------------------------------
+
+2026-3-30 8:31:38
+
+
+
+
+[使用指南](https://www.yiboot.com/article/userguide)
+
+[深度揭秘 Anthropic Claude Code 架构设计，快速读懂 AI Agent 的核心秘密](https://www.yiboot.com/article/userguide/claude-code-31.html)
+-------------------------------------------------------------------------------------------------------------------
+
+2026-4-1 11:15:48
+
+
+
+
+
+
+
+文章目录
+----
+
+推荐阅读
+----
+
+* TOP1
+  ![]()
+  
+  【保姆级教程】手把手教你安装 OpenClaw并配置使用一步API
+  ---------------------------------
+  
+  3月2日
+* TOP2
+  ![]()
+  
+  OpenRouter 全面封堵后：国内唯一稳定替代方案——一步API
+  ----------------------------------
+  
+  2月27日
+* TOP3
+  ![]()
+  
+  Claude Code CLI 安装与配置完整教程 | 支持 Windows 与 macOS 的 AI 编程助手
+  --------------------------------------------------------
+  
+  25年8月10日
+* ![]()
+  
+  详细教程：国内调用 Google Gemini 3.0 Pro API 接口（附 Python 示例）
+  ---------------------------------------------------
+  
+  25年11月27日
+* ![]()
+  
+  为什么国内模型这么多，还是有很多人用国外的模型？
+  ------------------------
+  
+  25年10月28日
+* ![]()
+  
+  OpenClaw 完整配置教程（含第三方中转接入，从零到实操）
+  -------------------------------
+  
+  3月11日
+
+站内搜索
+----
+
+搜索：
+
+
+
+浏览历史
+----
+
+清空
+
+* ![]()
+
+暂无浏览历史
+
+
+客服微信：xuexiv5876
+
+![]()
+
+微信公众号：一步API
+
+![]()
+
+
+
+
+文章分类
+----
+
+* [文章](https://www.yiboot.com/article) (206)
+  + [使用指南](https://www.yiboot.com/article/userguide) (156)
+  + [工具配置](https://www.yiboot.com/article/ai-tools) (27)
+  + [数据结构](https://www.yiboot.com/article/data-structure) (13)
+  + [设计模式](https://www.yiboot.com/article/design-pattern) (12)
+
+历史归档
+----
+
+* [2026 年 4 月](https://www.yiboot.com/2026/04) (2)
+* [2026 年 3 月](https://www.yiboot.com/2026/03) (38)
+* [2026 年 2 月](https://www.yiboot.com/2026/02) (26)
+* [2026 年 1 月](https://www.yiboot.com/2026/01) (23)
+* [2025 年 12 月](https://www.yiboot.com/2025/12) (23)
+* [2025 年 11 月](https://www.yiboot.com/2025/11) (9)
+* [2025 年 10 月](https://www.yiboot.com/2025/10) (16)
+* [2025 年 9 月](https://www.yiboot.com/2025/09) (16)
+* [2025 年 8 月](https://www.yiboot.com/2025/08) (31)
+* [2025 年 7 月](https://www.yiboot.com/2025/07) (22)
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+❯
+
+
+ 搜索
+
+
+ 
+
+* ![]()
+  
+  扫码打开当前页
+
+
+ 返回顶部
+
+
+
+
+幸运之星正在降临...
+点击领取今天的签到奖励！
+恭喜！您今天获得了**{{mission.data.mission.credit}}**积分
+
+今日签到
+
+连续签到
+
+
+* ![]()
+  
+  {{item.credit}}
+
+* ![]()
+  
+  连续{{item.count}}天
+
+
+[查看所有](https://www.yiboot.com/mission)
+
+
+
+我的优惠劵
+
+* ￥优惠劵
+  使用时效：无法使用
+  使用时效：
+  
+  之前
+  
+  
+  使用时效：永久有效
+  
+  
+  
+  
+  
+  优惠劵ID： 
+  
+  ×
+  
+  限制以下商品使用：
+  限制以下商品分类使用：
+  不限制使用：
+  ![]()
+  
+  [{{ct.name}}]
+  
+  所有商品和商品类型均可使用 
+  
+  
+  
+  删除
+  详情
+
+没有优惠劵可用!
+
+购物车
+
+* ![]()
+  
+  :
+  
+  
+  
+  
+  
+  ×
+  删除
+
+购物车空空如也!
+[清空购物车](javascript:void(0))
+[前往结算](https://www.yiboot.com/carts)
+
+
+您有新的私信
+没有新私信
+
+* ![]()
+
+[写新私信](javascript:void(0))
+[查看全部](https://www.yiboot.com/directmessage)
+
+
+![]()
+
+
+
+文章
+
+
+
+评论
+
+
+
+关注
+
+
+
+粉丝
+
+
+
+
+
+个人中心
+
+我的订单
+
+[认证❯](https://www.yiboot.com/verify)
+
+未认证
+
+
+
+[任务❯](https://www.yiboot.com/task)
+
+今日任务完成
+
+
+
+
+[升级❯](https://www.yiboot.com/gold)
+
+
+
+
+
+
+[财富❯](https://www.yiboot.com/gold)
+[￥**余额：{{userData.money}}**](https://www.yiboot.com/gold)
+[**积分：{{userData.credit}}**](https://www.yiboot.com/gold)
+
+
+
+
+
+
+
+
+关于本站
+----
+
+
+一步(yiboot.com)专注于AI的社区平台，提供AI资讯、工具导航、教程、模型测评等内容。平台包括wiki、视频与图文教程，覆盖从入门到实战的学习路径。一步社区还支持AP中转服务和AI项目实践，致力于打造一个集学习、交流和应用于一体的Al生态平台。
+
+
+
+帮助中心
+----
+
+
+* > [关于我们](https://yiboot.com)
+* > [广告投放](https://yiboot.com)
+* > [免责声明](https://yiboot.com)
+* > [帮助反馈](https://yiboot.com)
+* > [隐私政策](https://yiboot.com)
+* > 
+  [网站首页](https://yiboot.com)
+* > 
+  [用户协议](https://yiboot.com)
+* > 
+  [欢迎合作](https://yiboot.com)
+
+
+网站索引
+----
+
+
+* > 
+  [网站地图](https://yiboot.com/sitemap.xml)
+* > 
+  [网站导航](https://yiboot.com/sitemap.html)
+* > 
+  [聚合标签](https://yiboot.com/tags)
+* > 
+  [google索引](https://yiboot.com/wp-sitemap.xml)
+
+
+关注交流
+----
+
+
+![]()![]()
+
+微信公众号  
+
+一步API
+
+
+![]()![]()
+
+微信扫一扫  
+
+长按识别加客服
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+Copyright © 2026[一步](https://www.yiboot.com)
+
+
+查询 102 次，耗时 0.6422 秒 
+
+
+
+
+发布文章
+
+
+发布快讯
+
+
+创建圈子
+
+
+发表话题
+
+
+发布供求信息
+
+
+发布问答
+
+
+发布导航
+
+
+提交工单
+
+
+
+
+
+
+
+
+
+
+

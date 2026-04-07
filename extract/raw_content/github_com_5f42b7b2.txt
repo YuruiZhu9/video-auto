@@ -1,0 +1,1169 @@
+# Source URL: https://github.com/openclaw/openclaw/releases
+# Content Length: 142815 characters
+# Extracted at: 2026-03-31 22:35:23
+#============================================================
+
+[Skip to content](https://github.com/openclaw/openclaw/releases#start-of-content)
+You signed in with another tab or window. [Reload](https://github.com/openclaw/openclaw/releases) to refresh your session.You signed out in another tab or window. [Reload](https://github.com/openclaw/openclaw/releases) to refresh your session.You switched accounts on another tab or window. [Reload](https://github.com/openclaw/openclaw/releases) to refresh your session.Dismiss alert
+{{ message }}
+[openclaw](https://github.com/openclaw)/ \*\*[openclaw](https://github.com/openclaw/openclaw)\*\* Public
+- [Notifications](https://github.com/login?return\_to=%2Fopenclaw%2Fopenclaw) You must be signed in to change notification settings
+- [Fork\\
+26.1k](https://github.com/login?return\_to=%2Fopenclaw%2Fopenclaw)
+- [Star\\
+165k](https://github.com/login?return\_to=%2Fopenclaw%2Fopenclaw)
+# Releases: openclaw/openclaw
+Releases · openclaw/openclaw
+## openclaw 2026.2.3
+7 hours ago
+05 Feb 01:57
+![@steipete](https://avatars.githubusercontent.com/u/58493?s=40&v=4)[steipete](https://github.com/steipete)
+[v2026.2.3](https://github.com/openclaw/openclaw/tree/v2026.2.3)
+[`54ddbc4`](https://github.com/openclaw/openclaw/commit/54ddbc466085b42526983f6c90d152fdd7bf365f)
+Compare
+# Choose a tag to compare
+## Sorry, something went wrong.
+Filter
+Loading
+## Sorry, something went wrong.
+### Uh oh!
+There was an error while loading. [Please reload this page](https://github.com/openclaw/openclaw/releases).
+## No results found
+[View all tags](https://github.com/openclaw/openclaw/tags)
+[openclaw 2026.2.3](https://github.com/openclaw/openclaw/releases/tag/v2026.2.3)[Latest](https://github.com/openclaw/openclaw/releases/latest)
+[Latest](https://github.com/openclaw/openclaw/releases/latest)
+### Changes
+- Telegram: remove last `@ts-nocheck` from `bot-handlers.ts`, use Grammy types directly, deduplicate `StickerMetadata`. Zero `@ts-nocheck` remaining in `src/telegram/`. ( [#9206](https://github.com/openclaw/openclaw/pull/9206))
+- Telegram: remove `@ts-nocheck` from `bot-message.ts`, type deps via `Omit`, widen `allMedia` to `TelegramMediaRef[]`. ( [#9180](https://github.com/openclaw/openclaw/pull/9180))
+- Telegram: remove `@ts-nocheck` from `bot.ts`, fix duplicate `bot.catch` error handler (Grammy overrides), remove dead reaction `message\_thread\_id` routing, harden sticker cache guard. ( [#9077](https://github.com/openclaw/openclaw/pull/9077))
+- Onboarding: add Cloudflare AI Gateway provider setup and docs. ( [#7914](https://github.com/openclaw/openclaw/pull/7914)) Thanks [@roerohan](https://github.com/roerohan).
+- Onboarding: add Moonshot (.cn) auth choice and keep the China base URL when preserving defaults. ( [#7180](https://github.com/openclaw/openclaw/pull/7180)) Thanks [@waynelwz](https://github.com/waynelwz).
+- Docs: clarify tmux send-keys for TUI by splitting text and Enter. ( [#7737](https://github.com/openclaw/openclaw/pull/7737)) Thanks [@Wangnov](https://github.com/Wangnov).
+- Docs: mirror the landing page revamp for zh-CN (features, quickstart, docs directory, network model, credits). ( [#8994](https://github.com/openclaw/openclaw/pull/8994)) Thanks [@joshp123](https://github.com/joshp123).
+- Messages: add per-channel and per-account responsePrefix overrides across channels. ( [#9001](https://github.com/openclaw/openclaw/pull/9001)) Thanks [@mudrii](https://github.com/mudrii).
+- Cron: add announce delivery mode for isolated jobs (CLI + Control UI) and delivery mode config.
+- Cron: default isolated jobs to announce delivery; accept ISO 8601 `schedule.at` in tool inputs.
+- Cron: hard-migrate isolated jobs to announce/none delivery; drop legacy post-to-main/payload delivery fields and `atMs` inputs.
+- Cron: delete one-shot jobs after success by default; add `--keep-after-run` for CLI.
+- Cron: suppress messaging tools during announce delivery so summaries post consistently.
+- Cron: avoid duplicate deliveries when isolated runs send messages directly.
+### Fixes
+- Heartbeat: allow explicit accountId routing for multi-account channels. ( [#8702](https://github.com/openclaw/openclaw/pull/8702)) Thanks [@lsh411](https://github.com/lsh411).
+- TUI/Gateway: handle non-streaming finals, refresh history for non-local chat runs, and avoid event gap warnings for targeted tool streams. ( [#8432](https://github.com/openclaw/openclaw/pull/8432)) Thanks [@gumadeiras](https://github.com/gumadeiras).
+- Shell completion: auto-detect and migrate slow dynamic patterns to cached files for faster terminal startup; add completion health checks to doctor/update/onboard.
+- Telegram: honor session model overrides in inline model selection. ( [#8193](https://github.com/openclaw/openclaw/pull/8193)) Thanks [@gildo](https://github.com/gildo).
+- Web UI: fix agent model selection saves for default/non-default agents and wrap long workspace paths. Thanks [@Takhoffman](https://github.com/Takhoffman).
+- Web UI: resolve header logo path when `gateway.controlUi.basePath` is set. ( [#7178](https://github.com/openclaw/openclaw/pull/7178)) Thanks [@Yeom-JinHo](https://github.com/Yeom-JinHo).
+- Web UI: apply button styling to the new-messages indicator.
+- Onboarding: infer auth choice from non-interactive API key flags. ( [#8484](https://github.com/openclaw/openclaw/pull/8484)) Thanks [@f-trycua](https://github.com/f-trycua).
+- Security: keep untrusted channel metadata out of system prompts (Slack/Discord). Thanks [@KonstantinMirin](https://github.com/KonstantinMirin).
+- Security: enforce sandboxed media paths for message tool attachments. ( [#9182](https://github.com/openclaw/openclaw/pull/9182)) Thanks [@victormier](https://github.com/victormier).
+- Security: require explicit credentials for gateway URL overrides to prevent credential leakage. ( [#8113](https://github.com/openclaw/openclaw/pull/8113)) Thanks [@victormier](https://github.com/victormier).
+- Security: gate `whatsapp\_login` tool to owner senders and default-deny non-owner contexts. ( [#8768](https://github.com/openclaw/openclaw/pull/8768)) Thanks [@victormier](https://github.com/victormier).
+- Voice call: harden webhook verification with host allowlists/proxy trust and keep ngrok loopback bypass.
+- Voice call: add regression coverage for anonymous inbound caller IDs with allowlist policy. ( [#8104](https://github.com/openclaw/openclaw/pull/8104)) Thanks [@victormier](https://github.com/victormier).
+- Cron: accept epoch timestamps and 0ms durations in CLI `--at` parsing.
+- Cron: reload store data when the store file is recreated or mtime changes.
+- Cron: deliver announce runs directly, honor delivery mode, and respect wakeMode for summaries. ( [#8540](https://github.com/openclaw/openclaw/pull/8540)) Thanks [@tyler6204](https://github.com/tyler6204).
+- Telegram: include forward\\_from\\_chat metadata in forwarded messages and harden cron delivery target checks. ( [#8392](https://github.com/openclaw/openclaw/pull/8392)) Thanks [@Glucksberg](https://github.com/Glucksberg).
+- macOS: fix cron payload summary rendering and ISO 8601 formatter concurrency safety.
+### Contributors
+- [![@gildo](https://avatars.githubusercontent.com/u/133645?s=64&v=4)](https://github.com/gildo)
+- [![@KonstantinMirin](https://avatars.githubusercontent.com/u/138468?s=64&v=4)](https://github.com/KonstantinMirin)
+- [![@mudrii](https://avatars.githubusercontent.com/u/220262?s=64&v=4)](https://github.com/mudrii)
+- [![@Takhoffman](https://avatars.githubusercontent.com/u/781889?s=64&v=4)](https://github.com/Takhoffman)
+- [![@victormier](https://avatars.githubusercontent.com/u/861540?s=64&v=4)](https://github.com/victormier)
+- [![@joshp123](https://avatars.githubusercontent.com/u/1497361?s=64&v=4)](https://github.com/joshp123)
+- [![@gumadeiras](https://avatars.githubusercontent.com/u/5599352?s=64&v=4)](https://github.com/gumadeiras)
+- [![@lsh411](https://avatars.githubusercontent.com/u/6801488?s=64&v=4)](https://github.com/lsh411)
+- [![@roerohan](https://avatars.githubusercontent.com/u/42958812?s=64&v=4)](https://github.com/roerohan)
+- [![@Wangnov](https://avatars.githubusercontent.com/u/48670012?s=64&v=4)](https://github.com/Wangnov)
+- [![@tyler6204](https://avatars.githubusercontent.com/u/64381258?s=64&v=4)](https://github.com/tyler6204)
+- [![@Glucksberg](https://avatars.githubusercontent.com/u/80581902?s=64&v=4)](https://github.com/Glucksberg)
+- [![@Yeom-JinHo](https://avatars.githubusercontent.com/u/81306489?s=64&v=4)](https://github.com/Yeom-JinHo)
+- [![@waynelwz](https://avatars.githubusercontent.com/u/100347187?s=64&v=4)](https://github.com/waynelwz)
+- [![@f-trycua](https://avatars.githubusercontent.com/u/195596869?s=64&v=4)](https://github.com/f-trycua)
+gildo, KonstantinMirin, and 13 other contributors
+Assets6
+- [OpenClaw-2026.2.3.dmg](https://github.com/openclaw/openclaw/releases/download/v2026.2.3/OpenClaw-2026.2.3.dmg)
+sha256:ae1ae48e70a733519f2fa18a529dec60520b4418e46e2a69588d7011b2e5d80c
+17.2 MB7 hours ago2026-02-05T01:56:32Z
+- [OpenClaw-2026.2.3.dSYM.zip](https://github.com/openclaw/openclaw/releases/download/v2026.2.3/OpenClaw-2026.2.3.dSYM.zip)
+sha256:2daacd6e013cab4e42363b6803985ff77bbfeec0216a00fa9613d6e3f5706aa4
+31.9 MB7 hours ago2026-02-05T01:56:32Z
+- [openclaw-2026.2.3.tgz](https://github.com/openclaw/openclaw/releases/download/v2026.2.3/openclaw-2026.2.3.tgz)
+sha256:04646e50e8de498729725a8451f61516e1c054576f19233ac1f02bfb319cc7cc
+18.1 MB7 hours ago2026-02-05T01:56:32Z
+- [OpenClaw-2026.2.3.zip](https://github.com/openclaw/openclaw/releases/download/v2026.2.3/OpenClaw-2026.2.3.zip)
+sha256:226f802c9df20c3bc45485c5ca19b972623b3c681901835efa74d19a2e2bb242
+21.5 MB7 hours ago2026-02-05T01:56:32Z
+- [Source code(zip)](https://github.com/openclaw/openclaw/archive/refs/tags/v2026.2.3.zip)
+7 hours ago2026-02-05T01:55:13Z
+- [Source code(tar.gz)](https://github.com/openclaw/openclaw/archive/refs/tags/v2026.2.3.tar.gz)
+7 hours ago2026-02-05T01:55:13Z
+coygeek, heqinzhu, victbr, chib30333, FradSer, georgezouq, tum4y, paskuvan, bugcysg, NFT-CID, and 45 more reacted with thumbs up emojicoygeek, niebloomj, and Yeom-JinHo reacted with laugh emojicoygeek, georgezouq, Lapot300, niebloomj, arsenylosev, i-iooi-i, muzig, and eByte91 reacted with hooray emojicoygeek, amir0ff, Wionsito, niebloomj, Vannakem2021, Casim009, arsenylosev, i-iooi-i, thedaviddias, Kimanzi-Collins, and 3 more reacted with heart emojilucasconnellm, coygeek, chib30333, OscarCode9, chris-c-thomas, niebloomj, Oli-70, H-8M3, jame25, i-iooi-i, and 2 more reacted with rocket emojicoygeek, chib30333, and niebloomj reacted with eyes emoji
+All reactions
+- ![+1](https://github.githubassets.com/assets/1f44d-41cb66fe1e22.png)55 reactions
+- ![smile](https://github.githubassets.com/assets/1f604-7528822fb4c5.png)3 reactions
+- ![tada](https://github.githubassets.com/assets/1f389-36899a2cb781.png)8 reactions
+- ![heart](https://github.githubassets.com/assets/2764-982dc91ea48a.png)13 reactions
+- ![rocket](https://github.githubassets.com/assets/1f680-d0ef47fdb515.png)12 reactions
+- ![eyes](https://github.githubassets.com/assets/1f440-ee44e91e92a7.png)3 reactions
+72 people reacted
+## openclaw 2026.2.2
+yesterday
+04 Feb 01:05
+![@steipete](https://avatars.githubusercontent.com/u/58493?s=40&v=4)[steipete](https://github.com/steipete)
+[v2026.2.2](https://github.com/openclaw/openclaw/tree/v2026.2.2)
+[`95cd221`](https://github.com/openclaw/openclaw/commit/95cd2210f93d6ab2acc5e29dbad6065294365863)
+Compare
+# Choose a tag to compare
+## Sorry, something went wrong.
+Filter
+Loading
+## Sorry, something went wrong.
+### Uh oh!
+There was an error while loading. [Please reload this page](https://github.com/openclaw/openclaw/releases).
+## No results found
+[View all tags](https://github.com/openclaw/openclaw/tags)
+[openclaw 2026.2.2](https://github.com/openclaw/openclaw/releases/tag/v2026.2.2)
+### Changes
+- Feishu: add Feishu/Lark plugin support + docs. ( [#7313](https://github.com/openclaw/openclaw/pull/7313)) Thanks [@jiulingyun](https://github.com/jiulingyun) (openclaw-cn).
+- Web UI: add Agents dashboard for managing agent files, tools, skills, models, channels, and cron jobs.
+- Memory: implement the opt-in QMD backend for workspace memory. ( [#3160](https://github.com/openclaw/openclaw/pull/3160)) Thanks [@vignesh07](https://github.com/vignesh07).
+- Security: add healthcheck skill and bootstrap audit guidance. ( [#7641](https://github.com/openclaw/openclaw/pull/7641)) Thanks [@Takhoffman](https://github.com/Takhoffman).
+- Config: allow setting a default subagent thinking level via `agents.defaults.subagents.thinking` (and per-agent `agents.list[].subagents.thinking`). ( [#7372](https://github.com/openclaw/openclaw/pull/7372)) Thanks [@tyler6204](https://github.com/tyler6204).
+- Docs: zh-CN translations seed + polish, pipeline guidance, nav/landing updates, and typo fixes. ( [#8202](https://github.com/openclaw/openclaw/pull/8202), [#6995](https://github.com/openclaw/openclaw/issues/6995), [#6619](https://github.com/openclaw/openclaw/pull/6619), [#7242](https://github.com/openclaw/openclaw/pull/7242), [#7303](https://github.com/openclaw/openclaw/pull/7303), [#7415](https://github.com/openclaw/openclaw/pull/7415)) Thanks [@AaronWander](https://github.com/AaronWander), [@taiyi747](https://github.com/taiyi747), [@Explorer1092](https://github.com/Explorer1092), [@rendaoyuan](https://github.com/rendaoyuan), [@joshp123](https://github.com/joshp123), [@lailoo](https://github.com/lailoo).
+### Fixes
+- Security: require operator.approvals for gateway /approve commands. ( [#1](https://github.com/openclaw/openclaw/pull/1)) Thanks [@mitsuhiko](https://github.com/mitsuhiko), [@yueyueL](https://github.com/yueyueL).
+- Security: Matrix allowlists now require full MXIDs; ambiguous name resolution no longer grants access. Thanks [@MegaManSec](https://github.com/MegaManSec).
+- Security: enforce access-group gating for Slack slash commands when channel type lookup fails.
+- Security: require validated shared-secret auth before skipping device identity on gateway connect.
+- Security: guard skill installer downloads with SSRF checks (block private/localhost URLs).
+- Security: harden Windows exec allowlist; block cmd.exe bypass via single &. Thanks [@simecek](https://github.com/simecek).
+- fix(voice-call): harden inbound allowlist; reject anonymous callers; require Telnyx publicKey for allowlist; token-gate Twilio media streams; cap webhook body size (thanks [@simecek](https://github.com/simecek))
+- Media understanding: apply SSRF guardrails to provider fetches; allow private baseUrl overrides explicitly.
+- fix(webchat): respect user scroll position during streaming and refresh ( [#7226](https://github.com/openclaw/openclaw/pull/7226)) (thanks [@marcomarandiz](https://github.com/marcomarandiz))
+- Telegram: recover from grammY long-poll timed out errors. ( [#7466](https://github.com/openclaw/openclaw/pull/7466)) Thanks [@macmimi23](https://github.com/macmimi23).
+- Agents: repair malformed tool calls and session transcripts. ( [#7473](https://github.com/openclaw/openclaw/pull/7473)) Thanks [@justinhuangcode](https://github.com/justinhuangcode).
+- fix(agents): validate AbortSignal instances before calling AbortSignal.any() ( [#7277](https://github.com/openclaw/openclaw/pull/7277)) (thanks [@Elarwei001](https://github.com/Elarwei001))
+- Media understanding: skip binary media from file text extraction. ( [#7475](https://github.com/openclaw/openclaw/pull/7475)) Thanks [@AlexZhangji](https://github.com/AlexZhangji).
+- Onboarding: keep TUI flow exclusive (skip completion prompt + background Web UI seed); completion prompt now handled by install/update.
+- TUI: block onboarding output while TUI is active and restore terminal state on exit.
+- CLI/Zsh completion: cache scripts in state dir and escape option descriptions to avoid invalid option errors.
+- fix(ui): resolve Control UI asset path correctly.
+- fix(ui): refresh agent files after external edits.
+- Docs: finish renaming the QMD memory docs to reference the OpenClaw state dir.
+- Tests: stub SSRF DNS pinning in web auto-reply + Gemini video coverage. ( [#6619](https://github.com/openclaw/openclaw/pull/6619)) Thanks [@joshp123](https://github.com/joshp123).
+### Contributors
+- [![@mitsuhiko](https://avatars.githubusercontent.com/u/7396?s=64&v=4)](https://github.com/mitsuhiko)
+- [![@simecek](https://avatars.githubusercontent.com/u/359539?s=64&v=4)](https://github.com/simecek)
+- [![@Takhoffman](https://avatars.githubusercontent.com/u/781889?s=64&v=4)](https://github.com/Takhoffman)
+- [![@vignesh07](https://avatars.githubusercontent.com/u/1436853?s=64&v=4)](https://github.com/vignesh07)
+- [![@joshp123](https://avatars.githubusercontent.com/u/1497361?s=64&v=4)](https://github.com/joshp123)
+- [![@MegaManSec](https://avatars.githubusercontent.com/u/2505339?s=64&v=4)](https://github.com/MegaManSec)
+- [![@AlexZhangji](https://avatars.githubusercontent.com/u/3280924?s=64&v=4)](https://github.com/AlexZhangji)
+- [![@marcomarandiz](https://avatars.githubusercontent.com/u/7232363?s=64&v=4)](https://github.com/marcomarandiz)
+- [![@lailoo](https://avatars.githubusercontent.com/u/20536249?s=64&v=4)](https://github.com/lailoo)
+- [![@Explorer1092](https://avatars.githubusercontent.com/u/32663226?s=64&v=4)](https://github.com/Explorer1092)
+- [![@taiyi747](https://avatars.githubusercontent.com/u/63543716?s=64&v=4)](https://github.com/taiyi747)
+- [![@tyler6204](https://avatars.githubusercontent.com/u/64381258?s=64&v=4)](https://github.com/tyler6204)
+- [![@yueyueL](https://avatars.githubusercontent.com/u/64764840?s=64&v=4)](https://github.com/yueyueL)
+- [![@rendaoyuan](https://avatars.githubusercontent.com/u/88825189?s=64&v=4)](https://github.com/rendaoyuan)
+- [![@jiulingyun](https://avatars.githubusercontent.com/u/126459548?s=64&v=4)](https://github.com/jiulingyun)
+- [![@Elarwei001](https://avatars.githubusercontent.com/u/168552401?s=64&v=4)](https://github.com/Elarwei001)
+- [![@AaronWander](https://avatars.githubusercontent.com/u/210468848?s=64&v=4)](https://github.com/AaronWander)
+- [![@justinhuangcode](https://avatars.githubusercontent.com/u/252443740?s=64&v=4)](https://github.com/justinhuangcode)
+- [![@macmimi23](https://avatars.githubusercontent.com/u/258681464?s=64&v=4)](https://github.com/macmimi23)
+mitsuhiko, simecek, and 17 other contributors
+Assets5
+Loading
+### Uh oh!
+There was an error while loading. [Please reload this page](https://github.com/openclaw/openclaw/releases).
+DanAtkinson, nilveryboring, coygeek, yunnant, AndreiSva, wysBedoer, Endogen, idreamshen, Haodong-Lei-Ray, desicend, and 131 more reacted with thumbs up emojicoygeek, PrashikshitSaini, rsalim0, jenchen95, haleec, quanghuybest2k2, birdofprey, sharonds, CYGDEN, and niebloomj reacted with laugh emojicoygeek, Endogen, davideasaf, muzig, KeysiJones, SijanC147, turtleqiu, Project37, PrashikshitSaini, Eskyee, and 22 more reacted with hooray emojicoygeek, amir0ff, AZhrZho, tiger-captain, Endogen, jcastillopino, kojikuni, Vannakem2021, Hamido212, MuhammadWaseem29, and 22 more reacted with heart emojicoygeek, KeysiJones, Project37, Felitendo, hgw77, zhux77445-stack, teelock, haleec, Fparaiz0, vixclotet, and 5 more reacted with rocket emojicoygeek, 2670044605, hlibr, arsenylosev, ajaykathar30, quanghuybest2k2, haleec, birdofprey, jachsonserra, CYGDEN, and Nisarg236 reacted with eyes emoji
+All reactions
+- ![+1](https://github.githubassets.com/assets/1f44d-41cb66fe1e22.png)141 reactions
+- ![smile](https://github.githubassets.com/assets/1f604-7528822fb4c5.png)10 reactions
+- ![tada](https://github.githubassets.com/assets/1f389-36899a2cb781.png)32 reactions
+- ![heart](https://github.githubassets.com/assets/2764-982dc91ea48a.png)32 reactions
+- ![rocket](https://github.githubassets.com/assets/1f680-d0ef47fdb515.png)15 reactions
+- ![eyes](https://github.githubassets.com/assets/1f440-ee44e91e92a7.png)11 reactions
+188 people reacted
+## openclaw 2026.2.1
+3 days ago
+02 Feb 11:54
+![@steipete](https://avatars.githubusercontent.com/u/58493?s=40&v=4)[steipete](https://github.com/steipete)
+[v2026.2.1](https://github.com/openclaw/openclaw/tree/v2026.2.1)
+[`d842b28`](https://github.com/openclaw/openclaw/commit/d842b28a1517f95aae2a5bcd97f2f726e42b93d8)
+Compare
+# Choose a tag to compare
+## Sorry, something went wrong.
+Filter
+Loading
+## Sorry, something went wrong.
+### Uh oh!
+There was an error while loading. [Please reload this page](https://github.com/openclaw/openclaw/releases).
+## No results found
+[View all tags](https://github.com/openclaw/openclaw/tags)
+[openclaw 2026.2.1](https://github.com/openclaw/openclaw/releases/tag/v2026.2.1)
+### Changes
+- Docs: onboarding/install/i18n/exec-approvals/Control UI/exe.dev/cacheRetention updates + misc nav/typos. ( [#3050](https://github.com/openclaw/openclaw/pull/3050), [#3461](https://github.com/openclaw/openclaw/pull/3461), [#4064](https://github.com/openclaw/openclaw/pull/4064), [#4675](https://github.com/openclaw/openclaw/pull/4675), [#4729](https://github.com/openclaw/openclaw/pull/4729), [#4763](https://github.com/openclaw/openclaw/pull/4763), [#5003](https://github.com/openclaw/openclaw/pull/5003), [#5402](https://github.com/openclaw/openclaw/pull/5402), [#5446](https://github.com/openclaw/openclaw/pull/5446), [#5474](https://github.com/openclaw/openclaw/pull/5474), [#5663](https://github.com/openclaw/openclaw/pull/5663), [#5689](https://github.com/openclaw/openclaw/pull/5689), [#5694](https://github.com/openclaw/openclaw/pull/5694), [#5967](https://github.com/openclaw/openclaw/pull/5967), [#6270](https://github.com/openclaw/openclaw/pull/6270), [#6300](https://github.com/openclaw/openclaw/pull/6300), [#6311](https://github.com/openclaw/openclaw/pull/6311), [#6416](https://github.com/openclaw/openclaw/pull/6416), [#6487](https://github.com/openclaw/openclaw/pull/6487), [#6550](https://github.com/openclaw/openclaw/pull/6550), [#6789](https://github.com/openclaw/openclaw/pull/6789))
+- Telegram: use shared pairing store. ( [#6127](https://github.com/openclaw/openclaw/pull/6127)) Thanks [@obviyus](https://github.com/obviyus).
+- Agents: add OpenRouter app attribution headers. Thanks [@alexanderatallah](https://github.com/alexanderatallah).
+- Agents: add system prompt safety guardrails. ( [#5445](https://github.com/openclaw/openclaw/pull/5445)) Thanks [@joshp123](https://github.com/joshp123).
+- Agents: update pi-ai to 0.50.9 and rename cacheControlTtl -> cacheRetention (with back-compat mapping).
+- Agents: extend CreateAgentSessionOptions with systemPrompt/skills/contextFiles.
+- Agents: add tool policy conformance snapshot (no runtime behavior change). ( [#6011](https://github.com/openclaw/openclaw/pull/6011))
+- Auth: update MiniMax OAuth hint + portal auth note copy.
+- Discord: inherit thread parent bindings for routing. ( [#3892](https://github.com/openclaw/openclaw/pull/3892)) Thanks [@aerolalit](https://github.com/aerolalit).
+- Gateway: inject timestamps into agent and chat.send messages. ( [#3705](https://github.com/openclaw/openclaw/pull/3705)) Thanks [@conroywhitney](https://github.com/conroywhitney), [@CashWilliams](https://github.com/CashWilliams).
+- Gateway: require TLS 1.3 minimum for TLS listeners. ( [#5970](https://github.com/openclaw/openclaw/pull/5970)) Thanks [@loganaden](https://github.com/loganaden).
+- Web UI: refine chat layout + extend session active duration.
+- CI: add formal conformance + alias consistency checks. ( [#5723](https://github.com/openclaw/openclaw/pull/5723), [#5807](https://github.com/openclaw/openclaw/pull/5807))
+### Fixes
+- Plugins: validate plugin/hook install paths and reject traversal-like names.
+- Telegram: add download timeouts for file fetches. ( [#6914](https://github.com/openclaw/openclaw/pull/6914)) Thanks [@hclsys](https://github.com/hclsys).
+- Telegram: enforce thread specs for DM vs forum sends. ( [#6833](https://github.com/openclaw/openclaw/pull/6833)) Thanks [@obviyus](https://github.com/obviyus).
+- Streaming: flush block streaming on paragraph boundaries for newline chunking. ( [#7014](https://github.com/openclaw/openclaw/pull/7014))
+- Streaming: stabilize partial streaming filters.
+- Auto-reply: avoid referencing workspace files in /new greeting prompt. ( [#5706](https://github.com/openclaw/openclaw/pull/5706)) Thanks [@bravostation](https://github.com/bravostation).
+- Tools: align tool execute adapters/signatures (legacy + parameter order + arg normalization).
+- Tools: treat `"\*"` tool allowlist entries as valid to avoid spurious unknown-entry warnings.
+- Skills: update session-logs paths from .clawdbot to .openclaw. ( [#4502](https://github.com/openclaw/openclaw/pull/4502))
+- Slack: harden media fetch limits and Slack file URL validation. ( [#6639](https://github.com/openclaw/openclaw/pull/6639)) Thanks [@davidiach](https://github.com/davidiach).
+- Lint: satisfy curly rule after import sorting. ( [#6310](https://github.com/openclaw/openclaw/pull/6310))
+- Process: resolve Windows `spawn()` failures for npm-family CLIs by appending `.cmd` when needed. ( [#5815](https://github.com/openclaw/openclaw/pull/5815)) Thanks [@thejhinvirtuoso](https://github.com/thejhinvirtuoso).
+- Discord: resolve PluralKit proxied senders for allowlists and labels. ( [#5838](https://github.com/openclaw/openclaw/pull/5838)) Thanks [@thewilloftheshadow](https://github.com/thewilloftheshadow).
+- Tlon: add timeout to SSE client fetch calls (CWE-400). ( [#5926](https://github.com/openclaw/openclaw/pull/5926))
+- Memory search: L2-normalize local embedding vectors to fix semantic search. ( [#5332](https://github.com/openclaw/openclaw/pull/5332))
+- Agents: align embedded runner + typings with pi-coding-agent API updates (pi 0.51.0).
+- Agents: ensure OpenRouter attribution headers apply in the embedded runner.
+- Agents: cap context window resolution for compaction safeguard. ( [#6187](https://github.com/openclaw/openclaw/pull/6187)) Thanks [@iamEvanYT](https://github.com/iamEvanYT).
+- System prompt: resolve overrides and hint using session\\_status for current date/time. ( [#1897](https://github.com/openclaw/openclaw/issues/1897), [#1928](https://github.com/openclaw/openclaw/issues/1928), [#2108](https://github.com/openclaw/openclaw/issues/2108), [#3677](https://github.com/openclaw/openclaw/pull/3677))
+- Agents: fix Pi prompt template argument syntax. ( [#6543](https://github.com/openclaw/openclaw/pull/6543))
+- Subagents: fix announce failover race (always emit lifecycle end; timeout=0 means no-timeout). ( [#6621](https://github.com/openclaw/openclaw/pull/6621))
+- Teams: gate media auth retries.
+- Telegram: restore draft streaming partials. ( [#5543](https://github.com/openclaw/openclaw/pull/5543)) Thanks [@obviyus](https://github.com/obviyus).
+- Onboarding: friendlier Windows onboarding message. ( [#6242](https://github.com/openclaw/openclaw/pull/6242)) Thanks [@shanselman](https://github.com/shanselman).
+- TUI: prevent crash when searching with digits in the model selector.
+- Agents: wire before\\_tool\\_call plugin hook into tool execution. ( [#6570](https://github.com/openclaw/openclaw/pull/6570), [#6660](https://github.com/openclaw/openclaw/pull/6660)) Thanks [@ryancnelson](https://github.com/ryancnelson).
+- Browser: secure Chrome extension relay CDP sessions.
+- Docker: use container port for gateway command instead of host port. ( [#5110](https://github.com/openclaw/openclaw/pull/5110)) Thanks [@mise42](https://github.com/mise42).
+- fix(lobster): block arbitrary exec via lobsterPath/cwd injection (GHSA-4mhr-g7xj-cg8j). ( [#5335](https://github.com/openclaw/openclaw/pull/5335)) Thanks [@vignesh07](https://github.com/vignesh07).
+- Security: sanitize WhatsApp accountId to prevent path traversal. ( [#4610](https://github.com/openclaw/openclaw/pull/4610))
+- Security: restrict MEDIA path extraction to prevent LFI. ( [#4930](https://github.com/openclaw/openclaw/pull/4930))
+- Security: validate message-tool filePath/path against sandbox root. ( [#6398](https://github.com/openclaw/openclaw/pull/6398))
+- Security: block LD\\*/DYLD\\* env overrides for host exec. ( [#4896](https://github.com/openclaw/openclaw/pull/4896)) Thanks [@HassanFleyah](https://github.com/HassanFleyah).
+- Security: harden web tool content wrapping + file parsing safeguards. ( [#4058](https://github.com/openclaw/openclaw/pull/4058)) Thanks [@VACInc](https://github.com/VACInc).
+- Security: enforce Twitch `allowFrom` allowlist gating (deny non-allowlisted senders). Thanks [@MegaManSec](https://github.com/MegaManSec).
+### Contributors
+- [![@shanselman](https://avatars.githubusercontent.com/u/2892?s=64&v=4)](https://github.com/shanselman)
+- [![@conroywhitney](https://avatars.githubusercontent.com/u/249891?s=64&v=4)](https://github.com/conroywhitney)
+- [![@ryancnelson](https://avatars.githubusercontent.com/u/347171?s=64&v=4)](https://github.com/ryancnelson)
+- [![@CashWilliams](https://avatars.githubusercontent.com/u/613573?s=64&v=4)](https://github.com/CashWilliams)
+- [![@alexanderatallah](https://avatars.githubusercontent.com/u/1011391?s=64&v=4)](https://github.com/alexanderatallah)
+- [![@vignesh07](https://avatars.githubusercontent.com/u/1436853?s=64&v=4)](https://github.com/vignesh07)
+- [![@joshp123](https://avatars.githubusercontent.com/u/1497361?s=64&v=4)](https://github.com/joshp123)
+- [![@loganaden](https://avatars.githubusercontent.com/u/1688420?s=64&v=4)](https://github.com/loganaden)
+- [![@MegaManSec](https://avatars.githubusercontent.com/u/2505339?s=64&v=4)](https://github.com/MegaManSec)
+- [![@VACInc](https://avatars.githubusercontent.com/u/3279061?s=64&v=4)](https://github.com/VACInc)
+- [![@hclsys](https://avatars.githubusercontent.com/u/7755017?s=64&v=4)](https://github.com/hclsys)
+- [![@aerolalit](https://avatars.githubusercontent.com/u/17166039?s=64&v=4)](https://github.com/aerolalit)
+- [![@mise42](https://avatars.githubusercontent.com/u/19621890?s=64&v=4)](https://github.com/mise42)
+- [![@obviyus](https://avatars.githubusercontent.com/u/22031114?s=64&v=4)](https://github.com/obviyus)
+- [![@davidiach](https://avatars.githubusercontent.com/u/28102235?s=64&v=4)](https://github.com/davidiach)
+- [![@thewilloftheshadow](https://avatars.githubusercontent.com/u/35580099?s=64&v=4)](https://github.com/thewilloftheshadow)
+- [![@iamEvanYT](https://avatars.githubusercontent.com/u/47493765?s=64&v=4)](https://github.com/iamEvanYT)
+- [![@HassanFleyah](https://avatars.githubusercontent.com/u/228002017?s=64&v=4)](https://github.com/HassanFleyah)
+- [![@bravostation](https://avatars.githubusercontent.com/u/257991910?s=64&v=4)](https://github.com/bravostation)
+- [![@thejhinvirtuoso](https://avatars.githubusercontent.com/u/258521837?s=64&v=4)](https://github.com/thejhinvirtuoso)
+shanselman, conroywhitney, and 18 other contributors
+Assets4
+Loading
+### Uh oh!
+There was an error while loading. [Please reload this page](https://github.com/openclaw/openclaw/releases).
+SvenMeyer, i-iooi-i, LowKey88, Franloso04, mithun50, peakxl, DrTsunamy, TECNB, Brooooooklyn, tristanjung1006, and 161 more reacted with thumbs up emojiSihamNafie24, RLR64, goiltpatpat, 19atlas, sthwin, harwindersingh490, Jacques-cmd, euclidesdry-tripee, Aranmobinarann, R2FuIENodSBIYW5n, and 5 more reacted with laugh emojii-iooi-i, LowKey88, muzig, Brooooooklyn, mrothauer, RLR64, reneleonhardt, bobaikato, juliandavidmr, Jacques-cmd, and 25 more reacted with hooray emojii-iooi-i, LowKey88, honklol, Brooooooklyn, Vannakem2021, RLR64, goiltpatpat, bobaikato, henrik092, Augus, and 34 more reacted with heart emojii-iooi-i, LowKey88, xuanxuanwide, Brooooooklyn, RLR64, orielhaim, kimitaka, heyhey777, murataslan1, bobaikato, and 16 more reacted with rocket emojilabonnillc-jpg, 2670044605, amahi2001, euclidesdry-tripee, TanmayKumar-EngStud, Aranmobinarann, Vector-Cross, R2FuIENodSBIYW5n, birdofprey, coygeek, and 2 more reacted with eyes emoji
+All reactions
+- ![+1](https://github.githubassets.com/assets/1f44d-41cb66fe1e22.png)171 reactions
+- ![smile](https://github.githubassets.com/assets/1f604-7528822fb4c5.png)15 reactions
+- ![tada](https://github.githubassets.com/assets/1f389-36899a2cb781.png)35 reactions
+- ![heart](https://github.githubassets.com/assets/2764-982dc91ea48a.png)44 reactions
+- ![rocket](https://github.githubassets.com/assets/1f680-d0ef47fdb515.png)26 reactions
+- ![eyes](https://github.githubassets.com/assets/1f440-ee44e91e92a7.png)12 reactions
+214 people reacted
+## openclaw 2026.1.30
+5 days ago
+31 Jan 15:22
+![@steipete](https://avatars.githubusercontent.com/u/58493?s=40&v=4)[steipete](https://github.com/steipete)
+[v2026.1.30](https://github.com/openclaw/openclaw/tree/v2026.1.30)
+[`76b5208`](https://github.com/openclaw/openclaw/commit/76b5208b11eebf2071ad5a363666467417ea5792)
+This commit was signed with the committer’s \*\*verified signature\*\*.
+[![](https://avatars.githubusercontent.com/u/13352?s=64&v=4)](https://github.com/cpojer)[cpojer](https://github.com/cpojer)
+Christoph Nakazawa
+GPG key ID: C29F94A3201118AF
+Verified
+on Jan 31, 2026, 07:21 AM
+[Learn about vigilant mode](https://docs.github.com/github/authenticating-to-github/displaying-verification-statuses-for-all-of-your-commits).
+Compare
+# Choose a tag to compare
+## Sorry, something went wrong.
+Filter
+Loading
+## Sorry, something went wrong.
+### Uh oh!
+There was an error while loading. [Please reload this page](https://github.com/openclaw/openclaw/releases).
+## No results found
+[View all tags](https://github.com/openclaw/openclaw/tags)
+[openclaw 2026.1.30](https://github.com/openclaw/openclaw/releases/tag/v2026.1.30)
+### Changes
+- CLI: add `completion` command (Zsh/Bash/PowerShell/Fish) and auto-setup during postinstall/onboarding.
+- CLI: add per-agent `models status` (`--agent` filter). ( [#4780](https://github.com/openclaw/openclaw/pull/4780)) Thanks [@jlowin](https://github.com/jlowin).
+- Agents: add Kimi K2.5 to the synthetic model catalog. ( [#4407](https://github.com/openclaw/openclaw/pull/4407)) Thanks [@manikv12](https://github.com/manikv12).
+- Auth: switch Kimi Coding to built-in provider; normalize OAuth profile email.
+- Auth: add MiniMax OAuth plugin + onboarding option. ( [#4521](https://github.com/openclaw/openclaw/pull/4521)) Thanks [@Maosghoul](https://github.com/Maosghoul).
+- Agents: update pi SDK/API usage and dependencies.
+- Web UI: refresh sessions after chat commands and improve session display names.
+- Build: move TypeScript builds to `tsdown` \+ `tsgo` (faster builds, CI typechecks), update tsconfig target, and clean up lint rules.
+- Build: align npm tar override and bin metadata so the `openclaw` CLI entrypoint is preserved in npm publishes.
+- Docs: add pi/pi-dev docs and update OpenClaw branding + install links.
+### Fixes
+- Security: restrict local path extraction in media parser to prevent LFI. ( [#4880](https://github.com/openclaw/openclaw/pull/4880))
+- Gateway: prevent token defaults from becoming the literal "undefined". ( [#4873](https://github.com/openclaw/openclaw/pull/4873)) Thanks [@Hisleren](https://github.com/Hisleren).
+- Control UI: fix assets resolution for npm global installs. ( [#4909](https://github.com/openclaw/openclaw/pull/4909)) Thanks [@YuriNachos](https://github.com/YuriNachos).
+- macOS: avoid stderr pipe backpressure in gateway discovery. ( [#3304](https://github.com/openclaw/openclaw/pull/3304)) Thanks [@abhijeet117](https://github.com/abhijeet117).
+- Telegram: normalize account token lookup for non-normalized IDs. ( [#5055](https://github.com/openclaw/openclaw/pull/5055)) Thanks [@jasonsschin](https://github.com/jasonsschin).
+- Telegram: preserve delivery thread fallback and fix threadId handling in delivery context.
+- Telegram: fix HTML nesting for overlapping styles/links. ( [#4578](https://github.com/openclaw/openclaw/pull/4578)) Thanks [@ThanhNguyxn](https://github.com/ThanhNguyxn).
+- Telegram: accept numeric messageId/chatId in react actions. ( [#4533](https://github.com/openclaw/openclaw/pull/4533)) Thanks [@Ayush10](https://github.com/Ayush10).
+- Telegram: honor per-account proxy dispatcher via undici fetch. ( [#4456](https://github.com/openclaw/openclaw/pull/4456)) Thanks [@spiceoogway](https://github.com/spiceoogway).
+- Telegram: scope skill commands to bound agent per bot. ( [#4360](https://github.com/openclaw/openclaw/pull/4360)) Thanks [@robhparker](https://github.com/robhparker).
+- BlueBubbles: debounce by messageId to preserve attachments in text+image messages. ( [#4984](https://github.com/openclaw/openclaw/pull/4984))
+- Routing: prefer requesterOrigin over stale session entries for sub-agent announce delivery. ( [#4957](https://github.com/openclaw/openclaw/pull/4957))
+- Extensions: restore embedded extension discovery typings.
+- CLI: fix `tui:dev` port resolution.
+- LINE: fix status command TypeError. ( [#4651](https://github.com/openclaw/openclaw/pull/4651))
+- OAuth: skip expired-token warnings when refresh tokens are still valid. ( [#4593](https://github.com/openclaw/openclaw/pull/4593))
+- Build: skip redundant UI install step in Dockerfile. ( [#4584](https://github.com/openclaw/openclaw/pull/4584)) Thanks [@obviyus](https://github.com/obviyus).
+### Contributors
+- [![@jlowin](https://avatars.githubusercontent.com/u/153965?s=64&v=4)](https://github.com/jlowin)
+- [![@jasonsschin](https://avatars.githubusercontent.com/u/1456889?s=64&v=4)](https://github.com/jasonsschin)
+- [![@robhparker](https://avatars.githubusercontent.com/u/7404740?s=64&v=4)](https://github.com/robhparker)
+- [![@Ayush10](https://avatars.githubusercontent.com/u/7945279?s=64&v=4)](https://github.com/Ayush10)
+- [![@YuriNachos](https://avatars.githubusercontent.com/u/19365375?s=64&v=4)](https://github.com/YuriNachos)
+- [![@obviyus](https://avatars.githubusercontent.com/u/22031114?s=64&v=4)](https://github.com/obviyus)
+- [![@Maosghoul](https://avatars.githubusercontent.com/u/38350093?s=64&v=4)](https://github.com/Maosghoul)
+- [![@manikv12](https://avatars.githubusercontent.com/u/49544491?s=64&v=4)](https://github.com/manikv12)
+- [![@ThanhNguyxn](https://avatars.githubusercontent.com/u/74597207?s=64&v=4)](https://github.com/ThanhNguyxn)
+- [![@Hisleren](https://avatars.githubusercontent.com/u/83217244?s=64&v=4)](https://github.com/Hisleren)
+- [![@spiceoogway](https://avatars.githubusercontent.com/u/105812383?s=64&v=4)](https://github.com/spiceoogway)
+- [![@abhijeet117](https://avatars.githubusercontent.com/u/192859219?s=64&v=4)](https://github.com/abhijeet117)
+jlowin, jasonsschin, and 10 other contributors
+Assets4
+Loading
+### Uh oh!
+There was an error while loading. [Please reload this page](https://github.com/openclaw/openclaw/releases).
+MyWay, Sandboxcn, Ethanol-98, pkczc, lailoo, yunnant, jorden2895, grigio, BlixCodec, coder-jeffery, and 204 more reacted with thumbs up emojiEthanol-98, royyanwijaya, BlixCodec, aatmaan1, nopsled, mike1858, mohamedibourki, evenwalser, vixclotet, lin72h, and 16 more reacted with laugh emojiEthanol-98, davideasaf, SijanC147, BlixCodec, aatmaan1, obviyus, nopsled, adamsmaka, ljbudgie, iails01, and 38 more reacted with hooray emojinahkhsinad, adamsmaka, Wionsito, nopsled, jame25, mike1858, benderninakitten69, mohamedibourki, u-leslie, Khullani, and 36 more reacted with heart emojiaaa-Solo, Aceballos19, DontFretBrett, Project516, amir0ff, adamsmaka, mike1858, mohamedibourki, harlley, Khullani, and 12 more reacted with rocket emojiTH33ORACL3, BrHm964, python422, manbuzhe00588, ming1in, Avey777, wecccFK, applex250, kohrar, JianFeiGan, and 2 more reacted with eyes emoji
+All reactions
+- ![+1](https://github.githubassets.com/assets/1f44d-41cb66fe1e22.png)214 reactions
+- ![smile](https://github.githubassets.com/assets/1f604-7528822fb4c5.png)26 reactions
+- ![tada](https://github.githubassets.com/assets/1f389-36899a2cb781.png)48 reactions
+- ![heart](https://github.githubassets.com/assets/2764-982dc91ea48a.png)46 reactions
+- ![rocket](https://github.githubassets.com/assets/1f680-d0ef47fdb515.png)22 reactions
+- ![eyes](https://github.githubassets.com/assets/1f440-ee44e91e92a7.png)12 reactions
+274 people reacted
+## openclaw 2026.1.29
+last week
+30 Jan 05:26
+![@steipete](https://avatars.githubusercontent.com/u/58493?s=40&v=4)[steipete](https://github.com/steipete)
+[v2026.1.29](https://github.com/openclaw/openclaw/tree/v2026.1.29)
+[`77e703c`](https://github.com/openclaw/openclaw/commit/77e703c69b07a236c2f0962bd195e03aae1b8da0)
+Compare
+# Choose a tag to compare
+## Sorry, something went wrong.
+Filter
+Loading
+## Sorry, something went wrong.
+### Uh oh!
+There was an error while loading. [Please reload this page](https://github.com/openclaw/openclaw/releases).
+## No results found
+[View all tags](https://github.com/openclaw/openclaw/tags)
+[openclaw 2026.1.29](https://github.com/openclaw/openclaw/releases/tag/v2026.1.29)
+Status: stable.
+### Changes
+- Rebrand: rename the npm package/CLI to `openclaw`, add a `openclaw` compatibility shim, and move extensions to the `@openclaw/\*` scope.
+- Onboarding: strengthen security warning copy for beta + access control expectations.
+- Onboarding: add Venice API key to non-interactive flow. ( [#1893](https://github.com/openclaw/openclaw/pull/1893)) Thanks [@jonisjongithub](https://github.com/jonisjongithub).
+- Config: auto-migrate legacy state/config paths and keep config resolution consistent across legacy filenames.
+- Gateway: warn on hook tokens via query params; document header auth preference. ( [#2200](https://github.com/openclaw/openclaw/pull/2200)) Thanks [@YuriNachos](https://github.com/YuriNachos).
+- Gateway: add dangerous Control UI device auth bypass flag + audit warnings. ( [#2248](https://github.com/openclaw/openclaw/issues/2248))
+- Doctor: warn on gateway exposure without auth. ( [#2016](https://github.com/openclaw/openclaw/pull/2016)) Thanks [@Alex-Alaniz](https://github.com/Alex-Alaniz).
+- Web UI: keep sub-agent announce replies visible in WebChat. ( [#1977](https://github.com/openclaw/openclaw/pull/1977)) Thanks [@andrescardonas7](https://github.com/andrescardonas7).
+- Browser: route browser control via gateway/node; remove standalone browser control command and control URL config.
+- Browser: route `browser.request` via node proxies when available; honor proxy timeouts; derive browser ports from `gateway.port`.
+- Browser: fall back to URL matching for extension relay target resolution. ( [#1999](https://github.com/openclaw/openclaw/pull/1999)) Thanks [@jonit-dev](https://github.com/jonit-dev).
+- Telegram: allow caption param for media sends. ( [#1888](https://github.com/openclaw/openclaw/pull/1888)) Thanks [@mguellsegarra](https://github.com/mguellsegarra).
+- Telegram: support plugin sendPayload channelData (media/buttons) and validate plugin commands. ( [#1917](https://github.com/openclaw/openclaw/pull/1917)) Thanks [@JoshuaLelon](https://github.com/JoshuaLelon).
+- Telegram: avoid block replies when streaming is disabled. ( [#1885](https://github.com/openclaw/openclaw/pull/1885)) Thanks [@ivancasco](https://github.com/ivancasco).
+- Telegram: add optional silent send flag (disable notifications). ( [#2382](https://github.com/openclaw/openclaw/pull/2382)) Thanks [@Suksham-sharma](https://github.com/Suksham-sharma).
+- Telegram: support editing sent messages via message(action="edit"). ( [#2394](https://github.com/openclaw/openclaw/pull/2394)) Thanks [@marcelomar21](https://github.com/marcelomar21).
+- Telegram: support quote replies for message tool and inbound context. ( [#2900](https://github.com/openclaw/openclaw/pull/2900)) Thanks [@aduk059](https://github.com/aduk059).
+- Telegram: add sticker receive/send with vision caching. ( [#2629](https://github.com/openclaw/openclaw/pull/2629)) Thanks [@longjos](https://github.com/longjos).
+- Telegram: send sticker pixels to vision models. ( [#2650](https://github.com/openclaw/openclaw/pull/2650))
+- Telegram: keep topic IDs in restart sentinel notifications. ( [#1807](https://github.com/openclaw/openclaw/pull/1807)) Thanks [@hsrvc](https://github.com/hsrvc).
+- Discord: add configurable privileged gateway intents for presences/members. ( [#2266](https://github.com/openclaw/openclaw/pull/2266)) Thanks [@kentaro](https://github.com/kentaro).
+- Slack: clear ack reaction after streamed replies. ( [#2044](https://github.com/openclaw/openclaw/pull/2044)) Thanks [@fancyboi999](https://github.com/fancyboi999).
+- Matrix: switch plugin SDK to @vector-im/matrix-bot-sdk.
+- Tlon: format thread reply IDs as [@ud](https://github.com/ud). ( [#1837](https://github.com/openclaw/openclaw/pull/1837)) Thanks [@wca4a](https://github.com/wca4a).
+- Tools: add per-sender group tool policies and fix precedence. ( [#1757](https://github.com/openclaw/openclaw/pull/1757)) Thanks [@adam91holt](https://github.com/adam91holt).
+- Agents: summarize dropped messages during compaction safeguard pruning. ( [#2509](https://github.com/openclaw/openclaw/pull/2509)) Thanks [@jogi47](https://github.com/jogi47).
+- Agents: expand cron tool description with full schema docs. ( [#1988](https://github.com/openclaw/openclaw/pull/1988)) Thanks [@tomascupr](https://github.com/tomascupr).
+- Agents: honor tools.exec.safeBins in exec allowlist checks. ( [#2281](https://github.com/openclaw/openclaw/issues/2281))
+- Memory Search: allow extra paths for memory indexing (ignores symlinks). ( [#3600](https://github.com/openclaw/openclaw/pull/3600)) Thanks [@kira-ariaki](https://github.com/kira-ariaki).
+- Skills: add multi-image input support to Nano Banana Pro skill. ( [#1958](https://github.com/openclaw/openclaw/pull/1958)) Thanks [@tyler6204](https://github.com/tyler6204).
+- Skills: add missing dependency metadata for GitHub, Notion, Slack, Discord. ( [#1995](https://github.com/openclaw/openclaw/pull/1995)) Thanks [@jackheuberger](https://github.com/jackheuberger).
+- Commands: group /help and /commands output with Telegram paging. ( [#2504](https://github.com/openclaw/openclaw/pull/2504)) Thanks [@hougangdev](https://github.com/hougangdev).
+- Routing: add per-account DM session scope and document multi-account isolation. ( [#3095](https://github.com/openclaw/openclaw/pull/3095)) Thanks [@jarvis-sam](https://github.com/jarvis-sam).
+- Routing: precompile session key regexes. ( [#1697](https://github.com/openclaw/openclaw/pull/1697)) Thanks [@Ray0907](https://github.com/Ray0907).
+- CLI: use Node's module compile cache for faster startup. ( [#2808](https://github.com/openclaw/openclaw/pull/2808)) Thanks [@pi0](https://github.com/pi0).
+- Auth: show copyable Google auth URL after ASCII prompt. ( [#1787](https://github.com/openclaw/openclaw/pull/1787)) Thanks [@robbyczgw-cla](https://github.com/robbyczgw-cla).
+- TUI: avoid width overflow when rendering selection lists. ( [#1686](https://github.com/openclaw/openclaw/pull/1686)) Thanks [@mossein](https://github.com/mossein).
+- macOS: finish OpenClaw app rename for macOS sources, bundle identifiers, and shared kit paths. ( [#2844](https://github.com/openclaw/openclaw/pull/2844)) Thanks [@fal3](https://github.com/fal3).
+- Branding: update launchd labels, mobile bundle IDs, and logging subsystems to bot.molt (legacy com.clawdbot migrations). Thanks [@thewilloftheshadow](https://github.com/thewilloftheshadow).
+- macOS: limit project-local `node\_modules/.bin` PATH preference to debug builds (reduce PATH hijacking risk).
+- macOS: keep custom SSH usernames in remote target. ( [#2046](https://github.com/openclaw/openclaw/pull/2046)) Thanks [@algal](https://github.com/algal).
+- macOS: avoid crash when rendering code blocks by bumping Textual to 0.3.1. ( [#2033](https://github.com/openclaw/openclaw/pull/2033)) Thanks [@garricn](https://github.com/garricn).
+- Update: ignore dist/control-ui for dirty checks and restore after ui builds. ( [#1976](https://github.com/openclaw/openclaw/pull/1976)) Thanks [@Glucksberg](https://github.com/Glucksberg).
+- Build: bundle A2UI assets during build and stop tracking generated bundles. ( [#2455](https://github.com/openclaw/openclaw/pull/2455)) Thanks [@0oAstro](https://github.com/0oAstro).
+- CI: increase Node heap size for macOS checks. ( [#1890](https://github.com/openclaw/openclaw/pull/1890)) Thanks [@realZachi](https://github.com/realZachi).
+- Config: apply config.env before ${VAR} substitution. ( [#1813](https://github.com/openclaw/openclaw/pull/1813)) Thanks [@spanishflu-est1918](https://github.com/spanishflu-est1918).
+- Gateway: prefer newest session metadata when combining stores. ( [#1823](https://github.com/openclaw/openclaw/pull/1823)) Thanks [@emanuelst](https://github.com/emanuelst).
+- Docs: tighten Fly private deployment steps. ( [#2289](https://github.com/openclaw/openclaw/pull/2289)) Thanks [@dguido](https://github.com/dguido).
+- Docs: add migration guide for moving to a new machine. ( [#2381](https://github.com/openclaw/openclaw/pull/2381))
+- Docs: add Northflank one-click deployment guide. ( [#2167](https://github.com/openclaw/openclaw/pull/2167)) Thanks [@AdeboyeDN](https://github.com/AdeboyeDN).
+- Docs: add Vercel AI Gateway to providers sidebar. ( [#1901](https://github.com/openclaw/openclaw/pull/1901)) Thanks [@jerilynzheng](https://github.com/jerilynzheng).
+- Docs: add Render deployment guide. ( [#1975](https://github.com/openclaw/openclaw/pull/1975)) Thanks [@anurag](https://github.com/anurag).
+- Docs: add Claude Max API Proxy guide. ( [#1875](https://github.com/openclaw/openclaw/pull/1875)) Thanks [@atalovesyou](https://github.com/atalovesyou).
+- Docs: add DigitalOcean deployment guide. ( [#1870](https://github.com/openclaw/openclaw/pull/1870)) Thanks [@0xJonHoldsCrypto](https://github.com/0xJonHoldsCrypto).
+- Docs: add Oracle Cloud (OCI) platform guide + cross-links. ( [#2333](https://github.com/openclaw/openclaw/pull/2333)) Thanks [@hirefrank](https://github.com/hirefrank).
+- Docs: add Raspberry Pi install guide. ( [#1871](https://github.com/openclaw/openclaw/pull/1871)) Thanks [@0xJonHoldsCrypto](https://github.com/0xJonHoldsCrypto).
+- Docs: add GCP Compute Engine deployment guide. ( [#1848](https://github.com/openclaw/openclaw/pull/1848)) Thanks [@hougangdev](https://github.com/hougangdev).
+- Docs: add LINE channel guide. Thanks [@thewilloftheshadow](https://github.com/thewilloftheshadow).
+- Docs: credit both contributors for Control UI refresh. ( [#1852](https://github.com/openclaw/openclaw/pull/1852)) Thanks [@EnzeD](https://github.com/EnzeD).
+- Docs: keep docs header sticky so navbar stays visible while scrolling. ( [#2445](https://github.com/openclaw/openclaw/pull/2445)) Thanks [@chenyuan99](https://github.com/chenyuan99).
+- Docs: update exe.dev install instructions. ( [#3047](https://github.com/openclaw/openclaw/pull/3047)) Thanks [@zackerthescar](https://github.com/zackerthescar).
+### Breaking
+- \*\*BREAKING:\*\* Gateway auth mode "none" is removed; gateway now requires token/password (Tailscale Serve identity still allowed).
+### Fixes
+- Telegram: avoid silent empty replies by tracking normalization skips before fallback. ( [#3796](https://github.com/openclaw/openclaw/pull/3796))
+- Mentions: honor mentionPatterns even when explicit mentions are present. ( [#3303](https://github.com/openclaw/openclaw/pull/3303)) Thanks [@HirokiKobayashi-R](https://github.com/HirokiKobayashi-R).
+- Discord: restore username directory lookup in target resolution. ( [#3131](https://github.com/openclaw/openclaw/pull/3131)) Thanks [@bonald](https://github.com/bonald).
+- Agents: align MiniMax base URL test expectation with default provider config. ( [#3131](https://github.com/openclaw/openclaw/pull/3131)) Thanks [@bonald](https://github.com/bonald).
+- Agents: prevent retries on oversized image errors and surface size limits. ( [#2871](https://github.com/openclaw/openclaw/pull/2871)) Thanks [@Suksham-sharma](https://github.com/Suksham-sharma).
+- Agents: inherit provider baseUrl/api for inline models. ( [#2740](https://github.com/openclaw/openclaw/pull/2740)) Thanks [@lploc94](https://github.com/lploc94).
+- Memory Search: keep auto provider model defaults and only include remote when configured. ( [#2576](https://github.com/openclaw/openclaw/pull/2576)) Thanks [@papago2355](https://github.com/papago2355).
+- Telegram: include AccountId in native command context for multi-agent routing. ( [#2942](https://github.com/openclaw/openclaw/pull/2942)) Thanks [@Chloe-VP](https://github.com/Chloe-VP).
+- Telegram: handle video note attachments in media extraction. ( [#2905](https://github.com/openclaw/openclaw/pull/2905)) Thanks [@mylukin](https://github.com/mylukin).
+- TTS: read OPENAI\\_TTS\\_BASE\\_URL at runtime instead of module load to honor config.env. ( [#3341](https://github.com/openclaw/openclaw/pull/3341)) Thanks [@hclsys](https://github.com/hclsys).
+- macOS: auto-scroll to bottom when sending a new message while scrolled up. ( [#2471](https://github.com/openclaw/openclaw/pull/2471)) Thanks [@kennyklee](https://github.com/kennyklee).
+- Web UI: auto-expand the chat compose textarea while typing (with sensible max height). ( [#2950](https://github.com/openclaw/openclaw/pull/2950)) Thanks [@shivamraut101](https://github.com/shivamraut101).
+- Gateway: prevent crashes on transient network errors (fetch failures, timeouts, DNS). Added fatal error detection to only exit on truly critical errors. Fixes [#2895](https://github.com/openclaw/openclaw/issues/2895), [#2879](https://github.com/openclaw/openclaw/issues/2879), [#2873](https://github.com/openclaw/openclaw/issues/2873). ( [#2980](https://github.com/openclaw/openclaw/pull/2980)) Thanks [@elliotsecops](https://github.com/elliotsecops).
+- Agents: guard channel tool listActions to avoid plugin crashes. ( [#2859](https://github.com/openclaw/openclaw/pull/2859)) Thanks [@mbelinky](https://github.com/mbelinky).
+- Discord: stop resolveDiscordTarget from passing directory params into messaging target parsers. Fixes [#3167](https://github.com/openclaw/openclaw/issues/3167). Thanks [@thewilloftheshadow](https://github.com/thewilloftheshadow).
+- Discord: avoid resolving bare channel names to user DMs when a username matches. Thanks [@thewilloftheshadow](https://github.com/thewilloftheshadow).
+- Discord: fix directory config type import for target resolution. Thanks [@thewilloftheshadow](https://github.com/thewilloftheshadow).
+- Providers: update MiniMax API endpoint and compatibility mode. ( [#3064](https://github.com/openclaw/openclaw/pull/3064)) Thanks [@hlbbbbbbb](https://github.com/hlbbbbbbb).
+- Telegram: treat more network errors as recoverable in polling. ( [#3013](https://github.com/openclaw/openclaw/pull/3013)) Thanks [@ryancontent](https://github.com/ryancontent).
+- Discord: resolve usernames to user IDs for outbound messages. ( [#2649](https://github.com/openclaw/openclaw/pull/2649)) Thanks [@nonggialiang](https://github.com/nonggialiang).
+- Providers: update Moonshot Kimi model references to kimi-k2.5. ( [#2762](https://github.com/openclaw/openclaw/pull/2762)) Thanks [@MarvinCui](https://github.com/MarvinCui).
+- Gateway: suppress AbortError and transient network errors in unhandled rejections. ( [#2451](https://github.com/openclaw/openclaw/pull/2451)) Thanks [@Glucksberg](https://github.com/Glucksberg).
+- TTS: keep /tts status replies on text-only commands and avoid duplicate block-stream audio. ( [#2451](https://github.com/openclaw/openclaw/pull/2451)) Thanks [@Glucksberg](https://github.com/Glucksberg).
+- Security: pin npm overrides to keep tar@7.5.4 for install toolchains.
+- Security: properly test Windows ACL audit for config includes. ( [#2403](https://github.com/openclaw/openclaw/pull/2403)) Thanks [@dominicnunez](https://github.com/dominicnunez).
+- CLI: recognize versioned Node executables when parsing argv. ( [#2490](https://github.com/openclaw/openclaw/pull/2490)) Thanks [@David-Marsh-Photo](https://github.com/David-Marsh-Photo).
+- CLI: avoid prompting for gateway runtime under the spinner. ( [#2874](https://github.com/openclaw/openclaw/pull/2874))
+- BlueBubbles: coalesce inbound URL link preview messages. ( [#1981](https://github.com/openclaw/openclaw/pull/1981)) Thanks [@tyler6204](https://github.com/tyler6204).
+- Cron: allow payloads containing "heartbeat" in event filter. ( [#2219](https://github.com/openclaw/openclaw/pull/2219)) Thanks [@dwfinkelstein](https://github.com/dwfinkelstein).
+- CLI: avoid loading config for global help/version while registering plugin commands. ( [#2212](https://github.com/openclaw/openclaw/pull/2212)) Thanks [@dial481](https://github.com/dial481).
+- Agents: include memory.md when bootstrapping memory context. ( [#2318](https://github.com/openclaw/openclaw/pull/2318)) Thanks [@czekaj](https://github.com/czekaj).
+- Agents: release session locks on process termination and cover more signals. ( [#2483](https://github.com/openclaw/openclaw/pull/2483)) Thanks [@janeexai](https://github.com/janeexai).
+- Agents: skip cooldowned providers during model failover. ( [#2143](https://github.com/openclaw/openclaw/pull/2143)) Thanks [@YiWang24](https://github.com/YiWang24).
+- Telegram: harden polling + retry behavior for transient network errors and Node 22 transport issues. ( [#2420](https://github.com/openclaw/openclaw/pull/2420)) Thanks [@techboss](https://github.com/techboss).
+- Telegram: ignore non-forum group message\\_thread\\_id while preserving DM thread sessions. ( [#2731](https://github.com/openclaw/openclaw/pull/2731)) Thanks [@dylanneve1](https://github.com/dylanneve1).
+- Telegram: wrap reasoning italics per line to avoid raw underscores. ( [#2181](https://github.com/openclaw/openclaw/pull/2181)) Thanks [@YuriNachos](https://github.com/YuriNachos).
+- Telegram: centralize API error logging for delivery and bot calls. ( [#2492](https://github.com/openclaw/openclaw/pull/2492)) Thanks [@altryne](https://github.com/altryne).
+- Voice Call: enforce Twilio webhook signature verification for ngrok URLs; disable ngrok free tier bypass by default.
+- Security: harden Tailscale Serve auth by validating identity via local tailscaled before trusting headers.
+- Media: fix text attachment MIME misclassification with CSV/TSV inference and UTF-16 detection; add XML attribute escaping for file output. ( [#3628](https://github.com/openclaw/openclaw/pull/3628)) Thanks [@f](https://github.com/f)...
+[Read more](https://github.com/openclaw/openclaw/releases/tag/v2026.1.29)
+### Contributors
+- [![@kentaro](https://avatars.githubusercontent.com/u/3458?s=64&v=4)](https://github.com/kentaro)
+- [![@anurag](https://avatars.githubusercontent.com/u/59905?s=64&v=4)](https://github.com/anurag)
+- [![@hirefrank](https://avatars.githubusercontent.com/u/183158?s=64&v=4)](https://github.com/hirefrank)
+- [![@techboss](https://avatars.githubusercontent.com/u/194266?s=64&v=4)](https://github.com/techboss)
+- [![@algal](https://avatars.githubusercontent.com/u/264412?s=64&v=4)](https://github.com/algal)
+- [![@dguido](https://avatars.githubusercontent.com/u/294844?s=64&v=4)](https://github.com/dguido)
+- [![@ud](https://avatars.githubusercontent.com/u/381775?s=64&v=4)](https://github.com/ud)
+- [![@altryne](https://avatars.githubusercontent.com/u/463317?s=64&v=4)](https://github.com/altryne)
+- [![@longjos](https://avatars.githubusercontent.com/u/740160?s=64&v=4)](https://github.com/longjos)
+- [![@wca4a](https://avatars.githubusercontent.com/u/754697?s=64&v=4)](https://github.com/wca4a)
+- [![@mylukin](https://avatars.githubusercontent.com/u/1021019?s=64&v=4)](https://github.com/mylukin)
+- [![@kennyklee](https://avatars.githubusercontent.com/u/1432489?s=64&v=4)](https://github.com/kennyklee)
+- [![@czekaj](https://avatars.githubusercontent.com/u/1464539?s=64&v=4)](https://github.com/czekaj)
+- [![@jogi47](https://avatars.githubusercontent.com/u/1710139?s=64&v=4)](https://github.com/jogi47)
+- [![@ivancasco](https://avatars.githubusercontent.com/u/2452858?s=64&v=4)](https://github.com/ivancasco)
+- [![@atalovesyou](https://avatars.githubusercontent.com/u/3534502?s=64&v=4)](https://github.com/atalovesyou)
+- [![@frankekn](https://avatars.githubusercontent.com/u/4488090?s=64&v=4)](https://github.com/frankekn)
+- [![@pi0](https://avatars.githubusercontent.com/u/5158436?s=64&v=4)](https://github.com/pi0)
+- [![@mguellsegarra](https://avatars.githubusercontent.com/u/5711443?s=64&v=4)](https://github.com/mguellsegarra)
+- [![@fal3](https://avatars.githubusercontent.com/u/6484295?s=64&v=4)](https://github.com/fal3)
+- [![@orlyjamie](https://avatars.githubusercontent.com/u/6668807?s=64&v=4)](https://github.com/orlyjamie)
+- [![@hclsys](https://avatars.githubusercontent.com/u/7755017?s=64&v=4)](https://github.com/hclsys)
+- [![@jackheuberger](https://avatars.githubusercontent.com/u/7830838?s=64&v=4)](https://github.com/jackheuberger)
+- [![@adam91holt](https://avatars.githubusercontent.com/u/9592417?s=64&v=4)](https://github.com/adam91holt)
+- [![@EnzeD](https://avatars.githubusercontent.com/u/9866900?s=64&v=4)](https://github.com/EnzeD)
+- [![@emanuelst](https://avatars.githubusercontent.com/u/9994339?s=64&v=4)](https://github.com/emanuelst)
+- [![@bonald](https://avatars.githubusercontent.com/u/12394874?s=64&v=4)](https://github.com/bonald)
+- [![@dwfinkelstein](https://avatars.githubusercontent.com/u/13023026?s=64&v=4)](https://github.com/dwfinkelstein)
+- [![@garricn](https://avatars.githubusercontent.com/u/13260696?s=64&v=4)](https://github.com/garricn)
+- [![@nonggialiang](https://avatars.githubusercontent.com/u/14367839?s=64&v=4)](https://github.com/nonggialiang)
+- [![@jerilynzheng](https://avatars.githubusercontent.com/u/15837981?s=64&v=4)](https://github.com/jerilynzheng)
+- [![@YuriNachos](https://avatars.githubusercontent.com/u/19365375?s=64&v=4)](https://github.com/YuriNachos)
+- [![@JoshuaLelon](https://avatars.githubusercontent.com/u/23615754?s=64&v=4)](https://github.com/JoshuaLelon)
+- [![@chenyuan99](https://avatars.githubusercontent.com/u/25518100?s=64&v=4)](https://github.com/chenyuan99)
+- [![@lploc94](https://avatars.githubusercontent.com/u/28453843?s=64&v=4)](https://github.com/lploc94)
+- [![@Ray0907](https://avatars.githubusercontent.com/u/29456968?s=64&v=4)](https://github.com/Ray0907)
+- [![@jonit-dev](https://avatars.githubusercontent.com/u/30300459?s=64&v=4)](https://github.com/jonit-dev)
+- [![@dylanneve1](https://avatars.githubusercontent.com/u/31746704?s=64&v=4)](https://github.com/dylanneve1)
+- [![@smartprogrammer93](https://avatars.githubusercontent.com/u/33181301?s=64&v=4)](https://github.com/smartprogrammer93)
+- [![@thewilloftheshadow](https://avatars.githubusercontent.com/u/35580099?s=64&v=4)](https://github.com/thewilloftheshadow)
+- [![@HirokiKobayashi-R](https://avatars.githubusercontent.com/u/37167840?s=64&v=4)](https://github.com/HirokiKobayashi-R)
+- [![@zackerthescar](https://avatars.githubusercontent.com/u/38077284?s=64&v=4)](https://github.com/zackerthescar)
+- [![@marcelomar21](https://avatars.githubusercontent.com/u/39570728?s=64&v=4)](https://github.com/marcelomar21)
+- [![@ryancontent](https://avatars.githubusercontent.com/u/39743613?s=64&v=4)](https://github.com/ryancontent)
+- [![@dominicnunez](https://avatars.githubusercontent.com/u/43616264?s=64&v=4)](https://github.com/dominicnunez)
+- [![@tyler6204](https://avatars.githubusercontent.com/u/64381258?s=64&v=4)](https://github.com/tyler6204)
+- [![@AdeboyeDN](https://avatars.githubusercontent.com/u/65312338?s=64&v=4)](https://github.com/AdeboyeDN)
+- [![@papago2355](https://avatars.githubusercontent.com/u/68721273?s=64&v=4)](https://github.com/papago2355)
+- [![@mossein](https://avatars.githubusercontent.com/u/71469873?s=64&v=4)](https://github.com/mossein)
+- [![@0oAstro](https://avatars.githubusercontent.com/u/79555780?s=64&v=4)](https://github.com/0oAstro)
+- [![@Glucksberg](https://avatars.githubusercontent.com/u/80581902?s=64&v=4)](https://github.com/Glucksberg)
+- [![@0xJonHoldsCrypto](https://avatars.githubusercontent.com/u/81202085?s=64&v=4)](https://github.com/0xJonHoldsCrypto)
+- [![@jonisjongithub](https://avatars.githubusercontent.com/u/86072337?s=64&v=4)](https://github.com/jonisjongithub)
+- [![@Alex-Alaniz](https://avatars.githubusercontent.com/u/88956822?s=64&v=4)](https://github.com/Alex-Alaniz)
+- [![@Suksham-sharma](https://avatars.githubusercontent.com/u/94667656?s=64&v=4)](https://github.com/Suksham-sharma)
+- [![@hougangdev](https://avatars.githubusercontent.com/u/105773686?s=64&v=4)](https://github.com/hougangdev)
+- [![@realZachi](https://avatars.githubusercontent.com/u/109552121?s=64&v=4)](https://github.com/realZachi)
+- [![@shivamraut101](https://avatars.githubusercontent.com/u/110457469?s=64&v=4)](https://github.com/shivamraut101)
+- [![@andrescardonas7](https://avatars.githubusercontent.com/u/112641884?s=64&v=4)](https://github.com/andrescardonas7)
+- [![@hsrvc](https://avatars.githubusercontent.com/u/129702169?s=64&v=4)](https://github.com/hsrvc)
+- [![@MarvinCui](https://avatars.githubusercontent.com/u/130876763?s=64&v=4)](https://github.com/MarvinCui)
+- [![@mbelinky](https://avatars.githubusercontent.com/u/132747814?s=64&v=4)](https://github.com/mbelinky)
+- [![@fancyboi999](https://avatars.githubusercontent.com/u/135568692?s=64&v=4)](https://github.com/fancyboi999)
+- [![@elliotsecops](https://avatars.githubusercontent.com/u/141947839?s=64&v=4)](https://github.com/elliotsecops)
+- [![@YiWang24](https://avatars.githubusercontent.com/u/176262341?s=64&v=4)](https://github.com/YiWang24)
+- [![@mertcicekci0](https://avatars.githubusercontent.com/u/179321902?s=64&v=4)](https://github.com/mertcicekci0)
+- [![@hlbbbbbbb](https://avatars.githubusercontent.com/u/190676713?s=64&v=4)](https://github.com/hlbbbbbbb)
+- [![@tomascupr](https://avatars.githubusercontent.com/u/201650992?s=64&v=4)](https://github.com/tomascupr)
+- [![@David-Marsh-Photo](https://avatars.githubusercontent.com/u/228404527?s=64&v=4)](https://github.com/David-Marsh-Photo)
+- [![@robbyczgw-cla](https://avatars.githubusercontent.com/u/239660374?s=64&v=4)](https://github.com/robbyczgw-cla)
+- [![@spanishflu-est1918](https://avatars.githubusercontent.com/u/247770564?s=64&v=4)](https://github.com/spanishflu-est1918)
+- [![@dial481](https://avatars.githubusercontent.com/u/248182468?s=64&v=4)](https://github.com/dial481)
+- [![@jarvis-sam](https://avatars.githubusercontent.com/u/257208152?s=64&v=4)](https://github.com/jarvis-sam)
+- [![@kira-ariaki](https://avatars.githubusercontent.com/u/257352493?s=64&v=4)](https://github.com/kira-ariaki)
+- [![@Chloe-VP](https://avatars.githubusercontent.com/u/257371598?s=64&v=4)](https://github.com/Chloe-VP)
+- [![@janeexai](https://avatars.githubusercontent.com/u/257378335?s=64&v=4)](https://github.com/janeexai)
+- [![@aduk059](https://avatars.githubusercontent.com/u/257603478?s=64&v=4)](https://github.com/aduk059)
+kentaro, anurag, and 75 other contributors
+Assets5
+Loading
+### Uh oh!
+There was an error while loading. [Please reload this page](https://github.com/openclaw/openclaw/releases).
+Felitendo, real-jiakai, sushilk1991, Hamjoon, standzzen, F-fengzi, mesutde, Er3mit4, yosebyte, mooleetzi, and 176 more reacted with thumbs up emojilin72h, maninhill, Morris-Zin, meowtech, muhamadgalihsaputra, Xiao-Taner, binbjz, wasinc, rohitg00, AdeboyeDN, and 17 more reacted with laugh emojiFelitendo, sushilk1991, iamgideonidoko, huangxida, davideasaf, maxkatzmann, yhfwww, F-fengzi, gitcoder27, Stewart86, and 68 more reacted with hooray emojiFelitendo, SohelKabir, jame25, bullet-ant, dokterdok, Eskyee, oorischubert, yosebyte, hashmil, maninhill, and 55 more reacted with heart emojiMarriotZ, lin72h, Sylphy-0xd3ac, binbjz, wasinc, rohitg00, cravenceiling, HectorOrtizn, NssGourav, Cicada3306, and 22 more reacted with rocket emojikohrar, maninhill, Morris-Zin, Chris1135, Shackbear, OnlyTL, binbjz, wasinc, 2670044605, NssGourav, and 9 more reacted with eyes emoji
+All reactions
+- ![+1](https://github.githubassets.com/assets/1f44d-41cb66fe1e22.png)186 reactions
+- ![smile](https://github.githubassets.com/assets/1f604-7528822fb4c5.png)27 reactions
+- ![tada](https://github.githubassets.com/assets/1f389-36899a2cb781.png)78 reactions
+- ![heart](https://github.githubassets.com/assets/2764-982dc91ea48a.png)65 reactions
+- ![rocket](https://github.githubassets.com/assets/1f680-d0ef47fdb515.png)32 reactions
+- ![eyes](https://github.githubassets.com/assets/1f440-ee44e91e92a7.png)19 reactions
+278 people reacted
+## Clawdbot 2026.1.24
+2 weeks ago
+25 Jan 14:29
+![@steipete](https://avatars.githubusercontent.com/u/58493?s=40&v=4)[steipete](https://github.com/steipete)
+[v2026.1.24](https://github.com/openclaw/openclaw/tree/v2026.1.24)
+[`bcedeb4`](https://github.com/openclaw/openclaw/commit/bcedeb4e1f620a50b6e99f1e2b25cc692f0d7bab)
+Compare
+# Choose a tag to compare
+## Sorry, something went wrong.
+Filter
+Loading
+## Sorry, something went wrong.
+### Uh oh!
+There was an error while loading. [Please reload this page](https://github.com/openclaw/openclaw/releases).
+## No results found
+[View all tags](https://github.com/openclaw/openclaw/tags)
+[Clawdbot 2026.1.24](https://github.com/openclaw/openclaw/releases/tag/v2026.1.24)
+## 2026.1.24
+### Highlights
+- Providers: Ollama discovery + docs; Venice guide upgrades + cross-links. ( [#1606](https://github.com/openclaw/openclaw/pull/1606)) Thanks [@abhaymundhara](https://github.com/abhaymundhara). [https://docs.clawd.bot/providers/ollama](https://docs.clawd.bot/providers/ollama) [https://docs.clawd.bot/providers/venice](https://docs.clawd.bot/providers/venice)
+- Channels: LINE plugin (Messaging API) with rich replies + quick replies. ( [#1630](https://github.com/openclaw/openclaw/pull/1630)) Thanks [@plum-dawg](https://github.com/plum-dawg).
+- TTS: Edge fallback (keyless) + `/tts` auto modes. ( [#1668](https://github.com/openclaw/openclaw/pull/1668), [#1667](https://github.com/openclaw/openclaw/pull/1667)) Thanks [@steipete](https://github.com/steipete), [@sebslight](https://github.com/sebslight). [https://docs.clawd.bot/tts](https://docs.clawd.bot/tts)
+- Exec approvals: approve in-chat via `/approve` across all channels (including plugins). ( [#1621](https://github.com/openclaw/openclaw/pull/1621)) Thanks [@czekaj](https://github.com/czekaj). [https://docs.clawd.bot/tools/exec-approvals](https://docs.clawd.bot/tools/exec-approvals) [https://docs.clawd.bot/tools/slash-commands](https://docs.clawd.bot/tools/slash-commands)
+- Telegram: DM topics as separate sessions + outbound link preview toggle. ( [#1597](https://github.com/openclaw/openclaw/pull/1597), [#1700](https://github.com/openclaw/openclaw/pull/1700)) Thanks [@rohannagpal](https://github.com/rohannagpal), [@zerone0x](https://github.com/zerone0x). [https://docs.clawd.bot/channels/telegram](https://docs.clawd.bot/channels/telegram)
+### Changes
+- Channels: add LINE plugin (Messaging API) with rich replies, quick replies, and plugin HTTP registry. ( [#1630](https://github.com/openclaw/openclaw/pull/1630)) Thanks [@plum-dawg](https://github.com/plum-dawg).
+- TTS: add Edge TTS provider fallback, defaulting to keyless Edge with MP3 retry on format failures. ( [#1668](https://github.com/openclaw/openclaw/pull/1668)) Thanks [@steipete](https://github.com/steipete). [https://docs.clawd.bot/tts](https://docs.clawd.bot/tts)
+- TTS: add auto mode enum (off/always/inbound/tagged) with per-session `/tts` override. ( [#1667](https://github.com/openclaw/openclaw/pull/1667)) Thanks [@sebslight](https://github.com/sebslight). [https://docs.clawd.bot/tts](https://docs.clawd.bot/tts)
+- Telegram: treat DM topics as separate sessions and keep DM history limits stable with thread suffixes. ( [#1597](https://github.com/openclaw/openclaw/pull/1597)) Thanks [@rohannagpal](https://github.com/rohannagpal).
+- Telegram: add `channels.telegram.linkPreview` to toggle outbound link previews. ( [#1700](https://github.com/openclaw/openclaw/pull/1700)) Thanks [@zerone0x](https://github.com/zerone0x). [https://docs.clawd.bot/channels/telegram](https://docs.clawd.bot/channels/telegram)
+- Web search: add Brave freshness filter parameter for time-scoped results. ( [#1688](https://github.com/openclaw/openclaw/pull/1688)) Thanks [@JonUleis](https://github.com/JonUleis). [https://docs.clawd.bot/tools/web](https://docs.clawd.bot/tools/web)
+- UI: refresh Control UI dashboard design system (typography, colors, spacing). ( [#1786](https://github.com/openclaw/openclaw/pull/1786)) Thanks [@mousberg](https://github.com/mousberg).
+- Exec approvals: forward approval prompts to chat with `/approve` for all channels (including plugins). ( [#1621](https://github.com/openclaw/openclaw/pull/1621)) Thanks [@czekaj](https://github.com/czekaj). [https://docs.clawd.bot/tools/exec-approvals](https://docs.clawd.bot/tools/exec-approvals) [https://docs.clawd.bot/tools/slash-commands](https://docs.clawd.bot/tools/slash-commands)
+- Gateway: expose config.patch in the gateway tool with safe partial updates + restart sentinel. ( [#1653](https://github.com/openclaw/openclaw/pull/1653)) Thanks [@Glucksberg](https://github.com/Glucksberg).
+- Diagnostics: add diagnostic flags for targeted debug logs (config + env override). [https://docs.clawd.bot/diagnostics/flags](https://docs.clawd.bot/diagnostics/flags)
+- Docs: expand FAQ (migration, scheduling, concurrency, model recommendations, OpenAI subscription auth, Pi sizing, hackable install, docs SSL workaround).
+- Docs: add verbose installer troubleshooting guidance.
+- Docs: add macOS VM guide with local/hosted options + VPS/nodes guidance. ( [#1693](https://github.com/openclaw/openclaw/pull/1693)) Thanks [@f-trycua](https://github.com/f-trycua).
+- Docs: add Bedrock EC2 instance role setup + IAM steps. ( [#1625](https://github.com/openclaw/openclaw/pull/1625)) Thanks [@sergical](https://github.com/sergical). [https://docs.clawd.bot/bedrock](https://docs.clawd.bot/bedrock)
+- Docs: update Fly.io guide notes.
+- Dev: add prek pre-commit hooks + dependabot config for weekly updates. ( [#1720](https://github.com/openclaw/openclaw/pull/1720)) Thanks [@dguido](https://github.com/dguido).
+### Fixes
+- Web UI: fix config/debug layout overflow, scrolling, and code block sizing. ( [#1715](https://github.com/openclaw/openclaw/pull/1715)) Thanks [@saipreetham589](https://github.com/saipreetham589).
+- Web UI: show Stop button during active runs, swap back to New session when idle. ( [#1664](https://github.com/openclaw/openclaw/issues/1664)) Thanks [@ndbroadbent](https://github.com/ndbroadbent).
+- Web UI: clear stale disconnect banners on reconnect; allow form saves with unsupported schema paths but block missing schema. ( [#1707](https://github.com/openclaw/openclaw/pull/1707)) Thanks [@Glucksberg](https://github.com/Glucksberg).
+- Web UI: hide internal `message\_id` hints in chat bubbles.
+- Gateway: allow Control UI token-only auth to skip device pairing even when device identity is present (`gateway.controlUi.allowInsecureAuth`). ( [#1679](https://github.com/openclaw/openclaw/issues/1679)) Thanks [@steipete](https://github.com/steipete).
+- Matrix: decrypt E2EE media attachments with preflight size guard. ( [#1744](https://github.com/openclaw/openclaw/pull/1744)) Thanks [@araa47](https://github.com/araa47).
+- BlueBubbles: route phone-number targets to DMs, avoid leaking routing IDs, and auto-create missing DMs (Private API required). ( [#1751](https://github.com/openclaw/openclaw/pull/1751)) Thanks [@tyler6204](https://github.com/tyler6204). [https://docs.clawd.bot/channels/bluebubbles](https://docs.clawd.bot/channels/bluebubbles)
+- BlueBubbles: keep part-index GUIDs in reply tags when short IDs are missing.
+- iMessage: normalize chat\\_id/chat\\_guid/chat\\_identifier prefixes case-insensitively and keep service-prefixed handles stable. ( [#1708](https://github.com/openclaw/openclaw/pull/1708)) Thanks [@aaronn](https://github.com/aaronn).
+- Signal: repair reaction sends (group/UUID targets + CLI author flags). ( [#1651](https://github.com/openclaw/openclaw/pull/1651)) Thanks [@vilkasdev](https://github.com/vilkasdev).
+- Signal: add configurable signal-cli startup timeout + external daemon mode docs. ( [#1677](https://github.com/openclaw/openclaw/issues/1677)) [https://docs.clawd.bot/channels/signal](https://docs.clawd.bot/channels/signal)
+- Telegram: set fetch duplex="half" for uploads on Node 22 to avoid sendPhoto failures. ( [#1684](https://github.com/openclaw/openclaw/issues/1684)) Thanks [@commdata2338](https://github.com/commdata2338).
+- Telegram: use wrapped fetch for long-polling on Node to normalize AbortSignal handling. ( [#1639](https://github.com/openclaw/openclaw/issues/1639))
+- Telegram: honor per-account proxy for outbound API calls. ( [#1774](https://github.com/openclaw/openclaw/pull/1774)) Thanks [@radek-paclt](https://github.com/radek-paclt).
+- Telegram: fall back to text when voice notes are blocked by privacy settings. ( [#1725](https://github.com/openclaw/openclaw/pull/1725)) Thanks [@foeken](https://github.com/foeken).
+- Voice Call: return stream TwiML for outbound conversation calls on initial Twilio webhook. ( [#1634](https://github.com/openclaw/openclaw/issues/1634))
+- Voice Call: serialize Twilio TTS playback and cancel on barge-in to prevent overlap. ( [#1713](https://github.com/openclaw/openclaw/pull/1713)) Thanks [@dguido](https://github.com/dguido).
+- Google Chat: tighten email allowlist matching, typing cleanup, media caps, and onboarding/docs/tests. ( [#1635](https://github.com/openclaw/openclaw/pull/1635)) Thanks [@iHildy](https://github.com/iHildy).
+- Google Chat: normalize space targets without double `spaces/` prefix.
+- Agents: auto-compact on context overflow prompt errors before failing. ( [#1627](https://github.com/openclaw/openclaw/pull/1627)) Thanks [@rodrigouroz](https://github.com/rodrigouroz).
+- Agents: use the active auth profile for auto-compaction recovery.
+- Media understanding: skip image understanding when the primary model already supports vision. ( [#1747](https://github.com/openclaw/openclaw/pull/1747)) Thanks [@tyler6204](https://github.com/tyler6204).
+- Models: default missing custom provider fields so minimal configs are accepted.
+- Messaging: keep newline chunking safe for fenced markdown blocks across channels.
+- Messaging: treat newline chunking as paragraph-aware (blank-line splits) to keep lists and headings together. ( [#1726](https://github.com/openclaw/openclaw/pull/1726)) Thanks [@tyler6204](https://github.com/tyler6204).
+- TUI: reload history after gateway reconnect to restore session state. ( [#1663](https://github.com/openclaw/openclaw/issues/1663))
+- Heartbeat: normalize target identifiers for consistent routing.
+- Exec: keep approvals for elevated ask unless full mode. ( [#1616](https://github.com/openclaw/openclaw/pull/1616)) Thanks [@ivancasco](https://github.com/ivancasco).
+- Exec: treat Windows platform labels as Windows for node shell selection. ( [#1760](https://github.com/openclaw/openclaw/pull/1760)) Thanks [@ymat19](https://github.com/ymat19).
+- Gateway: include inline config env vars in service install environments. ( [#1735](https://github.com/openclaw/openclaw/pull/1735)) Thanks [@Seredeep](https://github.com/Seredeep).
+- Gateway: skip Tailscale DNS probing when tailscale.mode is off. ( [#1671](https://github.com/openclaw/openclaw/issues/1671))
+- Gateway: reduce log noise for late invokes + remote node probes; debounce skills refresh. ( [#1607](https://github.com/openclaw/openclaw/pull/1607)) Thanks [@petter-b](https://github.com/petter-b).
+- Gateway: clarify Control UI/WebChat auth error hints for missing tokens. ( [#1690](https://github.com/openclaw/openclaw/issues/1690))
+- Gateway: listen on IPv6 loopback when bound to 127.0.0.1 so localhost webhooks work.
+- Gateway: store lock files in the temp directory to avoid stale locks on persistent volumes. ( [#1676](https://github.com/openclaw/openclaw/issues/1676))
+- macOS: default direct-transport `ws://` URLs to port 18789; document `gateway.remote.transport`. ( [#1603](https://github.com/openclaw/openclaw/pull/1603)) Thanks [@ngutman](https://github.com/ngutman).
+- Tests: cap Vitest workers on CI macOS to reduce timeouts. ( [#1597](https://github.com/openclaw/openclaw/pull/1597)) Thanks [@rohannagpal](https://github.com/rohannagpal).
+- Tests: avoid fake-timer dependency in embedded runner stream mock to reduce CI flakes. ( [#1597](https://github.com/openclaw/openclaw/pull/1597)) Thanks [@rohannagpal](https://github.com/rohannagpal).
+- Tests: increase embedded runner ordering test timeout to reduce CI flakes. ( [#1597](https://github.com/openclaw/openclaw/pull/1597)) Thanks [@rohannagpal](https://github.com/rohannagpal).
+### Contributors
+- [![@foeken](https://avatars.githubusercontent.com/u/13864?s=64&v=4)](https://github.com/foeken)
+- [![@steipete](https://avatars.githubusercontent.com/u/58493?s=64&v=4)](https://github.com/steipete)
+- [![@ndbroadbent](https://avatars.githubusercontent.com/u/139536?s=64&v=4)](https://github.com/ndbroadbent)
+- [![@dguido](https://avatars.githubusercontent.com/u/294844?s=64&v=4)](https://github.com/dguido)
+- [![@rodrigouroz](https://avatars.githubusercontent.com/u/384037?s=64&v=4)](https://github.com/rodrigouroz)
+- [![@czekaj](https://avatars.githubusercontent.com/u/1464539?s=64&v=4)](https://github.com/czekaj)
+- [![@ngutman](https://avatars.githubusercontent.com/u/1540134?s=64&v=4)](https://github.com/ngutman)
+- [![@aaronn](https://avatars.githubusercontent.com/u/1653630?s=64&v=4)](https://github.com/aaronn)
+- [![@ivancasco](https://avatars.githubusercontent.com/u/2452858?s=64&v=4)](https://github.com/ivancasco)
+- [![@sergical](https://avatars.githubusercontent.com/u/3760543?s=64&v=4)](https://github.com/sergical)
+- [![@rohannagpal](https://avatars.githubusercontent.com/u/4009239?s=64&v=4)](https://github.com/rohannagpal)
+- [![@plum-dawg](https://avatars.githubusercontent.com/u/5909950?s=64&v=4)](https://github.com/plum-dawg)
+- [![@JonUleis](https://avatars.githubusercontent.com/u/7644941?s=64&v=4)](https://github.com/JonUleis)
+- [![@sebslight](https://avatars.githubusercontent.com/u/19554889?s=64&v=4)](https://github.com/sebslight)
+- [![@araa47](https://avatars.githubusercontent.com/u/22760261?s=64&v=4)](https://github.com/araa47)
+- [![@Seredeep](https://avatars.githubusercontent.com/u/22802816?s=64&v=4)](https://github.com/Seredeep)
+- [![@iHildy](https://avatars.githubusercontent.com/u/25069719?s=64&v=4)](https://github.com/iHildy)
+- [![@zerone0x](https://avatars.githubusercontent.com/u/39543393?s=64&v=4)](https://github.com/zerone0x)
+- [![@ymat19](https://avatars.githubusercontent.com/u/45934497?s=64&v=4)](https://github.com/ymat19)
+- [![@radek-paclt](https://avatars.githubusercontent.com/u/50451445?s=64&v=4)](https://github.com/radek-paclt)
+- [![@mousberg](https://avatars.githubusercontent.com/u/57605064?s=64&v=4)](https://github.com/mousberg)
+- [![@saipreetham589](https://avatars.githubusercontent.com/u/60770590?s=64&v=4)](https://github.com/saipreetham589)
+- [![@petter-b](https://avatars.githubusercontent.com/u/62076402?s=64&v=4)](https://github.com/petter-b)
+- [![@abhaymundhara](https://avatars.githubusercontent.com/u/62872231?s=64&v=4)](https://github.com/abhaymundhara)
+- [![@tyler6204](https://avatars.githubusercontent.com/u/64381258?s=64&v=4)](https://github.com/tyler6204)
+- [![@Glucksberg](https://avatars.githubusercontent.com/u/80581902?s=64&v=4)](https://github.com/Glucksberg)
+- [![@vilkasdev](https://avatars.githubusercontent.com/u/126368201?s=64&v=4)](https://github.com/vilkasdev)
+- [![@f-trycua](https://avatars.githubusercontent.com/u/195596869?s=64&v=4)](https://github.com/f-trycua)
+- [![@commdata2338](https://avatars.githubusercontent.com/u/199849969?s=64&v=4)](https://github.com/commdata2338)
+foeken, steipete, and 27 other contributors
+Assets2
+Loading
+### Uh oh!
+There was an error while loading. [Please reload this page](https://github.com/openclaw/openclaw/releases).
+pardnchiu, turtleqiu, R4v3Njr, rafaelreis-r, ceno, kojikuni, jonathanarbely, danielkoller, thiagoghisi, jpatt0n, and 254 more reacted with thumbs up emojiAmritkumarchanchal, poku-e, SStakss, euclidesdry-tripee, mosjin, Wagner85, webgurucan, and mike1858 reacted with laugh emojiabdhilabs, jpatt0n, S81Q, Wionsito, ivaavimusic, BrunoQuagliata1, TimCakir, TobyGE, napalmdev, lxdgrgames-a11y, and 43 more reacted with hooray emojigeonneitor, carlos-santos-anchor, officialbrandonsandoval-source, zidanegimiga, youhe327-dev, iBenP24, seetinc10, saneudemon, ElPinguino99, EVasiloudes, and 21 more reacted with heart emojijpatt0n, abhaymundhara, zawpaingygnps2025-rgb, BrunoQuagliata1, TimCakir, foeken, daventhedude, TobyGE, napalmdev, lxdgrgames-a11y, and 38 more reacted with rocket emojiqwtjyw, Tom-Neverwinter, egantz, phmprojetos, joeynyc, tasddc1226, anuragco, rucker122, officialbrandonsandoval-source, youhe327-dev, and 19 more reacted with eyes emoji
+All reactions
+- ![+1](https://github.githubassets.com/assets/1f44d-41cb66fe1e22.png)264 reactions
+- ![smile](https://github.githubassets.com/assets/1f604-7528822fb4c5.png)8 reactions
+- ![tada](https://github.githubassets.com/assets/1f389-36899a2cb781.png)53 reactions
+- ![heart](https://github.githubassets.com/assets/2764-982dc91ea48a.png)31 reactions
+- ![rocket](https://github.githubassets.com/assets/1f680-d0ef47fdb515.png)48 reactions
+- ![eyes](https://github.githubassets.com/assets/1f440-ee44e91e92a7.png)29 reactions
+321 people reacted
+## Clawdbot 2026.1.23
+2 weeks ago
+24 Jan 13:04
+![@steipete](https://avatars.githubusercontent.com/u/58493?s=40&v=4)[steipete](https://github.com/steipete)
+[v2026.1.23](https://github.com/openclaw/openclaw/tree/v2026.1.23)
+[`c9e9837`](https://github.com/openclaw/openclaw/commit/c9e98376b3e5d3a2f3a1639be53bd850f6d3acbf)
+Compare
+# Choose a tag to compare
+## Sorry, something went wrong.
+Filter
+Loading
+## Sorry, something went wrong.
+### Uh oh!
+There was an error while loading. [Please reload this page](https://github.com/openclaw/openclaw/releases).
+## No results found
+[View all tags](https://github.com/openclaw/openclaw/tags)
+[Clawdbot 2026.1.23](https://github.com/openclaw/openclaw/releases/tag/v2026.1.23)
+## 2026.1.23
+### Highlights
+- TTS: move Telegram TTS into core + enable model-driven TTS tags by default for expressive audio replies. ( [#1559](https://github.com/openclaw/openclaw/pull/1559)) Thanks [@Glucksberg](https://github.com/Glucksberg). [https://docs.clawd.bot/tts](https://docs.clawd.bot/tts)
+- Gateway: add `/tools/invoke` HTTP endpoint for direct tool calls (auth + tool policy enforced). ( [#1575](https://github.com/openclaw/openclaw/pull/1575)) Thanks [@vignesh07](https://github.com/vignesh07). [https://docs.clawd.bot/gateway/tools-invoke-http-api](https://docs.clawd.bot/gateway/tools-invoke-http-api)
+- Heartbeat: per-channel visibility controls (OK/alerts/indicator). ( [#1452](https://github.com/openclaw/openclaw/pull/1452)) Thanks [@dlauer](https://github.com/dlauer). [https://docs.clawd.bot/gateway/heartbeat](https://docs.clawd.bot/gateway/heartbeat)
+- Deploy: add Fly.io deployment support + guide. ( [#1570](https://github.com/openclaw/openclaw/pull/1570)) [https://docs.clawd.bot/platforms/fly](https://docs.clawd.bot/platforms/fly)
+- Channels: add Tlon/Urbit channel plugin (DMs, group mentions, thread replies). ( [#1544](https://github.com/openclaw/openclaw/pull/1544)) Thanks [@wca4a](https://github.com/wca4a). [https://docs.clawd.bot/channels/tlon](https://docs.clawd.bot/channels/tlon)
+### Changes
+- Channels: allow per-group tool allow/deny policies across built-in + plugin channels. ( [#1546](https://github.com/openclaw/openclaw/issues/1546)) Thanks [@adam91holt](https://github.com/adam91holt). [https://docs.clawd.bot/multi-agent-sandbox-tools](https://docs.clawd.bot/multi-agent-sandbox-tools)
+- Agents: add Bedrock auto-discovery defaults + config overrides. ( [#1553](https://github.com/openclaw/openclaw/pull/1553)) Thanks [@fal3](https://github.com/fal3). [https://docs.clawd.bot/bedrock](https://docs.clawd.bot/bedrock)
+- CLI: add `clawdbot system` for system events + heartbeat controls; remove standalone `wake`. (commit [`7120382`](https://github.com/openclaw/openclaw/commit/71203829d8596db03cc857d5cbea43f828787fe6)) [https://docs.clawd.bot/cli/system](https://docs.clawd.bot/cli/system)
+- CLI: add live auth probes to `clawdbot models status` for per-profile verification. (commit [`40181af`](https://github.com/openclaw/openclaw/commit/40181afdedb04ce05f9d28d0a34440e810e8c07e)) [https://docs.clawd.bot/cli/models](https://docs.clawd.bot/cli/models)
+- CLI: restart the gateway by default after `clawdbot update`; add `--no-restart` to skip it. (commit [`2c85b1b`](https://github.com/openclaw/openclaw/commit/2c85b1b40945b9676f0b22d76abe4857f58d54c1))
+- Browser: add node-host proxy auto-routing for remote gateways (configurable per gateway/node). (commit [`c3cb26f`](https://github.com/openclaw/openclaw/commit/c3cb26f7ca933937e9675634041c74492dbc0749))
+- Plugins: add optional `llm-task` JSON-only tool for workflows. ( [#1498](https://github.com/openclaw/openclaw/pull/1498)) Thanks [@vignesh07](https://github.com/vignesh07). [https://docs.clawd.bot/tools/llm-task](https://docs.clawd.bot/tools/llm-task)
+- Markdown: add per-channel table conversion (bullets for Signal/WhatsApp, code blocks elsewhere). ( [#1495](https://github.com/openclaw/openclaw/pull/1495)) Thanks [@odysseus0](https://github.com/odysseus0).
+- Agents: keep system prompt time zone-only and move current time to `session\_status` for better cache hits. (commit [`66eec29`](https://github.com/openclaw/openclaw/commit/66eec295b894bce8333886cfbca3b960c57c4946))
+- Agents: remove redundant bash tool alias from tool registration/display. ( [#1571](https://github.com/openclaw/openclaw/pull/1571)) Thanks [@Takhoffman](https://github.com/Takhoffman).
+- Docs: add cron vs heartbeat decision guide (with Lobster workflow notes). ( [#1533](https://github.com/openclaw/openclaw/pull/1533)) Thanks [@JustYannicc](https://github.com/JustYannicc). [https://docs.clawd.bot/automation/cron-vs-heartbeat](https://docs.clawd.bot/automation/cron-vs-heartbeat)
+- Docs: clarify HEARTBEAT.md empty file skips heartbeats, missing file still runs. ( [#1535](https://github.com/openclaw/openclaw/pull/1535)) Thanks [@JustYannicc](https://github.com/JustYannicc). [https://docs.clawd.bot/gateway/heartbeat](https://docs.clawd.bot/gateway/heartbeat)
+### Fixes
+- Sessions: accept non-UUID sessionIds for history/send/status while preserving agent scoping. ( [#1518](https://github.com/openclaw/openclaw/issues/1518))
+- Messaging/Sessions: mirror outbound sends into target session keys (threads + dmScope), create session entries on send, and normalize session key casing. ( [#1520](https://github.com/openclaw/openclaw/issues/1520), commit [`4b6cdd1`](https://github.com/openclaw/openclaw/commit/4b6cdd1d3cb5e8f96c418e366e553185daeb5b0e))
+- Sessions: reject array-backed session stores to prevent silent wipes. ( [#1469](https://github.com/openclaw/openclaw/issues/1469))
+- Gateway: compare Linux process start time to avoid PID recycling lock loops; keep locks unless stale. ( [#1572](https://github.com/openclaw/openclaw/pull/1572)) Thanks [@steipete](https://github.com/steipete).
+- Gateway: accept null optional fields in exec approval requests. ( [#1511](https://github.com/openclaw/openclaw/pull/1511)) Thanks [@pvoo](https://github.com/pvoo).
+- Exec approvals: persist allowlist entry ids to keep macOS allowlist rows stable. ( [#1521](https://github.com/openclaw/openclaw/pull/1521)) Thanks [@ngutman](https://github.com/ngutman).
+- Exec: honor tools.exec ask/security defaults for elevated approvals (avoid unwanted prompts). (commit [`5662a9c`](https://github.com/openclaw/openclaw/commit/5662a9cdfc2b6dcbec04242e7c6a2dd948b0a246))
+- Daemon: use platform PATH delimiters when building minimal service paths. (commit [`a4e57d3`](https://github.com/openclaw/openclaw/commit/a4e57d3ac477f1d79efbd22d677bafc5eaaab053))
+- Linux: include env-configured user bin roots in systemd PATH and align PATH audits. ( [#1512](https://github.com/openclaw/openclaw/pull/1512)) Thanks [@robbyczgw-cla](https://github.com/robbyczgw-cla).
+- Tailscale: retry serve/funnel with sudo only for permission errors and keep original failure details. ( [#1551](https://github.com/openclaw/openclaw/pull/1551)) Thanks [@sweepies](https://github.com/sweepies).
+- Docker: update gateway command in docker-compose and Hetzner guide. ( [#1514](https://github.com/openclaw/openclaw/issues/1514))
+- Agents: show tool error fallback when the last assistant turn only invoked tools (prevents silent stops). (commit [`8ea8801`](https://github.com/openclaw/openclaw/commit/8ea8801d06ea9494e765f82c7c96166dedfa96e0))
+- Agents: ignore IDENTITY.md template placeholders when parsing identity. ( [#1556](https://github.com/openclaw/openclaw/issues/1556))
+- Agents: drop orphaned OpenAI Responses reasoning blocks on model switches. ( [#1562](https://github.com/openclaw/openclaw/pull/1562)) Thanks [@roshanasingh4](https://github.com/roshanasingh4).
+- Agents: add CLI log hint to "agent failed before reply" messages. ( [#1550](https://github.com/openclaw/openclaw/pull/1550)) Thanks [@sweepies](https://github.com/sweepies).
+- Agents: warn and ignore tool allowlists that only reference unknown or unloaded plugin tools. ( [#1566](https://github.com/openclaw/openclaw/issues/1566))
+- Agents: treat plugin-only tool allowlists as opt-ins; keep core tools enabled. ( [#1467](https://github.com/openclaw/openclaw/issues/1467))
+- Agents: honor enqueue overrides for embedded runs to avoid queue deadlocks in tests. (commit [`0840029`](https://github.com/openclaw/openclaw/commit/08400299821668658821acda58eaabe9a43a30c5))
+- Slack: honor open groupPolicy for unlisted channels in message + slash gating. ( [#1563](https://github.com/openclaw/openclaw/pull/1563)) Thanks [@itsjaydesu](https://github.com/itsjaydesu).
+- Discord: limit autoThread mention bypass to bot-owned threads; keep ack reactions mention-gated. ( [#1511](https://github.com/openclaw/openclaw/pull/1511)) Thanks [@pvoo](https://github.com/pvoo).
+- Discord: retry rate-limited allowlist resolution + command deploy to avoid gateway crashes. (commit [`f70ac0c`](https://github.com/openclaw/openclaw/commit/f70ac0c7c239a9f9732685a75586cdd01084960a))
+- Mentions: ignore mentionPattern matches when another explicit mention is present in group chats (Slack/Discord/Telegram/WhatsApp). (commit [`d905ca0`](https://github.com/openclaw/openclaw/commit/d905ca0e02fc804148fd77dccbf3b1a21b123bc5))
+- Telegram: render markdown in media captions. ( [#1478](https://github.com/openclaw/openclaw/issues/1478))
+- MS Teams: remove `.default` suffix from Graph scopes and Bot Framework probe scopes. ( [#1507](https://github.com/openclaw/openclaw/pull/1507), [#1574](https://github.com/openclaw/openclaw/pull/1574)) Thanks [@Evizero](https://github.com/Evizero).
+- Browser: keep extension relay tabs controllable when the extension reuses a session id after switching tabs. ( [#1160](https://github.com/openclaw/openclaw/issues/1160))
+- Voice wake: auto-save wake words on blur/submit across iOS/Android and align limits with macOS. (commit [`69f645c`](https://github.com/openclaw/openclaw/commit/69f645c662c4888845f69f8b00477d7d42bde4f3))
+- UI: keep the Control UI sidebar visible while scrolling long pages. ( [#1515](https://github.com/openclaw/openclaw/pull/1515)) Thanks [@pookNast](https://github.com/pookNast).
+- UI: cache Control UI markdown rendering + memoize chat text extraction to reduce Safari typing jank. (commit [`d57cb2e`](https://github.com/openclaw/openclaw/commit/d57cb2e1a88e606654cad43a2312a94214ff4fa3))
+- TUI: forward unknown slash commands, include Gateway commands in autocomplete, and render slash replies as system output. (commit [`1af227b`](https://github.com/openclaw/openclaw/commit/1af227b61995fb3f4f6c376fe7d2a78d044ed71e), commit [`8195497`](https://github.com/openclaw/openclaw/commit/8195497cecd0422ccf69ae9f17ef59976883590b), commit [`6fba598`](https://github.com/openclaw/openclaw/commit/6fba598eaf16051ebc1ed5df7e019247252f7a2f))
+- CLI: auth probe output polish (table output, inline errors, reduced noise, and wrap fixes in `clawdbot models status`). (commit [`da3f2b4`](https://github.com/openclaw/openclaw/commit/da3f2b4898b11e69c04464d6121b095d5175bcae), commit [`00ae21b`](https://github.com/openclaw/openclaw/commit/00ae21bed227d192519f4170f37ab74fdb82c2d8), commit [`31e59cd`](https://github.com/openclaw/openclaw/commit/31e59cd583b136cd2109b5b223cb7fa5c1fb7b39), commit [`f7dc27f`](https://github.com/openclaw/openclaw/commit/f7dc27f2d0ab0f19d87d587f2d8fda4c6b18855c), commit [`438e782`](https://github.com/openclaw/openclaw/commit/438e782f81a5932c3f1d0b8c69cc1cd2f9a2e559), commit [`8867522`](https://github.com/openclaw/openclaw/commit/886752217de5349d43896bdc335ce2023319f777), commit [`aabe0be`](https://github.com/openclaw/openclaw/commit/aabe0bed3067e0fdd2ffb88fa0aa0d7316fe0257), commit [`81535d5`](https://github.com/openclaw/openclaw/commit/81535d512aa713e5b3bf452db09914b714d44fe5), commit [`c63144a`](https://github.com/openclaw/openclaw/commit/c63144ab144dfdb190d9dbd566155d5bf3e2285a))
+- Media: only parse `MEDIA:` tags when they start the line to avoid stripping prose mentions. ( [#1206](https://github.com/openclaw/openclaw/issues/1206))
+- Media: preserve PNG alpha when possible; fall back to JPEG when still over size cap. ( [#1491](https://github.com/openclaw/openclaw/pull/1491)) Thanks [@robbyczgw-cla](https://github.com/robbyczgw-cla).
+- Skills: gate bird Homebrew install to macOS. ( [#1569](https://github.com/openclaw/openclaw/pull/1569)) Thanks [@bradleypriest](https://github.com/bradleypriest).
+### Contributors
+- [![@steipete](https://avatars.githubusercontent.com/u/58493?s=64&v=4)](https://github.com/steipete)
+- [![@bradleypriest](https://avatars.githubusercontent.com/u/167215?s=64&v=4)](https://github.com/bradleypriest)
+- [![@itsjaydesu](https://avatars.githubusercontent.com/u/220390?s=64&v=4)](https://github.com/itsjaydesu)
+- [![@wca4a](https://avatars.githubusercontent.com/u/754697?s=64&v=4)](https://github.com/wca4a)
+- [![@dlauer](https://avatars.githubusercontent.com/u/757041?s=64&v=4)](https://github.com/dlauer)
+- [![@Takhoffman](https://avatars.githubusercontent.com/u/781889?s=64&v=4)](https://github.com/Takhoffman)
+- [![@vignesh07](https://avatars.githubusercontent.com/u/1436853?s=64&v=4)](https://github.com/vignesh07)
+- [![@ngutman](https://avatars.githubusercontent.com/u/1540134?s=64&v=4)](https://github.com/ngutman)
+- [![@fal3](https://avatars.githubusercontent.com/u/6484295?s=64&v=4)](https://github.com/fal3)
+- [![@sweepies](https://avatars.githubusercontent.com/u/7191851?s=64&v=4)](https://github.com/sweepies)
+- [![@odysseus0](https://avatars.githubusercontent.com/u/8635094?s=64&v=4)](https://github.com/odysseus0)
+- [![@adam91holt](https://avatars.githubusercontent.com/u/9592417?s=64&v=4)](https://github.com/adam91holt)
+- [![@Evizero](https://avatars.githubusercontent.com/u/10854026?s=64&v=4)](https://github.com/Evizero)
+- [![@pookNast](https://avatars.githubusercontent.com/u/14242552?s=64&v=4)](https://github.com/pookNast)
+- [![@pvoo](https://avatars.githubusercontent.com/u/20116814?s=64&v=4)](https://github.com/pvoo)
+- [![@JustYannicc](https://avatars.githubusercontent.com/u/52761674?s=64&v=4)](https://github.com/JustYannicc)
+- [![@Glucksberg](https://avatars.githubusercontent.com/u/80581902?s=64&v=4)](https://github.com/Glucksberg)
+- [![@roshanasingh4](https://avatars.githubusercontent.com/u/88576930?s=64&v=4)](https://github.com/roshanasingh4)
+- [![@robbyczgw-cla](https://avatars.githubusercontent.com/u/239660374?s=64&v=4)](https://github.com/robbyczgw-cla)
+steipete, bradleypriest, and 17 other contributors
+Assets5
+Loading
+### Uh oh!
+There was an error while loading. [Please reload this page](https://github.com/openclaw/openclaw/releases).
+Relec, travisirby, itsjaydesu, Think4866, auxten, droneshire, Fenix777-alt, nqmgaming, pratyush-28, justinesalvatoreonolokgatsu-hash, and 7 more reacted with thumbs up emojininonabil2308, Uzaide20, SStakss, and Wionsito reacted with heart emoji2mawi2, mflisiuk, marcwestermann, travisirby, alnandr, thewolfeai, ShankarKakumani, itsjaydesu, JSimonDev, rahthakor, and 5 more reacted with rocket emoji
+All reactions
+- ![+1](https://github.githubassets.com/assets/1f44d-41cb66fe1e22.png)17 reactions
+- ![heart](https://github.githubassets.com/assets/2764-982dc91ea48a.png)4 reactions
+- ![rocket](https://github.githubassets.com/assets/1f680-d0ef47fdb515.png)15 reactions
+32 people reacted
+## clawdbot 2026.1.22
+2 weeks ago
+23 Jan 08:59
+![@steipete](https://avatars.githubusercontent.com/u/58493?s=40&v=4)[steipete](https://github.com/steipete)
+[v2026.1.22](https://github.com/openclaw/openclaw/tree/v2026.1.22)
+[`c48751a`](https://github.com/openclaw/openclaw/commit/c48751a99c1aacea1092927ff85a09ee40ac374d)
+Compare
+# Choose a tag to compare
+## Sorry, something went wrong.
+Filter
+Loading
+## Sorry, something went wrong.
+### Uh oh!
+There was an error while loading. [Please reload this page](https://github.com/openclaw/openclaw/releases).
+## No results found
+[View all tags](https://github.com/openclaw/openclaw/tags)
+[clawdbot 2026.1.22](https://github.com/openclaw/openclaw/releases/tag/v2026.1.22)
+### Changes
+- Highlight: Compaction safeguard now uses adaptive chunking, progressive fallback, and UI status + retries. ( [#1466](https://github.com/openclaw/openclaw/pull/1466)) Thanks [@dlauer](https://github.com/dlauer).
+- Providers: add Antigravity usage tracking to status output. ( [#1490](https://github.com/openclaw/openclaw/pull/1490)) Thanks [@patelhiren](https://github.com/patelhiren).
+- Slack: add chat-type reply threading overrides via `replyToModeByChatType`. ( [#1442](https://github.com/openclaw/openclaw/pull/1442)) Thanks [@stefangalescu](https://github.com/stefangalescu).
+- BlueBubbles: add `asVoice` support for MP3/CAF voice memos in sendAttachment. ( [#1477](https://github.com/openclaw/openclaw/pull/1477), [#1482](https://github.com/openclaw/openclaw/pull/1482)) Thanks [@Nicell](https://github.com/Nicell).
+- Onboarding: add hatch choice (TUI/Web/Later), token explainer, background dashboard seed on macOS, and showcase link.
+### Fixes
+- BlueBubbles: stop typing indicator on idle/no-reply. ( [#1439](https://github.com/openclaw/openclaw/pull/1439)) Thanks [@Nicell](https://github.com/Nicell).
+- Message tool: keep path/filePath as-is for send; hydrate buffers only for sendAttachment. ( [#1444](https://github.com/openclaw/openclaw/pull/1444)) Thanks [@hopyky](https://github.com/hopyky).
+- Auto-reply: only report a model switch when session state is available. ( [#1465](https://github.com/openclaw/openclaw/pull/1465)) Thanks [@robbyczgw-cla](https://github.com/robbyczgw-cla).
+- Control UI: resolve local avatar URLs with basePath across injection + identity RPC. ( [#1457](https://github.com/openclaw/openclaw/pull/1457)) Thanks [@dlauer](https://github.com/dlauer).
+- Agents: sanitize assistant history text to strip tool-call markers. ( [#1456](https://github.com/openclaw/openclaw/pull/1456)) Thanks [@zerone0x](https://github.com/zerone0x).
+- Discord: clarify Message Content Intent onboarding hint. ( [#1487](https://github.com/openclaw/openclaw/pull/1487)) Thanks [@kyleok](https://github.com/kyleok).
+- Gateway: stop the service before uninstalling and fail if it remains loaded.
+- Agents: surface concrete API error details instead of generic AI service errors.
+- Exec: fall back to non-PTY when PTY spawn fails (EBADF). ( [#1484](https://github.com/openclaw/openclaw/issues/1484))
+- Exec approvals: allow per-segment allowlists for chained shell commands on gateway + node hosts. ( [#1458](https://github.com/openclaw/openclaw/pull/1458)) Thanks [@czekaj](https://github.com/czekaj).
+- Agents: make OpenAI sessions image-sanitize-only; gate tool-id/repair sanitization by provider.
+- Doctor: honor CLAWDBOT\\_GATEWAY\\_TOKEN for auth checks and security audit token reuse. ( [#1448](https://github.com/openclaw/openclaw/pull/1448)) Thanks [@azade-c](https://github.com/azade-c).
+- Agents: make tool summaries more readable and only show optional params when set.
+- Agents: honor SOUL.md guidance even when the file is nested or path-qualified. ( [#1434](https://github.com/openclaw/openclaw/pull/1434)) Thanks [@neooriginal](https://github.com/neooriginal).
+- Matrix (plugin): persist m.direct for resolved DMs and harden room fallback. ( [#1436](https://github.com/openclaw/openclaw/pull/1436), [#1486](https://github.com/openclaw/openclaw/pull/1486)) Thanks [@sibbl](https://github.com/sibbl).
+- CLI: prefer `~` for home paths in output.
+- Mattermost (plugin): enforce pairing/allowlist gating, keep @username targets, and clarify plugin-only docs. ( [#1428](https://github.com/openclaw/openclaw/pull/1428)) Thanks [@damoahdominic](https://github.com/damoahdominic).
+- Agents: centralize transcript sanitization in the runner; keep tags and error turns intact.
+- Auth: skip auth profiles in cooldown during initial selection and rotation. ( [#1316](https://github.com/openclaw/openclaw/issues/1316)) Thanks [@odrobnik](https://github.com/odrobnik).
+- Agents/TUI: honor user-pinned auth profiles during cooldown and preserve search picker ranking. ( [#1432](https://github.com/openclaw/openclaw/pull/1432)) Thanks [@tobiasbischoff](https://github.com/tobiasbischoff).
+- Docs: fix gog auth services example to include docs scope. ( [#1454](https://github.com/openclaw/openclaw/pull/1454)) Thanks [@zerone0x](https://github.com/zerone0x).
+- Slack: reduce WebClient retries to avoid duplicate sends. ( [#1481](https://github.com/openclaw/openclaw/issues/1481))
+- Slack: read thread replies for message reads when threadId is provided (replies-only). ( [#1450](https://github.com/openclaw/openclaw/pull/1450)) Thanks [@rodrigouroz](https://github.com/rodrigouroz).
+- macOS: prefer linked channels in gateway summary to avoid false “not linked” status.
+- macOS/tests: fix gateway summary lookup after guard unwrap; prevent browser opens during tests. (ECID-1483)
+### Contributors
+- [![@patelhiren](https://avatars.githubusercontent.com/u/172098?s=64&v=4)](https://github.com/patelhiren)
+- [![@odrobnik](https://avatars.githubusercontent.com/u/333270?s=64&v=4)](https://github.com/odrobnik)
+- [![@rodrigouroz](https://avatars.githubusercontent.com/u/384037?s=64&v=4)](https://github.com/rodrigouroz)
+- [![@tobiasbischoff](https://avatars.githubusercontent.com/u/711564?s=64&v=4)](https://github.com/tobiasbischoff)
+- [![@dlauer](https://avatars.githubusercontent.com/u/757041?s=64&v=4)](https://github.com/dlauer)
+- [![@sibbl](https://avatars.githubusercontent.com/u/866535?s=64&v=4)](https://github.com/sibbl)
+- [![@czekaj](https://avatars.githubusercontent.com/u/1464539?s=64&v=4)](https://github.com/czekaj)
+- [![@damoahdominic](https://avatars.githubusercontent.com/u/4623434?s=64&v=4)](https://github.com/damoahdominic)
+- [![@Nicell](https://avatars.githubusercontent.com/u/9439650?s=64&v=4)](https://github.com/Nicell)
+- [![@zerone0x](https://avatars.githubusercontent.com/u/39543393?s=64&v=4)](https://github.com/zerone0x)
+- [![@stefangalescu](https://avatars.githubusercontent.com/u/52995748?s=64&v=4)](https://github.com/stefangalescu)
+- [![@neooriginal](https://avatars.githubusercontent.com/u/54811660?s=64&v=4)](https://github.com/neooriginal)
+- [![@kyleok](https://avatars.githubusercontent.com/u/58307870?s=64&v=4)](https://github.com/kyleok)
+- [![@hopyky](https://avatars.githubusercontent.com/u/166903908?s=64&v=4)](https://github.com/hopyky)
+- [![@robbyczgw-cla](https://avatars.githubusercontent.com/u/239660374?s=64&v=4)](https://github.com/robbyczgw-cla)
+- [![@azade-c](https://avatars.githubusercontent.com/u/252790079?s=64&v=4)](https://github.com/azade-c)
+patelhiren, odrobnik, and 14 other contributors
+Assets4
+Loading
+### Uh oh!
+There was an error while loading. [Please reload this page](https://github.com/openclaw/openclaw/releases).
+![+1](https://github.githubassets.com/assets/1f44d-41cb66fe1e22.png)5chib30333, gabrielriviere999-commits, SStakss, Hosseinghorbani0, and JackWagner-Hawk reacted with thumbs up emoji![tada](https://github.githubassets.com/assets/1f389-36899a2cb781.png)4moellenbeck, TrentPierce, kyleok, and johnny14199418-create reacted with hooray emoji
+All reactions
+- ![+1](https://github.githubassets.com/assets/1f44d-41cb66fe1e22.png)5 reactions
+- ![tada](https://github.githubassets.com/assets/1f389-36899a2cb781.png)4 reactions
+9 people reacted
+## clawdbot 2026.1.21
+2 weeks ago
+22 Jan 12:26
+![@steipete](https://avatars.githubusercontent.com/u/58493?s=40&v=4)[steipete](https://github.com/steipete)
+[v2026.1.21](https://github.com/openclaw/openclaw/tree/v2026.1.21)
+[`80c1edc`](https://github.com/openclaw/openclaw/commit/80c1edc3ff43b3bd3b7b545eed79f303d992f7dc)
+Compare
+# Choose a tag to compare
+## Sorry, something went wrong.
+Filter
+Loading
+## Sorry, something went wrong.
+### Uh oh!
+There was an error while loading. [Please reload this page](https://github.com/openclaw/openclaw/releases).
+## No results found
+[View all tags](https://github.com/openclaw/openclaw/tags)
+[clawdbot 2026.1.21](https://github.com/openclaw/openclaw/releases/tag/v2026.1.21)
+### Highlights
+- Lobster optional plugin tool for typed workflows + approval gates. [docs](https://docs.clawd.bot/tools/lobster)
+- Custom assistant identity + avatars in the Control UI. [docs](https://docs.clawd.bot/cli/agents) [docs](https://docs.clawd.bot/web/control-ui)
+- Cache optimizations: cache-ttl pruning + defaults reduce token spend on cold requests. [docs](https://docs.clawd.bot/concepts/session-pruning)
+- Exec approvals + elevated ask/full modes. [docs](https://docs.clawd.bot/tools/exec-approvals) [docs](https://docs.clawd.bot/tools/elevated)
+- Signal typing/read receipts + MSTeams attachments. [docs](https://docs.clawd.bot/channels/signal) [docs](https://docs.clawd.bot/channels/msteams)
+- `/models` UX refresh + `clawdbot update wizard`. [docs](https://docs.clawd.bot/cli/models) [docs](https://docs.clawd.bot/cli/update)
+### Changes
+- Highlight: Lobster optional plugin tool for typed workflows + approval gates. [docs](https://docs.clawd.bot/tools/lobster) ( [#1152](https://github.com/openclaw/openclaw/pull/1152)) Thanks [@vignesh07](https://github.com/vignesh07).
+- Agents/UI: add identity avatar config support and Control UI avatar rendering. ( [#1329](https://github.com/openclaw/openclaw/pull/1329), [#1424](https://github.com/openclaw/openclaw/pull/1424)) Thanks [@dlauer](https://github.com/dlauer). [docs](https://docs.clawd.bot/gateway/configuration) [docs](https://docs.clawd.bot/cli/agents)
+- Control UI: add custom assistant identity support and per-session identity display. ( [#1420](https://github.com/openclaw/openclaw/pull/1420)) Thanks [@robbyczgw-cla](https://github.com/robbyczgw-cla). [docs](https://docs.clawd.bot/web/control-ui)
+- CLI: add `clawdbot update wizard` with interactive channel selection + restart prompts, plus preflight checks before rebasing. [docs](https://docs.clawd.bot/cli/update)
+- Models/Commands: add `/models`, improve `/model` listing UX, and expand `clawdbot models` paging. ( [#1398](https://github.com/openclaw/openclaw/pull/1398)) Thanks [@vignesh07](https://github.com/vignesh07). [docs](https://docs.clawd.bot/cli/models)
+- CLI: move gateway service commands under `clawdbot gateway`, flatten node service commands under `clawdbot node`, and add `gateway probe` for reachability. [docs](https://docs.clawd.bot/cli/gateway) [docs](https://docs.clawd.bot/cli/node)
+- Exec: add elevated ask/full modes, tighten allowlist gating, and render approvals tables on write. [docs](https://docs.clawd.bot/tools/elevated) [docs](https://docs.clawd.bot/tools/exec-approvals)
+- Exec approvals: default to local host, add gateway/node targeting + target details, support wildcard agent allowlists, and tighten allowlist parsing/safe bins. [docs](https://docs.clawd.bot/cli/approvals) [docs](https://docs.clawd.bot/tools/exec-approvals)
+- Heartbeat: allow explicit session keys and active hours. ( [#1256](https://github.com/openclaw/openclaw/pull/1256)) Thanks [@zknicker](https://github.com/zknicker). [docs](https://docs.clawd.bot/gateway/heartbeat)
+- Sessions: add per-channel idle durations via `sessions.channelIdleMinutes`. ( [#1353](https://github.com/openclaw/openclaw/pull/1353)) Thanks [@cash-echo-bot](https://github.com/cash-echo-bot).
+- Nodes: run exec-style, expose PATH in status/describe, and bootstrap PATH for node-host execution. [docs](https://docs.clawd.bot/cli/node)
+- Cache: add `cache.ttlPrune` mode and auth-aware defaults for cache TTL behavior.
+- Queue: add per-channel debounce overrides for auto-reply. [docs](https://docs.clawd.bot/concepts/queue)
+- Discord: add wildcard channel config support. ( [#1334](https://github.com/openclaw/openclaw/pull/1334)) Thanks [@pvoo](https://github.com/pvoo). [docs](https://docs.clawd.bot/channels/discord)
+- Signal: add typing indicators and DM read receipts via signal-cli. [docs](https://docs.clawd.bot/channels/signal)
+- MSTeams: add file uploads, adaptive cards, and attachment handling improvements. ( [#1410](https://github.com/openclaw/openclaw/pull/1410)) Thanks [@Evizero](https://github.com/Evizero). [docs](https://docs.clawd.bot/channels/msteams)
+- Onboarding: remove the run setup-token auth option (paste setup-token or reuse CLI creds instead).
+- macOS: refresh Settings (location access in Permissions, connection mode in menu, remove CLI install UI).
+- Diagnostics: add cache trace config for debugging. ( [#1370](https://github.com/openclaw/openclaw/pull/1370)) Thanks [@parubets](https://github.com/parubets).
+- Docs: Lobster guides + org URL updates, /model allowlist troubleshooting, Gmail message search examples, gateway.mode troubleshooting, prompt injection guidance, npm prefix/node CLI notes, control UI dev gatewayUrl note, tool\\_use FAQ, showcase video, and sharp/node-gyp workaround. ( [#1427](https://github.com/openclaw/openclaw/pull/1427), [#1220](https://github.com/openclaw/openclaw/pull/1220), [#1405](https://github.com/openclaw/openclaw/issues/1405)) Thanks [@vignesh07](https://github.com/vignesh07), [@mbelinky](https://github.com/mbelinky).
+### Breaking
+- \*\*BREAKING:\*\* Control UI now rejects insecure HTTP without device identity by default. Use HTTPS (Tailscale Serve) or set `gateway.controlUi.allowInsecureAuth: true` to allow token-only auth. [docs](https://docs.clawd.bot/web/control-ui#insecure-http)
+- \*\*BREAKING:\*\* Envelope and system event timestamps now default to host-local time (was UTC) so agents don’t have to constantly convert.
+### Fixes
+- Streaming/Typing/Media: keep reply tags across streamed chunks, start typing indicators at run start, and accept MEDIA paths with spaces/tilde while preferring the message tool hint for image replies.
+- Agents/Providers: drop unsigned thinking blocks for Claude models (Google Antigravity) and enforce alphanumeric tool call ids for strict providers (Mistral/OpenRouter). ( [#1372](https://github.com/openclaw/openclaw/pull/1372)) Thanks [@zerone0x](https://github.com/zerone0x).
+- Exec approvals: treat main as the default agent, align node/gateway allowlist prechecks, validate resolved paths, avoid allowlist resolve races, and avoid null optional params. ( [#1417](https://github.com/openclaw/openclaw/pull/1417), [#1414](https://github.com/openclaw/openclaw/pull/1414), [#1425](https://github.com/openclaw/openclaw/pull/1425)) Thanks [@czekaj](https://github.com/czekaj).
+- Exec/Windows: resolve Windows exec paths with extensions and handle safe-bin exe names.
+- Nodes/macOS: prompt on allowlist miss for node exec approvals, persist allowlist decisions, and flatten node invoke errors. ( [#1394](https://github.com/openclaw/openclaw/pull/1394)) Thanks [@ngutman](https://github.com/ngutman).
+- Gateway: prevent multiple gateways from sharing the same config/state (singleton lock), keep auto bind loopback-first with explicit tailnet binding, and improve SSH auth handling. ( [#1380](https://github.com/openclaw/openclaw/issues/1380))
+- Control UI: remove the chat stop button, keep the composer aligned to the bottom edge, stabilize session previews, and refresh the debug panel on route-driven tab changes. ( [#1373](https://github.com/openclaw/openclaw/pull/1373)) Thanks [@yazinsai](https://github.com/yazinsai).
+- UI/config: export `SECTION\_META` for config form modules. ( [#1418](https://github.com/openclaw/openclaw/pull/1418)) Thanks [@MaudeBot](https://github.com/MaudeBot).
+- macOS: keep chat pinned during streaming replies, include Textual resources, respect wildcard exec approvals, allow SSH agent auth, and default distribution builds to universal binaries. ( [#1279](https://github.com/openclaw/openclaw/issues/1279), [#1362](https://github.com/openclaw/openclaw/issues/1362), [#1384](https://github.com/openclaw/openclaw/pull/1384), [#1396](https://github.com/openclaw/openclaw/pull/1396)) Thanks [@ameno-](https://github.com/ameno-), [@JustYannicc](https://github.com/JustYannicc).
+- BlueBubbles: resolve short message IDs safely, expose full IDs in templates, and harden short-id fetch wrappers. ( [#1369](https://github.com/openclaw/openclaw/pull/1369), [#1387](https://github.com/openclaw/openclaw/pull/1387)) Thanks [@tyler6204](https://github.com/tyler6204).
+- Models/Configure: inherit session model overrides in threads/topics, map OpenCode Zen models to the correct APIs, narrow Anthropic OAuth allowlist handling, seed allowlist fallbacks, list the full catalog when no allowlist is set, and limit `/model` list output. ( [#1376](https://github.com/openclaw/openclaw/issues/1376), [#1416](https://github.com/openclaw/openclaw/issues/1416))
+- Memory: prevent CLI hangs by deferring vector probes, add sqlite-vec/embedding timeouts, and make session memory indexing async.
+- Cron: cap reminder context history to 10 messages and honor `contextMessages`. ( [#1103](https://github.com/openclaw/openclaw/pull/1103)) Thanks [@mkbehr](https://github.com/mkbehr).
+- Cache: restore the 1h cache TTL option and reset the pruning window.
+- Zalo Personal: tolerate ANSI/log-prefixed JSON output from `zca`. ( [#1379](https://github.com/openclaw/openclaw/pull/1379)) Thanks [@ptn1411](https://github.com/ptn1411).
+- Browser: suppress Chrome restore prompts for managed profiles. ( [#1419](https://github.com/openclaw/openclaw/pull/1419)) Thanks [@jamesgroat](https://github.com/jamesgroat).
+- Infra: preserve fetch helper methods/preconnect when wrapping abort signals and normalize Telegram fetch aborts.
+- Config/Doctor: avoid stack traces for invalid configs, log the config path, avoid WhatsApp config resurrection, and warn when `gateway.mode` is unset. ( [#900](https://github.com/openclaw/openclaw/issues/900))
+- CLI: read Codex CLI account\\_id for workspace billing. ( [#1422](https://github.com/openclaw/openclaw/pull/1422)) Thanks [@aj47](https://github.com/aj47).
+- Logs/Status: align rolling log filenames with local time and report sandboxed runtime in `clawdbot status`. ( [#1343](https://github.com/openclaw/openclaw/issues/1343))
+- Embedded runner: persist injected history images so attachments aren’t reloaded each turn. ( [#1374](https://github.com/openclaw/openclaw/pull/1374)) Thanks [@Nicell](https://github.com/Nicell).
+- Nodes/Subagents: include agent/node/gateway context in tool failure logs and ensure subagent list uses the command session.
+### Contributors
+- [![@mkbehr](https://avatars.githubusercontent.com/u/1285?s=64&v=4)](https://github.com/mkbehr)
+- [![@dlauer](https://avatars.githubusercontent.com/u/757041?s=64&v=4)](https://github.com/dlauer)
+- [![@zknicker](https://avatars.githubusercontent.com/u/1164085?s=64&v=4)](https://github.com/zknicker)
+- [![@parubets](https://avatars.githubusercontent.com/u/1392109?s=64&v=4)](https://github.com/parubets)
+- [![@vignesh07](https://avatars.githubusercontent.com/u/1436853?s=64&v=4)](https://github.com/vignesh07)
+- [![@czekaj](https://avatars.githubusercontent.com/u/1464539?s=64&v=4)](https://github.com/czekaj)
+- [![@ngutman](https://avatars.githubusercontent.com/u/1540134?s=64&v=4)](https://github.com/ngutman)
+- [![@yazinsai](https://avatars.githubusercontent.com/u/1846034?s=64&v=4)](https://github.com/yazinsai)
+- [![@ameno-](https://avatars.githubusercontent.com/u/2416135?s=64&v=4)](https://github.com/ameno-)
+- [![@jamesgroat](https://avatars.githubusercontent.com/u/2634024?s=64&v=4)](https://github.com/jamesgroat)
+- [![@aj47](https://avatars.githubusercontent.com/u/8023513?s=64&v=4)](https://github.com/aj47)
+- [![@Nicell](https://avatars.githubusercontent.com/u/9439650?s=64&v=4)](https://github.com/Nicell)
+- [![@Evizero](https://avatars.githubusercontent.com/u/10854026?s=64&v=4)](https://github.com/Evizero)
+- [![@pvoo](https://avatars.githubusercontent.com/u/20116814?s=64&v=4)](https://github.com/pvoo)
+- [![@zerone0x](https://avatars.githubusercontent.com/u/39543393?s=64&v=4)](https://github.com/zerone0x)
+- [![@JustYannicc](https://avatars.githubusercontent.com/u/52761674?s=64&v=4)](https://github.com/JustYannicc)
+- [![@ptn1411](https://avatars.githubusercontent.com/u/57529765?s=64&v=4)](https://github.com/ptn1411)
+- [![@tyler6204](https://avatars.githubusercontent.com/u/64381258?s=64&v=4)](https://github.com/tyler6204)
+- [![@mbelinky](https://avatars.githubusercontent.com/u/132747814?s=64&v=4)](https://github.com/mbelinky)
+- [![@robbyczgw-cla](https://avatars.githubusercontent.com/u/239660374?s=64&v=4)](https://github.com/robbyczgw-cla)
+- [![@cash-echo-bot](https://avatars.githubusercontent.com/u/252747386?s=64&v=4)](https://github.com/cash-echo-bot)
+- [![@MaudeBot](https://avatars.githubusercontent.com/u/255777700?s=64&v=4)](https://github.com/MaudeBot)
+mkbehr, dlauer, and 20 other contributors
+Assets4
+Loading
+### Uh oh!
+There was an error while loading. [Please reload this page](https://github.com/openclaw/openclaw/releases).
+![+1](https://github.githubassets.com/assets/1f44d-41cb66fe1e22.png)3chib30333, gabrielriviere999-commits, and Hosseinghorbani0 reacted with thumbs up emoji![heart](https://github.githubassets.com/assets/2764-982dc91ea48a.png)6weixelbaumer, keeganmoody33, augustocaruso, vignesh07, sneycampos, and faizyunusa reacted with heart emoji![rocket](https://github.githubassets.com/assets/1f680-d0ef47fdb515.png)3Shodric, johnny14199418-create, and jj210tx reacted with rocket emoji
+All reactions
+- ![+1](https://github.githubassets.com/assets/1f44d-41cb66fe1e22.png)3 reactions
+- ![heart](https://github.githubassets.com/assets/2764-982dc91ea48a.png)6 reactions
+- ![rocket](https://github.githubassets.com/assets/1f680-d0ef47fdb515.png)3 reactions
+12 people reacted
+## clawdbot 2026.1.20
+2 weeks ago
+21 Jan 08:26
+![@steipete](https://avatars.githubusercontent.com/u/58493?s=40&v=4)[steipete](https://github.com/steipete)
+[v2026.1.20](https://github.com/openclaw/openclaw/tree/v2026.1.20)
+[`9a14267`](https://github.com/openclaw/openclaw/commit/9a14267dfa5238188a30636bd60eed08f05a7255)
+Compare
+# Choose a tag to compare
+## Sorry, something went wrong.
+Filter
+Loading
+## Sorry, something went wrong.
+### Uh oh!
+There was an error while loading. [Please reload this page](https://github.com/openclaw/openclaw/releases).
+## No results found
+[View all tags](https://github.com/openclaw/openclaw/tags)
+[clawdbot 2026.1.20](https://github.com/openclaw/openclaw/releases/tag/v2026.1.20)
+### Changes
+- Control UI: add copy-as-markdown with error feedback. ( [#1345](https://github.com/openclaw/openclaw/pull/1345)) [https://docs.clawd.bot/web/control-ui](https://docs.clawd.bot/web/control-ui)
+- Control UI: drop the legacy list view. ( [#1345](https://github.com/openclaw/openclaw/pull/1345)) [https://docs.clawd.bot/web/control-ui](https://docs.clawd.bot/web/control-ui)
+- TUI: add syntax highlighting for code blocks. ( [#1200](https://github.com/openclaw/openclaw/pull/1200)) [https://docs.clawd.bot/tui](https://docs.clawd.bot/tui)
+- TUI: session picker shows derived titles, fuzzy search, relative times, and last message preview. ( [#1271](https://github.com/openclaw/openclaw/pull/1271)) [https://docs.clawd.bot/tui](https://docs.clawd.bot/tui)
+- TUI: add a searchable model picker for quicker model selection. ( [#1198](https://github.com/openclaw/openclaw/pull/1198)) [https://docs.clawd.bot/tui](https://docs.clawd.bot/tui)
+- TUI: add input history (up/down) for submitted messages. ( [#1348](https://github.com/openclaw/openclaw/pull/1348)) [https://docs.clawd.bot/tui](https://docs.clawd.bot/tui)
+- ACP: add `clawdbot acp` for IDE integrations. [https://docs.clawd.bot/cli/acp](https://docs.clawd.bot/cli/acp)
+- ACP: add `clawdbot acp client` interactive harness for debugging. [https://docs.clawd.bot/cli/acp](https://docs.clawd.bot/cli/acp)
+- Skills: add download installs with OS-filtered options. [https://docs.clawd.bot/tools/skills](https://docs.clawd.bot/tools/skills)
+- Skills: add the local sherpa-onnx-tts skill. [https://docs.clawd.bot/tools/skills](https://docs.clawd.bot/tools/skills)
+- Memory: add hybrid BM25 + vector search (FTS5) with weighted merging and fallback. [https://docs.clawd.bot/concepts/memory](https://docs.clawd.bot/concepts/memory)
+- Memory: add SQLite embedding cache to speed up reindexing and frequent updates. [https://docs.clawd.bot/concepts/memory](https://docs.clawd.bot/concepts/memory)
+- Memory: add OpenAI batch indexing for embeddings when configured. [https://docs.clawd.bot/concepts/memory](https://docs.clawd.bot/concepts/memory)
+- Memory: enable OpenAI batch indexing by default for OpenAI embeddings. [https://docs.clawd.bot/concepts/memory](https://docs.clawd.bot/concepts/memory)
+- Memory: allow parallel OpenAI batch indexing jobs (default concurrency: 2). [https://docs.clawd.bot/concepts/memory](https://docs.clawd.bot/concepts/memory)
+- Memory: render progress immediately, color batch statuses in verbose logs, and poll OpenAI batch status every 2s by default. [https://docs.clawd.bot/concepts/memory](https://docs.clawd.bot/concepts/memory)
+- Memory: add `--verbose` logging for memory status + batch indexing details. [https://docs.clawd.bot/concepts/memory](https://docs.clawd.bot/concepts/memory)
+- Memory: add native Gemini embeddings provider for memory search. ( [#1151](https://github.com/openclaw/openclaw/issues/1151)) [https://docs.clawd.bot/concepts/memory](https://docs.clawd.bot/concepts/memory)
+- Browser: allow config defaults for efficient snapshots in the tool/CLI. ( [#1336](https://github.com/openclaw/openclaw/pull/1336)) [https://docs.clawd.bot/tools/browser](https://docs.clawd.bot/tools/browser)
+- Nostr: add the Nostr channel plugin with profile management + onboarding defaults. ( [#1323](https://github.com/openclaw/openclaw/pull/1323)) [https://docs.clawd.bot/channels/nostr](https://docs.clawd.bot/channels/nostr)
+- Matrix: migrate to matrix-bot-sdk with E2EE support, location handling, and group allowlist upgrades. ( [#1298](https://github.com/openclaw/openclaw/pull/1298)) [https://docs.clawd.bot/channels/matrix](https://docs.clawd.bot/channels/matrix)
+- Slack: add HTTP webhook mode via Bolt HTTP receiver. ( [#1143](https://github.com/openclaw/openclaw/pull/1143)) [https://docs.clawd.bot/channels/slack](https://docs.clawd.bot/channels/slack)
+- Telegram: enrich forwarded-message context with normalized origin details + legacy fallback. ( [#1090](https://github.com/openclaw/openclaw/pull/1090)) [https://docs.clawd.bot/channels/telegram](https://docs.clawd.bot/channels/telegram)
+- Discord: fall back to `/skill` when native command limits are exceeded. ( [#1287](https://github.com/openclaw/openclaw/pull/1287))
+- Discord: expose `/skill` globally. ( [#1287](https://github.com/openclaw/openclaw/pull/1287))
+- Zalouser: add channel dock metadata, config schema, setup wiring, probe, and status issues. ( [#1219](https://github.com/openclaw/openclaw/pull/1219)) [https://docs.clawd.bot/plugins/zalouser](https://docs.clawd.bot/plugins/zalouser)
+- Plugins: require manifest-embedded config schemas with preflight validation warnings. ( [#1272](https://github.com/openclaw/openclaw/pull/1272)) [https://docs.clawd.bot/plugins/manifest](https://docs.clawd.bot/plugins/manifest)
+- Plugins: move channel catalog metadata into plugin manifests. ( [#1290](https://github.com/openclaw/openclaw/pull/1290)) [https://docs.clawd.bot/plugins/manifest](https://docs.clawd.bot/plugins/manifest)
+- Plugins: align Nextcloud Talk policy helpers with core patterns. ( [#1290](https://github.com/openclaw/openclaw/pull/1290)) [https://docs.clawd.bot/plugins/manifest](https://docs.clawd.bot/plugins/manifest)
+- Plugins/UI: let channel plugin metadata drive UI labels/icons and cron channel options. ( [#1306](https://github.com/openclaw/openclaw/pull/1306)) [https://docs.clawd.bot/web/control-ui](https://docs.clawd.bot/web/control-ui)
+- Plugins: add plugin slots with a dedicated memory slot selector. [https://docs.clawd.bot/plugins/agent-tools](https://docs.clawd.bot/plugins/agent-tools)
+- Plugins: ship the bundled BlueBubbles channel plugin (disabled by default). [https://docs.clawd.bot/channels/bluebubbles](https://docs.clawd.bot/channels/bluebubbles)
+- Plugins: migrate bundled messaging extensions to the plugin SDK and resolve plugin-sdk imports in the loader.
+- Plugins: migrate the Zalo plugin to the shared plugin SDK runtime. [https://docs.clawd.bot/channels/zalo](https://docs.clawd.bot/channels/zalo)
+- Plugins: migrate the Zalo Personal plugin to the shared plugin SDK runtime. [https://docs.clawd.bot/plugins/zalouser](https://docs.clawd.bot/plugins/zalouser)
+- Plugins: allow optional agent tools with explicit allowlists and add the plugin tool authoring guide. [https://docs.clawd.bot/plugins/agent-tools](https://docs.clawd.bot/plugins/agent-tools)
+- Plugins: auto-enable bundled channel/provider plugins when configuration is present.
+- Plugins: sync plugin sources on channel switches and update npm-installed plugins during `clawdbot update`.
+- Plugins: share npm plugin update logic between `clawdbot update` and `clawdbot plugins update`.
+- Gateway/API: add `/v1/responses` (OpenResponses) with item-based input + semantic streaming events. ( [#1229](https://github.com/openclaw/openclaw/pull/1229))
+- Gateway/API: expand `/v1/responses` to support file/image inputs, tool\\_choice, usage, and output limits. ( [#1229](https://github.com/openclaw/openclaw/pull/1229))
+- Usage: add `/usage cost` summaries and macOS menu cost charts. [https://docs.clawd.bot/reference/api-usage-costs](https://docs.clawd.bot/reference/api-usage-costs)
+- Security: warn when <=300B models run without sandboxing while web tools are enabled. [https://docs.clawd.bot/cli/security](https://docs.clawd.bot/cli/security)
+- Exec: add host/security/ask routing for gateway + node exec. [https://docs.clawd.bot/tools/exec](https://docs.clawd.bot/tools/exec)
+- Exec: add `/exec` directive for per-session exec defaults (host/security/ask/node). [https://docs.clawd.bot/tools/exec](https://docs.clawd.bot/tools/exec)
+- Exec approvals: migrate approvals to `~/.clawdbot/exec-approvals.json` with per-agent allowlists + skill auto-allow toggle, and add approvals UI + node exec lifecycle events. [https://docs.clawd.bot/tools/exec-approvals](https://docs.clawd.bot/tools/exec-approvals)
+- Nodes: add headless node host (`clawdbot node start`) for `system.run`/`system.which`. [https://docs.clawd.bot/cli/node](https://docs.clawd.bot/cli/node)
+- Nodes: add node daemon service install/status/start/stop/restart. [https://docs.clawd.bot/cli/node](https://docs.clawd.bot/cli/node)
+- Bridge: add `skills.bins` RPC to support node host auto-allow skill bins.
+- Sessions: add daily reset policy with per-type overrides and idle windows (default 4am local), preserving legacy idle-only configs. ( [#1146](https://github.com/openclaw/openclaw/pull/1146)) [https://docs.clawd.bot/concepts/session](https://docs.clawd.bot/concepts/session)
+- Sessions: allow `sessions\_spawn` to override thinking level for sub-agent runs. [https://docs.clawd.bot/tools/subagents](https://docs.clawd.bot/tools/subagents)
+- Channels: unify thread/topic allowlist matching + command/mention gating helpers across core providers. [https://docs.clawd.bot/concepts/groups](https://docs.clawd.bot/concepts/groups)
+- Models: add Qwen Portal OAuth provider support. ( [#1120](https://github.com/openclaw/openclaw/pull/1120)) [https://docs.clawd.bot/providers/qwen](https://docs.clawd.bot/providers/qwen)
+- Onboarding: add allowlist prompts and username-to-id resolution across core and extension channels. [https://docs.clawd.bot/start/onboarding](https://docs.clawd.bot/start/onboarding)
+- Docs: clarify allowlist input types and onboarding behavior for messaging channels. [https://docs.clawd.bot/start/onboarding](https://docs.clawd.bot/start/onboarding)
+- Docs: refresh Android node discovery docs for the Gateway WS service type. [https://docs.clawd.bot/platforms/android](https://docs.clawd.bot/platforms/android)
+- Docs: surface Amazon Bedrock in provider lists and clarify Bedrock auth env vars. ( [#1289](https://github.com/openclaw/openclaw/pull/1289)) [https://docs.clawd.bot/bedrock](https://docs.clawd.bot/bedrock)
+- Docs: clarify WhatsApp voice notes. [https://docs.clawd.bot/channels/whatsapp](https://docs.clawd.bot/channels/whatsapp)
+- Docs: clarify Windows WSL portproxy LAN access notes. [https://docs.clawd.bot/platforms/windows](https://docs.clawd.bot/platforms/windows)
+- Docs: refresh bird skill install metadata and usage notes. ( [#1302](https://github.com/openclaw/openclaw/pull/1302)) [https://docs.clawd.bot/tools/browser-login](https://docs.clawd.bot/tools/browser-login)
+- Agents: add local docs path resolution and include docs/mirror/source/community pointers in the system prompt.
+- Agents: clarify node\\_modules read-only guidance in agent instructions.
+- Config: stamp last-touched metadata on write and warn if the config is newer than the running build.
+- macOS: hide usage section when usage is unavailable instead of showing provider errors.
+- Android: migrate node transport to the Gateway WebSocket protocol with TLS pinning support + gateway discovery naming.
+- Android: send structured payloads in node events/invokes and include user-agent metadata in gateway connects.
+- Android: remove legacy bridge transport code now that nodes use the gateway protocol.
+- Android: bump okhttp + dnsjava to satisfy lint dependency checks.
+- Build: update workspace + core/plugin deps.
+- Build: use tsgo for dev/watch builds by default (opt out with `CLAWDBOT\_TS\_COMPILER=tsc`).
+- Repo: remove the Peekaboo git submodule now that the SPM release is used.
+- macOS: switch PeekabooBridge integration to the tagged Swift Package Manager release.
+- macOS: stop syncing Peekaboo in postinstall.
+- Swabble: use the tagged Commander Swift package release.
+### Breaking
+- \*\*BREAKING:\*\* Reject invalid/unknown config entries and refuse to start the gateway for safety. Run `clawdbot doctor --fix` to repair, then update plugins (`clawdbot plugins update`) if you use any.
+### Fixes
+- Discovery: shorten Bonjour DNS-SD service type to `\_clawdbot-gw.\_tcp` and update discovery clients/docs.
+- Diagnostics: export OTLP logs, correct queue depth tracking, and document message-flow telemetry.
+- Diagnostics: emit message-flow diagnostics across channels via shared dispatch. ( [#1244](https://github.com/openclaw/openclaw/pull/1244))
+- Diagnostics: gate heartbeat/webhook logging. ( [#1244](https://github.com/openclaw/openclaw/pull/1244))
+- Gateway: strip inbound envelope headers from chat history messages to keep clients clean.
+- Gateway: clarify unauthorized handshake responses with token/password mismatch guidance.
+- Gateway: allow mobile node client ids for iOS + Android handshake validation. ( [#1354](https://github.com/openclaw/openclaw/pull/1354))
+- Gateway: clarify connect/validation errors for gateway params. ( [#1347](https://github.com/openclaw/openclaw/pull/1347))
+- Gateway: preserve restart wake routing + thread replies across restarts. ( [#1337](https://github.com/openclaw/openclaw/pull/1337))
+- Gateway: reschedule per-agent heartbeats on config hot reload without restarting the runner.
+- Gateway: require authorized restarts for SIGUSR1 (restart/apply/update) so config gating can't be bypassed.
+- Cron: auto-deliver isolated agent output to explicit targets without tool calls. ( [#1285](https://github.com/openclaw/openclaw/issues/1285))
+- Agents: preserve subagent announce thread/topic routing + queued replies across channels. ( [#1241](https://github.com/openclaw/openclaw/pull/1241))
+- Agents: propagate accountId into embedded runs so sub-agent announce routing honors the originating account. ( [#1058](https://github.com/openclaw/openclaw/issues/1058))
+- Agents: avoid treating timeout errors with "aborted" messages as user aborts, so model fallback still runs. ( [#1137](https://github.com/openclaw/openclaw/pull/1137))
+- Agents: sanitize oversized image payloads before send and surface image-dimension errors.
+- Sessions: fall back to session labels when listing display names. ( [#1124](https://github.com/openclaw/openclaw/pull/1124))
+- Compaction: include tool failure summaries in safeguard compaction to prevent retry loops. ( [#1084](https://github.com/openclaw/openclaw/issues/1084))
+- C...
+[Read more](https://github.com/openclaw/openclaw/releases/tag/v2026.1.20)
+### Contributors
+- [![@AlexMikhalev](https://avatars.githubusercontent.com/u/50685?s=64&v=4)](https://github.com/AlexMikhalev)
+- [![@visionik](https://avatars.githubusercontent.com/u/52174?s=64&v=4)](https://github.com/visionik)
+- [![@steipete](https://avatars.githubusercontent.com/u/58493?s=64&v=4)](https://github.com/steipete)
+- [![@bradleypriest](https://avatars.githubusercontent.com/u/167215?s=64&v=4)](https://github.com/bradleypriest)
+- [![@CoreyH](https://avatars.githubusercontent.com/u/213602?s=64&v=4)](https://github.com/CoreyH)
+- [![@gnarco](https://avatars.githubusercontent.com/u/242244?s=64&v=4)](https://github.com/gnarco)
+- [![@joelklabo](https://avatars.githubusercontent.com/u/264977?s=64&v=4)](https://github.com/joelklabo)
+- [![@alauppe](https://avatars.githubusercontent.com/u/307341?s=64&v=4)](https://github.com/alauppe)
+- [![@dougvk](https://avatars.githubusercontent.com/u/401660?s=64&v=4)](https://github.com/dougvk)
+- [![@sibbl](https://avatars.githubusercontent.com/u/866535?s=64&v=4)](https://github.com/sibbl)
+- [![@KrauseFx](https://avatars.githubusercontent.com/u/869950?s=64&v=4)](https://github.com/KrauseFx)
+- [![@vignesh07](https://avatars.githubusercontent.com/u/1436853?s=64&v=4)](https://github.com/vignesh07)
+- [![@Whoaa512](https://avatars.githubusercontent.com/u/1581943?s=64&v=4)](https://github.com/Whoaa512)
+- [![@ameno-](https://avatars.githubusercontent.com/u/2416135?s=64&v=4)](https://github.com/ameno-)
+- [![@suminhthanh](https://avatars.githubusercontent.com/u/2907636?s=64&v=4)](https://github.com/suminhthanh)
+- [![@VACInc](https://avatars.githubusercontent.com/u/3279061?s=64&v=4)](https://github.com/VACInc)
+- [![@gumadeiras](https://avatars.githubusercontent.com/u/5599352?s=64&v=4)](https://github.com/gumadeiras)
+- [![@sleontenko](https://avatars.githubusercontent.com/u/7135949?s=64&v=4)](https://github.com/sleontenko)
+- [![@jdrhyne](https://avatars.githubusercontent.com/u/7828464?s=64&v=4)](https://github.com/jdrhyne)
+- [![@odysseus0](https://avatars.githubusercontent.com/u/8635094?s=64&v=4)](https://github.com/odysseus0)
+- [![@longmaba](https://avatars.githubusercontent.com/u/9361500?s=64&v=4)](https://github.com/longmaba)
+- [![@artuskg](https://avatars.githubusercontent.com/u/11966157?s=64&v=4)](https://github.com/artuskg)
+- [![@YuriNachos](https://avatars.githubusercontent.com/u/19365375?s=64&v=4)](https://github.com/YuriNachos)
+- [![@sebslight](https://avatars.githubusercontent.com/u/19554889?s=64&v=4)](https://github.com/sebslight)
+- [![@cheeeee](https://avatars.githubusercontent.com/u/21245729?s=64&v=4)](https://github.com/cheeeee)
+- [![@austinm911](https://avatars.githubusercontent.com/u/31991302?s=64&v=4)](https://github.com/austinm911)
+- [![@thewilloftheshadow](https://avatars.githubusercontent.com/u/35580099?s=64&v=4)](https://github.com/thewilloftheshadow)
+- [![@zerone0x](https://avatars.githubusercontent.com/u/39543393?s=64&v=4)](https://github.com/zerone0x)
+- [![@mukhtharcm](https://avatars.githubusercontent.com/u/56378562?s=64&v=4)](https://github.com/mukhtharcm)
+- [![@RyanLisse](https://avatars.githubusercontent.com/u/57917217?s=64&v=4)](https://github.com/RyanLisse)
+- [![@John-Rood](https://avatars.githubusercontent.com/u/62669593?s=64&v=4)](https://github.com/John-Rood)
+- [![@tyler6204](https://avatars.githubusercontent.com/u/64381258?s=64&v=4)](https://github.com/tyler6204)
+- [![@oscargavin](https://avatars.githubusercontent.com/u/70809639?s=64&v=4)](https://github.com/oscargavin)
+- [![@Nachx639](https://avatars.githubusercontent.com/u/71144023?s=64&v=4)](https://github.com/Nachx639)
+- [![@ysqander](https://avatars.githubusercontent.com/u/80843820?s=64&v=4)](https://github.com/ysqander)
+- [![@fogboots](https://avatars.githubusercontent.com/u/101070706?s=64&v=4)](https://github.com/fogboots)
+- [![@rhjoh](https://avatars.githubusercontent.com/u/105699450?s=64&v=4)](https://github.com/rhjoh)
+- [![@ThePickle31](https://avatars.githubusercontent.com/u/190034248?s=64&v=4)](https://github.com/ThePickle31)
+- [![@NicholaiVogel](https://avatars.githubusercontent.com/u/217880623?s=64&v=4)](https://github.com/NicholaiVogel)
+- [![@aaronveklabs](https://avatars.githubusercontent.com/u/225997828?s=64&v=4)](https://github.com/aaronveklabs)
+- [![@abdaraxus](https://avatars.githubusercontent.com/u/255458696?s=64&v=4)](https://github.com/abdaraxus)
+- [![@MaudeBot](https://avatars.githubusercontent.com/u/255777700?s=64&v=4)](https://github.com/MaudeBot)
+AlexMikhalev, visionik, and 40 other contributors
+Assets4
+Loading
+### Uh oh!
+There was an error while loading. [Please reload this page](https://github.com/openclaw/openclaw/releases).
+![+1](https://github.githubassets.com/assets/1f44d-41cb66fe1e22.png)15lin72h, shekohex, CamelSprout, kevintseng, sepivip, damoahdominic, Lapot300, czekaj, John-Rood, James-Bond00, and 5 more reacted with thumbs up emoji![heart](https://github.githubassets.com/assets/2764-982dc91ea48a.png)1chib30333 reacted with heart emoji![rocket](https://github.githubassets.com/assets/1f680-d0ef47fdb515.png)3John-Rood, plattenschieber, and Yahiko-bot reacted with rocket emoji
+All reactions
+- ![+1](https://github.githubassets.com/assets/1f44d-41cb66fe1e22.png)15 reactions
+- ![heart](https://github.githubassets.com/assets/2764-982dc91ea48a.png)1 reaction
+- ![rocket](https://github.githubassets.com/assets/1f680-d0ef47fdb515.png)3 reactions
+17 people reacted
+Previous \_1\_ [2](https://github.com/openclaw/openclaw/releases?page=2) [3](https://github.com/openclaw/openclaw/releases?page=3) [4](https://github.com/openclaw/openclaw/releases?page=4) [Next](https://github.com/openclaw/openclaw/releases?page=2)
+Previous [Next](https://github.com/openclaw/openclaw/releases?page=2)
+You can’t perform that action at this time.

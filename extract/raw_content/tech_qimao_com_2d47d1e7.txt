@@ -1,0 +1,415 @@
+# Source URL: https://tech.qimao.com/ai-shi-dai-de-code-review-zui-jia-shi-jian-2/
+# Content Length: 7847 characters
+# Extracted at: 2026-03-28 09:08:22
+#============================================================
+
+
+
+
+AI 时代的 Code Review 最佳实践
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[![]()](https://tech.qimao.com)
+
+* [首页](https://tech.qimao.com/)
+* [后端](https://tech.qimao.com/tag/back-end/)
+* [移动端](https://tech.qimao.com/tag/mobile/)
+* [算法](https://tech.qimao.com/tag/algorithm/)
+* [大数据](https://tech.qimao.com/tag/bigdata/)
+* [前端](https://tech.qimao.com/tag/front-end/)
+* [测试](https://tech.qimao.com/tag/test/)
+* [运维](https://tech.qimao.com/tag/operation/)
+* [AI 专题](https://tech.qimao.com/tag/ai/)
+* [团队&文化](https://tech.qimao.com/tag/team/)
+* [关于七猫](https://tech.qimao.com/guan-yu-qi-mao/)
+
+* 搜索
+
+菜单
+
+
+
+
+
+AI 时代的 Code Review 最佳实践
+=======================
+
+[秦皓](/author/qinhao/)
+发表于
+2025/04/14
+
+
+
+一、说明
+----
+
+**随着 AI 辅助编程技术的成熟，我们的开发工作流程也会需要不断与时俱进，以提升 AI 时代的开发效率。**过去十几年，随着敏建开发的不断深入人心，很多开发工作任务不断左移（如测试左移），更多的工作在 IDE 侧便需要持续不断的进行。而随着 AI Agent 能力的增强，**代码评审（Code Review）**等工作也必然会左移至 IDE 内进行。
+
+![]()![]()
+
+**代码评审左移（CR 左移）**
+
+本文将重点讨论 CR 左移后，我们日常开发的规范流程中如何进行 CR 最佳实践。
+
+二、IDE 侧
+-------
+
+### 1、Cursor
+
+> **对于 Cursor，核心思想是基于 Rules 定制 CR 场景行为，让 Agent 的行为更加符合我们的要求。**
+
+#### 1.1、**设置 Cursor Rules**
+
+我们通过 Cursor Rules 设置 Code Review 规则，然后便可以在代码变更、代码提交前后、MR 提交前随时进行 Code Review。
+
+本文以 Go 语言为例，设置如下 Code Review Rule（保存路径：`[.cusors/rules/rule-code-review.mdc](https://codeup.aliyun.com/qimao/public/devops/ai-example/blob/master/backend/config-center/rules/rule-code-review.mdc)`）：
+
+```
+# Code Review 规范
+你是 golang 编程的专家，现在对代码进行 Code Review，请按照以下步骤进行: （若遇到 git 命令分页的情况，请加上`| cat`）
+
+## 步骤一：代码规范检查
+- [ ] 是否遵循最佳实践 @.cursor/rules/rule-code-spec.mdc
+- [ ] 是否存在重复代码
+- [ ] 是否有充分的注释和文档
+- [ ] 是否易于理解和维护
+
+## 步骤二：功能问题分析
+- [ ] 分析本次代码改动的影响范围，以简洁的语言描述内容
+- [ ] 分析是否包含敏感信息，如密码、密钥、证书等
+- [ ] 分析是否存在破坏性的代码改动，如有则需要全部列举出来
+- [ ] 分析是否存在明显的性能问题，进行说明并给出优化建议
+
+## 步骤三：分析服务影响（cmd 目录下是具体的服务）
+- [ ] 根据代码改动，分析哪些服务需要进行发版？
+- [ ] 若需要发版，服务之间是否有依赖关系？
+- [ ] 若需要发版，请总结出一份简要的发布说明
+
+## 步骤四：生成 Code Review 报告
+将内容保存到 docs/code-review 目录下，文件名称为 `cr-$(date +%Y%m%d-%H%M%S).md`，例如 `cr-20240401-171335.md`，
+生成的文档中，通过的检查项用绿色勾，不通过的检查项用红色叉。
+
+## 步骤五：打开 Code Review 报告
+使用命令 `cursor` 打开生成的报告文件。
+```
+
+设置代码提交前 CR Rules（保存路径：`[.cusors/rules/rule-git-commit.mdc](https://codeup.aliyun.com/qimao/public/devops/ai-example/blob/master/backend/config-center/rules/rule-git-commit.mdc)`）：
+
+```
+# Git 提交流程
+
+# 步骤一
+进行 Code Review，若遇到 git 命令分页的情况，请加上`| cat`，分析是存在以下几种级别的问题：
+
+## 严重
+- 分析是否包含敏感信息，如密码、密钥、证书等
+
+## 警告
+- 分析是否有破坏性的代码改动，如有则需要全部列举出来
+- 分析是否有明显的性能问题，进行说明并给出优化建议
+
+## 提醒
+- 分析本次代码改动的影响范围，以简洁的语言进行描述
+- 分析代码是否已经格式化
+
+# 步骤二
+
+## 提交信息格式
+
+提交信息应遵循以下格式：
+
+```
+<type>(<scope>): <subject>
+
+<body>
+
+<footer>
+```
+
+提交信息涉及换行时使用多个 -m 参数提交，如：
+```
+git commit -m "feat(auth): 添加用户登录功能" -m "实现了基于 JWT 的用户登录认证功能：" -m "- 添加登录接口" -m "- 实现 token 生成和验证" -m "- 添加用户信息缓存" -m "Closes #123"
+```
+
+### Type 类型
+
+必须是以下类型之一：
+
+- feat: 新功能（feature）
+- fix: 修复 bug
+- docs: 文档变更
+- style: 代码格式调整，不影响代码逻辑
+- refactor: 重构代码，不修复 bug 也不添加新功能
+- perf: 性能优化
+- test: 添加或修改测试代码
+- chore: 构建过程或辅助工具的变动
+- revert: 回滚之前的提交
+
+### Scope 范围
+
+可选的提交范围，用于说明提交影响的范围，例如：
+
+- cli.admin: App配置后台服务
+- cli.agent: App配置网关服务
+- dev.admin: 开发配置后台服务
+
+### Subject 主题
+
+- 用简短的语言描述本次提交的主要内容
+- 不超过 50 个字符
+- 以动词开头，使用第一人称现在时
+- 第一个字母小写
+- 结尾不加句号
+
+### Body 正文
+
+- 对本次提交的详细描述
+- 可以分成多行
+- 说明代码变动的动机，以及与以前行为的对比
+
+### Footer 页脚
+
+- 用于关联 Issue 或破坏性变更说明
+- Breaking Changes 必须以 `BREAKING CHANGE:` 开头
+- 关联 Issue 使用 `Closes #123, #456`
+
+## 示例
+
+```
+feat(auth): 添加用户登录功能
+
+实现了基于 JWT 的用户登录认证功能：
+- 添加登录接口
+- 实现 token 生成和验证
+- 添加用户信息缓存
+
+Closes #123
+```
+
+```
+fix(api): 修复用户查询接口返回错误
+
+修复了当用户不存在时返回 500 错误的问题，
+现在会正确返回 404 状态码。
+
+Closes #456
+```
+```
+#### 1.2、**随时唤起 CR**
+
+![]()![]()![]()
+> 合并请求前的操作涉及到 **Codeup MCP**（developed by @谢志新 ）进行合并请求 tool 调用。配置地址：[MCP-codeup](https://x0sgcptncj.feishu.cn/wiki/I70gwXT3DioEyykJoBAckQ6hnzM)。
+
+**附：Merge Request 提示词 👇👇**
+
+```
+---
+description: Merge Repquest, MR, PR
+globs: 
+alwaysApply: false
+---
+# 创建合并请求
+
+按以下步骤执行合并请求：
+
+1. 查找当前代码仓库默认分支；
+2. 列出当前分支未合并到默认分支的提交；
+3. 根据提交 log 生成最合适的合并请求 title 和 description；
+4. 调用 tools `mcp_create_merge_request` 创建合并请求；
+5. 如果 source_branch 不是 develop 分支，删除 source_branch。
+```
+### 2、Github Copilot
+
+Github Copilot 的代码评审，官方提供了文档：[使用 GitHub Copilot 代码评审 - GitHub 文档](https://docs.github.com/zh/copilot/using-github-copilot/code-review/using-copilot-code-review)，在 IDE 内有两个场景，分别是评审选定代码和查看更改（即对代码进行片段式和提交前的暂存代码进行评审），但无法方便的支持 Rules 设置（配置编码规则支持企业版 Github，并在代码仓库管理后台进行配置）。
+
+下文以 **VS Code Insiders** 版本为例。
+
+#### 2.1、**评审选定的代码**
+
+对 VS Code 中突出显示的选定代码进行初始评审，操作步骤：
+
+1. 在 VS Code 中，选择要评审的代码。
+2. 打开 VS Code Command Palette：对于 Mac：使用：Shift+Command+P、对于 Windows 或 Linux：使用 Ctrl+Shift+P。
+3. 在命令面板中，搜索并选择“GitHub Copilot: 评审和注释”（Github Copilot： Review and Comment）。
+4. 等待 Copilot 评审更改。 这通常会在 30 秒内完成。
+
+![]()
+
+5. 如果 Copilot 有任何注释，它们将以内嵌方式显示在文件中和“问题”选项卡中。
+
+![]()
+
+**实战演示：**
+
+![]()
+#### 2.2、**评审更改的代码**
+
+可以请求评审 VS Code 中的暂存或非暂存更改。
+
+1. 在 VS Code 中，切换到“源代码管理”选项卡。
+2. 若要请求对未暂存的更改进行评审，可将鼠标悬停在边栏中的“更改”上，然后单击“  Copilot 代码评审 - 更改”按钮。
+3. 若要请求对暂存的更改进行评审，可将鼠标悬停在边栏中的“暂存的更改”上，然后单击“  Copilot 代码评审 - 暂存的更改”按钮。
+4. 等待 Copilot 评审更改。 这通常会在 30 秒内完成。
+
+![]()
+
+5. 如果 Copilot 有任何注释，它们将以内嵌方式显示在文件中和“问题”选项卡中。
+
+![]()
+
+**实战演示：**
+
+![]()
+### 3、通义灵码
+
+之前我在 **[AI 利器（三）：通义灵码场景实战](https://x0sgcptncj.feishu.cn/wiki/JeUPwu8gli90YvkJgSdcqrblnzd)**中分享过通义灵码的代码评审操作，现重新演示如下所示。
+
+#### 3.1、**基于 `#codeChanges`**
+
+我们可以通过选择 `#codeChanges`，然后对当前所作变更进行 Code Review。
+
+#### 3.2、**基于 `gitCommit`**
+
+**指令**我们可以通过 `#gitCommit`，再选择具体的提交，可对某次 git 提交进行 Code Review。
+
+#### 3.3、**基于 Rules**
+
+**从 2025 年 4 月开始，通义灵码也支持 Rules**（参见：https://help.aliyun.com/zh/lingma/user-guide/ai-rules），经过对 Rule 设置并调优，**理论上我们也能实现类似 Cursor 中的 CR 操作**。然而目前体验下来，相同的 Rules，通义灵码并不能完全理解，可能需要对 Rules 进行进一步简化。
+
+**实战如下：**
+
+![]()![]()![]()
+### 4、小结
+
+由于精力有限，其他插件就不再进行评测了，不过总的思路很清楚，**在 IDE 或插件的基础能力之上，我们通过设置 Rules，能够规范 AI Agent 在进行 CR 时行为，贴合我们指定的代码规范和评审规范，帮助我们有针对性的发现问题。**
+
+写完上文之后，我心中泛起一个大大的疑问：
+
+> **既然我们的代码已经是由 AI 编写的了，现在又使用 AI 进行 CR，那我们扮演了什么角色呢？**
+
+![]()
+
+引入 AI 辅助编程工具之后，AI 已经承担了大部分的编码工作，我们人类工程师的角色自然发生了转变，**从以写代码为主，变成了以看代码为主，从 Coder 变成了 Reviewer**，所以在使用 AI 编程的过程中，**除了 AI Code Review 外，我们还要时时刻刻进行人工 Code Review 和单元测试，以保障最终交付代码的质量**。
+
+三、云效侧
+-----
+
+除了探索 IDE 侧的 AI Code Review 最佳实践外，我们（@秦皓 和@吴安乐 ）也对实现云效 AI 智能 Code Review 的探索。通过 Webhook 监听全局事件，实现当有合并请求创建或更新时，自动触发 AI Code Review，并在合并请求页面输出 AI 评论内容。
+
+> 目前云效 AI Code Review 仅开放了部分团队体验，待后续调优后会全量开发供大家使用，敬请期待。
+
+目前由 @吴安乐 的实现的基于 AI 驱动的工作流：
+
+* [AI 驱动工作流（一）- 阿里云 codeup + appstack 自动化实践](https://x0sgcptncj.feishu.cn/wiki/PvLqwjhgmikWPgkqXoVcdvx8nfc)
+* [AI 驱动工作流（二）- 飞书文档mcp](https://x0sgcptncj.feishu.cn/wiki/B2vewGBhCiqD9Gkyedoc06zgncf)
+
+实现了飞书文档获取和生产、提交 MR、AI 评审和触发 AppStack 流水线等能力，**特别是 AI 评审效果在前端团队体验反馈很不错，接下来也会将其简化后吸收到本流程中，在此感谢 @吴安乐 同学 👏👏。**
+
+### 1、能力规划
+
+**目前规划的能力包括**（大家有啥需求或想法欢迎评论交流）**：**
+
+* 开发人员零配置
+* 自动 AI Code Review
+* 自定义 Code Review 提示词
+* 代码修改涉及哪些服务的分析报告
+* 合并完成前生产最终 Code Review 报告
+
+### 2、核心流程
+
+整体核心流程非常简单，如下图所示：
+
+![]()
+### 3、核心要点
+
+AI 智能评审核心要点主要有两点：：**代码上下文的丰富程度**以及**评审提示词质量**。
+
+1. 代码索引提供的代码上下文丰富程度；
+2. 评审提示词质量：
+
+![]()
+### 4、代码地址
+
+相关代码内部开源，欢迎大家积极贡献 MR，共建共创：https://codeup.aliyun.com/qimao/public/devops/ai-cr。
+
+### 
+
+
+主题
+[AI 专题](/tag/ai/)
+
+
+展示评论
+
+
+[AI 实战：基于 Agent 的 AI 自动化探索
+-------------------------
+
+@倪颖峰：探讨一下 AI 在自动化领域的应用，分析了其擅长与不擅长的任务类型。通过一个前端工具库的实际建设案例，展示了AI如何高效完成项目概要、代码生成与文档编写等工作，显著提升了开发效率和项目性价比。…
+
+2025/04/25](/ai-shi-zhan-ji-yu-agent-de-ai-zi-dong-hua-tan-suo/)
+[浅议 Cursor 在前端开发流程中的表现
+---------------------
+
+@徐晨皓：从前端开发视角探讨 Cursor 表现。通过 ToC、ToB 项目展示图生代码功能，其能构建布局、拆分组件，但样式还原有提升空间。还介绍 Figma - MCP 接入，可提高代码生成准确性与效率。总体而言，Cursor 能简化开发、加快交付，但细节处理待完善。…
+
+2025/04/08](/qian-yi-cursor-zai-qian-duan-kai-fa-liu-cheng-zhong-de-biao-xian/)
+
+
+
+
+
+#### 主题
+
+[后端: 47](/tag/back-end/)
+[移动端: 21](/tag/mobile/)
+[AI 专题: 19](/tag/ai/)
+[大数据: 18](/tag/bigdata/)
+[测试: 17](/tag/test/)
+[团队&文化: 17](/tag/team/)
+[前端: 15](/tag/front-end/)
+[运维: 6](/tag/operation/)
+[算法: 5](/tag/algorithm/)
+[go: 1](/tag/go/)
+[golang: 1](/tag/golang/)
+[Pyroscope: 1](/tag/pyroscope/)
+[pgo: 1](/tag/pgo/)
+[性能优化: 1](/tag/xing-neng-you-hua/)
+[go pgo: 1](/tag/go-pgo/)
+
+
+
+
+
+
+七猫技术团队 © 2026 
+基于 [Ghost](https://ghost.org) • 主题 [Attila](https://github.com/zutrinken/attila) • [System theme](#)  
+
+
+
+
+

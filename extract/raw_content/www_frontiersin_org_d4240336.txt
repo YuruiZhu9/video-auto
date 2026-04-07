@@ -1,0 +1,1185 @@
+# Source URL: https://www.frontiersin.org/journals/computer-science/articles/10.3389/fcomp.2026.1735253/full
+# Content Length: 92932 characters
+# Extracted at: 2026-03-31 11:33:46
+#============================================================
+
+
+
+Frontiers | RoLLMRec: a robust LLM-based recommender system for defending against shilling and prompt injection attacks
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[![]()Frontiers in Computer Science](//www.frontiersin.org/journals/computer-science) About usAbout us
+
+* Who we are
+* [Mission and values](https://www.frontiersin.org/about/mission)
+* [History](https://www.frontiersin.org/about/history)
+* [Leadership](https://www.frontiersin.org/about/leadership)
+* [Awards](https://www.frontiersin.org/about/awards)
+
+* Impact and progress
+* [Frontiers' impact](https://www.frontiersin.org/about/impact)
+* [Our annual reports](https://www.frontiersin.org/about/annual-reports)
+* [Thought leadership](https://www.frontiersin.org/about/thought-leadership)
+
+* Publishing model
+* [How we publish](https://www.frontiersin.org/about/how-we-publish)
+* [Open access](https://www.frontiersin.org/about/open-access)
+* [Peer review](https://www.frontiersin.org/about/peer-review)
+* [Research integrity](https://www.frontiersin.org/about/research-integrity)
+* [Research Topics](https://www.frontiersin.org/about/research-topics)
+* [FAIR² Data Management](https://www.frontiersin.org/about/fair-data-management)
+* [Fee policy](https://www.frontiersin.org/about/fee-policy)
+
+* Services
+* [Societies](https://publishingpartnerships.frontiersin.org/)
+* [National consortia](https://www.frontiersin.org/open-access-agreements/consortia)
+* [Institutional partnerships](https://www.frontiersin.org/about/open-access-agreements)
+* [Collaborators](https://www.frontiersin.org/about/collaborators)
+
+* More from Frontiers
+* [Frontiers Forum](https://forum.frontiersin.org/)
+* [Frontiers Planet Prize](https://www.frontiersin.org/about/frontiers-planet-prize)
+* [Press office](https://pressoffice.frontiersin.org/)
+* [Sustainability](https://www.frontiersin.org/about/sustainability)
+* [Career opportunities](https://careers.frontiersin.org/)
+* [Contact us](https://www.frontiersin.org/about/contact)
+
+[All journals](https://www.frontiersin.org/journals)[All articles](https://www.frontiersin.org/articles)[Submit your research](https://www.frontiersin.org/submission/submit?domainid=1&fieldid=125&specialtyid=0&entitytype=2&entityid=1511)[Search](//www.frontiersin.org/search)[![]()Frontiers in Computer Science](//www.frontiersin.org/journals/computer-science) SectionsSections
+
+* [Computer Graphics and Visualization](/journals/computer-science/sections/computer-graphics-and-visualization)
+* [Computer Security](/journals/computer-science/sections/computer-security)
+* [Computer Vision](/journals/computer-science/sections/computer-vision)
+* [Digital Education](/journals/computer-science/sections/digital-education)
+* [Human-Media Interaction](/journals/computer-science/sections/human-media-interaction)
+* [Mobile and Ubiquitous Computing](/journals/computer-science/sections/mobile-and-ubiquitous-computing)
+* [Networks and Communications](/journals/computer-science/sections/networks-and-communications)
+* [Software](/journals/computer-science/sections/software)
+* [Theoretical Computer Science](/journals/computer-science/sections/theoretical-computer-science)
+
+[Articles](//www.frontiersin.org/journals/computer-science/articles)[Research Topics](//www.frontiersin.org/journals/computer-science/research-topics)[Editorial board](//www.frontiersin.org/journals/computer-science/editors) About journalAbout journal
+
+* Scope
+* [Field chief editors](https://www.frontiersin.org/journals/computer-science/about#about-editors)
+* [Mission & scope](https://www.frontiersin.org/journals/computer-science/about#about-scope)
+* [Facts](https://www.frontiersin.org/journals/computer-science/about#about-facts)
+* [Journal sections](https://www.frontiersin.org/journals/computer-science/about#about-submission)
+* [Open access statement](https://www.frontiersin.org/journals/computer-science/about#about-open)
+* [Copyright statement](https://www.frontiersin.org/journals/computer-science/about#copyright-statement)
+* [Quality](https://www.frontiersin.org/journals/computer-science/about#about-quality)
+
+* For authors
+* [Why submit?](https://www.frontiersin.org/journals/computer-science/for-authors/why-submit)
+* [Article types](https://www.frontiersin.org/journals/computer-science/for-authors/article-types)
+* [Author guidelines](https://www.frontiersin.org/journals/computer-science/for-authors/author-guidelines)
+* [Editor guidelines](https://www.frontiersin.org/journals/computer-science/for-authors/editor-guidelines)
+* [Publishing fees](https://www.frontiersin.org/journals/computer-science/for-authors/publishing-fees)
+* [Submission checklist](https://www.frontiersin.org/journals/computer-science/for-authors/submission-checklist)
+* [Contact editorial office](https://www.frontiersin.org/journals/computer-science/for-authors/contact-editorial-office)
+
+ About usAbout us
+
+* Who we are
+* [Mission and values](https://www.frontiersin.org/about/mission)
+* [History](https://www.frontiersin.org/about/history)
+* [Leadership](https://www.frontiersin.org/about/leadership)
+* [Awards](https://www.frontiersin.org/about/awards)
+
+* Impact and progress
+* [Frontiers' impact](https://www.frontiersin.org/about/impact)
+* [Our annual reports](https://www.frontiersin.org/about/annual-reports)
+* [Thought leadership](https://www.frontiersin.org/about/thought-leadership)
+
+* Publishing model
+* [How we publish](https://www.frontiersin.org/about/how-we-publish)
+* [Open access](https://www.frontiersin.org/about/open-access)
+* [Peer review](https://www.frontiersin.org/about/peer-review)
+* [Research integrity](https://www.frontiersin.org/about/research-integrity)
+* [Research Topics](https://www.frontiersin.org/about/research-topics)
+* [FAIR² Data Management](https://www.frontiersin.org/about/fair-data-management)
+* [Fee policy](https://www.frontiersin.org/about/fee-policy)
+
+* Services
+* [Societies](https://publishingpartnerships.frontiersin.org/)
+* [National consortia](https://www.frontiersin.org/open-access-agreements/consortia)
+* [Institutional partnerships](https://www.frontiersin.org/about/open-access-agreements)
+* [Collaborators](https://www.frontiersin.org/about/collaborators)
+
+* More from Frontiers
+* [Frontiers Forum](https://forum.frontiersin.org/)
+* [Frontiers Planet Prize](https://www.frontiersin.org/about/frontiers-planet-prize)
+* [Press office](https://pressoffice.frontiersin.org/)
+* [Sustainability](https://www.frontiersin.org/about/sustainability)
+* [Career opportunities](https://careers.frontiersin.org/)
+* [Contact us](https://www.frontiersin.org/about/contact)
+
+[All journals](https://www.frontiersin.org/journals)[All articles](https://www.frontiersin.org/articles)[Submit your research](https://www.frontiersin.org/submission/submit?domainid=1&fieldid=125&specialtyid=0&entitytype=2&entityid=1511)[![]()Frontiers in Computer Science](//www.frontiersin.org/journals/computer-science) SectionsSections
+
+* [Computer Graphics and Visualization](/journals/computer-science/sections/computer-graphics-and-visualization)
+* [Computer Security](/journals/computer-science/sections/computer-security)
+* [Computer Vision](/journals/computer-science/sections/computer-vision)
+* [Digital Education](/journals/computer-science/sections/digital-education)
+* [Human-Media Interaction](/journals/computer-science/sections/human-media-interaction)
+* [Mobile and Ubiquitous Computing](/journals/computer-science/sections/mobile-and-ubiquitous-computing)
+* [Networks and Communications](/journals/computer-science/sections/networks-and-communications)
+* [Software](/journals/computer-science/sections/software)
+* [Theoretical Computer Science](/journals/computer-science/sections/theoretical-computer-science)
+
+[Articles](//www.frontiersin.org/journals/computer-science/articles)[Research Topics](//www.frontiersin.org/journals/computer-science/research-topics)[Editorial board](//www.frontiersin.org/journals/computer-science/editors) About journalAbout journal
+
+* Scope
+* [Field chief editors](https://www.frontiersin.org/journals/computer-science/about#about-editors)
+* [Mission & scope](https://www.frontiersin.org/journals/computer-science/about#about-scope)
+* [Facts](https://www.frontiersin.org/journals/computer-science/about#about-facts)
+* [Journal sections](https://www.frontiersin.org/journals/computer-science/about#about-submission)
+* [Open access statement](https://www.frontiersin.org/journals/computer-science/about#about-open)
+* [Copyright statement](https://www.frontiersin.org/journals/computer-science/about#copyright-statement)
+* [Quality](https://www.frontiersin.org/journals/computer-science/about#about-quality)
+
+* For authors
+* [Why submit?](https://www.frontiersin.org/journals/computer-science/for-authors/why-submit)
+* [Article types](https://www.frontiersin.org/journals/computer-science/for-authors/article-types)
+* [Author guidelines](https://www.frontiersin.org/journals/computer-science/for-authors/author-guidelines)
+* [Editor guidelines](https://www.frontiersin.org/journals/computer-science/for-authors/editor-guidelines)
+* [Publishing fees](https://www.frontiersin.org/journals/computer-science/for-authors/publishing-fees)
+* [Submission checklist](https://www.frontiersin.org/journals/computer-science/for-authors/submission-checklist)
+* [Contact editorial office](https://www.frontiersin.org/journals/computer-science/for-authors/contact-editorial-office)
+
+[![]()Frontiers in Computer Science](//www.frontiersin.org/journals/computer-science) SectionsSections
+
+* [Computer Graphics and Visualization](/journals/computer-science/sections/computer-graphics-and-visualization)
+* [Computer Security](/journals/computer-science/sections/computer-security)
+* [Computer Vision](/journals/computer-science/sections/computer-vision)
+* [Digital Education](/journals/computer-science/sections/digital-education)
+* [Human-Media Interaction](/journals/computer-science/sections/human-media-interaction)
+* [Mobile and Ubiquitous Computing](/journals/computer-science/sections/mobile-and-ubiquitous-computing)
+* [Networks and Communications](/journals/computer-science/sections/networks-and-communications)
+* [Software](/journals/computer-science/sections/software)
+* [Theoretical Computer Science](/journals/computer-science/sections/theoretical-computer-science)
+
+[Articles](//www.frontiersin.org/journals/computer-science/articles)[Research Topics](//www.frontiersin.org/journals/computer-science/research-topics)[Editorial board](//www.frontiersin.org/journals/computer-science/editors) About journalAbout journal
+
+* Scope
+* [Field chief editors](https://www.frontiersin.org/journals/computer-science/about#about-editors)
+* [Mission & scope](https://www.frontiersin.org/journals/computer-science/about#about-scope)
+* [Facts](https://www.frontiersin.org/journals/computer-science/about#about-facts)
+* [Journal sections](https://www.frontiersin.org/journals/computer-science/about#about-submission)
+* [Open access statement](https://www.frontiersin.org/journals/computer-science/about#about-open)
+* [Copyright statement](https://www.frontiersin.org/journals/computer-science/about#copyright-statement)
+* [Quality](https://www.frontiersin.org/journals/computer-science/about#about-quality)
+
+* For authors
+* [Why submit?](https://www.frontiersin.org/journals/computer-science/for-authors/why-submit)
+* [Article types](https://www.frontiersin.org/journals/computer-science/for-authors/article-types)
+* [Author guidelines](https://www.frontiersin.org/journals/computer-science/for-authors/author-guidelines)
+* [Editor guidelines](https://www.frontiersin.org/journals/computer-science/for-authors/editor-guidelines)
+* [Publishing fees](https://www.frontiersin.org/journals/computer-science/for-authors/publishing-fees)
+* [Submission checklist](https://www.frontiersin.org/journals/computer-science/for-authors/submission-checklist)
+* [Contact editorial office](https://www.frontiersin.org/journals/computer-science/for-authors/contact-editorial-office)
+
+[Submit your research](https://www.frontiersin.org/submission/submit?domainid=1&fieldid=125&specialtyid=0&entitytype=2&entityid=1511)[Search](//www.frontiersin.org/search)
+
+ORIGINAL RESEARCH article
+-------------------------
+
+Front. Comput. Sci., 12 March 2026
+
+Sec. Computer Security
+
+Volume 8 - 2026 | <https://doi.org/10.3389/fcomp.2026.1735253>
+
+[Published in![]()
+
+Frontiers in Computer Science 
+
+* #### Computer Security
+
+* **2.7** impact factor
+* **5.3** citescore](https://www.frontiersin.org/journals/computer-science)[Part of a Research Topic
+
+Innovative Solutions for Safeguarding Intelligent Systems
+
+* **8792** views
+* **6** articles](https://www.frontiersin.org/research-topics/69986/innovative-solutions-for-safeguarding-intelligent-systems)
+### Editor & Reviewers
+
+Edited by
+
+[RS
+
+Rajkumar Saini](https://loop.frontiersin.org/people/2338982)
+
+Reviewed by
+
+[SP
+
+Saurabh Pahune](https://loop.frontiersin.org/people/3295263)[JK
+
+Jaya Krishna M](https://loop.frontiersin.org/people/893992)
+
+Outline
+
+* [Abstract](#h1)
+* [1 Introduction](#s1)
+* [2 Related work](#s2)
+* [3 Problem definition](#s3)
+* [4 The proposed RoLLMRec architecture](#s4)
+* [5 Experimental setup](#s5)
+* [6 Results and discussion](#s6)
+* [7 Conclusion and future work](#s7)
+* [Data availability statement](#s8)
+* [Author contributions](#s9)
+* [Funding](#h11)
+* [Conflict of interest](#conf1)
+* [Generative AI statement](#s11)
+* [Publisher’s note](#h14)
+* [References](#h15)
+
+Figures and Tables 
+
+* Figure 1
+  
+  ![]()[View in article](#F1)
+* Figure 2
+  
+  ![]()[View in article](#F2)
+* Figure 3
+  
+  ![]()[View in article](#F3)
+* Figure 4
+  
+  ![]()[View in article](#F4)
+* Figure 5
+  
+  ![]()[View in article](#F5)
+* Figure 6
+  
+  ![]()[View in article](#F6)
+* Figure 7
+  
+  ![]()[View in article](#F7)
+* Figure 8
+  
+  ![]()[View in article](#F8)
+* Figure 9
+  
+  ![]()[View in article](#F9)
+* Figure 10
+  
+  ![]()[View in article](#F10)
+* Table 1
+  
+  Comparative analysis of representative state-of-the-art recommender models and the proposed RoLLMRec framework.
+  
+  [View in article](#T1)
+* Table 2
+  
+  Post-processing statistics of evaluation datasets.
+  
+  [View in article](#T2)
+* Table 3
+  
+  Model size and peak VRAM during inference (batch size = 8; 4-bit/INT8 where noted).
+  
+  [View in article](#T3)
+* Table 4
+  
+  Robustness metrics for LLM4Rec evaluation.
+  
+  [View in article](#T4)
+* Table 5
+  
+  HR@10 and NDCG@10 on clean data (across three datasets).
+  
+  [View in article](#T5)
+* Table 6
+  
+  Robustness results under 10% prompt injection.
+  
+  [View in article](#T6)
+* Table 7
+  
+  Finetuning strategy comparison (MovieLens).
+  
+  [View in article](#T7)
+* Table 8
+  
+  Zero-shot cross-domain performance of RoLLMRec.
+  
+  [View in article](#T8)
+
+ORIGINAL RESEARCH article
+-------------------------
+
+Front. Comput. Sci., 12 March 2026
+
+Sec. Computer Security
+
+Volume 8 - 2026 | <https://doi.org/10.3389/fcomp.2026.1735253>
+
+RoLLMRec: a robust LLM-based recommender system for defending against shilling and prompt injection attacks
+===========================================================================================================
+
+* [SS
+  
+  Sarama Shehmir \*](https://loop.frontiersin.org/people/3085978)
+* [RK
+  
+  Rasha Kashef \*](https://loop.frontiersin.org/people/2942766)
+
+* Department of Electrical, Computer and Biomedical Engineering, IoTA Lab, Toronto Metropolitan University, Toronto, ON, Canada
+
+ Article metrics
+
+[View details](#metrics)
+
+Abstract
+--------
+
+Large Language Models (LLMs) are increasingly being integrated into recommender systems, offering contextual reasoning, cross-domain adaptability, and natural language interaction. However, their adoption also introduces vulnerabilities such as prompt injection, semantic poisoning, and shilling attacks, which can distort recommendations and erode user trust. Addressing these risks is essential for the safe deployment of LLM-based recommenders. We propose RoLLMRec, a defense oriented architectural framework and evaluation methodology for LLM-based recommender systems that integrates prompt filtering, retrieval augmented grounding, trust aware scoring, and an auditing feedback loop. RoLLMRec improves robustness under the evaluated prompt level and semantic adversarial settings, while multimodal support is included at the architectural level only and is not empirically evaluated in the current experimental setup.RoLLMRec unifies five core components: (1) prompt shielding and input filtering to detect and block adversarial instructions; (2) retrieval-augmented generation to enrich factual grounding and reduce hallucination; (3) multimodal LLM encoding for text, metadata, and image inputs; (4) trust-aware scoring and Top-K ranking; and (5) adaptive feedback loops for continual learning. Evaluations on benchmark datasets such as Yelp, MovieLens, and Amazon Books show that RoLLMRec surpasses BERT4Rec, RecVAE, and LightGCN, improving NDCG@10 and HR@10 by up to 6% and 5%, respectively. Under a 10% prompt-injection attack, it maintains a Robust Hit Rate (RHR@10) above 0.63 and a Perturbation Sensitivity Index (PSI) below 0.135, achieving 15%–25% higher resilience. It also sustains a Semantic Stability Score (SSS) above 0.60 in zero-shot cross-domain transfer, confirming stable semantic intent.
+
+1 Introduction
+--------------
+
+Recommender systems (RS) have become foundational to the digital economy, enabling personalized content delivery in various domains, including e-commerce ([Smith and Linden, 2017](#B31)), streaming services ([Gómez-Uribe and Hunt, 2015](#B6)), online education ([Liu et al., 2023a](#B19)), and healthcare ([Tlili et al., 2021](#B33)). By filtering massive volumes of information, RS help users discover relevant items, thereby enhancing user satisfaction, increasing engagement, and driving platform revenue. For instance, over 35% of Amazon's sales and 75% of watched content on Netflix are attributed to personalized recommendations ([Gómez-Uribe and Hunt, 2015](#B6)). These systems not only improve user experience but also shape consumption behavior, information exposure, and even public opinion ([Nguyen et al., 2014](#B23)). Historically, RS emerged from two principal paradigms: collaborative filtering (CF) and content-based filtering (CBF). CF relies on the assumption that users who agreed in the past will continue to do so, making it possible to infer preferences from user-item interactions ([Sarwar et al., 2001](#B28)). Content-based filtering (CBF), in contrast, matches item features with user profiles using techniques such as cosine similarity or TF–IDF. Matrix factorization (MF), which gained prominence during the Netflix Prize challenge ([Koren et al., 2009](#B15)), represented a major step forward for collaborative filtering by learning latent representations of users and items. Despite being efficient and easy to implement, these methods remain constrained by data sparsity, cold start users and items, and a limited ability to model complex nonlinear preference patterns.
+
+The introduction of deep learning marked a paradigm shift in Recommender Systems research. Impactful neural models such as Neural Collaborative Filtering (NCF) ([He et al., 2017](#B9)), AutoRec ([Sedhain et al., 2015](#B29)), and DeepFM ([Guo et al., 2017](#B7)) improved the ability to model complex patterns, integrate heterogeneous data sources, and learn richer user/item representations. These advances resulted in substantial gains in ranking accuracy and personalization, particularly for top N recommendation and session based settings. The integration of multimodal input, comprising text, graphics, and structured knowledge graphs, significantly improved model expressiveness and domain flexibility. [Zhang et al. (2019)](#B41). Recent progress in self attention mechanisms has brought Transformer-based architectures into the recommendation domain, improving the ability to capture long range dependencies and sequential context. For example, BERT4Rec ([Sun et al., 2019](#B32)) applies masked language modeling to user interaction histories, while SASRec ([Kang and McAuley, 2018](#B14)) shows that self attention can effectively represent sequential recommendation patterns. In parallel, Graph Neural Networks (GNNs) such as LightGCN ([He et al., 2020](#B8)) and NGCF ([Wang et al., 2019](#B35)) exploit structural relationships in user item graphs, learning higher order relational signals through message passing. Although these approaches have substantially improved accuracy, they also introduce new risks: deep learning based recommender systems can be steered by adversarial inputs or corrupted training data, producing biased or misleading results ([Fang et al., 2020](#B2)). Poisoning attacks, including shilling attacks, are able to manipulate rankings by injecting fabricated user profiles, while evasion attacks manipulate item metadata or user queries at inference time ([Wang et al., 2024](#B36)). These risks are especially acute in domains such as healthcare and finance, where distorted recommendations can have serious real-world consequences ([Ma et al., 2021](#B22); [Fursov et al., 2021](#B3)).
+
+Concurrently, the field of natural language processing (NLP) has been transformed by the development of large language models (LLMs), such as BERT ([Devlin et al., 2018](#B1)), GPT ([Radford et al., 2019](#B25)), and T5 ([Raffel et al., 2020](#B26)). Trained on massive corpora, these models exhibit impressive generalization in language understanding, reasoning, and generation. Their ability to encode contextual information and world knowledge has inspired a new line of work: the integration of LLMs into recommender systems, collectively referred to as LLM-based Recommender Systems (LLM4Rec) ([Geng et al., 2022](#B5); [Liu et al., 2023b](#B20); [Hiam et al., 2023](#B10)). LLMs offer significant potential benefits for recommendation. Their natural language understanding facilitates more intuitive user interaction (e.g., conversational RS), dynamic item comprehension (e.g., parsing reviews or titles), and explanation generation in human-readable language. Models like P5 ([Geng et al., 2022](#B5)) unify recommendation tasks under a text-to-text formulation. These capabilities bring new opportunities for domain adaptation, cold-start handling, and personalized content delivery. However, the integration of LLMs also amplifies vulnerability. Known issues with LLMs, particularly hallucination, sensitivity to phrasing, bias amplification, and susceptibility to prompt injection, carry over into LLM4Rec ([Li et al., 2023](#B17); [Xu et al., 2023](#B38)). For example, adversarial prompts embedded in user queries or item reviews can manipulate outputs or override system instructions. Fine-tuned LLMs may also inherit latent backdoors from poisoned training data ([Xu et al., 2023](#B38)). Moreover, LLMs can unintentionally generate recommendations for non-existent items or propagate social biases learned from training corpora ([Raza et al., 2024](#B27)).
+
+To address these challenges, we introduce RoLLMRec, a retrieval-augmented and defense-aware framework for LLM-based recommendation. RoLLMRec incorporates input filtering and shielding to block malicious prompts, retrieval-augmented generation to mitigate hallucination, multimodal encoding to handle diverse inputs, and trust-aware scoring with feedback loops for adaptive robustness. Our contributions are threefold: (i) we propose a taxonomy of adversarial threats in LLM4Rec, (ii) we design and implement RoLLMRec as a modular defense-in-depth architecture, and (iii) we introduce three robustness-oriented evaluation metrics designed to characterize LLM-specific behavioral instability under adversarial perturbation: Robust Hit Rate (RHR@10), Perturbation Sensitivity Index (PSI), and Semantic Stability Score (SSS). We validate the framework across Yelp, MovieLens, and Amazon Books datasets. Results demonstrate that RoLLMRec consistently outperforms baselines such as BERT4Rec, RecVAE, and LightGCN in both accuracy and robustness. By bridging retrieval, multimodal encoding, and layered defense mechanisms, RoLLMRec provides a blueprint for secure, explainable, and trustworthy recommender systems.
+
+2 Related work
+--------------
+
+Research on recommender systems (RS) has evolved through several distinct paradigms as illustrated in [Figure 1](#F1). Early approaches focused on collaborative filtering (CF) and content-based filtering (CBF), which leveraged user–item interactions and item metadata to generate personalized outputs ([Sarwar et al., 2001](#B28); [Koren et al., 2009](#B15)). Matrix factorization methods introduced latent embeddings that improved predictive accuracy, but these approaches struggled with cold-start users and sparse datasets ([He et al., 2017](#B9)). Content-based methods, though interpretable, often failed to generalize beyond known attributes ([Zhang et al., 2019](#B41)).
+
+Figure 1
+
+![]()
+
+
+
+Timeline of recommender system paradigms, from classical collaborative filtering to the rise of LLM4Rec.
+
+
+
+The advent of deep learning significantly advanced the capabilities of recommender systems. Neural architectures such as Neural Collaborative Filtering, AutoRec, and DeepFM demonstrated improved ability to capture nonlinear patterns and fuse multimodal information sources ([Sedhain et al., 2015](#B29); [Guo et al., 2017](#B7); [He et al., 2017](#B9)). Transformer-based models extended these gains by incorporating sequential dependencies and long-range context. For instance, BERT4Rec leveraged bidirectional encoders for sequence modeling, while SASRec applied self-attention for session-based recommendations ([Sun et al., 2019](#B32); [Kang and McAuley, 2018](#B14)). Parallel to these developments, graph-based approaches like LightGCN and NGCF exploited user–item relationships via message passing on interaction graphs, enabling more expressive relational modeling ([Wang et al., 2019](#B35); [He et al., 2020](#B8)). Despite improved accuracy, recommender systems remain vulnerable to adversarial manipulation. Poisoning attacks, including shilling, strategically insert fake profiles to bias recommendations ([Fang et al., 2020](#B2)). Evasion attacks alter inputs at inference, exposing sensitivity to small changes ([Wang et al., 2024](#B36)). These threats are particularly concerning in domains such as healthcare and finance where safety is critical ([Ma et al., 2021](#B22); [Fursov et al., 2021](#B3)).
+
+The emergence of large language models (LLMs) such as BERT, GPT, and T5 ([Devlin et al., 2018](#B1); [Radford et al., 2019](#B25); [Raffel et al., 2020](#B26)) has opened a new direction in recommender systems research. Owing to their extensive pre-training on large-scale corpora, LLMs possess contextual reasoning abilities and world knowledge that make them promising for personalization tasks. Recent studies have explored integrating these models into recommendation workflows, giving rise to LLM-based recommenders (LLM4Rec) ([Hiam et al., 2023](#B10); [Lyu et al., 2023](#B21)). In an LLM4Rec framework, recommendation tasks are reformulated in natural language, for example, by providing a prompt describing a user's preferences and asking the model to generate appropriate recommendations.
+
+One of the earliest unified formulations is P5 proposed by [Geng et al. (2022)](#B5), which treats multiple recommendation subtasks such as rating prediction, sequential recommendation, and explanation generation, under a text-to-text paradigm. This approach effectively frames recommendation as a natural language modeling problem and demonstrates that LLMs can transfer linguistic understanding to personalization tasks. Building upon this paradigm, models such as ChatGPT ([Hiam et al., 2023](#B10)) have shown the ability to support conversational recommendation, while Cross-Domain LLMRec ([Vajjala et al., 2024](#B34)) has illustrated how prompting can enable cross-domain transfer. LLM-based systems also naturally generate explanations in natural language/text format, which enhances transparency and user trust ([Lyu et al., 2023](#B21)).
+
+Despite these advantages, LLM-based recommenders inherit several vulnerabilities from their underlying architectures. Hallucination, a known issue in large language models ([Huang et al., 2025](#B11); [Liu et al., 2024](#B18)), may cause an LLM4Rec system to recommend nonexistent items or generate unfounded justifications for recommendations. Bias amplification also persists; if training data contains popularity or societal biases, these biases can propagate and even magnify through recommendations generated by models ([Gallegos et al., 2024](#B4); [Raza et al., 2024](#B27)). Another important challenge is prompt sensitivity, where even small changes in how a prompt is phrased or ordered can cause noticeably different outcomes ([Wei et al., 2022](#B37)). In practice, broadly trained models such as ChatGPT often produce inconsistent ranking results for queries that are semantically identical ([Zhang et al., 2023](#B40)). Furthermore, LLMs are susceptible to adversarial manipulation through prompt injection attacks ([Pérez and Ribeiro, 2022](#B24); [Xu et al., 2024](#B39)). In such attacks, malicious inputs embed hidden instructions that override the system's intended logic and yield targeted outputs. This behavior mirrors backdoor and Trojan attacks seen in NLP pipelines ([Zou et al., 2023](#B42)), and few LLM4Rec models currently possess any structured defenses.
+
+A major gap in current literature is the absence of robustness assessment under adversarial or noisy conditions. Most existing works evaluate performance using conventional accuracy metrics or qualitative human judgments, neglecting how models behave under semantic perturbations or cross-domain drift. For instance, while Cross-Domain LLMRec ([Vajjala et al., 2024](#B34)) achieved strong transfer results across domains, it did not quantify stability or resilience against malicious or out-of-distribution inputs. The broader LLM4Rec research community has only recently begun discussing robustness, factual grounding, and adversarial resistance as key performance dimensions.
+
+The convergence of recommendation systems and large language models therefore presents both opportunities and challenges. While LLM-based recommenders enable natural language interaction, contextual understanding, and cross-domain adaptability, they introduce vulnerabilities that earlier architectures never encountered. Addressing these limitations, [Table 1](#T1) compares popular SOTA models : BERT4Rec ([Sun et al., 2019](#B32)), RecVAE ([Shenbin et al., 2020](#B30)), LightGCN ([He et al., 2020](#B8)), NGCF ([Wang et al., 2019](#B35)), P5 ([Geng et al., 2022](#B5)), ChatGPT ([Hiam et al., 2023](#B10)), and Cross-Domain LLMRec ([Vajjala et al., 2024](#B34)); highlighting gaps in robustness, factuality, and defense module integration.
+
+Table 1
+
+| **Model** | **Architecture** | **Core strength** | **Key limitation** | **Robustness in paper** | **Gap addressed by RoLLMRec** |
+| BERT4Rec ([Sun et al., 2019](#B32)) | Transformer encoder | Sequential modeling of user behavior | Sensitive to adversarial perturbations; lacks factual grounding | – | Missing prompt-level defense and retrieval grounding |
+| RecVAE ([Shenbin et al., 2020](#B30)) | Variational autoencoder | Efficient handling of implicit feedback | Limited contextual reasoning; weaker on sparse data | – | No handling of semantic drift or injection attacks |
+| LightGCN ([He et al., 2020](#B8)) | Graph neural network | Learns user and item relations through message passing | Vulnerable to shilling/profile poisoning | – | Does not include adversarial filtering or cross domain robustness mechanisms |
+| NGCF ([Wang et al., 2019](#B35)) | Graph neural network | Learns deeper user and item connections by embedding collaborative information through message propagation | Computationally heavy; lacks interpretability and robustness | – | Provides interpretable, Provides interpretable and trust oriented reasoning through defense modules |
+| P5 ([Geng et al., 2022](#B5)) | Text-to-text LLM | Unified natural language formulation across domains | Hallucination; no robustness verification | – | Adds retrieval grounding and prompt shielding |
+| ChatGPT ([Hiam et al., 2023](#B10)) | General purpose LLM | Conversational and explainable outputs | Unstable ranking; prompt injection susceptibility | – | No structured adversarial protection or trust calibration |
+| Cross-Domain LLMRec ([Vajjala et al., 2024](#B34)) | Cros-domain recommendation | Generalization across multiple domains | Limited robustness evaluation; prone to semantic drift | – | RoLLMRec extends cross domain capability with robustness aware grounding |
+| RoLLMRec (Proposed) | Retrieval augmented LLM | Robust, interpretable, adaptive recommendations | Higher training cost (multiple modules) | Prompt shielding; RAG grounding; trust aware scoring; feedback auditing | Addresses robustness, hallucination, and adversarial vulnerabilities via defense-aware integration |
+
+Comparative analysis of representative state-of-the-art recommender models and the proposed RoLLMRec framework.
+
+In response, this study introduces RoLLMRec, a retrieval augmented and defense aware LLM-based recommender framework designed to mitigate specific classes of prompt-level and semantic adversarial manipulation evaluated in this study to external adversarial manipulation. Unlike previous models that lack explicit defenses, RoLLMRec integrates multiple protection layers throughout the recommendation pipeline. First, it employs prompt shielding and input filtering to identify and neutralize malicious instructions before model processing. Second, it integrates retrieval augmented generation (RAG), querying a domain-specific knowledge base to retrieve factual evidence that grounds the LLM's responses, thereby mitigating hallucination and improving factual reliability ([Lewis et al., 2020](#B16); [Izacard et al., 2022](#B12)). Third, RoLLMRec includes a trust aware ranking and scoring mechanism that evaluates the confidence and internal consistency of recommendations, stabilizing outputs even under minor input variations. Finally, it features an adaptive feedback loop that monitors user interaction data and system performance to detect semantic drift or emerging attack patterns, enabling dynamic updates to defense parameters and retraining procedures.
+
+This defense in depth approach combines the expressive reasoning capabilities of LLMs with mechanisms from retrieval augmentation and adversarial machine learning to achieve factual, stable, and attack resistant recommendations.
+
+3 Problem definition
+--------------------
+
+Large language model-based recommender systems (LLM4Rec) represent a paradigm shift in personalization by leveraging the contextual reasoning and generative capabilities of LLMs. However, these systems continue to face fundamental risks from adversarial manipulation. While traditional recommender research has focused on improving accuracy, diversity, and novelty, it has often paid less attention to equally important aspects such as robustness, interpretability, and contextual reliability. The integration of LLMs introduces new attack surfaces that jeopardize both fidelity and trustworthiness. Threats such as prompt injection, semantic poisoning, and instructional drift as seen in [Figure 2](#F2) can systematically distort recommendation outcomes, while the problem of hallucination ([Ji et al., 2023](#B13)) (factually incorrect or semantically misaligned output) highlights significant risks in domains such as healthcare, education, and e-commerce. These vulnerabilities are amplified in real-world deployments, where systems must adapt to noisy user behavior, multimodal inputs, and evolving domain contexts. Despite early explorations in adversarial machine learning, current LLM4Rec pipelines lack comprehensive defense mechanisms. Most approaches omit essential modules for input sanitization, external knowledge grounding, semantic validation, feedback auditing, or multimodal reasoning. As a result, they fail to provide reliable robustness guarantees under realistic adversarial conditions.
+
+Figure 2
+
+![]()
+
+
+
+Prompt Injection Attacks through the Tokenizer corrupting the input prompt.
+
+
+
+### Research Problem
+
+*How can we design and evaluate a defense-aware, retrieval-augmented, and multimodal LLM-based recommendation architecture that ensures robustness, interpretability, and contextual grounding against adversarial threats?*
+
+To tackle this challenge, we propose RoLLMRec, a modular framework that systematically analyzes vulnerabilities, integrates retrieval-augmented generation to reduce hallucinations, incorporates prompt shielding and anomaly detection for adversarial defense, and introduces novel robustness metrics to quantify system stability. The framework is evaluated on benchmark datasets under both clean and adversarial conditions to validate its effectiveness and efficiency.
+
+4 The proposed RoLLMRec architecture
+------------------------------------
+
+Large Language Models (LLMs) extend recommender systems by enabling contextual personalization, language-based interaction, and multitask unification. Yet, they are vulnerable to adversarial manipulation through malicious prompts, poisoned samples, or embedded perturbations. To address these risks, we propose RoLLMRec; a modular, defense-aware architecture designed to enhance robustness while preserving recommendation quality. The framework follows three guiding principles: (i) modularity, with decoupled defense components that are model-agnostic and easily extensible; (ii) adaptivity, with monitoring of adversarial signals at input, representation, and ranking stages; and (iii) minimal intrusiveness, aiming to minimize impact on benign recommendations. [Figure 3](#F3) illustrates the baseline RoLLMRec pipeline, incorporating prompt shielding, adversarial validation, and feedback-based correction. These mechanisms collectively mitigate prompt injection, semantic poisoning, and drift in LLM4Rec settings ([Xu et al., 2023](#B38)).
+
+Figure 3
+
+![]()
+
+
+
+RoLLMRec architecture.
+
+
+
+In contrast to collaborative filtering, which models user–item interactions in matrix form, LLM4Rec operates on tokenized natural language. Let  be the set of users and  the set of items. Each user  and item  is represented by token sequences:
+
+* : user prompts describing preferences or history,
+* : item metadata (title, description, tags, reviews).
+
+A transformer-based recommender parameterized by θ computes the relevance score:
+
+yielding a scalar that reflects compatibility between *u* and *i*. Training minimizes the negative log-likelihood of observed interactions:
+
+where  denotes positive user–item pairs. The conditional distribution  may be instantiated via softmax scoring, contrastive objectives, or generative text-to-text modeling ([Geng et al., 2022](#B5)).
+
+RoLLMRec extends this baseline by adding defense layers before and after *f*θ, enabling detection and mitigation of adversarial perturbations to inputs or hidden representations. These safeguards allow the system to maintain stable and trustworthy outputs even under hostile conditions. [Figure 3](#F3) depicts the RoLLMRec pipeline. Each block aggregates a set of defensive or generative sub-components and is color-coded in the figure (blue = standard processing, red = defense, orange = trainable LLM, green = auditing).
+
+### 4.1 Input and filtering
+
+This stage is shown in [Figure 3](#F3) and broken down to show input flow in [Figure 4](#F4). Raw user prompts first pass through a Prompt Shielding layer that removes known jailbreak strings and regex-based injection patterns. A Prompt Validator/Discriminator then performs semantic and temporal sanity checks, while the Shilling Defense filter flags profiles that match push or nuke style injection templates. An optional Adversarial Test Suite can inject synthetic perturbations to measure failure modes in a controlled setting.
+
+Figure 4
+
+![]()
+
+
+
+Input processing flow in RoLLMRec with prompt shielding. The sanitized prompt is fed back into the positional encoding stage.
+
+
+
+### 4.2 Knowledge retrieval
+
+Addressing the Hallucination-Mitigation gap, this module supplies factual grounding. A lightweight Query Encoder produces dense queries from the prompt; a hybrid RAG Retriever (BM25 + FAISS/DPR) selects top-*k* passages from the external Knowledge Store . The retrieved snippets are concatenated to the prompt, providing evidence that reduces hallucination and stabilizes the LLM's generation as seen in [Figure 5](#F5). An example of how RAG works is depicted in [Figure 6](#F6).
+
+Figure 5
+
+![]()
+
+
+
+Workflow of the RAG retriever module.
+
+
+
+Figure 6
+
+![]()
+
+
+
+Illustrative working of the RAG retriever module.
+
+
+
+### 4.3 Fusion and recommendation
+
+To close the Multimodal-Continual Learning gap, RoLLMRec merges all available signals in this stage. A Fusion Layer aligns user prompts, retrieved text, and optional image or metadata embeddings. The fused sequence feeds a trainable LLM Encoder/Decoder(e.g., BERT, GPT, and T5). Token representations are scored by a Relevance Scorer *f*θ, followed by a Trust Calibration unit that down-weights risky items. The calibrated scores produce the Top-*K* Ranking . This module delivers adaptive, multimodal personalisation as seen in [Figure 7](#F7). Although the fusion layer is designed to support image and multimodal embeddings, the experimental evaluation in this work is restricted to text and metadata inputs, and multimodal learning is left for future investigation.
+
+Figure 7
+
+![]()
+
+
+
+Encoder and decoder configurations for processing fused inputs.
+
+
+
+### 4.4 Auditing and feedback
+
+The audit loop tackles the Robustness-Metric and Real-World-Validation gaps. A Logit/Drift Auditor monitors bias and semantic deviation; flagged items are either re-ranked or blocked by the Feedback Loop as seen in [Figure 8](#F8). All interactions including tokens, embeddings, risk scores are stored in a Metadata Buffer for continual adaptation. The Benchmarking Evaluator and Evaluation Engine compute classical metrics (HR@K, NDCG) and novel ones (PSI, Semantic Stability Score, Accuracy drop under attack). Cross-dataset experiments on Amazon, Yelp, and MovieLens close the loop between research evaluation and production viability.
+
+Figure 8
+
+![]()
+
+
+
+Re-ranking logic: Suspicious items are penalized or removed; trustworthy items are boosted in the Top-K output.
+
+
+
+5 Experimental setup
+--------------------
+
+In this section, we mention the datasets, adversarial attack protocols, baseline models, training configurations, and evaluation metrics used to assess the robustness and effectiveness of RoLLMRec. We evaluate on three widely used public benchmarks: Yelp, MovieLens, and Amazon Books. Each dataset is preprocessed through filtering, deduplication, and stratified splitting (80/10/10 or temporal holdout). We then construct natural language prompts that encode a user's short interaction history, optional metadata (i.e., categories or sentiment), and the Top-*K* prediction target. Prompts are tokenized with the LLM's native tokenizer, padded or truncated to 128 tokens, and capped at 64 generated tokens to balance latency and robustness. Final dataset statistics are summarized in [Table 2](#T2). All evaluations are conducted under offline, static benchmark settings following standard practice in LLM4Rec research; real-time or streaming user interaction scenarios are not considered in this study.
+
+Table 2
+
+| **Dataset** | **Users** | **Items** | **Interactions** | **Avg. tokens/prompt** |
+| MovieLens 1M | 5,981 | 3,706 | 1,000,209 | 37.2 |
+| Amazon books | 52,643 | 91,599 | 5,987,845 | 43.8 |
+| Yelp 2019 | 25,356 | 31,115 | 1,094,728 | 51.1 |
+
+Post-processing statistics of evaluation datasets.
+
+### 5.1 Adversarial attack simulation
+
+To evaluate resilience, we simulate adversarial conditions covering three representative threat models: (i) prompt injection, where malicious instructions are embedded in queries; (ii) semantic poisoning, where metadata is subtly manipulated; and (iii) semantic drift, where cumulative exposure biases the model. Attacks are black-box at inference and applied consistently to baseline models through their text features. We vary the perturbation rate at 1%, 5%, and 10% of the inputs and apply them at user-side prompts, retrieved contexts, and item metadata.The goal of this evaluation is comparative robustness analysis across representative threat models, rather than exhaustive coverage of all known adversarial attack classes. These attack simulations represent first-order black-box adversarial conditions and are not intended to approximate adaptive white-box or gradient-based attacks.
+
+### 5.2 Baselines and training configuration
+
+We compare RoLLMRec against strong baselines: BERT4Rec ([Sun et al., 2019](#B32)), RecVAE ([Shenbin et al., 2020](#B30)), and LightGCN ([He et al., 2020](#B8)). Model complexity, VRAM footprint, and latency are listed in [Table 3](#T3). Training is performed on a single NVIDIA A100 (40 GB) and verified on a Colab T4 (15 GB) with quantization. We use AdamW (lr = 10−4, weight decay = 10−2) with linear warm-up of 500 steps. Batches of 32 prompts (A100) or 8 with accumulation (T4) are trained in FP16 or INT8/4-bit precision. Early stopping is based on validation NDCG, allowing up to 3 epochs without improvement. Each experiment is repeated with three random seeds, and average results with standard deviation are reported.
+
+Table 3
+
+| **Model** | **Params** | **Precision** | **VRAM (GB)** |
+| BERT4Rec | 110M | FP16 | 5.6 |
+| RecVAE | 9M | FP32 | 1.2 |
+| LightGCN | 8M | FP32 | 1.4 |
+| RoLLMRec (def.) | 355M | 4-bit + LoRA | 11.6 |
+
+Model size and peak VRAM during inference (batch size = 8; 4-bit/INT8 where noted).
+
+### 5.3 Evaluation metrics
+
+We employ both accuracy and robustness metrics. Standard accuracy is measured by Hit Rate at *K* (HR@10). Robustness is approximated through: (i) RHR@10, the relative degradation under attack; (ii) Perturbation Sensitivity Index (PSI), quantifying score changes under minimal token perturbations; and (iii) Semantic Stability Score (SSS), capturing semantic consistency between clean and adversarial Top-*K* lists.These metrics capture relative behavioral stability rather than providing paradigm-agnostic robustness guarantees. Efficiency is measured by median (P50) and tail (P95) latency as well as peak VRAM at batch sizes 4, 16, and 32. Definitions are summarized in [Table 4](#T4).
+
+Table 4
+
+| **Metric** | **Measures** | **Robustness type** | **Interpretation** |
+| RHR@K | Accuracy drop under attack | Behavioral | Higher = weaker |
+| PSI | Score change from small perturbations | Sensitivity | Higher = weaker |
+| SSS | Semantic similarity pre/post attack | Stability | Lower = weaker |
+
+Robustness metrics for LLM4Rec evaluation.
+
+6 Results and discussion
+------------------------
+
+This section presents a comprehensive empirical evaluation of the proposed RoLLMRec architecture, assessing its performance under clean, adversarial, and zero-shot conditions.The evaluation is conducted across three real-world datasets: MovieLens, Amazon Books, and Yelp while using quantitative metrics such as HR@10, NDCG@10, RHR@10, and PSI. RoLLMRec consistently outperforms state-of-the-art baselines such as BERT4Rec, RecVAE, and LightGCN. In clean scenarios, it achieves higher ranking accuracy; under adversarial attacks, it maintains low sensitivity and high robustness; and in cross-domain tasks, it retains semantic intent despite large vocabulary and structure shifts. The model's architecture including prompt shielding and feedback correction is validated through targeted ablation studies. Efficiency benchmarks show that while RoLLMRec is more resource-intensive than lightweight baselines, its response time remains deployable. Finally, a human evaluation confirms its superiority in delivering relevant, fluent, and coherent recommendations highlighting its suitability for trustworthy applications such as conversational and personalized recommendation systems.
+
+### 6.1 Performance on clean data
+
+Empirical results, summarized comprehensively in [Table 5](#T5), demonstrate that RoLLMRec consistently achieves superior performance across all three datasets compared to baseline models (BERT4Rec, RecVAE, and LightGCN). Specifically:
+
+* MovieLens Dataset: RoLLMRec achieved HR@10 of 0.724 and NDCG@10 of 0.443, surpassing the strongest baseline, BERT4Rec, by approximately 3% to 6%. This aligns closely with our hypothesis that RoLLMRec's advanced multimodal and semantic fusion capabilities would significantly enhance the model's ability to interpret nuanced user-item interactions.
+* Amazon Books Dataset: Here, RoLLMRec attained an HR@10 of 0.657 and an NDCG@10 of 0.416, exceeding the strongest baseline by over 5% in NDCG@10. This pronounced improvement validates the theoretical advantage we attributed to RoLLMRec's contextualized review snippet utilization and robust generative decoding strategies.
+* Yelp Dataset: RoLLMRec reached an HR@10 of 0.672 and NDCG@10 of 0.422, outperforming baseline models by roughly 4%–5%.
+
+Table 5
+
+| **Model** | **HR@10 (ML)** | **NDCG@10 (ML)** | **HR@10 (Amazon)** | **NDCG@10 (Amazon)** | **HR@10 (Yelp)** | **NDCG@10 (Yelp)** |
+| RoLLMRec | 0.724 | 0.443 | 0.657 | 0.416 | 0.672 | 0.422 |
+| BERT4Rec | 0.692 | 0.428 | 0.625 | 0.394 | 0.641 | 0.401 |
+| RecVAE | 0.681 | 0.421 | 0.607 | 0.381 | 0.619 | 0.390 |
+| LightGCN | 0.688 | 0.426 | 0.613 | 0.387 | 0.628 | 0.397 |
+
+HR@10 and NDCG@10 on clean data (across three datasets).
+
+Color shading follows a purple–pink gradient (cool purple = lower/worse, warm pink = higher/better), column-wise normalized for visual comparison only.
+
+These empirical outcomes strongly affirm our theoretical expectations and validate our core hypothesis: RoLLMRec's robust architecture, enhanced semantic alignment, and context-aware embedding strategies yield significantly improved recommendation accuracy and quality over conventional recommendation methods. To clearly illustrate comparative performance during presentations, [Table 5](#T5) uses colored cell shading: deep rose indicates premier performance (highest values), while progressively lighter blue shades indicate weaker baseline model performance.
+
+### 6.2 Performance under adversarial conditions
+
+To validate RoLLMRec's robustness claims under adversarial stress, we evaluated its performance using the 10% prompt–injection setting described in Section 5.1. We corrupted exactly 10% of test prompts with the ignore previous instructions trigger, thereby assessing the model's resilience to jailbreak style attacks. The primary robustness metrics *Robust Hit Rate@10* and the *Perturbation Sensitivity Index* were defined in [Table 4](#T4). It is important to remember that a lower PSI and a higher RHR@10 jointly demonstrates consistently improved robustness relative to baselines under the evaluated adversarial settings. Results are shown in [Table 6](#T6).
+
+Table 6
+
+| **Model** | **RHR@10 (ML)** | **PSI (ML)** | **RHR@10 (Amazon)** | **PSI (Amazon)** | **RHR@10 (Yelp)** | **PSI (Yelp)** |
+| RoLLMRec | **0.667** | **0.129** | **0.639** | **0.133** | **0.645** | **0.127** |
+| BERT4Rec | 0.588 | 0.198 | 0.534 | 0.237 | 0.552 | 0.213 |
+| RecVAE | 0.511 | 0.245 | 0.487 | 0.262 | 0.493 | 0.231 |
+| LightGCN | 0.526 | 0.227 | 0.501 | 0.238 | 0.512 | 0.220 |
+
+Robustness results under 10% prompt injection.
+
+Higher RHR@10 and lower PSI indicate stronger resilience. Color shading follows a purple-pink gradient to reflect relative robustness (pink = stronger, purple = weaker). Bold values denote the best result within each column.
+
+RoLLMRec exhibits the strongest resilience across all three datasets, maintaining an RHR@10 >0.63 and PSI < 0.135. These numbers represent a relative robustness margin of 13 to 18 percentage points over BERT4Rec and 21 to 27 points over RecVAE. Notably, the *Amazon Books* scenario demonstrates the greatest absolute performance gap: RoLLMRec's PSI remains stable at 0.133, whereas BERT4Rec's score spikes to 0.237 (~78% higher volatility). This aligns with our expectation that textual–review noise in Amazon would expose baseline models' sensitivity to adversarial token distribution shifts.
+
+### 6.3 Ablation study
+
+[Figure 9](#F9) summarizes these impacts using the defined robustness metrics: Robust Hit Rate (RHR@10) and Perturbation Sensitivity Index (PSI). The largest performance drop occurred when prompt shielding was disabled, underscoring its critical role in early adversarial filtering. Removal of the neural scorer notably increased the instability of ranking scores (PSI).
+
+Figure 9
+
+![]()
+
+
+
+Robustness ablation study: percentage impact of removing key defensive components on RHR@10 and PSI metrics. Higher RHR@10 Drop and PSI Increase indicate greater vulnerability, showing that prompt shielding and neural scoring are most critical for robustness.
+
+
+
+Prompt components were further analyzed through linguistic feature removal in user prompts. We examined how omitting adjectives, categories, verbs, or entirely removing natural language features impacted recommendation quality ([Figure 10](#F10)). The absence of categories and adjectives significantly reduced recommendation effectiveness, reinforcing their importance in semantic alignment. The comparison of fine tuning methods (full fine tuning vs. LoRA) revealed key practical trade-offs ([Table 7](#T7)). While full fine tuning achieved marginally higher performance, it also required greater computational resources. In contrast, LoRA was more suitable for environments with limited resources, offering reduced GPU memory usage and faster convergence.
+
+Figure 10
+
+![]()
+
+
+
+Prompt component ablation on MovieLens. Pink and blue dots highlight relative changes in NDCG@10 and RHR@10 across prompt variants.
+
+
+
+Table 7
+
+| **Method** | **Params** | **GPU memory (GB)** | **Epochs** | **NDCG@10** |
+| Full fine-tuning (T5-base) | 220M | 12.4 | 20 | 0.487 |
+| LoRA (T5-base, r = 8) | 2.6M | 4.8 | 13 | 0.476 |
+| Full Fine-Tuning (GPT2-medium) | 345M | 15.3 | 20 | 0.493 |
+| LoRA (GPT2-medium, r = 8) | 3.9M | 6.0 | 14 | 0.482 |
+
+Finetuning strategy comparison (MovieLens).
+
+Color shading follows a purple–pink gradient (cool purple = lower/worse, warm pink = higher/better), column-wise normalized for visual comparison only.
+
+These experiments validate our initial hypothesis: RoLLMRec's robustness and effectiveness rely heavily on a cohesive combination of defensive components and carefully constructed prompt semantics. Maintaining this integrated defense approach is essential for deploying resilient recommender systems in adversarial or semantically noisy environments.
+
+### 6.4 Domain transfer evaluation
+
+To assess RoLLMRec's zero-shot cross-domain generalization, we evaluated its performance when transferring user-item interaction patterns from a source domain to a target domain without additional fine-tuning. This setup simulates real-world conditions where labeled target-domain data is unavailable or limited. We evaluated the following source-to-target domain pairs:
+
+* Amazon Books → Yelp (product reviews to service oriented businesses).
+* Yelp → MovieLens (local business preferences to entertainment media).
+* MovieLens → Amazon Books (media content to product recommendation).
+
+Each pair represents increasingly challenging semantic shifts, from entity types and vocabulary to user interaction patterns. We utilized three primary metrics:
+
+* NDCG@10: Quality of ranking recommendations.
+* HR@10: Presence of relevant items within the top 10 recommendations.
+* Semantic Stability Score (SSS): Semantic alignment consistency via cosine similarity (Sentence-BERT embeddings).
+
+[Table 8](#T8) states these results. Performance degradation ranged between 25%–40% relative to same domain baselines, with the greatest challenge presented by the interdomain scenario due to the substantial semantic gap between media and structured product interactions. This aligns closely with established findings in cross-domain literature ([Vajjala et al., 2024](#B34)).
+
+Table 8
+
+| **Source → Target** | **NDCG@10** | **HR@10** | **SSS** |
+| Amazon → Yelp | 0.302 | 0.372 | 0.612 |
+| Yelp → MovieLens | 0.327 | 0.384 | 0.637 |
+| MovieLens → Amazon | 0.286 | 0.351 | 0.601 |
+| In-domain (Baseline) | 0.476 | 0.548 | 0.723 |
+
+Zero-shot cross-domain performance of RoLLMRec.
+
+Each source → target pair measures transferability under unseen domains, with the in-domain baseline shown for reference. Color shading follows a purple–pink gradient (cool purple = lower/worse, warm pink = higher/better), column-wise normalized for visual comparison only.
+
+Despite noticeable performance drops, RoLLMRec consistently maintained high SSS values above 0.6, indicating that semantic intent and coherence are preserved. Qualitative analysis showed occasional domain mismatches including inappropriate recommendations across categories. However, prompt structure remained stable. While SSS values indicate semantic stability, these results do not imply general robustness across unseen adversarial domains and should be interpreted as zero-shot transfer behavior rather than security guarantees. Overall, RoLLMRec exhibits meaningful zero-shot generalization capabilities. Future directions include exploring pretraining strategies for domain adaptiveness, meta-learning, and prompt fusion to reduce semantic gaps further and enhance cross-domain transfer performance.
+
+7 Conclusion and future work
+----------------------------
+
+This paper introduced RoLLMRec, a retrieval-augmented and defense-aware framework for LLM-based recommendations. RoLLMRec consistently beat SOTA baselines in both clean and adversarial scenarios when tested on three public datasets. Our findings indicate that the integration of input filtering, retrieval grounding, and trust-aware scoring substantially enhances resilience against rapid injection, semantic poisoning, and drift attacks while adding minimal computational overhead. Ablation studies further confirm that each defense layer contributes meaningfully to overall resilience, with prompt shielding and semantic validation being particularly effective. Despite these strengths, current experiments are limited to text and metadata inputs, with multimodal integration left as ongoing work. Moreover, evaluations have been conducted on static benchmarks rather than real-time, streaming environments, which may pose additional scalability challenges. Accordingly, the reported robustness results should be interpreted as offline robustness indicators rather than guarantees under dynamic, real-world deployment conditions.
+
+Future work will therefore extend RoLLMRec in three directions: (i) multimodal integration, incorporating image and multimodal features to enrich recommendation context; (ii) real-time robustness, deploying and stress testing the pipeline under live user interactions to capture evolving attack patterns; and (iii) federated and multilingual settings, enabling RoLLMRec to adapt across diverse domains while preserving privacy and fairness. These steps aim to position RoLLMRec as a reference architecture for studying robustness and defense integration in LLM-based recommender systems for building new age recommender systems that balance personalization quality with security, interpretability, and trustworthiness.
+
+### 7.1 Ethical considerations and limitations
+
+RoLLMRec is motivated by the need for more trustworthy and robust LLM-based recommender systems, particularly in the presence of adversarial manipulation, hallucination, and semantic drift. By incorporating prompt shielding, retrieval grounding, and trust-aware scoring, the framework aims to reduce harmful or misleading recommendations that could negatively impact users.
+
+This study relies exclusively on publicly available and anonymized benchmark datasets, and does not involve sensitive personal data, thereby minimizing privacy risks. Nevertheless, like other LLM-based systems, RoLLMRec may inherit or amplify biases present in training data or underlying language models. Addressing fairness, bias mitigation, and privacy-preserving learning remains an important direction for future work, particularly in real-world deployments and high-stakes domains.
+
+Statements
+----------
+
+### Data availability statement
+
+The original contributions presented in the study are included in the article/supplementary material, further inquiries can be directed to the corresponding authors.
+
+### Author contributions
+
+SS: Writing – review & editing, Software, Methodology, Conceptualization, Writing – original draft, Investigation, Data curation, Formal analysis. RK: Validation, Funding acquisition, Writing – review & editing, Supervision, Project administration.
+
+### Funding
+
+The author(s) declared that financial support was received for this work and/or its publication. This research was supported by the The Natural Sciences and Engineering Research Council of Canada (NSERC) , Discovery Grant.
+
+### Conflict of interest
+
+The author(s) declared that this work was conducted in the absence of any commercial or financial relationships that could be construed as a potential conflict of interest.
+
+### Generative AI statement
+
+The author(s) declared that generative AI was not used in the creation of this manuscript.
+
+Any alternative text (alt text) provided alongside figures in this article has been generated by Frontiers with the support of artificial intelligence and reasonable efforts have been made to ensure accuracy, including review by the authors wherever possible. If you identify any issues, please contact us.
+
+### Publisher’s note
+
+All claims expressed in this article are solely those of the authors and do not necessarily represent those of their affiliated organizations, or those of the publisher, the editors and the reviewers. Any product that may be evaluated in this article, or claim that may be made by its manufacturer, is not guaranteed or endorsed by the publisher.
+
+References
+----------
+
+* 1
+  
+  DevlinJ.ChangM.-W.LeeK.ToutanovaK. (2018). BERT: Pre-training of deep bidirectional transformers for language understanding. *arXiv preprint arXiv:1810.04805*.
+  
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=J..%2BDevlin&author=M.-W..%2BChang&author=K..%2BLee&author=K..%2BToutanova&publication_year=2018&title=BERT%3A%2BPre-training%2Bof%2Bdeep%2Bbidirectional%2Btransformers%2Bfor%2Blanguage%2Bunderstanding&journal=arXiv+preprint+arXiv%3A1810.04805)
+* 2
+  
+  FangM.GongN. Z.LiuJ. (2020). “Influence function based data poisoning attacks to top-N recommender systems,” in *Proceedings of the Web Conference 2020*, 3019–3025. doi: 10.1145/3366423.3380072
+  
+  + [CrossRef](https://doi.org/10.1145/3366423.3380072)
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=M..%2BFang&author=N.%2BZ..%2BGong&author=J..%2BLiu&publication_year=2020&title=%E2%80%9CInfluence%2Bfunction%2Bbased%2Bdata%2Bpoisoning%2Battacks%2Bto%2Btop-N%2Brecommender%2Bsystems%2C%E2%80%9D&journal=Proceedings+of+the+Web+Conference+2020)
+* 3
+  
+  FursovI.MirvakhabovaL.PanchenkoA. (2021). “Adversarial attacks on recommender systems in finance,” in *Proceedings of the 30th ACM International Conference on Information &Knowledge Management*, 3045–3054.
+  
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=I..%2BFursov&author=L..%2BMirvakhabova&author=A..%2BPanchenko&publication_year=2021&title=%E2%80%9CAdversarial%2Battacks%2Bon%2Brecommender%2Bsystems%2Bin%2Bfinance%2C%E2%80%9D&journal=Proceedings+of+the+30th+ACM+International+Conference+on+Information+%26Knowledge+Management&pages=3045-3054)
+* 4
+  
+  GallegosI. O.RossiR. A.BarrowJ.TanjimM. M.KimS.DernoncourtF.et al. (2024). Bias and fairness in large language models: a survey. *Comput. Ling*. 50, 1097–1179. doi: 10.1162/coli\_a\_00524
+  
+  + [CrossRef](https://doi.org/10.1162/coli_a_00524)
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=I.%2BO..%2BGallegos&author=R.%2BA..%2BRossi&author=J..%2BBarrow&author=M.%2BM..%2BTanjim&author=S..%2BKim&author=F..%2BDernoncourt&publication_year=2024&title=Bias%2Band%2Bfairness%2Bin%2Blarge%2Blanguage%2Bmodels%3A%2Ba%2Bsurvey&journal=Comput.+Ling&volume=50&pages=1097-1179)
+* 5
+  
+  GengS.ZhangY.ZhaoW. X.WenJ.-R. (2022). “Recommendation as language processing (RLP): a unified pretrain, personalized prompt, and predict paradigm,” in *Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (ACL)*, 366–378.
+  
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=S..%2BGeng&author=Y..%2BZhang&author=W.%2BX..%2BZhao&author=J.-R..%2BWen&publication_year=2022&title=%E2%80%9CRecommendation%2Bas%2Blanguage%2Bprocessing%2B%28RLP%29%3A%2Ba%2Bunified%2Bpretrain%2C%2Bpersonalized%2Bprompt%2C%2Band%2Bpredict%2Bparadigm%2C%E2%80%9D&journal=Proceedings+of+the+60th+Annual+Meeting+of+the+Association+for+Computational+Linguistics+%28ACL%29&pages=366-378)
+* 6
+  
+  Gómez-UribeC. A.HuntN. (2015). The Netflix recommender system: algorithms, business value, and innovation. *ACM Trans. Manag. Inf. Syst*. 6, 1–19. doi: 10.1145/2843948
+  
+  + [CrossRef](https://doi.org/10.1145/2843948)
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=C.%2BA..%2BG%C3%B3mez-Uribe&author=N..%2BHunt&publication_year=2015&title=The%2BNetflix%2Brecommender%2Bsystem%3A%2Balgorithms%2C%2Bbusiness%2Bvalue%2C%2Band%2Binnovation&journal=ACM+Trans.+Manag.+Inf.+Syst&volume=6&pages=1-19)
+* 7
+  
+  GuoH.TangR.YeY.LiZ.HeX. (2017). “DeepFM: a factorization-machine based neural network for CTR prediction,” in *Proceedings of the 26th International Joint Conference on Artificial Intelligence*, 1725–1731. doi: 10.24963/ijcai.2017/239
+  
+  + [CrossRef](https://doi.org/10.24963/ijcai.2017/239)
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=H..%2BGuo&author=R..%2BTang&author=Y..%2BYe&author=Z..%2BLi&author=X..%2BHe&publication_year=2017&title=%E2%80%9CDeepFM%3A%2Ba%2Bfactorization-machine%2Bbased%2Bneural%2Bnetwork%2Bfor%2BCTR%2Bprediction%2C%E2%80%9D&journal=Proceedings+of+the+26th+International+Joint+Conference+on+Artificial+Intelligence)
+* 8
+  
+  HeX.DengK.WangX.LiY.ZhangY.WangM. (2020). “LightGCN: simplifying and powering graph convolution network for recommendation,” in *Proceedings of the 43rd International ACM SIGIR Conference on Research and Development in Information Retrieval* (Association for Computing Machinery), 639–648. doi: 10.1145/3397271.3401063
+  
+  + [CrossRef](https://doi.org/10.1145/3397271.3401063)
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=X..%2BHe&author=K..%2BDeng&author=X..%2BWang&author=Y..%2BLi&author=Y..%2BZhang&author=M..%2BWang&publication_year=2020&title=%E2%80%9CLightGCN%3A%2Bsimplifying%2Band%2Bpowering%2Bgraph%2Bconvolution%2Bnetwork%2Bfor%2Brecommendation%2C%E2%80%9D&journal=Proceedings+of+the+43rd+International+ACM+SIGIR+Conference+on+Research+and+Development+in+Information+Retrieval&pages=639-648)
+* 9
+  
+  HeX.LiaoL.ZhangH.NieL.HuX.ChuaT.-S. (2017). “Neural collaborative filtering,” in *Proceedings of the 26th International Conference on World Wide Web*, 173–182. doi: 10.1145/3038912.3052569
+  
+  + [CrossRef](https://doi.org/10.1145/3038912.3052569)
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=X..%2BHe&author=L..%2BLiao&author=H..%2BZhang&author=L..%2BNie&author=X..%2BHu&author=T.-S..%2BChua&publication_year=2017&title=%E2%80%9CNeural%2Bcollaborative%2Bfiltering%2C%E2%80%9D&journal=Proceedings+of+the+26th+International+Conference+on+World+Wide+Web)
+* 10
+  
+  HiamJ.AdlerS.AgarwalS.AhmadL.AkkayaI.AlemanF. L.et al. (2023). GPT-4 technical report. *arXiv preprint arXiv:2303.08774*.
+  
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=J..%2BHiam&author=S..%2BAdler&author=S..%2BAgarwal&author=L..%2BAhmad&author=I..%2BAkkaya&author=F.%2BL..%2BAleman&publication_year=2023&title=GPT-4%2Btechnical%2Breport&journal=arXiv+preprint+arXiv%3A2303.08774)
+* 11
+  
+  HuangL.YuW.MaW.ZhongW.FengZ.WangH.et al. (2025). A survey on hallucination in large language models: principles, taxonomy, challenges, and open questions. *ACM Trans. Inf. Syst*. 43, 1–55. doi: 10.1145/3703155
+  
+  + [CrossRef](https://doi.org/10.1145/3703155)
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=L..%2BHuang&author=W..%2BYu&author=W..%2BMa&author=W..%2BZhong&author=Z..%2BFeng&author=H..%2BWang&publication_year=2025&title=A%2Bsurvey%2Bon%2Bhallucination%2Bin%2Blarge%2Blanguage%2Bmodels%3A%2Bprinciples%2C%2Btaxonomy%2C%2Bchallenges%2C%2Band%2Bopen%2Bquestions&journal=ACM+Trans.+Inf.+Syst&volume=43&pages=1-55)
+* 12
+  
+  IzacardG.LewisP.LomeliM.HosseiniL.PetroniF.SchickT.et al. (2022). Few-shot learning with retrieval-augmented language models. *arXiv preprint arXiv:2208.03299*.
+  
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=G..%2BIzacard&author=P..%2BLewis&author=M..%2BLomeli&author=L..%2BHosseini&author=F..%2BPetroni&author=T..%2BSchick&publication_year=2022&title=Few-shot%2Blearning%2Bwith%2Bretrieval-augmented%2Blanguage%2Bmodels&journal=arXiv+preprint+arXiv%3A2208.03299)
+* 13
+  
+  JiZ.LeeN.FrieskeR.YuT.SuD.XuY.et al. (2023). Survey of hallucination in natural language generation. *ACM Comput. Surv*. 55, 1–38. doi: 10.1145/3571730
+  
+  + [CrossRef](https://doi.org/10.1145/3571730)
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=Z..%2BJi&author=N..%2BLee&author=R..%2BFrieske&author=T..%2BYu&author=D..%2BSu&author=Y..%2BXu&publication_year=2023&title=Survey%2Bof%2Bhallucination%2Bin%2Bnatural%2Blanguage%2Bgeneration&journal=ACM+Comput.+Surv&volume=55&pages=1-38)
+* 14
+  
+  KangW.-C.McAuleyJ. (2018). “Self-attentive sequential recommendation,” in *Proceedings of the 2018 IEEE International Conference on Data Mining (ICDM)*, 197–206. doi: 10.1109/ICDM.2018.00035
+  
+  + [CrossRef](https://doi.org/10.1109/ICDM.2018.00035)
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=W.-C..%2BKang&author=J..%2BMcAuley&publication_year=2018&title=%E2%80%9CSelf-attentive%2Bsequential%2Brecommendation%2C%E2%80%9D&journal=Proceedings+of+the+2018+IEEE+International+Conference+on+Data+Mining+%28ICDM%29)
+* 15
+  
+  KorenY.BellR.VolinskyC. (2009). Matrix factorization techniques for recommender systems. *Computer*42, 30–37. doi: 10.1109/MC.2009.263
+  
+  + [CrossRef](https://doi.org/10.1109/MC.2009.263)
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=Y..%2BKoren&author=R..%2BBell&author=C..%2BVolinsky&publication_year=2009&title=Matrix%2Bfactorization%2Btechniques%2Bfor%2Brecommender%2Bsystems&journal=Computer&volume=42&pages=30-37)
+* 16
+  
+  LewisP.PerezE.PiktusA.PetroniF.KarpukhinV.GoyalN.et al. (2020). “Retrieval-augmented generation for knowledge-intensive NLP tasks,” in *Advances in Neural Information Processing Systems*, 9459–9474.
+  
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=P..%2BLewis&author=E..%2BPerez&author=A..%2BPiktus&author=F..%2BPetroni&author=V..%2BKarpukhin&author=N..%2BGoyal&publication_year=2020&title=%E2%80%9CRetrieval-augmented%2Bgeneration%2Bfor%2Bknowledge-intensive%2BNLP%2Btasks%2C%E2%80%9D&journal=Advances+in+Neural+Information+Processing+Systems&pages=9459-9474)
+* 17
+  
+  LiL.ZhangY.ChenL. (2023). Personalized prompt learning for explainable recommendation. *ACM Trans. Inf. Syst*. 41, 1–26. doi: 10.1145/3580488
+  
+  + [CrossRef](https://doi.org/10.1145/3580488)
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=L..%2BLi&author=Y..%2BZhang&author=L..%2BChen&publication_year=2023&title=Personalized%2Bprompt%2Blearning%2Bfor%2Bexplainable%2Brecommendation&journal=ACM+Trans.+Inf.+Syst&volume=41&pages=1-26)
+* 18
+  
+  LiuH.XueW.ChenY.ChenD.ZhaoX.WangK.et al. (2024). A survey on hallucination in large vision-language models. *arXiv preprint arXiv:2402.00253*.
+  
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=H..%2BLiu&author=W..%2BXue&author=Y..%2BChen&author=D..%2BChen&author=X..%2BZhao&author=K..%2BWang&publication_year=2024&title=A%2Bsurvey%2Bon%2Bhallucination%2Bin%2Blarge%2Bvision-language%2Bmodels&journal=arXiv+preprint+arXiv%3A2402.00253)
+* 19
+  
+  LiuT.WuQ.ChangL.GuT. (2023a). Deep learning-based recommendation systems in e-learning environments: a systematic review. *Educ. Inf. Technol*. 28, 3748–3778.
+  
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=T..%2BLiu&author=Q..%2BWu&author=L..%2BChang&author=T..%2BGu&publication_year=2023a&title=Deep%2Blearning-based%2Brecommendation%2Bsystems%2Bin%2Be-learning%2Benvironments%3A%2Ba%2Bsystematic%2Breview&journal=Educ.+Inf.+Technol&volume=28&pages=3748-3778)
+* 20
+  
+  LiuY.WangJ.ChenC.ZhaoW. X. (2023b). ChatGPT is not all you need: Exploring specialized LLMs for recommendation. *arXiv preprint arXiv:2305.02182*.
+  
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=Y..%2BLiu&author=J..%2BWang&author=C..%2BChen&author=W.%2BX..%2BZhao&publication_year=2023b&title=ChatGPT%2Bis%2Bnot%2Ball%2Byou%2Bneed%3A%2BExploring%2Bspecialized%2BLLMs%2Bfor%2Brecommendation&journal=arXiv+preprint+arXiv%3A2305.02182)
+* 21
+  
+  LyuH.JiangS.ZengH.XiaY.WangQ.ZhangS.et al. (2023). LLM-Rec: Personalized recommendation via prompting large language models. *arXiv preprint arXiv:2307.15783*. doi: 10.18653/v1/2024.findings-naacl.39
+  
+  + [CrossRef](https://doi.org/10.18653/v1/2024.findings-naacl.39)
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=H..%2BLyu&author=S..%2BJiang&author=H..%2BZeng&author=Y..%2BXia&author=Q..%2BWang&author=S..%2BZhang&publication_year=2023&title=LLM-Rec%3A%2BPersonalized%2Brecommendation%2Bvia%2Bprompting%2Blarge%2Blanguage%2Bmodels&journal=arXiv+preprint+arXiv%3A2307.15783)
+* 22
+  
+  MaY.SunJ.WangS. (2021). Adversarial attacks and defenses in healthcare recommender systems. *J. Biomed. Inform*. 122:103889.
+  
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=Y..%2BMa&author=J..%2BSun&author=S..%2BWang&publication_year=2021&title=Adversarial%2Battacks%2Band%2Bdefenses%2Bin%2Bhealthcare%2Brecommender%2Bsystems&journal=J.+Biomed.+Inform&volume=122)
+* 23
+  
+  NguyenT.HuiP.HarperF. M.TerveenL.KonstanJ. A. (2014). “Exploring the filter bubble: The effect of using recommender systems on content diversity,” in *Proceedings of the 23rd International Conference on World Wide Web (WWW)* (ACM), 677–686. doi: 10.1145/2566486.2568012
+  
+  + [CrossRef](https://doi.org/10.1145/2566486.2568012)
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=T..%2BNguyen&author=P..%2BHui&author=F.%2BM..%2BHarper&author=L..%2BTerveen&author=J.%2BA..%2BKonstan&publication_year=2014&title=%E2%80%9CExploring%2Bthe%2Bfilter%2Bbubble%3A%2BThe%2Beffect%2Bof%2Busing%2Brecommender%2Bsystems%2Bon%2Bcontent%2Bdiversity%2C%E2%80%9D&journal=Proceedings+of+the+23rd+International+Conference+on+World+Wide+Web+%28WWW%29&pages=677-686)
+* 24
+  
+  PérezF.RibeiroI. (2022). Ignore previous prompt: attack techniques for language models. *arXiv preprint arXiv:2211.09527*.
+  
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=F..%2BP%C3%A9rez&author=I..%2BRibeiro&publication_year=2022&title=Ignore%2Bprevious%2Bprompt%3A%2Battack%2Btechniques%2Bfor%2Blanguage%2Bmodels&journal=arXiv+preprint+arXiv%3A2211.09527)
+* 25
+  
+  RadfordA.WuJ.ChildR.LuanD.AmodeiD.SutskeverI. (2019). *Language models are unsupervised multitask learners*. OpenAI Technical Report.
+  
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=A..%2BRadford&author=J..%2BWu&author=R..%2BChild&author=D..%2BLuan&author=D..%2BAmodei&author=I..%2BSutskever&publication_year=2019&journal=Language+models+are+unsupervised+multitask+learners)
+* 26
+  
+  RaffelC.ShazeerN.RobertsA.LeeK.NarangS.MatenaM.et al. (2020). Exploring the limits of transfer learning with a unified text-to-text transformer. *J. Mach. Learn. Res*. 21, 1–67.
+  
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=C..%2BRaffel&author=N..%2BShazeer&author=A..%2BRoberts&author=K..%2BLee&author=S..%2BNarang&author=M..%2BMatena&publication_year=2020&title=Exploring%2Bthe%2Blimits%2Bof%2Btransfer%2Blearning%2Bwith%2Ba%2Bunified%2Btext-to-text%2Btransformer&journal=J.+Mach.+Learn.+Res&volume=21&pages=1-67)
+* 27
+  
+  RazaS.ZhangY.ChenL. (2024). “Bias amplification in LLM-based recommenders: the MBias benchmark,” in *Proceedings of the ACM Web Conference 2024*, 1456–1465.
+  
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=S..%2BRaza&author=Y..%2BZhang&author=L..%2BChen&publication_year=2024&title=%E2%80%9CBias%2Bamplification%2Bin%2BLLM-based%2Brecommenders%3A%2Bthe%2BMBias%2Bbenchmark%2C%E2%80%9D&journal=Proceedings+of+the+ACM+Web+Conference+2024)
+* 28
+  
+  SarwarB.KarypisG.KonstanJ.RiedlJ. (2001). “Item-based collaborative filtering recommendation algorithms,” in *Proceedings of the 10th International Conference on World Wide Web*, 285–295. doi: 10.1145/371920.372071
+  
+  + [CrossRef](https://doi.org/10.1145/371920.372071)
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=B..%2BSarwar&author=G..%2BKarypis&author=J..%2BKonstan&author=J..%2BRiedl&publication_year=2001&title=%E2%80%9CItem-based%2Bcollaborative%2Bfiltering%2Brecommendation%2Balgorithms%2C%E2%80%9D&journal=Proceedings+of+the+10th+International+Conference+on+World+Wide+Web)
+* 29
+  
+  SedhainS.MenonA. K.SannerS.XieL. (2015). “AutoRec: autoencoders meet collaborative filtering,” in *Proceedings of the 24th International Conference on World Wide Web*, 111–112. doi: 10.1145/2740908.2742726
+  
+  + [CrossRef](https://doi.org/10.1145/2740908.2742726)
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=S..%2BSedhain&author=A.%2BK..%2BMenon&author=S..%2BSanner&author=L..%2BXie&publication_year=2015&title=%E2%80%9CAutoRec%3A%2Bautoencoders%2Bmeet%2Bcollaborative%2Bfiltering%2C%E2%80%9D&journal=Proceedings+of+the+24th+International+Conference+on+World+Wide+Web)
+* 30
+  
+  ShenbinI.AlekseevA.TutubalinaE.MalykhV.NikolenkoS. I. (2020). “RecVAE: A new variational autoencoder for top-N recommendations with implicit feedback,” in *Proceedings of the 13th International Conference on Web Search and Data Mining (WSDM '20)* (Association for Computing Machinery), 528–536. doi: 10.1145/3336191.3371831
+  
+  + [CrossRef](https://doi.org/10.1145/3336191.3371831)
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=I..%2BShenbin&author=A..%2BAlekseev&author=E..%2BTutubalina&author=V..%2BMalykh&author=S.%2BI..%2BNikolenko&publication_year=2020&title=%E2%80%9CRecVAE%3A%2BA%2Bnew%2Bvariational%2Bautoencoder%2Bfor%2Btop-N%2Brecommendations%2Bwith%2Bimplicit%2Bfeedback%2C%E2%80%9D&journal=Proceedings+of+the+13th+International+Conference+on+Web+Search+and+Data+Mining+%28WSDM+%2720%29&pages=528-536)
+* 31
+  
+  SmithB.LindenG. (2017). Two decades of recommender systems at Amazon.com. *IEEE Internet Comput*. 21, 12–18. doi: 10.1109/MIC.2017.72
+  
+  + [CrossRef](https://doi.org/10.1109/MIC.2017.72)
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=B..%2BSmith&author=G..%2BLinden&publication_year=2017&title=Two%2Bdecades%2Bof%2Brecommender%2Bsystems%2Bat%2BAmazon.com&journal=IEEE+Internet+Comput&volume=21&pages=12-18)
+* 32
+  
+  SunF.LiuJ.WuJ.PeiC.LinX.OuW.et al. (2019). “BERT4Rec: sequential recommendation with bidirectional encoder representations from transformers,” in *Proceedings of the 28th ACM International Conference on Information and Knowledge Management*, 1441–1450. doi: 10.1145/3357384.3357895
+  
+  + [CrossRef](https://doi.org/10.1145/3357384.3357895)
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=F..%2BSun&author=J..%2BLiu&author=J..%2BWu&author=C..%2BPei&author=X..%2BLin&author=W..%2BOu&publication_year=2019&title=%E2%80%9CBERT4Rec%3A%2Bsequential%2Brecommendation%2Bwith%2Bbidirectional%2Bencoder%2Brepresentations%2Bfrom%2Btransformers%2C%E2%80%9D&journal=Proceedings+of+the+28th+ACM+International+Conference+on+Information+and+Knowledge+Management)
+* 33
+  
+  TliliI.ChattiI.BchirA.AkaichiJ. (2021). Recommender systems in the healthcare domain: state-of-the-art and research issues. *J. Intell. Inf. Syst*. 57, 171–201. doi: 10.1007/s10844-020-00633-6
+  
+  + [CrossRef](https://doi.org/10.1007/s10844-020-00633-6)
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=I..%2BTlili&author=I..%2BChatti&author=A..%2BBchir&author=J..%2BAkaichi&publication_year=2021&title=Recommender%2Bsystems%2Bin%2Bthe%2Bhealthcare%2Bdomain%3A%2Bstate-of-the-art%2Band%2Bresearch%2Bissues&journal=J.+Intell.+Inf.+Syst&volume=57&pages=171-201)
+* 34
+  
+  VajjalaA. K.MeherD.ZhuZ.RosenblumD. S. (2024). Cross-domain recommendation meets large language models. *arXiv preprint arXiv:2411.19862*.
+  
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=A.%2BK..%2BVajjala&author=D..%2BMeher&author=Z..%2BZhu&author=D.%2BS..%2BRosenblum&publication_year=2024&title=Cross-domain%2Brecommendation%2Bmeets%2Blarge%2Blanguage%2Bmodels&journal=arXiv+preprint+arXiv%3A2411.19862)
+* 35
+  
+  WangX.HeX.WangM.FengF.ChuaT.-S. (2019). “Neural graph collaborative filtering,” in *Proceedings of the 42nd International ACM SIGIR Conference on Research and Development in Information Retrieval*, 165–174. doi: 10.1145/3331184.3331267
+  
+  + [CrossRef](https://doi.org/10.1145/3331184.3331267)
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=X..%2BWang&author=X..%2BHe&author=M..%2BWang&author=F..%2BFeng&author=T.-S..%2BChua&publication_year=2019&title=%E2%80%9CNeural%2Bgraph%2Bcollaborative%2Bfiltering%2C%E2%80%9D&journal=Proceedings+of+the+42nd+International+ACM+SIGIR+Conference+on+Research+and+Development+in+Information+Retrieval)
+* 36
+  
+  WangY.ZhouC.GuoH.XuJ.WuF. (2024). Poisoning attacks and defenses for recommender systems: a survey. *ACM Trans. Inf. Syst*. 42, 1–29.
+  
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=Y..%2BWang&author=C..%2BZhou&author=H..%2BGuo&author=J..%2BXu&author=F..%2BWu&publication_year=2024&title=Poisoning%2Battacks%2Band%2Bdefenses%2Bfor%2Brecommender%2Bsystems%3A%2Ba%2Bsurvey&journal=ACM+Trans.+Inf.+Syst&volume=42&pages=1-29)
+* 37
+  
+  WeiJ.WangX.SchuurmansD.BosmaM.XiaF.ChiE.et al. (2022). “Chain-of-thought prompting elicits reasoning in large language models,” in *Advances in Neural Information Processing Systems*, 24824–24837.
+  
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=J..%2BWei&author=X..%2BWang&author=D..%2BSchuurmans&author=M..%2BBosma&author=F..%2BXia&author=E..%2BChi&publication_year=2022&title=%E2%80%9CChain-of-thought%2Bprompting%2Belicits%2Breasoning%2Bin%2Blarge%2Blanguage%2Bmodels%2C%E2%80%9D&journal=Advances+in+Neural+Information+Processing+Systems&pages=24824-24837)
+* 38
+  
+  XuC.ChenX.ZhangY.ZhouA. (2023). “Backdoor attacks and defenses in natural language processing: a comprehensive survey,” in *Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics*, 6240–6255.
+  
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=C..%2BXu&author=X..%2BChen&author=Y..%2BZhang&author=A..%2BZhou&publication_year=2023&title=%E2%80%9CBackdoor%2Battacks%2Band%2Bdefenses%2Bin%2Bnatural%2Blanguage%2Bprocessing%3A%2Ba%2Bcomprehensive%2Bsurvey%2C%E2%80%9D&journal=Proceedings+of+the+61st+Annual+Meeting+of+the+Association+for+Computational+Linguistics&pages=6240-6255)
+* 39
+  
+  XuZ.LiuY.DengG.LiY.PicekS. (2024). A comprehensive study of jailbreak attack versus defense for large language models. *arXiv preprint arXiv:2402.13457*. doi: 10.18653/v1/2024.findings-acl.443
+  
+  + [CrossRef](https://doi.org/10.18653/v1/2024.findings-acl.443)
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=Z..%2BXu&author=Y..%2BLiu&author=G..%2BDeng&author=Y..%2BLi&author=S..%2BPicek&publication_year=2024&title=A%2Bcomprehensive%2Bstudy%2Bof%2Bjailbreak%2Battack%2Bversus%2Bdefense%2Bfor%2Blarge%2Blanguage%2Bmodels&journal=arXiv+preprint+arXiv%3A2402.13457)
+* 40
+  
+  ZhangJ.BaoK.ZhangY.WangW.FengF.HeX. (2023). “Is ChatGPT fair for recommendation? Evaluating fairness in large language model recommendation,” in *Proceedings of the 17th ACM Conference on Recommender Systems (RecSys 2023)*, 993–999. doi: 10.1145/3604915.3608860
+  
+  + [CrossRef](https://doi.org/10.1145/3604915.3608860)
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=J..%2BZhang&author=K..%2BBao&author=Y..%2BZhang&author=W..%2BWang&author=F..%2BFeng&author=X..%2BHe&publication_year=2023&title=%E2%80%9CIs%2BChatGPT%2Bfair%2Bfor%2Brecommendation%3F%2BEvaluating%2Bfairness%2Bin%2Blarge%2Blanguage%2Bmodel%2Brecommendation%2C%E2%80%9D&journal=Proceedings+of+the+17th+ACM+Conference+on+Recommender+Systems+%28RecSys+2023%29)
+* 41
+  
+  ZhangS.YaoL.SunA.TayY. (2019). Deep learning-based recommender system: a survey and new perspectives. *ACM Comput. Surv*. 52, 1–38. doi: 10.1145/3158369
+  
+  + [CrossRef](https://doi.org/10.1145/3158369)
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=S..%2BZhang&author=L..%2BYao&author=A..%2BSun&author=Y..%2BTay&publication_year=2019&title=Deep%2Blearning-based%2Brecommender%2Bsystem%3A%2Ba%2Bsurvey%2Band%2Bnew%2Bperspectives&journal=ACM+Comput.+Surv&volume=52&pages=1-38)
+* 42
+  
+  ZouA.WangZ.CarliniN.NasrM.KolterJ. Z.FredriksonM. (2023). Universal and transferable adversarial attacks on aligned language models. *arXiv preprint arXiv:2307.15043*.
+  
+  + [Google Scholar](http://scholar.google.com/scholar_lookup?author=A..%2BZou&author=Z..%2BWang&author=N..%2BCarlini&author=M..%2BNasr&author=J.%2BZ..%2BKolter&author=M..%2BFredrikson&publication_year=2023&title=Universal%2Band%2Btransferable%2Badversarial%2Battacks%2Bon%2Baligned%2Blanguage%2Bmodels&journal=arXiv+preprint+arXiv%3A2307.15043)
+
+Summary
+-------
+
+Keywords
+
+adversarial machine learning, hallucination, large language model, large language model for recommendation, LLM4Rec, recommender systems, retrieval augmented generation, shilling attacks
+
+Citation
+
+Shehmir S and Kashef R (2026) RoLLMRec: a robust LLM-based recommender system for defending against shilling and prompt injection attacks. *Front. Comput. Sci.* 8:1735253. doi: [10.3389/fcomp.2026.1735253](http://dx.doi.org/10.3389/fcomp.2026.1735253)
+
+Received
+
+29 October 2025
+
+Revised
+
+28 January 2026
+
+Accepted
+
+13 February 2026
+
+Published
+
+12 March 2026
+
+Volume
+
+8 - 2026
+
+Edited by
+
+[Rajkumar Saini](https://loop.frontiersin.org/people/2338982/overview), Luleå University of Technology, Sweden
+
+Reviewed by
+
+[M. Jaya Krishna](https://loop.frontiersin.org/people/893992/overview), Microsoft, United States
+
+[Saurabh Pahune](https://loop.frontiersin.org/people/3295263/overview), Cardinal Health, United States
+
+Updates
+
+![]()
+
+Check for updates
+
+Copyright
+
+© 2026 Shehmir and Kashef.
+
+This is an open-access article distributed under the terms of the [Creative Commons Attribution License (CC BY)](https://creativecommons.org/licenses/by/4.0/). The use, distribution or reproduction in other forums is permitted, provided the original author(s) and the copyright owner(s) are credited and that the original publication in this journal is cited, in accordance with accepted academic practice. No use, distribution or reproduction is permitted which does not comply with these terms.
+
+**\***Correspondence: Sarama Shehmir, [sarama.shehmir@torontomu.ca](mailto:sarama.shehmir@torontomu.ca); Rasha Kashef, [rkashef@torontomu.ca](mailto:rkashef@torontomu.ca)
+
+Disclaimer
+
+All claims expressed in this article are solely those of the authors and do not necessarily represent those of their affiliated organizations, or those of the publisher, the editors and the reviewers. Any product that may be evaluated in this article or claim that may be made by its manufacturer is not guaranteed or endorsed by the publisher.
+
+ Article metrics
+
+[View details](#metrics)[Download
+
+PDF](https://public-pages-files-2025.frontiersin.org/journals/computer-science/articles/10.3389/fcomp.2026.1735253/pdf)
+
+Download other formats
+
+* [ReadCube](http://www.readcube.com/articles/10.3389/fcomp.2026.1735253)
+* [epub](https://public-pages-files-2025.frontiersin.org/journals/computer-science/articles/10.3389/fcomp.2026.1735253/epub)
+* [XML](https://public-pages-files-2025.frontiersin.org/journals/computer-science/articles/10.3389/fcomp.2026.1735253/xml)
+Cite articleShare article
+
+Frontiers' quality
+
+![]()
+
+How do we build trust in science?
+---------------------------------
+
+Behind each Frontiers journal is an editorial board committed to upholding research integrity and scientific quality
+
+  
+[Learn more](https://www.frontiersin.org/about/quality)
+
+* [PDF](https://public-pages-files-2025.frontiersin.org/journals/computer-science/articles/10.3389/fcomp.2026.1735253/pdf)
+  
+  Download other format
+  
+  + [ReadCube](http://www.readcube.com/articles/10.3389/fcomp.2026.1735253)
+  + [epub](https://public-pages-files-2025.frontiersin.org/journals/computer-science/articles/10.3389/fcomp.2026.1735253/epub)
+  + [XML](https://public-pages-files-2025.frontiersin.org/journals/computer-science/articles/10.3389/fcomp.2026.1735253/xml)
+* [Outline](#outline)
+* [Figures](#figures)
+* [Cite](#cite)
+* [Share](#share)
+* [Metrics](#metrics)
+* More
+
+Outline
+-------
+
+Figures
+-------
+
+Cite article
+------------
+
+Copy to clipboard
+
+Copy citation  
+
+Export citation file
+
+* [BibTex](https://public-pages-files-2025.frontiersin.org/journals/computer-science/articles/10.3389/fcomp.2026.1735253/bibTex)
+* [EndNote](https://public-pages-files-2025.frontiersin.org/journals/computer-science/articles/10.3389/fcomp.2026.1735253/endNote)
+* [Reference Manager](https://public-pages-files-2025.frontiersin.org/journals/computer-science/articles/10.3389/fcomp.2026.1735253/reference)
+* [Simple Text file](https://public-pages-files-2025.frontiersin.org/journals/computer-science/articles/10.3389/fcomp.2026.1735253/text)
+
+  
+
+Share article
+-------------
+
+* [Facebook](https://www.facebook.com/sharer/sharer.php?u=https://www.frontiersin.org/journals/computer-science/articles/10.3389/fcomp.2026.1735253/full)
+* [X](https://www.twitter.com/share?url=https://www.frontiersin.org/journals/computer-science/articles/10.3389/fcomp.2026.1735253/full)
+* [LinkedIn](https://www.linkedin.com/share?url=https://www.frontiersin.org/journals/computer-science/articles/10.3389/fcomp.2026.1735253/full)
+* [Email](mailto:?subject=Interesting science article: RoLLMRec: a robust LLM-based recommender system for defending against shilling and prompt injection attacks&body=Hi!!%0D%0A%0D%0AI think you might find interesting the article "RoLLMRec: a robust LLM-based recommender system for defending against shilling and prompt injection attacks".%0D%0A%0D%0AYou can read more about it here: https://www.frontiersin.org/journals/computer-science/articles/10.3389/fcomp.2026.1735253/full)
+* WeChat
+
+Share on WeChat
+
+Scan with WeChat to share this article
+
+Article metrics
+---------------
+
+* Guidelines
+  + [Author guidelines](https://www.frontiersin.org/guidelines/author-guidelines)
+  + [Services for authors](https://www.frontiersin.org/for-authors/author-services)
+  + [Policies and publication ethics](https://www.frontiersin.org/guidelines/policies-and-publication-ethics)
+  + [Editor guidelines](https://www.frontiersin.org/guidelines/editor-guidelines)
+  + [Fee policy](https://www.frontiersin.org/about/fee-policy)
+* Explore
+  + [Articles](https://www.frontiersin.org/articles)
+  + [Research Topics](https://www.frontiersin.org/research-topics)
+  + [Journals](https://www.frontiersin.org/journals)
+  + [How we publish](https://www.frontiersin.org/about/how-we-publish)
+* Outreach
+  + [Frontiers Forum](https://forum.frontiersin.org/)
+  + [Frontiers Policy Labs](https://policylabs.frontiersin.org/)
+  + [Frontiers for Young Minds](https://kids.frontiersin.org/)
+  + [Frontiers Planet Prize](https://www.frontiersin.org/about/frontiers-planet-prize)
+* Connect
+  + [Help center](https://helpcenter.frontiersin.org)
+  + [Emails and alerts](https://subscription-management.frontiersin.org/emails/preferences#block0)
+  + [Contact us](https://www.frontiersin.org/about/contact)
+  + [Submit](https://www.frontiersin.org/submission/submit)
+  + [Career opportunities](https://careers.frontiersin.org/)
+
+Follow us© 2026 Frontiers Media SA. All rights reserved.[Privacy policy](https://www.frontiersin.org/legal/privacy-policy) | [Terms and conditions](https://www.frontiersin.org/legal/terms-and-conditions) | [Accessibility statement](https://www.frontiersin.org/about/accessibility-statement)
+

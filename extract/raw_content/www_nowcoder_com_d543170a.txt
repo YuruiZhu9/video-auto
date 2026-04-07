@@ -1,0 +1,212 @@
+# Source URL: https://www.nowcoder.com/feed/main/detail/67b2a472351c462289e8317c3cb1a603
+# Content Length: 13099 characters
+# Extracted at: 2026-03-23 23:28:54
+#============================================================
+
+
+
+
+
+
+
+
+
+
+
+美团北斗—推荐算法 一面\_牛客网
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[![]()](https://www.nowcoder.com/)
+
+* [首页](https://www.nowcoder.com/)
+* [题库](https://www.nowcoder.com/exam/company)
+  + [公司真题](https://www.nowcoder.com/exam/company)
+  + [专项练习](https://www.nowcoder.com/exam/intelligent)
+  + [面试题库](https://www.nowcoder.com/exam/interview)
+  + [在线编程](https://www.nowcoder.com/exam/oj)
+* [面试](https://www.nowcoder.com/interview/center?entranceType=%E5%AF%BC%E8%88%AA%E6%A0%8F)
+  + [面试经验](https://www.nowcoder.com/interview/center?entranceType=%E5%AF%BC%E8%88%AA%E6%A0%8F)
+  + [AI 模拟面试](https://www.nowcoder.com/interview/ai/index?entranceType=%E5%AF%BC%E8%88%AA%E6%A0%8F)
+* [简历](https://www.zhiyeapp.com)
+* [求职](https://www.nowcoder.com/jobs/recommend/campus)  ![]()
+* [学习](https://www.nowcoder.com/courses)
+  + [基础学习课](https://www.nowcoder.com/courses?category=1)
+  + [实战项目课](https://www.nowcoder.com/courses?category=2)
+  + [求职辅导课](https://www.nowcoder.com/courses?category=3)
+  + [专栏&文章](https://www.nowcoder.com/blog/blogCenter)
+* [竞赛](https://ac.nowcoder.com)
+
+  搜索
+
+     [我要招人](https://nowpick.nowcoder.com/?channel=zz_guide_unlogin)
+
+* [![]() 
+  发布职位
+   
+  发布职位、邀约牛人](https://nowpick.nowcoder.com/?channel=zz_guide_unlogin)
+* [![]() 
+  更多企业解决方案
+   
+  AI面试、笔试、校招、雇品](https://hr.nowcoder.com?utm_channel=nkweb_homepage)
+* [![]() 
+  HR免费试用AI面试
+   
+  最新面试提效必备](https://hr.nowcoder.com/product/interview?utm_channel=nkweb_homepage_AIinterview)
+  [登录](javascript:void(0);)
+/
+[注册](javascript:void(0);)   [门头沟n](/users/775283478)   2024-08-02 14:07   华为HUAWEI\_海思\_数字ic(准入职员工) 发布于广东        关注 已关注 取消关注   
+
+美团北斗—推荐算法 一面
+============
+
+    一面面经【90min】  
+hr介绍他们的业务，针对他们的业务我也问了相关问题  
+  
+正片开始：  
+自我介绍。然后讲一篇自己的论文。这里会问论文细节。这里完成后大概35min。  
+  
+Part 1：序列建模  
+Q1：我看你的工作也涉及到了序列建模，那你对序列建模了解多少？  
+A1：知道DIN是怎么做的，看过DIEN的摘要。  
+Q2：好那问你两个关于DIN的问题。DIN要和每个历史物品算相似度，假设历史物品有2000个，复杂度太大了，怎么优化？  
+A2：召回里的最近临查找，实际就是聚类。  
+Q3：DIN选出的历史相似的item，是没有考虑item出现的位置的。比如有些item出现的位置离当前特别远，怎么考虑历史item的远近信息？  
+A3：直接加item的位置特征。  
+  
+Part 2：样本不平衡  
+Q4：他们有好多个场景，有数据量很大的场景，也有数据量很小的场景。如何用大场景的丰富数据，把小场景也训练好？  
+A4：考虑迁移学习那套，私有+共享两部分  
+Q5：那翘翘板现象怎么解决？  
+A5：按照腾讯PLE论文讲了讲。  
+Q6：还有其他方法吗？预训练怎么做？  
+A6：讲了预训练和finetune的方式。  
+Q7：那如何对小样本模型做在线更新？  
+A7：讲了更新方式，感觉面试官应该觉得没问题。  
+  
+Part 3：样本不一致  
+Q8：比如ctr预估的时候，有些样本特征一致，但label不一致，该怎么解决？  
+A8：看和这些特征完全一致的样本，统一成特征类似的样本的标签。  
+Q9：比如两组特征一致的样本，一组的正负比例9:1 一组5:5，有什么区别吗？  
+A9：9:1那组更可能有些错误样本，5:5那种不一定是错误样本，可以在预测label时，把label改为小数。比如训练用交叉熵，loss=ylogp，把y改成0.5而非1。  
+Q10：好既然说到了交叉熵，那么我们这个场景能否不用ce，而换成用mse？  
+A10：不能。具体原因我刚好看到过，答对了。  
+  
+最后是coding 题目是最长递增子序列  
+  
+还在招聘  
+【岗位类型】北斗计划(面向全球高精尖校园科技人才):  大模型与AIGC、自动驾驶、无人机、视频编解码、运筹优化和智能调度等  
+秋招岗位-算法/技术/产品/商业分析/运营/金融/供应链/职能/市场营销/设计/销售、客服和支持等10大类  
+  
+可内推【投递链接】：[https://zhaopin.meituan.com/web/campus](https://gw-c.nowcoder.com/api/sparta/jump/link?link=https%3A%2F%2Fzhaopin.meituan.com%2Fweb%2Fcampus)  
+😀【内推码】WA3N2P4  
+[#美团#](/enterprise/179/discussion)[#美团北斗计划#](/creation/subject/b73dad0c37a7459fa5919f623afb06b5)[#内推#](/creation/subject/cf8c68e5a0ae45da835c0291f459468a)[#算法#](/creation/subject/dd6ec93023fc4e96b172e9da80332ae0)[#25届提前批#](/creation/subject/7ca7cc44c51941f38629caa45be68515)          [算法求职圈](/creation/circle/145)    全部评论 推荐最新楼层    ![]()
+
+暂无评论，快来抢首评~
+
+      
+
+相关推荐
+
+            昨天 19:53  [杭州电子科技大学 大数据开发工程师](/users/62030518)   ![]()   [如何避免找实习被发现？](/discuss/865320117050097664?sourceSSR=dynamic)    [这个真的太重要了。被抓包的话不仅尴尬，还可能影响你拿推荐信。隐藏求职意图的技巧1.&nbsp;不要在公司电脑上投简历/查邮件这个是铁律！公司电脑可能被监控，而且万一leader突然过来看你屏幕，当场社死。我都是用手机或者自己的笔记本。公司WiFi也尽量别连，用自己的流量。2.&nbsp;接电话要小心HR突然打电话过来是最容易穿帮的。我的做法是：所有投过的公司都备注好名字看到陌生号码不要在工位接，走到楼梯间或者厕所如果在开会没法接，会后第一时间回过去，说刚在忙有次我在开会，HR打电话过来，我直接挂了，然后发短信说&quot;不方便接听，一小时后给您回电&quot;。还好那个HR比较nice，说没问题。3.&nbsp;请假理由...](/discuss/865320117050097664?sourceSSR=dynamic)      [如何一边实习一边找下家？](/creation/subject/abe3f1e9e2fa459aa9a6a155427333b0?entranceType_var=%E5%86%85%E5%AE%B9%E6%9D%A1%E7%9B%AE)  点赞 评论 收藏 分享             03-16 14:44 已编辑 [北京理工大学 Java](/users/1030054770)      [放弃一线回到了家乡，不丢人。。](/discuss/863060832714878976?sourceSSR=dynamic)    [bg：25届985硕，老家是宁夏的，秋招没有选择一线城市反而回到了家乡。不过，先坦白：我去年秋招那会儿，是真没想过会回银川。我们当时宿舍四个人，三个在北京实习，一个在深圳。九月开始投简历，我连银川两个字都没在招聘网站搜过——不是瞧不起家乡，是压根没觉得这是个选项。身边所有人都在聊字节美团拼多多，谁回老家啊？那不是认输吗？结果呢？投了160多份简历，面了12家公司，最后拿到的两个offer都在北京。算完账直接懵了：扣除五险一金和个税，到手14k左右，房租4k起步，通勤一小时，吃饭3k，一个月能剩下多少？6k顶天了。这还是不吃不喝不社交的理想情况。&nbsp;我给我妈打电话，我妈问：“那你一年能攒多少？”我...](/discuss/863060832714878976?sourceSSR=dynamic)    ![]()沉淀小子：赚钱本来就是为了获取时间，陪伴家人的含金量对于恋家的人比一年多赚10几万可多了，人就活一次，选自己喜欢的，根本不丢人。酷毙了   点赞 评论 收藏 分享             03-15 21:49  [广东工业大学 Java](/users/344362939)      [本科四段大厂实习，暑期拿到wxg offer，终成鹅孝子](/feed/main/detail/2750412dc37d4435b8daa413f6a3080e?sourceSSR=dynamic)    [中国电信➡️滴滴出行➡️百度科技➡️腾讯](/feed/main/detail/2750412dc37d4435b8daa413f6a3080e?sourceSSR=dynamic)      少糖去冰的小师弟很沉...：广工这个学校我是真佩服，全是人才大佬![]()  [我的实习求职记录](/creation/subject/5e8d2f3639204d0d87734df48cb3fb49?entranceType_var=%E5%86%85%E5%AE%B9%E6%9D%A1%E7%9B%AE)   点赞 评论 收藏 分享             03-19 15:23 已编辑 [西安交通大学 人工智能](/users/324704607)      [这个简历能进大厂吗？](/feed/main/detail/969fe5abd92a4c40b72412760f9541a9?sourceSSR=dynamic)    [本硕双9，27届，想找大模型应用开发求佬们帮忙看一下简历有什么问题吗？项目会不会太简单了，现在投了的厂都卡在初筛，很慌啊我想要去腾讯我想要去阿里我想要去字节我想要去百度我想要去美团我想要去携程我想要去快手我想要去pdd我想要去网易骗你的&nbsp;我哪都想去😭&nbsp;球球约个面吧引流：字节、腾讯、阿里、美团、京东](/feed/main/detail/969fe5abd92a4c40b72412760f9541a9?sourceSSR=dynamic)      薛悦悦：强烈推荐！这个笔记写得很清晰 http://github.com/AccumulateMore/CV    点赞 评论 收藏 分享             03-18 13:48  [中南大学 Java](/users/102520625)      [虾皮一面凉经](/discuss/863778659956527104?sourceSSR=dynamic)    [Shopee面试问题整理&nbsp;一、项目相关&nbsp;1.&nbsp;项目开发方式&nbsp;&nbsp;你做这个项目的时候用了AI帮我协助编程吗？辅助编程。&nbsp;用的什么模型？&nbsp;&nbsp;2.&nbsp;项目难点与特点&nbsp;&nbsp;在这个AI智能体平台这个项目里面，你觉得比较难的地方是什么？比较有特点的是什么？&nbsp;&nbsp;其他项目相关&nbsp;二、MySQL数据库相关&nbsp;1.&nbsp;建表考虑因素&nbsp;&nbsp;MySQL建表的时候，你会考虑哪些方面呢？&nbsp;&nbsp;2.&nbsp;索引问题&nbsp;&nbsp;你刚才提到了要建一些索引，你知道建索引有哪些注意事项吗？&nbsp;什么样的字段适合建索引？什么样的字段不适合建索引，你会怎么选？&nbsp;你知道联合索引吗？&nbsp;&nbsp;3.&nbsp;索引数据结构&nbsp;&nbsp;你刚才说到了B+树啊，B+树有什么特点？&nbsp;&nbsp;4.&nbsp;性能优化&nbsp;&nbsp;My...](/discuss/863778659956527104?sourceSSR=dynamic)     ![]()查看9道真题和解析  点赞 评论 收藏 分享      评论 点赞成功，聊一聊 >点赞 9  分享      评论   ![]()  提到的真题 
+返回内容
+  
+
+招聘动态
+
+[查看更多](/jobs/school/schedule?pageSource=105) 
+
+   [鹏芯微
+
+2026届校园招聘](/jump?type=ad&source=105&companyId=23046&url=https%3A%2F%2Fwww.nowcoder.com%2Fjobs%2Fhr%2F110712&entityId=13159) [米哈游2026校园招聘
+
+应届生春招&全年实习生专项](/jump?type=ad&source=105&companyId=1055&url=https%3A%2F%2Fcampus.mihoyo.com%2F%3FchannelToken%3Dxzad2ecbb9-e39543eca1cf-0b401e8d13fb&entityId=13162) [莉莉丝
+
+2026春季校园招聘](/jump?type=ad&source=105&companyId=1648&url=https%3A%2F%2Fs.lilith.com%2Fs%2FwwQF&entityId=13157) [招商银行·招银网络科技
+
+2026届校园招聘](/jump?type=ad&source=105&companyId=914&url=https%3A%2F%2Fcmbnt.cmbchina.com%2Fpages%2FschoolRecruit%2Findex.html&entityId=13158) [麦吉太文
+
+2026校园招聘](/jump?type=ad&source=105&companyId=10707&url=https%3A%2F%2Fcampus.magictavern.com%2F&entityId=13148) [小米集团
+
+2026届春季校园招聘](/jump?type=ad&source=105&companyId=147&url=https%3A%2F%2Fhr.xiaomi.com%2Fcampus&entityId=13151) [厦门银行
+
+2026届春季校园招聘](/jump?type=ad&source=105&companyId=2932&url=https%3A%2F%2Fxmccb.zhaopin.com%2F&entityId=13149) [联想
+
+26届补录&27届暑期实习](/jump?type=ad&source=105&companyId=958&url=https%3A%2F%2Ftalent.lenovo.com.cn%2Fposition%3FprojectType%3D1&entityId=13135) [携程集团
+
+2026年春季校园招聘](/jump?type=ad&source=105&companyId=153&url=http%3A%2F%2Ft.ctrip.cn%2FgSuXOL7&entityId=13143) [AI网申助手
+
+网申字段一键填写](/jump?type=ad&source=105&companyId=28854&url=https%3A%2F%2Flink.zhiyeapp.com%2Fr%2Fp8KPdaIITw&entityId=13114)  
+
+全站热榜
+----
+
+更多   
+
+* [1  ...   产品岗集合，我发现了一个顶级项目 5794](https://www.nowcoder.com/discuss/865546317437620224)
+* [2  ...   腾讯视频后台一面凉经 3902](https://www.nowcoder.com/discuss/865245558980603904)
+* [3  ...   🔥牛客春招季🔥各公司春招&实习最新进展，这里实时更新！ 3685](https://www.nowcoder.com/discuss/856175167850983424)
+* [4  ...   大疆起诉影石，硬件大佬开战？ 3468](https://www.nowcoder.com/feed/main/detail/a893e918895b4c69809039e9cb0e6f72)
+* [5  ...   蚂蚁国际暑期一面 2728](https://www.nowcoder.com/feed/main/detail/051c6c8c2ecc49a7a2d87d07886fa23d)
+* [6  ...   蚂蚁集团-AI Coding笔试 2317](https://www.nowcoder.com/discuss/865336111655051264)
+* [7  ...   携程 后端开发实习 2290](https://www.nowcoder.com/feed/main/detail/9ee4b8542afd41f8b4c9ccd3630672eb)
+* [8  ...   教你如何快速包装简历（Agent相关） 2029](https://www.nowcoder.com/feed/main/detail/871d36feff2d4411a26ec7baf0127675)
+* [9  ...   腾讯二面状态更新后还是复试 1709](https://www.nowcoder.com/feed/main/detail/cda582b2fcfb41c481980e74610cd81b)
+* [10  ...   求问，GO后端，ACM金牌，这个简历能进大厂暑期吗 1586](https://www.nowcoder.com/feed/main/detail/fabbd56f8b2c44af88f7576578d481e0)
+
+ 
+
+创作者周榜
+-----
+
+更多    正在热议 更多   [# 春招至今，你的战绩如何？ # 9757次浏览 91人参与](https://www.nowcoder.com/creation/subject/6a233b563e7b446b8c8a30757e3aa732?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 你的实习产出是真实的还是包装的？ # 1758次浏览 40人参与](https://www.nowcoder.com/creation/subject/2f92dca4f67b4d558ce955cff7ea7045?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# MiniMax求职进展汇总 # 23860次浏览 308人参与](https://www.nowcoder.com/creation/subject/7ca73d8601604ed69b4aa6b94e5926bb?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 军工所铁饭碗 vs 互联网高薪资，你会选谁 # 7464次浏览 43人参与](https://www.nowcoder.com/creation/subject/35eade3fb66e4a15bc9b49249431c318?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 简历第一个项目做什么 # 31568次浏览 330人参与](https://www.nowcoder.com/creation/subject/daa50d30cfd348be8a4d9e5bef18630b?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 重来一次，我还会选择这个专业吗 # 433365次浏览 3926人参与](https://www.nowcoder.com/creation/subject/8ae835c1b4774d6d8da4f3b5973ce0c1?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 巨人网络春招 # 11304次浏览 223人参与](https://www.nowcoder.com/creation/subject/6da0986e79354b7c9f6ed00723771c99?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 当下环境，你会继续卷互联网，还是看其他行业机会 # 186990次浏览 1122人参与](https://www.nowcoder.com/creation/subject/1478afc0ab984059bc9cf1a99a2349e0?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 牛客AI文生图 # 21408次浏览 238人参与](https://www.nowcoder.com/creation/subject/052abdd04b544007bafa6ede76757c2a?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 不考虑薪资和职业，你最想做什么工作呢？ # 152293次浏览 887人参与](https://www.nowcoder.com/creation/subject/5a0dfb4ce9b64b43bca385419e9cf396?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 研究所笔面经互助 # 118873次浏览 577人参与](https://www.nowcoder.com/creation/subject/9e94d224e2564b26b8a31b3dd1d0d0fe?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 简历中的项目经历要怎么写？ # 310079次浏览 4194人参与](https://www.nowcoder.com/creation/subject/c171053c240c40638e5aa99a7f7251be?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# AI时代，哪些岗位最容易被淘汰 # 63454次浏览 805人参与](https://www.nowcoder.com/creation/subject/eb9f3ebd762b4652afde9a8931b21212?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 面试紧张时你会有什么表现？ # 30490次浏览 188人参与](https://www.nowcoder.com/creation/subject/87f65e2296184cd7b328a12ccab0c095?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 你今年的平均薪资是多少？ # 213013次浏览 1039人参与](https://www.nowcoder.com/creation/subject/bf535cb5eafd44c4a1e0d1df4eca9117?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 你怎么看待AI面试 # 179875次浏览 1235人参与](https://www.nowcoder.com/creation/subject/a80e356dfe764e59b9ae233116b78851?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 高学历就一定能找到好工作吗？ # 64313次浏览 620人参与](https://www.nowcoder.com/creation/subject/fac5186e44e94fa78a8f0fb36966a0bb?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 你最满意的offer薪资是哪家公司？ # 76438次浏览 374人参与](https://www.nowcoder.com/creation/subject/f38afbd3189a4032bc3484c9f75d5230?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 我的求职精神状态 # 447988次浏览 3128人参与](https://www.nowcoder.com/creation/subject/120921dfb9e944e6bd51df4eb3371450?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 正在春招的你，也参与了去年秋招吗？ # 363256次浏览 2637人参与](https://www.nowcoder.com/creation/subject/9ab46b3926a54e17a84013ca02f7878a?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 腾讯音乐求职进展汇总 # 160585次浏览 1111人参与](https://www.nowcoder.com/creation/subject/12ce0adc5acb4b63a9e668f833248422?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)[# 校招笔试 # 470477次浏览 2964人参与](https://www.nowcoder.com/creation/subject/2c6f79a683a34a83bd5c7080c341dce9?entranceType_var=%E4%BE%A7%E8%BE%B9%E6%A0%8F)   
+
+* 刷真题、补算法、看面经、得内推
+   ![]() 
+  扫一扫，把题目装进口袋
+   移动版
+* [关于我们](/nowcoder/about)
+* [加入我们](/nowcoder/recruitment)
+* [意见反馈](javascript:void(0);)
+* [企业服务](https://hr.nowcoder.com/?utm_channel=nkweb_homepage)
+* [校企合作](/nowcoder/school-cooperation)
+* [联系我们](/html/cooperation)
+* [免责声明](/html/disclaimer)
+* [友情链接](/html/links)
+* [资源导航](/home/resourcemap)
+* [付费咨询](https://newcoder.com/?type=news)
+
+![]() 
+扫描二维码，进入QQ群
+  ![]() 
+扫描二维码，关注牛客公众号
+    
+公司地址：北京市朝阳区北苑路北美国际商务中心K1座一层-北京牛客科技有限公司
+ 联系方式：010-60728802 投诉举报电话：010-57596212（朝阳人力社保局） 
+牛客科技©2026 All rights reserved
+[admin@nowcoder.com](mailto:admin@nowcoder.com) [京ICP备14055008号-4](https://beian.miit.gov.cn) [增值电信业务经营许可证](https://uploadfiles.nowcoder.com/acts/icp.png) [营业执照](https://static.nowcoder.com/protocol/license-center.html#business) [人力资源服务许可证](https://static.nowcoder.com/protocol/license-center.html#human-resources) [![]()京公网安备 11010502036488号](http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502036488) 
+[牛客网](https://www.nowcoder.com/simple/home)  
+
+[牛客网在线编程](https://www.nowcoder.com/simple/question)  
+
+[牛客网题解](https://www.nowcoder.com/simple/question/comment)  
+
+[牛客企业服务](https://www.nowcoder.com/simple/hr)
+
+
+

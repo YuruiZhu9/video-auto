@@ -1,0 +1,225 @@
+# Source URL: https://wavespeed.ai/blog/posts/what-is-google-gemma-4/
+# Content Length: 14135 characters
+# Extracted at: 2026-04-05 12:03:49
+#============================================================
+
+
+ What Is Google Gemma 4? Architecture, Benchmarks, and Why It Matters | WaveSpeedAI Blog       
+       [![]()](https://wavespeed.ai)      [Explore](https://wavespeed.ai/models)   [Pricing](https://wavespeed.ai/pricing)   [Enterprise](https://wavespeed.ai/enterprise)     Resources       [Studio](https://wavespeed.ai/studio) [Affiliate](https://wavespeed.ai/static/affiliate) [Download App](https://wavespeed.ai/landing/desktop) [Inspiration](https://wavespeed.ai/inspiration) [Doc](https://wavespeed.ai/docs) [Blog](/blog/) [Contact Sales](https://wavespeed.ai/enterprise#contact-us) [Be a Creator](https://wavespeed.ai/static/collaborator) [Support](https://wavespeed.ai/user/support) [Github](https://github.com/WaveSpeedAI)                   English  Deutsch  Español  Français  Português  Русский  Indonesian  日本語  한국어  简体中文  繁體中文                     [Explore](https://wavespeed.ai/models)   [Pricing](https://wavespeed.ai/pricing)   [Enterprise](https://wavespeed.ai/enterprise)     Resources      [Studio](https://wavespeed.ai/studio) [Download App](https://wavespeed.ai/landing/desktop) [Doc](https://wavespeed.ai/docs) [Contact Sales](https://wavespeed.ai/enterprise#contact-us) [Support](https://wavespeed.ai/user/support) [Affiliate](https://wavespeed.ai/static/affiliate) [Inspiration](https://wavespeed.ai/inspiration) [Blog](/blog/) [Be a Creator](https://wavespeed.ai/static/collaborator) [Github](https://github.com/WaveSpeedAI)                 English  Deutsch  Español  Français  Português  Русский  Indonesian  日本語  한국어  简体中文  繁體中文                  [← Blog](/blog/)     
+
+What Is Google Gemma 4? Architecture, Benchmarks, and Why It Matters
+====================================================================
+
+Google Gemma 4 is the most capable open model family from DeepMind yet, shipping four sizes under Apache 2.0 with multimodal input, native reasoning, and on-device deployment down to a Raspberry Pi.
+
+ Apr 3, 2026  6 min read   [#gemma-4](/blog/tags/gemma-4/) [#google](/blog/tags/google/) [#open-source](/blog/tags/open-source/) [#multimodal](/blog/tags/multimodal/) [#on-device-ai](/blog/tags/on-device-ai/)     
+
+On April 2, 2026, Google DeepMind released **Gemma 4** — four open-weight models built from the same research behind Gemini 3, now available under the **Apache 2.0 license**. That license change alone makes this a significant moment for the open model ecosystem: no MAU caps, no acceptable-use restrictions, full commercial freedom.
+
+But the models themselves are the real story. Let’s break down what shipped, how they perform, and who should care.
+
+The Gemma 4 Model Family
+------------------------
+
+Gemma 4 comes in four sizes, each available as both base and instruction-tuned variants:
+
+| Model | Active Params | Total Params | Context | Modalities |
+| --- | --- | --- | --- | --- |
+| **E2B** | 2.3B | 5.1B | 128K | Text, image, audio |
+| **E4B** | 4.5B | 8B | 128K | Text, image, audio |
+| **26B-A4B** (MoE) | 3.8B | 25.2B | 256K | Text, image, video |
+| **31B** (Dense) | 30.7B | 30.7B | 256K | Text, image, video |
+
+The “E” prefix stands for *effective parameters* — E2B and E4B use a technique called **Per-Layer Embeddings (PLE)** that feeds a secondary embedding signal into every decoder layer. The result is that a 2.3B-active model carries the representational depth of the full 5.1B parameter count while fitting in under 1.5 GB of memory with quantization.
+
+The 26B-A4B variant is a Mixture-of-Experts model with 128 small experts, activating 8 plus 1 shared expert per token. Only 3.8B parameters fire per forward pass, so it achieves roughly 97% of the dense 31B model’s quality at a fraction of the compute.
+
+Architecture Highlights
+-----------------------
+
+Gemma 4 introduces several design choices worth noting:
+
+**Alternating attention.** Layers alternate between local sliding-window attention (512–1024 tokens) and global full-context attention. This balances efficiency with long-range understanding.
+
+**Dual RoPE.** Standard rotary position embeddings for sliding-window layers, proportional RoPE for global layers — enabling the 256K context window on the larger models without the usual quality degradation at long distances.
+
+**Shared KV cache.** The last N layers reuse key/value tensors from earlier layers, reducing both memory and compute during inference.
+
+**Vision encoder.** A learned 2D position encoder with multidimensional RoPE that preserves original aspect ratios. Token budgets are configurable (70 to 1,120 tokens per image), so you can trade off detail for speed.
+
+**Audio encoder.** A USM-style conformer (same architecture as Gemma-3n) that handles speech recognition and translation natively, with up to 30 seconds of audio input on the smaller models.
+
+Benchmarks
+----------
+
+The numbers are a generational leap over Gemma 3:
+
+### Reasoning and Knowledge
+
+| Benchmark | 31B | 26B-A4B | E4B | E2B |
+| --- | --- | --- | --- | --- |
+| MMLU Pro | 85.2% | 82.6% | 69.4% | 60.0% |
+| AIME 2026 (no tools) | 89.2% | 88.3% | 42.5% | 37.5% |
+| GPQA Diamond | 84.3% | 82.3% | 58.6% | 43.4% |
+| BigBench Extra Hard | 74.4% | 64.8% | 33.1% | 21.9% |
+
+For context, Gemma 3’s BigBench Extra Hard score was 19.3%. The 31B hits 74.4%.
+
+### Coding
+
+| Benchmark | 31B | 26B-A4B | E4B | E2B |
+| --- | --- | --- | --- | --- |
+| LiveCodeBench v6 | 80.0% | 77.1% | 52.0% | 44.0% |
+| Codeforces ELO | 2150 | 1718 | 940 | 633 |
+
+### Vision
+
+| Benchmark | 31B | 26B-A4B | E4B | E2B |
+| --- | --- | --- | --- | --- |
+| MMMU Pro | 76.9% | 73.8% | 52.6% | 44.2% |
+| MATH-Vision | 85.6% | 82.4% | 59.5% | 52.4% |
+
+On LMArena’s text-only leaderboard, the 31B ranks #3 globally among open models with an ELO of ~1452.
+
+Multimodal and Agentic Capabilities
+-----------------------------------
+
+Every Gemma 4 model supports multimodal input out of the box:
+
+* **Image understanding** with variable aspect ratio and resolution
+* **Video comprehension** up to 60 seconds at 1 fps (26B and 31B)
+* **Audio input** for speech recognition and translation (E2B and E4B)
+
+On the agentic side, Gemma 4 includes native **function calling**, structured JSON output, multi-step planning, and configurable extended thinking/reasoning mode. It can also output bounding boxes for UI element detection — useful for browser automation and screen-parsing agents.
+
+On-Device Deployment
+--------------------
+
+The smaller models are designed to run on edge hardware:
+
+* **E2B** fits in under 1.5 GB with 2-bit quantization
+* On a **Raspberry Pi 5**: 133 tokens/sec prefill, 7.6 tokens/sec decode
+* Runs on Android, iOS, Windows, Linux, macOS, WebGPU browsers, and Qualcomm IQ8 NPUs
+
+Google partnered with Pixel, Qualcomm, MediaTek, ARM, and NVIDIA to optimize deployment across these targets. NVIDIA is distributing Gemma 4 through their RTX AI Garage for local inference on RTX GPUs.
+
+How to Access Gemma 4
+---------------------
+
+Gemma 4 is available now across multiple platforms:
+
+* **Hugging Face**: `google/gemma-4-31B-it`, `google/gemma-4-26B-A4B-it`, `google/gemma-4-E4B-it`, `google/gemma-4-E2B-it`
+* **Google AI Studio** for API access (31B and 26B)
+* **Ollama** for local inference
+* **Kaggle** for model weights
+* **Vertex AI, Cloud Run, GKE** for production deployments
+
+Day-one framework support includes Hugging Face Transformers, vLLM, llama.cpp, MLX (Apple Silicon), LM Studio, and transformers.js for in-browser inference.
+
+### Hardware Requirements
+
+| Model | Minimum VRAM |
+| --- | --- |
+| E2B | 8 GB / Apple Silicon |
+| E4B | 12–16 GB |
+| 26B-A4B | 24 GB (A100) |
+| 31B | 40+ GB (H100 for bf16) |
+
+The Apache 2.0 License Shift
+----------------------------
+
+Previous Gemma releases used a custom license with restrictions on commercial use and content policies. Gemma 4 ships under **Apache 2.0** — the same permissive license used by Qwen 3.5 and more open than Llama 4’s community license.
+
+This means no monthly active user limits, no acceptable-use policy enforcement, and full freedom for sovereign and commercial AI deployments. For organizations building products on open models, the licensing clarity matters as much as the benchmark numbers.
+
+Bottom Line
+-----------
+
+Gemma 4 represents a serious move from Google in the open model space. The 31B dense model competes with models many times its size on reasoning and coding benchmarks. The MoE variant delivers nearly the same quality at a fraction of the inference cost. And the E2B model brings genuine multimodal intelligence to devices with under 2 GB of available memory.
+
+Combined with the Apache 2.0 license, Gemma 4 gives developers a compelling option whether they’re building cloud-scale agentic systems or shipping on-device AI to mobile and IoT hardware.
+
+   Share     
+
+Related Articles
+----------------
+
+[### Introducing Google Veo 3.1 Lite Image-to-Video on WaveSpeedAI
+
+2026-04-03](/blog/posts/introducing-google-veo3-1-lite-image-to-video-on-wavespeedai/)[### Introducing Google Veo 3.1 Lite Start-End-to-Video on WaveSpeedAI
+
+2026-04-03](/blog/posts/introducing-google-veo3-1-lite-start-end-to-video-on-wavespeedai/)[### Introducing Google Veo 3.1 Lite Text-to-Video on WaveSpeedAI
+
+2026-04-03](/blog/posts/introducing-google-veo3-1-lite-text-to-video-on-wavespeedai/)[![]()
+### Suno vs MiniMax Music vs Google Lyria 3: AI Music Generation Compared
+
+2026-03-29](/blog/posts/suno-vs-minimax-vs-google-lyria-ai-music-compared/)[![]()
+### daVinci-MagiHuman: The Open-Source Model That Just Crushed Every Digital Human Generator
+
+2026-03-27](/blog/posts/davinci-magihuman-open-source-digital-human-lip-sync-2026/)[### Introducing daVinci MagiHuman Image-to-Video on WaveSpeedAI
+
+2026-03-27](/blog/posts/introducing-wavespeed-ai-davinci-magihuman-image-to-video-on-wavespeedai/)  
+
+On this page
+
+[The Gemma 4 Model Family](#the-gemma-4-model-family)[Architecture Highlights](#architecture-highlights)[Benchmarks](#benchmarks)[Multimodal and Agentic Capabilities](#multimodal-and-agentic-capabilities)[On-Device Deployment](#on-device-deployment)[How to Access Gemma 4](#how-to-access-gemma-4)[The Apache 2.0 License Shift](#the-apache-20-license-shift)[Bottom Line](#bottom-line)    
+
+AI Generators
+
+  [AI Image Generator
+
+Nano Banana, Seedream & more](https://wavespeed.ai/image-generator)   [AI Video Generator
+
+Wan, Seedance, Kling & more](https://wavespeed.ai/video-generator)  
+
+Free & Fast
+
+    
+
+Latest Models
+
+  [![]()  
+
+Kling Elements Advanced
+
+Model](https://wavespeed.ai/models/kwaivgi/kling-elements-advanced)  [Seedance 2.0 Fast
+
+Image To Video](https://wavespeed.ai/models/bytedance/seedance-2.0-fast/image-to-video)  [Seedance 2.0 Fast
+
+Text To Video](https://wavespeed.ai/models/bytedance/seedance-2.0-fast/text-to-video)  [Seedance 2.0
+
+Image To Video](https://wavespeed.ai/models/bytedance/seedance-2.0/image-to-video)    [View all new models](https://wavespeed.ai/models/recently-added)            
+
+Ready to Experience Lightning-Fast AI Generation?
+-------------------------------------------------
+
+  [Start Creating](https://wavespeed.ai/image-generator)    [Explore Models](https://wavespeed.ai/models)   [API Documentation](https://wavespeed.ai/docs)          [![]()](https://wavespeed.ai)   [All Services Online](https://status.wavespeed.ai/)       
+
+Learn More
+----------
+
+ [Home](https://wavespeed.ai) [Explore](https://wavespeed.ai/models) [Pricing](https://wavespeed.ai/pricing) [Enterprise](https://wavespeed.ai/enterprise) [About Us](https://wavespeed.ai/about)   
+
+Legal
+-----
+
+ [Terms of Service](https://wavespeed.ai/static/terms) [Privacy Policy](https://wavespeed.ai/static/privacy)     
+
+Resources
+---------
+
+ [Image Generator](https://wavespeed.ai/image-generator) [Video Generator](https://wavespeed.ai/video-generator) [Avatar Generator](https://wavespeed.ai/avatar-generator) [Audio Generator](https://wavespeed.ai/audio-generator) [Download App](https://wavespeed.ai/landing/desktop) [Studio](https://wavespeed.ai/studio) [Doc](https://wavespeed.ai/docs) [Inspiration](https://wavespeed.ai/inspiration) [Blog](https://wavespeed.ai/blog/) [Contact Sales](https://wavespeed.ai/enterprise#contact-us) [Support](https://wavespeed.ai/user/support) [Affiliate](https://wavespeed.ai/static/affiliate)    
+
+Models
+------
+
+ [Qwen Image 2](https://wavespeed.ai/models) [Grok](https://wavespeed.ai/models) [Seedance 1.5 Pro](https://wavespeed.ai/models) [Wan 2.6](https://wavespeed.ai/collections/wan-2.6) [Kling O3](https://wavespeed.ai/models) [OpenAI](https://wavespeed.ai/models) [Wan 2.5](https://wavespeed.ai/collections/wan-2-5) [Seedream AI](https://wavespeed.ai/models) [Wan 2.2](https://wavespeed.ai/models) [Dreamina AI](https://wavespeed.ai/models) [Seedance Video](https://wavespeed.ai/models)     [Flux Image](https://wavespeed.ai/models) [Minimax Hailuo](https://wavespeed.ai/models) [Kling](https://wavespeed.ai/models) [Google](https://wavespeed.ai/models) [Flux Kontext](https://wavespeed.ai/models) [Runwayml AI](https://wavespeed.ai/models) [Wan 2.1 Video](https://wavespeed.ai/models) [Hunyuan](https://wavespeed.ai/models) [Vidu](https://wavespeed.ai/models) [Qwen AI](https://wavespeed.ai/models) [Pixverse AI](https://wavespeed.ai/models)   
+
+Tools
+-----
+
+ [Image Generator](https://wavespeed.ai/image-generator) [Video Generator](https://wavespeed.ai/video-generator) [Content Detection](https://wavespeed.ai/models) [Motion Control](https://wavespeed.ai/models) [Swap Anything](https://wavespeed.ai/models) [Audio for Video](https://wavespeed.ai/models) [Video Edit](https://wavespeed.ai/models) [LoRA Generation](https://wavespeed.ai/models) [Generate Music](https://wavespeed.ai/models) [3D Creation](https://wavespeed.ai/models)     [Avatar Lipsync](https://wavespeed.ai/models) [Training Tools](https://wavespeed.ai/models) [Enhance Videos](https://wavespeed.ai/models) [Image Editing](https://wavespeed.ai/models) [Upscale Image](https://wavespeed.ai/models) [Speech Generation](https://wavespeed.ai/models) [Remove Anything](https://wavespeed.ai/models) [First & Last Frame](https://wavespeed.ai/models) [Ultra Selection](https://wavespeed.ai/models) [Best Video Models](https://wavespeed.ai/models)    
+
+© 2026 WAVESPEED
+
+            TOP   

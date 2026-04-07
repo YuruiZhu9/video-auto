@@ -1,0 +1,536 @@
+# Source URL: https://segmentfault.com/a/1190000047625443
+# Content Length: 12500 characters
+# Extracted at: 2026-03-12 22:30:49
+#============================================================
+
+# [OpenClaw 多 Agent 配置完全指南](https://segmentfault.com/a/1190000047625443)
+[![头像](https://avatar-static.segmentfault.com/175/896/175896463-5dae8f4bc42ab\_huge128)\\
+\\
+\*\*鸿枫\*\*](https://segmentfault.com/u/hongfeng\_5cc277f5c65f4) [今天 04:38 北京](https://segmentfault.com/a/1190000047625443/revision)
+阅读 6 分钟
+0 [评论](https://segmentfault.com/a/1190000047625443#comment-area)
+## OpenClaw 多 Agent 配置完全指南
+> 从单 Agent 到多 Agent 协作的实战经验总结
+>
+> 最后更新：2026-02-27
+\* \* \*
+### 1\. 背景和动机
+#### 为什么需要多 Agent？
+在实际使用中，单个 Agent 会遇到以下问题：
+\*\*上下文污染\*\*
+- 代码讨论、写作任务、研究查询混在一起
+- 历史对话越来越长，相关性越来越低
+- Agent 容易被无关信息干扰
+\*\*人设混乱\*\*
+- 一会儿要写代码，一会儿要写文档，一会儿要做研究
+- 没有专注的角色定位
+- 回答质量不稳定
+\*\*Token 爆炸\*\*
+- 所有历史记录都在一个会话里
+- 每次调用都要加载全部上下文
+- 成本高、速度慢
+#### 多 Agent 的优势
+\*\*专注\*\*
+- 每个 Agent 只做一件事
+- 人设清晰，回答质量稳定
+- 上下文干净，相关性高
+\*\*并行\*\*
+- 多个任务同时执行
+- 互不干扰，效率提升
+- 适合复杂项目的分工协作
+\*\*隔离\*\*
+- 不同任务的上下文完全隔离
+- 敏感信息不会泄露到其他任务
+- 每个 Agent 可以有独立的配置
+\* \* \*
+### 2\. OpenClaw 的两种多 Agent 方案
+#### 方案一：agents add + bindings（独立 Agent 路由）
+\*\*用途\*\*：不同聊天窗口路由到不同 Agent
+\*\*配置方式\*\*：
+```
+# 创建多个独立 Agent
+openclaw agents add coder --model claude-sonnet-4
+openclaw agents add writer --model gpt-4
+# 配置路由规则
+openclaw bindings add whatsapp:daily main
+openclaw bindings add telegram:work coder
+```
+\*\*适用场景\*\*：
+- 多人共享同一个 OpenClaw 实例
+- 不同渠道需要不同的 Agent（WhatsApp 日常 vs Telegram 深度工作）
+- 需要完全独立的 Agent 配置（不同模型、不同 SOUL.md）
+\*\*优点\*\*：
+- 完全隔离，互不影响
+- 可以使用不同的模型
+- 适合长期运行
+\*\*缺点\*\*：
+- 配置复杂，需要预先创建
+- 不够灵活，不适合临时任务
+- 需要维护多个 Agent 的配置
+\* \* \*
+#### 方案二：sessions\\_spawn 动态子 Agent（推荐）
+\*\*用途\*\*：main Agent 动态创建临时助手
+\*\*配置方式\*\*：直接调用 `sessions\_spawn`，无需预配置
+\*\*适用场景\*\*：
+- 任务分工（代码、写作、研究）
+- 并行处理（同时执行多个任务）
+- 临时协作（一次性任务）
+\*\*优势\*\*：
+- ✅ \*\*简单\*\*：无需预先创建 Agent，直接用
+- ✅ \*\*灵活\*\*：按需创建，用完即删
+- ✅ \*\*无需配置\*\*：不需要 `openclaw agents add`，不需要 `allowlist`
+- ✅ \*\*自动管理\*\*：结果自动返回，无需轮询
+\*\*对比\*\*：
+| 特性 | 方案一（agents add） | 方案二（sessions\\_spawn） |
+| --- | --- | --- |
+| 配置复杂度 | 高（需要预先创建） | 低（直接调用） |
+| 使用场景 | 多人/多渠道 | 任务分工 |
+| 上下文隔离 | 完全隔离 | 临时隔离 |
+| 成本 | 需要维护 | 按需创建 |
+| 灵活性 | 低 | 高 |
+\* \* \*
+### 3\. sessions\\_spawn 实战指南
+#### 基础用法
+```
+sessions\_spawn({
+label: '助手名称',
+task: '具体任务描述',
+mode: 'run', // 或 'session'
+runTimeoutSeconds: 300
+})
+```
+#### 参数说明
+| 参数 | 类型 | 说明 | 默认值 |
+| --- | --- | --- | --- |
+| `label` | string | 显示名称（用于识别） | 必填 |
+| `task` | string | 任务描述（越详细越好） | 必填 |
+| `mode` | string | `run`（一次性）或 `session`（持久） | `run` |
+| `runTimeoutSeconds` | number | 超时时间（秒） | 300 |
+| `cleanup` | string | `delete`（自动删除）或 `keep`（保留） | `delete` |
+\*\*mode 选择\*\*：
+- `run`：一次性任务，完成后自动删除（推荐）
+- `session`：持久会话，需要手动管理
+\*\*超时设置\*\*：
+- 简单任务：60-120 秒
+- 中等任务：180-300 秒
+- 复杂任务：300-600 秒
+#### 并行执行多个助手
+```
+// 同时执行三个任务
+const results = await Promise.all([\
+sessions\_spawn({\
+label: '代码助手',\
+task: '检查 unified-ai-gateway 的 TypeScript 错误',\
+runTimeoutSeconds: 180\
+}),\
+sessions\_spawn({\
+label: '写作助手',\
+task: '写一篇关于多 Agent 配置的技术文档',\
+runTimeoutSeconds: 300\
+}),\
+sessions\_spawn({\
+label: '研究助手',\
+task: '对比 PostgreSQL 和 MongoDB 的优缺点',\
+runTimeoutSeconds: 120\
+})\
+]);
+// 处理结果
+results.forEach((result, index) => {
+console.log(`任务 ${index + 1} 完成:`, result);
+});
+```
+\* \* \*
+### 4\. 实战案例
+#### 案例 1：代码质量检查
+\*\*任务描述\*\*：
+```
+sessions\_spawn({
+label: '代码审查助手',
+task: `检查 unified-ai-gateway 项目的代码质量：
+1. 运行 TypeScript 类型检查
+2. 检查是否有未使用的依赖
+3. 查找潜在的性能问题
+4. 生成改进建议报告`,
+runTimeoutSeconds: 300
+})
+```
+\*\*预期输出\*\*：
+- TypeScript 错误列表
+- 未使用的依赖清单
+- 性能优化建议
+- 改进优先级排序
+\*\*实际效果\*\*：
+- ✅ 发现了 3 个 TypeScript 类型错误
+- ✅ 找到了 2 个未使用的依赖
+- ✅ 提出了 5 条性能优化建议
+- ⏱️ 耗时：2 分 15 秒
+\* \* \*
+#### 案例 2：数据库技术对比
+\*\*任务描述\*\*：
+```
+sessions\_spawn({
+label: '技术调研助手',
+task: `对比 PostgreSQL 和 MongoDB：
+1. 性能对比（读写速度、并发能力）
+2. 适用场景（什么时候用哪个）
+3. 运维成本（备份、扩展、监控）
+4. 生态系统（工具、社区、文档）
+5. 给出选型建议`,
+runTimeoutSeconds: 180
+})
+```
+\*\*预期输出\*\*：
+- 详细的对比表格
+- 适用场景分析
+- 选型决策树
+- 推荐方案
+\*\*实际效果\*\*：
+- ✅ 生成了清晰的对比表格
+- ✅ 给出了 3 种典型场景的推荐
+- ✅ 提供了迁移成本估算
+- ⏱️ 耗时：1 分 45 秒
+\* \* \*
+#### 案例 3：文档写作
+\*\*任务描述\*\*：
+```
+sessions\_spawn({
+label: '文档写作助手',
+task: `写一篇 unified-ai-gateway 的 README.md：
+1. 项目简介（一句话描述）
+2. 核心特性（3-5 个亮点）
+3. 快速开始（安装、配置、运行）
+4. API 文档（主要端点）
+5. 常见问题（FAQ）
+保存到 ~/.openclaw/ai-chat-room/unified-ai-gateway/README.md`,
+runTimeoutSeconds: 300
+})
+```
+\*\*预期输出\*\*：
+- 完整的 README.md 文件
+- 清晰的结构
+- 代码示例
+- 实用的 FAQ
+\*\*实际效果\*\*：
+- ✅ 生成了 200+ 行的完整文档
+- ✅ 包含了 5 个代码示例
+- ✅ 添加了 8 个常见问题
+- ⏱️ 耗时：2 分 30 秒
+\* \* \*
+### 5\. 最佳实践
+#### 任务描述要清晰
+\*\*✅ 好的任务描述\*\*：
+```
+task: `检查 unified-ai-gateway 的 TypeScript 错误：
+1. 运行 tsc --noEmit
+2. 列出所有错误
+3. 按严重程度排序
+4. 给出修复建议`
+```
+\*\*❌ 模糊的任务描述\*\*：
+```
+task: '检查代码' // 太模糊，不知道检查什么
+```
+\*\*关键点\*\*：
+- 明确输入（哪个项目、哪个文件）
+- 明确输出（要什么格式、保存到哪里）
+- 分步骤（1、2、3...）
+- 设定标准（什么算成功、什么算失败）
+\* \* \*
+#### 合理设置超时
+| 任务类型 | 推荐超时 | 示例 |
+| --- | --- | --- |
+| 简单查询 | 60-120 秒 | 查看文件、运行命令 |
+| 中等任务 | 180-300 秒 | 代码审查、文档写作 |
+| 复杂任务 | 300-600 秒 | 项目重构、深度研究 |
+\*\*注意\*\*：
+- 超时太短 → 任务未完成就被杀掉
+- 超时太长 → 浪费资源，等待时间长
+- 根据实际情况调整
+\* \* \*
+#### 并行 vs 串行
+\*\*什么时候并行\*\*：
+- 任务之间没有依赖关系
+- 需要快速完成多个任务
+- 资源充足（CPU、内存、API 配额）
+```
+// 并行执行
+const [code, docs, research] = await Promise.all([\
+sessions\_spawn({label: '代码', task: '...'}),\
+sessions\_spawn({label: '文档', task: '...'}),\
+sessions\_spawn({label: '研究', task: '...'})\
+]);
+```
+\*\*什么时候串行\*\*：
+- 任务之间有依赖关系（先研究再实现）
+- 资源有限（避免 API 限流）
+- 需要根据前一个任务的结果调整后续任务
+```
+// 串行执行
+const research = await sessions\_spawn({label: '研究', task: '...'});
+const code = await sessions\_spawn({label: '实现', task: `根据研究结果：${research}...`});
+const docs = await sessions\_spawn({label: '文档', task: `根据实现：${code}...`});
+```
+\* \* \*
+#### 结果验证
+\*\*检查返回状态\*\*：
+```
+const result = await sessions\_spawn({...});
+if (result.status === 'completed') {
+console.log('任务完成:', result.output);
+} else if (result.status === 'timeout') {
+console.error('任务超时，考虑增加 runTimeoutSeconds');
+} else if (result.status === 'error') {
+console.error('任务失败:', result.error);
+}
+```
+\*\*处理超时情况\*\*：
+- 检查任务是否太复杂
+- 增加超时时间
+- 拆分成多个小任务
+\*\*错误处理\*\*：
+- 记录错误日志
+- 重试机制（最多 3 次）
+- 降级方案（手动执行）
+\* \* \*
+### 6\. 常见问题
+#### Q: 需要预先创建 Agent 吗？
+\*\*A\*\*: 不需要！
+❌ \*\*错误做法\*\*：
+```
+openclaw agents add coder # 不需要这样做
+```
+✅ \*\*正确做法\*\*：
+```
+sessions\_spawn({label: '代码助手', task: '...'}) // 直接用
+```
+\* \* \*
+#### Q: 需要配置 allowlist 吗？
+\*\*A\*\*: 不需要！
+❌ \*\*错误做法\*\*：
+```
+{
+"subagents": {
+"allowlist": ["coder", "writer"] // 不需要这个配置
+}
+}
+```
+✅ \*\*正确做法\*\*：
+直接调用 `sessions\_spawn`，无需任何配置。
+\* \* \*
+#### Q: 子 Agent 能互相通信吗？
+\*\*A\*\*: 不能。
+子 Agent 是完全独立的，它们：
+- 不共享上下文
+- 不能互相调用
+- 不能访问彼此的结果
+如果需要协作，由 main Agent 协调：
+```
+const research = await sessions\_spawn({label: '研究', task: '...'});
+const code = await sessions\_spawn({label: '实现', task: `根据研究结果：${research}...`});
+```
+\* \* \*
+#### Q: 如何管理子 Agent？
+\*\*A\*\*: 使用 `subagents` 工具。
+\*\*查看所有子 Agent\*\*：
+```
+subagents({action: 'list'})
+```
+\*\*终止子 Agent\*\*：
+```
+subagents({action: 'kill', target: 'session-id'})
+```
+\*\*发送消息给子 Agent\*\*：
+```
+subagents({action: 'steer', target: 'session-id', message: '加快速度'})
+```
+\* \* \*
+### 7\. 踩过的坑
+#### 坑 1：误以为需要 `openclaw agents add`
+\*\*错误认知\*\*：
+> "我需要先创建一个 Agent，然后才能用 sessions\\_spawn"
+\*\*实际情况\*\*：
+- `sessions\_spawn` 会自动创建临时 Agent
+- 不需要预先配置
+- 用完自动删除
+\*\*教训\*\*：
+- 看文档要仔细
+- 不要想当然
+- 先试试再说
+\* \* \*
+#### 坑 2：误以为需要配置 `subagents.allowlist`
+\*\*错误认知\*\*：
+> "我需要在配置文件里添加 allowlist，否则无法创建子 Agent"
+\*\*实际情况\*\*：
+- `allowlist` 是用于限制哪些 Agent 可以创建子 Agent
+- 默认情况下，main Agent 可以创建任意子 Agent
+- 不需要额外配置
+\*\*教训\*\*：
+- 默认配置通常是合理的
+- 不要过度配置
+- 遇到问题先查日志
+\* \* \*
+#### 坑 3：误以为需要指定 `agentId`
+\*\*错误认知\*\*：
+> "我需要指定 agentId，告诉系统用哪个 Agent"
+\*\*实际情况\*\*：
+- `sessions\_spawn` 会自动生成唯一的 session ID
+- 不需要指定 agentId
+- label 只是显示名称，不是 ID
+\*\*教训\*\*：
+- 参数说明要看清楚
+- 必填参数和可选参数要区分
+- 不要自己发明参数
+\* \* \*
+#### 坑 4：任务描述太模糊
+\*\*错误做法\*\*：
+```
+task: '帮我检查代码' // 太模糊
+```
+\*\*正确做法\*\*：
+```
+task: `检查 unified-ai-gateway 的 TypeScript 错误：
+1. 运行 tsc --noEmit
+2. 列出所有错误
+3. 按严重程度排序
+4. 给出修复建议`
+```
+\*\*教训\*\*：
+- 任务描述越详细，结果越好
+- 分步骤执行，结果更可控
+- 明确输入输出，避免歧义
+\* \* \*
+### 8\. 对比总结
+| 特性 | 方案一（agents add） | 方案二（sessions\\_spawn） |
+| --- | --- | --- |
+| \*\*配置复杂度\*\* | 高（需要预先创建 Agent） | 低（直接调用） |
+| \*\*使用场景\*\* | 多人共享、多渠道分离 | 任务分工、临时协作 |
+| \*\*上下文隔离\*\* | 完全隔离（不同 SOUL.md） | 临时隔离（共享 workspace） |
+| \*\*成本\*\* | 需要维护多个 Agent | 按需创建，用完即删 |
+| \*\*灵活性\*\* | 低（需要预先规划） | 高（随时创建） |
+| \*\*适用人数\*\* | 多人团队 | 单人或小团队 |
+| \*\*学习曲线\*\* | 陡峭 | 平缓 |
+\*\*推荐\*\*：
+- 个人使用 → `sessions\_spawn`
+- 小团队 → `sessions\_spawn`
+- 大团队/多渠道 → `agents add + bindings`
+\* \* \*
+### 9\. 下一步
+#### 效果验证
+- \[ \] 记录每次 sessions\\_spawn 的耗时
+- \[ \] 对比单 Agent 和多 Agent 的效率
+- \[ \] 收集用户反馈
+#### 优化任务描述
+- \[ \] 建立任务描述模板库
+- \[ \] 总结高质量任务描述的特征
+- \[ \] 自动生成任务描述（基于历史数据）
+#### 建立任务模板库
+```
+// 代码审查模板
+const CODE\_REVIEW\_TEMPLATE = {
+label: '代码审查助手',
+task: (project) => `检查 ${project} 的代码质量：
+1. 运行 TypeScript 类型检查
+2. 检查是否有未使用的依赖
+3. 查找潜在的性能问题
+4. 生成改进建议报告`,
+runTimeoutSeconds: 300
+};
+// 文档写作模板
+const DOC\_WRITING\_TEMPLATE = {
+label: '文档写作助手',
+task: (project, sections) => `写一篇 ${project} 的文档：
+${sections.map((s, i) => `${i + 1}. ${s}`).join('\n')}`,
+runTimeoutSeconds: 300
+};
+// 技术调研模板
+const RESEARCH\_TEMPLATE = {
+label: '技术调研助手',
+task: (topic, aspects) => `调研 ${topic}：
+${aspects.map((a, i) => `${i + 1}. ${a}`).join('\n')}`,
+runTimeoutSeconds: 180
+};
+```
+#### 共享到团队
+- \[ \] 整理成 Wiki 文档
+- \[ \] 录制演示视频
+- \[ \] 组织内部培训
+- \[ \] 收集最佳实践
+\* \* \*
+### 10\. 总结
+\*\*核心要点\*\*：
+1. \*\*sessions\\_spawn 是最简单的多 Agent 方案\*\*
+2. \*\*无需预配置，直接调用即可\*\*
+3. \*\*任务描述越详细，结果越好\*\*
+4. \*\*合理设置超时，避免浪费资源\*\*
+5. \*\*并行执行可以大幅提升效率\*\*
+\*\*实战经验\*\*（2026-02-26 到 2026-02-27）：
+- ✅ 成功创建了 3 个专用 Agent（代码、写作、研究）
+- ✅ 并行执行任务，效率提升 3 倍
+- ✅ 上下文隔离，回答质量更稳定
+- ✅ 无需预配置，开箱即用
+\*\*下一步计划\*\*：
+- 建立任务模板库
+- 优化任务描述
+- 自动化常见任务
+- 共享到团队
+\* \* \*
+\*\*参考资料\*\*：
+- [OpenClaw 官方文档](https://link.segmentfault.com/?enc=tVI2Yc7JmYcOaChW9E3ZPQ%3D%3D.ai4GxgSc%2BoOhAECMP1r6AtePV7RC2uDXgL%2B%2FIUhellA%3D)
+- [sessions\\_spawn API 文档](https://link.segmentfault.com/?enc=2bkEtlLyVUz%2F6sjv9xOcLw%3D%3D.uMx%2BZeYetZk43NUvjFyy0tiHRoC0%2BFLy9vLO9z7Oy1XXgZ0SIOW0%2BgJ3cLUOWYYu)
+- [subagents 工具文档](https://link.segmentfault.com/?enc=LRnQOoZnAg%2Bh8XypgMrzwA%3D%3D.wVHYu62DFMg%2BxwOtVdtsTZt%2FDakYbX3YyX7iwdD1kAJDeTBZNXf5vQ40g8zLnqt3)
+\*\*作者\*\*: 小熊-统筹
+\*\*日期\*\*: 2026-02-27
+\*\*版本\*\*: 1.0
+本文由 [mdnice](https://link.segmentfault.com/?enc=3c5u9WUzuRT21qEUfWen2g%3D%3D.SbCjkvZkwZy4kfRF5Z8wRYID9eg09aNxbYEJpYVRM9I%3D) 多平台发布
+[后端](https://segmentfault.com/t/%E5%90%8E%E7%AB%AF)
+赞收藏
+分享
+阅读 32 [发布于 今天 04:38](https://segmentfault.com/a/1190000047625443/revision)
+举报
+\* \* \*
+[![头像](https://avatar-static.segmentfault.com/175/896/175896463-5dae8f4bc42ab\_huge128)](https://segmentfault.com/u/hongfeng\_5cc277f5c65f4)
+[\*\*鸿枫\*\*](https://segmentfault.com/u/hongfeng\_5cc277f5c65f4)
+0 声望2 粉丝
+关注作者
+\* \* \*
+« 上一篇
+[WSL2 占用C盘空间释放完整教程](https://segmentfault.com/a/1190000047620266)
+下一篇 »
+▲
+### 引用和评论
+\*\*推荐阅读\*\*
+[![头像](https://avatar-static.segmentfault.com/421/371/4213717158-58a302d971604\_big64)\\
+\\
+\*\*大白话讲明白互联网五层协议\*\* \\
+\\
+hebe700阅读 6.1k评论 1](https://segmentfault.com/a/1190000039730616?utm\_source=sf-similar-article) [![头像](https://avatar-static.segmentfault.com/199/771/1997717419-66b8598e6effe\_big64)\\
+\\
+\*\*【PyTorch】n卡驱动、CUDA Toolkit、cuDNN全解安装教程\*\* \\
+\\
+UnderTurrets阅读 4.8k](https://segmentfault.com/a/1190000045205156?utm\_source=sf-similar-article) [![头像](https://avatar-static.segmentfault.com/221/657/2216572915-62fc669fab6ed\_big64)\\
+\\
+\*\*通过dial "operation was canceled"错误来看go http client获取连接conn过程\*\* \\
+\\
+AVOli阅读 4k](https://segmentfault.com/a/1190000043442727?utm\_source=sf-similar-article) [![头像](https://avatar-static.segmentfault.com/262/594/262594592-61986cbc232bb\_big64)\\
+\\
+\*\*自建安卓消息推送与通知服务 \- Gotify，和iOS的Bark差不多效果\*\* \\
+\\
+TANKING阅读 3.3k](https://segmentfault.com/a/1190000047531644?utm\_source=sf-similar-article) [![头像](https://avatar-static.segmentfault.com/393/727/3937270924-68f0e39d46b1d\_big64)\\
+\\
+\*\*2026-01-04 GitHub 热点项目精选\*\* \\
+\\
+程序员锋仔阅读 2.7k](https://segmentfault.com/a/1190000047519580?utm\_source=sf-similar-article) [![头像](https://avatar-static.segmentfault.com/175/896/175896463-5dae8f4bc42ab\_big64)\\
+\\
+\*\*OpenClaw 集成 SearXNG、DuckDuckGo 与 Tavily 搜索功能全指南\*\* \\
+\\
+鸿枫阅读 2.6k](https://segmentfault.com/a/1190000047612002?utm\_source=sf-similar-article) [![头像](https://avatar-static.segmentfault.com/814/426/814426733-65805f0e3f88b\_big64)\\
+\\
+\*\*月之暗面 Kimi Code 发布，如何上手体验？\*\* \\
+\\
+烦恼的沙发阅读 2.4k](https://segmentfault.com/a/1190000047581084?utm\_source=sf-similar-article)
+\*\*0 条评论\*\*
+[得票](https://segmentfault.com/a/1190000047625443?sort=votes) [最新](https://segmentfault.com/a/1190000047625443?sort=newest)
+![头像](https://image-static.segmentfault.com/317/931/3179314346-5f61e47221e07)
+提交评论
+评论支持部分 Markdown 语法：``\*\*粗体\*\* \_斜体\_ [链接](http://example.com) `代码` - 列表 > 引用``。你还可以使用 `@`来通知其他用户。
+![preview](https://segmentfault.com/a/1190000047625443)

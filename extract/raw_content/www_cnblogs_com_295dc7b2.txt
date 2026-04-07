@@ -1,0 +1,389 @@
+# Source URL: https://www.cnblogs.com/qiniushanghai/p/19712865
+# Content Length: 8804 characters
+# Extracted at: 2026-03-16 11:33:19
+#============================================================
+
+
+
+
+
+
+
+
+
+
+
+
+LLM 提示词测试、Agent 评测与 RAG 测试：2026 年选型指南 - 七牛云行业应用 - 博客园
+
+
+
+
+
+
+
+
+
+
+* [![]()](https://www.cnblogs.com/)
+* [会员](https://cnblogs.vip/)
+* [周边](https://cnblogs.vip/store)
+* [新闻](https://news.cnblogs.com/)
+* [博问](https://q.cnblogs.com/)
+* [闪存](https://ing.cnblogs.com/)
+* [众包](https://www.cnblogs.com/cmt/p/18500368)
+* [赞助商](https://www.cnblogs.com/cmt/p/19316348)
+* [Chat2DB](https://chat2db-ai.com/)
+
+* ![]()
+  ![]()
+  + ![]()
+    
+    
+    所有博客
+  + ![]()
+    
+    
+    当前博客
+* [![]()](https://i.cnblogs.com/EditPosts.aspx?opt=1)
+  [![]()](https://www.cnblogs.com/my)
+  [![]()](https://msg.cnblogs.com/)
+  [![]()](javascript:void(0))
+  [![]()](https://home.cnblogs.com/)
+  [我的博客](https://www.cnblogs.com/my)
+  [我的园子](https://home.cnblogs.com/)
+  [账号设置](https://account.cnblogs.com/settings/account)
+  [会员中心](https://vip.cnblogs.com/my)
+  [简洁模式 ...](javascript:void(0))
+  [退出登录](javascript:void(0))
+  
+  
+  [注册](https://account.cnblogs.com/signup)
+  [登录](javascript:void(0);)
+
+
+[![]()](https://www.cnblogs.com/qiniushanghai/)
+
+[qiniushanghai](https://www.cnblogs.com/qiniushanghai)
+======================================================
+
+
+* [博客园](https://www.cnblogs.com/)
+* [首页](https://www.cnblogs.com/qiniushanghai/)
+* [新随笔](https://i.cnblogs.com/EditPosts.aspx?opt=1)
+* [联系](https://msg.cnblogs.com/send/%E4%B8%83%E7%89%9B%E4%BA%91%E8%A1%8C%E4%B8%9A%E5%BA%94%E7%94%A8)
+* [订阅](javascript:void(0))
+* [管理](https://i.cnblogs.com/)
+
+
+
+
+[LLM 提示词测试、Agent 评测与 RAG 测试：2026 年选型指南](https://www.cnblogs.com/qiniushanghai/p/19712865)
+=========================================================================================
+
+
+![]()
+LLM 评测是指通过系统化测试手段验证大语言模型应用（提示词、Agent 流程、RAG 管道）在准确性、一致性、安全性和成本等维度上是否达到上线标准的工程实践。与传统软件测试不同，LLM 应用的输出具有随机性，无法用确定性断言覆盖，需要专门的评测框架支撑。2026 年主流选择包括 promptfoo（13.9k Stars，覆盖提示词/Agent/红队测试）和 RAGAS（12.9k Stars，专注 RAG 评测），两者互补而非竞争。
+
+LLM 评测是指通过系统化测试手段验证大语言模型应用（提示词、Agent 流程、RAG 管道）在准确性、一致性、安全性和成本等维度上是否达到上线标准的工程实践。与传统软件测试不同，LLM 应用的输出具有随机性，无法用确定性断言覆盖，需要专门的评测框架支撑。2026 年主流选择包括 promptfoo（13.9k Stars，覆盖提示词/Agent/红队测试）和 RAGAS（12.9k Stars，专注 RAG 评测），两者互补而非竞争。
+
+![]()
+
+---
+
+三类评测的核心区别
+---------
+
+| 评测类型 | 测试对象 | 核心问题 | 典型指标 |
+| --- | --- | --- | --- |
+| **提示词测试** | 单次 LLM 调用及其输出 | 提示词变更是否引入回归？不同模型输出质量如何？ | 通过率、相似度、关键词命中、人工评分 |
+| **Agent 评测** | 多步骤、多工具调用的完整流程 | Agent 能否在复杂任务中达成最终目标？每步决策是否正确？ | 任务成功率、步骤效率、工具调用准确率、幻觉率 |
+| **RAG 测试** | 检索增强生成管道（检索 + 生成两阶段） | 检索结果是否相关？生成内容是否忠实于检索文档？ | Faithfulness、Answer Relevancy、Context Precision、Context Recall |
+
+**核心结论**：三类评测针对不同粒度的 LLM 应用层次——提示词测试是最基础的单元测试，Agent 评测是集成测试，RAG 测试是针对特定架构的专项测试。完整的 LLM 质量保障体系通常需要三者叠加使用。
+
+---
+
+promptfoo：提示词与 Agent 评测的工程标准
+----------------------------
+
+**promptfoo 是当前最主流的 LLM 评测 CLI 工具**，13,900 Stars（GitHub），v0.121.2（2026 年 3 月 12 日），MIT 协议，**评测 100% 本地运行，提示词不离开本机**。
+
+核心能力覆盖三个维度：
+
+* **提示词系统测试**：声明式 YAML 配置，对同一 prompt 跑多个 provider（GPT-4o / Claude 3.7 / Gemini 1.5）做横向对比
+* **Agent 评测**：支持多轮对话流程测试，内置断言类型覆盖 `contains`、`llm-rubric`、`factuality`、`similar` 等 20+ 种
+* **红队与安全扫描**：自动化越狱、提示注入、PII 泄露漏洞扫描，可集成到 CI/CD 流水线
+
+### 快速配置示例（YAML）
+
+```
+# promptfooconfig.yaml
+prompts:
+  - "你是一个客服助手。用户问题：{{question}}"
+  - "你是一个专业的客服代表。请回答：{{question}}"
+
+providers:
+  - openai:gpt-4o
+  - anthropic:claude-3-7-sonnet-20250219
+
+tests:
+  - vars:
+      question: "我的订单什么时候发货？"
+    assert:
+      - type: contains
+        value: "发货"
+      - type: llm-rubric
+        value: "回答应礼貌、包含具体建议"
+  - vars:
+      question: "我要投诉你们"
+    assert:
+      - type: not-contains
+        value: "无法帮助"
+      - type: llm-rubric
+        value: "回答应表达理解和道歉"
+
+```
+```
+# 运行评测，输出 HTML 报告
+npx promptfoo eval
+npx promptfoo view
+
+```
+### 集成到 CI/CD
+
+```
+# GitHub Actions 示例
+- name: Run LLM Evals
+  run: npx promptfoo eval --ci
+  env:
+    OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+```
+
+promptfoo 在 CI 模式下若有测试用例失败则返回非零退出码，可作为 PR 合并门控。
+
+---
+
+RAGAS：RAG 管道的专项评测框架
+-------------------
+
+**RAGAS 是专门针对 RAG（检索增强生成）系统的评测工具包**，12,900 Stars（GitHub），v0.4.3（2026 年 1 月），Apache 2.0 协议，已被超过 3,400 个下游项目依赖。
+
+RAGAS 的核心创新是**无需预置人工标注测试集**——框架可自动从文档语料生成测试问题和参考答案，大幅降低评测准入成本。
+
+### 五大 RAG 核心指标
+
+| 指标 | 含义 | 评测维度 |
+| --- | --- | --- |
+| **Faithfulness（忠实度）** | 生成答案中的声明是否能从检索文档中找到依据 | 生成质量 |
+| **Answer Relevancy（答案相关性）** | 生成答案是否直接回答了用户问题 | 生成质量 |
+| **Context Precision（上下文精度）** | 检索出的文档块中有多少比例是真正相关的 | 检索质量 |
+| **Context Recall（上下文召回率）** | 回答问题所需的信息是否被检索完整覆盖 | 检索质量 |
+| **Answer Correctness（答案正确性）** | 与参考答案相比的事实准确性 | 端到端质量 |
+
+### 快速评测代码
+
+```
+from ragas import evaluate
+from ragas.metrics import faithfulness, answer_relevancy, context_precision
+from datasets import Dataset
+
+# 准备评测数据（问题、上下文、生成答案、参考答案）
+data = {
+    "question": ["七牛云对象存储支持哪些地区？"],
+    "contexts": [["七牛云对象存储 Kodo 支持华东、华北、华南、北美、东南亚等多个区域..."]],
+    "answer": ["七牛云对象存储支持华东、华北、华南及海外节点。"],
+    "ground_truth": ["七牛云 Kodo 支持华东、华北、华南、北美、东南亚等区域。"]
+}
+
+dataset = Dataset.from_dict(data)
+result = evaluate(dataset, metrics=[faithfulness, answer_relevancy, context_precision])
+print(result)
+# {'faithfulness': 0.92, 'answer_relevancy': 0.88, 'context_precision': 0.85}
+
+```
+
+RAGAS 与 LangChain、LlamaIndex 原生集成，可直接传入 retriever 和 llm 对象完成端到端评测。
+
+![]()
+
+---
+
+promptfoo vs RAGAS：如何选择
+-----------------------
+
+| 维度 | promptfoo | RAGAS |
+| --- | --- | --- |
+| **核心定位** | 提示词回归测试 + Agent 评测 + 红队 | RAG 管道专项评测 |
+| **评测粒度** | 单次调用 / 多轮流程 | 检索 + 生成两阶段 |
+| **配置方式** | YAML 声明式 | Python API |
+| **测试集** | 手动编写 test cases | 可自动生成 |
+| **CI/CD 支持** | 原生支持（--ci 模式） | 需自行封装 |
+| **数据安全** | 100% 本地运行 | 默认调用 OpenAI 评测 LLM |
+| **适合场景** | 提示词迭代 / 上线门控 / 安全扫描 | RAG 系统质量监控 / 检索优化 |
+
+**选型结论**：
+
+* 需要**提示词 A/B 测试、上线回归测试、安全红队**→ promptfoo
+* 需要**评测 RAG 系统的检索质量和生成忠实度**→ RAGAS
+* **完整 LLM 应用上线前**→ 两者配合使用
+
+---
+
+Agent 评测的特殊挑战与解决方案
+------------------
+
+**Agent 评测比提示词测试复杂一个数量级**，核心挑战在于：
+
+* **非确定性路径**：同一目标 Agent 可能通过不同工具调用序列实现，难以预设"正确步骤"
+* **长程依赖**：早期错误会在后续步骤中放大，传统断言无法覆盖
+* **工具调用验证**：需要 mock 外部 API，隔离测试环境
+
+promptfoo 的 Agent 评测方案：
+
+```
+# Agent 多轮对话评测配置
+providers:
+  - id: openai:gpt-4o
+    config:
+      tools:
+        - name: search_database
+          description: 查询产品数据库
+
+tests:
+  - description: "订单查询完整流程"
+    vars:
+      user_input: "查询订单 #12345 的状态"
+    assert:
+      - type: llm-rubric
+        value: "Agent 应调用数据库工具并返回订单状态，不应凭空捏造"
+      - type: javascript
+        value: "output.includes('工具调用') || output.includes('数据库')"
+
+```
+
+对于更复杂的 Agent 任务（如代码生成 Agent、多步骤规划），业界常用 **AgentBench**（清华大学，2023）和 **GAIA**（Meta/HuggingFace，2023）等专项基准做横向能力评估。
+
+---
+
+典型应用场景
+------
+
+**场景 1：提示词迭代的 A/B 测试**  
+
+每次修改系统提示词（system prompt）后，用 promptfoo 对比新旧版本在全量测试集上的通过率变化，确保优化方向正确，防止引入回归。
+
+**场景 2：企业 LLM 应用上线质量门控**  
+
+将 promptfoo 集成到 GitHub Actions，PR 合并前必须通过评测套件（如准确率 ≥ 90%、越狱攻击通过率 ≤ 5%），不达标自动阻塞合并。
+
+**场景 3：RAG 系统检索优化**  
+
+在调整 chunk size、embedding 模型或检索策略时，用 RAGAS 的 Context Precision / Recall 指标量化每次改动的实际影响，替代主观的人工感知评估。
+
+**场景 4：生产环境持续质量监控**  
+
+将线上真实的用户问答对接入 RAGAS 评测管道，定期计算 Faithfulness 和 Answer Relevancy 分数，设置阈值告警，当知识库更新或模型升级时第一时间发现质量下滑。七牛云 MCP 服务可作为 Agent 能力编排层，将评测结果结构化输出并触发下游告警或报告工作流。
+
+**场景 5：多模型成本与质量的最优化选型**  
+
+使用 promptfoo 对 GPT-4o、Claude 3.7 Sonnet、DeepSeek-V3 等主流模型在同一测试集上做横向评测，结合各模型 API 单价，找到质量与成本的最优平衡点。
+
+![]()
+
+---
+
+常见问题
+----
+
+**Q：LLM 评测本身也需要调用 LLM 吗？会产生额外费用吗？**  
+
+部分评测指标（如 `llm-rubric`、RAGAS 的 Faithfulness）确实需要调用 LLM 做"裁判"，会产生 token 费用。可选优化方案：用较小的模型（如 GPT-4o-mini）做评测裁判降低成本；对简单断言（关键词匹配、JSON 格式校验）优先使用无需 LLM 的确定性评测方法。
+
+**Q：没有标注好的测试集，怎么开始 RAG 评测？**  
+
+RAGAS 内置测试集自动生成功能：只需提供原始文档语料，框架会利用 LLM 自动生成问题、上下文和参考答案，形成可用的评测数据集。这是 RAGAS 区别于传统评测工具的核心优势之一。
+
+**Q：如何判断 RAG 系统的 Faithfulness 分数多少算合格？**  
+
+Faithfulness 分数在 0-1 之间，行业经验值：0.9 以上属于优秀，0.7-0.9 可接受但需关注，低于 0.7 说明存在较高幻觉风险需要优先修复。具体阈值应结合业务场景调整，医疗、法律等高风险场景建议设置更严格的阈值（≥ 0.95）。
+
+**Q：promptfoo 的红队测试能覆盖哪些攻击类型？**  
+
+promptfoo 内置的红队扫描覆盖：提示注入（Prompt Injection）、越狱（Jailbreak）、PII 泄露、有害内容生成、竞品信息泄露等常见攻击类型。通过 `promptfoo redteam` 命令可自动生成对抗性测试用例并批量运行，v0.121.2 版本新增了针对多轮对话的渐进式越狱检测。
+
+**Q：LLM 评测结果的可重复性如何保证？**  
+
+LLM 的随机性（temperature > 0）会导致同一用例多次运行结果不同。常见对策：将 temperature 设为 0 消除随机性（仅限不依赖创意性输出的用例）；运行多次取平均分（promptfoo 支持 `repeat` 配置项）；对关键断言使用确定性方法（正则匹配、JSON Schema 校验），避免过度依赖 LLM 裁判。
+
+---
+
+总结
+--
+
+LLM 提示词测试、Agent 评测和 RAG 测试是构建可靠 LLM 应用的三层质量保障体系：promptfoo（13.9k Stars，v0.121.2，2026 年 3 月）提供提示词回归、Agent 多步骤评测和安全红队的完整工具链；RAGAS（12.9k Stars，v0.4.3，2026 年 1 月）专注 RAG 管道的五维指标评测，支持自动生成测试集。两者结合，配合 CI/CD 集成，可在 LLM 应用的开发、上线和运营全生命周期中建立数据驱动的质量保障机制。
+
+据 GitHub 数据（2026 年 3 月），promptfoo 已被超过 310 个项目引用，RAGAS 被超过 3,400 个项目依赖，是当前 LLM 评测领域引用量最高的两个开源框架。本文内容基于 2026 年 3 月公开资料整理，建议结合各框架最新文档确认 API 变更。
+
+**延伸资源**
+
+* promptfoo 官方文档：<https://www.promptfoo.dev/docs/>
+* RAGAS 官方文档：<https://docs.ragas.io/>
+
+
+
+
+
+posted @
+2026-03-13 11:52 
+[七牛云行业应用](https://www.cnblogs.com/qiniushanghai) 
+阅读(12) 
+评论(0) 
+ 
+[收藏](javascript:void(0)) 
+[举报](javascript:void(0))
+
+
+
+
+
+
+[刷新页面](#)[返回顶部](#top)
+
+
+
+
+
+
+[![]()](https://www.cnblogs.com/cmt/p/19669319)
+
+
+
+
+
+
+
+
+### 公告
+
+
+
+
+
+
+
+
+
+
+[博客园](https://www.cnblogs.com/)
+  ©  2004-2026
+  
+[![]()浙公网安备 33010602011771号](http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33010602011771)
+[浙ICP备2021040463号-3](https://beian.miit.gov.cn)
+
+
+
+
+
+

@@ -1,0 +1,152 @@
+# Source URL: https://prismaudio-project.github.io/
+# Content Length: 10533 characters
+# Extracted at: 2026-03-31 15:19:08
+#============================================================
+
+PRISMAUDIO: DECOMPOSED CHAIN-OF-THOUGHTS AND MULTI-DIMENSIONAL REWARDS FOR VIDEO-TO-AUDIO GENERATION
+![](fig/logo\_pure.png)
+Decomposed Chain-of-Thoughts and Multi-Dimensional Rewards for Video-to-Audio Generation
+[![](https://img.shields.io/badge/Paper-PDF-red?style=flat-square&logo=adobeacrobatreader)](https://openreview.net/pdf?id=cIfDKEbAky)[![](https://img.shields.io/badge/GitHub-Code-black?style=flat-square&logo=github)](https://github.com/FunAudioLLM/ThinkSound/tree/prismaudio)[![](https://img.shields.io/badge/arXiv-2511.18833-b31b1b?style=flat-square)](https://arxiv.org/abs/2511.18833)[![](https://img.shields.io/badge/🤗 HuggingFace-Model-blue?style=flat-square)](https://huggingface.co/FunAudioLLM/PrismAudio)[![](https://img.shields.io/badge/🤗 HuggingFace-Spaces-orange?style=flat-square)](https://huggingface.co/spaces/FunAudioLLM/PrismAudio)[![](https://img.shields.io/badge/ModelScope-在线体验-green?style=flat-square)](https://www.modelscope.cn/studios/iic/PrismAudio)![](https://img.shields.io/badge/ICLR 2026-Main Conference-blue?style=flat-square)
+### Preview PrismAudio's AI-Generated Stereo Audio on Real Benchmark Videos
+\*\*Tap a video to start the experience, and wear headphones 🎧 for an immersive stereo journey.\*\*
+[](cases/vggsound/3ClbaJYWVO4\_000030/prismaudio.mp4)
+[](cases/vggsound/2M0i--pR-To\_000037/prismaudio.mp4)
+[](https://github.com/user-attachments/assets/76c658e7-8269-4c79-823e-46e53ef439df)
+[](cases/audiocanvas/Rail transport\_3/Rail transport\_3\_479.mp4)
+[](cases/vggsound/1uCzQCdCC1U\_000170/1uCzQCdCC1U\_000170\_416.mp4)
+[](cases/vggsound/ZyiDGq0qh2s\_000030/prismaudio.mp4)
+[](cases/vggsound/--U7joUcTCo\_000000/--U7joUcTCo\_000000\_208.mp4)
+[](cases/vggsound/3ClbaJYWVO4\_000030/prismaudio.mp4)
+[](cases/vggsound/2M0i--pR-To\_000037/prismaudio.mp4)
+[](https://github.com/user-attachments/assets/76c658e7-8269-4c79-823e-46e53ef439df)
+[](cases/audiocanvas/Rail transport\_3/Rail transport\_3\_479.mp4)
+[](cases/vggsound/1uCzQCdCC1U\_000170/1uCzQCdCC1U\_000170\_416.mp4)
+[](cases/vggsound/ZyiDGq0qh2s\_000030/prismaudio.mp4)
+[](cases/vggsound/--U7joUcTCo\_000000/--U7joUcTCo\_000000\_208.mp4)
+[](cases/vggsound/3ClbaJYWVO4\_000030/prismaudio.mp4)
+[](cases/vggsound/2M0i--pR-To\_000037/prismaudio.mp4)
+[](https://github.com/user-attachments/assets/76c658e7-8269-4c79-823e-46e53ef439df)
+[](cases/audiocanvas/Rail transport\_3/Rail transport\_3\_479.mp4)
+[](cases/vggsound/1uCzQCdCC1U\_000170/1uCzQCdCC1U\_000170\_416.mp4)
+[](cases/vggsound/ZyiDGq0qh2s\_000030/prismaudio.mp4)
+[](cases/vggsound/--U7joUcTCo\_000000/--U7joUcTCo\_000000\_208.mp4)
+## Top-tier Video Generation Models + PrismAudio
+### Sora2 + PrismAudio
+[
+Your browser does not support the video tag.
+](https://github.com/prismaudio/prismaudio.github.io/releases/download/test/sora2+prismaudio.mp4)
+### Veo3 + PrismAudio
+[
+Your browser does not support the video tag.
+](https://github.com/prismaudio/prismaudio.github.io/releases/download/test/veo3+prismaudio.mp4)
+## Abstract
+Video-to-Audio (V2A) generation requires balancing four critical perceptual dimensions: semantic consistency, audio-visual temporal synchrony, aesthetic quality, and spatial accuracy; yet existing methods suffer from objective entanglement that conflates competing goals in single loss functions and lack human preference alignment. We introduce PrismAudio, the first framework to integrate Reinforcement Learning into V2A generation with specialized Chain-of-Thought (CoT) planning. Our approach decomposes monolithic reasoning into four specialized CoT modules (Semantic, Temporal, Aesthetic, and Spatial CoT), each paired with targeted reward functions. This CoT-reward correspondence enables multidimensional RL optimization that guides the model to jointly generate better reasoning across all perspectives, solving the objective entanglement problem while preserving interpretability. To make this optimization computationally practical, we propose Fast-GRPO, which employs hybrid ODE-SDE sampling that dramatically reduces the training overhead compared to existing GRPO implementations. We also introduce AudioCanvas, a rigorous benchmark that is more distributionally balanced and covers more realistically diverse and challenging scenarios than existing datasets, with 300 single-event classes and 501 multi-event samples. Experimental results demonstrate that PrismAudio achieves state-of-the-art performance across all four perceptual dimensions on both the in-domain VGGSound test set and out-of-domain AudioCanvas benchmark.
+## The PRISMAUDIO Framework
+![](fig/fig2\_model.png)
+Overview of \*\*PrismAudio\*\*. Left panel: the progress of CoT training data construction using Gemini 2.5 Pro and then fine-tuning VideoLLaMA2 for decomposed CoT generation. Right panel: the Fast-GRPO multi-dimensional CoT-RL framework for post-training the Audio Foundation Model.
+## Comparison with Baselines in Multi-Event Scenarios on the AudioCanvas Benchmark
+Click any card below to load the full high-fidelity comparison and Decomposed Chain-of-Thought analysis for that scene.
+![](cases/preview/Multiple events\_63.jpg)
+Chopping, Thudding
+![](cases/preview/Multiple events\_132.jpg)
+Machining, Tapping
+![](cases/preview/Multiple events\_139.jpg)
+Ice Cutting, Freezer Shutting
+![](cases/preview/Multiple events\_114.jpg)
+Unlocking, Pouring
+![](cases/preview/Multiple events\_391.jpg)
+Smoothing, Flipping
+![](cases/preview/Multiple events\_156.jpg)
+Plastic Pop Opening
+![](cases/preview/Multiple events\_98.jpg)
+Unrolling and Tearing Tape, Smoothing
+![](cases/preview/Multiple events\_89.jpg)
+Piercing, Rubbing
+![](cases/preview/Multiple events\_304.jpg)
+Exchanging Soap, Pouring
+## Comparison with Baselines in Single-Event Scenarios on the AudioCanvas Benchmark
+Click any card below to load the full high-fidelity comparison and Decomposed Chain-of-Thought analysis for that scene.
+![](cases/preview/Cat\_2.jpg)
+Trapped Cat
+![](cases/preview/Accelerating, revving, vroom\_2.jpg)
+Accelerating, Revving, Vroom
+![](cases/preview/Field recording\_3.jpg)
+Field Recording
+![](cases/preview/Double bass\_1.jpg)
+Playing Double Bass
+![](cases/preview/Baby laughter\_1.jpg)
+Baby Laughter
+![](cases/preview/Machine gun\_1.jpg)
+Firing Machine Gun
+![](cases/preview/Liquid\_1.jpg)
+Carpet Cleaning
+![](cases/preview/Rail transport\_3.jpg)
+Rail Transport
+![](cases/preview/Neigh, whinny\_1.jpg)
+Neigh, Whinny
+## Comparison with Baselines on VGGSound
+Click any card below to load the full high-fidelity comparison and Decomposed Chain-of-Thought analysis for that scene.
+![](https://raw.githubusercontent.com/prismaudio/prismaudio.github.io/main/cases/preview/\_-W48cCMzXU\_0001021.png)
+Baltimore Oriole Calling
+![](cases/preview/3ClbaJYWVO4\_000030.jpg)
+Playing Electric Guitar
+![](cases/preview/3k8zGf8Btfo\_000250.jpg)
+Playing Drum Kit
+![](cases/preview/-miI\_C3At4Y\_000104.jpg)
+Playing Badminton
+![](cases/preview/-fTfRh0\_RQ4\_000030.jpg)
+Car Passing by
+![](cases/preview/2Tx5L5RBXxw\_000200.jpg)
+Stream Burbling
+![](cases/preview/1obzCbmFpa8\_000410.jpg)
+People Giggling
+![](cases/preview/1EiNSiO0UvU\_000000.jpg)
+Panda Sneezing
+![](cases/preview/--U7joUcTCo\_000000.jpg)
+People Laughing
+## Quantitative Results
+### In-domain Evaluation on VGGSound
+Objective and Subjective evaluations on the \*\*in-domain\*\* VGGSound test set.
+| Method | Params | Semantic | Temporal | Aesthetic Quality | Spatial Accuracy | Distribution | Subjective | Time (s) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| CLAP↑ | DeSync↓ | PQ↑ | PC↓ | CE↑ | CU↑ | GCC↓ | CRW↓ | FD↓ | KL↓ | MOS-Q↑ | MOS-C↑ |
+| GT | - | 0.46 | 0.55 | 6.30 | 3.85 | 4.40 | 5.65 | - | - | - | - | 4.58±0.18 | 4.65±0.15 | - |
+| Frieren† | 159M | 0.32 | 0.85 | 5.90 | 3.50 | 3.57 | 5.35 | - | - | 1.34 | 2.86 | 3.45±0.75 | 3.51±0.80 | - |
+| V2A-Mapper† | 229M | 0.31 | 1.23 | 6.26 | 3.54 | 4.12 | 5.63 | - | - | \*\*0.90\*\* | 2.49 | 3.38±0.82 | 3.44±0.88 | - |
+| AudioX | 1.1B | 0.41 | 1.24 | 5.94 | 3.43 | 3.86 | 5.44 | 7.22 | 19.25 | 1.51 | 1.80 | 3.61±0.75 | 3.65±0.72 | 7.52 |
+| HunyuanVideo-Foley | 5.31B | 0.42 | 0.55 | 5.85 | 3.26 | 3.92 | 5.26 | - | - | 2.26 | 1.73 | 3.88±0.55 | 3.96±0.52 | 10.63 |
+| MMAudio | 1.03B | 0.40 | 0.46 | 5.94 | 3.51 | 3.88 | 5.28 | - | - | 2.17 | 1.32 | 3.95±0.51 | 4.03±0.58 | 1.30 |
+| ThinkSound | 1.3B | 0.43 | 0.55 | 6.15 | 3.53 | 3.95 | 5.48 | 4.65 | 13.47 | 1.17 | 1.35 | 4.05±0.55 | 4.18±0.51 | 1.07 |
+| PrismAudio w/o CoT-RL | 518M | 0.42 | 0.51 | 6.17 | 3.32 | 3.94 | 5.48 | 4.06 | 10.29 | 1.14 | 1.43 | 4.02±0.48 | 4.11±0.42 | 0.63 |
+| PrismAudio (Ours) | 518M | \*\*0.47\*\* | \*\*0.41\*\* | \*\*6.38\*\* | \*\*3.24\*\* | \*\*4.29\*\* | \*\*5.68\*\* | \*\*3.77\*\* | \*\*7.72\*\* | 1.08 | \*\*1.23\*\* | \*\*4.21±0.35\*\* | \*\*4.22±0.29\*\* | 0.63 |
+### Out-of-Domain Evaluation on AudioCanvas
+Objective and Subjective evaluations on the \*\*out-of-domain\*\* AudioCanvas benchmark.
+| Method | Semantic | Temporal | Aesthetic Quality | Spatial Accuracy | Distribution | Subjective |
+| --- | --- | --- | --- | --- | --- | --- |
+| CLAP↑ | DeSync↓ | PQ↑ | PC↓ | CE↑ | CU↑ | GCC↓ | CRW↓ | FD↓ | KL↓ | MOS-Q↑ | MOS-C↑ |
+| GT | 0.48 | 0.40 | 6.47 | 3.16 | 4.02 | 5.99 | - | - | - | - | 4.65±0.23 | 4.72±0.20 |
+| HunyuanVideo-Foley | 0.44 | 0.47 | 6.43 | 3.25 | 4.04 | 5.88 | - | - | 2.04 | 2.07 | 3.75±0.52 | 3.71±0.58 |
+| MMAudio | 0.46 | 0.43 | 6.30 | 3.23 | 3.97 | 5.77 | - | - | 3.59 | 1.87 | 3.88±0.45 | 3.87±0.41 |
+| ThinkSound | 0.48 | 0.80 | 6.48 | 3.50 | 4.10 | 5.94 | 4.43 | 22.82 | 1.95 | 2.54 | 3.79±0.58 | 3.80±0.54 |
+| PrismAudio w/o CoT-RL | 0.42 | 0.44 | 6.45 | 3.22 | 3.81 | 5.87 | 4.11 | 15.30 | 2.10 | 2.17 | 3.91±0.35 | 3.85±0.31 |
+| PrismAudio (Ours) | \*\*0.52\*\* | \*\*0.36\*\* | \*\*6.68\*\* | \*\*2.82\*\* | \*\*4.26\*\* | \*\*6.15\*\* | \*\*3.50\*\* | \*\*12.87\*\* | \*\*1.92\*\* | \*\*1.53\*\* | \*\*4.12±0.28\*\* | \*\*4.01±0.25\*\* |
+## BibTex
+If you find our work useful, please cite our paper:
+```
+@misc{liu2025prismaudiodecomposedchainofthoughtsmultidimensional,
+title={PrismAudio: Decomposed Chain-of-Thoughts and Multi-dimensional Rewards for Video-to-Audio Generation},
+author={Huadai Liu and Kaicheng Luo and Wen Wang and Qian Chen and Peiwen Sun and Rongjie Huang and Xiangang Li and Jieping Ye and Wei Xue},
+year={2025},
+eprint={2511.18833},
+archivePrefix={arXiv},
+primaryClass={cs.SD},
+url={https://arxiv.org/abs/2511.18833},
+}
+```
+×
+## Full Case Study: Title Placeholder
+### Chain-of-Thought Analysis
+Description placeholder.
+### Comparisons with Baselines
+×
+Your browser does not support the video tag.

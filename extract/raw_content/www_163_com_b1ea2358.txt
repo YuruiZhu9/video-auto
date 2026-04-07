@@ -1,0 +1,766 @@
+# Source URL: https://www.163.com/dy/article/JBTHC2FB0531PF2O.html
+# Content Length: 25195 characters
+# Extracted at: 2026-03-19 12:01:18
+#============================================================
+
+
+Flash Attention如何优化Transformer计算复杂度|算法|序列|sram|flash\_网易订阅
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[网易首页](https://www.163.com/)
+
+[应用](https://www.163.com/#f=topnav)
+
+* [*网易新闻*](https://m.163.com/newsapp/#f=topnav)
+* [*网易公开课*](https://open.163.com/#f=topnav)
+* [*网易红彩*](https://hongcai.163.com/?from=pcsy-button)
+* [*网易严选*](https://u.163.com/aosoutbdbd8)
+* [*邮箱大师*](https://mail.163.com/client/dl.html?from=mail46)
+* [*网易云课堂*](https://study.163.com/client/download.htm?from=163app&utm_source=163.com&utm_medium=web_app&utm_campaign=business)
+
+
+
+*快速导航*
+
+* ### [新闻](https://news.163.com)
+* [国内](https://news.163.com/domestic)
+* [国际](https://news.163.com/world)
+* [王三三](https://news.163.com/special/wangsansanhome/)
+
+* ### [体育](https://sports.163.com)
+* [NBA](https://sports.163.com/nba)
+* [CBA](https://sports.163.com/cba)
+* [综合](https://sports.163.com/allsports)
+* [中超](https://sports.163.com/zc)
+* [国际足球](https://sports.163.com/world)
+* [英超](https://sports.163.com/yc)
+* [西甲](https://sports.163.com/xj)
+* [意甲](https://sports.163.com/yj)
+
+* ### [娱乐](https://ent.163.com)
+* [明星](https://ent.163.com/star)
+* [电影](https://ent.163.com/movie)
+* [电视](https://ent.163.com/tv)
+* [音乐](https://ent.163.com/music)
+* [封面故事](https://ent.163.com/special/fmgs/)
+
+* ### [财经](https://money.163.com)
+* [股票](https://money.163.com/stock)
+* [原创](https://money.163.com/special/caijingyuanchuang/)
+* [智库](https://money.163.com/special/wycjzk-pc/)
+
+* ### [汽车](https://auto.163.com)
+* [购车](https://auto.163.com/buy)
+* [车型库](http://product.auto.163.com)
+
+* ### [科技](https://tech.163.com)
+* [网易智能](https://tech.163.com/smart/)
+* [原创](https://tech.163.com/special/S1554800475317/)
+* [IT](https://tech.163.com/it)
+* [互联网](https://tech.163.com/internet)
+* [通信](https://tech.163.com/telecom/)
+
+* ### [时尚](https://fashion.163.com)
+* [艺术](https://fashion.163.com/art)
+* [旅游](https://travel.163.com)
+
+* ### [手机](https://mobile.163.com) / [数码](https://digi.163.com/)
+* [惊奇科技](https://mobile.163.com/special/jqkj_list/)
+* [易评机](https://mobile.163.com/special/cpshi_list/)
+* [家电](https://hea.163.com/)
+
+* ### [房产](https://house.163.com) / [家居](https://home.163.com)
+* [北京房产](https://bj.house.163.com)
+* [上海房产](https://sh.house.163.com)
+* [广州房产](https://gz.house.163.com)
+* [楼盘库](https://xf.house.163.com/)
+* [设计师库](https://designer.home.163.com/search)
+* [案例库](https://photo.home.163.com/)
+
+* ### [教育](https://edu.163.com)
+* [留学](https://edu.163.com/liuxue)
+* [高考](https://edu.163.com/gaokao)
+
+[查看网易地图](https://sitemap.163.com/)
+
+
+
+
+
+[登录](https://reg.163.com/)
+
+
+
+[注册免费邮箱](https://mail.163.com/register/index.htm?from=163navi®Page=163)
+
+* [注册VIP邮箱（特权邮箱，付费）](https://reg1.vip.163.com/newReg1/reg?from=new_topnav&utm_source=new_topnav)
+* [免费下载网易官方手机邮箱应用](https://mail.163.com/client/dl.html?from=mail46)
+
+
+
+安全退出
+
+* [*移动端*](https://www.163.com/newsapp/#f=163nav)
+  [![]()](https://www.163.com/newsapp/#f=163nav)
+* [*网易公开课*](https://open.163.com/#ftopnav0)
+  + [TED](https://open.163.com/ted/#ftopnav1)
+  + [中国大学视频公开课](https://open.163.com/cuvocw/#ftopnav2)
+  + [国际名校公开课](https://open.163.com/ocw/#ftopnav3)
+  + [赏课·纪录片](https://open.163.com/appreciation/#ftopnav4)
+  + [付费精品课程](https://vip.open.163.com/#ftopnav5)
+  + [北京大学公开课](https://open.163.com/special/School/beida.html#ftopnav6)
+  + [英语课程学习](https://open.163.com/newview/movie/courseintro?newurl=ME7HSJR07#ftopnav7)
+* [*网易严选*](https://you.163.com/?from=web_fc_menhu_xinrukou_1)
+  + [新人特价](https://act.you.163.com/act/pub/ABuyLQKNmKmK.html?from=out_ynzy_xinrukou_2)
+  + [9.9专区](https://you.163.com/topic/v1/pub/Pew1KBH9Au.html?from=out_ynzy_xinrukou_3)
+  + [新品热卖](https://you.163.com/item/newItemRank?from=out_ynzy_xinrukou_4)
+  + [人气好物](https://you.163.com/item/recommend?from=out_ynzy_xinrukou_5)
+  + [居家生活](https://you.163.com/item/list?categoryId=1005000&from=out_ynzy_xinrukou_7)
+  + [服饰鞋包](https://you.163.com/item/list?categoryId=1010000&from=out_ynzy_xinrukou_8)
+  + [母婴亲子](https://you.163.com/item/list?categoryId=1011000&from=out_ynzy_xinrukou_9)
+  + [美食酒水](https://you.163.com/item/list?categoryId=1005002&from=out_ynzy_xinrukou_10)
+* [*支付*](https://ecard.163.com/)
+  + [一卡通充值](https://ecard.163.com/#f=topnav)
+  + [一卡通购买](https://ecard.163.com/script/index#f=topnav)
+  + [我的网易支付](https://epay.163.com/)
+  + [网易跨境支付](https://globalpay.163.com/home)
+* *邮箱*
+  + [免费邮箱](https://email.163.com/#f=topnav)
+  + [VIP邮箱](https://vipmail.163.com/#f=topnav)
+  + [企业邮箱](https://qiye.163.com/?from=NetEase163top)
+  + [免费注册](https://mail.163.com/register/index.htm?from=ntes_nav®Page=163)
+  + [客户端下载](https://mail.163.com/dashi/dlpro.html?from=mail46)
+
+
+
+
+
+[网易首页](https://www.163.com/) > [网易号](https://dy.163.com/) > 正文
+[申请入驻](https://dy.163.com/wemedia/index.html)
+
+Flash Attention如何优化Transformer计算复杂度
+===================================
+
+
+
+
+2024-09-12 18:38:37　来源: [人工智能研究所AI](https://www.163.com/dy/media/T1602409632844.html)
+![]()山东
+ [举报](https://www.163.com/special/0077jt/tipoff.html?title=Flash%20Attention%E5%A6%82%E4%BD%95%E4%BC%98%E5%8C%96Transformer%E8%AE%A1%E7%AE%97%E5%A4%8D%E6%9D%82%E5%BA%A6)
+
+[0](#)
+
+分享至
+
+
+
+用微信扫码二维码
+
+分享至好友和朋友圈
+
+
+
+
+Transformer 模型的计算复杂度随着输入序列长度的增加，呈平方的增加，那么这样就会消耗大量的内存资源，如何降低Transformer 模型的计算复杂度？
+
+![]()  
+  
+
+
+Flash Attention是一种在Transformer模型中优化注意力机制（Attention Mechanism）的技术，它的主要目标是减少计算成本和内存需求，同时保持或提升模型的性能。传统的自我注意力层的计算复杂度为O(N^2)，其中N是序列长度，这是因为每个位置的输出都需要与序列中的所有其他位置进行交互。
+
+Flash Attention通过以下方式降低了计算复杂度：
+
+1 局部注意力机制
+
+Flash Attention利用了序列中信息的局部相关性，这意味着一个位置上的token通常与附近的token有更强的相关性。因此，它可以通过限制注意力窗口的大小来减少计算量，只考虑固定数量的前后token进行注意力计算。
+
+2. 分块技术
+
+将输入序列分成多个小块，然后在这些小块之间进行注意力计算。这种方法减少了全序列计算的需求，从而降低了计算复杂度。
+
+具体实现：
+
+将 Q, K, V 矩阵分割成多个小块，块大小根据 SRAM 的容量确定。
+
+外循环遍历 K 和 V 的块，将其加载到 SRAM 中。
+
+内循环遍历 Q 的块，也加载到 SRAM 中。
+
+在 SRAM 中计算每个 Q 块与当前 K 块的局部注意力分数 Sij，并进行 softmax 和其他必要的计算。
+
+更新全局统计量，并计算最终的注意力输出 O。
+
+![]()  
+  
+
+
+3. 优化 softmax 计算
+
+Softmax 的 tiling 展开：Flash Attention 采用了 softmax 的 tiling 展开技术，支持 softmax 的拆分并行计算，从而提升计算效率。这种技术可以更有效地利用 GPU 的并行计算能力。
+
+Safe softmax：为了处理 softmax 中 e^{x\_i} 容易溢出的问题，Flash Attention 引入了 safe softmax。通过对每个 x\_i 减去一个最大值 m（即 m = max^N\_{j=1}(x\_j)），使得 x\_i - m ≪ 0，这时幂操作符对负数输入的计算是准确且安全的。
+
+4. 稀疏注意力
+
+只选择部分键值对进行注意力计算，而不是计算所有可能的键值对，这可以显著减少计算量。
+
+5. 内存效率优化
+
+传统注意力机制在计算过程中需要存储全部的Q（Query）、K（Key）、V（Value）矩阵以及注意力权重矩阵，而Flash Attention通过优化算法，可以在不存储完整注意力矩阵的情况下计算输出，从而大大节省了内存。
+
+![]()  
+  
+
+
+
+特别声明：以上内容(如有图片或视频亦包括在内)为自媒体平台“网易号”用户上传并发布，本平台仅提供信息存储服务。
+
+Notice: The content above (including the pictures and videos if any) is uploaded and posted by a user of NetEase Hao, which is a social media platform and only provides information storage services.
+
+
+
+*/*阅读下一篇*/*
+### 
+
+[返回网易首页](https://www.163.com/?f=post2020_dy)
+[下载网易新闻客户端](https://www.163.com/newsapp/#f=post2020_dy)
+
+
+
+
+相关推荐
+热点推荐
+
+* [![]()](https://www.163.com/dy/article/KOAFHKDB0552RUAA.html?f=post2020_dy_recommends)
+  ### [“妈，门口要钱，我们就不进去看你了”，游客在壶口瀑布外拍视频被投诉侵权，山西壶口瀑布景区：事发地是陕西壶口瀑布，我们也是受害者](https://www.163.com/dy/article/KOAFHKDB0552RUAA.html?f=post2020_dy_recommends)
+  
+  观威海 2026-03-18 14:47:02
+  
+  [35938
+  
+  *跟贴* 35938](https://www.163.com/dy/article/KOAFHKDB0552RUAA.html?f=post2020_dy_recommends)
+* [![]()](https://www.163.com/dy/article/KOA7AC740514BE2Q.html?f=post2020_dy_recommends)
+  ### [全国两会后首“虎”任上落马](https://www.163.com/dy/article/KOA7AC740514BE2Q.html?f=post2020_dy_recommends)
+  
+  中国新闻周刊 2026-03-18 12:23:15
+  
+  [51
+  
+  *跟贴* 51](https://www.163.com/dy/article/KOA7AC740514BE2Q.html?f=post2020_dy_recommends)
+* [![]()](https://www.163.com/dy/article/KOASEKST0514R9P4.html?f=post2020_dy_recommends)
+  ### [江苏出台城市发展行动方案：推动6市与上海大都市圈深度融合](https://www.163.com/dy/article/KOASEKST0514R9P4.html?f=post2020_dy_recommends)
+  
+  澎湃新闻 2026-03-18 18:32:36
+  
+  [547
+  
+  *跟贴* 547](https://www.163.com/dy/article/KOASEKST0514R9P4.html?f=post2020_dy_recommends)
+* [![]()](https://www.163.com/dy/article/KO0NVOKS0514R9P4.html?f=post2020_dy_recommends)
+  ### [600年前城砖上出现“刘德華”？南京官方回应](https://www.163.com/dy/article/KO0NVOKS0514R9P4.html?f=post2020_dy_recommends)
+  
+  澎湃新闻 2026-03-14 20:02:09
+  
+  [2741
+  
+  *跟贴* 2741](https://www.163.com/dy/article/KO0NVOKS0514R9P4.html?f=post2020_dy_recommends)
+* [![]()](https://www.163.com/news/article/KOAPHLMQ0001899O.html?f=post2020_dy_recommends)
+  ### [上海百年老店官宣闭店！曾经去吃顿饭可要一大早就排长队，承载了几代人的记忆，不少阿姨爷叔的“第一次”](https://www.163.com/news/article/KOAPHLMQ0001899O.html?f=post2020_dy_recommends)
+  
+  上观新闻 2026-03-18 17:41:49
+  
+  [842
+  
+  *跟贴* 842](https://www.163.com/news/article/KOAPHLMQ0001899O.html?f=post2020_dy_recommends)
+* [![]()](https://www.163.com/dy/article/KOAG5S3505561G0D.html?f=post2020_dy_recommends)
+  ### [广东一省考生P高14分吓退对手 被发现后道歉:我挺卑劣](https://www.163.com/dy/article/KOAG5S3505561G0D.html?f=post2020_dy_recommends)
+  
+  大风新闻 2026-03-18 15:48:47
+  
+  [2639
+  
+  *跟贴* 2639](https://www.163.com/dy/article/KOAG5S3505561G0D.html?f=post2020_dy_recommends)
+* [![]()](https://www.163.com/dy/article/KOAKM6F30512B07B.html?f=post2020_dy_recommends)
+  ### [多地宣布：生物地理不再计入中考总分；媒体评论：当下中考改革，不是比谁最会背书、刷题，而是比谁更有自己的想法、内驱力](https://www.163.com/dy/article/KOAKM6F30512B07B.html?f=post2020_dy_recommends)
+  
+  每日经济新闻 2026-03-18 16:16:54
+  
+  [10885
+  
+  *跟贴* 10885](https://www.163.com/dy/article/KOAKM6F30512B07B.html?f=post2020_dy_recommends)
+* [![]()](https://www.163.com/dy/article/KO89JM0K053469LG.html?f=post2020_dy_recommends)
+  ### [15个水饺只卖5元！广州一水饺店生意火爆：人均消费8元，客人实测“个头正常味道还可以”](https://www.163.com/dy/article/KO89JM0K053469LG.html?f=post2020_dy_recommends)
+  
+  极目新闻 2026-03-17 18:24:48
+  
+  [650
+  
+  *跟贴* 650](https://www.163.com/dy/article/KO89JM0K053469LG.html?f=post2020_dy_recommends)
+* [![]()](https://www.163.com/v/video/VONDQ4I89.html?f=post2020_dy_recommends)
+  ### [暖心！男子在机场不慎丢失手机，找到后“解锁”惊喜视频](https://www.163.com/v/video/VONDQ4I89.html?f=post2020_dy_recommends)
+  
+  北青网-北京青年报 2026-03-19 01:20:49
+  
+  [81
+  
+  *跟贴* 81](https://www.163.com/v/video/VONDQ4I89.html?f=post2020_dy_recommends)
+* [![]()](https://www.163.com/dy/article/KOARPIED05346RC6.html?f=post2020_dy_recommends)
+  ### [第二轮土地承包到期后再延长30年试点](https://www.163.com/dy/article/KOARPIED05346RC6.html?f=post2020_dy_recommends)
+  
+  新华社 2026-03-18 18:21:05
+  
+  [862
+  
+  *跟贴* 862](https://www.163.com/dy/article/KOARPIED05346RC6.html?f=post2020_dy_recommends)
+* [![]()](https://www.163.com/dy/article/KOB5MCQ305198CJN.html?f=post2020_dy_recommends)
+  ### [西班牙批准对乌克兰增加10亿欧元军事援助](https://www.163.com/dy/article/KOB5MCQ305198CJN.html?f=post2020_dy_recommends)
+  
+  财联社 2026-03-18 21:14:06
+  
+  [75
+  
+  *跟贴* 75](https://www.163.com/dy/article/KOB5MCQ305198CJN.html?f=post2020_dy_recommends)
+* [![]()](https://www.163.com/dy/article/KOCFOBQ30512B07B.html?f=post2020_dy_recommends)
+  ### [深成指、创业板指跌超1%](https://www.163.com/dy/article/KOCFOBQ30512B07B.html?f=post2020_dy_recommends)
+  
+  每日经济新闻 2026-03-19 09:29:11
+  
+  [9
+  
+  *跟贴* 9](https://www.163.com/dy/article/KOCFOBQ30512B07B.html?f=post2020_dy_recommends)
+* [![]()](https://www.163.com/v/video/VKNEMHCQU.html?f=post2020_dy_recommends)
+  ### [三个小朋友自制滑板游戏，网友：稚子年少不知事](https://www.163.com/v/video/VKNEMHCQU.html?f=post2020_dy_recommends)
+  
+  学申论的谈妹 2026-03-19 09:37:10
+  
+  [17
+  
+  *跟贴* 17](https://www.163.com/v/video/VKNEMHCQU.html?f=post2020_dy_recommends)
+* [![]()](https://www.163.com/dy/article/KOCC2U910514R9KQ.html?f=post2020_dy_recommends)
+  ### [早知道｜皇马拜仁会师欧冠1/4决赛](https://www.163.com/dy/article/KOCC2U910514R9KQ.html?f=post2020_dy_recommends)
+  
+  北青网-北京青年报 2026-03-19 08:25:03
+  
+  [32
+  
+  *跟贴* 32](https://www.163.com/dy/article/KOCC2U910514R9KQ.html?f=post2020_dy_recommends)
+* [![]()](https://www.163.com/dy/article/KOAJHVJD0514R9P4.html?f=post2020_dy_recommends)
+  ### [微信又有新功能，“社交分寸感一下就上来了”](https://www.163.com/dy/article/KOAJHVJD0514R9P4.html?f=post2020_dy_recommends)
+  
+  澎湃新闻 2026-03-18 15:57:07
+  
+  [361
+  
+  *跟贴* 361](https://www.163.com/dy/article/KOAJHVJD0514R9P4.html?f=post2020_dy_recommends)
+* [![]()](https://www.163.com/dy/article/KOCEHVA1053469LG.html?f=post2020_dy_recommends)
+  ### [俄称控制一居民点，乌称阻止俄军推进](https://www.163.com/dy/article/KOCEHVA1053469LG.html?f=post2020_dy_recommends)
+  
+  极目新闻 2026-03-19 09:08:13
+  
+  [14
+  
+  *跟贴* 14](https://www.163.com/dy/article/KOCEHVA1053469LG.html?f=post2020_dy_recommends)
+* [![]()](https://www.163.com/dy/article/KO9NEHBE0514R9OJ.html?f=post2020_dy_recommends)
+  ### [踏青赏花享春光](https://www.163.com/dy/article/KO9NEHBE0514R9OJ.html?f=post2020_dy_recommends)
+  
+  环球网资讯 2026-03-18 07:45:54
+  
+  [1318
+  
+  *跟贴* 1318](https://www.163.com/dy/article/KO9NEHBE0514R9OJ.html?f=post2020_dy_recommends)
+* [![]()](https://www.163.com/dy/article/KOCHF1IE05198CJN.html?f=post2020_dy_recommends)
+  ### [中信证券朱烨辛：资本市场生态明显优化 中国资产吸引力持续提升](https://www.163.com/dy/article/KOCHF1IE05198CJN.html?f=post2020_dy_recommends)
+  
+  财联社 2026-03-19 09:59:03
+  
+  [1
+  
+  *跟贴* 1](https://www.163.com/dy/article/KOCHF1IE05198CJN.html?f=post2020_dy_recommends)
+* [![]()](https://www.163.com/dy/article/KOCN0OCE0512D3VJ.html?f=post2020_dy_recommends)
+  ### [五粮液下场打假！近期收到这类信息，警惕陷阱！](https://www.163.com/dy/article/KOCN0OCE0512D3VJ.html?f=post2020_dy_recommends)
+  
+  新京报 2026-03-19 11:36:06
+  
+  [0
+  
+  *跟贴* 0](https://www.163.com/dy/article/KOCN0OCE0512D3VJ.html?f=post2020_dy_recommends)
+* [![]()](https://www.163.com/dy/article/KOCMVT3I0530RMGL.html?f=post2020_dy_recommends)
+  ### [河南男子称结婚快三年妻子频繁回娘家！女方：他隐瞒重大疾病；男子回应：我结了婚才知道](https://www.163.com/dy/article/KOCMVT3I0530RMGL.html?f=post2020_dy_recommends)
+  
+  洪观新闻 2026-03-19 11:40:04
+  
+  [0
+  
+  *跟贴* 0](https://www.163.com/dy/article/KOCMVT3I0530RMGL.html?f=post2020_dy_recommends)
+* [![]()](https://www.163.com/dy/article/KOCN6HAN05568W0A.html?f=post2020_dy_recommends)
+  ### [北京不少免费停车场竟有“老赖僵尸车”，“有人管没法管”，怎么破？](https://www.163.com/dy/article/KOCN6HAN05568W0A.html?f=post2020_dy_recommends)
+  
+  新浪财经 2026-03-19 11:39:17
+  
+  [0
+  
+  *跟贴* 0](https://www.163.com/dy/article/KOCN6HAN05568W0A.html?f=post2020_dy_recommends)
+
+[![]()](https://www.163.com/dy/article/KOCJ3CMM055616YL.html?f=post1603_tab_news)
+### [和老伴在四川成都住了半年，实话实说：跟网上评价的完全不一样](https://www.163.com/dy/article/KOCJ3CMM055616YL.html?f=post1603_tab_news)
+
+呼呼历史论
+2026-03-19 10:27:38
+
+[![]()](https://www.163.com/dy/article/KOA9OS840514R9OJ.html?f=post1603_tab_news)
+### [国台办：古屋圭司言论严重违背一个中国原则，不自量力，我们对此坚决反对](https://www.163.com/dy/article/KOA9OS840514R9OJ.html?f=post1603_tab_news)
+
+环球网资讯
+2026-03-18 13:06:08
+
+[![]()](https://www.163.com/dy/article/KOCG6OPN0556C7IZ.html?f=post1603_tab_news)
+### [中方强硬扣船，巴拿马求锤得锤！美官员摊牌：禁止中企在拉美竞标](https://www.163.com/dy/article/KOCG6OPN0556C7IZ.html?f=post1603_tab_news)
+
+遁走的两轮
+2026-03-19 09:37:04
+
+[![]()](https://www.163.com/dy/article/KOA3P3S005565LD7.html?f=post1603_tab_news)
+### [挑衅升级！台军重炮直面大陆](https://www.163.com/dy/article/KOA3P3S005565LD7.html?f=post1603_tab_news)
+
+安安说
+2026-03-18 11:21:30
+
+[![]()](https://www.163.com/dy/article/KOB5FEB205569M4R.html?f=post1603_tab_news)
+### [一位女按摩师口述：上门按摩，往往都不只是按摩这么简单！](https://www.163.com/dy/article/KOB5FEB205569M4R.html?f=post1603_tab_news)
+
+千秋历史
+2026-03-18 21:10:46
+
+[![]()](https://www.163.com/dy/article/KO0NCINU0553TB9L.html?f=post1603_tab_news)
+### [杨振宁去世5个月，翁帆远赴英国真相曝光，藏21年的秘密瞒不住了](https://www.163.com/dy/article/KO0NCINU0553TB9L.html?f=post1603_tab_news)
+
+林子说事
+2026-03-14 19:51:40
+
+[![]()](https://www.163.com/dy/article/KOANFTJQ05569GJR.html?f=post1603_tab_news)
+### [甲钴胺吃多久能停？医生：记住这2个时间节点，吃对才有效](https://www.163.com/dy/article/KOANFTJQ05569GJR.html?f=post1603_tab_news)
+
+医学科普汇
+2026-03-18 19:10:06
+
+[![]()](https://www.163.com/dy/article/KO2VTQ8G055682P3.html?f=post1603_tab_news)
+### [吴承瑛现状：全家定居香港，三个女儿三条路，老三已经成为冠军](https://www.163.com/dy/article/KO2VTQ8G055682P3.html?f=post1603_tab_news)
+
+往史过眼云烟
+2026-03-15 16:59:24
+
+[![]()](https://www.163.com/dy/article/KOCMV6CI055618RW.html?f=post1603_tab_news)
+### [罗马面临搏命战，一半人踢不了，欧冠资格真的好难好难](https://www.163.com/dy/article/KOCMV6CI055618RW.html?f=post1603_tab_news)
+
+足坛刘脂导
+2026-03-19 11:35:21
+
+[![]()](https://www.163.com/dy/article/KOBEAQUQ0512B07B.html?f=post1603_tab_news)
+### [以防长：将升级冲突，“伊朗没有人有豁免权，所有伊朗人都是目标”！美国鼓动叙利亚出兵对付真主党，特朗普授权解除船禁60天](https://www.163.com/dy/article/KOBEAQUQ0512B07B.html?f=post1603_tab_news)
+
+每日经济新闻
+2026-03-18 23:45:05
+
+[![]()](https://www.163.com/dy/article/KOCI8KLQ05568V7Z.html?f=post1603_tab_news)
+### [乘联分会：3月上半月乘用车零售同比降21%，新能源零售和批发渗透率超50%](https://www.163.com/dy/article/KOCI8KLQ05568V7Z.html?f=post1603_tab_news)
+
+财中社
+2026-03-19 10:13:02
+
+[![]()](https://www.163.com/dy/article/KOBMJ0DJ0556CA33.html?f=post1603_tab_news)
+### [订单已经排到了2030年！暴击欧美，中国趁机突围上位](https://www.163.com/dy/article/KOBMJ0DJ0556CA33.html?f=post1603_tab_news)
+
+鱼语昱雨轩
+2026-03-19 02:09:22
+
+[![]()](https://www.163.com/dy/article/KO8NBDQR0548HQ6H.html?f=post1603_tab_news)
+### [泪崩！刘国梁卸任后吐真言：亲手毁掉天才？我脑子没病！](https://www.163.com/dy/article/KO8NBDQR0548HQ6H.html?f=post1603_tab_news)
+
+子芫伴你成长
+2026-03-17 22:25:40
+
+[![]()](https://www.163.com/dy/article/KOCC2ARN0512B07B.html?f=post1603_tab_news)
+### [伊朗打击伊拉克境内美军基地及库尔德武装基地](https://www.163.com/dy/article/KOCC2ARN0512B07B.html?f=post1603_tab_news)
+
+每日经济新闻
+2026-03-19 08:24:43
+
+[![]()](https://www.163.com/dy/article/KOA9S00G0556E06Y.html?f=post1603_tab_news)
+### [全面反华？卡尼正式通知中国：加征25％关税，中企必须卷铺盖走人](https://www.163.com/dy/article/KOA9S00G0556E06Y.html?f=post1603_tab_news)
+
+科普100克克
+2026-03-18 13:08:32
+
+[![]()](https://www.163.com/dy/article/KOCFFTTA051481US.html?f=post1603_tab_news)
+### [“欧盟这点税，根本挡不住中国货”](https://www.163.com/dy/article/KOCFFTTA051481US.html?f=post1603_tab_news)
+
+观察者网
+2026-03-19 09:24:35
+
+[![]()](https://www.163.com/dy/article/KOCM3VID0556BP7P.html?f=post1603_tab_news)
+### [俄罗斯突然对华“变卦”？石油被印度抢走，中国一点不慌](https://www.163.com/dy/article/KOCM3VID0556BP7P.html?f=post1603_tab_news)
+
+光辉与阴暗
+2026-03-19 11:20:24
+
+[![]()](https://www.163.com/dy/article/KO3KFPNE0556BUK2.html?f=post1603_tab_news)
+### [伊朗前总统无奈自嘲：21人的伊朗反间谍小组，21人全是以色列间谍](https://www.163.com/dy/article/KO3KFPNE0556BUK2.html?f=post1603_tab_news)
+
+深度报
+2026-03-15 22:58:44
+
+[![]()](https://www.163.com/dy/article/KO5689UR0515974E.html?f=post1603_tab_news)
+### [乌克兰展示机器人作战系统 配备一挺大口径机枪 减少前线人员伤亡](https://www.163.com/dy/article/KO5689UR0515974E.html?f=post1603_tab_news)
+
+hawk26讲武堂
+2026-03-16 13:31:26
+
+[![]()](https://www.163.com/dy/article/KLEN0NLS0552O76X.html?f=post1603_tab_news)
+### [1960年，宋庆龄提着一兜螃蟹硬闯中南海，毛泽东看着这堆“硬货”犯了难：这到底算不算肉？结局却让警卫员红了眼眶](https://www.163.com/dy/article/KLEN0NLS0552O76X.html?f=post1603_tab_news)
+
+历史回忆室
+2026-02-10 23:27:29
+
+2026-03-19 11:59:00
+
+
+
+
+[![]()](https://www.163.com/dy/media/T1602409632844.html)
+
+
+
+
+[人工智能研究所AI](https://www.163.com/dy/media/T1602409632844.html)
+[python人工智能，大数据，人生苦短，我用python](https://www.163.com/dy/media/T1602409632844.html)
+[*153*](https://www.163.com/dy/media/T1602409632844.html)文章数
+[*775*](https://www.163.com/dy/media/T1602409632844.html)关注度
+
+往期回顾 [全部](https://www.163.com/dy/media/T1602409632844.html)
+
+
+
+
+
+[科技要闻](https://tech.163.com/)
+-----------------------------
+
+[![]()
+### 腾讯电话会 ： 马化腾首谈养虾构想](https://www.163.com/dy/article/KOBFNIIJ05198NMR.html)
+
+* ### [被全网猜是DeepSeek V4的大模型，被小米认领了](https://www.163.com/dy/article/KOC5MG2O051180F7.html)
+* ### [实测QClaw：腾讯突袭，给微信装上AI大脑](https://www.163.com/tech/article/KOAS9OQJ00098IEO.html)
+* ### [苹果CEO库克访华：现身成都参加苹果50周年庆典活动](https://www.163.com/digi/article/KOBBOCK8001680P9.html)
+* ### [理想失速：增程红利见顶，AI难解近渴](https://www.163.com/dy/article/KO8CBEI80539M9HP.html)
+
+
+
+
+
+[头条要闻](https://news.163.com/?f=post2020_dy_news_bj)
+---------------------------------------------------
+
+[![]()
+### 媒体：伊朗手里的"王牌"在当前如此克制非常耐人寻味](https://www.163.com/dy/article/KOCHIU3M0514BQ68.html)
+
+* ### [高市早苗今日访美与特朗普会晤 一个细节相当罕见](https://www.163.com/dy/article/KOCDV3DE053469LG.html)
+* ### [牛弹琴：一个重大转折点突然出现 战争进入疯狂阶段](https://www.163.com/news/article/KOCBJ2UI0001899O.html)
+* ### [伊朗最高领袖誓言"血债将很快清算" 对美以发出警告](https://www.163.com/dy/article/KOC8J7AH0550B6IS.html)
+* ### [专家：伊朗又遭严重打击 伊朗领导层的执政能力被削弱](https://www.163.com/dy/article/KOCI7FI5053469LG.html)
+
+[头条要闻](https://news.163.com/?f=post2020_dy_news)
+------------------------------------------------
+
+[![]()
+### 媒体：伊朗手里的"王牌"在当前如此克制非常耐人寻味](https://www.163.com/dy/article/KOCHIU3M0514BQ68.html)
+
+* ### [高市早苗今日访美与特朗普会晤 一个细节相当罕见](https://www.163.com/dy/article/KOCDV3DE053469LG.html)
+* ### [牛弹琴：一个重大转折点突然出现 战争进入疯狂阶段](https://www.163.com/news/article/KOCBJ2UI0001899O.html)
+* ### [伊朗最高领袖誓言"血债将很快清算" 对美以发出警告](https://www.163.com/dy/article/KOC8J7AH0550B6IS.html)
+* ### [专家：伊朗又遭严重打击 伊朗领导层的执政能力被削弱](https://www.163.com/dy/article/KOCI7FI5053469LG.html)
+
+
+
+
+
+[体育要闻](https://sports.163.com/)
+-------------------------------
+
+[![]()
+### 他们专卖“老头鞋”，却能签下19岁NBA未来门面？](https://www.163.com/sports/article/KOCI6QL600059A81.html)
+
+* ### [欧冠八强对阵出炉：皇马又见拜仁，巴萨会师马竞](https://www.163.com/dy/article/KOC77TMF05299JMD.html)
+* ### [欧冠8强最新夺冠赔率：阿森纳力压拜仁！皇马遭看衰，利物浦仅第6](https://www.163.com/dy/article/KOC68SQ50529CA1F.html)
+* ### [欧冠晋级夜：巴萨8-3纽卡 红军4-1 热刺5-7马竞 拜仁10-2亚特兰大](https://www.163.com/dy/article/KOC3SHQ305299RGV.html)
+* ### [快船遭鹈鹕18分逆转吞3连败 小卡复出25+8连46场20+队史第一](https://www.163.com/dy/article/KOCIIU3O0529RKNN.html)
+
+
+
+
+
+[娱乐要闻](https://ent.163.com/)
+----------------------------
+
+[![]()
+### 戴军55岁再翻红！与何炅传闻意难平](https://www.163.com/dy/article/KOCEUAST0556BDJ1.html)
+
+* ### [瞿颖回应已婚！54岁坦然认爱，不领证不办婚礼](https://www.163.com/dy/article/KOCG6VRG0556BYPY.html)
+* ### [何穗分享在家带娃日常，一顿5菜一汤](https://www.163.com/dy/article/KOCF3STM0517EJJ8.html)
+* ### [姚晨离婚内幕被曝！和前夫最后一次同框互不搭理](https://www.163.com/dy/article/KOCEP2LG05566SDO.html)
+* ### [伊能静称女儿米粒会跟爸爸秦昊发嗲撒娇](https://www.163.com/dy/article/KOCFA7M40517U8SU.html)
+
+
+
+
+
+[财经要闻](https://money.163.com/)
+------------------------------
+
+[![]()
+### 断油危机，冲击亚洲？](https://www.163.com/dy/article/KOC9015V0514BE2Q.html)
+
+* ### ["慈善"直播诱导刷单返利 18万养老钱换手串](https://www.163.com/dy/article/KOC7IKMM05129QAF.html)
+* ### [3.6万元高仿IPO"一条龙" 伪交易所暗流袭香港](https://www.163.com/dy/article/KOC51MPR053469RG.html)
+* ### [胖东来黄天鹅鸡蛋检出角黄素 王海团队回应](https://www.163.com/dy/article/KO8QRCE60512B07B.html)
+* ### [穿高定、吃大餐、做发型，小象超市如何将耙耙柑宠成“枝头鲜”？](https://www.163.com/dy/article/KOCMA5NM0519NDHF.html)
+
+
+
+
+
+[汽车要闻](https://auto.163.com/)
+-----------------------------
+
+[![]()
+### 全新设计风格/中大型SUV 星途EX7开启盲订](https://www.163.com/auto/article/KOBC3LUR0008856R.html)
+
+* ### [R6大模型上车 广汽丰田铂智3X迎OTA升级](https://www.163.com/auto/article/KOBINPCF0008856S.html)
+* ### [2026奇瑞电池之夜:犀牛电池首发/2万座V2G桩布局](https://www.163.com/auto/article/KOB8MPBO000884ML.html)
+* ### [新世代宝马i3全球首发，最帅的居然是方向盘？](https://www.163.com/dy/article/KOCM5M8N05278BSU.html)
+* ### [正式官宣！特斯拉Model Y蝉联全球乘用车销量冠军！](https://www.163.com/v/video/VGNESGM65.html)
+
+
+
+
+
+态度原创
+----
+
+* ### [*+arrTaiduYuanC[i].tag+'* | '+arrTaiduYuanC[i].title+']('+arrTaiduYuanC[i].link+')
+  
+  \
+
+
+
+
+
+[游戏](https://ent.163.com/game/)
+
+[艺术](https://art.163.com/)
+
+[教育](https://edu.163.com/)
+
+[健康](https://jiankang.163.com/)
+
+[公开课](https://open.163.com/)
+
+
+[![]()
+### 索尼为PS3推出新固件4.93 不更新将无法播放蓝光光盘](https://www.163.com/dy/article/KOCL62LJ0526D8LR.html)
+
+* ### [《街霸6》新回归英雄Alex爆火 但主播反映被意外限流](https://www.163.com/dy/article/KOCL62LG0526D8LR.html)
+* ### [罗马城建模拟“特别好评”《万神之城》折扣即将开始](https://www.163.com/dy/article/KOCL4I4J0526K1KN.html)
+* ### [《1348：圣誓》IGN4分：体验灾难 除美景外一无是处](https://www.163.com/dy/article/KOCJBFK60526D8LR.html)
+
+[艺术要闻](https://art.163.com/)
+----------------------------
+
+[![]()
+### 2025年第八届全国青年美展 | 油画作品选刊（三）](https://www.163.com/dy/article/KOCMVSG905219O3P.html)
+
+* ### [江青作品惊艳！字写得灵动，秘诀竟在用笔！](https://www.163.com/dy/article/KOCETD5Q0514VK4K.html)
+* ### [马英九母亲的楷书技艺引发热议，草字书法探讨笔法之美。](https://www.163.com/dy/article/KOCEOAS40514VK4K.html)
+* ### [书法评比大翻车：网友评论狂欢，自己的字却不堪入目！](https://www.163.com/dy/article/KOCELIOV0514VK4K.html)
+
+
+[教育要闻](https://edu.163.com/)
+----------------------------
+
+[![]()
+### 能帮到孩子取得进步，就是我们最大的心愿！](https://www.163.com/v/video/VINEMCII2.html)
+
+* ### [春招启航！](https://www.163.com/dy/article/KOCFQD9H05169QGI.html)
+* ### [家庭学习成长共同体的实践探索——贺秋实家教好故事](https://www.163.com/dy/article/KOAM9FNS0516BU8U.html)
+* ### [小升初：求绿色面积？全军覆没](https://www.163.com/v/video/VJN7VFAVH.html)
+* ### [新西兰毕业工签重磅升级：新增短期毕业生签证，文凭课程也能拿PSW！](https://www.163.com/dy/article/KOCCJ2BG05169EA1.html)
+
+
+[![]()
+### 转头就晕的耳石症，能开车上班吗？](https://www.163.com/jiankang/article/KL313RCM00388AD5.html)
+
+* ### [砸窗取AED引热议，急救设备能否一键联网](https://www.163.com/jiankang/article/KO7D6R600038804U.html)
+* ### ["倒春寒"要防心脑血管病！收下这些要点](https://www.163.com/jiankang/article/KLDBQN3300388045.html)
+* ### [惊蛰节气，疏肝润燥正当时](https://www.163.com/jiankang/article/KNB7QHUM00388045.html)
+* ### [大脑喊救命时会发出三个警报，务必警惕！](https://www.163.com/jiankang/article/KNB81UE400388045.html)
+
+[公开课](https://open.163.com/)
+----------------------------
+
+### [李玫瑾：为什么性格比能力更重要？](https://open.163.com/newview/movie/free?pid=EHHGVM7FA&mid=KIAL4QM5K)
+
+* ### [白岩松谈人口老龄化：社会要降低老年人门槛](https://open.163.com/newview/movie/free?pid=QG36DFKM1&mid=UG36DFKMI)
+* ### [为什么人类有不同的肤色？](https://open.163.com/newview/movie/free?pid=AICUHKKK6&mid=KICUHKKL9#share-mob)
+* ### [古代的马真能日行八百里吗](https://open.163.com/newview/movie/free?pid=WIG5897GJ&mid=TIG5897HE#share-mob)
+* ### [李彦宏：百度离破产30天](https://open.163.com/newview/movie/free?pid=XGIS0MSS0&mid=GGIS0MSSN)
+
+
+
+
+
+
+[![]()](http://www.163.com/newsapp/#f=qr)
+
+
+
+
+
+
+© 1997-2026 网易公司版权所有
+[About NetEase](https://corp.163.com/) |
+[公司简介](https://corp.163.com/gb/about/overview.html) |
+[联系方法](https://corp.163.com/gb/contactus.html) |
+[招聘信息](https://corp.163.com/gb/job/job.html) |
+[客户服务](https://help.163.com/) |
+[隐私政策](https://corp.163.com/gb/legal.html) |
+
+[不良信息举报 Complaint Center](https://www.163.com/special/0077jt/tipoff.html) |
+[廉正举报](https://jubao.163.com/) |
+[侵权投诉](https://corp.163.com/special/008397U0/reporting_infringements.html)
+
+
+
+
+
+
+[无障碍浏览](javascript:void(0))
+[进入关怀版](javascript:void(0))
+
+
+
+
+
+

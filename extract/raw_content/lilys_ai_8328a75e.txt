@@ -1,0 +1,544 @@
+# Source URL: https://lilys.ai/en/notes/ai-coding-agent-20260106/ai-coding-workflow-2026
+# Content Length: 24113 characters
+# Extracted at: 2026-03-25 12:04:12
+#============================================================
+
+
+My AI Coding Workflow 2026: This is how I AM CODING right now![![]()![]()](https://lilys.ai/en)[Pricing](https://lilys.ai/pricing)[Guide](https://help.lilys.ai)[Changelog](https://help.lilys.ai/articles/11782109-release-notes)[Blog](https://lilys.ai/blog/en)[Get started](https://lilys.ai/en/signup)[View original video in AI viewer](https://lilys.ai/en/signup?trigger=public&ytb_id=-beLQ77zXwM&rl=en)[![]()▶](https://www.youtube.com/watch?v=-beLQ77zXwM)![]()AICodeKingViews 2,50612/30/2025[Script](https://lilys.ai/en/signup?trigger=public&ytb_id=-beLQ77zXwM&rl=en)Script×
+
+00:02[music] Hi, welcome to another video
+
+00:04So, I have been doing quite a lot of coding with AI in the last 2 months because I have been trying to build something that I hope to open source quite soon
+
+00:15For this product, I am trying to use AI for as much stuff as I can and not touch the code myself
+
+00:25I want it to be something that I can prompt, keep running in the background, and then do a PR review of the whole code along with some code reviewing agents
+
+00:35I want them to check for code quality and then basically merge it back into the main branch
+
+00:41I recently covered one of the puzzle pieces of this where I showed how I have been basically using the GLM coding plan to its limits to basically have like a coding agent that does some cool stuff
+
+00:54You can check that out
+
+00:54But I want to show you how I generally go from one task to shipping
+
+00:58So I do everything with Git
+
+01:02I mean it's the basics
+
+01:02But I guess that it's worth mentioning because many people who don't really do proper coding don't really know about it
+
+01:13So I use it for proper version control
+
+01:17A lot of the stuff that I'll show you next is actually very dependent on Git as well
+
+01:23Now when I start a project I use two things these days
+
+01:26First is the better tstack
+
+01:30This allows you to basically build your own stack
+
+01:32I have covered it in my previous workflow video as well
+
+01:38But it's worth talking about again because it is very easy to set up a project with everything that you'd like to have
+
+01:45It helps in eliminating things that you don't need to make sure that you have the most performant app
+
+01:53Generally, you'd want to use something like Nex.js and maybe integrate polar for payments, convex for backend, bun for runtime, and so on and so forth
+
+02:05Once you have a stack, then you can easily copy the command and then go ahead and use it
+
+02:12Another thing that I use more often recently is shad cn create
+
+02:14It allows me to build out a template of colors and styles to use and keep my design streamlined
+
+02:24You can check out my video about this that I made specifically
+
+02:28This is also really very cool
+
+02:28Anyway, for the main coders, I am currently using three of them in conjunction almost every day
+
+02:36So, first comes the pair programmer agent that I use within VS Code
+
+02:42I code myself as well and sometimes I want to do some kind of small refactor or some kind of change that I don't want to deal with
+
+02:52Sometimes I want to understand a code base and so on
+
+02:54For that I use kilo code
+
+02:58I mostly use the GLM coding plan here as that is cheap, has great models and so on
+
+03:05However, I also do use APIs for different models as well
+
+03:09I can just recharge my Kilo account and use it through there, which is kind of great
+
+03:16It is the most trusted pair programming agent for me
+
+03:18Super fast, snappy, and works to the point, which is what I like about it
+
+03:24However, I also use two more coding agents for basically delegating tasks to and then checking on them later
+
+03:33And the first of them is Verdant
+
+03:37Verdant is quite cool
+
+03:37Their pricing structure is great
+
+03:39The models are not nerfed and it's really very good
+
+03:42I use their $200 plan because I really like the product
+
+03:48It is great for delegating tasks to because you can easily create workspaces or basically branches of your main project
+
+03:58This makes sure that in any case the main repo doesn't get damaged
+
+04:03Once the task is complete, you can create a PR and then get it reviewed and then merge it back in
+
+04:12Plus, you can like run hundreds of tasks in it seamlessly and it keeps notifying you about what's done and what's not
+
+04:20The agent contraption is really great and so is their UI and memory efficiency
+
+04:26So, that is why I use it
+
+04:26I really love it
+
+04:31Now another thing that I have been using with the GLM coding plan is conductor
+
+04:37You can check out my previous video on how I use it specifically
+
+04:41But in short, I basically use it for tasks that relate to small or mediumiz changes or not many files need to be written or so on
+
+04:49This makes me save my verdant credits for more complex tasks
+
+04:56I can keep this like basically running for 24/7 on very great speeds
+
+04:58And I even make it do hard or complex stuff and it mostly doesn't budge
+
+05:08But I still try to be cautious as to not give it some super complex library with docs to manage as it can get lost in it
+
+05:17I will recommend you to use this over Sonnet at the very least because it's really better than Sonnet for an awesomely low cost
+
+05:26Now this is all code
+
+05:26Once the code is written, I make a PR to my repo
+
+05:29And then comes the time to review code
+
+05:32To manage my git, I mostly use graphite, which has apparently been acquired by cursor, which is sad to see, but I think that graphite will still keep running, so that's not a big problem
+
+05:46Anyway, their UI for managing pull requests is really good
+
+05:53You can do stacked merges which means that if you want to merge a bunch of PRs at once then that's doable and you can then solve the merge conflicts at once and so on
+
+06:02It's quite good
+
+06:05So once I have a PR open I also need to get the code reviewed
+
+06:09There are actually many tools for that
+
+06:12I use two of them mostly which are the Gemini code assist review agent and grapile
+
+06:17Gemini code assist review is like fully free
+
+06:23It is also automatic
+
+06:26So, it automatically reviews any PR that I make, which is genuinely good
+
+06:29The review quality is also amazingly good and it like marks each line with annotations and I can get that merged
+
+06:37I have also been using Grapile recently
+
+06:41I really like it as well and might switch to it because it's faster and better
+
+06:49However, for some reason, I have to go to GitHub and then mention Grapile because via Graphite, it doesn't listen, which is annoying
+
+06:59So, yeah, Gemini code assist review and Grapile for reviews
+
+07:02That is majorly what I use
+
+07:06I think that it is mostly simple
+
+07:08I don't use things like oh my open code or something like Ralph loops myself because it gets kind of harder to manage and takes up a lot of costs
+
+07:19I think the performance of them can be great based on what you do
+
+07:21But rather than getting great generations, I like to be in the loop as the agents code and keep checking in a bit for code quality and so on
+
+07:32So there's that
+
+07:32I have been really loving both Opus 4.5 and GLM4.7 and the UIs for these new Gen AI coding tools are also getting really good like with Verdant or Conductor and stuff
+
+07:50Overall, it's pretty cool
+
+07:50Anyway, share your thoughts below and subscribe to the channel
+
+07:55You can also donate via [music] Superthanks option or join the channel as well and get some perks
+
+07:59I'll see you in the next video
+
+08:01Bye
+
+08:06>> [music]
+
+[Explore](https://lilys.ai/notes/en)[ai-coding-agent-20260106](https://lilys.ai/notes/en/ai-coding-agent-20260106/)
+
+My AI Coding Workflow 2026: This is how I AM CODING right now!
+==============================================================
+
+[View original video in AI viewer](https://lilys.ai/en/signup?trigger=public&ytb_id=-beLQ77zXwM&rl=en)[![]()▶](https://www.youtube.com/watch?v=-beLQ77zXwM)![]()AICodeKingViews 2,50612/30/2025[Script](https://lilys.ai/en/signup?trigger=public&ytb_id=-beLQ77zXwM&rl=en)Script×
+
+00:02[music] Hi, welcome to another video
+
+00:04So, I have been doing quite a lot of coding with AI in the last 2 months because I have been trying to build something that I hope to open source quite soon
+
+00:15For this product, I am trying to use AI for as much stuff as I can and not touch the code myself
+
+00:25I want it to be something that I can prompt, keep running in the background, and then do a PR review of the whole code along with some code reviewing agents
+
+00:35I want them to check for code quality and then basically merge it back into the main branch
+
+00:41I recently covered one of the puzzle pieces of this where I showed how I have been basically using the GLM coding plan to its limits to basically have like a coding agent that does some cool stuff
+
+00:54You can check that out
+
+00:54But I want to show you how I generally go from one task to shipping
+
+00:58So I do everything with Git
+
+01:02I mean it's the basics
+
+01:02But I guess that it's worth mentioning because many people who don't really do proper coding don't really know about it
+
+01:13So I use it for proper version control
+
+01:17A lot of the stuff that I'll show you next is actually very dependent on Git as well
+
+01:23Now when I start a project I use two things these days
+
+01:26First is the better tstack
+
+01:30This allows you to basically build your own stack
+
+01:32I have covered it in my previous workflow video as well
+
+01:38But it's worth talking about again because it is very easy to set up a project with everything that you'd like to have
+
+01:45It helps in eliminating things that you don't need to make sure that you have the most performant app
+
+01:53Generally, you'd want to use something like Nex.js and maybe integrate polar for payments, convex for backend, bun for runtime, and so on and so forth
+
+02:05Once you have a stack, then you can easily copy the command and then go ahead and use it
+
+02:12Another thing that I use more often recently is shad cn create
+
+02:14It allows me to build out a template of colors and styles to use and keep my design streamlined
+
+02:24You can check out my video about this that I made specifically
+
+02:28This is also really very cool
+
+02:28Anyway, for the main coders, I am currently using three of them in conjunction almost every day
+
+02:36So, first comes the pair programmer agent that I use within VS Code
+
+02:42I code myself as well and sometimes I want to do some kind of small refactor or some kind of change that I don't want to deal with
+
+02:52Sometimes I want to understand a code base and so on
+
+02:54For that I use kilo code
+
+02:58I mostly use the GLM coding plan here as that is cheap, has great models and so on
+
+03:05However, I also do use APIs for different models as well
+
+03:09I can just recharge my Kilo account and use it through there, which is kind of great
+
+03:16It is the most trusted pair programming agent for me
+
+03:18Super fast, snappy, and works to the point, which is what I like about it
+
+03:24However, I also use two more coding agents for basically delegating tasks to and then checking on them later
+
+03:33And the first of them is Verdant
+
+03:37Verdant is quite cool
+
+03:37Their pricing structure is great
+
+03:39The models are not nerfed and it's really very good
+
+03:42I use their $200 plan because I really like the product
+
+03:48It is great for delegating tasks to because you can easily create workspaces or basically branches of your main project
+
+03:58This makes sure that in any case the main repo doesn't get damaged
+
+04:03Once the task is complete, you can create a PR and then get it reviewed and then merge it back in
+
+04:12Plus, you can like run hundreds of tasks in it seamlessly and it keeps notifying you about what's done and what's not
+
+04:20The agent contraption is really great and so is their UI and memory efficiency
+
+04:26So, that is why I use it
+
+04:26I really love it
+
+04:31Now another thing that I have been using with the GLM coding plan is conductor
+
+04:37You can check out my previous video on how I use it specifically
+
+04:41But in short, I basically use it for tasks that relate to small or mediumiz changes or not many files need to be written or so on
+
+04:49This makes me save my verdant credits for more complex tasks
+
+04:56I can keep this like basically running for 24/7 on very great speeds
+
+04:58And I even make it do hard or complex stuff and it mostly doesn't budge
+
+05:08But I still try to be cautious as to not give it some super complex library with docs to manage as it can get lost in it
+
+05:17I will recommend you to use this over Sonnet at the very least because it's really better than Sonnet for an awesomely low cost
+
+05:26Now this is all code
+
+05:26Once the code is written, I make a PR to my repo
+
+05:29And then comes the time to review code
+
+05:32To manage my git, I mostly use graphite, which has apparently been acquired by cursor, which is sad to see, but I think that graphite will still keep running, so that's not a big problem
+
+05:46Anyway, their UI for managing pull requests is really good
+
+05:53You can do stacked merges which means that if you want to merge a bunch of PRs at once then that's doable and you can then solve the merge conflicts at once and so on
+
+06:02It's quite good
+
+06:05So once I have a PR open I also need to get the code reviewed
+
+06:09There are actually many tools for that
+
+06:12I use two of them mostly which are the Gemini code assist review agent and grapile
+
+06:17Gemini code assist review is like fully free
+
+06:23It is also automatic
+
+06:26So, it automatically reviews any PR that I make, which is genuinely good
+
+06:29The review quality is also amazingly good and it like marks each line with annotations and I can get that merged
+
+06:37I have also been using Grapile recently
+
+06:41I really like it as well and might switch to it because it's faster and better
+
+06:49However, for some reason, I have to go to GitHub and then mention Grapile because via Graphite, it doesn't listen, which is annoying
+
+06:59So, yeah, Gemini code assist review and Grapile for reviews
+
+07:02That is majorly what I use
+
+07:06I think that it is mostly simple
+
+07:08I don't use things like oh my open code or something like Ralph loops myself because it gets kind of harder to manage and takes up a lot of costs
+
+07:19I think the performance of them can be great based on what you do
+
+07:21But rather than getting great generations, I like to be in the loop as the agents code and keep checking in a bit for code quality and so on
+
+07:32So there's that
+
+07:32I have been really loving both Opus 4.5 and GLM4.7 and the UIs for these new Gen AI coding tools are also getting really good like with Verdant or Conductor and stuff
+
+07:50Overall, it's pretty cool
+
+07:50Anyway, share your thoughts below and subscribe to the channel
+
+07:55You can also donate via [music] Superthanks option or join the channel as well and get some perks
+
+07:59I'll see you in the next video
+
+08:01Bye
+
+08:06>> [music]
+
+This YouTube insight note was created with LilysAI. Sign up free and get 10× faster, deeper insights from videos.
+
+[Read like a genius with LilysAI](https://lilys.ai/en/signup?trigger=public&ytb_id=-beLQ77zXwM&rl=en)    
+### Q: **What is the speaker's AI coding workflow in 2026?**
+
+ *The speaker uses Git for version control, starts projects with better tstack* and *shad cn create*, and employs three main AI coding agents: *Kilo Code* (pair programmer), *Verdant* (delegating complex tasks), and *Conductor* (small/medium tasks). For code review, they use *Graphite* for PR management, and *Gemini Code Assist Review* and *Grapile* for automated reviews.
+
+   
+
+This content reveals a cutting-edge **AI coding workflow** for 2026, detailing how to delegate maximum tasks to agents and minimize manual coding. Learn the specific tools—like Verdant, Conductor, and Kilo Code—used for **delegation, pair programming, and version control** (Git/Graphite). Discover how to streamline your development stack (better tstack) and automate code reviews using agents like Gemini Code Assist Review for maximum efficiency.
+
+ 
+
+1. AI Coding Workflow Overview and Initial Setup [1]
+----------------------------------------------------
+
+![]()
+
+1. **Goal of AI Coding Workflow** [1]
+   
+   1. The speaker has been coding heavily with AI for two months. [1]
+   2. This is for a product they hope to open source soon. [1]
+   3. They aim to use AI for maximum tasks, minimizing manual coding. [2]
+   4. The process involves prompting, background running, and PR review. [3]
+   5. Code reviewing agents check for code quality before merging to the main branch. [4]
+2. **Previous Work and General Process** [5]
+   
+   1. The speaker previously covered using the **GLM coding plan** to its limits. [5]
+   2. This plan basically acts as a coding agent. [5]
+   3. The current focus is showing the general process from task to shipping. [7]
+3. **Version Control and Project Stack Setup** [8]
+   
+   1. **Version Control (Git)** [8]
+   2. Everything is done using **Git**, which is fundamental. [8]
+   3. Git is used for proper version control. [11]
+   4. Much of the subsequent workflow depends on Git. [12]
+   5. **Project Stack Setup (Better tstack)** [13]
+   6. The speaker uses two things when starting a project. [13]
+   7. The first is the **better tstack** (tstack). [14]
+   8. This tool allows users to build their own stack easily. [15]
+   9. It helps eliminate unnecessary elements for a performant app. [18]
+   10. Example components include **Next.js**, **Polar** (payments), **Convex** (backend), and **Bun** (runtime). [19]
+   11. Once the stack is defined, the command can be copied and used. [20]
+   12. **Design Template (shad cn create)** [21]
+   13. The second tool used is **shad cn create**. [21]
+   14. It builds a template of colors and styles. [22]
+   15. This keeps the design streamlined. [22]
+   16. The tool is considered very cool. [24]
+
+2. Core AI Coding Agents: Pair Programming and Delegation [25]
+--------------------------------------------------------------
+
+![]()
+
+1. **Pair Programmer Agent (Kilo Code)** [25]
+   
+   1. The speaker uses three main coders in conjunction daily. [25]
+   2. The first is the pair programmer agent within VS Code. [26]
+   3. This is used for small refactors, changes, or understanding a codebase. [27]
+   4. The specific tool used is **Kilo Code**. [29]
+   5. The speaker mostly uses the **GLM coding plan** within Kilo Code. [30]
+   6. This plan is cheap and has great models. [30]
+   7. APIs for different models are also used. [31]
+   8. The Kilo account can be recharged to use these models. [32]
+   9. Kilo Code is the most trusted pair programming agent. [33]
+   10. It is super fast, snappy, and works to the point. [34]
+2. **Delegation Agent 1 (Verdant)** [35]
+   
+   1. Two more coding agents are used for delegating tasks. [35]
+   2. The first delegation agent is **Verdant**. [36]
+   3. Verdant is highly regarded for its pricing structure and un-nerfed models. [38]
+   4. The speaker uses the $200 plan because they like the product. [40]
+   5. **Delegation Process with Verdant** [41]
+   6. It is great for delegating tasks. [41]
+   7. Users can easily create workspaces or branches of the main project. [41]
+   8. This prevents damage to the main repository. [42]
+   9. Once complete, a PR is created, reviewed, and merged back in. [43]
+   10. It can run hundreds of tasks seamlessly and provides notifications. [44]
+   11. The agent contraption, UI, and memory efficiency are great. [45]
+3. **Delegation Agent 2 (Conductor)** [48]
+   
+   1. The speaker also uses **Conductor** with the GLM coding plan. [48]
+   2. Conductor is used for small or medium-sized changes. [50]
+   3. It is used when not many files need to be written. [50]
+   4. Using Conductor saves Verdant credits for more complex tasks. [51]
+   5. Conductor can run 24/7 at great speeds. [52]
+   6. It mostly handles hard or complex stuff without issue. [53]
+   7. Caution is advised against giving it super complex libraries or documentation to manage. [54]
+   8. The speaker recommends Conductor over **Sonnet** due to its quality and low cost. [55]
+
+3. Code Review and Management Process [56]
+------------------------------------------
+
+![]()
+
+1. **Pull Request Management (Graphite)** [56]
+   
+   1. Once the code is written, a PR is made to the repository. [56]
+   2. **Graphite** is mostly used to manage Git. [59]
+   3. Graphite has been acquired by Cursor, which is noted as sad. [59]
+   4. The speaker believes Graphite will continue running. [59]
+   5. Graphite's UI for managing pull requests is very good. [60]
+   6. It allows for **stacked merges**, merging multiple PRs at once. [61]
+   7. Merge conflicts can then be solved simultaneously. [61]
+2. **Code Review Agents** [63]
+   
+   1. After opening a PR, the code needs review. [63]
+   2. The speaker mainly uses two tools for review. [64]
+   3. **Gemini Code Assist Review Agent** [65]
+   4. This agent is fully free and automatic. [66]
+   5. It automatically reviews any PR made. [68]
+   6. The review quality is excellent. [69]
+   7. It marks each line with annotations for merging. [69]
+   8. **Grapile** [65]
+   9. The speaker has been using Grapile recently and likes it. [70]
+   10. They might switch to Grapile because it is faster and better. [71]
+   11. A current annoyance is having to mention Grapile on GitHub. [72]
+   12. It does not listen via Graphite. [72]
+   13. The main review tools are Gemini Code Assist Review and Grapile. [73]
+3. **Workflow Philosophy and Agent Performance** [75]
+   
+   1. The overall workflow is considered simple. [75]
+   2. The speaker avoids tools like *oh my open code* or *Ralph loops*. [76]
+   3. These tools are harder to manage and increase costs. [76]
+   4. Their performance can be great depending on the task. [77]
+   5. Instead of seeking great generations, the speaker prefers to stay in the loop. [78]
+   6. They check in as agents code to monitor code quality. [78]
+4. **Conclusion on Current Tools** [80]
+   
+   1. The speaker is enjoying **Opus 4.5** and **GLM 4.7**. [80]
+   2. The UIs for new Gen AI coding tools, like Verdant or Conductor, are improving. [80]
+   3. Overall, the current setup is considered pretty cool. [81]
+      Read full note    
+
+Understand massive materials like a genius — with LilysAI
+---------------------------------------------------------
+
+Over 1,000,000 knowledge seekers use Lilys AI.
+
+                
+
+Just add sources; your living note is ready
+
+                
+
+Fully trustworthy notes with source links
+
+                
+
+A variety of notes tailored to your goals
+
+         ![]()       
+
+AI chat grounded in your uploaded sources
+
+                
+
+Deep Search that finds trustworthy sources
+
+    
+
+Recommended Pages [(ai-coding-agent-20260106)](https://lilys.ai/notes/en/ai-coding-agent-20260106/)
+---------------------------------------------------------------------------------------------------
+
+* [Auto Claude: AI Coding on Steroids! Claude Code Running Autonomously For Hours!](https://lilys.ai/notes/en/ai-coding-agent-20260106/auto-claude-ai-code-autonomous-steroids)
+* [My AI Coding Workflow 2026: This is how I AM CODING right now!](https://lilys.ai/notes/en/ai-coding-agent-20260106/ai-coding-workflow-2026)
+  
+
+Learn About Lilys AI
+--------------------
+
+* [The Best NotebookLM Alternative for Custom Notes](https://lilys.ai/blog/en/the-best-notebooklm-alternative-for-custom-notes-en/)
+* [Best 10 NotebookLM Alternatives in 2025 (100 Personally Tested)](https://lilys.ai/blog/en/best-10-notebooklm-alternatives-in-2025-100-personally-tested-en/)
+* [Can ChatGPT Watch Videos? The Truth About AI Video Analysis in 2025](https://lilys.ai/blog/en/can-chatgpt-watch-videos-the-truth-about-ai-video-analysis-in-2025-en/)
+* [The Best AI Video Note Taker (Free)](https://lilys.ai/blog/en/the-best-ai-video-note-taker-free-en/)
+  Upload a video or paste a YouTube link!Upload
+### Want to watch videos like a genius, faster?
+
+Paste a link or upload a file — AI helps you understand 10× faster and deeper.
+
+[Start free](https://lilys.ai/en/signup)

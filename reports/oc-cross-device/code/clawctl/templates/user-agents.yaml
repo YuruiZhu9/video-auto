@@ -1,0 +1,260 @@
+# clawctl 任务模板 - 用户专属 Agent
+# 适配 USER.md 中的三个定时 Agent
+# 路径: /workspace/reports/oc-cross-device/code/clawctl/templates/user-agents.yaml
+
+templates:
+
+  # ── 1. 信息抓取助手 ─────────────────────────────────────────
+  info-fetcher:
+    name: "信息抓取助手"
+    description: "实时抓取全球AI领域当日热门资讯、大厂一手动态"
+    agent: "info-fetcher"
+    action: spawn
+    params:
+      task: |
+        执行今日 AI 领域信息抓取，重点来源：
+        1. 博查AI搜索 - 今日AI热点
+        2. AIbase - AI产品和大厂动态
+        3. TechCrunch - AI/ML板块
+        4. 36氪 - AI创业和大厂动态
+        5. 量子位 / 机器之心 - 国内AI媒体
+        6. 目标大厂官方博客（OpenAI/Anthropic/Google/DeepMind等）
+        
+        输出格式：
+        ## 今日AI热点 Top5
+        ## 大厂动态
+        ## 技术进展
+        ## 值得关注的创业公司
+      runtime: subagent
+      timeout: 300
+    notify:
+      on_start: true
+      on_complete: true
+      on_failed: true
+    tags: ["info", "daily", "抓取"]
+
+  info-fetcher-full:
+    name: "全量信息抓取"
+    description: "全量扫描所有AI信息来源渠道"
+    agent: "info-fetcher"
+    action: spawn
+    params:
+      task: |
+        执行全量AI信息抓取，覆盖以下所有渠道：
+        
+        【国内媒体】
+        - 量子位、机器之心、36氪、虎嗅、极客公园
+        - 新榜/蝉妈妈（消费趋势）
+        
+        【国际媒体】
+        - TechCrunch AI板块、The Verge、Bloomberg Technology
+        - The Information、Reuters AI
+        
+        【大厂官方】
+        - OpenAI Blog、Google AI Blog、Anthropic Blog
+        - Meta AI Blog、DeepMind Blog
+        
+        【社交】
+        - Twitter/X AI相关趋势、Hacker News
+        - Reddit r/MachineLearning
+        
+        输出完整Markdown报告，按分类整理
+      runtime: subagent
+      timeout: 900
+    notify:
+      on_start: true
+      on_complete: true
+      on_failed: true
+    tags: ["info", "full", "抓取"]
+
+  # ── 2. 技术前沿分析师 ───────────────────────────────────────
+  tech-analyst:
+    name: "技术前沿分析师"
+    description: "追踪推荐系统+大模型技术前沿，分析招聘市场"
+    agent: "tech-analyst"
+    action: spawn
+    params:
+      task: |
+        执行技术前沿深度分析，关注以下方向：
+        
+        【论文追踪】
+        - arXiv cs.IR/cs.LG 最新论文摘要（当日/本周）
+        - RecSys/SIGIR/WSDM/ICML/NeurIPS 推荐系统和大模型相关
+        - LlamaFactory每日论文 https://llamafactory.cn/daily-paper/
+        
+        【招聘市场分析】
+        - BOSS直聘/智联招聘：推荐系统算法工程师职位
+        - 大厂：阿里/字节/腾讯/百度 推荐/广告算法岗 JD分析
+        - 评估：技能要求 × 薪资范围 × 招聘量趋势
+        
+        【学习价值评估】
+        - 最新论文对转行推荐算法工程师的学习价值
+        - 需要补充的基础知识（哪些需要优先学）
+        
+        输出：
+        ## 本周推荐系统论文精选（3-5篇）
+        ## 大模型进展速报
+        ## 招聘市场分析
+        ## 转行建议
+      runtime: subagent
+      timeout: 600
+    notify:
+      on_start: true
+      on_complete: true
+      on_failed: true
+    tags: ["tech", "paper", "recruitment", "分析"]
+
+  tech-brief:
+    name: "技术简报"
+    description: "生成当日技术简报（快速版）"
+    agent: "tech-analyst"
+    action: spawn
+    params:
+      task: |
+        生成今日技术简报（简洁版），聚焦：
+        - 大模型最新进展（模型发布/能力提升）
+        - 推荐系统算法创新（1-2个亮点）
+        - AI Coding最新动态（Claude Code相关）
+        
+        格式：
+        ## 今日技术速报
+        ### 🔥 大模型动态
+        ### 📊 推荐系统
+        ### 💻 AI Coding
+        ### 📚 值得关注的论文
+      runtime: subagent
+      timeout: 300
+    notify:
+      on_start: false
+      on_complete: true
+      on_failed: true
+    tags: ["tech", "brief", "简报"]
+
+  tech-deep:
+    name: "深度技术分析"
+    description: "深度技术研究（多维度长报告）"
+    agent: "tech-analyst"
+    action: spawn
+    params:
+      task: |
+        执行深度技术分析，本周重点：
+        
+        【大模型专题】
+        - 深度分析本周最重要的大模型论文
+        - 技术路线对比（MoE/长上下文/多模态/推理优化）
+        - 对推荐系统应用的启发
+        
+        【推荐系统前沿】
+        - 深度推荐（Deep Rec）、LLM+Rec最新进展
+        - LLM能否革新推荐系统？技术可行性分析
+        - 工业界实践案例（Netflix/YouTube/阿里推荐系统）
+        
+        【学习路径建议】
+        - 针对目标岗位（推荐算法工程师）的学习计划
+        - 优先学什么、怎么学、需要多少时间
+        
+        输出详细Markdown报告，不少于1500字
+      runtime: subagent
+      timeout: 900
+    notify:
+      on_start: true
+      on_complete: true
+      on_failed: true
+    tags: ["tech", "deep", "专题分析"]
+
+  # ── 3. 商业需求洞察分析师 ───────────────────────────────────
+  market-insight:
+    name: "商业需求洞察分析师"
+    description: "发现跨行业AI应用商机，结合政策与文娱新闻"
+    agent: "market-insight"
+    action: spawn
+    params:
+      task: |
+        执行AI商业洞察分析，关注以下维度：
+        
+        【产品/创业动态】
+        - Product Hunt / IndieHackers 本周AI新品
+        - 36氪/虎嗅 AI创业公司融资动态
+        - IT桔子/Crunchbase AI公司融资趋势
+        
+        【行业AI落地】
+        - 企业AI应用案例（营销/客服/风控/内容生产）
+        - 垂直行业AI（医疗/教育/法律/金融）
+        
+        【政策动态】
+        - 网信办AI监管政策更新
+        - 各国AI立法动态
+        
+        【娱乐/文娱趋势】
+        - AI+文娱热点（AI生成内容、AI游戏、AI音乐）
+        - 消费端AI产品趋势
+        
+        输出：
+        ## AI创业风向
+        ## 企业AI落地案例
+        ## 政策与合规
+        ## 商业机会发现
+        ## 文娱AI热点
+      runtime: subagent
+      timeout: 600
+    notify:
+      on_start: true
+      on_complete: true
+      on_failed: true
+    tags: ["market", "business", "商业", "洞察"]
+
+  # ── 组合任务模板 ───────────────────────────────────────────
+  quick-report:
+    name: "AI晨间简报"
+    description: "快速生成当日AI资讯简报（推荐每日定时）"
+    action: dag
+    dag_template: morning-brief
+    tags: ["简报", "日报", "定时"]
+
+  deep-research:
+    name: "深度AI研究"
+    description: "深度研究模式（多源并行 → 综合分析）"
+    action: dag
+    dag_template: deep-research
+    tags: ["研究", "深度", "多步"]
+
+  ai-news-daily:
+    name: "每日AI新闻"
+    description: "每日AI新闻汇总"
+    action: dag
+    dag_template: ai-news-daily
+    tags: ["新闻", "每日"]
+
+# ── 定时任务配置 ───────────────────────────────────────────────
+schedules:
+  # 每日晨间简报（工作日 08:30）
+  - name: "工作日晨间简报"
+    template: quick-report
+    cron: "0 8 * * 1-5"
+    enabled: true
+    notify:
+      on_complete: true
+
+  # 工作日下午技术追踪（14:00）
+  - name: "下午技术简报"
+    template: tech-brief
+    cron: "0 14 * * 1-5"
+    enabled: false
+    notify:
+      on_complete: true
+
+  # 每周技术深度分析（周日 10:00）
+  - name: "周度深度分析"
+    template: tech-deep
+    cron: "0 10 * * 0"
+    enabled: false
+    notify:
+      on_complete: true
+
+  # 每周商业洞察（周六 11:00）
+  - name: "周度商业洞察"
+    template: market-insight
+    cron: "0 11 * * 6"
+    enabled: false
+    notify:
+      on_complete: true

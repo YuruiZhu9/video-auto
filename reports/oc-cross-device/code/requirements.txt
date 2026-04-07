@@ -1,0 +1,39 @@
+# OpenClaw Cross-Device Control (clawctl) — Python 依赖
+
+# Web 框架
+flask>=3.0.0
+werkzeug>=3.0.0
+fastapi>=0.110.0
+uvicorn[standard]>=0.27.0
+
+# 异步 HTTP（推荐）
+httpx>=0.27.0
+aiohttp>=3.9.0
+
+# 定时任务
+apscheduler>=3.10.0
+
+# 数据库
+aiosqlite>=0.20.0
+
+# HTTP 客户端
+requests>=2.31.0
+
+# 配置解析
+pyyaml>=6.0.0
+
+# 工具
+python-dateutil>=2.8.0
+
+# 语音识别（可选，选一即可）
+# faster-whisper>=1.0.0   # 本地 Whisper（推荐，CPU可用，int8加速）
+# openai-whisper>=20231117  # OpenAI Whisper Python包
+# gtts>=2.5.0              # Google TTS（免费，无需API Key）
+# pydub>=0.25.0            # 音频格式转换（MP3→WAV）
+
+# Telegram Bot（可选）
+# python-telegram-bot>=21.0
+
+# 微信（可选，使用企业微信或个人订阅号接口）
+# wechatpy>=2.0
+# werabbit>=2.0

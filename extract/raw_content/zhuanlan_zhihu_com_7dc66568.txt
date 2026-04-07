@@ -1,0 +1,167 @@
+# Source URL: https://zhuanlan.zhihu.com/p/1959264231267501263
+# Content Length: 12198 characters
+# Extracted at: 2026-04-01 12:24:29
+#============================================================
+
+![](https://zhuanlan.zhihu.com/p/1959264231267501263)
+![ICCV 2025 | 北邮等提出VideoMiner：让大模型看懂长视频，从“大海捞针”到“精准挖掘”](https://pica.zhimg.com/v2-5788b53298a0b3da8c610afed84868a2\_720w.jpg?source=172ae18b)
+​
+目录
+朋友们，今天想和大家聊一个越来越火的话题：如何让AI看懂长达数小时的视频？我们平时刷短视频觉得AI推荐很准，但让它完整理解一部电影或者一场球赛，那挑战可就大多了。最近，一篇来自北京邮电大学和中央民族大学的论文，给我们带来了全新的思路。
+这篇被计算机视觉顶会 \*\*[ICCV 2025](https://zhida.zhihu.com/search?content\_id=263914541&content\_type=Article&match\_order=1&q=ICCV+2025&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUxOTAyNjUsInEiOiJJQ0NWIDIwMjUiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNjM5MTQ1NDEsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.aIne43uQA7f7XLIBgww1SDcs4RZKAXRWod8BjsoK8zY&zhida\_source=entity)\*\* 接收的论文，提出了一个名为 \*\*VideoMiner\*\* 的新框架。简单来说，VideoMiner就像一个聪明的“视频矿工”，能从海量的视频信息中，精准地挖掘出回答问题所需的关键帧。
+![](https://pic3.zhimg.com/v2-ba55ea3b810645fcfade986a048ad6ba\_1440w.jpg)
+- \*\*论文标题\*\*: VideoMiner: Iteratively Grounding Key Frames of Hour-Long Videos via Tree-based Group Relative Policy Optimization
+- \*\*作者\*\*: Xinye Cao, Hongcan Guo, Jiawen Qian, Guoshun Nan, Chao Wang, Yuqi Pan, Tianhao Hou, Xiaojuan Wang, Yutong Gao
+- \*\*机构\*\*: 北京邮电大学, 中央民族大学
+- \*\*论文地址\*\*: [https://arxiv.org/abs/2510.06040](https://link.zhihu.com/?target=https%3A//arxiv.org/abs/2510.06040)
+- \*\*项目主页\*\*: [https://github.com/caoxinye/VideoMiner](https://link.zhihu.com/?target=https%3A//github.com/caoxinye/VideoMiner)
+## 长视频理解的“老大难”问题
+[多模态大语言模型](https://zhida.zhihu.com/search?content\_id=263914541&content\_type=Article&match\_order=1&q=%E5%A4%9A%E6%A8%A1%E6%80%81%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUxOTAyNjUsInEiOiLlpJrmqKHmgIHlpKfor63oqIDmqKHlnosiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNjM5MTQ1NDEsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.ZupdnJZUek22GEe6tkZwk6TuQB\_rxUoSKMMVWFgyF-8&zhida\_source=entity)（MM-LLMs）在看图说话、理解短视频方面已经很强大了。但一遇到长视频，它们就容易“头大”。主要有两个痛点：
+1. \*\*信息过载\*\*：长视频里绝大部分内容都是冗余的。如果像看短视频一样，均匀地抽几帧给模型看，那关键信息很容易就被淹没在无关画面的“汪洋大海”里。
+2. \*\*结构复杂\*\*：之前的一些方法尝试用层级结构来筛选关键帧，但往往会破坏视频原本的时间顺序，或者模型无法灵活地在复杂的层级关系里找到真正重要的那个点。
+![](https://pic4.zhimg.com/v2-409fa63ae5cd974a3001f629ca3ed3f3\_1440w.jpg)
+就像上图展示的，面对一个长达51分钟的视频，问“比赛开始前运动员做了什么”，传统方法可能会给出“换衣服”或“跳舞”这样模糊甚至错误的答案。而VideoMiner则能准确定位到“唱国歌”这一关键事件。
+## VideoMiner：像剥洋葱一样理解视频
+为了解决这些问题，VideoMiner设计了一套非常巧妙的工作流程，CV君觉得可以用“剥洋葱”来形容——层层递进，直达核心。
+![](https://pic3.zhimg.com/v2-063c1e6c0dd7f8dc875893cd794985ee\_1440w.jpg)
+它的核心思想是：
+1. \*\*构建层级树\*\*：首先，把长视频切分成一个个“事件”（Scene）。然后，为每个事件生成文字描述（Caption），再根据这些描述的相似性进行聚类（Clustering）。这样一来，一个线性的长视频就变成了一棵层次分明的“事件树”，从宏观到微观，保留了完整的时间线索。
+2. \*\*智能探索\*\*：树建好了，怎么找到我们想要的“果实”呢？这就轮到论文的另一个核心贡献—— \*\*[T-GRPO](https://zhida.zhihu.com/search?content\_id=263914541&content\_type=Article&match\_order=1&q=T-GRPO&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUxOTAyNjUsInEiOiJULUdSUE8iLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNjM5MTQ1NDEsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.QApO4lXHK1Izk7T1TjFvdkdAaZmb17guFsJmi8nvBu4&zhida\_source=entity)（Tree-based Group Relative Policy Optimization）\*\* 上场了。
+### T-GRPO：强化学习引导的“寻宝”策略
+T-GRPO是一种基于强化学习的策略优化方法。你可以把它想象成一个聪明的探险家，在VideoMiner构建的事件树里寻找答案。
+![](https://pica.zhimg.com/v2-2c323a801ec031ae260cf39e0984aa2e\_1440w.jpg)
+这个“探险家”会根据用户提出的问题，在树的每个节点（代表一个或多个事件）上做出判断：
+- \*\*接受（Accept）\*\*：这个节点的信息足够回答问题了，找到宝藏！
+- \*\*继续（Continue）\*\*：这个节点有潜力，但信息还不够，得往更深的子节点挖一挖。
+- \*\*删除（Delete）\*\*：这个节点完全不相关，不用再看了。
+通过这种方式，T-GRPO能高效地剪除大量无关信息，直奔主题。更有趣的是，作者发现，经过T-GRPO训练的模型，竟然自发地学会了“思考链”（Chain-of-Thought），在寻找答案时会进行一步步的推理。
+![](https://pic1.zhimg.com/v2-e0c8abd324ee62a93b6f208262743b7e\_1440w.jpg)
+## 实验效果：全面超越，优势显著
+说了这么多，效果到底怎么样？研究团队在多个长视频理解的公开基准上进行了测试，结果非常亮眼。
+![](https://pica.zhimg.com/v2-e86e051dc27bf8fbaac1d74a8fcf538c\_1440w.jpg)
+从上表中可以看到，无论是在EgoSchema、Video-MME还是MLVU等数据集上，VideoMiner的性能都全面超越了现有的各种方法，包括那些基于GPT-4的强基线模型。特别是在视频时长增加时，它的优势愈发明显。
+### 消融实验的洞察
+为了验证每个模块的有效性，作者还做了详尽的消融实验。
+![](https://pic2.zhimg.com/v2-1bc812e2c006fde9db040b6a65ffcbd7\_1440w.jpg)
+实验发现：
+- \*\*事件聚类 vs. 帧聚类\*\*：基于事件的聚类（Event Clustering）比基于单帧的聚类能更好地保留时间信息，不仅准确率更高，处理速度也更快。
+- \*\*T-GRPO的威力\*\*：对比没有强化学习或使用其他RL方法的模型，T-GRPO的引入极大地提升了模型的推理能力和准确率。
+此外，研究还探讨了“树生长素”（tree growth auxin）等超参数对模型性能的影响，实现了准确率和效率的平衡。
+![](https://pica.zhimg.com/v2-1bbf812e0f2c57da5d9a6690a844cf06\_1440w.jpg)
+总的来说，VideoMiner通过“构建层级树”和“强化学习智能探索”两步走，优雅地解决了长视频理解中的信息冗余和关键信息定位难题。CV君认为，这种将视频内容结构化，并用智能体进行探索的思路，为多模态AI处理复杂、长时序任务提供了一个非常好的范例。
+你觉得这个技术未来会用在哪些场景？一起来聊聊吧！
+发布于 2025-10-08 02:30・江苏
+[![图片](https://picx.zhimg.com/v2-f65722ce25c730a95fcdabe66f285b94\_bh.webp?source=d6434cab)\\
+\\
+多知识任务还在排队做？腾讯ima同步处理省时间\\
+\\
+微信文件一键转存至腾讯ima知识库，让你想用的时候随时都能用，还能对知识库里的文件进行深层次解析哦查看详情微信文件一键转存至腾讯ima知识库，让你想用的时候随时都能用，还能对知识库里的文件进行深层次解析哦 查看详情\\
+\\
+![用户头像](https://pic3.zhimg.com/v2-6bcab51aab5519d3e668f35b0a210fc3\_xl.webp?source=d6434cab)\\
+\\
+ima的广告](https://ima.qq.com/download/?webFrom=10000435&channel=10000435&cb=https%3A%2F%2Fsugar.zhihu.com%2Fplutus\_adreaper\_callback%3Fsi%3Db79748b0-fb8f-491f-844d-2f6d1044a8f3%26os%3D3%26zid%3D1629%26zaid%3D3671180%26zcid%3D3628698%26cid%3D3628698%26event%3D\_\_EVENTTYPE\_\_%26value%3D\_\_EVENTVALUE\_\_%26ts%3D\_\_TIMESTAMP\_\_%26cts%3D\_\_TS\_\_%26mh%3D\_\_MEMBERHASHID\_\_%26adv%3D703838%26ocg%3D4%26cp%3D2500%26ocs%3D1%26aic%3D0%26atp%3D0%26ct%3D2%26ed%3DGiBNJgVzfCMmUW9XFyEvRA8xBGxJICwkOhh0FlwxKw1fY0gnWzUoISkYdBJEOSgNWnINfg90bnF-HGdRBWd-CU0qVy9RJ2dwG6SoutFHgyI%3D&spu=biz%3D0%26ci%3D3628698%26si%3Dd10c1ebc-0b70-4d37-ab0f-90295cb2db8d%26ts%3D1775017466%26zid%3D1629)
+​赞同 27​​2 条评论​36 ​1
+​分享
+​申请转载​
+​
+![](https://pic1.zhimg.com/v2-d41c2ceaed8f51999522f903672a521f\_l.jpeg)
+未登录用户
+2 条评论
+默认
+最新
+[![野鸡很六](https://picx.zhimg.com/v2-4af666bfbe8d394275e2b31c1ceb3db7\_l.jpg?source=06d4cd63)](https://www.zhihu.com/people/cefc6f3f732099face59eac086b3fb7b)
+[野鸡很六](https://www.zhihu.com/people/cefc6f3f732099face59eac086b3fb7b)
+不用看了，为了发论文搞了个GitHub，实则里面什么都没有，搞个虚假的可想而知还有必要看吗
+![[酷]](https://pic4.zhimg.com/v2-c96dd18b15beb196b2daba95d26d9b1c.png)
+02-02 · 北京
+​回复​喜欢
+[![eleven](https://pic1.zhimg.com/771e224e6f031f711f84be0deb48a3e6\_l.jpg?source=06d4cd63)](https://www.zhihu.com/people/a728b1dba93762f13b30a5a747930db3)
+[eleven](https://www.zhihu.com/people/a728b1dba93762f13b30a5a747930db3)
+阿里百炼有同款产品
+02-28 · 山东
+​回复​喜欢
+关于作者
+[![我爱计算机视觉](https://picx.zhimg.com/v2-77c4fb65d87492fded9c3627e545de0f\_l.jpg?source=32738c0c&needBackground=1)](https://www.zhihu.com/people/52cv)
+[我爱计算机视觉](https://www.zhihu.com/people/52cv)
+『我爱计算机视觉』关注算法，更关注思想的价值
+[​](https://zhuanlan.zhihu.com/p/96956163)
+南京理工大学 模式识别与智能系统硕士
+[回答\\
+\\
+\*\*9\*\*](https://www.zhihu.com/people/52cv/answers) [文章\\
+\\
+\*\*4,140\*\*](https://www.zhihu.com/people/52cv/posts) [关注者\\
+\\
+\*\*37,373\*\*](https://www.zhihu.com/people/52cv/followers)
+​关注他​发私信
+大家都在搜
+换一换
+[伊朗局势522 万](https://www.zhihu.com/search?q=%E4%BC%8A%E6%9C%97%E5%B1%80%E5%8A%BF&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[鞠婧祎被实名举报偷税漏税440 万](https://www.zhihu.com/search?q=%E9%9E%A0%E5%A9%A7%E7%A5%8E%E8%A2%AB%E5%AE%9E%E5%90%8D%E4%B8%BE%E6%8A%A5%E5%81%B7%E7%A8%8E%E6%BC%8F%E7%A8%8E&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[意大利连续3届无缘世界杯398 万](https://www.zhihu.com/search?q=%E6%84%8F%E5%A4%A7%E5%88%A9%E8%BF%9E%E7%BB%AD3%E5%B1%8A%E6%97%A0%E7%BC%98%E4%B8%96%E7%95%8C%E6%9D%AF&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[李荣浩喊话单依纯称其强行侵权《李白》356 万](https://www.zhihu.com/search?q=%E6%9D%8E%E8%8D%A3%E6%B5%A9%E5%96%8A%E8%AF%9D%E5%8D%95%E4%BE%9D%E7%BA%AF%E7%A7%B0%E5%85%B6%E5%BC%BA%E8%A1%8C%E4%BE%B5%E6%9D%83%E3%80%8A%E6%9D%8E%E7%99%BD%E3%80%8B&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[什么样的家庭才能养出松弛感的孩子333 万](https://www.zhihu.com/search?q=%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84%E5%AE%B6%E5%BA%AD%E6%89%8D%E8%83%BD%E5%85%BB%E5%87%BA%E6%9D%BE%E5%BC%9B%E6%84%9F%E7%9A%84%E5%AD%A9%E5%AD%90&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[Claude Code 源码泄露309 万](https://www.zhihu.com/search?q=Claude+Code+%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[张雪机车 WSBK葡萄牙站夺冠308 万](https://www.zhihu.com/search?q=%E5%BC%A0%E9%9B%AA%E6%9C%BA%E8%BD%A6+WSBK%E8%91%A1%E8%90%84%E7%89%99%E7%AB%99%E5%A4%BA%E5%86%A0&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[兰州大学考研初试401分被刷288 万](https://www.zhihu.com/search?q=%E5%85%B0%E5%B7%9E%E5%A4%A7%E5%AD%A6%E8%80%83%E7%A0%94%E5%88%9D%E8%AF%95401%E5%88%86%E8%A2%AB%E5%88%B7&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[有什么低成本养生的方法278 万](https://www.zhihu.com/search?q=%E6%9C%89%E4%BB%80%E4%B9%88%E4%BD%8E%E6%88%90%E6%9C%AC%E5%85%BB%E7%94%9F%E7%9A%84%E6%96%B9%E6%B3%95&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[瑞幸新品喝一半发现椰肉变紫269 万](https://www.zhihu.com/search?q=%E7%91%9E%E5%B9%B8%E6%96%B0%E5%93%81%E5%96%9D%E4%B8%80%E5%8D%8A%E5%8F%91%E7%8E%B0%E6%A4%B0%E8%82%89%E5%8F%98%E7%B4%AB&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[广告\\
+\\
+![广告](https://pic2.zhimg.com/v2-928d7c3dfbed9279848e2866b2c9dbfc.webp?source=d6434cab)\\
+\\
+![广告](https://picx.zhimg.com/v2-c1b62e54dfe0ab396ead3746089b8c5b.webp?source=d6434cab)\\
+\\
+![广告](https://picx.zhimg.com/v2-6d1986925d2611de34ef6354e0e29105.webp?source=d6434cab)](https://ima.qq.com/download/?webFrom=10000435&channel=10000435&cb=https%3A%2F%2Fsugar.zhihu.com%2Fplutus\_adreaper\_callback%3Fsi%3D53661e73-0596-4796-b4ea-b7bd5acc682d%26os%3D3%26zid%3D6001%26zaid%3D3671861%26zcid%3D3629647%26cid%3D3629647%26event%3D\_\_EVENTTYPE\_\_%26value%3D\_\_EVENTVALUE\_\_%26ts%3D\_\_TIMESTAMP\_\_%26cts%3D\_\_TS\_\_%26mh%3D\_\_MEMBERHASHID\_\_%26adv%3D703838%26ocg%3D4%26cp%3D2500%26ocs%3D1%26aic%3D0%26atp%3D0%26ct%3D2%26ed%3DGiBNJgVzfCMmUW9XFyEvRA8xBGxJICwkOhh0FlwxKw1fY0gnWzUoISkYdBJEOSgNWnINfg90bnF-HGdRBWd-CU0qVy9RJ2dwG6SoutFHgyI%3D&spu=biz%3D0%26ci%3D3629647%26si%3Db6ad4e19-23a1-49ed-ae7f-ff22d98b8ea4%26ts%3D1775017467%26zid%3D6001)
+### 推荐阅读
+[\*\*InternVideo-Next: 从视频本身构建世界知识，视频自监督表征全面超越文本监督\*\* \\
+\\
+本文介绍我们在 视频通用表征领域的最新工作：InternVideo-Next: Towards General Video Foundation Models without Video-Text Supervision 论文：arXiv:2512.01342 项目主页：GitHub - In…\\
+\\
+王利民](https://zhuanlan.zhihu.com/p/1987605091352596923) [\*\*数字人相关开源数据集汇总\*\* \\
+\\
+VFHQ （2022）：16,000段高保真访谈场景视频片段，涵盖多样化采访情境。 CelebV-Text （2023）：70,000 video clips with a total duration of around 279 hours VoxCeleb2 （2018） VoxCel…\\
+\\
+一起磕盐吧](https://zhuanlan.zhihu.com/p/1910092260235777308) [![改进何恺明的MAE！谷歌新作VideoPrism：视频理解的基础视觉编码器](https://picx.zhimg.com/v2-264259c9bb318bd41099e1fb7d4a0838\_250x0.jpg?source=172ae18b)\*\*改进何恺明的MAE！谷歌新作VideoPrism：视频理解的基础视觉编码器\*\* \\
+\\
+CVer发表于计算机视觉...](https://zhuanlan.zhihu.com/p/683473460) [![ICLR2025高分文章！揭秘视频大模型的时间黑客机制](https://picx.zhimg.com/v2-8f85435b4b9a1a1a298382d3f0a01db3\_250x0.jpg?source=172ae18b)\*\*ICLR2025高分文章！揭秘视频大模型的时间黑客机制\*\* \\
+\\
+于恩](https://zhuanlan.zhihu.com/p/26076468675)
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_
+打开知乎App
+在「我的页」右上角打开扫一扫
+![](https://picx.zhimg.com/v2-9e41ea16bdfbe9cf4896617ecad5b4ca.png)
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+中国 +86
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+打开知乎App
+在「我的页」右上角打开扫一扫
+![](https://picx.zhimg.com/v2-9e41ea16bdfbe9cf4896617ecad5b4ca.png)
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+中国 +86
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+![](https://static.zhihu.com/heifetz/assets/liukanshan-peek.a71ecf3e.png)登录即可查看 超5亿 专业优质内容
+超 5 千万创作者的优质提问、专业回答、深度文章和精彩视频尽在知乎。
+立即登录/注册

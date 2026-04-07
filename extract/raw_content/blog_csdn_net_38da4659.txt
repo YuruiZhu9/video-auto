@@ -1,0 +1,958 @@
+# Source URL: https://blog.csdn.net/yin2567588841/article/details/146106676
+# Content Length: 16883 characters
+# Extracted at: 2026-03-23 09:26:58
+#============================================================
+
+ 
+
+
+
+
+
+搜广推校招面经四十\_推荐系统的精排模型样本空间与打分空间不一致-CSDN博客
+
+
+
+
+
+
+
+
+搜广推校招面经四十
+=========
+
+
+最新推荐文章于 2025-09-07 11:03:47 发布
+原创
+最新推荐文章于 2025-09-07 11:03:47 发布
+·
+1w 阅读
+·
+![]()
+![]()
+29
+
+
+·
+![]()
+![]()
+19
+·
+CC 4.0 BY-SA版权
+版权声明：本文为博主原创文章，遵循 [CC 4.0 BY-SA](http://creativecommons.org/licenses/by-sa/4.0/) 版权协议，转载请附上原文出处链接和本声明。
+
+
+
+
+
+文章标签：
+
+[#机器学习](https://so.csdn.net/so/search/s.do?q=%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#搜索算法](https://so.csdn.net/so/search/s.do?q=%E6%90%9C%E7%B4%A2%E7%AE%97%E6%B3%95&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#人工智能](https://so.csdn.net/so/search/s.do?q=%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#推荐算法](https://so.csdn.net/so/search/s.do?q=%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#算法](https://so.csdn.net/so/search/s.do?q=%E7%AE%97%E6%B3%95&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+
+
+
+
+
+
+
+[![]()
+搜广推面经
+专栏收录该内容](https://blog.csdn.net/yin2567588841/category_12873083.html)
+
+110 篇文章
+
+订阅专栏
+
+
+
+
+字节-广告算法
+-------
+
+一、离线AUC涨了，但AB实验没涨，可能的原因？
+------------------------
+
+### 1.1. 线上线下得样本空间不一致（SSB）
+
+线上模型使用的是实时获取的点击、曝光数据。线下使用的离线数据。这可能导致数据分布存在偏差。
+
+* 线上数据受曝光机制、冷启动、新品推荐等因素影响，与离线数据不完全匹配。
+* 线下数据存在采样偏差
+
+### 1.2. AUC这些指标无法衡量线上打分准确性。
+
+AUC毕竟只是衡量排序
+
+#### 1.2.1. 引申：PCOC（预估值/真实后验概率）不准确
+
+线上效果与PCOC相关，但是AUC不能直接衡量PCOC的准确性。
+
+### 1.3. 链路一致性问题：精排过后，受后续策略影响。
+
+AUC仅仅衡量精排的效果。但在实际推荐系统中，精排打分后，还有融分、重拍、混排等过程。
+
+二、时长／ LTV 预估任务应该作为回归任务建模么？和普通回归任务有什么区别？可以采用什么 loss function &激活函数？为什么？
+----------------------------------------------------------------------
+
+用户生命周期价值（LTV）预估任务通常被视为一种回归任务，因为它的目标是预测一个连续值——即用户在整个生命周期中可能为产品或服务带来的总收益。
+
+### 2.1. LTV 预估作为回归任务的特点
+
+1. **数据分布特性**：LTV 数据往往具有显著的**零膨胀现象**，意味着有很多用户的LTV为零，因为他们没有进行任何购买行为。此外，LTV 分布通常是**长尾**的，少量高消费用户贡献了大量的收入。
+2. **预测时间跨度**：LTV 通常需要考虑较长的时间范围，这增加了预测的不确定性，并可能**导致更复杂的模式和趋势出现**。
+3. **业务应用场景**：在营销策略制定、资源分配等方面，准确的LTV预估至关重要，因此模型**不仅要能够给出点估计，还应该提供预测的置信区间或者概率分布**。
+
+### 2.2. 损失函数选择
+
+* MAPE+log变换：
+* **零膨胀对数正态（ZILN）损失**：专门为LTV标签设计，可以同时捕捉流失概率并考虑LTV的重尾特性，提供了点预测的不确定性量化。
+
+### 2.3. 核心指标 MAPE
+
+* 分群验证：将人群分为：新客、老客、沉默用户分别统计误差和偏差。防止群体差异带来干扰
+* 品类隔离：高复购的品类（日百）和低频品类（家电）独立计算，确保可比性。
+* 时间窗口加权
+* 业务口径对齐
+
+三、20. 有效的括号
+-----------
+
+![]()
+
+* 思路：  
+  
+  创建一个哈希表（或者数组），遍历字符串，1：遇到左括号，保存对应的右括号，2：遇到右括号，直接判断栈顶的左括号是否与右括号为同一类型。
+* 代码：
+
+```
+class Solution:
+    def isValid(self, s: str) -> bool:
+        if len(s) % 2:  # s 长度必须是偶数
+            return False
+        st = []
+        for c in s:
+            if c == '(':
+                st.append(')')             # 遇到左括号，入栈对应的右括号
+            elif c == '[':
+                st.append(']')             # 遇到左括号，入栈对应的右括号
+            elif c == '{':
+                st.append('}')             # 遇到左括号，入栈对应的右括号
+            elif not st or st.pop() != c:  # 遇到右括号，1.栈是否为空（右括号是否多于做左括号），2.出栈是否为对应左括号
+                return False               
+        return not st  # 所有左括号必须匹配完毕
+
+```
+
+
+
+
+
+
+![]()
+确定要放弃本次机会？
+
+福利倒计时
+
+*:*
+
+*:*
+
+
+![]()
+立减 ¥
+
+
+普通VIP年卡可用
+
+[立即使用](https://mall.csdn.net/vip)
+
+
+[![]()
+Y1nhl](https://blog.csdn.net/yin2567588841)
+
+[关注](javascript:;)
+关注
+
+
+* ![]()
+  ![]()
+  ![]()
+  29
+  点赞
+* ![]()
+  ![]()
+  踩
+* [![]()
+  ![]()
+  ![]()
+  19](javascript:;)
+  收藏
+  
+  
+  
+  觉得还不错?
+  一键收藏
+  
+  ![]()
+* ![]()
+  知道了
+  
+  [![]()
+  13](#commentBox)
+  评论
+* [![]()
+  分享](javascript:;)
+  复制链接
+  
+  分享到 QQ
+  
+  分享到新浪微博
+  
+  ![]()扫一扫
+* ![]()
+  ![]()
+  举报
+  
+  ![]()
+  举报
+
+专栏目录
+
+
+
+
+![]()
+
+[【*面*经&八股】*搜**广**推*方向：*面*试记录（十三）](https://blog.csdn.net/qq_51392112/article/details/138197320)
+
+[Danger的博客](https://blog.csdn.net/qq_51392112)
+
+04-25
+![]()
+1352
+
+
+
+
+[【*面*经&八股】*搜**广**推*方向：*面*试记录（十三）](https://blog.csdn.net/qq_51392112/article/details/138197320)
+
+
+
+
+
+13 条评论
+您还未登录，请先
+登录
+后发表或查看评论
+
+
+[【*面*经&八股】*搜**广**推*方向：*面*试记录（九）](https://blog.csdn.net/qq_51392112/article/details/136748775)
+
+[Danger的博客](https://blog.csdn.net/qq_51392112)
+
+03-15
+![]()
+828
+
+
+
+
+[【*面*经&八股】*搜**广**推*方向：*面*试记录（九）](https://blog.csdn.net/qq_51392112/article/details/136748775)
+
+
+
+[*模型*评估指标pcoc](https://blog.csdn.net/pearl8899/article/details/138874217)
+
+[凝眸伏笔的博客](https://blog.csdn.net/pearl8899)
+
+05-20
+![]()
+9466
+
+
+
+
+[今天看到一个*广*告的*精**排*和重*排*的文章，里*面*有了一个pcoc的指标，跟auc并*排*，这个指标，第一次见，查查相关资料，记录下笔记。众所周知，在*推荐系统*中，很多情况下，我们的点击率通常会被错误的估计(通常会被高估)，所以需要进行*校*准。先说下业务背景随着深度学习技术的发展，预估*模型*在过去几年中也经历了快速的迭代，*不*断向更庞大、更*精*细、更准确的方向演进。但是预估*模型*真的变得更准确了吗？*不*失一般性，我们以计算*广*告中的点击率预估*模型*为例，思考以下几个问题：1）点击率是指“用户在某个时刻对曝光*广*告进行点击的概率”](https://blog.csdn.net/pearl8899/article/details/138874217)
+
+
+
+
+[*推荐系统*经典*面*试题（附答案和解析）](https://blog.csdn.net/julyedu_7/article/details/121798127)
+
+[julyedu\_7的博客](https://blog.csdn.net/julyedu_7)
+
+12-08
+![]()
+2225
+
+
+
+
+[问题1：召回分支的作用是什么？
+解析：快速帮助用户找到可能感兴趣的候选物品；减少*排*序*模型*的候选输入，降低系统RT。
+问题2：如何离线评价召回阶段各种*模型**算法*的好坏？由于没有明确的召回预期值，所以无论rmse还是auc都*不*知道该怎么做？
+解析：召回最直接的评估就是召回率，也就是召回集里正样本的比例；也可以*不*同的召回*算法*+同一个*排*序*算法*，还是用*排*序之后的AUC和RMSE来评估。
+双12限时秒杀，*不*止5折，活动会场-->www.julyedu.com
+七月在线双12活动正式开启 ·40门AI.](https://blog.csdn.net/julyedu_7/article/details/121798127)
+
+
+
+[*推荐**算法*岗*面*试题收集](https://blog.csdn.net/qq_50714222/article/details/136421457)
+
+[qq\_50714222的博客](https://blog.csdn.net/qq_50714222)
+
+03-02
+![]()
+2849
+
+
+
+
+[收集一下*推荐**算法*岗的*面*试题和网上同仁*面*试的情况，欢迎大家评论区补充，一起学习！！
+后*面*会一直更新，丰富内容，祝愿大家*面*试顺利！！！](https://blog.csdn.net/qq_50714222/article/details/136421457)
+
+
+
+[每天一个*面*经系列--*面*经19:*推荐系统*设计](https://blog.csdn.net/qq_32100465/article/details/90449842)
+
+[qq\_32100465的博客](https://blog.csdn.net/qq_32100465)
+
+05-22
+![]()
+635
+
+
+
+
+[【设计题】今日头条会根据用户的浏览行为、内容偏好等信息，为每个用户抽象出一个标签化的用户画像，用于内容*推荐*。用户画像的存储、高并发访问，是*推荐系统*的重要环节之一。现在请你给出一个用户画像存储、访问方案，设计的时候请考虑一下几个方*面*：
+用户画像如何存储；
+如何保证在线高并发、低延迟地访问；
+机器宕机、负载均衡问题；
+如果用户增长很快，在你的方案下，该如何做扩容。
+...](https://blog.csdn.net/qq_32100465/article/details/90449842)
+
+
+
+[XW-*校*准方法](https://blog.csdn.net/weixin_35702861/article/details/147072895)
+
+[weixin\_35702861的博客](https://blog.csdn.net/weixin_35702861)
+
+04-08
+![]()
+1291
+
+
+
+
+[*搜**广**推*业务中如何对预估CTR进行*校*准保序回归法的整体思想就是：*不*改变原有数据的Pctr*排*序，仅在原有Pctr的*排*序上进行纠偏。最终纠偏出来的CTR数据分布的单调性*不*变，AUC指标*不*变*校*准评价指标 ：PCOC指标越接近于1，意味着CTR预估的越准确。这里*面*可能会存在一定的统计偏差。假设样本里有50%PV的CTR被高估了，50%PV的CTR被低估了，最终二者汇总在一起时PCOC可能还是趋近于1。（2）Calibration-N：为了解决上述PCOC指标可能存在的统计偏差，我们使用一个新的指标Cal-N。](https://blog.csdn.net/weixin_35702861/article/details/147072895)
+
+
+
+[*机器学习**校**招**面*经二](https://blog.csdn.net/yin2567588841/article/details/145967896)
+
+[Y1n的博客](https://blog.csdn.net/yin2567588841)
+
+03-04
+![]()
+1353
+
+
+
+
+[MAE表示预测值和真实值之间绝对误差的平均值，是一个非负值，MAE越小表示*模型*越好。MAE1n∑i1n∣yi−yi∣MAEn1​i1∑n​∣yi​−y​i​∣其中yiy\_iyi​是真实值，yi\hat{y}\_iy​i​是预测值，nnn是样本数量。MSE是预测值和真实值之间误差平方的平均值。](https://blog.csdn.net/yin2567588841/article/details/145967896)
+
+
+
+[数据挖掘*校**招**面*经二](https://blog.csdn.net/yin2567588841/article/details/146049229)
+
+[Y1n的博客](https://blog.csdn.net/yin2567588841)
+
+03-06
+![]()
+1920
+
+
+
+
+[对于给定的参数。](https://blog.csdn.net/yin2567588841/article/details/146049229)
+
+
+
+[【*面*经&八股】*搜**广**推*方向：*面*试记录（一）](https://blog.csdn.net/qq_51392112/article/details/134643093)
+
+[Danger的博客](https://blog.csdn.net/qq_51392112)
+
+11-27
+![]()
+1736
+
+
+
+
+[【*面*经&八股】*搜**广**推*方向：*面*试记录（一）](https://blog.csdn.net/qq_51392112/article/details/134643093)
+
+
+
+[eat-offer:以问题为主，专注于*面*经（主要是*推荐系统*，*机器学习*，并行计算，逐步）](https://download.csdn.net/download/weixin_42165712/15732125)
+
+03-11
+
+
+
+[美食优惠个人笔记+*面*经专注于数据科学（*推荐系统*，*机器学习*，并行计算，预期）
+所有*面*经都在持续，迭代更新中...
+*面*经Mysql
+01基础架构
+02日志系统
+03事务隔离
+*面*经并发
+01线程
+02管程
+03内存
+04无锁
+05*不*可变
+06工具
+螺纹池
+联合会
+*面*试题
+*面*经*推荐**算法*
+主要参考王喆大佬的《深度学习*推荐系统*》，非常*推荐*
+内容
+完成度
+评估指标
+★★☆☆☆
+Algotithm-逻辑回归和线性回归
+★★☆☆☆
+*算法*
+★★☆☆☆
+Algotithm-GBDT + LR
+★★☆☆☆
+Algotithm-LS-PLM
+★★☆☆☆
+*算法*-svd＆svd ++
+★★☆☆☆
+Algorithm-ItemCF＆UserCF
+★★☆☆☆
+Algotithm-MF
+★★☆☆☆
+*算法*-BPR
+★★☆☆☆
+SBPR*算法*
+★★☆☆☆
+Algotithm-FM](https://download.csdn.net/download/weixin_42165712/15732125)
+
+
+
+[评价指标：AUPOC*与*AP区别](https://blog.csdn.net/weixin_42355902/article/details/139924697)
+
+[weixin\_42355902的博客](https://blog.csdn.net/weixin_42355902)
+
+06-24
+![]()
+1294
+
+
+
+
+[曲线类型AUC-ROC：基于ROC曲线（TPR vs FPR）。AP：基于Precision-Recall曲线（Precision vs Recall）。适用场景AUC-ROC：适用于类别分布均衡的数据集。AP：适用于类别*不*平衡的数据集，因为在*不*平衡数据集中，Precision-Recall曲线能够更好地反映*模型*性能。含义和解读AUC-ROC：表示*模型*区分正负样本的能力，值越高*模型*性能越好。AP：表示*模型*在*不*同阈值下的平均*精*度，值越高*模型*性能越好。计算方法。](https://blog.csdn.net/weixin_42355902/article/details/139924697)
+
+
+
+[【*面*经&八股】*搜**广**推*方向：常见*面*试题（二）](https://blog.csdn.net/qq_51392112/article/details/134632953)
+
+[Danger的博客](https://blog.csdn.net/qq_51392112)
+
+11-26
+![]()
+642
+
+
+
+
+[【*面*经&八股】*搜**广**推*方向：常见*面*试题（二）](https://blog.csdn.net/qq_51392112/article/details/134632953)
+
+
+
+[万字长文！*推荐系统*岗*面*试经验&学习心得](https://blog.csdn.net/abcdefg90876/article/details/103555922)
+
+[abcdefg90876的博客](https://blog.csdn.net/abcdefg90876)
+
+12-15
+![]()
+2005
+
+
+
+
+[“本文总结了百度，华为，京东，360，vivo等接近20家公司的*推荐**算法**校**招**面*试经验和个人心得，以及若干学习资料和方法，相信无论是在*校*生还是从业人员读后都会有所收获～”作者：Taylo...](https://blog.csdn.net/abcdefg90876/article/details/103555922)
+
+
+
+[*推荐系统*经典*面*试题，简述什么是wide&deep*模型*](https://blog.csdn.net/julyedu_7/article/details/121958899)
+
+[julyedu\_7的博客](https://blog.csdn.net/julyedu_7)
+
+12-15
+![]()
+842
+
+
+
+
+[名词解释
+1.1 Memorization 和 Generalization
+Google Wide&Deep 论文中，通篇都是这两个词，必须搞懂是怎么回事！
+这个是从人类的认知学习过程中演化来的。人类的大脑很复杂，它可以记忆 (memorize) 下每天发生的事情（麻雀可以飞，鸽子可以飞）然后泛化 (generalize) 这些知识到之前没有看到过的东西（有翅膀的动物都能飞）。但是泛化的规则有时候*不*是特别的准，有时候会出错（有翅膀的动物都能飞吗）。那怎么办那，没关系，记忆 (memoriza](https://blog.csdn.net/julyedu_7/article/details/121958899)
+
+
+
+[知乎*推荐**算法*工程师*面*经](https://devpress.csdn.net/v1/article/detail/104681907)
+
+[m0\_37586850的博客](https://blog.csdn.net/m0_37586850)
+
+03-05
+![]()
+2930
+
+
+
+
+[前言曾三次迈进知乎的大门，*面*试*算法*工程师岗位。特整理了一些相关问题供大家研究，并附上了一些大佬的建议供大家参考。*面*试流程1、自我介绍balabala......2、介绍下...](https://devpress.csdn.net/v1/article/detail/104681907)
+
+
+
+[ByteDance's Recommendation System公平性*算法*：消除偏见实践
+最新发布](https://blog.csdn.net/gitblog_00704/article/details/151282634)
+
+[gitblog\_00704的博客](https://blog.csdn.net/gitblog_00704)
+
+09-07
+![]()
+769
+
+
+
+
+[你是否遇到过*推荐系统*"越*推*越窄"的困境？当电商平台连续向农村用户*推*送低价商品，当*招*聘系统对女性求职者隐藏高薪职位，当内容平台将特定群体标签化——这些看似智能的*推荐*背后，隐藏着*算法*偏见对社会公平的深刻影响。据斯坦福大学2024年AI偏见报告显示，主流*推荐系统*在用户画像构建阶段就已存在15-25%的群体偏差，而这种偏差会在*推荐*链条中被逐级放大。
+作为全球用户规模最大的*推荐系统*之一，ByteDance...](https://blog.csdn.net/gitblog_00704/article/details/151282634)
+
+
+
+[太棒了！这是我见过的*推荐**算法*岗（含实习）*面*试真题最全的总结了！](https://blog.csdn.net/m0_59596990/article/details/136067620)
+
+[机器学习社区](https://blog.csdn.net/m0_59596990)
+
+02-07
+![]()
+3242
+
+
+
+
+[学*校*：悉尼新南威尔士大学专业：计算机类岗位：360*推荐**算法*岗（实习）](https://blog.csdn.net/m0_59596990/article/details/136067620)
+
+
+
+[*机器学习*：分类、多分类、回归*模型*的评估
+热门推荐](https://devpress.csdn.net/v1/article/detail/52574156)
+
+[皮皮blog](https://blog.csdn.net/pipisorry)
+
+09-18
+![]()
+7万+
+
+
+
+
+[http://blog.csdn.net/pipisorry/article/details/52574156
+衡量分类器的好坏
+对于二类分类器/分类*算法*，评价指标主要有accuracy， [precision，recall，F-score，pr曲线]，ROC-AUC曲线，gini系数。
+对于多类分类器/分类*算法*，评价指标主要有accuracy， [宏平均和微...](https://devpress.csdn.net/v1/article/detail/52574156)
+
+
+
+[目标检测*校**招**面*经](https://wenku.csdn.net/answer/3enkt7jqf3)
+
+03-15
+
+
+
+[### 关于目标检测的*校*园*招*聘*面*试经验分享
+#### 准备基础知识的重要性
+目标检测作为计算机视觉中的重要分支，在*校**招*过程中通常会涉及基础理论和实际应用两方*面*。为了更好地应对目标检测方向的技术*面*试，应聘者需掌握扎实的基础知识，包括但*不*限于卷积神经网络（CNN）、常见目标检测*算法*（如 YOLO、Faster R-CNN 和 SSD），以及这些*模型*的核心原理和技术特点[^1]。
+#### 实施细节的关注
+某些技术*面*试官可能会深入探讨具体实现细节，因此建议提前熟悉主流框架（如 TensorFlow 或 PyTorch）下的目标检测*模型*搭建过程。例如，可以尝试自己动手实现一个简单的 Faster R-CNN *模型*，并理解其 Region Proposal Network (RPN) 的工作机制及其优化方法。
+以下是基于 Python 使用 PyTorch 构建简单目标检测器的一个代码片段：
+```python
+import torch
+from torchvision.models.detection import fasterrcnn\_resnet50\_fpn
+def load\_model(num\_classes=91):
+model = fasterrcnn\_resnet50\_fpn(pretrained=True)
+in\_features = model.roi\_heads.box\_predictor.cls\_score.in\_features
+model.roi\_heads.box\_predictor = FastRCNNPredictor(in\_features, num\_classes)
+return model
+model = load\_model()
+```
+#### 时间管理和沟通技巧
+除了技术能力外，良好的时间管理能力和清晰表达也是成功通过*面*试的关键因素之一。系统化地安*排*好每一轮*面*试环节，及时接收并确认*面*试通知；同时利用*面*试评估工具反馈个人表现以便改进下一次的表现[^2]。
+#### 工作环境适应力考察
+部分公司可能还会关注候选人的团队协作*精*神及对公司文化的认同感。比如金山办公软件以其较为轻松自由的工作氛围著称，即便是在正式场合中也可能允许员工穿便服上班，体现了企业内部开放包容的态度[^3]。
+#### 失败案例分析*与*成长反思
+即使经历失败也*不*要气馁，每一次挫折都是宝贵的学习机会。一位求职者曾因准备*不*足而未能顺利通过阿里巴巴集团针对应届毕业生开展的一轮电话初筛考试，但他从中认识到持续学习更新专业知识体系的重要性，并决定调整策略重新出发[^4]。
+---](https://wenku.csdn.net/answer/3enkt7jqf3)
+
+
+
+
+
+
+[![]()](https://blog.csdn.net/yin2567588841)
+
+[Y1nhl](https://blog.csdn.net/yin2567588841)
+
+
+博客等级
+
+![]()
+
+码龄6年
+
+
+
+![]()
+新星创作者: python技术领域
+
+
+[191
+原创](https://blog.csdn.net/yin2567588841)
+
+7037
+点赞
+
+5664
+收藏
+
+2370
+粉丝
+
+
+关注
+
+[私信](https://im.csdn.net/chat/yin2567588841)
+
+
+
+[![]()](https://ai.csdn.net/workbench/wallet?utm_source=xtai_slb_bloglb)
+
+![]()
+
+
+### 热门文章
+
+* [搜广推校招面经九十
+  ![]()
+  12098](https://blog.csdn.net/yin2567588841/article/details/149165614)
+* [搜广推校招面经三十六
+  ![]()
+  11795](https://blog.csdn.net/yin2567588841/article/details/146026730)
+* [搜广推校招面经二十二
+  ![]()
+  11509](https://blog.csdn.net/yin2567588841/article/details/145734013)
+* [搜广推校招面经三十九
+  ![]()
+  11366](https://blog.csdn.net/yin2567588841/article/details/146115918)
+* [搜广推校招面经二十四
+  ![]()
+  11224](https://blog.csdn.net/yin2567588841/article/details/145754791)
+
+
+### 分类专栏
+
+* [![]()
+  搜广推面经](https://blog.csdn.net/yin2567588841/category_12873083.html)
+  110篇
+* [![]()
+  软件安装](https://blog.csdn.net/yin2567588841/category_9969075.html)
+  3篇
+* [![]()
+  推荐算法](https://blog.csdn.net/yin2567588841/category_13009823.html)
+  1篇
+* [![]()
+  力扣](https://blog.csdn.net/yin2567588841/category_12895909.html)
+  44篇
+* [![]()
+  因果机器学习](https://blog.csdn.net/yin2567588841/category_12638815.html)
+  8篇
+* [![]()
+  大数据技术](https://blog.csdn.net/yin2567588841/category_12895925.html)
+  5篇
+* [![]()
+  算法竞赛](https://blog.csdn.net/yin2567588841/category_12478349.html)
+  8篇
+* [![]()
+  数据处理](https://blog.csdn.net/yin2567588841/category_12490909.html)
+  4篇
+* [![]()
+  脑科学](https://blog.csdn.net/yin2567588841/category_12516845.html)
+  4篇
+* [![]()
+  pycharm](https://blog.csdn.net/yin2567588841/category_9969074.html)
+
+展开全部 ![]()
+收起 ![]()
+
+
+上一篇：
+
+[搜广推校招面经三十八](https://blog.csdn.net/yin2567588841/article/details/146079945)
+
+
+下一篇：
+
+[力扣hot100\_二叉树(2)\_python版本](https://blog.csdn.net/yin2567588841/article/details/146081073)
+
+
+
+### 大家在看
+
+* [PF0807反击式破碎机（全套设计图纸）](https://blog.csdn.net/m0_52376787/article/details/159379917)
+* [我使用ASP.NET Core 和 Python 做了一个 PDF 转 Word 工具
+  ![]()
+  771](https://blog.csdn.net/lxy_123456789/article/details/159319996)
+* [AIGC降重新趋势：2026年值得尝试的降重网站盘点，优质的AIGC降重企业找哪家聚焦优质品牌综合实力排行](https://blog.csdn.net/2501_94806874/article/details/159380471)
+* [虚拟线程深度解析：轻量并发编程的未来趋势
+  ![]()
+  514](https://blog.csdn.net/seven97_top/article/details/158472296)
+* [Qt C++ 多语言高阶实现：程序启动自动编译 .ts 文件并生成语言菜单
+  ![]()
+  1](https://blog.csdn.net/booming2/article/details/159379777)
+
+
+### 最新文章
+
+* [搜广推校招面经一百零五](https://blog.csdn.net/yin2567588841/article/details/151092703)
+* [搜广推校招面经一百零四](https://blog.csdn.net/yin2567588841/article/details/150499537)
+* [搜广推校招面经一百零三](https://blog.csdn.net/yin2567588841/article/details/150009364)
+
+
+[2025年167篇](https://blog.csdn.net/yin2567588841?type=blog&year=2025&month=09)
+[2024年10篇](https://blog.csdn.net/yin2567588841?type=blog&year=2024&month=11)
+[2023年7篇](https://blog.csdn.net/yin2567588841?type=blog&year=2023&month=12)
+[2020年7篇](https://blog.csdn.net/yin2567588841?type=blog&year=2020&month=05)
+
+
+
+![]()
+
+
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+
+
+![]()
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+![]()
+
+上一篇：
+
+[搜广推校招面经三十八](https://blog.csdn.net/yin2567588841/article/details/146079945)
+
+
+下一篇：
+
+[力扣hot100\_二叉树(2)\_python版本](https://blog.csdn.net/yin2567588841/article/details/146081073)
+
+
+
+### 分类专栏
+
+* [![]()
+  搜广推面经](https://blog.csdn.net/yin2567588841/category_12873083.html)
+  110篇
+* [![]()
+  软件安装](https://blog.csdn.net/yin2567588841/category_9969075.html)
+  3篇
+* [![]()
+  推荐算法](https://blog.csdn.net/yin2567588841/category_13009823.html)
+  1篇
+* [![]()
+  力扣](https://blog.csdn.net/yin2567588841/category_12895909.html)
+  44篇
+* [![]()
+  因果机器学习](https://blog.csdn.net/yin2567588841/category_12638815.html)
+  8篇
+* [![]()
+  大数据技术](https://blog.csdn.net/yin2567588841/category_12895925.html)
+  5篇
+* [![]()
+  算法竞赛](https://blog.csdn.net/yin2567588841/category_12478349.html)
+  8篇
+* [![]()
+  数据处理](https://blog.csdn.net/yin2567588841/category_12490909.html)
+  4篇
+* [![]()
+  脑科学](https://blog.csdn.net/yin2567588841/category_12516845.html)
+  4篇
+* [![]()
+  pycharm](https://blog.csdn.net/yin2567588841/category_9969074.html)
+
+展开全部 ![]()
+收起 ![]()
+
+
+
+
+
+
+### 目录
+
+
+
+
+
+
+
+
+
+
+
+
+
+评论 13
+![]()
+
+![]()被折叠的  条评论
+[为什么被折叠?](https://blogdev.blog.csdn.net/article/details/122245662)
+[![]()到【灌水乐园】发言](https://bbs.csdn.net/forums/FreeZone)
+
+
+查看更多评论![]()
+
+
+
+添加红包
+
+
+祝福语
+
+
+请填写红包祝福语或标题
+
+
+红包数量
+
+个
+
+红包个数最小为10个
+
+
+红包总金额
+
+元
+
+红包金额最低5元
+
+
+余额支付
+当前余额3.43元
+[前往充值 >](https://i.csdn.net/#/wallet/balance/recharge)
+
+
+需支付：10.00元
+
+取消
+确定
+
+
+
+
+![]()
+下一步
+
+![]()
+知道了
+
+
+
+![]()
+成就一亿技术人!
+
+
+
+领取后你会自动成为博主和红包主的粉丝
+规则
+
+
+
+![]()
+hope\_wisdom 发出的红包
+
+
+
+
+
+
+
+
+
+实付元
+[使用余额支付](javascript:;)
+![]()
+点击重新获取
+
+
+![]()![]()![]()扫码支付
+
+
+
+
+钱包余额
+0
+![]()
+
+抵扣说明：
+
+1.余额是钱包充值的虚拟货币，按照1:1的比例进行支付金额的抵扣。  
+ 2.余额无法直接购买下载，可以购买VIP、付费专栏及课程。
+
+
+
+
+
+[![]()余额充值](https://i.csdn.net/#/wallet/balance/recharge)
+
+![]()
+
+
+
+
+
+

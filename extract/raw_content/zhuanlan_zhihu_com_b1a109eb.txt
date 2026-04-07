@@ -1,0 +1,254 @@
+# Source URL: https://zhuanlan.zhihu.com/p/2015350290031866869
+# Content Length: 24210 characters
+# Extracted at: 2026-03-30 22:32:52
+#============================================================
+
+![](https://zhuanlan.zhihu.com/p/2015350290031866869)
+2026年，OpenClaw（曾用名Clawdbot）的Skill生态已进入成熟爆发期，[ClawHub](https://zhida.zhihu.com/search?content\_id=271336242&content\_type=Article&match\_order=1&q=ClawHub&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ3ODk1NTgsInEiOiJDbGF3SHViIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjcxMzM2MjQyLCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.P7JiY8der9uzBRD\_-Fjm6VlGaVNd1l5RpL2w0JvpzsU&zhida\_source=entity)平台收录的技能插件超数百款，但新手常陷入“选择焦虑”——不知哪些技能真正实用、如何规避安全风险、怎样按阶段搭建自动化工作流。事实上，新手无需盲目堆砌技能，聚焦10款高实用、低风险、社区强维护的核心插件，即可快速构建AI自动化基础能力，从“基础对话工具”进化为“解决实际问题的辅助助手”。
+![](https://pic2.zhimg.com/v2-4194d16637402ec3666a3f3c5acb576b\_1440w.jpg)
+本文基于2026年ClawHub热门榜单、海外Reddit/X社区实测反馈及国内用户体验总结，整合四大核心内容：一是2026年OpenClaw零基础全平台部署流程（阿里云+MacOS+Linux+Windows11）；二是阿里云百炼免费大模型API配置步骤；三是10款新手必装核心Skill的安装、配置与使用技巧（按“安全-基础-生产力-进阶”阶段划分）；四是新手高频问题解答，所有代码可直接复制执行，助力用户1-2小时内完成“部署-配置-技能搭建”全流程，稳步解锁OpenClaw的自动化价值。 \*\*阿里云上OpenClaw极速一键部署最简单，步骤详情\*\* \*\*[访问阿里云OpenClaw一键部署专题页面](https://link.zhihu.com/?target=https%3A//www.aliyun.com/activity/ecs/clawdbot%3FuserCode%3Dt1dwdo7u)\*\* 了解。
+![](https://pic1.zhimg.com/v2-2cc56a6c3f60d84b1fd426c0582ad268\_1440w.jpg)
+![](https://pic3.zhimg.com/v2-7971479ba16f3a9acaffc6ee9c25db36\_1440w.jpg)
+![](https://pic2.zhimg.com/v2-56b13d5cf7c9b59209be902f48d069df\_1440w.jpg)
+![](https://pic3.zhimg.com/v2-0c9e0a7cfc29754579dcc1be3a7dd912\_1440w.jpg)
+一、核心认知：Skill选型逻辑与安装原则
+（一）新手Skill选型三大核心标准
+从ClawHub数百款技能中筛选核心插件，需遵循“高实用、低风险、强维护”原则：
+1. \*\*高实用\*\*：覆盖基础能力、生产力提升、安全防护等核心维度，适配日常学习与工作场景；
+2. \*\*低风险\*\*：由@steipete等社区核心开发者维护，无恶意代码，权限申请合理，安全评级处于ClawHub第一梯队；
+3. \*\*强维护\*\*：安装量10万+，近期有更新记录，避免安装“僵尸插件”导致兼容性问题。
+（二）分阶段安装策略（避免性能过载）
+新手无需一次性安装所有技能，建议按“安全打底→基础必备→生产力提升→高级优化”四阶段逐步拓展，减少Token消耗与运行卡顿：
+1. \*\*第一阶段（安全打底）\*\*：安装[skill-vetter](https://zhida.zhihu.com/search?content\_id=271336242&content\_type=Article&match\_order=1&q=skill-vetter&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ3ODk1NTgsInEiOiJza2lsbC12ZXR0ZXIiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNzEzMzYyNDIsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.IgF7uL5OOkMGwSm0CG5oSCd8F3B-UMFXKBIXPURwcYo&zhida\_source=entity)，为后续技能安装做安全防护；
+2. \*\*第二阶段（基础必备）\*\*：安装self-improving-agent、tavily-search、[find-skills](https://zhida.zhihu.com/search?content\_id=271336242&content\_type=Article&match\_order=1&q=find-skills&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ3ODk1NTgsInEiOiJmaW5kLXNraWxscyIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI3MTMzNjI0MiwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.vZ0SaeswscJVR9tQZqDrs4iriCt6YE5mG6Pi1zuAZWo&zhida\_source=entity)，搭建OpenClaw核心基础能力；
+3. \*\*第三阶段（生产力提升）\*\*：安装[gog](https://zhida.zhihu.com/search?content\_id=271336242&content\_type=Article&match\_order=1&q=gog&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ3ODk1NTgsInEiOiJnb2ciLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNzEzMzYyNDIsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.BdvjnkkkHJCrgVFztq2JoT3s0DvtkeIapE1LweVS3FE&zhida\_source=entity)、[summarize](https://zhida.zhihu.com/search?content\_id=271336242&content\_type=Article&match\_order=1&q=summarize&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ3ODk1NTgsInEiOiJzdW1tYXJpemUiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNzEzMzYyNDIsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.0XeenUdeXvV0aUKNWlsa9UkUn35Y4\_M5ajT54dWZTIs&zhida\_source=entity)、github、weather，适配办公、学习、生活高频需求；
+4. \*\*第四阶段（高级优化）\*\*：安装proactive-agent、agent-memory，让AI从“被动响应”升级为“主动辅助”。
+（三）前置准备（必做，避免安装中断）
+1\. 基础工具与账号准备
+\# 1\. 安装[Node.js](https://zhida.zhihu.com/search?content\_id=271336242&content\_type=Article&match\_order=1&q=Node.js&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ3ODk1NTgsInEiOiJOb2RlLmpzIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjcxMzM2MjQyLCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.30YMQy1Ti\_gipZef8KwZKQfU4CCboGUQGHo3yHQW85w&zhida\_source=entity)（推荐v22+，确保兼容性） # Windows11（PowerShell） winget install OpenJS.NodeJS.LTS --version 22.2.0 # MacOS brew install node@22 echo 'export PATH="/usr/local/opt/node@22/bin:$PATH"' >> ~/.zshrc source ~/.zshrc # Linux/Ubuntu curl -fsSL [https://deb.nodesource.com/setup\\_22.x](https://link.zhihu.com/?target=https%3A//deb.nodesource.com/setup\_22.x) \| sudo -E bash - sudo apt install -y nodejs # 2. 验证Node.js版本（显示v22+即为成功） node -v # 3. 安装ClawHub（Skill管理核心工具） npm install -g clawhub@latest # 4. 配置阿里云镜像（国内用户加速下载） openclaw config set clawhub.mirror " [https://mirror.aliyun.com/clawhub/](https://link.zhihu.com/?target=https%3A//mirror.aliyun.com/clawhub/)" # 5\. 验证ClawHub安装（显示版本号即为成功） clawhub -V
+2\. 账号与凭证准备
+- 阿里云账号： \*\*[注册阿里云账号](https://link.zhihu.com/?target=https%3A//www.aliyun.com/%3FuserCode%3Dt1dwdo7u)\*\* 并完成实名认证，用于云服务器购买与百炼API开通；
+- 阿里云百炼API密钥： \*\*[访问登录阿里云百炼大模型服务平台](https://link.zhihu.com/?target=https%3A//www.aliyun.com/product/bailian%3FuserCode%3Dt1dwdo7u)\*\*，开通服务后创建Access Key ID和Access Key Secret（保存至加密记事本）；
+- Tavily API Key（可选）：tavily-search Skill需用，从Tavily官网注册领取免费额度；
+- GitHub账号（可选）：github Skill需用，用于代码检索、仓库管理；
+- 辅助工具：Chrome/Edge浏览器、SSH终端（FinalShell，阿里云部署用）、VS Code（文本编辑）、加密记事本（存储敏感凭证）。
+3\. 设备与环境要求
+- 云端部署：阿里云服务器（推荐Ubuntu 22.04 LTS，2vCPU+4GiB内存+40GiB ESSD）；
+- 本地部署：Windows11/10、MacOS 12+、Linux（Ubuntu 22.04+），建议内存≥4GB、可用空间≥10GB；
+- 网络要求：阿里云服务器优先选择中国香港地域（免备案），本地设备确保网络通畅，可正常下载Skill与API调用。
+二、2026年OpenClaw全平台部署流程（零基础友好）
+（一）阿里云部署（长期运行首选）
+适合需要7×24小时运行、多设备访问的场景，依托云服务器稳定性，支持Skill持续执行定时任务，新手30分钟可完成。
+新手零基础阿里云上部署OpenClaw喂饭级步骤流程
+第一步： \*\*[打开访问阿里云OpenClaw一键部署专题页面](https://link.zhihu.com/?target=https%3A//www.aliyun.com/activity/ecs/clawdbot%3FuserCode%3Dt1dwdo7u)\*\*，找到并点击【 \*\*一键购买并部署\*\*】。
+![](https://pic1.zhimg.com/v2-2cc56a6c3f60d84b1fd426c0582ad268\_1440w.jpg)
+![](https://pic3.zhimg.com/v2-7971479ba16f3a9acaffc6ee9c25db36\_1440w.jpg)
+![](https://pic2.zhimg.com/v2-56b13d5cf7c9b59209be902f48d069df\_1440w.jpg)
+![](https://pic3.zhimg.com/v2-0c9e0a7cfc29754579dcc1be3a7dd912\_1440w.jpg)
+![](https://pic1.zhimg.com/v2-8d609b3a1d28a87a86e38da03975f61c\_1440w.jpg)
+第二步： \*\*[打开选购阿里云轻量应用服务器](https://link.zhihu.com/?target=https%3A//www.aliyun.com/product/swas%3FuserCode%3Dt1dwdo7u)\*\*，配置参考如下：
+- 镜像：OpenClaw(Moltbot)镜像（已经购买服务器的用户可以重置系统重新选择镜像）
+- 实例：内存必须2GiB及以上。
+- 地域：默认美国（弗吉尼亚），目前中国内地域（除香港）的轻量应用服务器，联网搜索功能受限。
+- 时长：根据自己的需求及预算选择。
+![](https://pic1.zhimg.com/v2-1e139e797ba5eb394614dfcaa1917d12\_1440w.jpg)
+![](https://pica.zhimg.com/v2-3701d53299dba280184f12ff3db68c4a\_1440w.jpg)
+![](https://pic1.zhimg.com/v2-5a308ecd5a637d97e7c1263464ec6ca2\_1440w.jpg)
+第三步： \*\*[打开访问阿里云百炼大模型控制台](https://link.zhihu.com/?target=https%3A//bailian.console.aliyun.com/%3FuserCode%3Dt1dwdo7u)\*\*，找到密钥管理，单击创建API-Key。
+![](https://pic1.zhimg.com/v2-c19ebe66e75cafb3de2dcce5eabd0cbc\_1440w.jpg)
+\*\*[前往轻量应用服务器控制台](https://link.zhihu.com/?target=https%3A//www.aliyun.com/product/swas%3FuserCode%3Dt1dwdo7u)\*\*，找到安装好OpenClaw的实例，进入「应用详情」放行18789端口、配置百炼API-Key、执行命令，生成访问OpenClaw的Token。
+![](https://pic3.zhimg.com/v2-f61c1eb777218144b217024457a05bc4\_1440w.jpg)
+- 端口放通：需要放通对应端口的防火墙，单击一键放通即可。
+- 配置百炼API-Key，单击一键配置，输入百炼的API-Key。单击执行命令，写入API-Key。
+- 配置OpenClaw：单击执行命令，生成访问OpenClaw的Token。
+- 访问控制页面：单击打开网站页面可进入OpenClaw对话页面。
+1\. 服务器选购与基础配置
+1. 服务器选购：
+- \*\*[访问阿里云轻量应用服务器控制台](https://link.zhihu.com/?target=https%3A//www.aliyun.com/product/swas%3FuserCode%3Dt1dwdo7u)\*\*，选择“Ubuntu 22.04 LTS”系统镜像；
+- 核心配置：2vCPU+4GiB内存+40GiB ESSD+200Mbps带宽，地域选择中国香港（免备案），付费类型选“包年包月”；
+- 提交订单后，等待实例状态变为“运行中”，记录公网IP、登录账号（默认root）与密码。
+1. 端口放行与环境准备：
+\# 1\. SSH登录服务器（替换为你的公网IP） ssh root@你的服务器公网IP # 2. 一键放行核心端口 sudo apt install ufw -y sudo ufw allow 22/tcp # SSH连接端口 sudo ufw allow 18789/tcp # OpenClaw核心端口 sudo ufw allow 443/tcp # API调用端口 sudo ufw enable sudo ufw status # 显示“ALLOW”即为成功 # 3. 更新系统依赖并安装核心工具 sudo apt update && sudo apt upgrade -y sudo apt install curl git python3-pip -y # 4. 配置npm国内镜像，加速安装 npm config set registry [https://registry.npmmirror.com](https://link.zhihu.com/?target=https%3A//registry.npmmirror.com)
+2\. OpenClaw安装与初始化
+\# 1\. 全局安装最新版OpenClaw npm install -g openclaw@latest # 2. 验证安装版本 openclaw --version # 3. 运行交互式配置向导 openclaw config wizard # 交互配置步骤（新手直接按提示选择） # 1. 接受风险提示：输入Yes # 2. 选择模型提供商：暂时选择“Custom Provider”（后续配置百炼API） # 3. 网关绑定：选择lan（监听所有网络接口） # 4. 频道配置：输入Skip（后续按需添加） # 5. 技能配置：输入Skip（后续按阶段安装10大核心Skill） # 6. 孵化方式：选择Open the Web UI # 4. 启动网关服务 openclaw gateway start # 5. 生成访问令牌（登录控制台需用，复制保存） openclaw token generate --admin
+3\. 部署验证
+- 浏览器输入 `http://服务器公网IP:18789`，粘贴访问令牌，能正常进入Web控制台即为部署成功；
+- 命令行验证：`openclaw gateway status`，显示“running”即为服务正常。
+（二）本地部署（Windows11+MacOS+Linux）
+1\. Windows11部署（办公场景适配）
+\*\*系统要求\*\*：Windows11/10 64位、4GB+内存（推荐8GB+）、10GB+可用空间
+\# 1\. 以管理员身份打开PowerShell（右键开始菜单选择） # 2. 解决执行策略限制（避免脚本无法运行） Set-ExecutionPolicy -Scope CurrentUser RemoteSigned -Force # 3. 安装核心依赖（Git） winget install Git.Git # 4. 全局安装OpenClaw npm install -g openclaw@latest # 5. 运行交互式配置向导 openclaw config wizard # 交互步骤（参考阿里云部署的选择） # 1. 接受风险提示：输入Yes # 2. 模型提供商：选择Custom Provider # 3. 网关绑定：选择lan # 4. 其余步骤：均按默认选择 # 6. 启动网关服务 openclaw gateway start # 7. 获取访问令牌 openclaw token generate --admin
+\*\*关键配置（必做）\*\*：
+- 将`C:\Users\你的用户名\.openclaw`添加到Windows Defender排除列表，避免Skill文件被误判为病毒；
+- 访问方式：浏览器输入 `http://localhost:18789`，粘贴令牌即可登录。
+2\. MacOS部署（体验最佳，推荐）
+\*\*系统要求\*\*：MacOS 12+（M系列/Intel芯片）、8GB+内存、10GB+可用空间
+\# 1\. 打开终端（Cmd + Space输入“Terminal”） # 2. 安装Homebrew（国内用户用镜像加速） /bin/zsh -c "$(curl -fsSL [https://gitee.com/cunkai/HomebrewCN/raw/master/Homebrew.sh](https://link.zhihu.com/?target=https%3A//gitee.com/cunkai/HomebrewCN/raw/master/Homebrew.sh))" # 3\. 安装核心依赖（Git） brew install git # 4. 全局安装OpenClaw npm install -g openclaw@latest # 5. 运行交互式配置向导 openclaw config wizard # 交互步骤（参考阿里云部署） # 1. 接受风险提示：输入Yes # 2. 模型提供商：选择Custom Provider # 3. 网关绑定：选择lan # 4. 其余步骤：均按默认选择 # 6. 启动网关服务（后台运行） nohup openclaw gateway start > ~/.openclaw/logs/gateway.log 2>&1 & # 7. 获取访问令牌 openclaw token generate --admin
+\*\*M系列芯片避坑\*\*：若安装失败，执行`arch -arm64 brew install node@22`，指定ARM架构安装依赖；
+- 访问方式：浏览器输入 `http://localhost:18789`，粘贴令牌登录。
+3\. Linux部署（Ubuntu 22.04 LTS，稳定性强）
+\*\*系统要求\*\*：Ubuntu 22.04 LTS、4GB+内存、10GB+可用空间
+\# 1\. 更新系统依赖 sudo apt update && sudo apt upgrade -y # 2. 安装核心工具 sudo apt install curl git python3-pip -y # 3. 全局安装OpenClaw npm install -g openclaw@latest # 4. 运行交互式配置向导 openclaw config wizard # 交互步骤（参考阿里云部署） # 1. 接受风险提示：输入Yes # 2. 模型提供商：选择Custom Provider # 3. 网关绑定：选择lan # 4. 其余步骤：均按默认选择 # 5. 启动网关服务并设置开机自启 sudo systemctl enable --now openclaw openclaw gateway start # 6. 获取访问令牌 openclaw token generate --admin
+访问方式：浏览器输入 `http://localhost:18789`，粘贴令牌登录。
+![](https://pica.zhimg.com/v2-3701d53299dba280184f12ff3db68c4a\_1440w.jpg)
+![](https://pic1.zhimg.com/v2-5a308ecd5a637d97e7c1263464ec6ca2\_1440w.jpg)
+三、阿里云百炼免费API配置（核心步骤，零成本解锁智能）
+（一）API密钥获取步骤
+1. 登录阿里云官网， \*\*[访问登录阿里云百炼大模型服务平台](https://link.zhihu.com/?target=https%3A//www.aliyun.com/product/bailian%3FuserCode%3Dt1dwdo7u)\*\*；
+2. 点击“开通服务”，阅读并同意服务协议，新用户自动领取90天免费额度（可在“费用管理”中查看）；
+3. 进入“密钥管理”页面，点击“创建Access Key”，完成身份验证（短信/扫码）后，生成Access Key ID和Access Key Secret；
+4. 复制并保存密钥（仅创建时可完整查看Access Key Secret，丢失需重新创建）；
+5. 开启“消费限额”（推荐）：进入“费用管理”→“消费限额”，设置每月最大消费额度，避免超额计费。
+（二）OpenClaw对接阿里云百炼API（全环境通用）
+\# 1\. 配置百炼API密钥（替换为你的凭证） openclaw config set models.providers.bailian.accessKeyId "你的Access Key ID" openclaw config set models.providers.bailian.accessKeySecret "你的Access Key Secret" # 2. 配置国内接口地址（降低延迟） openclaw config set models.providers.bailian.baseUrl " [https://dashscope.aliyuncs.com/compatible-mode/v1](https://link.zhihu.com/?target=https%3A//dashscope.aliyuncs.com/compatible-mode/v1)" # 3\. 设置默认模型（推荐qwen3.5，免费额度足够使用） openclaw config set models.default "qwen3.5" # 4. 配置Skill协同优化参数 openclaw config set models.providers.bailian.contextWindow 32768 openclaw config set models.providers.bailian.skillCooperation true # 5. 重启网关生效（不同环境重启命令） # 阿里云/Linux openclaw gateway restart # MacOS pkill -f openclaw && nohup openclaw gateway start > ~/.openclaw/logs/gateway.log 2>&1 & # Windows11（PowerShell） openclaw gateway stop openclaw gateway start
+（三）API配置验证与避坑要点
+1. 验证方法：登录OpenClaw Web控制台，输入测试指令：`帮我搜索2026年AI自动化趋势，总结3条核心结论`，返回结构化回复即为配置成功；
+2. 避坑要点：
+- 密钥复制错误→逐字符核对，避免多余空格或换行，区分Access Key ID与Secret；
+- 接口地址错误→国内部署必须使用指定地址，否则调用超时；
+- 免费额度耗尽→登录百炼控制台查看，及时调整Skill调用频率；
+- 服务未重启→配置后必须重启网关，否则配置不生效。
+四、10款核心Skill分阶段实战（安装+配置+使用）
+（一）第一阶段：安全打底（1款）
+1\. skill-vetter（安全扫描工具）
+\*\*核心功能\*\*：安装新Skill前自动扫描代码、检测恶意程序、排查权限风险，是新手必备的安全防护工具，安装量350+，社区口碑极佳。
+\# 1\. 安装Skill（全环境通用） clawhub install skill-vetter # 2. 配置扫描规则（默认高安全级别） openclaw config set skills.skill-vetter.scanLevel "high" # 高/中/低三档 openclaw config set skills.skill-vetter.autoBlockMalicious true # 自动拦截恶意Skill # 3. 重启网关生效 openclaw gateway restart # 4. 实战场景：扫描待安装Skill 在Web控制台输入：“帮我扫描ClawHub上的‘xxx-skill’是否安全，若安全则安装” # 预期结果：返回安全扫描报告，无风险则自动完成安装
+\*\*避坑要点\*\*：始终在安装新Skill前启用扫描，避免安装来源不明的插件；扫描结果显示“高风险”的Skill直接放弃安装。
+（二）第二阶段：基础必备（3款）
+2\. self-improving-agent（自我迭代代理）
+\*\*核心功能\*\*：ClawHub热门榜首位（98.5K安装量），记录使用中的错误、修正方法与学习成果，实现AI持续自我优化，逐步贴合用户操作习惯。
+\# 1\. 安装Skill（全环境通用） clawhub install self-improving-agent # 2. 配置迭代参数 openclaw config set skills.self-improving-agent.learningRate "medium" # 学习速率：中 openclaw config set skills.self-improving-agent.saveLearnings true # 保存学习成果 # 3. 重启网关生效 openclaw gateway restart # 4. 实战场景：反馈优化建议 在Web控制台输入：“刚才的回复格式不符合我的要求，我希望用 bullet points 呈现核心要点” # 预期结果：AI记录反馈，后续回复自动适配格式要求
+\*\*避坑要点\*\*：学习成果本地存储，隐私安全可控；如需重置学习记录，执行`openclaw config delete skills.self-improving-agent.learnings`。
+3\. tavily-search（智能联网搜索）
+\*\*核心功能\*\*：83.7K安装量的基础刚需技能，基于Tavily API优化，获取实时资讯、最新数据，避免AI因信息滞后出现错误回答。
+\# 1\. 安装Skill（全环境通用） clawhub install tavily-search # 2. 配置Tavily API Key（替换为你的密钥） clawhub config set TAVILY\\_API\\_KEY "你的Tavily API Key" # 3. 重启网关生效 openclaw gateway restart # 4. 实战场景：查询实时资讯 在Web控制台输入：“帮我查询2026年Q2 AI自动化工具的热门榜单” # 预期结果：返回结构化搜索结果，包含工具名称、核心功能、用户评价
+\*\*避坑要点\*\*：免费额度足够新手使用，额度耗尽后可登录Tavily官网续费；搜索结果仅作参考，重要决策需交叉验证。
+4\. find-skills（技能自寻与安装）
+\*\*核心功能\*\*：被社区称为“元技能”（80.7K安装量），解决新手“不知道装什么技能”的痛点，能自主检索、推荐并自动安装适配技能。
+\# 1\. 安装Skill（全环境通用） clawhub install find-skills # 2. 重启网关生效 openclaw gateway restart # 3. 实战场景：寻找适配技能 在Web控制台输入：“我想让AI帮我编辑Excel表格，需要安装什么Skill？” # 预期结果：AI推荐适配的Excel相关Skill，询问是否自动安装
+\*\*避坑要点\*\*：自动安装前会触发skill-vetter安全扫描，确保无风险；安装后建议验证Skill功能，避免冗余插件。
+（三）第三阶段：生产力提升（4款）
+5\. gog（Google Workspace全家桶集成）
+\*\*核心功能\*\*：80K安装量的办公辅助技能，联动Gmail、日历、Drive、Docs、表格等工具，实现邮件收发、日程管理、文档编辑等自动化操作。
+\# 1\. 安装Skill（全环境通用） clawhub install gog # 2. 配置Google账号授权（按提示完成登录） openclaw config set skills.gog.clientId "你的Google应用ClientID" openclaw config set skills.gog.clientSecret "你的Google应用ClientSecret" # 3. 重启网关生效 openclaw gateway restart # 4. 实战场景：添加日程 在Web控制台输入：“帮我添加明天14:00的项目会议，邀请team@xxx.com，备注‘AI自动化工作流讨论’” # 预期结果：自动同步至Google日历，发送会议邀请
+\*\*避坑要点\*\*：确保Google账号已开启API访问权限；国内用户需确保网络可正常访问Google服务。
+6\. summarize（多格式信息总结）
+\*\*核心功能\*\*：71.7K安装量的高频工具，支持URL、PDF、图片、音频、YouTube视频等多格式内容提炼，大幅提升信息消化效率。
+\# 1\. 安装Skill（全环境通用） clawhub install summarize # 2. 安装依赖库（支持多格式解析） pip3 install pdfplumber requests pydub --index-url [https://pypi.tuna.tsinghua.edu.cn/simple](https://link.zhihu.com/?target=https%3A//pypi.tuna.tsinghua.edu.cn/simple) # 3\. 配置摘要格式 openclaw config set skills.summarize.format "bullet points" # bullet points格式 openclaw config set skills.summarize.maxLength 5 # 最多5条核心结论 # 4. 重启网关生效 openclaw gateway restart # 5. 实战场景：PDF摘要 在Web控制台输入：“帮我总结本地路径下的‘2026行业报告.pdf’，提取关键数据”
+\*\*避坑要点\*\*：PDF文件需无密码保护；长文摘要时建议明确主题，提升精准度。
+7\. github（GitHub集成工具）
+\*\*核心功能\*\*：65.5K安装量的编程辅助技能，基于gh CLI实现代码检索、Issue/PR管理、仓库操作，是编程新手入门必备。
+\# 1\. 安装Skill（全环境通用） clawhub install github # 2. 安装gh CLI依赖 # Windows11（PowerShell） winget install GitHub.cli # MacOS brew install gh # Linux sudo apt install gh -y # 3. 配置GitHub授权（按提示登录） gh auth login --web # 4. 重启网关生效 openclaw gateway restart # 5. 实战场景：查询Issue 在Web控制台输入：“帮我查看openclaw/openclaw仓库的最新Issue，总结3个高频问题”
+\*\*避坑要点\*\*：确保GitHub账号有目标仓库的访问权限；敏感操作（如提交代码）前需手动确认。
+8\. weather（天气查询）
+\*\*核心功能\*\*：55.7K安装量的入门测试技能，零配置、无需API Key，快速获取实时天气与预报，调用成功率100%。
+\# 1\. 安装Skill（全环境通用） clawhub install weather # 2. 重启网关生效 openclaw gateway restart # 3. 实战场景：查询天气 在Web控制台输入：“帮我查询北京今天的天气，包含温度、湿度、降水概率” # 预期结果：返回结构化天气信息，如“天气：晴 · 温度：18-28°C · 湿度：45% · 降水概率：10%”
+\*\*避坑要点\*\*：适合新手测试Skill调用流程，建立操作信心；支持全球城市查询，输入城市名称即可。
+（四）第四阶段：高级优化（2款）
+9\. proactive-agent（主动任务规划）
+\*\*核心功能\*\*：国内X社区广泛推荐（安装量未知，口碑极佳），让AI从“被动响应指令”转变为“主动规划任务”，预判需求、迭代步骤，联动多技能处理复杂工作。
+\# 1\. 安装Skill（全环境通用） clawhub install proactive-agent # 2. 配置主动规划参数 openclaw config set skills.proactive-agent.anticipateNeeds true # 启用需求预判 openclaw config set skills.proactive-agent.maxSteps 10 # 最大任务步骤数 # 3. 重启网关生效 openclaw gateway restart # 4. 实战场景：项目规划 在Web控制台输入：“我需要完成一份AI自动化工具测评报告” # 预期结果：AI主动拆解任务（搜索工具→筛选核心功能→对比分析→撰写报告），询问是否执行
+\*\*避坑要点\*\*：复杂任务建议开启分步确认，避免AI偏离目标；可手动调整任务步骤，提升规划精准度。
+10\. agent-memory（结构化记忆）
+\*\*核心功能\*\*：35K+安装量，实现结构化记忆与知识图谱构建，跨对话保持内容连贯，记住用户操作习惯、偏好与关键信息。
+\# 1\. 安装Skill（全环境通用） clawhub install agent-memory # 2. 配置记忆存储方式（本地SQLite，隐私可控） openclaw config set skills.agent-memory.storage "sqlite" openclaw config set skills.agent-memory.autoPurgeDays 90 # 90天自动清理过期记忆 # 3. 重启网关生效 openclaw gateway restart # 4. 实战场景：设置个人偏好 在Web控制台输入：“记住，我是编程爱好者，后续推荐AI工具时优先选择开源免费款” # 预期结果：AI存储偏好，后续推荐自动适配
+\*\*避坑要点\*\*：记忆数据本地加密存储，无需担心隐私泄露；如需查看记忆内容，执行`openclaw config get skills.agent-memory.data`。
+（五）Skill批量安装命令（全环境通用）
+若需快速安装所有10款核心Skill，可执行以下批量命令：
+\# 批量安装命令（按阶段顺序） clawhub install skill-vetter clawhub install self-improving-agent tavily-search find-skills clawhub install gog summarize github weather clawhub install proactive-agent agent-memory # 若提示Rate limit exceeded（限流），先登录ClawHub clawhub login --no-browser --token 你的OpenClaw访问令牌 # 重启网关生效 openclaw gateway restart
+五、新手高频问题解答
+（一）部署与API类问题
+1. 问题1：OpenClaw启动提示“Node.js版本过低”？
+- 解决方案：执行`node -v`验证版本，确保≥22.0.0；Windows重新运行Node.js安装命令，Linux/MacOS执行`sudo npm install -g n && sudo n 22.0.0`升级。
+1. 问题2：阿里云百炼API调用提示“密钥无效”？
+- 解决方案：逐字符核对Access Key ID与Secret，删除多余空格；登录百炼控制台，确认密钥未过期、未被禁用；若丢失，重新创建密钥并更新配置。
+1. 问题3：Mac M系列芯片安装Skill后无法使用？
+- 原因：依赖工具未适配ARM架构；
+- 解决方案：执行`arch -arm64 brew install 依赖工具名`，指定ARM架构安装依赖；或选择标注“支持M系列芯片”的Skill。
+（二）Skill类问题
+1. 问题1：安装Skill后，AI未触发使用？
+- 解决方案：① 确认已重启网关（`openclaw gateway restart`）；② 检查Skill是否在可用列表（`openclaw skills list --eligible`）；③ 优化指令表述，让需求更贴合Skill功能（如“用tavily-search搜索”而非“帮我查查”）。
+1. 问题2：skill-vetter扫描提示“权限风险”，如何处理？
+- 解决方案：① 查看风险详情，若为“完全文件系统访问”等高危权限，直接放弃安装；② 若为必要权限，限制Skill访问范围（`openclaw config set skills.技能名.allowedPaths '["指定目录"]'`）。
+1. 问题3：tavily-search提示“API Key无效”？
+- 解决方案：① 核对API Key是否正确，避免多余空格；② 登录Tavily官网，确认API Key未过期、免费额度未耗尽；③ 重新配置API Key（`clawhub config set TAVILY\_API\_KEY "新密钥"`）。
+1. 问题4：批量安装Skill时出现“限流”提示？
+- 解决方案：① 执行`clawhub login --no-browser --token 你的令牌`登录ClawHub；② 分批次安装，每批间隔5分钟；③ 切换网络环境（如手机热点）后重试。
+1. 问题5：Skill过多导致OpenClaw卡顿？
+- 解决方案：① 卸载不常用Skill（`rm -rf ~/.openclaw/skills/技能名`）；② 关闭后台未使用的Skill（`openclaw skill disable 技能名`）；③ 低配设备仅保留前7款核心Skill，进阶技能按需安装。
+（三）安全与隐私类问题
+1. 问题1：如何确保Skill不泄露隐私数据？
+- 解决方案：① 优先选择本地存储记忆的Skill（如agent-memory）；② 限制Skill访问权限，避免授予全系统访问；③ 定期清理敏感记忆数据（`openclaw config delete skills.agent-memory.data`）。
+1. 问题2：未知来源的Skill能否安装？
+- 解决方案：① 不建议安装来源不明的Skill，风险极高；② 若必须安装，先通过skill-vetter扫描，确认无恶意代码；③ 安装后隔离运行，观察无异常再正常使用。
+六、总结
+10款核心Skill覆盖安全防护、基础能力、生产力提升、高级优化四大维度，是新手搭建OpenClaw自动化工作流的基础。通过分阶段安装策略，既能避免性能过载，又能逐步熟悉Skill使用逻辑，从“被动响应”到“主动辅助”稳步进阶。
+核心要点总结：
+1. 部署选择：阿里云适合长期运行、多设备访问，本地部署适合隐私敏感场景，MacOS/Linux兼容性更佳；
+2. Skill安装：遵循“安全-基础-生产力-进阶”顺序，优先选择社区强维护、高安装量的插件；
+3. 配置核心：API密钥妥善保管，Skill权限合理限制，安装后必须重启网关；
+4. 避坑关键：确保Node.js版本≥22.0.0，启用skill-vetter安全扫描，定期清理冗余插件与过期记忆。
+通过本文的流程与技巧，你可快速构建OpenClaw的核心技能体系，让AI真正融入日常学习与工作，实现信息检索、文档处理、任务规划等场景的自动化，大幅提升效率。
+发布于 2026-03-12 21:40・湖北
+[OpenClaw](https://www.zhihu.com/topic/1999063153082913027)
+[openclaw部署](https://www.zhihu.com/topic/2001685462989948796)
+[Openclaw安装](https://www.zhihu.com/topic/2011933992761455743)
+[微信文件秒存腾讯ima知识库，以后工作文件再也不怕丢了\\
+\\
+查看详情文档处理太麻烦？智能辅助腾讯ima来帮你 查看详情\\
+\\
+ima的广告](https://ima.qq.com/download/?webFrom=10000435&channel=10000435&cb=https%3A%2F%2Fsugar.zhihu.com%2Fplutus\_adreaper\_callback%3Fsi%3D814077eb-0e9c-49b6-8f3c-67e947085f5f%26os%3D3%26zid%3D1629%26zaid%3D3665260%26zcid%3D3621070%26cid%3D3621070%26event%3D\_\_EVENTTYPE\_\_%26value%3D\_\_EVENTVALUE\_\_%26ts%3D\_\_TIMESTAMP\_\_%26cts%3D\_\_TS\_\_%26mh%3D\_\_MEMBERHASHID\_\_%26adv%3D703838%26ocg%3D4%26cp%3D2500%26ocs%3D1%26aic%3D0%26atp%3D0%26ct%3D2%26ed%3DGiBNJgVzfCMmUW9XFyEvRA8xBGxJICwkOhh0FlwxKw1fY0gnWzUoISkY6onvXKClOvM%3D&spu=biz%3D0%26ci%3D3621070%26si%3Df1da27ec-1a58-43a0-9b3c-2412214a8e18%26ts%3D1774616759%26zid%3D1629)
+​赞同​​添加评论​收藏​喜欢
+​分享
+​申请转载​
+​
+暂无评论
+关于作者
+[![OpenClaw教程](https://picx.zhimg.com/v2-7efb597bdaf4177c3182b0730f9e60a4\_l.jpg?source=172ae18b)](https://www.zhihu.com/people/chen-xiao-ling-57-2)
+[OpenClaw教程](https://www.zhihu.com/people/chen-xiao-ling-57-2)
+OpenClaw新手部署保姆级教程及常见问题避坑指南
+[回答](https://www.zhihu.com/people/chen-xiao-ling-57-2/answers) [文章](https://www.zhihu.com/people/chen-xiao-ling-57-2/posts) [关注者](https://www.zhihu.com/people/chen-xiao-ling-57-2/followers)
+​关注​发私信
+大家都在搜
+换一换
+[伊朗局势488 万](https://www.zhihu.com/search?q=%E4%BC%8A%E6%9C%97%E5%B1%80%E5%8A%BF&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[南京教师因发表过激言语被停职406 万](https://www.zhihu.com/search?q=%E5%8D%97%E4%BA%AC%E6%95%99%E5%B8%88%E5%9B%A0%E5%8F%91%E8%A1%A8%E8%BF%87%E6%BF%80%E8%A8%80%E8%AF%AD%E8%A2%AB%E5%81%9C%E8%81%8C&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[张雪峰因心源性猝死去世358 万](https://www.zhihu.com/search?q=%E5%BC%A0%E9%9B%AA%E5%B3%B0%E5%9B%A0%E5%BF%83%E6%BA%90%E6%80%A7%E7%8C%9D%E6%AD%BB%E5%8E%BB%E4%B8%96&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[运动量过大导致早上醒的早有什么好的办法345 万](https://www.zhihu.com/search?q=%E8%BF%90%E5%8A%A8%E9%87%8F%E8%BF%87%E5%A4%A7%E5%AF%BC%E8%87%B4%E6%97%A9%E4%B8%8A%E9%86%92%E7%9A%84%E6%97%A9%E6%9C%89%E4%BB%80%E4%B9%88%E5%A5%BD%E7%9A%84%E5%8A%9E%E6%B3%95&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[日本东京发生持刀伤人事件致 2 死332 万](https://www.zhihu.com/search?q=%E6%97%A5%E6%9C%AC%E4%B8%9C%E4%BA%AC%E5%8F%91%E7%94%9F%E6%8C%81%E5%88%80%E4%BC%A4%E4%BA%BA%E4%BA%8B%E4%BB%B6%E8%87%B4+2+%E6%AD%BB&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[罗技短视频组被扣除全部绩效326 万](https://www.zhihu.com/search?q=%E7%BD%97%E6%8A%80%E7%9F%AD%E8%A7%86%E9%A2%91%E7%BB%84%E8%A2%AB%E6%89%A3%E9%99%A4%E5%85%A8%E9%83%A8%E7%BB%A9%E6%95%88&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[罗技广告侮辱消费者318 万](https://www.zhihu.com/search?q=%E7%BD%97%E6%8A%80%E5%B9%BF%E5%91%8A%E4%BE%AE%E8%BE%B1%E6%B6%88%E8%B4%B9%E8%80%85&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[为什么过去室内白墙下半部分要刷成绿色313 万](https://www.zhihu.com/search?q=%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%87%E5%8E%BB%E5%AE%A4%E5%86%85%E7%99%BD%E5%A2%99%E4%B8%8B%E5%8D%8A%E9%83%A8%E5%88%86%E8%A6%81%E5%88%B7%E6%88%90%E7%BB%BF%E8%89%B2&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[美以袭击伊朗309 万](https://www.zhihu.com/search?q=%E7%BE%8E%E4%BB%A5%E8%A2%AD%E5%87%BB%E4%BC%8A%E6%9C%97&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[OpenAI 关停 AI视频生成平台 Sora299 万](https://www.zhihu.com/search?q=OpenAI+%E5%85%B3%E5%81%9C+AI%E8%A7%86%E9%A2%91%E7%94%9F%E6%88%90%E5%B9%B3%E5%8F%B0+Sora&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码

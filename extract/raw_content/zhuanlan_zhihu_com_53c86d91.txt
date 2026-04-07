@@ -1,0 +1,172 @@
+# Source URL: https://zhuanlan.zhihu.com/p/408640761
+# Content Length: 14220 characters
+# Extracted at: 2026-04-02 11:07:05
+#============================================================
+
+![](https://zhuanlan.zhihu.com/p/408640761)
+本文是笔者自行整理的推荐系统常见面试的问题。其中回答都是由个人整理与用个人语言叙述，由于个人水平优先，回答的精细程度不同。希望读者与作者能形成良性互动，本文将持续更新。
+## \*\*Q1: 线下提升线上效果不好。\*\*
+A: 原因是多样的，主要原因在于样本与评估指标、环境。
+在样本上，线下样本为历史数据，而线上样本难免出现新数据，同理还有新特征等，如线上时间特征在线下是无法训练的。
+在评估指标上表现为评估指标不对等，线下评估指标需要更贴近业务才能更好地表示真实推荐结果（或线上指标）。例如[AUC](https://zhida.zhihu.com/search?content\_id=178939289&content\_type=Article&match\_order=1&q=AUC&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUyNzIwMjAsInEiOiJBVUMiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoxNzg5MzkyODksImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.P\_umYJwJazOCbc69dbjBSlFNETVT18WLJZd-8Dui0Ps&zhida\_source=entity)表示的是所有user对所有item的评估指标，而线上更多需要单个user对其所有item的评估作为推荐结果，这时可以采用[GAUC](https://zhida.zhihu.com/search?content\_id=178939289&content\_type=Article&match\_order=1&q=GAUC&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUyNzIwMjAsInEiOiJHQVVDIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MTc4OTM5Mjg5LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.kMNeUhho15YdgB4MWbsY4iCyEjVJibHHDQnUcUdtor4&zhida\_source=entity)，即对每个user的AUC做量权求和作为评估指标。
+另外即是线下训练很难还原线上环境。可以理解为线下训练无法捕获到全部的线上特征。
+## Q2: [XGBoost](https://zhida.zhihu.com/search?content\_id=178939289&content\_type=Article&match\_order=1&q=XGBoost&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUyNzIwMjAsInEiOiJYR0Jvb3N0IiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MTc4OTM5Mjg5LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.45xUuAf9mKhT7-AItQWfB2grbLMMSz7VDqboFM2O3Lk&zhida\_source=entity)和[GBDT](https://zhida.zhihu.com/search?content\_id=178939289&content\_type=Article&match\_order=1&q=GBDT&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUyNzIwMjAsInEiOiJHQkRUIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MTc4OTM5Mjg5LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.PeBsPhY7os1-PCzQWpIF6ewKMtsEmhrSL7IQWAfk35M&zhida\_source=entity)是什么？有什么区别？
+A: GBDT:关键点在于Gradient和[Boosting](https://zhida.zhihu.com/search?content\_id=178939289&content\_type=Article&match\_order=1&q=Boosting&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUyNzIwMjAsInEiOiJCb29zdGluZyIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjE3ODkzOTI4OSwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.9FXRAbWv3b6oLH0216fCn77BN5YrX8ZL\_3zUbR2z4Dg&zhida\_source=entity)和DT（回归树）。在BDT中：Boosting——阶梯状训练，每棵树学习的是之前的树学习结果的残差。通过多棵树的预测结果求和，作为最终预测结果。而在GBDT中，采用损失函数梯度作为每棵树需要学习的预测结果（y）。
+为什么使用损失函数的梯度？——基于残差的模型无法处理分类模型（类别数据无法取残差）；基于损失函数梯度的模型，由于梯度是优化方向，那么就具备和残差同样的性质（使模型输出结果向着正确方向靠近），且损失函数类型多，可以根据模型业务选择合适的损失函数。实际上，BDT是GBDT的特例。
+GBDT容易过拟合，故在推荐中采用GBDT+LR的模型，使GBDT的输出结果作为LR的特征输入。
+关于回归树：叶子节点输出值常见采用的是当前叶子节点划分领域的值的均值，划分方式同分类树一样，根据特征划分计算当前指标（决策树的划分指标），选择最佳的特征作为当前划分。在推荐的GBDT+LR模型中，训练的是回归树，输出的是表示每棵回归树落到的节点的特征向量(\[1,0,0,...,0,1,0,0\])。
+GBDT是一种机器学习算法，而XGBoost是GBDT最广为人知的工程实现。XGB相对于GBDT，对实现方式更为详尽，能够得到更准确的结果。在实现方式上，相对于GBDT在损失函数构造上添加了二阶泰勒展开和正则项，并根据最小化损失函数构造了决策树的划分标准。
+XGB相对于GBDT有以下优化：加入正则项（与叶子节点个数与节点输出权值有关）防止过拟合；采用二阶泰勒展开，相对于GBDT的一阶导数（梯度）更为准确；支持多种基分类器，不限于GBDT的CART决策树；XGB有缺失值处理方案，能够自动学习缺失值处理策略；Shrinkage（衰减）策略，每次迭代的新模型乘以一个衰减率降低优化速度，避免过拟合；借鉴了[随机森林](https://zhida.zhihu.com/search?content\_id=178939289&content\_type=Article&match\_order=1&q=%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUyNzIwMjAsInEiOiLpmo\_mnLrmo67mnpciLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoxNzg5MzkyODksImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.cfP9WGg3rkh3ewnbAVPxw3YabbKH-JM\_gNk7UYY4RBs&zhida\_source=entity)（RF）的两种抽样策略；并行处理。
+## Q3: 偏差与方差。延伸知识（集成学习的三种方式: Bagging、Boosting、[Stacking](https://zhida.zhihu.com/search?content\_id=178939289&content\_type=Article&match\_order=1&q=Stacking&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUyNzIwMjAsInEiOiJTdGFja2luZyIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjE3ODkzOTI4OSwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.AZq45jce5x3rzd7zwgNb2g7r6Xguy1g3o89O2kbiVjU&zhida\_source=entity)）。
+A: 偏差表示模型预测结果的期望与真实结果的区别。方差表示模型预测结果偏离真实预测结果的程度。
+偏差小方差大的模型为强模型；偏差大方差小的模型为弱模型。强模型和弱模型是集成学习模型的基模型。
+Bagging的基模型是强模型，常用投票法基于所有基模型预测结果输出最终结果，比较常见是的对每个基模型预测赋予相同的权重。Bagging能有效降低模型方差。
+Boosting训练过程为阶梯状，基模型训练时有序的，每个基模型都会基于前一个基模型进行训练，使用的是弱模型。
+Stacking将基模型的输出结果作为新的特征进行预测。使用的是强模型。
+## Q4: 随机森林是什么？
+A: 随机森林是一种Bagging集成模型，基模型是决策树。随机森林的随机体现在：随机选择样本（Bootstrap自助法，有放回抽样），随机选择特征（每颗树使用不同的特征子集）。相当于综合了一群有偏见的分析师做决策。
+随机森林的优点在于：算法表现优秀，易于并行，且在处理高维度数据上不需要做特征筛选。
+## Q5: [Word2Vec](https://zhida.zhihu.com/search?content\_id=178939289&content\_type=Article&match\_order=1&q=Word2Vec&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUyNzIwMjAsInEiOiJXb3JkMlZlYyIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjE3ODkzOTI4OSwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.3vlcqupOBK6iXYpJUybQ-8Q5A9p6nyF3aNaEzuknqHw&zhida\_source=entity)常见的加速训练的方式有哪些？
+A: 对高频词抽样，对于部分高频词（如“the”），很难对语义贡献有针对意义的信息，而学习高频词的样本又远远超过了训练该高频词emb所需的样本数。故通过“抽样”的方式，对于每个词都有一定概率被删除掉，而删除的概率与该词的词频有关。
+负采样提高训练效率。在Word2Vec训练中，word词表（ont-hot向量）中每个训练样本会更新所有权重，如输出样本数据为\[0,0,...,0,1,...,0,0\]，其中1代表正样本，而0代表其他的所有的负样本。此时对负样本的0进行筛选再反向传播。假设词表大小为1W，而负样本集合为10，则计算复杂度至少缩减到千分之一。出现频次高的样本更容易被选为负样本。
+Hierarchical（层级） SoftMax。预测的输出词采用哈夫曼树编码表示（从\[0,0,..,1,..0,0\]转化为00..1的形式），词频高的位于哈夫曼树浅层，词频低的位于深层。此时输出层由原来的V分类（V代表词典大小，V分类指将隐层输出的值通过Softmax转化为预测的one-hot词向量结果）转为了logV次的二分类。该方法没有明显优于负采样方法，故较少采用。
+## Q6: [LightGBM](https://zhida.zhihu.com/search?content\_id=178939289&content\_type=Article&match\_order=1&q=LightGBM&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUyNzIwMjAsInEiOiJMaWdodEdCTSIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjE3ODkzOTI4OSwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.1D-RjcwQaHMFrjbiR39bF2j9UIdkiY8as5G-rwbkxf4&zhida\_source=entity)是什么？
+A: LightGBM是一个基于决策树的Boosting（实现GBDT算法）的框架，对比于XGBoost具有更快的训练效率与更低的内存消耗。
+## Q7: [AdaBoost](https://zhida.zhihu.com/search?content\_id=178939289&content\_type=Article&match\_order=1&q=AdaBoost&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUyNzIwMjAsInEiOiJBZGFCb29zdCIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjE3ODkzOTI4OSwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.Uah7GQ\_HcgXEy8O\_7nMJOH0bqK9c1h3MtMKSOiSzXoY&zhida\_source=entity)思想？
+A: Adaboost思想是对分类错误的样本提高权重，且在模型融合时，错误率低的模型具有更高权重。
+## Q8: 损失函数无法求导该怎么样进行优化？
+A: 使用次梯度。
+## Q9: 召回模型中，评价指标怎么设定？
+A: 召回的好坏决定模型的上限，召回的指标主要分为两部分：单路召回的效果；单路召回对剩余整体的影响。评价指标有：
+1\. 对召回集的直接评价指标：召回率、精确率和综合两者的F1。
+2\. 熵：Entropy=∑pi\\*log(pi)。pi表示类别i在召回集出现的次数，熵越大，代表该路召回的类别越多（多样性）。
+3\. 召回集和精确率这类指标会受到user-item交互的频数影响，可以使用F1 score作为替代（主要为了解决Recall和Precision受到N（TopN）的影响），另一方面，可以在评价召回模型时，对于不同的用户设置根据交互频数设置不同的N。
+4\. 另外，可以对于不同位置的召回集与未召回集，取少量数据进行排序模型的训练，使用精排评价指标判断该召回是否有明显优势。
+## Q10: 多路召回的作用？
+A: 交叉与互补，满足用户兴趣多元化。
+## Q11: Skip-grim和Cbow的区别？Skip-grim优势在哪？
+A: 使用中心词预测上下文与使用上下文预测中心词的区别。使用Sg的训练更为细致，从BP的角度看待，Sg的输出节点为Cbow的K倍，则在反向传播时的计算次数时Cbow的K倍（Cbow原理上对上下文向量做了Average）。对于数据量较少或生僻词较多的时候，Sg能展现出明显优势。简单而言，Cbow训练速度更快，但Skip-grim更为准确，实际上论文中也指出了Sg效果更好。
+## 后续：
+编辑于 2021-10-11 11:35
+[推荐系统](https://www.zhihu.com/topic/19563024)
+[深度学习（Deep Learning）](https://www.zhihu.com/topic/19813032)
+[面试问题](https://www.zhihu.com/topic/19591867)
+​赞同 125​​6 条评论​397 ​31
+​分享
+​申请转载​
+​
+![](https://pic1.zhimg.com/v2-d41c2ceaed8f51999522f903672a521f\_l.jpeg)
+未登录用户
+6 条评论
+默认
+最新
+[![smokescreen](https://pic1.zhimg.com/v2-78c6af1fb7757e9008cfe190a3c2db31\_l.jpg?source=06d4cd63)](https://www.zhihu.com/people/33e86a1ea44b5286544408d5abe03f1b)
+[smokescreen](https://www.zhihu.com/people/33e86a1ea44b5286544408d5abe03f1b)
+bagging和boosting都是训练多个弱学习器形成一个强学习器吧？
+2023-07-18
+​回复​1
+[![辰东](https://picx.zhimg.com/v2-b46ed7b845900934c42e3b77703f4179\_l.jpg?source=06d4cd63)](https://www.zhihu.com/people/0a16ccde091937fda112bcc708e37b00)
+[辰东](https://www.zhihu.com/people/0a16ccde091937fda112bcc708e37b00)
+bagging降低方差说错了吧
+2022-01-09
+​回复​喜欢
+[![Rulcy](https://pic1.zhimg.com/4b4e8cb23671f68cadca76e572afd4b0\_l.jpg?source=06d4cd63)](https://www.zhihu.com/people/7c70af6303e00242d7e59d61ff20e2dd)
+[Rulcy](https://www.zhihu.com/people/7c70af6303e00242d7e59d61ff20e2dd)
+作者​![](https://picx.zhimg.com/v2-2ddc5cc683982648f6f123616fb4ec09\_l.png?source=32738c0c)
+没问题啊，bagging不就是降低方差吗
+2022-01-11
+​回复​3
+[![hihigh](https://pic1.zhimg.com/d29f68ca1\_l.jpg?source=06d4cd63)](https://www.zhihu.com/people/61b4e8f430270ccce22a557197f9e5b3)
+[hihigh](https://www.zhihu.com/people/61b4e8f430270ccce22a557197f9e5b3)
+没错，bagging降低方差，boosting降低期望偏差（通俗地说就是precision更高）
+2022-01-21
+​回复​喜欢
+[![Codering](https://picx.zhimg.com/v2-0abd5f06bdb2940d617671876a0c0b2d\_l.jpg?source=06d4cd63)](https://www.zhihu.com/people/54add3ef850bbb1087463e563cb0372f)
+[Codering](https://www.zhihu.com/people/54add3ef850bbb1087463e563cb0372f)
+![知乎知识会员](https://pica.zhimg.com/v2-57fe7feb4813331d5eca02ef731e12c9.jpg?source=88ceefae)
+方差偏差那块说的对吗？
+2021-12-29
+​回复​喜欢
+[![smokescreen](https://picx.zhimg.com/v2-78c6af1fb7757e9008cfe190a3c2db31\_l.jpg?source=06d4cd63)](https://www.zhihu.com/people/33e86a1ea44b5286544408d5abe03f1b)
+[smokescreen](https://www.zhihu.com/people/33e86a1ea44b5286544408d5abe03f1b)
+感觉不对
+2023-07-18
+​回复​喜欢
+关于作者
+[![Rulcy](https://pica.zhimg.com/4b4e8cb23671f68cadca76e572afd4b0\_l.jpg?source=32738c0c&needBackground=1)](https://www.zhihu.com/people/xi-xi-31-58-38)
+[Rulcy](https://www.zhihu.com/people/xi-xi-31-58-38)
+无物之阵冲锋兵
+[​](https://zhuanlan.zhihu.com/p/96956163)
+网易 员工
+[回答\\
+\\
+\*\*11\*\*](https://www.zhihu.com/people/xi-xi-31-58-38/answers) [文章\\
+\\
+\*\*28\*\*](https://www.zhihu.com/people/xi-xi-31-58-38/posts) [关注者\\
+\\
+\*\*1,987\*\*](https://www.zhihu.com/people/xi-xi-31-58-38/followers)
+​关注他​发私信
+大家都在搜
+换一换
+[伊朗局势421 万](https://www.zhihu.com/search?q=%E4%BC%8A%E6%9C%97%E5%B1%80%E5%8A%BF&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[李荣浩喊话单依纯称其强行侵权《李白》343 万](https://www.zhihu.com/search?q=%E6%9D%8E%E8%8D%A3%E6%B5%A9%E5%96%8A%E8%AF%9D%E5%8D%95%E4%BE%9D%E7%BA%AF%E7%A7%B0%E5%85%B6%E5%BC%BA%E8%A1%8C%E4%BE%B5%E6%9D%83%E3%80%8A%E6%9D%8E%E7%99%BD%E3%80%8B&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[兰州大学考研初试401分被刷324 万](https://www.zhihu.com/search?q=%E5%85%B0%E5%B7%9E%E5%A4%A7%E5%AD%A6%E8%80%83%E7%A0%94%E5%88%9D%E8%AF%95401%E5%88%86%E8%A2%AB%E5%88%B7&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[为什么说不要在慢热的女生身上浪费时间317 万](https://www.zhihu.com/search?q=%E4%B8%BA%E4%BB%80%E4%B9%88%E8%AF%B4%E4%B8%8D%E8%A6%81%E5%9C%A8%E6%85%A2%E7%83%AD%E7%9A%84%E5%A5%B3%E7%94%9F%E8%BA%AB%E4%B8%8A%E6%B5%AA%E8%B4%B9%E6%97%B6%E9%97%B4&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[韩国向中国 14 城发十年签309 万](https://www.zhihu.com/search?q=%E9%9F%A9%E5%9B%BD%E5%90%91%E4%B8%AD%E5%9B%BD+14+%E5%9F%8E%E5%8F%91%E5%8D%81%E5%B9%B4%E7%AD%BE&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[Claude Code 源码泄露294 万](https://www.zhihu.com/search?q=Claude+Code+%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[张雪机车 WSBK葡萄牙站夺冠290 万](https://www.zhihu.com/search?q=%E5%BC%A0%E9%9B%AA%E6%9C%BA%E8%BD%A6+WSBK%E8%91%A1%E8%90%84%E7%89%99%E7%AB%99%E5%A4%BA%E5%86%A0&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[你什么时候发现世界就是一个巨大的草台班子277 万](https://www.zhihu.com/search?q=%E4%BD%A0%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E5%8F%91%E7%8E%B0%E4%B8%96%E7%95%8C%E5%B0%B1%E6%98%AF%E4%B8%80%E4%B8%AA%E5%B7%A8%E5%A4%A7%E7%9A%84%E8%8D%89%E5%8F%B0%E7%8F%AD%E5%AD%90&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[甲骨文被曝裁员 3 万人264 万](https://www.zhihu.com/search?q=%E7%94%B2%E9%AA%A8%E6%96%87%E8%A2%AB%E6%9B%9D%E8%A3%81%E5%91%98+3+%E4%B8%87%E4%BA%BA&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[全红婵含泪恳求别再骂了263 万](https://www.zhihu.com/search?q=%E5%85%A8%E7%BA%A2%E5%A9%B5%E5%90%AB%E6%B3%AA%E6%81%B3%E6%B1%82%E5%88%AB%E5%86%8D%E9%AA%82%E4%BA%86&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+### 推荐阅读
+[![面试框架](https://picx.zhimg.com/v2-03bd8fe58482afba587306a4a01085a0\_250x0.jpg?source=172ae18b)\*\*面试框架\*\* \\
+\\
+十方发表于Leafs](https://zhuanlan.zhihu.com/p/93859640) [\*\*推荐系统常见面试问题（38~48）\*\* \\
+\\
+前言41~44题与推荐系统相关，其它有部分是机器学习基础内容，另一部分需要对机器学习知识理解稍深或全面。 面试问题整理的比较杂乱，之后有时间会做个总结分类，为后来的小伙伴们铺好道路。…\\
+\\
+Rulcy发表于Rulcy...](https://zhuanlan.zhihu.com/p/420346637) [![新年手打，30道进阶必备Dubbo 面试真题（建议收藏！）](https://picx.zhimg.com/v2-f736d3d42b914f09f1b29cfc5aaff0c2\_250x0.jpg?source=172ae18b)\*\*新年手打，30道进阶必备Dubbo 面试真题（建议收藏！）\*\* \\
+\\
+creep发表于JAVA ...](https://zhuanlan.zhihu.com/p/102284616) [\*\*题目（面试）\*\* \\
+\\
+整理自知乎及牛客网 必须会：操作系统、计算机网络、数据结构、算法 一，专业问题什么是有监督训练，什么是无监督训练，举一个无监督例子： 如何解决样本不均衡问题(X2)多分类项目：数据怎…\\
+\\
+BeautyCo](https://zhuanlan.zhihu.com/p/59025345)
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_
+打开知乎App
+在「我的页」右上角打开扫一扫
+![](https://picx.zhimg.com/v2-9e41ea16bdfbe9cf4896617ecad5b4ca.png)
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+中国 +86
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+打开知乎App
+在「我的页」右上角打开扫一扫
+![](https://picx.zhimg.com/v2-9e41ea16bdfbe9cf4896617ecad5b4ca.png)
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+中国 +86
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+![](https://static.zhihu.com/heifetz/assets/liukanshan-peek.a71ecf3e.png)登录即可查看 超5亿 专业优质内容
+超 5 千万创作者的优质提问、专业回答、深度文章和精彩视频尽在知乎。
+立即登录/注册

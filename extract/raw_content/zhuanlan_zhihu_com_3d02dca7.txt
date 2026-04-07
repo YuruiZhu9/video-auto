@@ -1,0 +1,239 @@
+# Source URL: https://zhuanlan.zhihu.com/p/2016977614401712812
+# Content Length: 10678 characters
+# Extracted at: 2026-04-04 19:35:00
+#============================================================
+
+![](https://zhuanlan.zhihu.com/p/2016977614401712812)
+> 2024-2026，搜广推正在经历一场从算法优化到全链路智能重构的范式革命。本文基于中英文 20+ 信源交叉验证，系统梳理了大模型和 Agent 在搜索、推荐、广告三大场景的技术落地现状、关键案例和未来趋势。
+\* \* \*
+## 搜广推 \+ 大模型：一场正在发生的范式革命
+### 写在前面
+如果你在过去一年关注过推荐系统或广告算法的进展，一定听过一个词—— \*\*[生成式推荐](https://zhida.zhihu.com/search?content\_id=271565304&content\_type=Article&match\_order=1&q=%E7%94%9F%E6%88%90%E5%BC%8F%E6%8E%A8%E8%8D%90&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzU0NzUyOTgsInEiOiLnlJ\_miJDlvI\_mjqjojZAiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNzE1NjUzMDQsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.P2B5LRELhEF9kcnBBwShaylmyd8p3m95IvoRiI8Mtpw&zhida\_source=entity)（Generative Recommendation, GR）\*\*。
+2024 年 Meta 基于 HSTU 架构发布生成式推荐范式，2025 年又推出了 \*\*GEM（Generative Ads Recommendation Model）\*\*——一个 LLM 级别的广告推荐基础模型，Instagram 广告转化率直接 \*\*+5%\*\*。
+与此同时，字节、美团、京东、荣耀、华为、快手、百度等国内大厂也在密集跟进。
+这不是一次简单的模型升级，而是搜广推领域的 \*\*范式级转变\*\*。
+本文尝试从多个角度拆解这场变革，回答几个核心问题：
+- \*\*大模型到底怎么融入搜广推？\*\*
+- \*\*Agent 在里面扮演什么角色？\*\*
+- \*\*行业落地的真实进展和效果如何？\*\*
+- \*\*未来的机会和挑战在哪里？\*\*
+\* \* \*
+### 一、为什么传统搜广推不够用了？
+先回顾一下搜广推的技术演进脉络：
+```text
+协同过滤（MF/ALS）
+→ 深度特征交互（Wide&Deep / DCN / DeepFM）
+→ 序列推荐（DIN / DIEN / SASRec）
+→ 多任务学习（MMoE / PLE）
+```
+每一代都有显著提升，但存在几个长期未解的痛点：
+\*\*🥶 [冷启动](https://zhida.zhihu.com/search?content\_id=271565304&content\_type=Article&match\_order=1&q=%E5%86%B7%E5%90%AF%E5%8A%A8&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzU0NzUyOTgsInEiOiLlhrflkK\_liqgiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNzE1NjUzMDQsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.35T9HSHqmYu22HN4tIdouYH0X5cIXkJHVpp-oiTvwyk&zhida\_source=entity)差\*\*——新用户、新商品、新广告缺乏历史行为，传统模型几乎无能为力。
+\*\*🔄 特征工程重\*\*——推荐效果严重依赖人工构造特征和特征交叉方式，迭代周期长、人力成本高。
+\*\*📏 长期行为难捕捉\*\*——用户几周甚至几个月前的行为对当前推荐至关重要，但传统序列模型处理长序列效率低下。
+\*\*⚖️ 延迟与效果的矛盾\*\*——模型越复杂，推理越慢；要在线上实时服务亿级用户，延迟是硬约束。
+这些痛点不是”还不够好”，而是 \*\*现有范式的天花板\*\*。无论怎么优化 DCN 的交叉方式或 SASRec 的注意力机制，本质上还是在同一个框架内打补丁。
+\*\*大模型带来的是另一个框架。\*\*
+\* \* \*
+### 二、大模型带来的三个根本变化
+### 2.1 [语义理解能力](https://zhida.zhihu.com/search?content\_id=271565304&content\_type=Article&match\_order=1&q=%E8%AF%AD%E4%B9%89%E7%90%86%E8%A7%A3%E8%83%BD%E5%8A%9B&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzU0NzUyOTgsInEiOiLor63kuYnnkIbop6Pog73lipsiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNzE1NjUzMDQsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.jUTIicAE4UewoC9UuKU\_VRktYoTdYeoS2cpUoMagwHU&zhida\_source=entity)
+LLM 天然具备强大的语言理解能力。这意味着：
+- 用户搜索 “适合送给程序员的生日礼物”，传统搜索需要分词 → 匹配 → 排序，LLM 可以直接理解 \*\*意图\*\*，生成精准推荐
+- 商品标题、广告创意的语义相似度不再需要手工构造 Embedding
+- 用户画像可以从行为序列直接 \*\*生成自然语言描述\*\*
+### 2.2 生成式范式
+这是最核心的变化：
+> \*\*传统范式\*\*：给定 User + Item，预测一个匹配分数（判别式）
+>
+> \*\*生成范式\*\*：给定 User 上下文，直接生成推荐列表（生成式）
+打个比方——传统推荐像是在一仓库里逐一比较每件商品和你的匹配度，生成式推荐则是直接”想出”你可能喜欢的商品。
+### 2.3 Scaling Law 在推荐中同样成立
+更大的模型 \+ 更多的数据 = 更好的推荐效果。Meta GEM 的实践已经验证了这一点——而且他们证明了这个 scaling 是 \*\*成本可控\*\* 的。
+\* \* \*
+### 三、三大场景的现状：搜索、推荐、广告
+### 🔍 搜索：从”关键词匹配”到”意图理解 \+ 生成式回答”
+搜索是变化最直观的场景。传统搜索的核心流程是：
+```text
+用户输入关键词 → 分词 → 召回 → 排序 → 返回 10 条链接
+```
+现在正在变成：
+```text
+用户自然语言描述需求 → LLM 理解意图 → 生成式召回 + 传统召回 → 直接生成答案
+```
+Google 的 AI Overview、百度的 AI 搜索、Perplexity 都在走这个方向。 \*\*搜索结果页从 10 条链接变成了直接生成的答案\*\*，这从根本上改变了搜索广告的展示形态和商业逻辑。
+\*\*代表实践\*\*：
+- \*\*LinkedIn\*\*：LLM 增强职位搜索的查询理解（2025）
+- \*\*Google SGE\*\*：生成式搜索体验，广告融入 AI 回答
+- \*\*Perplexity\*\*：Agent 编排多轮对话 + RAG 检索
+\* \* \*
+### 📋 推荐：生成式推荐（GR）已成行业共识
+推荐是大模型落地最活跃的领域。LLM 可以渗透到推荐的每一个环节：
+```text
+召回层 → LLM 增强语义特征 / 生成式召回（直接生成 item ID）
+粗排层 → LLM Embedding 作为特征输入
+精排层 → LLM 作为特征提取器或直接参与排序
+重排层 → LLM 多目标优化、多样性控制
+特征工程 → LLM 自动特征生成与交互学习
+```
+### 国内大厂进展一览
+\*\*字节跳动\*\*——生成式排序系统，在 GR 方向取得了显著进展。
+\*\*美团\*\*——生成式推荐已落地外卖和到店场景，采用多维度推荐策略 \+ Agent 架构。
+\*\*京东\*\*——广告团队构建了 \*\*垂域模型 \+ 智能体 \+ 知识工程 \+ 算法工程\*\* 的协同体系，目标是广告投放全链路智能化。
+\*\*荣耀\*\*——从特征工程、训练、推理三个环节系统性结合大模型，解决传统推荐模型的特征依赖和冷启动问题。
+\*\*华为\*\*——基于昇腾 NPU 做生成式推荐的 Scaling Law 落地，包括推荐系统 Performance Law 研究和昇腾亲和的网络架构。
+\*\*小红书\*\*——NLP 负责人曹绍升团队将大语言模型和多模态大模型落地到搜索、推荐、广告、翻译、客服和情感陪聊等场景。
+### 前沿研究
+- \*\*Rec-R1\*\*：让 LLM 直接从推荐反馈（检索/排序指标）中学习，不需要额外的 RLHF 对齐阶段
+- \*\*AgentSociety Challenge (WWW 2025)\*\*：首个探索 LLM Agent 在用户建模和推荐中潜力的竞赛
+- \*\*TBGRecall\*\*：面向电商场景的生成式检索模型
+\* \* \*
+### 💰 广告：商业化价值最高，也是大模型落地最深的场景
+### 🏆 Meta GEM：行业标杆
+Meta 的 \*\*Generative Ads Recommendation Model（GEM）\*\* 是目前公开的最大推荐系统基础模型。它不是一个”用了大模型技术的推荐系统”，而是一个 \*\*真正在 LLM 规模上训练的推荐基础模型\*\*。
+几个关键数字：
+| 指标 | 数据 |
+| --- | --- |
+| 训练规模 | 数千 GPU，LLM 级别 |
+| 性能效率提升 | 同等算力下 4× |
+| 知识迁移效果 | 比标准蒸馏 2× |
+| 训练效率 | 有效 FLOPS 23×，MFU 1.43× |
+| Instagram 广告转化率 | +5% |
+| Facebook Feed 广告转化率 | +3% |
+\*\*GEM 做对了什么？\*\*
+GEM 的架构有三个核心创新：
+\*\*① 非序列特征交互\*\*——增强 Wukong 架构，使用可堆叠的分解机 + 跨层注意力连接，让模型自己学会”哪些特征组合最重要”。
+\*\*② 长序列行为建模\*\*——用金字塔并行结构处理 \*\*数千个事件\*\* 的用户行为序列，而传统架构通常只能处理几十到几百个。
+\*\*③ 跨特征学习（InterFormer）\*\*——交替进行序列学习和跨特征交互，保留完整用户旅程信息，不会因为压缩而丢失关键信号。
+但 GEM 最厉害的不是模型本身，而是 \*\*知识迁移体系\*\*：
+> GEM 不直接在线上服务用户——它是一个”教师”模型，通过知识蒸馏把能力传递给数百个”学生”模型（垂直模型），学生模型才是真正在线上运行的轻量模型。
+这套迁移体系包括：
+- \*\*直接迁移\*\*：GEM → 同数据空间的垂直模型
+- \*\*层级迁移\*\*：GEM → 领域基础模型 → 垂直模型
+- \*\*Student Adapter\*\*：轻量适配器，用最新真实数据校准教师输出，解决知识陈旧问题
+- \*\*表征学习 \+ 参数共享\*\*：零推理开销的知识传递
+Q3 他们进一步改进了架构， \*\*同等数据/算力下的性能收益翻倍\*\*。这意味着 GEM 的 scaling 还在加速。
+\* \* \*
+### 四、Agent 在搜广推中的角色
+相比大模型在排序和特征层面的渗透，Agent 在搜广推中的应用还处于 \*\*早期阶段\*\*，但方向非常明确：
+### 🔧 推荐策略编排（Orchestrator Agent）
+传统推荐系统的策略通常是预定义的——什么场景用什么模型、什么权重。Agent 可以 \*\*动态决策\*\*：
+- 根据实时流量特征选择推荐策略
+- 自动调整各环节的参数
+- 在 A/B 实验中自动做出决策
+### 🤖 广告投放自动化（Campaign Agent）
+这是想象空间最大的方向。一个广告投放 Agent 可以：
+- 自动分析受众特征
+- 生成/优化广告创意
+- 智能出价和预算分配
+- 实时监控效果并自动调整
+- 效果归因和策略迭代
+京东广告团队已经在构建”智能体 \+ 知识工程”的体系来推进这个方向。
+### 💬 对话式搜索/推荐（Conversational Agent）
+用户不再只是输入关键词，而是通过自然语言对话表达需求。Agent 负责理解多轮对话、维护上下文、调用检索和推荐工具、生成最终回答。
+### 👤 用户建模（User Modeling Agent）
+\*\*AgentSociety Challenge (WWW 2025)\*\* 首次在 Web Conference 中探索了这个方向——用 LLM Agent 综合多源信号构建更精细的用户画像，超越传统的基于行为序列的用户建模。
+\* \* \*
+### 五、技术挑战与工程解法
+大模型在搜广推落地不是”训个大模型然后替换就行”，有一系列工程难题需要解决：
+### ⚡ 推理延迟
+> LLM 级模型的推理成本远高于传统 CTR 模型（可能是 10-100 倍），但线上广告和推荐对延迟的要求是毫秒级。
+\*\*解法\*\*：大模型训练 → 知识蒸馏 → 小模型上线。Meta GEM 就是这个思路——GEM 本身不在线上服务，只做”教师”。
+### 🖥️ 训练规模
+> 数千 GPU 级别的训练需要重新设计训练栈。
+\*\*解法\*\*：Meta 的 GEM 训练栈做了全方位优化——多维并行、自定义 GPU Kernel、PyTorch 2.0 图级编译、FP8 量化，最终实现了 \*\*23 倍\*\* 的有效 FLOPS 提升。
+### 🥶 冷启动
+> 新用户/新商品/新广告没有历史行为。
+\*\*解法\*\*：LLM 的零样本和少样本泛化能力天然适合这个场景。这是大模型相对传统模型优势最明显的环节。
+### 🎯 多目标优化
+> 搜索要相关，推荐要多样，广告要转化——不同目标可能冲突。
+\*\*解法\*\*：GEM 的多域学习架构可以跨平台学习同时保持各平台特性优化，实现跨漏斗联合优化。
+### 🇨🇳 国产硬件适配
+> 不能只依赖 NVIDIA GPU。
+\*\*解法\*\*：华为已经基于昇腾 NPU 做了生成式推荐的适配，包括网络架构优化和 Scaling Law 研究。
+\* \* \*
+### 六、未来趋势
+### 🔮 短期（2025-2026）
+\*\*生成式推荐从实验走向标配。\*\* Meta GEM 的成功已经证明了这条路走得通，国内大厂正在加速跟进。预期 2026 年主流互联网公司的核心推荐系统都会引入 GR 范式。
+\*\*“大模型 \+ 蒸馏”成为标准架构。\*\* 大模型负责离线训练和知识蒸馏，轻量模型负责线上推理。这不是一个过渡方案，而是一个可持续的架构模式。
+\*\*多模态推荐爆发。\*\* 短视频推荐、图文推荐、直播推荐——文本 \+ 图像 \+ 视频的统一建模将释放巨大的价值。
+### 🔮 中期（2026-2027）
+\*\*Agent 编排推荐系统。\*\* Agent 不再只是一个辅助工具，而是成为推荐链路的”大脑”，实时感知流量状态、动态调整策略。
+\*\*广告投放全链路 Agent 化。\*\* 从创意生成到效果归因，全流程自动化。广告主可能只需要描述目标和预算，Agent 会完成剩下的一切。
+\*\*统一排序模型。\*\* 搜索、推荐、广告共享同一个基础模型——Meta GEM 已经在朝这个方向演进。
+### 🔮 长期观察
+\*\*推理时扩展（Inference-time Scaling）。\*\* Meta 明确提到 GEM 将支持推理时计算分配优化——这意味着模型可以在推理阶段”思考更久”来处理更复杂的场景。
+\*\*意图中心范式。\*\* 从”兴趣匹配”转向”意图理解和满足”。用户不是在”找商品”，而是在”解决一个需求”。
+\*\*Rec-R1 式自学习。\*\* LLM 直接从推荐反馈中学习，消除对齐阶段的额外成本。这可能是推荐系统”真正智能”的关键一步。
+\* \* \*
+### 七、我的几个独立判断
+> 💡 \*\*基础模型不是替代搜广推，而是重定义搜广推的边界。\*\*
+传统搜广推的边界很清晰——搜索管查询、推荐管内容、广告管变现。大模型正在 \*\*模糊这些边界\*\*：
+- 搜索变得像对话，对话自然地引导推荐
+- 推荐变得像生成，生成的内容本身就是”推荐的答案”
+- 广告从”竞价排序”走向”意图匹配”
+> 💡 \*\*“搜广推 \+ 大模型”是当前商业化确定性最高的 AI 落地方向之一。\*\*
+原因很简单——搜广推本身就是互联网最大的变现引擎。任何能提升推荐效果和广告效率的技术，都有直接的商业回报。Meta GEM 的数据已经验证了这一点。
+> 💡 \*\*对从业者来说，现在是最关键的转型窗口。\*\*
+- 纯搜广推算法工程师需要扩展 LLM 能力栈
+- 工程能力（分布式训练、推理优化、知识蒸馏）与算法能力 \*\*同等重要\*\*
+- 国内阿里、字节、美团、京东等均有大量投入和 HC
+- 这个窗口不会一直存在——当生成式推荐成为标配，”会大模型”就不再是差异化优势
+\* \* \*
+### 参考来源
+01. [大模型时代下的搜广推系统实践｜AICon 前瞻](https://link.zhihu.com/?target=https%3A//www.infoq.cn/article/wd6vuo1amd5ffpsgwlz4)
+02. [Meta GEM: The Central Brain Accelerating Ads Recommendation AI Innovation](https://link.zhihu.com/?target=https%3A//engineering.fb.com/2025/11/10/ml-applications/metas-generative-ads-model-gem-the-central-brain-accelerating-ads-recommendation-ai-innovation)
+03. [Generative Recommendation: A Survey (TechRxiv, 2025)](https://link.zhihu.com/?target=https%3A//www.techrxiv.org/doi/full/10.36227/techrxiv.176523089.94266134/v1)
+04. [Recommender Systems Meet Large Language Model Agents: A Survey (Emerald, 2025)](https://link.zhihu.com/?target=https%3A//www.emerald.com/ftsec/article/7/4/247/1324610/)
+05. [AgentSociety Challenge: LLM Agents for User Modeling and Recommendation (WWW 2025)](https://link.zhihu.com/?target=https%3A//dl.acm.org/doi/10.1145/3701716.3719233)
+06. [Awesome Generative AI in Search, Recommendation, Personalization](https://link.zhihu.com/?target=https%3A//github.com/alopatenko/LLMSearchRecommender)
+07. [TBGRecall: Generative Retrieval for E-commerce (arXiv, 2025)](https://link.zhihu.com/?target=https%3A//arxiv.org/html/2508.11977v1)
+08. [Generative AI and Recommender Systems: Taxonomy, Trends, and Research Roadmap (2025)](https://link.zhihu.com/?target=https%3A//hal.science/hal-05267880/document)
+09. [小红书大模型的创新与落地](https://link.zhihu.com/?target=https%3A//www.top100summit.com/detail%3Fid%3D18882)
+10. [阿里巴巴大模型搜广推招聘方向](https://link.zhihu.com/?target=https%3A//talent.alibaba.com/activity/ali-star%3Flang%3Dzh)
+编辑于 2026-03-16 23:43・北京
+[大模型](https://www.zhihu.com/topic/25402720)
+[智能体](https://www.zhihu.com/topic/20687238)
+[推荐系统](https://www.zhihu.com/topic/19563024)
+​赞同 22​​添加评论​43 ​1
+​分享
+​申请转载​
+​
+暂无评论
+关于作者
+[![GuoXun](https://picx.zhimg.com/v2-5ae93df9239b633338bbe23e12f7699c\_l.jpg?source=172ae18b)](https://www.zhihu.com/people/guo-xun-16)
+[GuoXun](https://www.zhihu.com/people/guo-xun-16) ​![](https://picx.zhimg.com/v2-4812630bc27d642f7cafcd6cdeca3d7a.jpg?source=88ceefae) [​![知乎知识会员](https://picx.zhimg.com/v2-57fe7feb4813331d5eca02ef731e12c9.jpg?source=88ceefae)](https://www.zhihu.com/kvip/purchase)
+搜索推荐 \| 大模型算法 \| 机器学习 \| 推荐系统
+[​](https://zhuanlan.zhihu.com/p/96956163)
+百度 员工
+[回答](https://www.zhihu.com/people/guo-xun-16/answers) [文章](https://www.zhihu.com/people/guo-xun-16/posts) [关注者](https://www.zhihu.com/people/guo-xun-16/followers)
+​关注他​发私信
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码

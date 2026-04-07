@@ -1,0 +1,584 @@
+# Source URL: https://www.indie-bits.com/2025/10/21/build-with-claude-code-agent-skills/
+# Content Length: 14632 characters
+# Extracted at: 2026-03-20 10:42:58
+#============================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+在Claude Code使用Agent Skills | IndieBits - 独立开发碎碎念
+
+
+
+
+
+[IndieBits - 独立开发碎碎念](/)
+
+探索海外独立开发 | 学习 · 思考 · 实践
+
+
+
+
+* [首页](/)
+* [速查表](/cheatsheets/)
+* [SEO](/seo/)
+* [标签](/tags/)
+* [分类](/categories/)
+* [归档](/archives/)
+* [站点地图](/sitemap.xml)
+
+
+* 文章目录
+* 站点概览
+
+1. [先决条件](#%E5%85%88%E5%86%B3%E6%9D%A1%E4%BB%B6)
+2. [什么是智能体技能 (Agent Skills)？](#%E4%BB%80%E4%B9%88%E6%98%AF%E6%99%BA%E8%83%BD%E4%BD%93%E6%8A%80%E8%83%BD-Agent-Skills-%EF%BC%9F)
+3. [创建一个技能](#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%8A%80%E8%83%BD)
+   1. [Personal Skills](#Personal-Skills)
+   2. [Project Skills](#Project-Skills)
+   3. [Plugin Skills](#Plugin-Skills)
+4. [编写 SKILL.md](#%E7%BC%96%E5%86%99-SKILL-md)
+5. [添加支持文件](#%E6%B7%BB%E5%8A%A0%E6%94%AF%E6%8C%81%E6%96%87%E4%BB%B6)
+6. [使用 allowed-tools 限制工具访问](#%E4%BD%BF%E7%94%A8-allowed-tools-%E9%99%90%E5%88%B6%E5%B7%A5%E5%85%B7%E8%AE%BF%E9%97%AE)
+7. [查看可用技能](#%E6%9F%A5%E7%9C%8B%E5%8F%AF%E7%94%A8%E6%8A%80%E8%83%BD)
+8. [测试一个技能](#%E6%B5%8B%E8%AF%95%E4%B8%80%E4%B8%AA%E6%8A%80%E8%83%BD)
+9. [调试一个技能](#%E8%B0%83%E8%AF%95%E4%B8%80%E4%B8%AA%E6%8A%80%E8%83%BD)
+   1. [使描述更具体](#%E4%BD%BF%E6%8F%8F%E8%BF%B0%E6%9B%B4%E5%85%B7%E4%BD%93)
+   2. [验证文件路径](#%E9%AA%8C%E8%AF%81%E6%96%87%E4%BB%B6%E8%B7%AF%E5%BE%84)
+   3. [检查 YAML 语法](#%E6%A3%80%E6%9F%A5-YAML-%E8%AF%AD%E6%B3%95)
+   4. [查看错误](#%E6%9F%A5%E7%9C%8B%E9%94%99%E8%AF%AF)
+10. [与团队共享技能](#%E4%B8%8E%E5%9B%A2%E9%98%9F%E5%85%B1%E4%BA%AB%E6%8A%80%E8%83%BD)
+    1. [第 1 步：将技能添加到您的项目](#%E7%AC%AC-1-%E6%AD%A5%EF%BC%9A%E5%B0%86%E6%8A%80%E8%83%BD%E6%B7%BB%E5%8A%A0%E5%88%B0%E6%82%A8%E7%9A%84%E9%A1%B9%E7%9B%AE)
+    2. [第 2 步：提交到 git](#%E7%AC%AC-2-%E6%AD%A5%EF%BC%9A%E6%8F%90%E4%BA%A4%E5%88%B0-git)
+    3. [第 3 步：团队成员自动获取技能](#%E7%AC%AC-3-%E6%AD%A5%EF%BC%9A%E5%9B%A2%E9%98%9F%E6%88%90%E5%91%98%E8%87%AA%E5%8A%A8%E8%8E%B7%E5%8F%96%E6%8A%80%E8%83%BD)
+11. [更新一个技能](#%E6%9B%B4%E6%96%B0%E4%B8%80%E4%B8%AA%E6%8A%80%E8%83%BD)
+12. [移除一个技能](#%E7%A7%BB%E9%99%A4%E4%B8%80%E4%B8%AA%E6%8A%80%E8%83%BD)
+13. [最佳实践](#%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5)
+    1. [保持技能专注](#%E4%BF%9D%E6%8C%81%E6%8A%80%E8%83%BD%E4%B8%93%E6%B3%A8)
+    2. [编写清晰的描述](#%E7%BC%96%E5%86%99%E6%B8%85%E6%99%B0%E7%9A%84%E6%8F%8F%E8%BF%B0)
+    3. [与您的团队一起测试](#%E4%B8%8E%E6%82%A8%E7%9A%84%E5%9B%A2%E9%98%9F%E4%B8%80%E8%B5%B7%E6%B5%8B%E8%AF%95)
+    4. [记录技能版本](#%E8%AE%B0%E5%BD%95%E6%8A%80%E8%83%BD%E7%89%88%E6%9C%AC)
+14. [故障排除](#%E6%95%85%E9%9A%9C%E6%8E%92%E9%99%A4)
+    1. [Claude 不使用我的技能](#Claude-%E4%B8%8D%E4%BD%BF%E7%94%A8%E6%88%91%E7%9A%84%E6%8A%80%E8%83%BD)
+    2. [技能出现错误](#%E6%8A%80%E8%83%BD%E5%87%BA%E7%8E%B0%E9%94%99%E8%AF%AF)
+    3. [多个技能冲突](#%E5%A4%9A%E4%B8%AA%E6%8A%80%E8%83%BD%E5%86%B2%E7%AA%81)
+15. [示例](#%E7%A4%BA%E4%BE%8B)
+    1. [简单技能（单个文件）](#%E7%AE%80%E5%8D%95%E6%8A%80%E8%83%BD%EF%BC%88%E5%8D%95%E4%B8%AA%E6%96%87%E4%BB%B6%EF%BC%89)
+    2. [带有工具权限的技能](#%E5%B8%A6%E6%9C%89%E5%B7%A5%E5%85%B7%E6%9D%83%E9%99%90%E7%9A%84%E6%8A%80%E8%83%BD)
+    3. [多文件技能](#%E5%A4%9A%E6%96%87%E4%BB%B6%E6%8A%80%E8%83%BD)
+
+
+
+Jack
+
+专注中文独立开发者的技术博客，分享AI编程、SEO优化、Vibe Coding等实战经验。探索海外前沿技术选型、产品推广和商业变现的日常积累与思考。
+
+[40
+日志](/archives/)
+
+[14
+分类](/categories/)
+
+[23
+标签](/tags/)
+
+
+
+[GitHub](https://github.com/ozsofts)
+
+[Twitter](https://twitter.com/jzhuo02)
+
+
+
+
+
+
+
+在Claude Code使用Agent Skills
+==========================
+
+
+发表于
+2025-10-21
+
+
+更新于
+2025-12-01
+
+
+分类于
+[AI](/categories/AI/)
+
+，
+[AI Coding](/categories/AI/AI-Coding/)
+
+
+
+
+
+> 在 Claude Code 中创建、管理和分享技能，以扩展 Claude 的能力。
+
+本指南将向您展示如何在 Claude Code 中创建、使用和管理智能体技能 (Agent Skills)。技能是模块化的能力单元，通过包含指令、脚本和资源的结构化文件夹来扩展 Claude 的功能。
+
+先决条件
+----
+
+* Claude Code 1.0 或更高版本
+* 对 [Claude Code](https://docs.claude.com/en/docs/claude-code/quickstart) 有基本了解
+
+Claude Code中的各种技能比较：
+
+![]()
+
+什么是智能体技能 (Agent Skills)？
+------------------------
+
+智能体技能将专业知识打包成可被发现的能力。每个技能都包含一个 `SKILL.md` 文件，其中有 Claude 在需要时会读取的指令，以及可选的支持文件，如脚本和模板。
+
+**技能如何被调用**：技能是**由模型调用的 (model-invoked)** —— Claude 会根据您的请求和技能的描述自主决定何时使用它们。这与斜杠命令 (slash commands) 不同，后者是**由用户调用的 (user-invoked)**（您需要明确输入 `/command` 来触发它们）。
+
+**优势**：
+
+* 为您的特定工作流程扩展 Claude 的能力
+* 通过 git 在团队中共享专业知识
+* 减少重复的提示输入
+* 组合多个技能以完成复杂任务
+
+在[Agent Skills概览](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview)中了解更多信息。
+
+> 如需深入了解智能体技能的架构和实际应用，请阅读我们的工程博客：[通过智能体智能(Agent Skills)为真实世界装备智能体](/2025/10/16/equipping-agents-for-the-real-world-with-agent-skills/)。
+
+创建一个技能
+------
+
+技能以包含 `SKILL.md` 文件的目录形式存储。
+
+### Personal Skills
+
+Personal Skills在您所有的项目中都可用。将它们存储在 `~/.claude/skills/` 中：
+
+| ``` 1 ``` | ``` mkdir -p ~/.claude/skills/my-skill-name ``` |
+| --- | --- |
+
+Personal Skills可用于：
+
+* 您的个人工作流程和偏好
+* 您正在开发的实验性技能
+* 个人生产力工具
+
+### Project Skills
+
+Project Skills与您的团队共享。将它们存储在项目中的 `.claude/skills/` 目录下：
+
+| ``` 1 ``` | ``` mkdir -p .claude/skills/my-skill-name ``` |
+| --- | --- |
+
+Project Skills可用于：
+
+* 团队工作流程和规范
+* 特定于项目的专业知识
+* 共享的实用工具和脚本
+
+Project Skills会被提交到 git 中，并自动对团队成员可用。
+
+### Plugin Skills
+
+技能也可以来自 [Claude Code 插件](https://docs.claude.com/en/docs/claude-code/plugins)。插件可以捆绑一些技能，这些技能在插件安装后会自动可用。这些技能的工作方式与个人和项目技能相同。
+
+编写 SKILL.md
+-----------
+
+创建一个 `SKILL.md` 文件，其中包含 YAML frontmatter 和 Markdown 内容：
+
+| ``` 123456789101112 ``` | ``` ---name: Your Skill Namedescription: Brief description of what this Skill does and when to use it---# Your Skill Name## InstructionsProvide clear, step-by-step guidance for Claude.## ExamplesShow concrete examples of using this Skill. ``` |
+| --- | --- |
+
+`description` 字段对于 Claude 发现何时使用您的技能至关重要。它应该既包含技能的功能，也包含 Claude 应该在何时使用它。
+
+请参阅[最佳实践指南](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/best-practices)以获取完整的编写指南。
+
+添加支持文件
+------
+
+在 `SKILL.md` 旁边创建其他文件：
+
+| ``` 12345678 ``` | ``` my-skill/├── SKILL.md (required)├── reference.md (optional documentation)├── examples.md (optional examples)├── scripts/│   └── helper.py (optional utility)└── templates/    └── template.txt (optional template) ``` |
+| --- | --- |
+
+在 `SKILL.md` 中引用这些文件：
+
+| ``` 123456 ``` | ``` For advanced usage, see [reference.md](reference.md).Run the helper script:\`\`\`bashpython scripts/helper.py input.txt\`\`\` ``` |
+| --- | --- |
+
+Claude 仅在需要时读取这些文件，通过渐进式披露 (progressive disclosure) 来高效管理上下文。
+
+使用 allowed-tools 限制工具访问
+-----------------------
+
+使用 `allowed-tools` frontmatter 字段来限制 Claude 在技能激活时可以使用的工具：
+
+| ``` 1234567891011121314 ``` | ``` ---name: Safe File Readerdescription: Read files without making changes. Use when you need read-only file access.allowed-tools: Read, Grep, Glob---# Safe File ReaderThis Skill provides read-only file access.## Instructions1. Use Read to view file contents2. Use Grep to search within files3. Use Glob to find files by pattern ``` |
+| --- | --- |
+
+当此技能激活时，Claude 只能使用指定的工具（Read、Grep、Glob），而无需请求许可。这对于以下情况很有用：
+
+* 不应修改文件的只读技能
+* 范围有限的技能（例如，仅进行数据分析，不写入文件）
+* 您希望限制能力的安全敏感工作流程
+
+如果未指定 `allowed-tools`，Claude 将按照标准的权限模型，正常请求使用工具的许可。
+
+> `allowed-tools` 仅在 Claude Code 的技能中受支持。
+
+查看可用技能
+------
+
+Claude 会自动从三个来源发现技能：
+
+* 个人技能：`~/.claude/skills/`
+* 项目技能：`.claude/skills/`
+* 插件技能：与已安装的插件捆绑在一起
+
+**要查看所有可用的技能**，直接询问 Claude：
+
+| ``` 1 ``` | ``` What Skills are available? ``` |
+| --- | --- |
+
+或
+
+| ``` 1 ``` | ``` List all available Skills ``` |
+| --- | --- |
+
+这将显示来自所有来源的所有技能，包括插件技能。
+
+**要检查特定的技能**，您也可以查看文件系统：
+
+| ``` 12345678 ``` | ``` # List personal Skillsls ~/.claude/skills/# List project Skills (if in a project directory)ls .claude/skills/# View a specific Skill's contentcat ~/.claude/skills/my-skill/SKILL.md ``` |
+| --- | --- |
+
+测试一个技能
+------
+
+创建技能后，通过提出与您的描述相匹配的问题来对其进行测试。
+
+**示例**：如果您的描述中提到了“PDF 文件”：
+
+| ``` 1 ``` | ``` Can you help me extract text from this PDF? ``` |
+| --- | --- |
+
+Claude 会自主决定是否使用您的技能，如果它与请求匹配的话——您无需显式调用它。技能会根据您问题的上下文自动激活。
+
+调试一个技能
+------
+
+如果 Claude 没有使用您的技能，请检查以下常见问题：
+
+### 使描述更具体
+
+过于模糊：
+
+| ``` 1 ``` | ``` description: Helps with documents ``` |
+| --- | --- |
+
+具体：
+
+| ``` 1 ``` | ``` description: Extract text and tables from PDF files, fill forms, merge documents. Use when working with PDF files or when the user mentions PDFs, forms, or document extraction. ``` |
+| --- | --- |
+
+在描述中同时包含技能的功能和使用时机。
+
+### 验证文件路径
+
+**个人技能**: `~/.claude/skills/skill-name/SKILL.md`  
+**项目技能**: `.claude/skills/skill-name/SKILL.md`
+
+检查文件是否存在：
+
+| ``` 12345 ``` | ``` # Personalls ~/.claude/skills/my-skill/SKILL.md# Projectls .claude/skills/my-skill/SKILL.md ``` |
+| --- | --- |
+
+### 检查 YAML 语法
+
+无效的 YAML 会阻止技能加载。验证 frontmatter：
+
+| ``` 1 ``` | ``` cat SKILL.md | head -n 10 ``` |
+| --- | --- |
+
+确保：
+
+* 开头的 `---` 在第 1 行
+* 结尾的 `---` 在 Markdown 内容之前
+* 有效的 YAML 语法（无制表符，缩进正确）
+
+### 查看错误
+
+在调试模式下运行 Claude Code 以查看技能加载错误：
+
+| ``` 1 ``` | ``` claude --debug ``` |
+| --- | --- |
+
+与团队共享技能
+-------
+
+**推荐方法**：通过[插件](https://docs.claude.com/en/docs/claude-code/plugins)分发技能。
+
+要通过插件共享技能：
+
+1. 创建一个在 `skills/` 目录中包含技能的插件
+2. 将插件添加到市场
+3. 团队成员安装插件
+
+有关完整说明，请参阅[向您的插件添加技能](https://docs.claude.com/en/docs/claude-code/plugins#add-skills-to-your-plugin)。
+
+您也可以直接通过项目仓库共享技能：
+
+### 第 1 步：将技能添加到您的项目
+
+创建一个项目技能：
+
+| ``` 12 ``` | ``` mkdir -p .claude/skills/team-skill# Create SKILL.md ``` |
+| --- | --- |
+
+### 第 2 步：提交到 git
+
+| ``` 123 ``` | ``` git add .claude/skills/git commit -m "Add team Skill for PDF processing"git push ``` |
+| --- | --- |
+
+### 第 3 步：团队成员自动获取技能
+
+当团队成员拉取最新更改时，技能将立即可用：
+
+| ``` 12 ``` | ``` git pullclaude  # Skills are now available ``` |
+| --- | --- |
+
+更新一个技能
+------
+
+直接编辑 `SKILL.md`：
+
+| ``` 12345 ``` | ``` # Personal Skillcode ~/.claude/skills/my-skill/SKILL.md# Project Skillcode .claude/skills/my-skill/SKILL.md ``` |
+| --- | --- |
+
+更改将在您下次启动 Claude Code 时生效。如果 Claude Code 已在运行，请重新启动以加载更新。
+
+移除一个技能
+------
+
+删除技能目录：
+
+| ``` 1234567 ``` | ``` # Personalrm -rf ~/.claude/skills/my-skill# Projectrm -rf .claude/skills/my-skillgit commit -m "Remove unused Skill" ``` |
+| --- | --- |
+
+最佳实践
+----
+
+### 保持技能专注
+
+一个技能应该解决一个能力：
+
+**专注的**:
+
+* “PDF 表单填写”
+* “Excel 数据分析”
+* “Git 提交信息”
+
+**过于宽泛的**:
+
+* “文档处理”（应拆分为独立的技能）
+* “数据工具”（应按数据类型或操作拆分）
+
+### 编写清晰的描述
+
+通过在描述中包含特定的触发词，帮助 Claude 发现何时使用技能：
+
+**清晰的**:
+
+| ``` 1 ``` | ``` description: Analyze Excel spreadsheets, create pivot tables, and generate charts. Use when working with Excel files, spreadsheets, or analyzing tabular data in .xlsx format. ``` |
+| --- | --- |
+
+**模糊的**:
+
+| ``` 1 ``` | ``` description: For files ``` |
+| --- | --- |
+
+### 与您的团队一起测试
+
+让团队成员使用技能并提供反馈：
+
+* 技能是否在预期时激活？
+* 指令是否清晰？
+* 是否有遗漏的示例或边缘情况？
+
+### 记录技能版本
+
+您可以在 `SKILL.md` 内容中记录技能版本以跟踪更改。添加一个版本历史部分：
+
+| ``` 123456 ``` | ``` # My Skill## Version History- v2.0.0 (2025-10-01): Breaking changes to API- v1.1.0 (2025-09-15): Added new features- v1.0.0 (2025-09-01): Initial release ``` |
+| --- | --- |
+
+这有助于团队成员了解版本之间的变化。
+
+故障排除
+----
+
+### Claude 不使用我的技能
+
+**症状**：您提出了一个相关问题，但 Claude 没有使用您的技能。  
+**检查**：描述是否足够具体？
+
+模糊的描述会使发现变得困难。同时包含技能的功能和使用时机，并附上用户可能会提及的关键词。
+
+**过于通用的**:
+
+| ``` 1 ``` | ``` description: Helps with data ``` |
+| --- | --- |
+
+**具体的**:
+
+| ``` 1 ``` | ``` description: Analyze Excel spreadsheets, generate pivot tables, create charts. Use when working with Excel files, spreadsheets, or .xlsx files. ``` |
+| --- | --- |
+
+**检查**：YAML 是否有效？
+
+运行验证以检查语法错误：
+
+| ``` 1234567 ``` | ``` # View frontmattercat .claude/skills/my-skill/SKILL.md | head -n 15# Check for common issues# - Missing opening or closing ---# - Tabs instead of spaces# - Unquoted strings with special characters ``` |
+| --- | --- |
+
+**检查**：技能是否在正确的位置？
+
+| ``` 123456 ``` | ``` # Personal Skillsls ~/.claude/skills/*/SKILL.md# Project Skillsls .claude/skills/*/SKILL.md ``` |
+| --- | --- |
+
+### 技能出现错误
+
+**症状**：技能加载了但无法正常工作。  
+**检查**：依赖项是否可用？
+
+当需要时，Claude 会自动安装所需的依赖项（或请求安装许可）。
+
+**检查**：脚本是否有执行权限？
+
+| ``` 1 ``` | ``` chmod +x .claude/skills/my-skill/scripts/*.py ``` |
+| --- | --- |
+
+**检查**：文件路径是否正确？
+
+在所有路径中使用正斜杠（Unix 风格）：  
+**正确**：`scripts/helper.py` 错误：`scripts\helper.py`（Windows 风格）
+
+### 多个技能冲突
+
+**症状**：Claude 使用了错误的技能，或者在相似的技能之间显得困惑。  
+**在描述中要具体**：通过在描述中使用独特的触发词，帮助 Claude 选择正确的技能。
+
+不要这样：
+
+| ``` 12345 ``` | ``` # Skill 1description: For data analysis# Skill 2description: For analyzing data ``` |
+| --- | --- |
+
+**应该这样**:
+
+| ``` 12345 ``` | ``` # Skill 1description: Analyze sales data in Excel files and CRM exports. Use for sales reports, pipeline analysis, and revenue tracking.# Skill 2description: Analyze log files and system metrics data. Use for performance monitoring, debugging, and system diagnostics. ``` |
+| --- | --- |
+
+示例
+--
+
+### 简单技能（单个文件）
+
+| ``` 12 ``` | ``` commit-helper/└── SKILL.md ``` |
+| --- | --- |
+
+
+| ``` 12345678910111213141516171819 ``` | ``` ---name: Generating Commit Messagesdescription: Generates clear commit messages from git diffs. Use when writing commit messages or reviewing staged changes.---# Generating Commit Messages## Instructions1. Run `git diff --staged` to see changes2. I'll suggest a commit message with:   - Summary under 50 characters   - Detailed description   - Affected components## Best practices- Use present tense- Explain what and why, not how ``` |
+| --- | --- |
+
+### 带有工具权限的技能
+
+| ``` 12 ``` | ``` code-reviewer/└── SKILL.md ``` |
+| --- | --- |
+
+
+| ``` 12345678910111213141516171819202122 ``` | ``` ---name: Code Reviewerdescription: Review code for best practices and potential issues. Use when reviewing code, checking PRs, or analyzing code quality.allowed-tools: Read, Grep, Glob---# Code Reviewer## Review checklist1. Code organization and structure2. Error handling3. Performance considerations4. Security concerns5. Test coverage## Instructions1. Read the target files using Read tool2. Search for patterns using Grep3. Find related files using Glob4. Provide detailed feedback on code quality ``` |
+| --- | --- |
+
+### 多文件技能
+
+| ``` 1234567 ``` | ``` pdf-processing/├── SKILL.md├── FORMS.md├── REFERENCE.md└── scripts/    ├── fill_form.py    └── validate.py ``` |
+| --- | --- |
+
+**SKILL.md**:
+
+| ``` 12345678910111213141516171819202122232425 ``` | ``` ---name: PDF Processingdescription: Extract text, fill forms, merge PDFs. Use when working with PDF files, forms, or document extraction. Requires pypdf and pdfplumber packages.---# PDF Processing## Quick startExtract text:\`\`\`pythonimport pdfplumberwith pdfplumber.open("doc.pdf") as pdf:    text = pdf.pages[0].extract_text()\`\`\`For form filling, see [FORMS.md](FORMS.md).For detailed API reference, see [REFERENCE.md](REFERENCE.md).## RequirementsPackages must be installed in your environment:\`\`\`bashpip install pypdf pdfplumber\`\`\` ``` |
+| --- | --- |
+
+> 在描述中列出所需的包。在 Claude 可以使用它们之前，必须在您的环境中安装这些包。
+
+Claude 仅在需要时加载附加文件。
+
+
+[# AI](/tags/AI/)
+[# AI Coding](/tags/AI-Coding/)
+[# Claude Code](/tags/Claude-Code/)
+[# Anthropic](/tags/Anthropic/)
+
+[使用 LangGraph 构建生产级的自适应智能体 RAG](/2025/10/18/building-agentic-adaptive-rag-with-langgraph-for-production/)
+
+[编写Claude Agent Skills最佳实践](/2025/10/21/agent-skills-authoring-best-practices/)
+
+
+
+
+
+
+
+©
+2025
+
+
+indie-bits.com
+
+由 [Hexo](https://hexo.io/) & [NexT.Gemini](https://theme-next.js.org/) 强力驱动
+
+
+
+
+
+0%
+
+Theme NexT works best with JavaScript enabled
+
+
+
+
+
+

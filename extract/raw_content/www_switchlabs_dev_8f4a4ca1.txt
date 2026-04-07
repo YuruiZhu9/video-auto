@@ -1,0 +1,147 @@
+# Source URL: https://www.switchlabs.dev/post/prompting-ai-for-code-generation-best-practices-and-model-insights-2025
+# Content Length: 28797 characters
+# Extracted at: 2026-04-07 09:06:03
+#============================================================
+
+New:Thread Pilot—AI follow-ups for Gmail.
+[Learn more](https://www.switchlabs.dev/thread-pilot-for-gmail)
+AI Development Guide
+# Prompting AI for Code Generation: Best Practices and Model Insights (2025)
+May 15, 2025•56 min read
+Large Language Models (LLMs) have become powerful assistants for software development – they can generate code, explain algorithms, and even help debug. However, getting high-quality results requires understanding both the current landscape of code-generating models and effective prompt design. This article provides a comprehensive guide for mid-level developers on \*\*best practices for prompting LLMs\*\* for general-purpose coding tasks. We will compare leading models (OpenAI's \*\*GPT-4\*\* and \*\*o3\*\*, Anthropic's \*\*Claude 3.5\*\* and \*\*Claude 3.7 "Sonnet"\*\*, and Google's \*\*Gemini 1.5\*\* and \*\*Gemini 2.5\*\*) in terms of code generation capabilities – including code quality, supported languages, prompt sensitivity, multi-step reasoning, and debugging. We'll then dive into prompt-writing techniques (structuring prompts, step-by-step formats, asking for tests/docs, iterative refinement, and handling long context limits), followed by model-specific tips and \*\*real-world examples of good vs. poor prompts\*\* for each model.
+## Landscape of Code-Generating AI Models (2025)
+AI coding assistants have rapidly evolved. Below is an overview of the latest state-of-the-art models and their key characteristics in the context of code generation:
+\*\*OpenAI GPT-4 (and GPT-4 Turbo):\*\* OpenAI's flagship model (introduced 2023) that set new standards for code quality and reasoning. GPT-4 was not designed exclusively for coding, but it excels at it – writing correct code and explaining it in natural language. It achieved top-tier results on programming benchmarks (e.g. ~90% pass rate on HumanEval coding challenges). Initially limited to 8K–32K token context, the later GPT-4 Turbo version expanded context up to 128K tokens, allowing it to handle much larger code snippets or documentation. GPT-4 is versatile (capable across many languages and domains) and follows instructions precisely, making it a popular general-purpose coding assistant. It also gained multimodal abilities (e.g. vision), though primarily we focus on its text/code use.
+\*\*OpenAI o3:\*\* Released in April 2025 as OpenAI's next-generation "reasoning" model, o3 (sometimes styled "GPT-4o" in literature) builds on GPT-4's capabilities with an emphasis on longer reasoning chains and tool use. It is described as OpenAI's "most powerful reasoning model", excelling at complex, multi-step tasks in coding and beyond. Notably, o3 can agentically use tools in the ChatGPT interface – for example, it may autonomously call the Python interpreter or web browser to help solve a coding problem. This means it can potentially run code, test outputs, or search documentation during a session, leading to more accurate and verified solutions. OpenAI reports that o3 sets a new state-of-the-art on coding benchmarks like Codeforces and SWE-Bench without special prompting. In practice, o3 tends to make fewer major errors than its predecessors on difficult programming tasks.
+\*\*Anthropic Claude 3.5 (Haiku & Sonnet variants):\*\* Claude is Anthropic's family of AI assistants. Claude 3.5 (introduced late 2024) came in two variants – Haiku (optimized for speed/cost) and Sonnet (optimized for intelligence and longer responses). Claude 3.5 was a leap in coding ability, designed for real-world software engineering tasks. In fact, Claude 3.5's Sonnet model achieved state-of-the-art code generation on benchmarks in its time – for example, 93.7% on HumanEval, edging out contemporaries like GPT-4o at 90.2%. It also scored 49% on the challenging SWE-Bench Verified coding benchmark, beating the previous best model's 45%. Claude 3.5 can handle 100K token context, meaning it can ingest huge code files or multiple files at once. It is known for a natural communication style – often providing clear explanations in plain language alongside code.
+\*\*Anthropic Claude 3.7 "Sonnet":\*\* Launched in early 2025, Claude 3.7 Sonnet is Anthropic's latest and most advanced model to date. It is described as a "hybrid reasoning model" with "state-of-the-art coding skills, computer use, and a 200K context window". The hallmark of Claude 3.7 is its "extended thinking" mode, which allows it to effectively perform chain-of-thought reasoning and even show its step-by-step reasoning to the user ("thinking out loud"). This yields impressive performance on complex tasks: Claude 3.7 ranks at the top of benchmarks like SWE-Bench Verified for resolving real-world software issues and TAU-Bench for multi-step tool-using tasks. Early testers report it handles "complex codebases and advanced tool use better than any model they've tried". It can plan code changes across an entire stack and carry them out with exceptional precision.
+\*\*Google Gemini 1.5:\*\* Google's Gemini is a newer family of multimodal LLMs (developed by Google DeepMind) that emerged in late 2024 as a response to GPT-4. Gemini 1.5 was among the first versions made available (e.g. via Google's Vertex AI platform). It is a multimodal model (text, code, images, etc.) but notably was strong in code generation compared to Google's earlier models. Gemini 1.5 Pro introduced an unprecedented context length – up to 2 million tokens in a special long-context mode – far beyond the 128K of GPT-4 Turbo. This huge context window means Gemini can effectively take in an entire codebase or lengthy documentation all at once. In terms of coding benchmarks, the first Gemini versions still trailed GPT-4 and Claude in raw accuracy; for example, Gemini 1.5 Pro scored around 72% on HumanEval in earlier tests. However, it was clear that Gemini was rapidly improving.
+\*\*Google Gemini 2.5:\*\* Released in early 2025, Gemini 2.5 Pro is Google's most advanced model for coding and reasoning. It represents a significant leap over 1.5. Google reports that Gemini 2.5 "tops the LMArena leaderboard by a significant margin," indicating state-of-the-art performance in human evaluations. Importantly for developers, Gemini 2.5 made a "big leap over 2.0" in coding benchmarks, now excelling at code generation, transformation, and even creating entire applications from scratch. On the SWE-Bench Verified benchmark (which tests agentic coding on real GitHub issues), Gemini 2.5 Pro scores ~63.8% (with a custom agent setup) – closing the gap with, and in some cases surpassing, OpenAI and Anthropic's results. Gemini 2.5 is a "thinking model" with chain-of-thought reasoning built-in: it can internally reason through steps before outputting, which improves accuracy and multi-step coherence.
+To summarize this landscape, GPT-4, Claude 3.7, and Gemini 2.5 are considered the top-tier models for code generation as of 2025, each with slight different specialties: GPT-4(o3) is known for reliability and strict instruction-following, Claude for its reasoning transparency and ultra-long texts, and Gemini for its unparalleled context size and multimodal prowess.
+## Comparing Model Capabilities for Code Generation
+When choosing or working with a particular LLM for coding, it's useful to know their relative strengths and quirks. Below we compare the models in terms of:
+- Code Quality and Correctness
+- Language/Framework Support
+- Responsiveness to Prompt Design
+- Multi-Step Instructions and Reasoning
+- Error Handling and Debugging
+Each of these factors influences how you should prompt the model and what to expect from its output.
+### Code Quality and Correctness
+How reliable and "clean" is the code produced by each model? All of the listed models are capable of generating correct, runnable code for typical tasks, but there are nuances in quality:
+\*\*GPT-4:\*\* Generally produces very accurate and executable code on the first try for a wide range of problems. It was the leader in many coding benchmarks upon release, solving competitive programming and algorithm challenges at a high success rate. GPT-4's code tends to be well-structured and commented if asked. It seldom makes syntax errors unless the prompt is ambiguous. However, like any model, it isn't infallible – logic bugs or off-by-one errors can occur in complex algorithms, especially if the problem is underspecified. Overall, GPT-4 is considered extremely trustworthy for generating correct solutions to well-defined tasks (often achieving ~80–90% success on tasks like LeetCode easy/medium).
+\*\*OpenAI o3:\*\* Being an improvement over GPT-4, o3 pushes code correctness even further. Thanks to its extended reasoning, it makes ~20% fewer major errors on complex tasks compared to earlier OpenAI models. In practical terms, o3 might catch edge cases more often. It also has the ability to use tools (like executing the code or tests within the session), which means it can verify its output. For example, in ChatGPT with o3, it might generate a piece of code and immediately run it (if you have the Code Interpreter tool enabled) to ensure it works – thereby catching bugs automatically.
+\*\*Claude 3.5:\*\* Claude's coding style is very competent and careful. Empirical evaluations showed Claude 3.5's code generation quality to be on par with or even slightly above GPT-4 for many tasks. Early users found Claude's solutions to programming problems to be correct and even elegantly explained. One notable aspect is Claude often explains what it's about to do in natural language before presenting code. This means the code comes with rationale "built-in," which can be useful for learning or review.
+\*\*Claude 3.7:\*\* With Claude 3.7, Anthropic pushed code quality even higher. This model was designed to handle real-world software development tasks, not just toy problems. It has been reported to generate "production-grade code with genuine design taste" – for instance, producing well-structured front-end code that aligns with best practices in frameworks, or writing backend logic that is idiomatic. Claude 3.7 significantly improved on complex coding challenges: it essentially solved some internal benchmarks that stumped previous models.
+\*\*Gemini 1.5:\*\* The initial Gemini model had somewhat mixed code quality out-of-the-box. It was definitely competent – it could write correct code for common tasks in Python, JavaScript, etc., and was evaluated to be better than many open-source models. But relative to GPT-4 and Claude, Gemini 1.5 was a bit more prone to small errors or omissions. For example, in coding tasks, Gemini 1.5 sometimes produced code that needed minor adjustments (maybe an import missing or an off-by-one error in an algorithm).
+\*\*Gemini 2.5:\*\* Google addressed many of 1.5's shortcomings in Gemini 2.5. By 2025, Gemini 2.5's code generation is much more robust and correct. In side-by-side user tests, Gemini 2.5 often produced more complete and well-commented code than GPT-4 for complex prompts (e.g., building a small web app). It tends to include all necessary components (for example, if asked for a web page, it will include HTML, CSS, and JavaScript sections as appropriate). The model also benefits from its internal "thinking" – it might plan the code in pseudocode internally, which results in more logically consistent final code.
+### Support for Languages and Frameworks
+What programming languages and frameworks can these models handle? All of the mentioned LLMs were trained on large volumes of code from GitHub, documentation, and other sources, so they support a wide array of languages. In practice, their proficiency is highest for popular languages like Python, JavaScript/TypeScript, Java, C/C++, and fairly high for C#, Go, Ruby, PHP, etc. They can even generate code in languages like Rust, Swift, Kotlin, SQL, MATLAB, or bash scripts, though less commonly discussed in examples.
+\*\*GPT-4/o3:\*\* These models have broad and deep language support. GPT-4 was demonstrated on everything from Python to Verilog. It can write React components in JSX, Node.js scripts, Django or Flask code for web backends, and so on, with a good understanding of those frameworks' idioms. OpenAI's earlier Codex (on which ChatGPT's coding ability was partly based) was heavily trained on Python and JavaScript, which shows – GPT-4 is exceptionally good with those languages (often writing Pythonic code with correct PEP8 style, or using idiomatic JavaScript/TypeScript patterns).
+\*\*Claude 3.5/3.7:\*\* Claude's training also covered a wide range of programming languages. It was tested extensively with Python, JavaScript/TypeScript, and Java, which are very commonly requested. Claude performs excellently in those – for instance, Anthropic specifically highlighted Claude's strength in real-world software engineering tasks involving multiple languages and systems. One example: Claude can produce a front-end in React and the corresponding back-end in Python Flask, coordinating the two, which shows framework awareness.
+\*\*Gemini 1.5/2.5:\*\* Google's Gemini being multimodal and based on extensive Google data, it has very broad knowledge as well. Gemini 2.5 especially has been noted to "excel at creating web apps and agentic code applications". This suggests a strength in web development scenarios: e.g. generating HTML/CSS, JS, using Google's own frameworks or industry ones. In fact, the internal examples for Gemini often involve interactive web UI and multi-component systems.
+### Responsiveness to Prompt Design
+How does the phrasing and structure of the prompt affect each model's output? All LLMs are sensitive to prompt wording, but some are more forgiving than others.
+\*\*GPT-4:\*\* Known for its obedience to instructions. If you specify a format or approach, GPT-4 will do its best to stick to it. For example, telling GPT-4 "output only the code, no explanation" usually works – it will give just a code block. It's also quite robust: even if your prompt is a bit vague, GPT-4 often guesses the intended meaning correctly. That said, a well-structured prompt yields much better outputs with GPT-4. OpenAI's guidance emphasizes specificity and putting instructions up front.
+\*\*Claude (3.5 & 3.7):\*\* Claude is known for a more conversational, human-like style of interaction. This means Claude is very good at parsing even messy or high-level prompts. If you just describe a problem casually ("Hmm, I'm trying to do X with Y, but it's not working, any idea?"), Claude will still understand and give a helpful answer, often with a polite tone. In other words, Claude is forgiving to prompt style – you don't need to rigidly structure your request for it to get the point.
+\*\*Gemini (1.5 & 2.5):\*\* Gemini's prompting dynamics are still being explored, but some patterns have emerged. Gemini 2.5 is a "thinking model", which means it likely uses chain-of-thought internally, similar to o3 and Claude. From a user perspective, Gemini 2.5 often produces detailed and structured responses without needing heavy prompt engineering – it was built to reason through tasks.
+### Ability to Follow Multi-Step Instructions
+Complex coding tasks often involve multiple steps or a sequence of instructions. For example, "first do X, then do Y, then output Z." How well do these models handle that kind of scenario?
+All these advanced models are quite capable at multi-step instructions, but there are differences in strategy and consistency:
+\*\*GPT-4:\*\* Very good at following multi-step prompts in the exact order given. If you number the steps in your prompt, GPT-4 will usually address them one by one, often even labeling its answers according to your steps. It scored high on instruction following evaluations (OpenAI reported GPT-4 had ~87.4% on an instruction-following benchmark, IFEval).
+\*\*Claude 3.5/3.7:\*\* Claude is excellent at multi-step reasoning and instructions. Anthropic designed it with a "chain-of-thought" in mind. Claude can actually keep a kind of internal scratchpad if needed. One of Claude 3.7's selling points is that it can carry out long, complex tasks with many substeps without losing track. For example, you could ask it to analyze a piece of code, identify bugs, suggest a design improvement, then implement the improvement, then write tests – all in one prompt.
+\*\*Gemini 2.5:\*\* As a "thinking model", Gemini 2.5 was explicitly built to handle multi-step reasoning tasks. Google noted its advanced performance on multi-step challenges (like multi-step question answering). When it comes to following a procedure laid out by the user, Gemini does it well. It might sometimes even infer steps if you didn't specify them, due to its reasoning approach.
+### Error Handling and Debugging
+One of the most valuable uses of code-generation models is debugging: you give them an error or broken code and they help fix it. How proficient are these models at handling errors, and how do they incorporate error feedback?
+\*\*GPT-4:\*\* Has strong debugging capabilities. It was trained on many coding Q&A and forum data (like Stack Overflow), so it recognizes common error messages and their solutions. If you show GPT-4 a stack trace or exception, it will usually explain what it means and suggest a fix. In use, developers often do something like: "Here's my code (X). It's giving this error: \[Traceback\]. What is wrong and how to fix it?" – GPT-4 excels at this.
+\*\*OpenAI o3:\*\* All that applies to GPT-4 applies to o3, plus more. With o3's tool use, debugging becomes even more powerful. In the ChatGPT interface, o3 can automatically run code in a sandbox to reproduce the error or test a fix. Imagine providing code and an error; o3 might execute the code (via the Python tool) to see the full error context, then it could iteratively modify the code until the error disappears – all in one prompt/response.
+\*\*Claude 3.5/3.7:\*\* Claude is particularly known for spotting mistakes in its own outputs and others'. Anthropic has iteratively trained Claude to be self-reflective. When you provide Claude with a piece of code and an error, it not only fixes it but usually explains why that error occurred in a very clear way. Claude's style in debugging is often to restate the problem in simpler terms ("So, you got a NullPointerException at line 42. That means…") and then provide a fix.
+\*\*Gemini 1.5/2.5:\*\* Gemini has quickly caught up in debugging skill as well. Being a Google model, it was likely trained on many technical documents and code issues (including data from Stack Overflow, GitHub issues, etc.). Gemini 2.5 in particular was improved to handle more agentic tasks, which includes reading error messages, formulating a fix, and even testing it conceptually.
+## Best Practices for Writing Prompts for Code Generation
+Even the most advanced LLM will underperform if given a poor prompt. Crafting your prompt is crucial in guiding the model to produce useful, correct, and formatted output. Here are key best practices for writing prompts for coding tasks, along with explanations and techniques:
+### 1\. Be Clear and Specific about the Desired Outcome
+Clarity is king. A specific prompt yields a more accurate response. When asking for code, specify as much of the context and requirements as possible. This includes:
+- \*\*Language and version:\*\* Don't assume the model knows which language you want unless it's obvious. For example, "Write a Python 3 function…" or "Using JavaScript (ES2020), do X." If you need code for a specific version of a framework (say React 18, or Python 3.10), mention it.
+- \*\*Functionality or task details:\*\* Describe what the code should do in unambiguous terms. Instead of "do something with this data," say "sort the list of users by signup date and then filter out inactive users."
+- \*\*Inputs and outputs:\*\* If you expect a function, define its signature if possible. For example: "Write a function is\\_palindrome(s: str) -> bool that returns True if…."
+- \*\*Format of the answer:\*\* Clearly state how you want the response. If you want just code, say so. If you want an explanation with the code, you can request "provide the code and then explain it in a brief paragraph."
+- \*\*Constraints or caveats:\*\* Mention any constraints like performance requirements ("optimize for O(n) complexity"), memory limits, or specific libraries to use or avoid.
+### 2\. Structure Complex Prompts and Break Down Tasks
+For complex tasks, structure your prompt into clear steps or sections. Large language models benefit from seeing an organized input – it allows them to organize their output similarly. Break the problem into sub-tasks in the prompt: If a project involves multiple components (e.g., database, API, front-end), you can explicitly list tasks for each.
+Encourage chain-of-thought for the model (when needed): If the task is logically complicated (like an algorithm or puzzle), you can explicitly ask the model to think step by step. This is known as chain-of-thought prompting, and it can improve reasoning accuracy.
+### 3\. Leverage Examples (Input-Output) and Templates
+Providing an example of what you expect can dramatically improve output. This is essentially few-shot learning – giving the model a prototype to follow. For coding, this can mean:
+- Show a small example of input and desired output. For instance, if you want a function to parse data, you can give a sample input (like a short JSON or text snippet) and the output you expect for that input.
+- Provide a template or partial code with placeholders. You can write a simple frame and ask the model to fill it.
+- Output format examples: If you want the answer in a specific format (say a JSON with certain fields), you might show a tiny example in the prompt of a similar JSON.
+- Demonstrate edge case handling: You can even show, for example, "for input X, output Y" for a normal case and "for input Z (an edge case), output W".
+### 4\. Ask for Additional Outputs: Tests, Documentation, Alternatives
+One strength of AI models is they can generate not just the solution code, but things around it that a developer might need. You can fold these into your prompt:
+- \*\*Ask for unit tests or example usage:\*\* This serves two purposes – it gives you a way to verify the solution, and it forces the model to double-check the code.
+- \*\*Ask for a brief explanation or documentation:\*\* Even if you only need code, asking the model to include a short explanation can be beneficial.
+- \*\*Ask for alternative implementations:\*\* You could say, "Give me two different approaches – one using a loop and one using a list comprehension."
+- \*\*Generate documentation or usage examples:\*\* If you're integrating this into a project, you might want a usage example or API documentation.
+### 5\. Iterate and Refine Interactively
+Don't expect perfection on the first try for very complex tasks. A best practice is iterative prompting – use the conversation (if you're in a chat interface) to refine the results:
+- \*\*Review and test the output, then feed back issues:\*\* If the model's first output has an error or doesn't meet a requirement, tell the model that.
+- \*\*Ask for clarification if something in output is unclear:\*\* If the model gave a piece of code but you're not sure why it did X, you can ask "Why did you do X here?"
+- \*\*Gradually increase requirements:\*\* Perhaps first ask for a simple version of the solution, verify it works, then ask the model to expand it.
+- \*\*Keep prompts within context limits:\*\* If you're in a long session, remember there are context size limits.
+### 6\. Manage Context and Long Codebases
+When dealing with very large code or multiple files, context management becomes key:
+- Use summaries or describe code instead of pasting everything (for smaller context models): If you're using GPT-4 with an 8K limit and your codebase is 50K lines, you obviously can't feed all that.
+- Use the model's strengths to condense context: You can actually ask the model to summarize code or logs for you, then feed that summary into a follow-up question.
+- Focus the prompt on the relevant parts of code: If an error involves two modules, you don't need to show the model unrelated modules.
+- With huge context models, still be explicit: Even though Claude can take 200K tokens and Gemini 1M+, it doesn't hurt to remind the model what to do with all that info.
+### 7\. Model-Specific Quirks and Instructions
+Finally, tailor your approach to the specific model when necessary:
+- \*\*For GPT-4 (and GPT-4 Turbo):\*\* Take advantage of its precision. You can pack a lot into one prompt and trust GPT-4 to handle it, but it will do exactly what you say.
+- \*\*For OpenAI o3:\*\* Remember it can use tools if you're in ChatGPT. You might not need to prompt it to run code – it will decide on its own.
+- \*\*For Claude 3.5/3.7:\*\* Exploit its natural language strength. You can afford to write the prompt in a more conversational way if that's easier for you, and Claude will still get it.
+- \*\*For Gemini 2.5:\*\* Embrace its multimodality. If relevant, you can literally include images (if using an interface that supports it).
+## Conclusion
+The landscape of AI-powered code generation has matured significantly in 2025, with GPT-4/o3, Claude 3.7, and Gemini 2.5 leading the charge. Each model brings unique strengths to the table: GPT-4's precision and instruction-following, Claude's conversational clarity and extended reasoning, and Gemini's massive context windows and multimodal capabilities. By understanding these differences and applying the prompt engineering best practices outlined in this guide, developers can dramatically improve the quality and relevance of AI-generated code.
+Remember that effective prompting is an iterative process. Start with clear, specific instructions, provide relevant examples, break down complex tasks into manageable steps, and don't hesitate to refine your prompts based on the model's output. Whether you're generating Python functions, debugging Java applications, building React components, or architecting entire systems, these AI assistants can significantly accelerate your development workflow when used thoughtfully.
+As these models continue to evolve, the key to success lies not just in choosing the right model, but in mastering the art of communication with AI. The techniques discussed here – from structured prompting to multi-step instruction design – will serve you well across all current and future AI coding assistants. Happy coding!
+## Related Tools
+[\*\*JSON Formatter & Validator\*\* \\
+\\
+Code & Developer Tools\\
+\\
+Format, validate, and beautify JSON with syntax highlighting](https://www.switchlabs.dev/json-formatter-validator) [\*\*Regex Tester\*\* \\
+\\
+Code & Developer Tools\\
+\\
+Test and debug regular expressions with live matching](https://www.switchlabs.dev/regex-tester) [\*\*Diff Checker\*\* \\
+\\
+Text & Document Tools\\
+\\
+Compare two text files and find differences](https://www.switchlabs.dev/diff-checker) [\*\*Base64 Encoder/Decoder\*\* \\
+\\
+Code & Developer Tools\\
+\\
+Encode and decode Base64 strings and files](https://www.switchlabs.dev/base64-encoder-decoder)
+[View all tools](https://www.switchlabs.dev/tools)
+Contact
+## Tell us what you're building and we'll get in touch fast
+Ship a proof-of-concept, integrate Metro2, or hand off the workflow entirely—we respond within one business day and loop in the right Switch Labs partner for your stack.
+Response Time< 24 hours
+Delivery OptionsProduct \| Services
+Website
+Name
+Email
+Company (optional)
+What can we help with?
+Checking your Browser…
+Verifying...
+Stuck? [Troubleshoot](https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/turnstile/f/ov2/av0/rch/6b1on/0x4AAAAAACaLkIwHmqv2GwWm/light/fbE/new/flexible?lang=auto#refresh)
+Success!
+Verification failed
+[Troubleshoot](https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/turnstile/f/ov2/av0/rch/6b1on/0x4AAAAAACaLkIwHmqv2GwWm/light/fbE/new/flexible?lang=auto#refresh)
+Verification expired
+[Refresh](https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/turnstile/f/ov2/av0/rch/6b1on/0x4AAAAAACaLkIwHmqv2GwWm/light/fbE/new/flexible?lang=auto#refresh)
+Verification expired
+[Refresh](https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/turnstile/f/ov2/av0/rch/6b1on/0x4AAAAAACaLkIwHmqv2GwWm/light/fbE/new/flexible?lang=auto#refresh)
+[Troubleshoot](https://challenges.cloudflare.com/cdn-cgi/challenge-platform/h/b/turnstile/f/ov2/av0/rch/6b1on/0x4AAAAAACaLkIwHmqv2GwWm/light/fbE/new/flexible?lang=auto#refresh)
+[Privacy](https://www.cloudflare.com/privacypolicy/) • [Help](https://challenges.cloudflare.com/cdn-cgi/challenge-platform/help)
+Send message
+By submitting you agree to let Switch Labs contact you about relevant products and services.

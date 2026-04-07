@@ -1,0 +1,163 @@
+# Source URL: https://llmbase.ai/openclaw/video-learn/
+# Content Length: 5385 characters
+# Extracted at: 2026-04-06 12:08:52
+#============================================================
+
+\*\*NEW\*\* [![](https://cdn.jsdelivr.net/npm/@lobehub/icons-static-png@latest/light/gemini-color.png)Gemma 4 26B A4B](https://llmbase.ai/models/google/gemma-4-26b-a4b-it/), [![](https://cdn.jsdelivr.net/npm/@lobehub/icons-static-png@latest/light/gemini-color.png)Gemma 4 31B](https://llmbase.ai/models/google/gemma-4-31b-it/), [![](https://cdn.jsdelivr.net/npm/@lobehub/icons-static-png@latest/light/zai.png)GLM 5V Turbo](https://llmbase.ai/models/z-ai/glm-5v-turbo/), [![](https://cdn.jsdelivr.net/npm/@lobehub/icons-static-png@latest/light/arcee-color.png)Trinity Large Thinking](https://llmbase.ai/models/arcee-ai/trinity-large-thinking/) \*\*NEW\*\*
+[Chat for free →](https://llmbase.ai/chat/)
+Dismiss
+# Video Understanding OpenClaw Skill
+视频理解与分析能力 \- 让 AI 能够理解视频内容、提取关键信息。当用户要求分析视频、理解视频内容、总结视频、提取视频要点时触发此技能。
+v1.0.0
+Recently Updated
+Updated Today
+Installation
+`clawhub install video-learn`
+Requires `npm i -g clawhub`
+[View on ClawHub](https://clawhub.ai/jackeven02/video-learn) [Download .zip](https://clawhub.ai/api/v1/download?slug=video-learn)
+1.7k
+Downloads
+0
+Stars
+18
+current installs
+18 all-time
+1
+Versions
+![EU](https://cdn.jsdelivr.net/npm/flagpack@1.0.5/flags/1x1/eu.svg)EU-Hosted Inference API
+## Power your OpenClaw skills with the best open-source models.
+Drop-in OpenAI-compatible API. No data leaves Europe.
+[Explore Inference API](https://llmbase.ai/dashboard/)
+GLM
+GLM 5
+$1.00 / $3.20
+per M tokens
+Kimi
+Kimi K2.5
+$0.60 / $2.80
+per M tokens
+MiniMax
+MiniMax M2.5
+$0.30 / $1.20
+per M tokens
+Qwen
+Qwen3.5 122B
+$0.40 / $3.00
+per M tokens
+# Video Understanding - 视频理解技能
+## 概述
+赋予 AI 理解和分析视频内容的能力，支持：
+- 视频链接分析（YouTube、Bilibili等）
+- 提取视频标题、描述、时长等信息
+- 视频内容总结与关键点提取
+- 语音转文字（需要额外工具）
+## 触发场景
+1. 用户发送视频链接并要求"理解"、"分析"、"总结"
+2. 用户询问视频"讲了什么"、"重点是什么"
+3. 用户要求"提取"视频内容
+4. 需要从视频中获取信息
+## 支持平台
+| 平台 | 网址 | 支持情况 |
+| --- | --- | --- |
+| YouTube | youtube.com | 标题、描述、时长 |
+| Bilibili | bilibili.com | 标题、简介、BV号 |
+| 抖音 | douyin.com | 标题、描述 |
+| 腾讯视频 | v.qq.com | 标题、简介 |
+| 爱奇艺 | iq.com | 标题、简介 |
+## 获取视频信息
+### 方法1: web\\_fetch
+```
+url = "https://www.youtube.com/watch?v=视频ID"
+# 提取 title, description, duration
+```
+### 方法2: 第三方 API
+- RapidAPI Video APIs
+- YouTube Data API
+- Bilibili API
+## 工作流
+```
+1. 识别视频平台 → 判断使用哪个 API/方法
+2. 获取基本信息 → 标题、描述、时长、作者
+3. 提取关键内容 → 章节、要点、字幕（如有）
+4. 整合总结 → 用中文呈现给用户
+```
+## 输出格式
+向用户呈现视频信息时：
+- 视频标题和来源
+- 内容摘要（如果可以获取）
+- 关键时间点（如有章节）
+- 建议的观看重点
+## 限制
+- 无法直接播放视频
+- 无法理解视频画面内容
+- 需要平台支持或第三方 API
+### Statistics
+Downloads1.7k
+Stars0
+Current installs18
+All-time installs18
+Versions1
+Comments0
+CreatedFeb 24, 2026
+UpdatedApr 5, 2026
+### Author
+[![Jackeven02](https://wsrv.nl/?url=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F199219042%3Fv%3D4)\\
+\\
+Jackeven02\\
+\\
+@jackeven02](https://llmbase.ai/openclaw/authors/jackeven02/)
+### Latest Changes
+v1.0.0 · Feb 24, 2026
+Initial release of video-understanding skill.
+\- Enables AI to analyze and summarize video content from popular platforms (YouTube, Bilibili, etc.)
+\- Extracts video title, description, duration, and key points
+\- Supports video content summarization and highlights extraction
+\- Detects user intent based on requests such as "analyze," "summarize," or "extract" video content
+\- Cannot play videos or process raw visuals; relies on metadata and available APIs
+Quick Install
+`clawhub install video-learn`
+## Related Skills
+Other popular skills you might find useful.
+[![MaTriXy](https://wsrv.nl/?url=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F3080139%3Fv%3D4)\\
+\\
+\*\*Agent Browser\*\* \\
+\\
+MaTriXy\\
+\\
+Headless browser automation CLI optimized for AI agents with accessibility tree snapshots and ref-based element selection\\
+\\
+70.8k 263 v0.1.0](https://llmbase.ai/openclaw/agent-browser-clawdbot/)
+[![peytoncasper](https://wsrv.nl/?url=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F8305883%3Fv%3D4)\\
+\\
+\*\*Browser Automation\*\* \\
+\\
+peytoncasper\\
+\\
+Automate web browser interactions using natural language via CLI commands. Use when the user asks to browse websites, navigate web pages, extract data from websites, take screenshots, fill forms, click buttons, or interact with web applications.\\
+\\
+32.2k 46 v1.0.1](https://llmbase.ai/openclaw/browser-automation/)
+[![Iván](https://wsrv.nl/?url=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F81719670%3Fv%3D4)\\
+\\
+\*\*Code\*\* \\
+\\
+Iván\\
+\\
+Coding workflow with planning, implementation, verification, and testing for clean software development.\\
+\\
+18.5k 35 v1.0.4](https://llmbase.ai/openclaw/code/)
+[![peytoncasper](https://wsrv.nl/?url=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F8305883%3Fv%3D4)\\
+\\
+\*\*Agent Browser - Stagehand\*\* \\
+\\
+peytoncasper\\
+\\
+Automate web browser interactions using natural language via CLI commands. Use when the user asks to browse websites, navigate web pages, extract data from websites, take screenshots, fill forms, click buttons, or interact with web applications.\\
+\\
+6.3k 4 v1.0.0](https://llmbase.ai/openclaw/agent-browser-stagehand/)
+[Browse all skills →](https://llmbase.ai/openclaw/)
+![EU](https://cdn.jsdelivr.net/npm/flagpack@1.0.5/flags/1x1/eu.svg)Made in Europe
+## Chat with 100+ AI Models in one App.
+Use Claude, ChatGPT, Gemini alongside with EU-Hosted Models like Deepseek, GLM-5, Kimi K2.5 and many more.
+[Start for free](https://llmbase.ai/chat/) [View pricing\\
+→](https://llmbase.ai/pricing/)
+![App screenshot](https://llmbase.ai/images/chat-screenshot.jpg)

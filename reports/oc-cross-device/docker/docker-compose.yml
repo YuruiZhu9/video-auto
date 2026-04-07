@@ -1,0 +1,87 @@
+# OpenClaw Cross-Device Control — Docker Compose 部署
+# 启动命令: docker-compose up -d
+
+version: "3.9"
+
+services:
+  # ── 核心服务 ──────────────────────────────────────────────────────────────
+
+  clawctl:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: clawctl
+    restart: unless-stopped
+    ports:
+      - "8080:8080"        # HTTP API
+    environment:
+      # OpenClaw Gateway
+      OPENCLAW_BASE_URL: "http://host.docker.internal:18789"
+      OPENCLAW_API_KEY: "${OPENCLAW_API_KEY}"
+      # 钉钉通知
+      DINGTALK_TOKEN: "${DINGTALK_TOKEN}"
+      DINGTALK_SECRET: "${DINGTALK_SECRET}"
+      # Telegram（可选）
+      TELEGRAM_BOT_TOKEN: "${TELEGRAM_BOT_TOKEN}"
+      TELEGRAM_CHAT_ID: "${TELEGRAM_CHAT_ID}"
+      # Webhook 签名密钥
+      WEBHOOK_SECRET: "${WEBHOOK_SECRET}"
+      # 模板路径
+      CLAWCTL_TEMPLATES: "/app/clawctl/templates/schedules.yaml"
+    volumes:
+      - ../code/config.yaml:/app/config.yaml:ro
+      - ../code/clawctl/templates:/app/clawctl/templates:ro
+      - clawctl_data:/app/data         # SQLite 任务数据库
+      - clawctl_logs:/app/logs
+    networks:
+      - clawnet
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:8080/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # ── 反向代理（HTTPS）──────────────────────────────────────────────────────
+
+  nginx:
+    image: nginx:alpine
+    container_name: clawctl-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro  # 放入你的证书 (fullchain.pem + privkey.pem)
+    depends_on:
+      - clawctl
+    networks:
+      - clawnet
+    healthcheck:
+      test: ["CMD", "nginx", "-t"]
+      interval: 60s
+      timeout: 5s
+      retries: 3
+
+  # ── 可选：Watchtower 自动更新 ──────────────────────────────────────────────
+
+  watchtower:
+    image: containrrr/watchtower
+    container_name: clawctl-watchtower
+    restart: unless-stopped
+    environment:
+      WATCHTOWER_CLEANUP: "true"
+      WATCHTOWER_POLL_INTERVAL: 3600   # 每小时检查一次
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - clawnet
+
+networks:
+  clawnet:
+    driver: bridge
+
+volumes:
+  clawctl_data:
+  clawctl_logs:

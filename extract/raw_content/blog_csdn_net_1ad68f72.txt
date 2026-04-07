@@ -1,0 +1,1659 @@
+# Source URL: https://blog.csdn.net/qq_37852091/article/details/158035171
+# Content Length: 30876 characters
+# Extracted at: 2026-04-04 09:05:11
+#============================================================
+
+ 
+
+
+
+
+
+【原理&实践篇】03.Claude Code开发最佳实践：从提示词到Vibe Coding\_claude code最佳实践-CSDN博客
+
+
+
+
+
+
+
+
+【原理&实践篇】03.Claude Code开发最佳实践：从提示词到Vibe Coding
+=============================================
+
+
+最新推荐文章于 2026-03-09 08:41:16 发布
+原创
+最新推荐文章于 2026-03-09 08:41:16 发布
+·
+1.7k 阅读
+·
+![]()
+![]()
+37
+
+
+·
+![]()
+![]()
+14
+·
+CC 4.0 BY-SA版权
+版权声明：本文为博主原创文章，遵循 [CC 4.0 BY-SA](http://creativecommons.org/licenses/by-sa/4.0/) 版权协议，转载请附上原文出处链接和本声明。
+
+
+
+
+
+文章标签：
+
+[#claude code](https://so.csdn.net/so/search/s.do?q=claude+code&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#vide coding](https://so.csdn.net/so/search/s.do?q=vide+coding&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#skills](https://so.csdn.net/so/search/s.do?q=skills&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#subagents](https://so.csdn.net/so/search/s.do?q=subagents&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#agent](https://so.csdn.net/so/search/s.do?q=agent&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#code](https://so.csdn.net/so/search/s.do?q=code&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#ide](https://so.csdn.net/so/search/s.do?q=ide&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+
+
+
+
+
+
+
+[![]()
+原理与实践【长期】
+专栏收录该内容](https://blog.csdn.net/qq_37852091/category_13122652.html)
+
+3 篇文章
+
+订阅专栏
+
+
+
+
+Claude Code 开发最佳实践：从提示词到 Vibe Coding
+------------------------------------
+
+> 掌握与 Claude Code 对话的艺术，让 AI 成为真正的编程搭档
+
+上一篇我们介绍了 Claude Code 的核心功能：Subagents、MCP、Skills、Hooks。这篇文章聚焦于**如何与 Claude Code 对话**——通过精心设计的提示词，让它更高效、更智能地完成任务。
+
+![]()
+
+---
+
+### 目录
+
+| 章节 | 主题 | 你将学到 |
+| --- | --- | --- |
+| [1. 提示词基础原则](#1-%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%9F%BA%E7%A1%80%E5%8E%9F%E5%88%99) | 好提示词的三要素 | 具体、可验证、分阶段 |
+| [2. 触发 Subagents](#2-%E8%A7%A6%E5%8F%91-subagents-%E7%9A%84%E6%8F%90%E7%A4%BA%E8%AF%8D%E6%A8%A1%E5%BC%8F) | 并行、后台、链式执行 | 如何用提示词控制子代理 |
+| [3. 探索-规划-执行](#3-%E6%8E%A2%E7%B4%A2-%E8%A7%84%E5%88%92-%E6%89%A7%E8%A1%8C%E5%B7%A5%E4%BD%9C%E6%B5%81) | 三阶段对话流程 | 复杂任务的分解策略 |
+| [4. 中断与引导](#4-%E4%B8%AD%E6%96%AD%E4%B8%8E%E5%BC%95%E5%AF%BC%E6%8A%80%E5%B7%A7) | 实时纠偏 | 不等完成就调整方向 |
+| [5. TDD 开发模式](#5-tdd-%E5%BC%80%E5%8F%91%E7%9A%84%E6%8F%90%E7%A4%BA%E8%AF%8D%E6%A8%A1%E5%BC%8F) | 测试驱动开发 | 红-绿-重构的对话流程 |
+| [6. Vibe Coding 理念](#6-vibe-coding-%E7%90%86%E5%BF%B5%E4%B8%8E%E5%AE%9E%E8%B7%B5) | 委托式编程 | 从"指挥"到"协作" |
+| [7. 上下文管理](#7-%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86%E7%9A%84%E5%AF%B9%E8%AF%9D%E6%8A%80%E5%B7%A7) | Token 高效利用 | 何时清理、何时压缩 |
+| [8. 反模式避坑](#8-%E5%B8%B8%E8%A7%81%E5%8F%8D%E6%A8%A1%E5%BC%8F%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88) | 低效对话模式 | 识别并改正坏习惯 |
+
+---
+
+### 1. 提示词基础原则
+
+#### 1.1 好提示词的三要素
+
+![]()
+
+| 要素 | 说明 | 示例 |
+| --- | --- | --- |
+| **具体范围** | 明确文件、模块、功能边界 | “在 `src/auth/` 目录下” |
+| **验证方式** | 给 Claude 检查自己工作的标准 | “运行测试并确保通过” |
+| **分阶段指令** | 复杂任务拆分为步骤 | “先探索，再规划，最后实现” |
+
+#### 1.2 提示词对比表
+
+| 场景 | ❌ 模糊提示 | ✅ 具体提示 |
+| --- | --- | --- |
+| **功能实现** | “实现邮箱验证” | “编写 `validateEmail` 函数，测试用例：`user@example.com` → true，`invalid` → false。实现后运行 `npm test`” |
+| **Bug 修复** | “修复登录 bug” | “用户反映会话超时后登录失败。检查 `src/auth/` 的 token 刷新逻辑。先写失败测试重现问题，再修复” |
+| **代码探索** | “这个 API 怎么回事？” | “查看 `ExecutionFactory` 的 git 历史，总结 API 演变过程和设计决策” |
+| **UI 实现** | “让页面更好看” | “[粘贴截图] 实现这个设计。完成后截图对比，列出差异并修复” |
+| **重构** | “重构这段代码” | “将 `processOrder` 函数拆分为独立步骤，保持所有测试通过，不改变外部 API” |
+
+#### 1.3 高级提示技巧
+
+##### 🎯 技巧 1：提供验证闭环
+
+```
+# 让 Claude 可以自我验证
+> 实现 validateEmail 函数。
+> 测试用例：
+>   - user@example.com → true
+>   - invalid → false
+>   - user@.com → false
+> 实现后运行测试，修复任何失败。
+
+```
+##### 🎤 技巧 2：让 Claude 采访你
+
+对于复杂功能，让 Claude 主动问问题：
+
+```
+> 我想构建用户认证系统。
+> 请用 AskUserQuestion 工具详细采访我。
+>
+> 询问：技术选型、安全要求、边缘情况、与现有系统的集成。
+> 深入挖掘我可能没考虑到的难点。
+> 采访完成后，将完整规格写入 SPEC.md。
+
+```
+##### 📎 技巧 3：引用上下文
+
+```
+# 使用 @ 引用文件
+> 解释 @src/utils/auth.js 中的 token 刷新逻辑
+
+# 直接粘贴图片（拖拽或 Ctrl+V）
+> [截图] 根据这个设计稿实现页面
+
+# 提供 URL
+> 参考 https://api-docs.example.com 实现这个端点
+
+# 管道输入
+cat error.log | claude -p "分析这个错误的根本原因"
+
+```
+##### 🔗 技巧 4：链式指令
+
+```
+# 用 "然后" 连接多个步骤
+> 先阅读 src/api/users.ts 理解现有结构，
+> 然后添加 deleteUser 端点，
+> 然后为新端点编写测试，
+> 最后运行测试确保通过。
+
+```
+
+---
+
+### 2. 触发 Subagents 的提示词模式
+
+Subagents 是 Claude Code 的并行处理能力。关键是**通过提示词正确触发和控制它们**。
+
+![]()
+
+#### 2.1 基础触发语法
+
+```
+# 🔑 核心关键词：use subagents
+> fix the login bug. use subagents
+
+# 等效表达
+> investigate this issue using a subagent
+> spawn a subagent to analyze the codebase
+> have a subagent review this code
+
+```
+#### 2.2 并行研究模式
+
+当需要同时调查多个模块时：
+
+```
+# ✅ 推荐写法：明确指定并行
+> investigate auth, payment, and notification modules in parallel.
+> use subagents for each module.
+> return compressed summary only:
+>   - key findings (bullet points)
+>   - files affected (paths only)
+>   - recommended actions (prioritized)
+
+# 🎯 关键点：
+# 1. "in parallel" - 明确要求并行
+# 2. "use subagents" - 触发子代理
+# 3. "compressed summary only" - 控制返回格式
+
+```
+#### 2.3 后台执行模式
+
+长时间任务放到后台，不阻塞主会话：
+
+```
+# 后台运行测试
+> run the full test suite in the background.
+> write results to test-report.md, not chat.
+> only notify me if tests fail.
+
+# 后台代码分析
+> use a subagent in background to analyze code complexity.
+> save report to complexity-report.md.
+> I'll continue working on other tasks.
+
+```
+
+**快捷键**：按 `Ctrl+B` 可将当前正在执行的任务移到后台。
+
+#### 2.4 指定子代理类型
+
+```
+# 使用 Explore 子代理（只读、快速）
+> use the Explore agent to find all API endpoints in the codebase
+
+# 使用自定义子代理
+> use the code-reviewer subagent to review my recent changes
+
+# 使用 Plan 子代理（只读、规划）
+> use a Plan agent to design the refactoring strategy
+
+```
+#### 2.5 链式子代理执行
+
+```
+# 一个子代理的输出作为另一个的输入
+> first, use a subagent to find all security vulnerabilities.
+> then, use another subagent to generate fix recommendations.
+> finally, summarize both findings in a single report.
+
+```
+#### 2.6 控制子代理返回格式
+
+**核心原则**：子代理应返回压缩后的关键信息，而非冗长过程。
+
+```
+# ❌ 不好：没有控制返回格式
+> use a subagent to analyze the auth module
+
+# ✅ 好：明确指定返回格式
+> use a subagent to analyze the auth module.
+> return format:
+>   - 3-5 key findings
+>   - affected files (paths only)
+>   - priority: critical > warning > suggestion
+> no process explanation, results only.
+
+```
+#### 2.7 子代理提示词模板库
+
+##### 模板 1：并行代码审查
+
+```
+> review src/api/, src/services/, src/utils/ in parallel.
+> use subagents.
+> each agent should check:
+>   - security vulnerabilities
+>   - performance issues
+>   - code style violations
+> output format per module:
+>   🔴 Critical: [count]
+>   🟡 Warning: [count]
+>   🟢 Suggestion: [count]
+>   Top 3 issues: [list]
+
+```
+##### 模板 2：后台测试 + 继续工作
+
+```
+> run npm test in background.
+> if all pass: just say "✅ Tests passed"
+> if failures: list failed tests with file:line
+> meanwhile, I'll continue with the next task.
+
+```
+##### 模板 3：深度调查 + 写文件
+
+```
+> use a subagent to investigate how authentication works.
+> trace the flow from login to session creation.
+> write findings to docs/auth-flow.md, not chat.
+> include a mermaid diagram of the flow.
+
+```
+##### 模板 4：比较方案研究
+
+```
+> I need to add caching. research three approaches in parallel:
+>   1. Redis
+>   2. In-memory (node-cache)
+>   3. File-based
+> use subagents.
+> for each: pros, cons, implementation complexity, recommended use case.
+> output as comparison table.
+
+```
+
+---
+
+### 3. 探索-规划-执行工作流
+
+复杂任务应该分三个阶段进行对话：
+
+![]()
+
+#### 3.1 阶段一：探索
+
+**目标**：理解现有代码，收集必要上下文。
+
+```
+# 进入 Plan 模式（只读探索）
+> Shift+Tab  # 切换到 plan mode
+# 或
+> /plan
+
+# 探索提示词
+> explore the authentication module.
+> I want to understand:
+>   - how sessions are managed
+>   - where tokens are stored
+>   - how refresh flow works
+> don't change any code, just investigate.
+
+```
+
+**探索阶段的好提示词**：
+
+```
+# 理解架构
+> explain the architecture of src/api/.
+> focus on request flow and middleware chain.
+
+# 追溯历史
+> check git history of auth.ts.
+> summarize major changes and why they were made.
+
+# 发现依赖
+> what external services does the payment module depend on?
+> list all API calls and their purposes.
+
+```
+#### 3.2 阶段二：规划
+
+**目标**：基于探索结果，设计实施方案。
+
+```
+# 继续在 Plan 模式
+> based on your findings, propose a plan to add OAuth support.
+> consider:
+>   - which files need changes
+>   - new files to create
+>   - potential risks
+>   - testing strategy
+
+```
+
+**让 Claude 生成可编辑的计划**：
+
+```
+> write the implementation plan to PLAN.md
+> I want to review and edit it before we proceed
+
+```
+
+**快捷键**：按 `Ctrl+G` 在外部编辑器中打开计划文件。
+
+#### 3.3 阶段三：执行
+
+**目标**：按计划实施，持续验证。
+
+```
+# 退出 Plan 模式，进入 Normal 模式
+> Shift+Tab  # 切换回 normal mode
+
+# 执行提示词
+> implement the OAuth flow according to @PLAN.md
+> after each major step:
+>   - run relevant tests
+>   - commit if tests pass
+> stop and ask if you encounter unexpected issues.
+
+```
+#### 3.4 完整示例：添加新功能
+
+```
+# ========== 阶段 1：探索 ==========
+> Shift+Tab  # 进入 plan mode
+
+> I want to add rate limiting to our API.
+> first, explore:
+>   - current middleware structure in src/middleware/
+>   - how other cross-cutting concerns (auth, logging) are implemented
+>   - existing rate limiting attempts (if any)
+> use subagents if needed.
+
+# [Claude 探索并报告发现]
+
+# ========== 阶段 2：规划 ==========
+> based on your findings, design the rate limiting solution.
+> consider:
+>   - where to add the middleware
+>   - configuration options (limits per endpoint, per user)
+>   - storage backend (Redis vs memory)
+>   - error response format
+> write the plan to RATE_LIMIT_PLAN.md
+
+# [审查计划，按 Ctrl+G 编辑]
+
+# ========== 阶段 3：执行 ==========
+> Shift+Tab  # 回到 normal mode
+
+> implement rate limiting according to @RATE_LIMIT_PLAN.md
+> test after each step:
+>   - unit tests for the middleware
+>   - integration tests for the endpoints
+> commit with descriptive messages when tests pass.
+
+```
+
+---
+
+### 4. 中断与引导技巧
+
+Claude Code 不是"提交任务然后等待"的工具，而是**可以实时互动的搭档**。
+
+#### 4.1 随时中断
+
+```
+> fix the authentication bug
+
+# [Claude 开始执行，你发现方向不对]
+
+# 按 Esc 停止当前执行
+# 然后立即给出新指令
+
+> stop. the issue is not in auth.ts, it's in session.ts.
+> look at the session expiration logic instead.
+
+```
+#### 4.2 引导纠偏
+
+```
+> refactor the UserService class
+
+# [Claude 开始重构，你有更好的想法]
+
+> wait, don't extract that method.
+> instead, use composition over inheritance.
+> the UserValidator should be a separate class.
+
+```
+#### 4.3 追问细节
+
+```
+> add input validation to the API
+
+# [Claude 完成后]
+
+> that looks good, but what about SQL injection?
+> also add sanitization for the 'name' field.
+
+```
+#### 4.4 回退与重试
+
+```
+# 双击 Esc 或 /rewind 打开回退菜单
+Esc Esc
+
+# 选择回退点：
+# - Restore Code: 恢复代码但保留对话
+# - Restore Code and Chat: 完全回退
+
+# 然后用不同方式重试
+> let's try a different approach.
+> instead of modifying the existing code, create a new utility function.
+
+```
+#### 4.5 中断提示词模板
+
+```
+# 停止并澄清
+> stop. before you continue, let me clarify:
+> I want [具体要求], not [Claude 正在做的]
+
+# 改变方向
+> actually, let's take a different approach.
+> instead of [当前方向], let's [新方向]
+
+# 分步确认
+> pause after each file change and show me what you're planning.
+> I want to approve before you proceed.
+
+# 设置边界
+> only modify files in src/api/.
+> if you need to change other files, ask first.
+
+```
+
+---
+
+### 5. TDD 开发的提示词模式
+
+Test-Driven Development 与 Claude Code 配合时，需要特定的对话模式。
+
+#### 5.1 TDD 基本循环
+
+![]()
+
+#### 5.2 TDD 提示词模板
+
+##### 模板 1：完整 TDD 循环
+
+```
+> implement a ShoppingCart class using TDD.
+>
+> follow this cycle strictly:
+>   1. RED: write a failing test first
+>   2. GREEN: write minimal code to pass
+>   3. REFACTOR: improve code quality
+>   4. repeat for next feature
+>
+> features to implement:
+>   - addItem(product, quantity)
+>   - removeItem(productId)
+>   - getTotal()
+>   - applyDiscount(code)
+>
+> run tests after each step.
+> commit after each GREEN phase.
+
+```
+##### 模板 2：先测试后实现
+
+```
+> write comprehensive tests for validateCreditCard function.
+>
+> test cases:
+>   - valid Visa: 4111111111111111 → true
+>   - valid Mastercard: 5500000000000004 → true
+>   - invalid checksum: 4111111111111112 → false
+>   - too short: 411111 → false
+>   - non-numeric: 4111-1111-1111-1111 → handle gracefully
+>
+> run tests (should all fail).
+> then implement the function to pass all tests.
+
+```
+##### 模板 3：Bug 修复 TDD
+
+```
+> there's a bug: users can checkout with expired cards.
+>
+> TDD approach:
+>   1. write a test that reproduces the bug
+>   2. verify the test fails
+>   3. fix the bug
+>   4. verify the test passes
+>   5. ensure no other tests broke
+>
+> related code is in src/checkout/
+
+```
+#### 5.3 测试驱动探索
+
+```
+> I'm not sure how the order processing works.
+> write exploratory tests to understand:
+>   - what happens when order total is 0
+>   - what happens with invalid product IDs
+>   - what happens when inventory is insufficient
+>
+> run each test and report what you learn.
+> don't fix anything yet, just understand current behavior.
+
+```
+#### 5.4 持续测试提示词
+
+```
+# 要求每次修改后运行测试
+> modify the UserService.
+> after EVERY code change:
+>   1. run `npm test -- --grep "UserService"`
+>   2. if tests fail, fix before continuing
+>   3. only commit when tests pass
+
+# 覆盖率要求
+> add the new feature.
+> maintain test coverage above 80%.
+> run `npm test -- --coverage` to check.
+
+```
+
+---
+
+### 6. Vibe Coding 理念与实践
+
+Vibe Coding 是一种与 AI 协作的新范式：**委托而非指挥**。
+
+![]()
+
+#### 6.1 核心理念对比
+
+| 传统模式 | Vibe Coding |
+| --- | --- |
+| 你写代码，Claude 审查 | 你描述需求，Claude 探索、规划、实现 |
+| 逐行指令 | 高层次委托 |
+| “在第 42 行添加这个函数” | “修复过期卡片的结账流程” |
+| 你是执行者 | 你是产品经理 / 架构师 |
+| 等待完成再反馈 | 随时中断引导 |
+
+#### 6.2 委托式提示词
+
+```
+# ❌ 微管理式（过度指导）
+> open src/payments/checkout.ts
+> find the processPayment function
+> add a token refresh check at line 156
+> use the refreshToken() method
+
+# ✅ 委托式（给上下文和方向）
+> users report checkout fails when their session expires.
+> the issue is probably in src/payments/.
+> investigate and fix it.
+> add tests to prevent regression.
+
+```
+#### 6.3 给 Claude 自主权
+
+```
+# 信任 Claude 的判断
+> implement caching for the product API.
+> choose the best approach based on our codebase.
+> explain your choice briefly.
+
+# 允许 Claude 探索
+> I'm not sure why this test is flaky.
+> investigate and propose solutions.
+> implement the best one if you're confident.
+
+```
+#### 6.4 实时协作对话
+
+```
+> implement user authentication
+
+# [Claude 开始工作]
+# [你观察到 Claude 选择了 JWT]
+
+> I see you're using JWT.
+> we need refresh tokens too.
+> can you add that?
+
+# [Claude 调整]
+# [你想到一个边缘情况]
+
+> what happens if the refresh token is also expired?
+> handle that case gracefully.
+
+```
+#### 6.5 视觉驱动开发
+
+```
+# 从设计稿开始
+> [拖拽设计图到终端]
+> implement this design.
+> use our existing component library in src/components/.
+> after implementation, take a screenshot and compare.
+> fix any differences.
+
+# 迭代改进
+> [粘贴当前实现的截图]
+> compare this with @design.png
+> the spacing is off. fix it.
+
+```
+#### 6.6 Vibe Coding 提示词模板
+
+##### 模板 1：功能委托
+
+```
+> I need to add [功能描述].
+>
+> context:
+>   - related code: [目录/文件]
+>   - existing patterns to follow: [参考]
+>   - constraints: [限制条件]
+>
+> approach:
+>   1. explore current implementation
+>   2. propose solution
+>   3. implement with tests
+>   4. verify everything works
+>
+> ask if you have questions.
+
+```
+##### 模板 2：问题解决委托
+
+```
+> users report [问题描述].
+>
+> clues:
+>   - happens when [条件]
+>   - error message: [错误]
+>   - related logs: [日志位置]
+>
+> investigate, identify root cause, and fix.
+> add test to prevent regression.
+
+```
+##### 模板 3：重构委托
+
+```
+> the [模块] is getting hard to maintain.
+>
+> goals:
+>   - improve readability
+>   - reduce duplication
+>   - keep external API unchanged
+>
+> approach this incrementally:
+>   - show me the plan first
+>   - make small, testable changes
+>   - run tests after each change
+
+```
+
+---
+
+### 7. 上下文管理的对话技巧
+
+上下文窗口是有限资源。高效的对话技巧可以帮助你最大化利用它。
+
+![]()
+
+#### 7.1 何时清理上下文
+
+```
+# 任务完成后
+> /clear
+> 开始新任务...
+
+# 话题切换时
+> we're done with auth. /clear
+> now let's work on the payment module.
+
+# 上下文变得混乱时
+> this conversation got confusing. /clear
+> let me restart: I need to [清晰描述]
+
+```
+#### 7.2 何时压缩上下文
+
+```
+# 任务进行中但上下文太长
+> /compact focus on the API changes we discussed
+
+# 只保留关键信息
+> /compact keep only: file paths changed, test results, next steps
+
+# 查看上下文使用情况
+> /context
+
+```
+#### 7.3 避免上下文污染
+
+```
+# ❌ 不好：让探索结果污染主上下文
+> read all files in src/ and summarize
+
+# ✅ 好：用子代理隔离探索
+> use a subagent to explore src/.
+> return only: file structure, key modules, entry points.
+
+```
+#### 7.4 分会话策略
+
+```
+# 复杂项目用多个会话
+# 会话 1：功能开发
+claude --resume feature-auth
+
+# 会话 2：Bug 修复
+claude --resume bugfix-123
+
+# 会话 3：代码审查
+claude --resume review
+
+```
+#### 7.5 Fork 会话尝试不同方案
+
+```
+# 保存当前进度，尝试新方向
+claude --continue --fork-session
+
+> let's try a completely different approach.
+> instead of [当前方案], let's [新方案].
+
+# 如果新方案更好，继续使用 fork
+# 如果不行，回到原会话
+claude --resume [原会话名]
+
+```
+
+---
+
+### 8. 常见反模式与解决方案
+
+![]()
+
+#### 8.1 厨房水槽会话
+
+```
+# ❌ 反模式：一个会话处理所有事情
+> fix the login bug
+> [完成]
+> how does caching work?  # 无关话题
+> [回答]
+> continue fixing login   # 上下文混乱
+
+# ✅ 解决：任务边界清晰
+> fix the login bug
+> [完成]
+> /clear
+> how does caching work?
+
+```
+#### 8.2 反复纠正循环
+
+```
+# ❌ 反模式：不断纠正同一问题
+> implement X
+> no, that's wrong, try again
+> still wrong, once more
+> ...  # 消耗上下文，效果变差
+
+# ✅ 解决：两次纠正后重启
+> /clear
+> [更清晰、更具体的提示词]
+
+```
+#### 8.3 过度指定
+
+```
+# ❌ 反模式：每一步都详细指定
+> open file A
+> read line 42
+> change X to Y
+> save file
+> open file B
+> ...
+
+# ✅ 解决：委托 + 约束
+> refactor the auth module.
+> constraints:
+>   - don't change public API
+>   - keep tests passing
+> show me the plan first.
+
+```
+#### 8.4 无限探索
+
+```
+# ❌ 反模式：没有边界的探索
+> explain everything about this codebase
+# Claude 读取大量文件，填满上下文
+
+# ✅ 解决：限定范围
+> explain the auth flow in src/auth/.
+> focus on login and session management.
+> ignore admin features for now.
+
+```
+#### 8.5 忽略错误继续
+
+```
+# ❌ 反模式：测试失败仍继续前进
+> add the feature
+# [测试失败]
+> now add the next feature
+# [累积问题]
+
+# ✅ 解决：修复后再继续
+> add the feature
+# [测试失败]
+> fix the failing tests first.
+> then continue with the next feature.
+
+```
+#### 8.6 反模式速查表
+
+| 反模式 | 症状 | 解决方案 |
+| --- | --- | --- |
+| 厨房水槽 | 话题跳跃，上下文混乱 | 任务完成后 `/clear` |
+| 反复纠正 | 同一问题纠正 3+ 次 | 重启会话，改进提示词 |
+| 过度指定 | 逐行指令 | 委托 + 约束 |
+| 无限探索 | 上下文快速填满 | 用子代理，限定范围 |
+| 忽略错误 | 累积失败 | 先修复再继续 |
+| 模糊提示 | Claude 猜测你的意图 | 具体 + 可验证 |
+
+---
+
+### 速查总结
+
+#### 提示词模式速查
+
+| 场景 | 关键词 / 模式 |
+| --- | --- |
+| 触发子代理 | `use subagents`, `use a subagent to...` |
+| 并行执行 | `in parallel`, `simultaneously` |
+| 后台运行 | `in background`, 或 `Ctrl+B` |
+| 探索模式 | `Shift+Tab` 进入 Plan Mode |
+| 测试先行 | `write tests first`, `TDD` |
+| 验证闭环 | `run tests`, `verify`, `check` |
+| 压缩返回 | `compressed summary`, `results only` |
+| 中断纠偏 | `Esc` + 新指令 |
+| 委托式 | 描述目标，不描述步骤 |
+
+#### 快捷键速查
+
+| 快捷键 | 功能 |
+| --- | --- |
+| `Esc` | 停止当前执行 |
+| `Esc Esc` | 打开回退菜单 |
+| `Shift+Tab` | 切换权限模式 |
+| `Ctrl+B` | 移到后台 |
+| `Ctrl+G` | 编辑器中打开计划 |
+| `Ctrl+O` | 切换详细模式 |
+
+#### 工作流检查清单
+
+* 复杂任务先进入 Plan Mode 探索
+* 任务描述具体、可验证
+* 大范围探索用子代理
+* 任务完成后 `/clear` 清理
+* 测试失败先修复再继续
+* 方向不对立即中断纠偏
+* 两次纠正无效则重启会话
+
+
+
+
+
+
+关注博主即可阅读全文
+![]()
+
+![]()
+确定要放弃本次机会？
+
+福利倒计时
+
+*:*
+
+*:*
+
+
+![]()
+立减 ¥
+
+
+普通VIP年卡可用
+
+[立即使用](https://mall.csdn.net/vip)
+
+
+[![]()
+香芋Yu](https://blog.csdn.net/qq_37852091)
+
+[关注](javascript:;)
+关注
+
+
+* ![]()
+  ![]()
+  ![]()
+  37
+  点赞
+* ![]()
+  ![]()
+  踩
+* [![]()
+  ![]()
+  ![]()
+  14](javascript:;)
+  收藏
+  
+  
+  
+  觉得还不错?
+  一键收藏
+  
+  ![]()
+* ![]()
+  知道了
+  
+  [![]()
+  0](#commentBox)
+  评论
+* [![]()
+  分享](javascript:;)
+  复制链接
+  
+  分享到 QQ
+  
+  分享到新浪微博
+  
+  ![]()扫一扫
+* ![]()
+  ![]()
+  举报
+  
+  ![]()
+  举报
+
+专栏目录
+
+
+
+
+![]()
+
+[*Claude* *Code* 在企业级*开发*中的深度应用与实践指南：迈向 *Agent*ic Engineering 之路](https://dreamit.blog.csdn.net/article/details/159049356)
+
+
+03-14
+![]()
+122
+
+
+
+
+[核心技术栈、项目目标、业务逻辑摘要。容易过时的具体实现细节。](https://dreamit.blog.csdn.net/article/details/159049356)
+
+
+
+
+
+参与评论
+您还未登录，请先
+登录
+后发表或查看评论
+
+
+[*Claude* *Code* *最佳实践*的 8 条黄金法则](https://didispace.blog.csdn.net/article/details/156952284)
+
+[程序猿DD](https://blog.csdn.net/dyc87112)
+
+01-14
+![]()
+670
+
+
+
+
+[真正掌握像*Claude*这样的AI*开发*工具，关键在于思维模式的转变——从一个简单的指令发出者，转变为一个 meticulous 的规划者、配置者和系统构建者。你不是在和它聊天，你是在编程它。最后，留给你一个问题思考： 如果你不把*Claude*当作聊天机器人，而是看作一个可编程的团队成员，你最先会自动化工作流程的哪个部分？更多关于AI *Coding*的内容可关注我的博客获取持续更新。](https://didispace.blog.csdn.net/article/details/156952284)
+
+
+
+[*Claude* *Code* 使用指南：核心技能与*最佳实践*](https://devpress.csdn.net/v1/article/detail/157428577)
+
+[分享AI、区块链技术及应用，未来已来](https://blog.csdn.net/peraglobal)
+
+01-28
+![]()
+1555
+
+
+
+
+[本文介绍了使用AI助手*Claude*进行编程协作的实用指南。主要内容包括：1）基础代码生成示例（如Python统计函数）；2）代码解释（如防抖函数*原理*）；3）调试优化技巧（改进重复检测算法）；4）重构建议（拆分React组件）；5）项目架构设计（RESTful API结构）。文章还提供了*最佳实践*提示：明确需求、分步请求、要求解释、迭代改进，并强调应避免直接生成商业级应用。最后展示了高级用法，如测试生成和代码转换。通过结构化提示和分阶段请求，*开发*者可有效利用*Claude*提升编程效率。](https://devpress.csdn.net/v1/article/detail/157428577)
+
+
+
+
+[13 条 *Claude* *Code* *最佳实践*，你在用了吗？](https://blog.csdn.net/EDDYCJY/article/details/158915782)
+
+[EDDYCJY的博客](https://blog.csdn.net/EDDYCJY)
+
+03-09
+![]()
+423
+
+
+
+
+[*CLAUDE**.*md 是团队规范的载体，slash 命令和 sub*agent* 是流程自动化，hook 是 CI/CD 的延伸，MCP 是工具集成。大多数人下意识觉得要等一个任务完成再开下一个，但 Boris 的逻辑是：*Claude* 在思考的时候，你的注意力可以在其他几个会话上。这个观点我觉得挺有参考价值的，很多人为了省 token 用小模型，结果来来回回 prompt 调整，时间全耗在对话上了，不值得。这个问题其实挺常见的：*Claude* 跑长任务的时候，有时候会在中途停了，以为任务完成了，但其实还没到位。](https://blog.csdn.net/EDDYCJY/article/details/158915782)
+
+
+
+[刚刚！*Claude* *Code*对外公开了官方内部*最佳实践*！核心贡献者：CC是一个纯粹*Agent*工具，揭秘md文件、上下文进阶技巧](https://devpress.csdn.net/v1/article/detail/149904412)
+
+[jike007gt的博客](https://blog.csdn.net/jike007gt)
+
+08-04
+![]()
+1636
+
+
+
+
+[我们在 GitHub 上维护了一个开源项目 *Claude* *Code*，你可以在那里提交 issue，也可以订阅更新日志。即使是我本人都经常看不完我们发布的新功能。](https://devpress.csdn.net/v1/article/detail/149904412)
+
+
+
+[*Claude* *Code* *最佳实践*：老司机手把手教你玩转高效 AI 编程](https://devpress.csdn.net/v1/article/detail/149169788)
+
+[洛少的专栏](https://blog.csdn.net/zhq426)
+
+07-07
+![]()
+2030
+
+
+
+
+[《*Claude* *Code*高效*开发*指南》摘要：本文提供15条实用技巧，帮助*开发*者充分发挥AI编码助手*Claude*的潜力。从项目配置（*CLAUDE**.*md文件）、代码风格规范，到测试驱动*开发*、前端视觉还原等进阶用法，涵盖*开发*全流程。重点包括：明确指令技巧、快速纠偏方法、多*Claude*协作模式、自动化工具整合等。通过自定义设置、流程优化和隐藏功能，将*Claude*从基础问答工具升级为智能*开发*助手，实现效率倍增。适合希望深度整合AI工具到*开发*工作流的程序员参考。](https://devpress.csdn.net/v1/article/detail/149169788)
+
+
+
+[*Claude* *Code* *最佳实践*和常用命令完整指南](https://devpress.csdn.net/v1/article/detail/156017431)
+
+[伟大的大威的博客](https://blog.csdn.net/u010026928)
+
+12-21
+![]()
+4031
+
+
+
+
+[自定义命令允许你定义经常使用的提示为 Markdown 文件。Model Context Protocol (MCP) 是一个开源标准，允许 *Claude* *Code* 连接到外部工具和数据源。MCP 服务器可以访问数百个工具。Hooks 是在 *Claude* *Code* 生命周期中特定点执行的自定义 shell 命令，提供对 *Claude* *Code* 行为的确定性控制。](https://devpress.csdn.net/v1/article/detail/156017431)
+
+
+
+[*Claude* *Code* | Rules 最佳配置案例（中文）](https://yanglinwei.blog.csdn.net/article/details/157655920)
+
+[阿甘兄](https://blog.csdn.net/qq_20042935)
+
+02-02
+![]()
+1337
+
+
+
+
+[本文主要记录 *Claude* *Code* Rules 模块的*最佳实践*，来自 Anthropic 黑客马拉松获胜者的完整 *Claude* *Code* 配置集合。](https://yanglinwei.blog.csdn.net/article/details/157655920)
+
+
+
+[AI 时代的 *Vibe* *Coding* 实践：使用 *Claude* *Code* 从零*开发* AI 漫剧生成平台的完整记录，涵盖技术选型*.*zip
+最新发布](https://download.csdn.net/download/xiaoshun007/92778241)
+
+04-02
+
+
+
+[短剧AI - 基于AI的一站式短剧/漫剧生成平台 《一句话生成完整短剧/漫剧，从剧本到成片短剧/漫剧全自动化》Lingguo-Drama AI-An AI-powered one-stop generation platform for mini-dramas and motion comics](https://download.csdn.net/download/xiaoshun007/92778241)
+
+
+
+[北京大学-*Agent*ic *Coding*：从*Vibe* *Coding*到超级个体的进化之路*.*pdf软件工程AI编程范式演进：从*Vibe* *Coding*到*Agent*ic *Coding*的技术变革与超级个体崛起路径](https://download.csdn.net/download/godlovedaniel/92740981)
+
+03-17
+
+
+
+[内容概要：本文系统阐述了AI编程从辅助编程（Copilot）向氛围编程（*Vibe* *Coding*）及智能代理式编程（*Agent*ic *Coding*）的演进历程，介绍了*Vibe* *Coding*的核心特征、技术支撑及其在SPEC *Coding*和ID *Coding*范式中的发展*.**.**.*](https://download.csdn.net/download/godlovedaniel/92740981)
+
+
+
+[基于*Claude* *Code*的*Vibe* *Coding*快速App*开发*方法与实践](https://wenku.csdn.net/doc/24fk4fos26)
+
+
+
+
+[*Vibe* *Coding*（氛围编程）是一种高度强调*开发*者主观能动性、直觉驱动与AI深度协同的现代软件*开发*范式，其核心理念并非取代人类工程师，而是将AI（尤其是*Claude* *Code*这类具备强推理、多模态理解与上下文持续记忆能力的*.**.**.*](https://wenku.csdn.net/doc/24fk4fos26)
+
+
+
+[*CLAUDE**.*md 全方位指南：构建高效 AI *开发*上下文](https://didispace.blog.csdn.net/article/details/156992741)
+
+[程序猿DD](https://blog.csdn.net/dyc87112)
+
+01-15
+![]()
+1401
+
+
+
+
+[如果你是 *Claude* 的日常用户，你一定熟悉这个场景：每次开启一个新的对话，都必须不厌其烦地重复设置项目背景、编码规范和特定的指令。这不仅耗时，也容易出错。当你忘记提醒某个关键细节时，就不得不花更多时间去修复那些不符合规范的代码。*CLAUDE**.*md 文件正是解决这一痛点的关键。它就像 *Claude* 的项目专属记忆，让 AI 在每次对话开始前自动加载并记住你的所有偏好。这是一个简单而强大的功能，但大多数用户仅仅停留在基础层面。](https://didispace.blog.csdn.net/article/details/156992741)
+
+
+
+[【万字长文】*Claude* *Code*——AI *Coding*领域的最强实践指南！](https://devpress.csdn.net/v1/article/detail/150547799)
+
+[m0\_65555479的博客](https://blog.csdn.net/m0_65555479)
+
+08-20
+![]()
+2060
+
+
+
+
+[*Claude* *Code* 是目前最强的辅助编程软件，没有加之一，应该也没有人反对吧：如果还没用上 *Claude* *Code*（CC）,直接 https*:*//cc*.*xiaohui*.*cool](https://devpress.csdn.net/v1/article/detail/150547799)
+
+
+
+[从0到1掌握Plan模式：保护系统安全的AI任务执行框架](https://blog.csdn.net/gitblog_00957/article/details/153502302)
+
+[gitblog\_00957的博客](https://blog.csdn.net/gitblog_00957)
+
+11-07
+![]()
+589
+
+
+
+
+[Plan模式是*Claude* *Code* v1*.*0*.*33的核心安全机制，通过强制的计划制定和用户确认流程，防止AI在未授权情况下修改系统。本文基于[*Claude*\_*Code*\_Plan\_Mode\_Deep\_Analysis*.*md](https*:*//link*.*git*code**.*com/i/dc07c114dcf*03*8a0c88efa463507f48c)的技术分析，详解模式激活、操作限制和安全验证的完整工作流](https://blog.csdn.net/gitblog_00957/article/details/153502302)
+
+
+
+[用了 *Claude* *Code* 半个月，整理了一份「官方+民间」*最佳实践*](https://blog.csdn.net/JustJavaC/article/details/149473128)
+
+[justjavac(迷渡)](https://blog.csdn.net/JustJavaC)
+
+07-19
+![]()
+1411
+
+
+
+
+[如果你只会用 *Claude* 聊天写代码，那你就亏了。今天这篇，把 *Claude* *Code* 的所有「官方+民间」*最佳实践*，浓缩成一份初级程序员也能 30 分钟上手的实操手册。：先让它“读代码”，再“改代码”，最后“写测试”，拆成 3 步。→ 把报错、依赖、最近 diff 全看完，告诉你最可能的根因。→ 用 vitest / jest 语法直接写好，复制即用。，一键让它“修 issue → 写测试 → 提 PR”。，把你项目的“规矩”一次性告诉它。当 README 写，越细越好，它照单全收。](https://blog.csdn.net/JustJavaC/article/details/149473128)
+
+
+
+[*Claude* *Code**最佳实践*](https://blog.csdn.net/zhizaibide1987/article/details/158692211)
+
+[万里浮云的专栏](https://blog.csdn.net/zhizaibide1987)
+
+03-05
+![]()
+241
+
+
+
+
+[【代码】*Claude* *Code**最佳实践*。](https://blog.csdn.net/zhizaibide1987/article/details/158692211)
+
+
+
+[别再反复提醒你的 AI 了：*Claude* *Code* Hooks *最佳实践*指南](https://devpress.csdn.net/v1/article/detail/157768692)
+
+[💻 Code：TypeScript / Engineering
+🤖 AI：Prompt Optimization / Context Memory / Coding Agents](https://blog.csdn.net/roamingcode)
+
+02-05
+![]()
+1245
+
+
+
+
+[*Claude* *Code* Hooks 高效实践指南 核心价值：本文介绍如何通过*Claude* *Code* Hooks机制，将AI编程规范转化为确定性执行规则，减少重复提醒，提升*开发*效率。 关键要点： Hooks三大要素：事件触发(12种生命周期)、正则匹配器、退出码控制流 四种高价值模式： 写后即格式化(PostToolUse) 读取守卫(PreToolUse) 动态上下文注入(UserPromptSubmit) 桌面通知提醒(Notification) 配置原则：脚本独立存放、全局/项目配置分层、精准控制作用域](https://devpress.csdn.net/v1/article/detail/157768692)
+
+
+
+[来自 *Claude* *Code* 创始团队的 CC *最佳实践*技巧](https://devpress.csdn.net/v1/article/detail/157687171)
+
+[LXZZKJ的博客](https://blog.csdn.net/LXZZKJ)
+
+02-03
+![]()
+1344
+
+
+
+
+[《*Claude**Code*高效使用指南》总结了创始人Boris分享的10个核心技巧：1）通过Git工作树实现多会话并行；2）复杂任务优先规划模式；3）维护*CLAUDE**.*md持续优化AI表现；4）创建可复用技能命令；5）让AI自主修复bug；6）采用质疑式*提示词*提升输出质量；7）优化终端配置；8）利用子代理分配任务；9）集成数据分析工具；10）打造AI辅助学习系统。团队强调实验精神，建议用户根据自身需求组合这些方法，最高效地发挥*Claude**Code*的潜力。](https://devpress.csdn.net/v1/article/detail/157687171)
+
+
+
+
+
+
+[![]()](https://blog.csdn.net/qq_37852091)
+
+[香芋Yu](https://blog.csdn.net/qq_37852091)
+
+
+博客等级
+
+![]()
+
+码龄9年
+
+
+
+[91
+原创](https://blog.csdn.net/qq_37852091)
+
+1868
+点赞
+
+1383
+收藏
+
+217
+粉丝
+
+
+关注
+
+[私信](https://im.csdn.net/chat/qq_37852091)
+
+
+
+![]()
+
+
+### 热门文章
+
+* [【大模型教程——第二部分：Transformer架构揭秘】第1章：Transformer核心揭秘 (The Transformer Architecture)【上】
+  ![]()
+  2978](https://blog.csdn.net/qq_37852091/article/details/157366076)
+* [【大模型教程——第二部分：Transformer架构揭秘】第3章：预训练的奥秘：从数据到智能 (Pretraining: From Data to Intelligence)
+  ![]()
+  1881](https://blog.csdn.net/qq_37852091/article/details/157364552)
+* [【原理&实践篇】03.Claude Code开发最佳实践：从提示词到Vibe Coding
+  ![]()
+  1726](https://blog.csdn.net/qq_37852091/article/details/158035171)
+* [【LangChain1.0】第八篇 Deep Agents：构建具备规划与子智能体能力的深度 Agent
+  ![]()
+  1721](https://blog.csdn.net/qq_37852091/article/details/157229789)
+* [【大模型教程——第二部分：Transformer架构揭秘】第1章：Transformer核心揭秘 (The Transformer Architecture)【下】
+  ![]()
+  1527](https://blog.csdn.net/qq_37852091/article/details/157366106)
+
+
+### 分类专栏
+
+* [![]()
+  从零构建AICode终端系统](https://blog.csdn.net/qq_37852091/category_13131062.html)
+  11篇
+* [![]()
+  强化学习教程](https://blog.csdn.net/qq_37852091/category_13130245.html)
+  6篇
+* [![]()
+  大模型教程](https://blog.csdn.net/qq_37852091/category_13121806.html)
+  16篇
+* [![]()
+  原理与实践【长期】](https://blog.csdn.net/qq_37852091/category_13122652.html)
+  3篇
+* [![]()
+  深度学习笔记](https://blog.csdn.net/qq_37852091/category_13124429.html)
+  28篇
+* [![]()
+  LangChain](https://blog.csdn.net/qq_37852091/category_13119095.html)
+  12篇
+* [![]()
+  机器学习笔记](https://blog.csdn.net/qq_37852091/category_13124428.html)
+  8篇
+* [![]()
+  图形算法笔记](https://blog.csdn.net/qq_37852091/category_13124430.html)
+
+展开全部 ![]()
+收起 ![]()
+
+
+上一篇：
+
+[【深度学习教程——05\_生成模型(Generative)】28\_没有标签数据怎么办？自监督学习与对比学习](https://blog.csdn.net/qq_37852091/article/details/157968674)
+
+
+下一篇：
+
+[【强化学习教程——01\_强化学习基石】第01章\_MDP马尔可夫决策过程](https://blog.csdn.net/qq_37852091/article/details/158045088)
+
+
+
+### 大家在看
+
+* [openClaw本地版无需复杂配置|直接带400多可用大模型](https://blog.csdn.net/comcoo/article/details/159814740)
+* [【深度】2026新能源功率预测竞争进入下半场，真正拉开差距的，是“气象能力”](https://blog.csdn.net/a1ccwt/article/details/159813781)
+* [NestJS 实战：TypeORM 从入门到精通（完整教程）
+  ![]()
+  331](https://blog.csdn.net/sinat_33255495/article/details/159640619)
+* [盟接之桥®：从“各自为战”到“集中统一”，制造业数据交互的破局之道](https://blog.csdn.net/mjarqa/article/details/159759468)
+* [期权波动率深度解析：从定价模型到实战交易
+  ![]()
+  2](https://blog.csdn.net/eidolon_foot/article/details/159432605)
+
+
+### 最新文章
+
+* [【2026大模型面试圣经】（4）高效微调技术全解 | LoRA/QLoRA/Adapter，从原理到实战](https://blog.csdn.net/qq_37852091/article/details/158455257)
+* [【2026大模型面试圣经】（3）预训练全流程深度解析 | 从数据清洗到分布式训练，万亿Token的炼丹之路](https://blog.csdn.net/qq_37852091/article/details/158344207)
+* [【2026大模型面试圣经】（2）主流大模型架构全景 | GPT/LLaMA/DeepSeek/Qwen深度对比](https://blog.csdn.net/qq_37852091/article/details/158292305)
+
+
+2026
+[02月
+61篇](https://blog.csdn.net/qq_37852091?type=blog&year=2026&month=02)
+
+[01月
+30篇](https://blog.csdn.net/qq_37852091?type=blog&year=2026&month=01)
+
+
+
+
+
+![]()
+
+
+
+![]()
+
+· AI 阅读助手
+
+
+
+
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+
+
+![]()
+
+
+![]()
+
+· AI 阅读助手
+
+
+
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+![]()
+
+上一篇：
+
+[【深度学习教程——05\_生成模型(Generative)】28\_没有标签数据怎么办？自监督学习与对比学习](https://blog.csdn.net/qq_37852091/article/details/157968674)
+
+
+下一篇：
+
+[【强化学习教程——01\_强化学习基石】第01章\_MDP马尔可夫决策过程](https://blog.csdn.net/qq_37852091/article/details/158045088)
+
+
+
+### 分类专栏
+
+* [![]()
+  从零构建AICode终端系统](https://blog.csdn.net/qq_37852091/category_13131062.html)
+  11篇
+* [![]()
+  强化学习教程](https://blog.csdn.net/qq_37852091/category_13130245.html)
+  6篇
+* [![]()
+  大模型教程](https://blog.csdn.net/qq_37852091/category_13121806.html)
+  16篇
+* [![]()
+  原理与实践【长期】](https://blog.csdn.net/qq_37852091/category_13122652.html)
+  3篇
+* [![]()
+  深度学习笔记](https://blog.csdn.net/qq_37852091/category_13124429.html)
+  28篇
+* [![]()
+  LangChain](https://blog.csdn.net/qq_37852091/category_13119095.html)
+  12篇
+* [![]()
+  机器学习笔记](https://blog.csdn.net/qq_37852091/category_13124428.html)
+  8篇
+* [![]()
+  图形算法笔记](https://blog.csdn.net/qq_37852091/category_13124430.html)
+
+展开全部 ![]()
+收起 ![]()
+
+
+
+
+
+
+### 目录
+
+
+
+
+
+
+
+
+
+
+
+
+
+评论
+![]()
+
+![]()被折叠的  条评论
+[为什么被折叠?](https://blogdev.blog.csdn.net/article/details/122245662)
+[![]()到【灌水乐园】发言](https://bbs.csdn.net/forums/FreeZone)
+
+
+查看更多评论![]()
+
+
+
+添加红包
+
+
+祝福语
+
+
+请填写红包祝福语或标题
+
+
+红包数量
+
+个
+
+红包个数最小为10个
+
+
+红包总金额
+
+元
+
+红包金额最低5元
+
+
+余额支付
+当前余额3.43元
+[前往充值 >](https://i.csdn.net/#/wallet/balance/recharge)
+
+
+需支付：10.00元
+
+取消
+确定
+
+
+
+
+![]()
+下一步
+
+![]()
+知道了
+
+
+
+![]()
+成就一亿技术人!
+
+
+
+领取后你会自动成为博主和红包主的粉丝
+规则
+
+
+
+![]()
+hope\_wisdom 发出的红包
+
+
+
+
+
+
+
+
+
+实付元
+[使用余额支付](javascript:;)
+![]()
+点击重新获取
+
+
+![]()![]()![]()扫码支付
+
+
+
+
+钱包余额
+0
+![]()
+
+抵扣说明：
+
+1.余额是钱包充值的虚拟货币，按照1:1的比例进行支付金额的抵扣。  
+ 2.余额无法直接购买下载，可以购买VIP、付费专栏及课程。
+
+
+
+
+
+[![]()余额充值](https://i.csdn.net/#/wallet/balance/recharge)
+
+![]()
+
+
+
+
+
+

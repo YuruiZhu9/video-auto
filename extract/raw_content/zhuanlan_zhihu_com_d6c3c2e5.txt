@@ -1,0 +1,245 @@
+# Source URL: https://zhuanlan.zhihu.com/p/1978860775281009311
+# Content Length: 18052 characters
+# Extracted at: 2026-03-31 06:48:40
+#============================================================
+
+![](https://zhuanlan.zhihu.com/p/1978860775281009311)
+![NeurIPS 最佳论文：Qwen 门控注意力Gated Attention](https://picx.zhimg.com/v2-cf6090eba9b05be75fa4bf3418c4122c\_720w.jpg?source=172ae18b)
+​
+目录
+近期，阿里通义千问团队关于 “[门控注意力机制](https://zhida.zhihu.com/search?content\_id=267073366&content\_type=Article&match\_order=1&q=%E9%97%A8%E6%8E%A7%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwODM3MTgsInEiOiLpl6jmjqfms6jmhI\_lipvmnLrliLYiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNjcwNzMzNjYsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.nG-3C9PlmYH9pVCeyMIFUj4nIzBHUawxyu0-qAwr2gc&zhida\_source=entity)”（ \*\*Gated Attention\*\*）的研究，被 NeurIPS 2025 评为最佳论文。
+一句话总结这篇论文：
+> 只需在 \*\*SDPA（\*\* Scaled Dot-Product Attention \*\*） 输出后加入一个极简的 [Sigmoid 门控](https://zhida.zhihu.com/search?content\_id=267073366&content\_type=Article&match\_order=1&q=Sigmoid+%E9%97%A8%E6%8E%A7&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwODM3MTgsInEiOiJTaWdtb2lkIOmXqOaOpyIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI2NzA3MzM2NiwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.QG6oUwLTifmgsiBMWgFRWnM3xQRIsgAR-VktVX5poZs&zhida\_source=entity)\*\*，就能通过 \*\*非线性 \+ 输入相关稀疏性\*\* 同时提升大模型的性能、训练稳定性，并彻底消除 Attention Sink 与改善长上下文泛化能力。
+公式： \\bm{Y}^{'} = \\bm{Y} \\odot \\sigma(\\bm{XW}\\_\\theta)\\\其中： \\bm{Y}=\\text{softmax}\\left(\\frac{\\bm{QK}^{\\top}}{\\sqrt{d}\\_k} \\right)\\bm{V}\\\
+| 资源开销 | 参数增加：+1% | 计算开销增加：<2% |
+| 性能提升 | [MMLU](https://zhida.zhihu.com/search?content\_id=267073366&content\_type=Article&match\_order=1&q=MMLU&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwODM3MTgsInEiOiJNTUxVIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjY3MDczMzY2LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.qHzX3oMNvK3PSobaT7lpU4b\_tDb0NZIGsSeF0THZNoA&zhida\_source=entity)：⬆️ +2% | 困惑度 (PPL)：⬇️ 0.2+ |
+| 首 token 注意力占比 | 改进前：46.7% | 改进后：4.8% |
+| 最大激活值 | 改进前：1053 | 改进后：94 |
+## 十分钟读懂Gated Attention
+论文的标题是： \*\*《\*\* [Gated Attention for Large Language Models: Non-linearity, Sparsity, and Attention-Sink-Free](https://link.zhihu.com/?target=https%3A//openreview.net/pdf%3Fid%3D1b7whO4SfY) \*\*》\*\* （面向大型语言模型的门控注意力机制：非线性、稀疏性与无注意力汇聚）
+这篇论文之所以引起巨大关注并获得 NeurIPS 2025 best paper，是因为它用一种 \*\*极简\*\* 的方法，解决了 Transformer 架构中长期存在的一些顽疾（如训练不稳定、Attention Sink 问题），并已被验证在千问下一代模型（Qwen3-Next）中有效。
+### 核心创新：给注意力机制加个“门”
+传统的 [Transformer 模型](https://zhida.zhihu.com/search?content\_id=267073366&content\_type=Article&match\_order=1&q=Transformer+%E6%A8%A1%E5%9E%8B&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwODM3MTgsInEiOiJUcmFuc2Zvcm1lciDmqKHlnosiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNjcwNzMzNjYsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.2xa1\_JHfTvvBbSYrN578Bry1dS40PFZPih4tBlUenM8&zhida\_source=entity)使用的是“[缩放点积注意力](https://zhida.zhihu.com/search?content\_id=267073366&content\_type=Article&match\_order=1&q=%E7%BC%A9%E6%94%BE%E7%82%B9%E7%A7%AF%E6%B3%A8%E6%84%8F%E5%8A%9B&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwODM3MTgsInEiOiLnvKnmlL7ngrnnp6\_ms6jmhI\_lipsiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNjcwNzMzNjYsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.so\_yVfVYkTY9d8E9osstiMWiBjOwQXTC1qbBeFWVp4o&zhida\_source=entity)机制”（SDPA）。简单来说，模型会计算所有词之间的相关性，然后加权求和。
+\*\*Qwen 团队的改进非常简单粗暴但有效：\*\* 他们在标准的注意力输出之后，加了一个 \*\*数据依赖的 Sigmoid 门控（Gate）\*\*。
+- \*\*形象比喻：\*\* 以前的注意力机制像是一个“全向麦克风”，虽然有权重区分，但总会收录很多背景噪音。加了这个“门”之后，就像给模型戴上了 \*\*“智能降噪耳机”\*\*。这个门会根据当前输入的内容，动态决定让多少信息通过，或者干脆屏蔽某些无关信息。
+### 解决了什么痛点？
+这篇论文主要解决了传统 Attention 的三个大问题：
+- \*\*消除“Attention Sink”（注意力汇聚）现象：\*\*
+- \*\*问题：\*\* 以前的模型（如 Llama 等）有一个奇怪的现象，它们往往会把大量的注意力分数分配给句子的第一个 Token（比如起始符），即使这个 Token 没有任何实际语义。这就像是一个为了保持数值稳定的“垃圾桶”。
+- \*\*解决：\*\* 加了门控后，模型不再需要这个“垃圾桶”了。实验发现，Gated Attention 模型不再强制关注首个 Token，注意力分配更加符合语义逻辑。
+- \*\*提升训练稳定性与效率：\*\*
+- 大模型训练非常不稳定，学习率（Learning Rate）很难调大。这篇论文证明，加了门控后，模型训练变得非常稳定，可以使用 \*\*更大的学习率\*\* 进行训练，这意味着收敛速度更快。
+- \*\*引入非线性与稀疏性：\*\*
+- 传统的 Attention 某种程度上是线性的组合。加入 Sigmoid 门控后，引入了更强的非线性特征，同时让注意力变得更加“稀疏”（即更精准地只关注少数重要的信息，忽略噪音）。
+### 实验结果与应用
+这不仅仅是一篇理论论文，它经过了大规模的工程验证：
+- \*\*验证规模：\*\* 团队在 15B 参数的 [MoE 模型](https://zhida.zhihu.com/search?content\_id=267073366&content\_type=Article&match\_order=1&q=MoE+%E6%A8%A1%E5%9E%8B&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwODM3MTgsInEiOiJNb0Ug5qih5Z6LIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjY3MDczMzY2LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.E90uJJHiBDNC1BhbzzlCsonm2vPWD54rCnhQ13Q0-nk&zhida\_source=entity)和 1.7B 的 [Dense 模型](https://zhida.zhihu.com/search?content\_id=267073366&content\_type=Article&match\_order=1&q=Dense+%E6%A8%A1%E5%9E%8B&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwODM3MTgsInEiOiJEZW5zZSDmqKHlnosiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNjcwNzMzNjYsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.\_qLpzB78ynv2Waa6WOQqsgAgn47WghX6zBdElIHrPNY&zhida\_source=entity)上，使用了 3.5 万亿（3.5T）Token 进行了训练对比。
+- \*\*性能提升：\*\* 在几乎不增加计算量的情况下，模型在困惑度（Perplexity）和下游任务（如 MMLU）上都取得了显著提升。
+- \*\*实际落地：\*\* 该技术已经应用在了阿里巴巴最新的 \*\*Qwen3-Next\*\* 架构中（Qwen3-Next 采用了 [Gated DeltaNet](https://zhida.zhihu.com/search?content\_id=267073366&content\_type=Article&match\_order=1&q=Gated+DeltaNet&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwODM3MTgsInEiOiJHYXRlZCBEZWx0YU5ldCIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI2NzA3MzM2NiwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.HyphRewozG6J5YXT1h\_HIf9PVH\_D2piUUr-UnJJCT1M&zhida\_source=entity) \+ Gated Attention 的混合架构）。
+### 总结
+这篇论文的价值在于 \*\*“大道至简”\*\*。它没有设计复杂的网络结构，只是在一个关键位置加了一个简单的门控操作，就同时解决了数值稳定性、训练效率和模型语义表达的多个难题。这也是 NeurIPS 这种顶级学术会议将其评为 Best Paper 的原因——它对行业未来的模型架构设计具有通用的指导意义。
+\* \* \*
+## 一、为什么需要 “门”？
+在深度学习的发展长河中， \*\*“门控机制（Gating Mechanism）”\*\* 并不是一个新概念。早在 LSTM 和 GRU 称霸自然语言处理的时代，门控就是控制信息流动的核心组件——它决定了哪些信息该被记住，哪些该被遗忘。
+![](https://picx.zhimg.com/v2-7bd300cadd321c152bda00788679eb5b\_1440w.jpg)
+图 1：LSTM/GRU 中的门控机制
+随着大语言模型不断向更大参数规模与更长上下文窗口演进，训练稳定性及注意力机制的可控性逐渐成为关键瓶颈。尽管门控机制的价值已广受认可，但其在注意力层中的具体功效及扩展（Scaling）潜力尚未得到充分探讨。
+通义千问团队在论文《 [Gated Attention for Large Language Models: Non-linearity, Sparsity, and Attention-Sink-Free](https://link.zhihu.com/?target=https%3A//openreview.net/pdf%3Fid%3D1b7whO4SfY)》中，对大语言模型中的门控注意力进行了系统性研究。通过一系列控制实验，团队揭示了该机制的优势源于增强了 \*\*非线性\*\* 以及引入了输入依赖的 \*\*稀疏性\*\*。研究进一步发现，门控机制不仅能消除“注意力池”（ \*\*Attention Sink\*\*）和“巨量激活”（ \*\*Massive Activation\*\*）现象，还能大幅抑制训练过程中的损失尖峰（ \*\*Loss Spike\*\*），显著提升训练稳定性。
+得益于对注意力的精细调节，该方法在长文本外推任务上表现出显著优势。目前，该方法已在多种模型尺寸、架构及数据规模下得到验证，并成功应用于 Qwen3-Next 模型中。
+![](https://pic4.zhimg.com/v2-b6833b6b14ab2c99deda9258f566c489\_1440w.jpg)
+Qwen3-Next
+## 二、Gated-Attention Layer
+### 2.1 标准注意力回顾
+给定输入矩阵 \\bm{X} \\in \\mathbb{R}^{n \\times d\\_{\\text{model}}}\\\
+其中 n 为序列长度， d\\_{\\text{model}} 为隐藏维度，标准 Transformer 的注意力计算分为四个步骤：
+- \*\*QKV 线性投影：\*\*
+\\bm{Q} = \\bm{XW}\\_Q,\\quad \\bm{K} = \\bm{XW}\\_K,\\quad \\bm{V} = \\bm{XW}\\_V\\tag1 其中 \\bm{W}\\_Q, \\bm{W}\\_K, \\bm{W}\\_V \\in \\mathbb{R}^{d\\_{\\text{model}} \\times d\\_k} 。
+- \*\*缩放点积注意力（SDPA）：\*\*
+\\text{Attention}(\\bm{Q},\\bm{K},\\bm{V})=\\text{softmax}\\left(\\frac{\\bm{QK}^{\\top}}{\\sqrt{d\\_k}}\\right)\\bm{V}\\tag2 其中 Softmax 确保注意力权重非负且按行归一化。
+- \*\*多头拼接：\*\* 对 h 个注意力头分别计算注意力后进行拼接：
+\\text{MultiHead}(\\bm{Q},\\bm{K},\\bm{V})=\\text{Concat}(\\text{head}\\_1,\\dots,\\text{head}\\_h), \\\\\text{head}\\_i=\\text{Attention}(\\bm{QW}\\_Q^i,\\bm{KW}\\_K^i,\\bm{VW}\\_V^i)\\tag3
+- \*\*输出投影：\*\*\\bm{O} = \\text{MultiHead}(\\bm{Q},\\bm{K},\\bm{V})\\bm{W}\\_O,\\quad \\bm{W}\\_O\\in\\mathbb{R}^{hdk\\times d\\_{\\text{model}}}\\tag4 该部分严格对应标准 Transformer 的注意力计算流程。
+### 2.2 给注意力层加 “门”
+作者将 \*\*门控机制统一形式化为：\*\*
+\\bm{Y}’ = g(\\bm{Y}, \\bm{X}, \\bm{W}\\_\\theta, \\sigma) = \\bm{Y} \\odot \\sigma(\\bm{XW}\\_\\theta)\\tag5其中：
+- \\bm{Y}：原本要输出的信号（比如 Attention 的计算结果）。
+- \\bm{X}：用来计算“门控分数”的输入信号（通常取 Layer Norm 之后的 Hidden States）。
+- \\sigma：激活函数（如 Sigmoid）。
+- \\odot ：元素级乘法（Element-wise multiplication）。
+- \\sigma(\\bm{X W}\\_\\theta)：门控分数，作为动态过滤器，选择性地保留或擦除 \\bm{Y} 中的特征。
+- \*\*直观理解：\*\* 模型根据输入 \\bm{X} ，计算出一个 0 到 1 之间的“阀门值”，然后乘以原始信号 \\bm{Y} ，决定放行多少信息。
+\*\*关键：探索的五个设计维度 (Five Key Aspects)\*\*
+为了找到最优解，作者在这里定义了一个巨大的搜索空间，涵盖了 5 个方面：
+![](https://pic2.zhimg.com/v2-0681d1c4324f3a20726f1ee8baa2bd59\_1440w.jpg)
+图 2：5 个门控位置及其对应效果
+\*\*1\. 位置 (Positions) - 门装在哪里？\*\*
+结合上面的图 2，作者探索了 5 个可能的插入位置：
+- G\\_1 \*\*(SDPA Output)\*\*：在 \\bm{Q}、\\bm{K} 计算完并乘上 \\bm{V} 之后（这是最终胜出的方案）。
+- G\\_2, G\\_3, G\\_4 \*\*(Projections)：\*\* 分别在 \\bm{V}、\\bm{K}、\\bm{Q} 的线性投影之后。
+- G\\_5 \*\*(Final Output):\*\* 在注意力层最后的 \\bm{W}\\_o 线性层之后。
+\*\*2\. 粒度 (Granularity) - 门控制得有多细？\*\*
+- \*\*Headwise (头部级):\*\* 一个 Head 只有一个标量门控值（Scalar）。全开或全关，太粗糙。
+- \*\*Elementwise (元素级):\*\* 一个 Head 的输出向量中， \*\*每一个维度\*\* 都有独立的门控值。比如 Head 维度是 128，就有 128 个开关。这允许模型进行极细粒度的特征筛选。（这是最佳方案）。
+\*\*3\. 头部参数共享 (Head Specific vs. Shared)\*\*
+- \*\*Head-Specific:\*\* 每个 Attention Head 拥有自己独立的门控参数 \\bm{W}\\_{\\theta} 。这意味着每个 Head 可以学习不同的过滤逻辑。
+- \*\*Head-Shared:\*\* 所有 Head 共用同一套门控参数。
+\*\*4\. 作用方式 (Multiplicative vs. Additive)\*\*
+- \*\*乘法门控 (Multiplicative):\*\*\\bm{Y}' = \\bm{Y} \\cdot \\sigma(\\bm{X}\\_\\theta)。类似于“阀门”或“过滤器”，可以完全把信号置零。
+- \*\*加法门控 (Additive):\*\*\\bm{Y}' = \\bm{Y} + \\sigma(\\bm{X}\\_\\theta)。这更像是一种残差补充，而不是过滤。
+\*\*5\. 激活函数 (Activation Function)\*\*
+- \*\*Sigmoid:\*\* 输出范围 \[0,1\]。非常适合乘法门控，具有明确的“开/关”物理意义。
+- \*\*SiLU:\*\* 无上界。通常用于加法门控。
+\*\*最终的配置：\*\*
+- \*\*位置：\*\* G\\_1 (SDPA Output)
+- \*\*粒度：\*\* Elementwise
+- \*\*共享：\*\* Head-Specific
+- \*\*方式：\*\* Multiplicative
+- \*\*激活：\*\* Sigmoid
+这种配置被称为 \*\*"Element-wise SDPA Gating"\*\*。
+## 三、实验
+不同于很多学术论文只在小模型或小数据集上跑实验，Qwen 团队利用其工业界背景，直接在 \*\*TB 级数据（3.5万亿 Token）\*\* 和 \*\*百亿参数模型\*\* 上进行了验证。这使得实验结论具有极高的可信度和工业参考价值。
+### 3.1 实验设置 (Experimental Setups)
+作者构建了极其严格的对比环境，以确保“胜之不武”的情况不会发生：
+- \*\*模型架构：\*\*
+- \*\*MoE 模型 (15B)：\*\* 混合专家模型，总参数 15B，激活参数 2.5B。这是主要用于 \*\*消融实验\*\*（对比不同变体）的平台，因为它训练快、效率高。
+- \*\*Dense 模型 (1.7B)：\*\* 传统的稠密模型。主要用于验证 \*\*训练稳定性\*\* 和 \*\*扩展性\*\*。
+- \*\*训练数据：\*\*
+- 使用了 \*\*3.5T (3.5万亿)\*\* Token 的高质量数据集（涵盖多语言、代码、数学等）。这个数据量是很多学术论文的几十倍。
+- \*\*评估指标：\*\*
+- \*\*PPL (Perplexity)：\*\* 语言模型的困惑度（越低越好）。
+- \*\*下游任务：\*\* MMLU (综合知识), GSM8k (数学), HumanEval (代码), Hellaswag 等权威榜单。
+- \*\*成本备注：\*\* 增加门控带来的参数量微乎其微（<0.1%），推理延迟增加小于 2%。
+### 3.2 主要结果 (Main Results)
+这一节通过两个维度展示了 Gated Attention 的威力： \*\*效果好（MoE 实验）\*\* 和 \*\*训练稳（Dense 实验）\*\*。
+\*\*MoE 模型上的消融实验 (寻找最优解)\*\*
+![](https://pic4.zhimg.com/v2-4b87dc02a4e338f05c1f4d8d5028160f\_1440w.jpg)
+Table 1：Gating variant performance and results
+作者在 Table 1 中对比了十几种不同的配置。
+- \*\*基线对比 (Baselines)：\*\*
+- 作者不仅对比了原始模型，还对比了 \*\*参数增强版基线\*\*（比如给基线模型增加更多的 Head 或 Expert，使其参数量超过 Gated 模型）。
+- \*\*结果：\*\* Gated Attention 模型（特别是 G\\_1）打败了所有基线，甚至打败了参数比它多的基线。这说明性能提升不是因为参数多了，而是因为机制好了。
+- \*\*位置对比 (Position)：\*\*
+- 对比 G\\_1 (SDPA后), G\\_2 (Value后), G\\_3 (Key后), G\\_4 (Query后), G\\_5 (输出后)。
+- \*\*结论：\*\* \*\*G\\_1 (SDPA Output)\*\* 和 \*\*G\\_2 (Value Projection)\*\* 效果最好。其中 G\\_1 在 PPL 和 MMLU 上略微领先，成为最终赢家。
+- \*\*粒度与共享对比 (Granularity & Sharing)：\*\*
+- \*\*Element-wise (元素级) > Head-wise (头部级)：\*\* 每个维度都有独立开关效果更好。
+- \*\*Head-Specific (独享) > Head-Shared (共享)：\*\* 每个 Head 必须有自己独立的门控参数。如果强行让所有 Head 共享一套门控，效果会大打折扣。
+- \*\*原因：\*\* 不同的 Head 负责关注不同的特征（有的看语法，有的看语义），所以门控逻辑必须独立。
+\*\*Dense 模型上的实验 (验证稳定性与扩展性)\*\*
+这部分实验非常精彩，主要解决了大模型训练的痛点： \*\*Loss Spike（损失刺状突起/震荡）\*\*。
+![](https://pic4.zhimg.com/v2-31f9632cd9e0952070a7ecc5b95f1443\_1440w.jpg)
+Table 2：PPL 和 训练 Loss（右图）
+- \*\*现象：\*\* 在 Table 2 中展示。
+- 基线模型（Baseline）在提高学习率（LR）时，Loss 曲线会出现剧烈的震荡（Spike），导致训练失败或效果变差。
+- \*\*Gated 模型\*\* 的 Loss 曲线极其平滑，哪怕学习率调得很大，依然稳如泰山。
+- \*\*更大的学习率 = 更好的效果：\*\*
+- 因为模型更稳了，研究人员可以大胆地使用 \*\*更大的学习率\*\*（例如从 4e-3 提升到 8e-3）。
+- \*\*结果：\*\* 高学习率下的 Gated 模型，收敛速度更快，最终在 HumanEval（代码写得更好）和 GSM8k（数学算得更准）上取得了显著的分数提升。
+- \*\*Sandwich Norm 对比：\*\*
+- 作者还对比了另一种常用的稳定技术 “Sandwich Norm”。虽然 Sandwich Norm 也能稳定训练，但它对性能的提升微乎其微。而 \*\*Gated Attention 既稳又能打\*\*。
+\*\*实验结论 (Practical Recommendation)\*\*
+基于上述大规模实验，作者给出了给全行业的 \*\*最佳实践建议\*\*：
+1. 使用 \*\*Element-wise SDPA Gating (G\\_1)\*\*（即在 SDPA 输出后加 Sigmoid 门）。
+2. 训练时，使用 \*\*适度增加的学习率 (Moderately Increased Learning Rate)\*\*。
+## 四、非线性（Non-Linearity）、稀疏性（Sparsity）与无注意力汇聚（Attention-Sink-Free）
+### 4.1 非线性：打破“低秩瓶颈” (The Low-Rank Problem)
+\*\*核心痛点：标准 Attention 的数学缺陷\*\*
+在标准的多头注意力机制中，信息的流动本质上是 \*\*线性\*\* 的组合。
+论文指出，对于第 i 个 Token，第 k 个注意力头（Head）的输出 o\\_i^k 可以写成如下形式：
+\\bm{o}\\_i^k = \\left( \\sum\\_{j=0}^{i} S\\_{ij}^k \\cdot \\bm{X}\\_j \\bm{W}\\_V^k \\right) \\bm{W}\\_O^k = \\sum\\_{j=0}^{i} S\\_{ij}^k \\cdot \\bm{X}\\_j (\\bm{W}\\_V^k \\bm{W}\\_O^k)\\tag6
+- \*\*数学瓶颈：\*\* 注意看括号里的 (\\bm{W}\\_V^k \\bm{W}\\_O^k)。在线性代数中，两个矩阵连续相乘，结果的 \*\*秩（Rank）\*\* 受限于中间维度。通常 Head Dimension (d\\_k) 远小于模型维度 (d\\_{\\text{model}})，这意味着 \\bm{X}\\_j 经过了一个 \*\*低秩映射\*\*，限制了模型的表达能力。
+- \*\*实验证据 (Table 3)：\*\* 这个理论并非空穴来风。在 \*\*Table 3\*\* 中，作者做了一个单纯引入非线性的实验（Row 5）。即便不引入任何可学习的门控参数，仅仅在 Head 输出后加一个非线性的 \*\*RMSNorm\*\*，PPL 也从 Baseline 的 6.026 降到了 5.847。 \*\*这直接证明了 Eq. 6 中的线性瓶颈确实存在，且只要引入非线性就能缓解。\*\*
+![](https://pic3.zhimg.com/v2-67ce4e80a7f6021ec0f5b35a78a9b2a6\_1440w.jpg)
+Table 3：非线性实验（只在SDPA 后面加入 GroupNorm，PPL 就能大幅降低）
+\*\*门控的修复方案：插入非线性\*\*
+为了彻底打破 \\bm{W}\\_V 和 \\bm{W}\\_O 的线性合并，作者引入了非线性门控。
+\*\*方案 A：在 Value 处门控 (G\\_2 位置)\*\* 对应 \*\*论文中的公式 (7)\*\*：
+\\bm{o}\\_i^k = \\left( \\sum\\_{j=0}^{i} S\\_{ij}^k \\cdot \\text{Non-Linearity-Map}(\\bm{X}\\_j \\bm{W}\\_V^k) \\right) \\bm{W}\\_O^k \\tag7
+- \*\*解读：\*\* 非线性映射作用在求和之前的 \\bm{X}\\_j 上。
+\*\*方案 B：在 SDPA 输出处门控 (G\\_1 位置，即最佳方案)\*\* 对应 \*\*论文中的公式 (8)\*\*：
+\\bm{o}\\_i^k = \\text{Non-Linearity-Map} \\left( \\sum\\_{j=0}^{i} S\\_{ij}^k \\cdot \\bm{X}\\_j \\bm{W}\\_V^k \\right) \\bm{W}\\_O^k \\tag8
+- \*\*为什么\*\* G\\_1 ( \*\*Eq. 8) 优于\*\* G\\_2 ( \*\*Eq. 7)？\*\*
+- 在 Eq. 8 中，Gate 接收的是 \*\*经过 Attention 聚合后\*\* 的信息，包含了 \*\*当前查询意图 (Query-Dependent)\*\*。
+- 这使得 Gate 能够站在全局的高度判断：“这一坨聚合起来的信息，对我当前的 Query 到底有没有用？”
+- 能够实现 \*\*“基于当前查询意图的过滤”\*\*。 \*\*比如 Query 是“苹果的价格”，Gate 就会把上下文中关于“香蕉”的信息全部关掉（置为0）。\*\*
+- \*\*实验证据 (Table 3)：\*\* 数据支持了这一推导。 \*\*Table 3\*\* 显示，基于 Eq. 8 的 SDPA Gate (Row 2, PPL 5.761) 优于基于 Eq. 7 的 Value Gate (Row 3, PPL 5.820)。这说明在聚合后进行非线性过滤效果更好。
+### 4.2 稀疏性：必须能够“彻底关闭” (The Necessity of Sparsity)
+仅仅引入非线性是不够的，论文发现 \*\*Gate 的值必须非常稀疏（大量接近 0）\*\* 才是关键。
+![](https://pica.zhimg.com/v2-ce9621cf05a1cf4f1098fa6a4f102fc8\_1440w.jpg)
+图 3：门控得分分布
+图 3 是 Gate Score 的直方图。对于最优的 SDPA Elementwise 方案（左图），柱状图 \*\*极度偏向 0\*\*，这意味着绝大多数时候 Gate 都是关闭的。
+![](https://picx.zhimg.com/v2-f8f10381552aaa1fa538ecafb2302bd3\_1440w.jpg)
+Table 4：门控得分
+\*\*Table 4\*\* 显示，SDPA Gate 的平均分（Gate Score）仅为 \*\*0.116\*\*。这证实了模型在进行极其严苛的信息过滤。
+\*\*验证实验：Non-Sparse Sigmoid\*\*
+为了证明“稀疏性”的重要性，作者设计了一个“反事实”实验：如果我不让 Gate 关闭，会发生什么？
+作者定义了一个 \*\*非稀疏的 Sigmoid 函数\*\*，对应 \*\*论文中的公式 (9)\*\*：
+\\text{NS-sigmoid}(x) = 0.5 + 0.5 \\cdot \\text{sigmoid}(x)\\tag9
+- 这个函数的范围被强制压缩到了 \*\*\[0.5, 1.0\]\*\*。意味着无论信号多么垃圾，永远无法彻底关掉（Gate \\neq 0）。
+\*\*实验结果 (Table 4)：\*\*
+- 结合 \*\*Table 4 (Row 7)\*\* 来看：当使用 Eq. 9 强制破坏稀疏性后，Gate Score 升至 0.653。
+- \*\*后果：\*\* 模型的 \*\*巨型激活值 (M-Act)\*\* 从 94 飙升回 \*\*892\*\*， \*\*Attention Sink (F-Attn)\*\* 从 0.048 飙升回 \*\*0.451\*\*。
+- \*\*结论：\*\* 这一数据表明：门控必须具备 \*\*输出 0\*\* 的能力（稀疏性），才能稳定模型。
+### 4.3 门控如何消除 Attention Sink
+![](https://pic4.zhimg.com/v2-cc106abdafe5e90988bcd3456d2eae7f\_1440w.jpg)
+图 4：门控消除 Attention Sink
+Gated Attention 是如何消除 Attention Sink 的：
+- \*\*Softmax 的锅：\*\* 当 Query 与上下文无关时，\\sum S\\_{ij} = 1 的限制迫使模型分配高权重给第一个 Token。
+- \*\*Eq. 6 的无能为力：\*\* 在 Baseline 中，这个错误信息被线性传递。
+- \*\*图 4 (左上)\*\* 显示 Baseline 对首个 Token 的关注度随层数飙升。 \*\*Table 4 (Row 1)\*\* 显示 `F-Attn` 高达 \*\*0.467\*\*，且 `M-Act` 达到 \*\*1053\*\*（数值爆炸）。
+- \*\*Eq. 8 的介入：\*\* 在 Gated 模型中，Gate 检测到聚合信息无意义，利用 Sigmoid 输出趋近于 \*\*0\*\* 的值。
+- \*\*图 4(左下)\*\* 显示 Gated 模型对首个 Token 的关注度全程被压制在 0 附近。 \*\*图 4 (右图)\*\* 的热力图中，代表 Sink 的垂直亮线消失了。 \*\*Table 4 (Row 2)\*\* 显示 `F-Attn` 降至 \*\*0.048\*\*，`M-Act` 降至 \*\*94\*\*。
+\*\*最终红利：长文本扩展 (Table 5)\*\*
+![](https://picx.zhimg.com/v2-f2ec89128c77e1b8cd000f8f997ea21b\_1440w.jpg)
+表 5： 不同方法在不同序列长度下的性能表现。“YaRN Extended”表示经过扩展上下文长度的变体版本。括号内的数值“（values）”表示扩展上下文长度后的性能下降幅度。
+- 消除了 Sink 后，模型不再依赖“首个 Token”作为数值锚点，因此对 RoPE 的变化更鲁棒。
+- 当使用 YaRN 将上下文扩展到 \*\*128k\*\* 时，Baseline 的得分从 32k 时的 37.94 崩盘至 \*\*31.65\*\*；而 Gated 模型依然保持在 \*\*58.82\*\*。
+## 参考
+[Gated Attention for Large Language Models: Non-linearity, Sparsity, and Attention-Sink-Free](https://link.zhihu.com/?target=https%3A//openreview.net/pdf%3Fid%3D1b7whO4SfY%23page%3D2.05)
+[NeurIPS 2025 最佳论文奖！一文详解Gated Attention](https://zhuanlan.zhihu.com/p/1977398763099297612)
+编辑于 2025-12-02 02:24・北京
+[大模型](https://www.zhihu.com/topic/25402720)
+​赞同 141​​9 条评论​358 ​15
+​分享
+​申请转载​
+​
+暂无评论
+关于作者
+[![绝密伏击](https://picx.zhimg.com/v2-e295a32bfded99774aa151e10c2bfe24\_l.jpg?source=172ae18b)](https://www.zhihu.com/people/wen-liang-85-30)
+[绝密伏击](https://www.zhihu.com/people/wen-liang-85-30) ​![](https://picx.zhimg.com/v2-4812630bc27d642f7cafcd6cdeca3d7a.jpg?source=88ceefae) [​![知乎知识会员](https://picx.zhimg.com/v2-57fe7feb4813331d5eca02ef731e12c9.jpg?source=88ceefae)](https://www.zhihu.com/kvip/purchase)
+《揭秘大模型：从原理到实战》、《推荐系统技术原理与实践》作者
+[​](https://zhuanlan.zhihu.com/p/96956163)
+电子科技大学 软件工程硕士
+[回答](https://www.zhihu.com/people/wen-liang-85-30/answers) [文章](https://www.zhihu.com/people/wen-liang-85-30/posts) [关注者](https://www.zhihu.com/people/wen-liang-85-30/followers)
+​关注他​发私信
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码

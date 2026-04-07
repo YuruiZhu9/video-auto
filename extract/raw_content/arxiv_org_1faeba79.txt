@@ -1,0 +1,99 @@
+# Source URL: https://arxiv.org/abs/2603.17540
+# Content Length: 10893 characters
+# Extracted at: 2026-04-06 11:35:46
+#============================================================
+
+# Computer Science > Information Retrieval
+\*\*arXiv:2603.17540\*\* (cs)
+\[Submitted on 18 Mar 2026\]
+# Title:Deploying Semantic ID-based Generative Retrieval for Large-Scale Podcast Discovery at Spotify
+Authors: [Edoardo D'Amico](https://arxiv.org/search/cs?searchtype=author&query=D%27Amico,+E), [Marco De Nadai](https://arxiv.org/search/cs?searchtype=author&query=De+Nadai,+M), [Praveen Chandar](https://arxiv.org/search/cs?searchtype=author&query=Chandar,+P), [Divita Vohra](https://arxiv.org/search/cs?searchtype=author&query=Vohra,+D), [Shawn Lin](https://arxiv.org/search/cs?searchtype=author&query=Lin,+S), [Max Lefarov](https://arxiv.org/search/cs?searchtype=author&query=Lefarov,+M), [Paul Gigioli](https://arxiv.org/search/cs?searchtype=author&query=Gigioli,+P), [Gustavo Penha](https://arxiv.org/search/cs?searchtype=author&query=Penha,+G), [Ilya Kopysitsky](https://arxiv.org/search/cs?searchtype=author&query=Kopysitsky,+I), [Ivo Joel Senese](https://arxiv.org/search/cs?searchtype=author&query=Senese,+I+J), [Darren Mei](https://arxiv.org/search/cs?searchtype=author&query=Mei,+D), [Francesco Fabbri](https://arxiv.org/search/cs?searchtype=author&query=Fabbri,+F), [Oguz Semerci](https://arxiv.org/search/cs?searchtype=author&query=Semerci,+O), [Yu Zhao](https://arxiv.org/search/cs?searchtype=author&query=Zhao,+Y), [Vincent Tang](https://arxiv.org/search/cs?searchtype=author&query=Tang,+V), [Brian St. Thomas](https://arxiv.org/search/cs?searchtype=author&query=Thomas,+B+S), [Alexandra Ranieri](https://arxiv.org/search/cs?searchtype=author&query=Ranieri,+A), [Matthew N.K. Smith](https://arxiv.org/search/cs?searchtype=author&query=Smith,+M+N), [Aaron Bernkopf](https://arxiv.org/search/cs?searchtype=author&query=Bernkopf,+A), [Bryan Leung](https://arxiv.org/search/cs?searchtype=author&query=Leung,+B), [Ghazal Fazelnia](https://arxiv.org/search/cs?searchtype=author&query=Fazelnia,+G), [Mark VanMiddlesworth](https://arxiv.org/search/cs?searchtype=author&query=VanMiddlesworth,+M), [Timothy Christopher Heath](https://arxiv.org/search/cs?searchtype=author&query=Heath,+T+C), [Petter Pehrson Skiden](https://arxiv.org/search/cs?searchtype=author&query=Skiden,+P+P), [Alice Y. Wang](https://arxiv.org/search/cs?searchtype=author&query=Wang,+A+Y), [Doug J. Cole](https://arxiv.org/search/cs?searchtype=author&query=Cole,+D+J), [Andreas Damianou](https://arxiv.org/search/cs?searchtype=author&query=Damianou,+A), [Maya Hristakeva](https://arxiv.org/search/cs?searchtype=author&query=Hristakeva,+M), [Reid Wilbur](https://arxiv.org/search/cs?searchtype=author&query=Wilbur,+R), [Tarun Chillara](https://arxiv.org/search/cs?searchtype=author&query=Chillara,+T), [Vladan Radosavljevic](https://arxiv.org/search/cs?searchtype=author&query=Radosavljevic,+V), [Pooja Chitkara](https://arxiv.org/search/cs?searchtype=author&query=Chitkara,+P), [Sainath Adapa](https://arxiv.org/search/cs?searchtype=author&query=Adapa,+S), [Juan Elenter](https://arxiv.org/search/cs?searchtype=author&query=Elenter,+J), [Bernd Huber](https://arxiv.org/search/cs?searchtype=author&query=Huber,+B), [Jacqueline Wood](https://arxiv.org/search/cs?searchtype=author&query=Wood,+J), [Saaketh Vedantam](https://arxiv.org/search/cs?searchtype=author&query=Vedantam,+S), [Jan Stypka](https://arxiv.org/search/cs?searchtype=author&query=Stypka,+J), [Sandeep Ghael](https://arxiv.org/search/cs?searchtype=author&query=Ghael,+S), [Martin D. Gould](https://arxiv.org/search/cs?searchtype=author&query=Gould,+M+D), [David Murgatroyd](https://arxiv.org/search/cs?searchtype=author&query=Murgatroyd,+D), [Yves Raimond](https://arxiv.org/search/cs?searchtype=author&query=Raimond,+Y), [Mounia Lalmas](https://arxiv.org/search/cs?searchtype=author&query=Lalmas,+M), [Paul N. Bennett](https://arxiv.org/search/cs?searchtype=author&query=Bennett,+P+N)
+View a PDF of the paper titled Deploying Semantic ID-based Generative Retrieval for Large-Scale Podcast Discovery at Spotify, by Edoardo D'Amico and 42 other authors
+[View PDF](https://arxiv.org/pdf/2603.17540) [HTML (experimental)](https://arxiv.org/html/2603.17540v1)
+> Abstract:Podcast listening is often grounded in a set of favorite shows, while listener intent can evolve over time. This combination of stable preferences and changing intent motivates recommendation approaches that support both familiarity and exploration. Traditional recommender systems typically emphasize long-term interaction patterns, and are less explicitly designed to incorporate rich contextual signals or flexible, intent-aware discovery objectives. In this setting, models that can jointly reason over semantics, context, and user state offer a promising direction. Large Language Models (LLMs) provide strong semantic reasoning and contextual conditioning for discovery-oriented recommendation, but deploying them in production introduces challenges in catalog grounding, user-level personalization, and latency-critical serving.
+>
+> We address these challenges with GLIDE, a production-scale generative recommender for podcast discovery at Spotify. GLIDE formulates recommendation as an instruction-following task over a discretized catalog using Semantic IDs, enabling grounded generation over a large inventory. The model conditions on recent listening history and lightweight user context, while injecting long-term user embeddings as soft prompts to capture stable preferences under strict inference constraints. We evaluate GLIDE using offline retrieval metrics, human judgments, and LLM-based evaluation, and validate its impact through large-scale online A/B testing. Across experiments involving millions of users, GLIDE increases non-habitual podcast streaming on Spotify home surface by up to 5.4% and new-show discovery by up to 14.3%, while meeting production cost and latency constraints.
+| | |
+| --- | --- |
+| Subjects: | Information Retrieval (cs.IR); Machine Learning (cs.LG) |
+| Cite as: | [arXiv:2603.17540](https://arxiv.org/abs/2603.17540) \[cs.IR\] |
+| | (or [arXiv:2603.17540v1](https://arxiv.org/abs/2603.17540v1) \[cs.IR\] for this version) |
+| | [https://doi.org/10.48550/arXiv.2603.17540](https://doi.org/10.48550/arXiv.2603.17540)  
+Focus to learn more  
+arXiv-issued DOI via DataCite (pending registration) |
+## Submission history
+From: Marco De Nadai \[ [view email](https://arxiv.org/show-email/9a027d74/2603.17540)\]
+\*\*\[v1\]\*\*
+Wed, 18 Mar 2026 09:46:10 UTC (881 KB)
+Full-text links:
+## Access Paper:
+View a PDF of the paper titled Deploying Semantic ID-based Generative Retrieval for Large-Scale Podcast Discovery at Spotify, by Edoardo D'Amico and 42 other authors
+- [View PDF](https://arxiv.org/pdf/2603.17540)
+- [HTML (experimental)](https://arxiv.org/html/2603.17540v1)
+- [TeX Source](https://arxiv.org/src/2603.17540)
+[![license icon](https://arxiv.org/icons/licenses/zero-1.0.png)view license](http://creativecommons.org/publicdomain/zero/1.0/ "Rights to this article")
+Current browse context:
+cs.IR
+[< prev](https://arxiv.org/prevnext?id=2603.17540&function=prev&context=cs.IR "previous in cs.IR (accesskey p)")  \|  [next >](https://arxiv.org/prevnext?id=2603.17540&function=next&context=cs.IR "next in cs.IR (accesskey n)")
+[new](https://arxiv.org/list/cs.IR/new) \| [recent](https://arxiv.org/list/cs.IR/recent) \| [2026-03](https://arxiv.org/list/cs.IR/2026-03)
+Change to browse by:
+[cs](https://arxiv.org/abs/2603.17540?context=cs)
+[cs.LG](https://arxiv.org/abs/2603.17540?context=cs.LG)
+### References & Citations
+- [NASA ADS](https://ui.adsabs.harvard.edu/abs/arXiv:2603.17540)
+- [Google Scholar](https://scholar.google.com/scholar\_lookup?arxiv\_id=2603.17540)
+- [Semantic Scholar](https://api.semanticscholar.org/arXiv:2603.17540)
+export BibTeX citation
+### Bookmark
+[![BibSonomy logo](https://arxiv.org/static/browse/0.3.4/images/icons/social/bibsonomy.png)](http://www.bibsonomy.org/BibtexHandler?requTask=upload&url=https://arxiv.org/abs/2603.17540&description=Deploying%20Semantic%20ID-based%20Generative%20Retrieval%20for%20Large-Scale%20Podcast%20Discovery%20at%20Spotify "Bookmark on BibSonomy") [![Reddit logo](https://arxiv.org/static/browse/0.3.4/images/icons/social/reddit.png)](https://reddit.com/submit?url=https://arxiv.org/abs/2603.17540&title=Deploying%20Semantic%20ID-based%20Generative%20Retrieval%20for%20Large-Scale%20Podcast%20Discovery%20at%20Spotify "Bookmark on Reddit")
+Bibliographic Tools
+# Bibliographic and Citation Tools
+Bibliographic Explorer Toggle
+Bibliographic Explorer \_( [What is the Explorer?](https://info.arxiv.org/labs/showcase.html#arxiv-bibliographic-explorer))\_
+Connected Papers Toggle
+Connected Papers \_( [What is Connected Papers?](https://www.connectedpapers.com/about))\_
+Litmaps Toggle
+Litmaps \_( [What is Litmaps?](https://www.litmaps.co/))\_
+scite.ai Toggle
+scite Smart Citations \_( [What are Smart Citations?](https://www.scite.ai/))\_
+Code, Data, Media
+# Code, Data and Media Associated with this Article
+alphaXiv Toggle
+alphaXiv \_( [What is alphaXiv?](https://alphaxiv.org/))\_
+Links to Code Toggle
+CatalyzeX Code Finder for Papers \_( [What is CatalyzeX?](https://www.catalyzex.com/))\_
+DagsHub Toggle
+DagsHub \_( [What is DagsHub?](https://dagshub.com/))\_
+GotitPub Toggle
+Gotit.pub \_( [What is GotitPub?](http://gotit.pub/faq))\_
+Huggingface Toggle
+Hugging Face \_( [What is Huggingface?](https://huggingface.co/huggingface))\_
+Links to Code Toggle
+Papers with Code \_( [What is Papers with Code?](https://paperswithcode.com/))\_
+ScienceCast Toggle
+ScienceCast \_( [What is ScienceCast?](https://sciencecast.org/welcome))\_
+Demos
+# Demos
+Replicate Toggle
+Replicate \_( [What is Replicate?](https://replicate.com/docs/arxiv/about))\_
+Spaces Toggle
+Hugging Face Spaces \_( [What is Spaces?](https://huggingface.co/docs/hub/spaces))\_
+Spaces Toggle
+TXYZ.AI \_( [What is TXYZ.AI?](https://txyz.ai/))\_
+Related Papers
+# Recommenders and Search Tools
+Link to Influence Flower
+Influence Flower \_( [What are Influence Flowers?](https://influencemap.cmlab.dev/))\_
+Core recommender toggle
+CORE Recommender \_( [What is CORE?](https://core.ac.uk/services/recommender))\_
+- Author
+- Venue
+- Institution
+- Topic
+About arXivLabs
+# arXivLabs: experimental projects with community collaborators
+arXivLabs is a framework that allows collaborators to develop and share new arXiv features directly on our website.
+Both individuals and organizations that work with arXivLabs have embraced and accepted our values of openness, community, excellence, and user data privacy. arXiv is committed to these values and only works with partners that adhere to them.
+Have an idea for a project that will add value for arXiv's community? [\*\*Learn more about arXivLabs\*\*](https://info.arxiv.org/labs/index.html).
+[Which authors of this paper are endorsers?](https://arxiv.org/auth/show-endorsers/2603.17540) \|
+Disable MathJax ( [What is MathJax?](https://info.arxiv.org/help/mathjax.html))

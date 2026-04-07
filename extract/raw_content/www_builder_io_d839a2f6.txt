@@ -1,0 +1,428 @@
+# Source URL: https://www.builder.io/blog/claude-code-updates
+# Content Length: 19180 characters
+# Extracted at: 2026-03-30 01:04:50
+#============================================================
+
+
+Every Claude Code Update From March 2026, Explained
+
+[Skip to main content](#main)[See how Frete cut frontend build time by 70%
+
+What are best AI tools? Take the State of AI survey
+
+![]()](/customer-stories/frete) ![]()[![]()](/) [![]()](/) 
+
+* PRODUCTS
+  
+  + [![]() ![]() 
+    
+    Fusion
+    
+    Generate production-ready web apps and UIs](/fusion)
+  + [![]() 
+    
+    Publish
+    
+    Generate, iterate, and optimize pages and headless content](/publish)
+  
+  
+  USERS
+  
+  + [![]() ![]() 
+    
+    Engineering teams
+    
+    Code faster with AI and your design system](/engineering-teams)
+  + [![]() ![]() 
+    
+    Design teams
+    
+    Design with code, handoff with confidence](/design-teams)
+  + [![]() ![]() 
+    
+    Product teams
+    
+    Ship prototypes that accelerate the entire software development lifecycle](/product-teams)
+  + [![]() ![]() 
+    
+    Content teams
+    
+    Generate and publish experiences without developer dependency](/content-teams)
+  
+  
+  USE CASES
+  
+  + [![]() ![]() 
+    
+    Web apps](/web-apps)
+  + [![]() ![]() 
+    
+    Prototypes](/prototypes)
+  + [![]() ![]() 
+    
+    Design to code](/m/design-to-code)
+  + [![]() ![]() 
+    
+    Landing pages](/landing-pages)
+  + [![]() ![]() 
+    
+    Headless CMS](/headless-cms)
+  + [![]() ![]() 
+    
+    Multi-brand CMS](/m/multi-brand-cms)
+  + [![]() ![]() 
+    
+    Mobile apps](/m/mobile-apps)
+  + [![]() ![]() 
+    
+    Marketing sites](/m/marketing-sites)
+  + [![]() ![]() 
+    
+    Headless commerce](/m/headless-commerce)![]()Platform  
+  ![]()
+* LEARN
+  
+  + [![]() ![]() 
+    
+    Blog
+    
+    Latest insights, tutorials, and announcements](/blog)
+  + [![]() ![]() 
+    
+    Webinars
+    
+    Upcoming events and recorded sessions](/hub/home?resource-type=webinars)
+  + [![]() ![]() 
+    
+    Guides
+    
+    Step-by-step instructions and use cases](/hub/home?resource-type=guides)
+  + [![]() ![]() 
+    
+    Case Studies
+    
+    Real customer success stories](/hub/home?resource-type=customer+stories)
+  
+  
+  CONNECT
+  
+  + [![]() ![]() 
+    
+    Builder Forum
+    
+    Join the discussion, ask questions](https://forum.builder.io/)
+  + [![]() ![]() 
+    
+    Partners
+    
+    Explore Builder partners and connect with a team](/m/partners)
+  + [![]() ![]() 
+    
+    CMS Integrations
+    
+    Integrate with your stack and connect your tools](/m/integrations)
+  
+  
+  UPDATES
+  
+  + [![]() ![]() 
+    
+    Product Updates
+    
+    Latest features and improvements](/updates)![]()
+  
+  Resources
+  
+  ![]()
+* + [![]() 
+    
+    Fusion docs
+    
+    Learn to vibe code in new or existing apps](/c/docs/get-started-fusion)
+  + [![]() 
+    
+    Publish docs
+    
+    Use Builder to publish content for your site](/c/docs/get-started-publish)
+  + [![]() 
+    
+    Figma to code docs
+    
+    Convert Figma designs into real code](/c/docs/builder-figma-plugin)
+  + ---
+    
+    [![]() 
+    
+    All docs](/c/docs/intro)![]()
+  
+  Docs
+  
+  ![]()
+* [Enterprise](/enterprise)
+* [Pricing](/pricing)
+[Contact sales](/m/demo)[See how Frete cut frontend build time by 70%
+
+What are best AI tools? Take the State of AI survey
+
+![]()](/customer-stories/frete) ![]()[![]()](/) [![]()](/) ![]()[‹ Back to blog](/blog)
+#### AI
+
+Every Claude Code Update From March 2026, Explained
+===================================================
+
+#### March 26, 2026
+
+#### Written By [Alice Moore](/blog/authors/alice-moore)
+
+![]() 
+
+Claude Code [jumped about ten version numbers](https://github.com/anthropics/claude-code/releases) over the course of March. Keeping up with it has been a job in itself.
+
+Some of those changes were small. A few changed what Claude Code can actually do in day-to-day work.
+
+Here's what changed.
+
+[Computer use comes to Claude Code and Cowork
+--------------------------------------------](#computer-use-comes-to-claude-code-and-cowork)
+
+On March 23, [Anthropic added computer use to Claude Code and Cowork](https://support.claude.com/en/articles/12138966-release-notes) for Pro and Max users, letting Claude open files, run dev tools, point, click, and navigate the screen with no setup required.
+
+Coding agents usually hit the same limit sooner or later. They can only act through the tools explicitly wired up for them. If a workflow leaves the terminal and moves into a browser tab, desktop app, or system UI the agent can't reach, the human has to take over.
+
+Computer use gives Claude another option. It can click through those interfaces when a cleaner integration isn't available.
+
+The tradeoff is real. Claude sees your screen through screenshots, asks permission before accessing apps, and shouldn't be used around sensitive financial, health, or personal records.
+
+That pushes Claude Code beyond neat tool boundaries and into messier real-world workflows.
+
+[Auto mode
+---------](#auto-mode)
+
+[Auto mode](https://www.anthropic.com/engineering/claude-code-auto-mode) is Anthropic's middle ground between the standard approval flow and `--dangerously-skip-permissions`.
+
+By Anthropic's numbers, users already approve 93% of permission prompts. Auto mode tries to cut that busywork with two checks. One is an input-layer prompt-injection probe. The other is an output-layer transcript classifier.
+
+Safe actions run automatically. Risky ones get blocked, and Claude is pushed toward safer alternatives instead of stopping outright.
+
+It's a practical attempt to remove repetitive approvals without fully opening the gates.
+
+[Remote control and mobile continuity
+------------------------------------](#remote-control-and-mobile-continuity)
+
+Claude Code is also getting less tied to a single machine as Anthropic moves it toward [phone-based continuity](https://www.builder.io/blog/claude-code-mobile-phone).
+
+![]() 
+
+Anthropic is starting to treat Claude Code more like a running session you can check on from your phone while the real environment stays anchored to your machine.
+
+[Scheduled tasks and cloud execution
+-----------------------------------](#scheduled-tasks-and-cloud-execution)
+
+Scheduled tasks push Claude Code beyond a tool that only works when your laptop is open. It can now run recurring jobs on Anthropic-managed cloud infrastructure.
+
+You give Claude a prompt, attach one or more repos, choose a schedule, and add the environment and connectors it needs. Then it can run even when your computer is off.
+
+That makes Claude Code useful for ongoing operational work like reviewing open PRs every morning, checking CI failures overnight, syncing docs after merges, or running dependency audits every week.
+
+Tasks can be created from the web, desktop app, or `/schedule` in the CLI. Each run starts from a fresh clone, creates its own session, and gives you a place to inspect the work, review changes, and open a pull request afterward.
+
+A normal Claude Code session still feels like something you open, supervise, and eventually close. Scheduled tasks make it much more useful for recurring software work, especially alongside auto mode, remote control, and cloud auto-fix.
+
+[Interactive visuals and app-like outputs
+----------------------------------------](#interactive-visuals-and-app-like-outputs)
+
+Anthropic also improved how Claude packages its work for review.
+
+Claude can now produce interactive charts, diagrams, visualizations, and mobile interactive apps. Agents increasingly need reviewable interfaces instead of blobs of text, which is the same shift I wrote about in [MCP Apps are the Future of Agentic Workflows](https://www.builder.io/blog/mcp-apps).
+
+![]() 
+
+Completing the task is only part of the job. Agentic tools also need to package results in a form people can inspect, share, and react to quickly. These releases pushed Claude further in that direction.
+
+[Other March updates that matter
+-------------------------------](#other-march-updates-that-matter)
+
+March also brought a set of smaller updates that still moved the product forward.
+
+* [Context and memory got better.](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md) `/context` suggestions improved. Claude Code also added custom auto-memory directory support, timestamps on memory files, and fixes for memory leaks and policy issues.
+* [Output limits increased.](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md) Anthropic raised the default output for Opus 4.6 to 64k and the ceiling to 128k for Opus 4.6 and Sonnet 4.6. That matters for longer agent runs that would otherwise get clipped.
+* [Hooks and workflow depth expanded.](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md) March added MCP elicitation support, `StopFailure`, transcript search, more hook events, better streaming behavior, subprocess credential scrubbing, session display names, and sparse worktree paths.
+* [Asynchronous control improved.](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md) March added `--bare` for scripted calls and a `--channels` permission relay that can forward approval prompts to your phone. Claude Code is being shaped for workflows that keep going when you step away from your desk.
+* [Platform coverage widened.](https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md) Updates included a PowerShell tool preview for Windows, system-prompt caching with ToolSearch and MCP tools, and VS Code rate-limit warnings.
+* [Cloud auto-fix moved Claude further into post-PR work.](https://x.com/noahzweben/status/2037219115002405076?s=46) Noah Zweben announced that web and mobile sessions can now automatically follow PRs, fix CI failures, and address comments in the cloud so you can return to a ready-to-go pull request.
+* [PR review became part of the pitch.](https://techcrunch.com/2026/03/09/anthropic-launches-code-review-tool-to-check-flood-of-ai-generated-code/) Anthropic's new Code Review feature matters because Claude Code is now producing enough code to create [review bottlenecks](https://www.builder.io/blog/code-review-ai), though current public reporting suggests the cost is high enough that teams may use it selectively.
+[What March says about Claude Code
+---------------------------------](#what-march-says-about-claude-code)
+
+Over the past month, Claude Code has looked more and more like a tool for sustained agent workflows and long-running sessions.
+
+Anthropic's own [scientific computing guide](https://www.anthropic.com/research/long-running-Claude?lid=15bMOpYREBTKgY4Tj) makes that model explicit. It recommends a root `CLAUDE.md`, a `CHANGELOG.md` as working memory, test oracles, regular commits, and tmux for multi-day sessions.
+
+That isn't just advice for better prompting. It's an operating pattern for supervising long-running agent work.
+
+Seen through that lens, March's launches and patch notes line up. Computer use expands what Claude can touch. Auto mode and remote continuity reduce the need for constant supervision. Cloud auto-fix extends Claude's role after a pull request opens. The lower-level updates to memory, hooks, output limits, plugin infrastructure, and rate-limit visibility make that broader workflow more reliable.
+
+That shift also changes where the real difficulty shows up. Once agents can stay active longer and touch more of the software lifecycle, code generation matters less than [orchestration](https://www.builder.io/blog/ai-agent-orchestration).
+
+Put together, March suggests Claude Code is maturing from a coding assistant into an environment for operating agents over longer stretches of work.
+
+[Builder.io solves the team coordination problem Claude Code exposes
+-------------------------------------------------------------------](#builder-io-solves-the-team-coordination-problem-claude-code-exposes)
+
+Claude Code, Codex, Cursor, and similar tools are all pushing in the same direction. Code is getting cheaper to produce.
+
+As that happens, the constraint shifts. Teams still need to converge on the best working version of the product, and speed there matters more.
+
+Claude Code lowers the cost of generating code. [Builder.io](https://www.builder.io/blog/fusion) lowers the cost of iterating on real code together.
+
+Builder is a collaborative workspace where the whole team can work on the actual implementation together.
+
+You can tag Builder.io in a Slack thread, or open it directly and start branching, prompting, designing, and testing. What comes back is a live branch tied to the real codebase.
+
+Anyone who opens that branch can inspect what changed, use the app, prompt the AI to make more changes, or branch off into a larger experiment. Engineers set up the environment once, and everyone else gets a cloud sandbox with the right guardrails and role-based access.
+
+That means PMs, [designers](https://www.builder.io/blog/claude-code-for-designers), marketers, and QA can work in the same environment without worrying they'll break something. Instead of waiting for engineers to build a first pass and then rework it, the people closest to the decision can make changes themselves and hand off a real branch with the implementation, context, and diff in one place.
+
+Builder can also route review to the right team, and AI can handle mechanical work like merge conflicts instead of making humans babysit them. Context stays attached to the branch instead of scattering across Slack threads, tickets, and PR comments, so the [right people can shape the implementation](https://www.builder.io/blog/ai-wont-save-your-development-process).
+
+As agentic tools make code cheaper, the winning platforms will be the ones that make shared judgment, coordination, and iteration cheaper too.
+
+[Final thoughts
+--------------](#final-thoughts)
+
+The flashy version is easy to summarize. Computer use, auto mode, remote continuity, interactive visuals, cloud auto-fix, and a lot of patch releases.
+
+What stands out more is how well those updates fit together. Claude Code is getting better at staying active across devices, handling recurring work, and producing outputs people can actually review.
+
+The patch notes weren't random. They point toward a more persistent, operational kind of coding agent, something you can come back to, run on a schedule, and use across more of the workflow.
+
+That's also why Builder matters more as coding agents get stronger. Better agents increase the volume of code and changes. Builder gives the whole team a shared workspace to inspect, steer, review, and extend that work on the real implementation.
+
+Claude Code is becoming more usable for ongoing work. The bigger shift is what teams need around it. They need a system for collaborative, agent-driven iteration on the real implementation, with review, coordination, and shared context built in.
+
+![]()[### Design and code in one platform](#design-and-code-in-one-platform)
+
+Builder.io visually edits code, uses your design system, and sends pull requests.
+
+[Try Builder](https://builder.io/signup)[Get a demo](/m/demo)![]()[### Design and code in one platform](#design-and-code-in-one-platform)
+
+Builder.io visually edits code, uses your design system, and sends pull requests.
+
+[Try Builder](https://builder.io/signup)[Get a demo](/m/demo)
+
+NEW! Fusion
+
+What should we build?| Attach[![]()Connect a Repo](https://builder.io/app/projects/github/connect?fusion=true)![]()Figma Import![]()MCP Servers![]()![]()Get Extension![]()[### Convert Figma designs into code with AI](#convert-figma-designs-into-code-with-ai)Generate clean code using your components & design tokens[Try Fusion](https://builder.io/signup)[Get a demo](/m/demo)![]()
+
+Ship 4x faster with the AI frontend engineer
+
+Design, prototype, and ship production changes within your existing sites and applications.
+
+[Try it now](https://builder.io/signup)[Get a demo](/m/demo)![]() ![]() ![]() ![]()![]() ![]() ![]() ![]() ![]() ![]() ![]() ![]() ![]() ![]() 
+
+Generate high quality code that uses your components & design tokens.
+
+[Try it now](https://builder.io/signup)[Get a demo](/m/demo)![]()Continue Reading [AI5 MINThe Visual Agentic Development Series: How AI-Native Teams Ship FasterWRITTEN BYAmy CrossMarch 26, 2026](/blog/visual-agentic-development-series) [Software engineering6 MINFix the Workflow, Not the HeadcountWRITTEN BYAmy CrossMarch 24, 2026](/blog/fix-the-workflow-not-the-headcount) [Design6 MINTurn a Figma Landing Page into a Live WebsiteWRITTEN BYAlice MooreMarch 24, 2026](/blog/turn-a-figma-landing-page-into-a-live-website) 
+
+Product
+
+[Visual CMS](/m/visual-cms)[Theme Studio for Shopify](/m/theme-studio)[Sign up](/m/get-started)[Login](/login)
+
+Featured Integrations
+
+[React](/m/react)[Angular](/m/angular)[Next.js](/m/nextjs)[Gatsby](/m/gatsby)
+
+Resources
+
+[User Guides](/c/docs/guides/page-building)[Developer Docs](/c/docs/getting-started)[Forum](https://forum.builder.io/)[Blog](/blog)[Github](https://github.com/builderio/builder)
+
+Get In Touch
+
+Chat With Us
+
+[Twitter](https://twitter.com/builderio)[Linkedin](https://www.linkedin.com/company/builder-io/)[Careers](/m/careers)
+
+© 2020 Builder.io, Inc.
+
+[Security](/c/security)[Privacy Policy](/docs/privacy)[Terms of Service](/docs/terms)
+### Get the latest from Builder.io
+
+Dev Drop Newsletter
+
+News, tips, and tricks from Builder, for frontend developers.  
+
+
+Product Newsletter
+
+Latest features and updates on the Builder.io platform
+
+[By submitting, you agree to our Privacy Policy](https://builder.io/docs/privacy)![]()
+### Platform
+
+* [Fusion](/fusion)
+* [Publish](/publish)
+* [Product Updates](/updates)
+
+Use Cases
+
+* [Design to Code](/m/design-to-code)
+* [Headless CMS](/headless-cms)[Multi-Brand CMS](/m/multi-brand-cms)
+* [Landing Pages](/landing-pages)
+* [Web Apps](/web-apps)
+* [Prototypes](/prototypes)
+* [Marketing Sites](/m/marketing-sites)
+* [Headless Commerce](/m/headless-commerce)
+[### Developer Resources](#developer-resources)
+
+* [Documentation](/c/docs/developers)
+* [Fusion Docs](/c/docs/get-started-fusion)
+* [Publish Docs](/c/docs/get-started-publish)
+### Frameworks
+
+* Design to Code
+  
+  >
+* CMS
+  
+  >
+* Page Builder
+  
+  >
+
+Workflows
+
+* [Figma AI to Production Code](/workflows/figma-ai)
+* [AI Prototyping for Product Managers](/workflows/ai-prototyping-product-managers)
+* [Figma to Storybook](/workflows/figma-to-storybook)
+* [Figma to App Converter](/workflows/figma-to-app)
+### Resources
+
+* [Blog](/blog)
+* [Webinars](/hub/home?resource-type=webinars)
+* [Guides](/hub/home?resource-type=guides)
+* [Case Studies](/hub/home?resource-type=customer+stories)
+* [Community Forum](https://forum.builder.io/)
+* [Partners](/m/partners)
+* [Affiliate Program](/affiliate)
+* [CMS Integrations](/m/integrations)
+* [CMS Blueprints](/c/blueprints)
+* [Explainers](/explainers)
+* [Glossary](/glossary)
+* [Agent-Native](https://agent-native.com/)
+### Popular Guides
+
+* [Figma to Code Guide](/hub/guides/figma-design-to-code)
+* [Headless CMS Guide](/m/knowledge-center/headless-cms-visual-guide)
+* [Headless Commerce Guide](/m/knowledge-center/headless-commerce)
+* [Composable DXP Guide](/m/explainers/composable-dxp)
+### Company
+
+* [About](/m/about-us)
+* [News](/news)
+* [Careers](/careers)
+* [Contact Sales](/m/demo)
+![]()[Security](/c/security)[Privacy Policy](/legal/privacy)[SaaS Terms](/legal/terms)[Trust Center](https://trust.builder.io/)
+
+Cookie Preferences
+
+![]()![]()![]()![]()

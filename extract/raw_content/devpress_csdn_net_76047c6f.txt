@@ -1,0 +1,534 @@
+# Source URL: https://devpress.csdn.net/v1/article/detail/159546570
+# Content Length: 8408 characters
+# Extracted at: 2026-04-05 20:08:18
+#============================================================
+
+
+最完整的大模型算法工程师技术栈图谱（2026版）\_算法\_骑牛看日落-AtomGit开源社区                     
+
+[AtomGit开源社区](https://gitcode.csdn.net)
+=======================================
+
+               ![]() AtomGit开源社区   [AI对话](https://ai.gitcode.com/?utm_source=devpress_gitcode)[🔥 国产模型专区](https://ai.gitcode.com/models?utm_source=devpress_gitcode)[优质开源项目](https://gitcode.com/?tn=67bc3fa197a0293d6bfebd05?utm_source=devpress_gitcode)[开源教程文档](https://docs.gitcode.com?utm_source=devpress_gitcode)[最新活动](https://news.gitcode.com/activity?utm_source=devpress_gitcode)     [去全站搜索看看？](/search?q=)                     登录      
+
+登录社区云
+-----
+
+登录社区云，与社区用户共同成长
+
+* CSDN账号登录
+     
+### AtomGit开源社区
+
+邀请您加入社区
+
+   立即加入     欢迎加入社区 ![]()   取消   确定        欢迎加入社区 ![]()   取消   确定    [AtomGit开源社区](https://gitcode.csdn.net)  最完整的大模型算法工程师技术栈图谱（2026版）  
+
+最完整的大模型算法工程师技术栈图谱（2026版）
+========================
+
+  [![]()](https://devpress.csdn.net/user/GAOneS) 
+### [骑牛看日落](https://devpress.csdn.net/user/GAOneS)
+
+  [364人浏览 · 2026-03-27 15:15:39](https://devpress.csdn.net/user/GAOneS)     [![]() 骑牛看日落](https://devpress.csdn.net/user/GAOneS)  ·  2026-03-27 15:15:39 发布  
+
+**目录**
+
+[一、基础能力（所有AI工程师的底座）](#%E4%B8%80%E3%80%81%E5%9F%BA%E7%A1%80%E8%83%BD%E5%8A%9B%EF%BC%88%E6%89%80%E6%9C%89AI%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%9A%84%E5%BA%95%E5%BA%A7%EF%BC%89)
+
+[1 编程语言](#1%20%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80)
+
+[2 数据结构与算法](#2%20%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95)
+
+[3 数学基础](#3%20%E6%95%B0%E5%AD%A6%E5%9F%BA%E7%A1%80)
+
+[二、深度学习基础](#%E4%BA%8C%E3%80%81%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80)
+
+[深度学习模型基础](#%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80)
+
+[三、大模型核心技术](#%E4%B8%89%E3%80%81%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF)
+
+[1 Transformer架构](#1%20Transformer%E6%9E%B6%E6%9E%84)
+
+[2 预训练](#2%20%E9%A2%84%E8%AE%AD%E7%BB%83)
+
+[3 Tokenizer](#3%20Tokenizer)
+
+[四、大模型训练体系](#%E5%9B%9B%E3%80%81%E5%A4%A7%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83%E4%BD%93%E7%B3%BB)
+
+[1 分布式训练](#1%20%E5%88%86%E5%B8%83%E5%BC%8F%E8%AE%AD%E7%BB%83)
+
+[2 训练优化技术](#2%20%E8%AE%AD%E7%BB%83%E4%BC%98%E5%8C%96%E6%8A%80%E6%9C%AF)
+
+[3 微调技术](#3%20%E5%BE%AE%E8%B0%83%E6%8A%80%E6%9C%AF)
+
+[4 对齐训练](#4%20%E5%AF%B9%E9%BD%90%E8%AE%AD%E7%BB%83)
+
+[五、大模型推理与部署](#%E4%BA%94%E3%80%81%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E4%B8%8E%E9%83%A8%E7%BD%B2)
+
+[推理优化](#%E6%8E%A8%E7%90%86%E4%BC%98%E5%8C%96)
+
+[模型量化](#%E6%A8%A1%E5%9E%8B%E9%87%8F%E5%8C%96)
+
+[推理服务部署](#%E6%8E%A8%E7%90%86%E6%9C%8D%E5%8A%A1%E9%83%A8%E7%BD%B2)
+
+[六、大模型应用开发](#%E5%85%AD%E3%80%81%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91)
+
+[1 RAG系统](#1%20RAG%E7%B3%BB%E7%BB%9F)
+
+[2 Agent系统](#2%20Agent%E7%B3%BB%E7%BB%9F)
+
+[3 知识图谱](#3%20%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1)
+
+[七、企业最看重的5项能力](#%E4%B8%83%E3%80%81%E4%BC%81%E4%B8%9A%E6%9C%80%E7%9C%8B%E9%87%8D%E7%9A%845%E9%A1%B9%E8%83%BD%E5%8A%9B)
+
+[八、大模型工程师成长路线](#%E5%85%AB%E3%80%81%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%B7%A5%E7%A8%8B%E5%B8%88%E6%88%90%E9%95%BF%E8%B7%AF%E7%BA%BF)
+
+[结语](#%E7%BB%93%E8%AF%AD)
+
+---
+
+随着大模型时代的到来，越来越多的公司开始构建自己的 AI 能力体系。从最初的模型调用，到如今的 **RAG系统、Agent系统、私有化大模型平台**，企业对 **大模型算法工程师（LLM Engineer）** 的要求也越来越高。
+
+那么问题来了：
+
+> 一个真正合格的 **大模型算法工程师**，到底需要掌握哪些技术栈？
+
+本文将从 **企业真实技术需求出发**，系统梳理一份 **2026年最完整的大模型算法工程师技术栈图谱**。
+
+全文从 **6大技术层级** 进行解析：
+
+1. 基础能力
+2. 深度学习基础
+3. 大模型核心技术
+4. 大模型训练体系
+5. 推理与部署
+6. 企业级应用开发
+
+如果你希望系统进入 **LLM领域 / AI工程领域**，这篇文章可以作为一份完整的学习路线。
+
+---
+
+一、基础能力（所有AI工程师的底座）
+------------------
+
+任何大模型工程师的第一层能力都是 **计算机基础 + 编程能力**。
+
+### 1 编程语言
+
+核心语言：
+
+* Python（AI领域绝对核心）
+* C++（推理优化 / CUDA开发）
+* SQL（数据处理）
+* Shell（工程自动化）
+
+Python生态常用库：
+
+* numpy
+* pandas
+* scipy
+
+这些库主要用于：
+
+* 数据清洗
+* 数据分析
+* 数值计算
+
+---
+
+### 2 数据结构与算法
+
+虽然很多AI工程师不常写算法题，但企业在招聘时依然非常重视。
+
+必须掌握：
+
+* 数组、链表、树、图、哈希表、动态规划
+
+在大模型系统中常见应用：
+
+* Beam Search
+* TopK搜索
+* 图结构计算
+
+---
+
+### 3 数学基础
+
+AI算法工程师必须具备一定的数学基础。
+
+核心包括：
+
+**线性代数**
+
+* 矩阵乘法、特征值、奇异值分解（SVD）
+
+**概率论**
+
+* 贝叶斯公式、最大似然估计、KL散度
+
+**优化算法**
+
+* 梯度下降、SGD、Adam
+
+这些数学知识是理解深度学习的基础。
+
+---
+
+二、深度学习基础
+--------
+
+在进入大模型之前，必须掌握深度学习框架。
+
+目前主流框架主要有两个：
+
+* PyTorch、TensorFlow
+
+其中 **PyTorch 已经成为大模型领域的事实标准**。
+
+---
+
+### 深度学习模型基础
+
+经典模型包括：
+
+* CNN、RNN、LSTM、Attention机制
+
+真正改变AI领域的是 Transformer。
+
+经典论文：
+
+* Attention Is All You Need
+
+这篇论文提出了 **Transformer架构**，彻底改变了NLP和大模型的发展方向。
+
+---
+
+三、大模型核心技术
+---------
+
+大模型工程师的核心竞争力就在这一层。
+
+---
+
+### 1 Transformer架构
+
+Transformer的核心模块包括：
+
+* Self Attention
+* Multi Head Attention
+* Position Encoding
+* Feed Forward Network
+
+大部分大模型都是基于Transformer构建。
+
+典型模型包括：
+
+* GPT、BERT、LLaMA、Qwen
+
+---
+
+### 2 预训练
+
+大模型训练通常包含以下流程：
+
+数据准备 → Tokenizer → 预训练 → 微调 → 对齐
+
+预训练的核心任务：
+
+* Language Modeling
+* Next Token Prediction
+* Masked Language Model
+
+---
+
+### 3 Tokenizer
+
+Tokenizer负责将文本转换为Token。
+
+常见算法：
+
+* BPE、WordPiece、SentencePiece
+
+常用工具：
+
+* Hugging Face Transformers、SentencePiece
+
+---
+
+四、大模型训练体系
+---------
+
+企业级大模型训练非常复杂。
+
+---
+
+### 1 分布式训练
+
+常见并行方式：
+
+* Data Parallel
+* Model Parallel
+* Pipeline Parallel
+
+主流训练框架：
+
+* DeepSpeed
+* Megatron-LM
+* Ray
+
+---
+
+### 2 训练优化技术
+
+为了降低训练成本，通常需要各种优化技术：
+
+* Mixed Precision、Gradient Checkpoint、Flash Attention
+
+优化算法：
+
+* AdamW、Adafactor
+
+---
+
+### 3 微调技术
+
+企业通常不会从零训练模型，而是进行 **微调**。
+
+主流技术：
+
+* LoRA、QLoRA、Adapter、Prefix Tuning
+
+常见工具：
+
+* PEFT
+
+---
+
+### 4 对齐训练
+
+为了让模型更加符合人类价值，需要进行对齐训练。
+
+最常见方法：
+
+**RLHF（Reinforcement Learning from Human Feedback）**
+
+主要流程：
+
+1. SFT监督微调
+2. Reward Model训练
+3. PPO强化学习
+
+常见框架：
+
+* TRL
+
+---
+
+五、大模型推理与部署
+----------
+
+企业落地AI系统时，推理效率非常关键。
+
+---
+
+### 推理优化
+
+关键技术：
+
+* KV Cache、Flash Attention、Speculative Decoding
+
+主流推理框架：
+
+* vLLM、TensorRT、ONNX Runtime
+
+---
+
+### 模型量化
+
+为了降低显存占用，通常需要进行模型压缩。
+
+常见量化方式：
+
+* INT8、INT4、GPTQ、AWQ
+
+常见工具：
+
+* AutoGPTQ
+
+---
+
+### 推理服务部署
+
+企业通常使用以下技术部署模型：
+
+* Docker、Kubernetes、FastAPI、gRPC
+
+---
+
+六、大模型应用开发
+---------
+
+目前企业最需要的能力是 **大模型应用开发能力**。
+
+---
+
+### 1 RAG系统
+
+RAG（Retrieval Augmented Generation）是企业最常见的应用架构。
+
+核心流程：
+
+用户问题 → 向量检索 → LLM生成答案
+
+常见向量数据库：
+
+* Milvus、FAISS、Weaviate
+
+---
+
+### 2 Agent系统
+
+Agent系统是大模型的重要发展方向。
+
+主流框架包括：
+
+* LangChain、AutoGen、CrewAI
+
+---
+
+### 3 知识图谱
+
+在企业场景中，大模型经常结合知识图谱。
+
+常见数据库：
+
+* Neo4j
+
+应用场景：
+
+* 法律知识图谱、医疗知识图谱、企业知识库
+
+---
+
+七、企业最看重的5项能力
+------------
+
+如果目标是 **高级大模型算法工程师**，企业最看重的是以下能力：
+
+1 Transformer架构理解  
+
+2 LoRA / QLoRA微调  
+
+3 RAG系统设计  
+
+4 大模型推理优化  
+
+5 Agent系统开发
+
+---
+
+八、大模型工程师成长路线
+------------
+
+完整成长路径如下：
+
+初级阶段：
+
+Python + 深度学习
+
+中级阶段：
+
+Transformer + 微调
+
+高级阶段：
+
+RAG + Agent + 系统架构
+
+专家阶段：
+
+AI平台 + 大模型工程化
+
+---
+
+结语
+--
+
+未来5年，AI工程师的核心能力将不再只是模型训练，而是：
+
+**“大模型系统工程能力”**
+
+真正有竞争力的大模型工程师，往往具备：
+
+* 算法能力
+* 工程能力
+* 系统架构能力
+* AI产品思维
+
+当你能够构建 **完整的AI系统** 时，你就已经从普通算法工程师，成长为 **AI架构师**。
+
+---
+
+如果你正在进入 **大模型领域**，建议优先掌握：
+
+* Transformer原理
+* 微调技术
+* RAG系统
+* Agent系统
+* 推理部署
+
+这将是未来AI工程师最重要的能力。
+
+   [# 算法](https://devpress.csdn.net/tags/629eeed0512a562a42849794)[# 人工智能](https://devpress.csdn.net/tags/629eeed4512a562a42849836)[# 机器学习](https://devpress.csdn.net/tags/629eeed4512a562a42849835)[# 深度学习](https://devpress.csdn.net/tags/629eeed4512a562a42849837)    [![]()](https://gitcode.csdn.net) [AtomGit开源社区](https://gitcode.csdn.net)
+
+AtomGit 是由开放原子开源基金会联合 CSDN 等生态伙伴共同推出的新一代开源与人工智能协作平台。平台坚持“开放、中立、公益”的理念，把代码托管、模型共享、数据集托管、智能体开发体验和算力服务整合在一起，为开发者提供从开发、训练到部署的一站式体验。
+
+   
+加入社区
+   
+
+更多推荐
+
+* ·
+  [AI重构项目开发全流程：效率革命与实践指南](https://gitcode.csdn.net/69d24d720a2f6a37c59d2d39.html)
+* ·
+  [[开源]玄武门之变的多变量数学建模与C++模拟系统——从历史事件到量化分析](https://gitcode.csdn.net/69d24dee54b52172bc671f92.html)
+* ·
+  [我的CSDN第一篇](https://gitcode.csdn.net/69d24d1c54b52172bc671f74.html)
+
+[![]()
+
+AI重构项目开发全流程：效率革命与实践指南
+
+ [![]()](https://gitcode.csdn.net) [AtomGit开源社区](https://gitcode.csdn.net)](https://gitcode.csdn.net/69d24d720a2f6a37c59d2d39.html) [![]()
+
+[开源]玄武门之变的多变量数学建模与C++模拟系统——从历史事件到量化分析
+
+ [![]()](https://gitcode.csdn.net) [AtomGit开源社区](https://gitcode.csdn.net)](https://gitcode.csdn.net/69d24dee54b52172bc671f92.html) [我的CSDN第一篇
+
+编程新人学习计划：计划每周投入10-15小时系统学习编程，优先掌握C语言和Python基础，通过LeetCode刷题和两周完成一个小项目（如个人博客）来提升实战能力。长期目标包括参与开源项目、掌握算法数据结构，并探索Web开发或AI方向。理想加入三亚崖州湾等技术创新型企业。学习方式结合在线课程、每日编码练习和社区互动。
+
+ [![]()](https://gitcode.csdn.net) [AtomGit开源社区](https://gitcode.csdn.net)](https://gitcode.csdn.net/69d24d1c54b52172bc671f74.html)  
+
+* ![]() 364
+* ![]() 11
+* ![]() 0
+* 0
+* ![]()    
+  
+  扫一扫分享内容
+  
+  ![]()   点击复制链接
+* ![]() 分享
+ 
+### 所有评论(0)
+
+您需要登录才能发言
+  
+查看更多评论        欢迎加入社区 ![]()   取消   确定  [![]()](https://devpress.csdn.net/user/GAOneS) 
+### [骑牛看日落](https://devpress.csdn.net/user/GAOneS)
+
+   [@GAOneS](https://devpress.csdn.net/user/GAOneS)      关注   ![]()
+已为社区贡献15条内容
+    ![]() 回到  
+顶部          欢迎加入社区 ![]()   取消   确定    [![]()](https://devpress.csdn.net/) 提供社区服务与技术支持  [![]()](https://devpress.csdn.net/) 提供社区服务与技术支持   ©1999-2023北京创新乐知网络技术有限公司 [京ICP备19004658号](https://beian.miit.gov.cn/#/Integrated/index)

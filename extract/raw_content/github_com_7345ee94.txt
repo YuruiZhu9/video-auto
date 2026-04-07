@@ -1,0 +1,393 @@
+# Source URL: https://github.com/vllm-project/vllm/releases/tag/v0.14.0
+# Content Length: 40911 characters
+# Extracted at: 2026-03-27 05:09:16
+#============================================================
+
+[Skip to content](https://github.com/vllm-project/vllm/releases/tag/v0.14.0#start-of-content)
+You signed in with another tab or window. [Reload](https://github.com/vllm-project/vllm/releases/tag/v0.14.0) to refresh your session.You signed out in another tab or window. [Reload](https://github.com/vllm-project/vllm/releases/tag/v0.14.0) to refresh your session.You switched accounts on another tab or window. [Reload](https://github.com/vllm-project/vllm/releases/tag/v0.14.0) to refresh your session.Dismiss alert
+{{ message }}
+[vllm-project](https://github.com/vllm-project)/ \*\*[vllm](https://github.com/vllm-project/vllm)\*\* Public
+- Sponsor
+# Sponsor vllm-project/vllm
+##### GitHub Sponsors
+[Learn more about Sponsors](https://github.com/sponsors)
+[![@vllm-project](https://avatars.githubusercontent.com/u/136984999?s=80&v=4)](https://github.com/vllm-project)
+[vllm-project](https://github.com/vllm-project)
+[vllm-project](https://github.com/vllm-project)
+[Sponsor](https://github.com/sponsors/vllm-project)
+##### External links
+![open\_collective](https://github.githubassets.com/assets/open\_collective-0a706523753d.svg)
+[opencollective.com/ \*\*vllm\*\*](https://opencollective.com/vllm)
+[Learn more about funding links in repositories](https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository).
+[Report abuse](https://github.com/contact/report-abuse?report=vllm-project%2Fvllm+%28Repository+Funding+Links%29)
+- [Notifications](https://github.com/login?return\_to=%2Fvllm-project%2Fvllm) You must be signed in to change notification settings
+- [Fork\\
+14.5k](https://github.com/login?return\_to=%2Fvllm-project%2Fvllm)
+- [Star\\
+73.6k](https://github.com/login?return\_to=%2Fvllm-project%2Fvllm)
+# v0.14.0
+Compare
+# Choose a tag to compare
+## Sorry, something went wrong.
+Filter
+Loading
+## Sorry, something went wrong.
+### Uh oh!
+There was an error while loading. [Please reload this page](https://github.com/vllm-project/vllm/releases/tag/v0.14.0).
+## No results found
+[View all tags](https://github.com/vllm-project/vllm/tags)
+![@khluu](https://avatars.githubusercontent.com/u/51931015?s=40&v=4)[khluu](https://github.com/khluu)
+released this
+Jan 20
+20 Jan 09:20
+·
+[2063 commits](https://github.com/vllm-project/vllm/compare/v0.14.0...main)
+to main
+since this release
+[v0.14.0](https://github.com/vllm-project/vllm/tree/v0.14.0)
+[`b17039b`](https://github.com/vllm-project/vllm/commit/b17039bccc17b94a2ea107272ad7bc93508708df)
+## Highlights
+This release features approximately 660 commits from 251 contributors (86 new contributors).
+\*\*Breaking Changes:\*\*
+- \*\*Async scheduling is now enabled by default\*\* \- Users who experience issues can disable with `--no-async-scheduling`.
+- Excludes some not-yet-supported configurations: pipeline parallel, CPU backend, non-MTP/Eagle spec decoding.
+- \*\*PyTorch 2.9.1\*\* is now required and the default wheel is compiled against cu129.
+- Deprecated quantization schemes have been removed ( [#31688](https://github.com/vllm-project/vllm/pull/31688), [#31285](https://github.com/vllm-project/vllm/pull/31285)).
+- When using speculative decoding, unsupported sampling parameters will fail rather than being silently ignored ( [#31982](https://github.com/vllm-project/vllm/pull/31982)).
+\*\*Key Improvements:\*\*
+- \*\*Async scheduling enabled by default\*\* ( [#27614](https://github.com/vllm-project/vllm/pull/27614)): Overlaps engine core scheduling with GPU execution, improving throughput without user configuration. Now also works with speculative decoding ( [#31998](https://github.com/vllm-project/vllm/pull/31998)) and structured outputs ( [#29821](https://github.com/vllm-project/vllm/pull/29821)).
+- \*\*gRPC server entrypoint\*\* ( [#30190](https://github.com/vllm-project/vllm/pull/30190)): Alternative to REST API with binary protocol, HTTP/2 multiplexing.
+- \*\*`--max-model-len auto`\*\* ( [#29431](https://github.com/vllm-project/vllm/pull/29431)): Automatically fits context length to available GPU memory, eliminating OOM startup failures.
+- \*\*Model inspection view\*\* ( [#29450](https://github.com/vllm-project/vllm/pull/29450)): View the modules, attention backends, and quantization of your model in vLLM by specifying `VLLM\_LOG\_MODEL\_INSPECTION=1` or by simply printing the `LLM` object.
+- \*\*Model Runner V2 enhancements\*\*: UVA block tables ( [#31965](https://github.com/vllm-project/vllm/pull/31965)), M-RoPE ( [#32143](https://github.com/vllm-project/vllm/pull/32143)), `logit\_bias`/`allowed\_token\_ids`/`min\_tokens` support ( [#32163](https://github.com/vllm-project/vllm/pull/32163)).
+- Please note that Model Runner V2 is still experimental and disabled by default.
+### Model Support
+\*\*New Model Architectures:\*\*
+- Grok-2 with tiktoken tokenizer ( [#31847](https://github.com/vllm-project/vllm/pull/31847))
+- LFM2-VL vision-language model ( [#31758](https://github.com/vllm-project/vllm/pull/31758))
+- MiMo-V2-Flash ( [#30836](https://github.com/vllm-project/vllm/pull/30836))
+- openPangu MoE ( [#28775](https://github.com/vllm-project/vllm/pull/28775))
+- IQuestCoder ( [#31575](https://github.com/vllm-project/vllm/pull/31575))
+- Nemotron Parse 1.1 ( [#30864](https://github.com/vllm-project/vllm/pull/30864))
+- GLM-ASR audio ( [#31436](https://github.com/vllm-project/vllm/pull/31436))
+- Isaac vision model v0.1/v0.2 ( [#28367](https://github.com/vllm-project/vllm/pull/28367), [#31550](https://github.com/vllm-project/vllm/pull/31550))
+- Kanana-1.5-v-3b-instruct ( [#29384](https://github.com/vllm-project/vllm/pull/29384))
+- K-EXAONE-236B-A23B MoE ( [#31621](https://github.com/vllm-project/vllm/pull/31621))
+\*\*LoRA Support Expansion:\*\*
+- Multimodal tower/connector LoRA ( [#26674](https://github.com/vllm-project/vllm/pull/26674)): LLaVA ( [#31513](https://github.com/vllm-project/vllm/pull/31513)), BLIP2 ( [#31620](https://github.com/vllm-project/vllm/pull/31620)), PaliGemma ( [#31656](https://github.com/vllm-project/vllm/pull/31656)), Pixtral ( [#31724](https://github.com/vllm-project/vllm/pull/31724)), DotsOCR ( [#31825](https://github.com/vllm-project/vllm/pull/31825)), GLM4-V ( [#31652](https://github.com/vllm-project/vllm/pull/31652))
+- DeepSeek-OCR ( [#31569](https://github.com/vllm-project/vllm/pull/31569)), Qwen3-Next ( [#31719](https://github.com/vllm-project/vllm/pull/31719)), NemotronH ( [#31539](https://github.com/vllm-project/vllm/pull/31539)), PLaMo 2/3 ( [#31322](https://github.com/vllm-project/vllm/pull/31322))
+- Vision LoRA mm\\_processor\\_cache support ( [#31927](https://github.com/vllm-project/vllm/pull/31927))
+- MoE expert base\\_layer loading ( [#31104](https://github.com/vllm-project/vllm/pull/31104))
+\*\*Model Enhancements:\*\*
+- Qwen3-VL as reranker ( [#31890](https://github.com/vllm-project/vllm/pull/31890))
+- DeepSeek v3.2 chat prefix completion ( [#31147](https://github.com/vllm-project/vllm/pull/31147))
+- GLM-4.5/GLM-4.7 `enable\_thinking: false` ( [#31788](https://github.com/vllm-project/vllm/pull/31788))
+- Ernie4.5-VL video timestamps ( [#31274](https://github.com/vllm-project/vllm/pull/31274))
+- Score template expansion ( [#31335](https://github.com/vllm-project/vllm/pull/31335))
+- LLaMa4 vision encoder compilation ( [#30709](https://github.com/vllm-project/vllm/pull/30709))
+- NemotronH quantized attention ( [#31898](https://github.com/vllm-project/vllm/pull/31898))
+### Engine Core
+- \*\*Async scheduling default\*\* with spec decode ( [#27614](https://github.com/vllm-project/vllm/pull/27614), [#31998](https://github.com/vllm-project/vllm/pull/31998)) and structured outputs ( [#29821](https://github.com/vllm-project/vllm/pull/29821))
+- \*\*Hybrid allocator + KV connector\*\* ( [#30166](https://github.com/vllm-project/vllm/pull/30166)) with multiple KV cache groups ( [#31707](https://github.com/vllm-project/vllm/pull/31707))
+- Triton attention: encoder-only/cross attention ( [#31406](https://github.com/vllm-project/vllm/pull/31406)), cross-layer blocks ( [#30687](https://github.com/vllm-project/vllm/pull/30687))
+- Mamba2 prefix cache optimization ( [#28047](https://github.com/vllm-project/vllm/pull/28047))
+- Batch invariant LoRA ( [#30097](https://github.com/vllm-project/vllm/pull/30097))
+- LoRA name in BlockStored for KV-cache reconstruction ( [#27577](https://github.com/vllm-project/vllm/pull/27577))
+- Request ID collision prevention ( [#27987](https://github.com/vllm-project/vllm/pull/27987))
+- Dense model DP without overhead ( [#30739](https://github.com/vllm-project/vllm/pull/30739))
+- Async + spec decode penalties/bad\\_words ( [#30495](https://github.com/vllm-project/vllm/pull/30495))
+### Hardware & Performance
+\*\*CUTLASS MoE Optimizations:\*\*
+- 2.9% throughput + 10.8% TTFT via fill(0) optimization ( [#31754](https://github.com/vllm-project/vllm/pull/31754))
+- 5.3% throughput + 2.2% TTFT via problem size calculation ( [#31830](https://github.com/vllm-project/vllm/pull/31830))
+- Fused SiLU+Mul+Quant for NVFP4 ( [#31832](https://github.com/vllm-project/vllm/pull/31832))
+- NVFP4 stride fusion ( [#31837](https://github.com/vllm-project/vllm/pull/31837))
+\*\*Other Performance:\*\*
+- GDN attention decode speedup (Qwen3-Next) ( [#31722](https://github.com/vllm-project/vllm/pull/31722))
+- Fused RoPE + MLA KV-cache write ( [#25774](https://github.com/vllm-project/vllm/pull/25774))
+- Sliding window attention optimization ( [#31984](https://github.com/vllm-project/vllm/pull/31984))
+- FlashInfer DeepGEMM swapAB SM90 ( [#29213](https://github.com/vllm-project/vllm/pull/29213))
+- Unpermute-aware fused MoE + small-batch fallback ( [#29354](https://github.com/vllm-project/vllm/pull/29354))
+- GDN Attention blocking copy removal ( [#31167](https://github.com/vllm-project/vllm/pull/31167))
+- FusedMoE LoRA small rank performance ( [#32019](https://github.com/vllm-project/vllm/pull/32019))
+- EPLB numpy optimization ( [#29499](https://github.com/vllm-project/vllm/pull/29499))
+- FlashInfer rotary for DeepSeek ( [#30729](https://github.com/vllm-project/vllm/pull/30729))
+- Vectorized activations ( [#29512](https://github.com/vllm-project/vllm/pull/29512))
+- NUMA interleaved memory ( [#30800](https://github.com/vllm-project/vllm/pull/30800))
+- Async spec decode logprobs ( [#31336](https://github.com/vllm-project/vllm/pull/31336))
+\*\*Hardware Configs:\*\*
+- SM103 support ( [#30705](https://github.com/vllm-project/vllm/pull/30705), [#31150](https://github.com/vllm-project/vllm/pull/31150))
+- B300 Blackwell MoE configs ( [#30629](https://github.com/vllm-project/vllm/pull/30629))
+- Qwen3-Next FP8 CUTLASS configs ( [#29553](https://github.com/vllm-project/vllm/pull/29553))
+- Qwen3Moe B200 Triton configs ( [#31448](https://github.com/vllm-project/vllm/pull/31448))
+- GLM-4.5/4.6 RTX Pro 6000 kernels ( [#31407](https://github.com/vllm-project/vllm/pull/31407))
+- MiniMax-M2/M2.1 QKNorm ( [#31493](https://github.com/vllm-project/vllm/pull/31493))
+- NVFP4 small batch tuning ( [#30897](https://github.com/vllm-project/vllm/pull/30897))
+\*\*Platform:\*\*
+- ROCm: AITER RMSNorm fusion ( [#26575](https://github.com/vllm-project/vllm/pull/26575)), MTP for AITER MLA ( [#28624](https://github.com/vllm-project/vllm/pull/28624)), moriio connector ( [#29304](https://github.com/vllm-project/vllm/pull/29304)), xgrammar upstream ( [#31327](https://github.com/vllm-project/vllm/pull/31327))
+- XPU: FP8 streaming quant ( [#30944](https://github.com/vllm-project/vllm/pull/30944)), custom workers ( [#30935](https://github.com/vllm-project/vllm/pull/30935))
+- CPU: Head sizes 80/112 ( [#31968](https://github.com/vllm-project/vllm/pull/31968)), async disabled by default ( [#31525](https://github.com/vllm-project/vllm/pull/31525)), LoRA MoE CPU pinning ( [#31317](https://github.com/vllm-project/vllm/pull/31317))
+- TPU: tpu-inference path ( [#30808](https://github.com/vllm-project/vllm/pull/30808)), Sophgo docs ( [#30949](https://github.com/vllm-project/vllm/pull/30949))
+### Large Scale Serving
+- \*\*XBO\*\* (Extended Dual-Batch Overlap) ( [#30120](https://github.com/vllm-project/vllm/pull/30120))
+- \*\*NIXL asymmetric TP\*\* (P > D tensor-parallel-size) ( [#27274](https://github.com/vllm-project/vllm/pull/27274))
+- NIXL heterogeneous BlockSize/kv\\_layout ( [#30275](https://github.com/vllm-project/vllm/pull/30275))
+- Cross-layers KV layout for MultiConnector ( [#30761](https://github.com/vllm-project/vllm/pull/30761))
+- Mooncake protocol expansion ( [#30133](https://github.com/vllm-project/vllm/pull/30133))
+- LMCache KV cache registration ( [#31397](https://github.com/vllm-project/vllm/pull/31397))
+- EPLB default all2all backend ( [#30559](https://github.com/vllm-project/vllm/pull/30559))
+### Quantization
+- \*\*Marlin for Turing (sm75)\*\* ( [#29901](https://github.com/vllm-project/vllm/pull/29901), [#31000](https://github.com/vllm-project/vllm/pull/31000))
+- \*\*Quark int4-fp8 w4a8 MoE\*\* ( [#30071](https://github.com/vllm-project/vllm/pull/30071))
+- \*\*MXFP4 W4A16 dense models\*\* ( [#31926](https://github.com/vllm-project/vllm/pull/31926))
+- \*\*ModelOpt FP8 variants\*\* (FP8\\_PER\\_CHANNEL\\_PER\\_TOKEN, FP8\\_PB\\_WO) ( [#30957](https://github.com/vllm-project/vllm/pull/30957))
+- ModelOpt KV cache quantization update ( [#31895](https://github.com/vllm-project/vllm/pull/31895))
+- NVFP4 Marlin for NVFP4A16 MoEs ( [#30881](https://github.com/vllm-project/vllm/pull/30881))
+- Static quant all group shapes ( [#30833](https://github.com/vllm-project/vllm/pull/30833))
+- Default MXFP4 LoRA backend: Marlin ( [#30598](https://github.com/vllm-project/vllm/pull/30598))
+- compressed-tensors 0.13.0 ( [#30799](https://github.com/vllm-project/vllm/pull/30799))
+### API & Frontend
+\*\*New Features:\*\*
+- gRPC server ( [#30190](https://github.com/vllm-project/vllm/pull/30190))
+- `--max-model-len auto` ( [#29431](https://github.com/vllm-project/vllm/pull/29431))
+- Model inspection view ( [#29450](https://github.com/vllm-project/vllm/pull/29450))
+- Offline FastAPI docs ( [#30184](https://github.com/vllm-project/vllm/pull/30184))
+- `attention\_config` in LLM() ( [#30710](https://github.com/vllm-project/vllm/pull/30710))
+- MFU metrics ( [#30738](https://github.com/vllm-project/vllm/pull/30738))
+- Iteration logging + NVTX ( [#31193](https://github.com/vllm-project/vllm/pull/31193))
+- `reasoning\_effort` parameter ( [#31956](https://github.com/vllm-project/vllm/pull/31956))
+\*\*Tool Calling:\*\*
+- FunctionGemma parser ( [#31218](https://github.com/vllm-project/vllm/pull/31218))
+- GLM-4.7 parser ( [#30876](https://github.com/vllm-project/vllm/pull/30876))
+- Kimi K2 update ( [#31207](https://github.com/vllm-project/vllm/pull/31207))
+\*\*CLI:\*\*
+- `-ep` for `--enable-expert-parallel` ( [#30890](https://github.com/vllm-project/vllm/pull/30890))
+- Complete help messages ( [#31226](https://github.com/vllm-project/vllm/pull/31226))
+- Bench serve auto-discovery + `--input-len` ( [#30816](https://github.com/vllm-project/vllm/pull/30816))
+- Spec decode acceptance stats ( [#31739](https://github.com/vllm-project/vllm/pull/31739))
+- `--enable-log-deltas` (renamed) ( [#32020](https://github.com/vllm-project/vllm/pull/32020))
+- `--default-chat-template-kwargs` ( [#31343](https://github.com/vllm-project/vllm/pull/31343))
+\*\*API:\*\*
+- `/server\_info` env info ( [#31899](https://github.com/vllm-project/vllm/pull/31899))
+- MCP streaming in Responses API ( [#31761](https://github.com/vllm-project/vllm/pull/31761))
+- `/embeddings``continue\_final\_message` ( [#31497](https://github.com/vllm-project/vllm/pull/31497))
+- Reranking score templates ( [#30550](https://github.com/vllm-project/vllm/pull/30550))
+- Chat template warmup ( [#30700](https://github.com/vllm-project/vllm/pull/30700))
+- Configurable handshake timeout ( [#27444](https://github.com/vllm-project/vllm/pull/27444))
+- Better 500 errors ( [#20610](https://github.com/vllm-project/vllm/pull/20610))
+- Worker init logging ( [#29493](https://github.com/vllm-project/vllm/pull/29493))
+- Bench error reporting ( [#31808](https://github.com/vllm-project/vllm/pull/31808))
+- Corrupted video recovery ( [#29197](https://github.com/vllm-project/vllm/pull/29197))
+- Spec-decode param validation ( [#31982](https://github.com/vllm-project/vllm/pull/31982))
+- Validation error metadata ( [#30134](https://github.com/vllm-project/vllm/pull/30134))
+### Security
+- Prevent token leaks in crash logs ( [#30751](https://github.com/vllm-project/vllm/pull/30751))
+- `weights\_only=True` in torch.load ( [#32045](https://github.com/vllm-project/vllm/pull/32045))
+### Dependencies
+- \*\*PyTorch 2.9.1\*\* ( [#28495](https://github.com/vllm-project/vllm/pull/28495))
+- compressed-tensors 0.13.0 ( [#30799](https://github.com/vllm-project/vllm/pull/30799))
+- CUDA 13 LMCache/NIXL in Docker ( [#30913](https://github.com/vllm-project/vllm/pull/30913))
+- Configurable NVSHMEM version ( [#30732](https://github.com/vllm-project/vllm/pull/30732))
+### Bug Fixes (User-Facing)
+- Invalid UTF-8 tokens ( [#28874](https://github.com/vllm-project/vllm/pull/28874))
+- CPU RoPE gibberish with `--enforce-eager` ( [#31643](https://github.com/vllm-project/vllm/pull/31643))
+- Tool call streaming finish chunk ( [#31438](https://github.com/vllm-project/vllm/pull/31438))
+- Encoder cache leak CPU scheduling stuck ( [#31857](https://github.com/vllm-project/vllm/pull/31857))
+- Engine crash: tools + response\\_format ( [#32127](https://github.com/vllm-project/vllm/pull/32127))
+- Voxtral transcription API ( [#31388](https://github.com/vllm-project/vllm/pull/31388))
+- Safetensors download optimization ( [#30537](https://github.com/vllm-project/vllm/pull/30537))
+### Deprecations
+- Deprecated quantization schemes removed ( [#31688](https://github.com/vllm-project/vllm/pull/31688), [#31285](https://github.com/vllm-project/vllm/pull/31285))
+- `seed\_everything` deprecated ( [#31659](https://github.com/vllm-project/vllm/pull/31659))
+### Documentation
+- vllm-metal plugin docs ( [#31174](https://github.com/vllm-project/vllm/pull/31174))
+- Claude Code example ( [#31188](https://github.com/vllm-project/vllm/pull/31188))
+- CustomOp developer guide ( [#30886](https://github.com/vllm-project/vllm/pull/30886))
+## New Contributors 🎉
+- [@penfree](https://github.com/penfree) made their first contribution in [#30237](https://github.com/vllm-project/vllm/pull/30237)
+- [@jiangkuaixue123](https://github.com/jiangkuaixue123) made their first contribution in [#30120](https://github.com/vllm-project/vllm/pull/30120)
+- [@jr-shen](https://github.com/jr-shen) made their first contribution in [#29663](https://github.com/vllm-project/vllm/pull/29663)
+- [@grzegorz-k-karch](https://github.com/grzegorz-k-karch) made their first contribution in [#30795](https://github.com/vllm-project/vllm/pull/30795)
+- [@shanjiaz](https://github.com/shanjiaz) made their first contribution in [#30799](https://github.com/vllm-project/vllm/pull/30799)
+- [@Somoku](https://github.com/Somoku) made their first contribution in [#29569](https://github.com/vllm-project/vllm/pull/29569)
+- [@baoqian426](https://github.com/baoqian426) made their first contribution in [#30841](https://github.com/vllm-project/vllm/pull/30841)
+- [@SongDI911](https://github.com/SongDI911) made their first contribution in [#30852](https://github.com/vllm-project/vllm/pull/30852)
+- [@www-spam](https://github.com/www-spam) made their first contribution in [#30827](https://github.com/vllm-project/vllm/pull/30827)
+- [@Xunzhuo](https://github.com/Xunzhuo) made their first contribution in [#30844](https://github.com/vllm-project/vllm/pull/30844)
+- [@TheCodeWrangler](https://github.com/TheCodeWrangler) made their first contribution in [#30700](https://github.com/vllm-project/vllm/pull/30700)
+- [@SungMinCho](https://github.com/SungMinCho) made their first contribution in [#30738](https://github.com/vllm-project/vllm/pull/30738)
+- [@sarathc-cerebras](https://github.com/sarathc-cerebras) made their first contribution in [#30188](https://github.com/vllm-project/vllm/pull/30188)
+- [@wzyrrr](https://github.com/wzyrrr) made their first contribution in [#30949](https://github.com/vllm-project/vllm/pull/30949)
+- [@navmarri14](https://github.com/navmarri14) made their first contribution in [#30629](https://github.com/vllm-project/vllm/pull/30629)
+- [@HaloWorld](https://github.com/HaloWorld) made their first contribution in [#30867](https://github.com/vllm-project/vllm/pull/30867)
+- [@jeffreywang-anyscale](https://github.com/jeffreywang-anyscale) made their first contribution in [#31013](https://github.com/vllm-project/vllm/pull/31013)
+- [@AmeenP](https://github.com/AmeenP) made their first contribution in [#31093](https://github.com/vllm-project/vllm/pull/31093)
+- [@westers](https://github.com/westers) made their first contribution in [#31071](https://github.com/vllm-project/vllm/pull/31071)
+- [@CedricHwong](https://github.com/CedricHwong) made their first contribution in [#30957](https://github.com/vllm-project/vllm/pull/30957)
+- [@c0de128](https://github.com/c0de128) made their first contribution in [#31114](https://github.com/vllm-project/vllm/pull/31114)
+- [@Bounty-hunter](https://github.com/Bounty-hunter) made their first contribution in [#30242](https://github.com/vllm-project/vllm/pull/30242)
+- [@jzakrzew](https://github.com/jzakrzew) made their first contribution in [#30550](https://github.com/vllm-project/vllm/pull/30550)
+- [@1643661061leo](https://github.com/1643661061leo) made their first contribution in [#30760](https://github.com/vllm-project/vllm/pull/30760)
+- [@NickCao](https://github.com/NickCao) made their first contribution in [#30070](https://github.com/vllm-project/vllm/pull/30070)
+- [@amithkk](https://github.com/amithkk) made their first contribution in [#31212](https://github.com/vllm-project/vllm/pull/31212)
+- [@gateremark](https://github.com/gateremark) made their first contribution in [#31218](https://github.com/vllm-project/vllm/pull/31218)
+- [@Tiiiktak](https://github.com/Tiiiktak) made their first contribution in [#31274](https://github.com/vllm-project/vllm/pull/31274)
+- [@oscardev256](https://github.com/oscardev256) made their first contribution in [#28367](https://github.com/vllm-project/vllm/pull/28367)
+- [@Jzz1943](https://github.com/Jzz1943) made their first contribution in [#31448](https://github.com/vllm-project/vllm/pull/31448)
+- [@mratsim](https://github.com/mratsim) made their first contribution in [#31407](https://github.com/vllm-project/vllm/pull/31407)
+- [@twjww](https://github.com/twjww) made their first contribution in [#31445](https://github.com/vllm-project/vllm/pull/31445)
+- [@amittell](https://github.com/amittell) made their first contribution in [#31438](https://github.com/vllm-project/vllm/pull/31438)
+- [@ricky-chaoju](https://github.com/ricky-chaoju) made their first contribution in [#30184](https://github.com/vllm-project/vllm/pull/30184)
+- [@effortprogrammer](https://github.com/effortprogrammer) made their first contribution in [#31343](https://github.com/vllm-project/vllm/pull/31343)
+- [@ZT-AIA](https://github.com/ZT-AIA) made their first contribution in [#31408](https://github.com/vllm-project/vllm/pull/31408)
+- [@rogerxfeng8](https://github.com/rogerxfeng8) made their first contribution in [#31522](https://github.com/vllm-project/vllm/pull/31522)
+- [@kevin-pw](https://github.com/kevin-pw) made their first contribution in [#31497](https://github.com/vllm-project/vllm/pull/31497)
+- [@vintipandey](https://github.com/vintipandey) made their first contribution in [#31505](https://github.com/vllm-project/vllm/pull/31505)
+- [@SameerAsal](https://github.com/SameerAsal) made their first contribution in [#31520](https://github.com/vllm-project/vllm/pull/31520)
+- [@Dylan1229](https://github.com/Dylan1229) made their first contribution in [#31546](https://github.com/vllm-project/vllm/pull/31546)
+- [@reaganjlee](https://github.com/reaganjlee) made their first contribution in [#29105](https://github.com/vllm-project/vllm/pull/29105)
+- [@zhima771](https://github.com/zhima771) made their first contribution in [#31569](https://github.com/vllm-project/vllm/pull/31569)
+- [@jayhemnani9910](https://github.com/jayhemnani9910) made their first contribution in [#31513](https://github.com/vllm-project/vllm/pull/31513)
+- [@Tmn07](https://github.com/Tmn07) made their first contribution in [#31572](https://github.com/vllm-project/vllm/pull/31572)
+- [@vsourirajan](https://github.com/vsourirajan) made their first contribution in [#31549](https://github.com/vllm-project/vllm/pull/31549)
+- [@labAxiaoming](https://github.com/labAxiaoming) made their first contribution in [#31601](https://github.com/vllm-project/vllm/pull/31601)
+- [@massif-01](https://github.com/massif-01) made their first contribution in [#31604](https://github.com/vllm-project/vllm/pull/31604)
+- [@PHOEBEMOON0802](https://github.com/PHOEBEMOON0802) made their first contribution in [#31147](https://github.com/vllm-project/vllm/pull/31147)
+- [@tpopp](https://github.com/tpopp) made their first contribution in [#29993](https://github.com/vllm-project/vllm/pull/29993)
+- [@ppppqp](https://github.com/ppppqp) made their first contribution in [#31620](https://github.com/vllm-project/vllm/pull/31620)
+- [@zzzzwwjj](https://github.com/zzzzwwjj) made their first contribution in [#31674](https://github.com/vllm-project/vllm/pull/31674)
+- [@Catacomba](https://github.com/Catacomba) made their first contribution in [#30322](https://github.com/vllm-project/vllm/pull/30322)
+- [@kunpengW-code](https://github.com/kunpengW-code) made their first contribution in [#31669](https://github.com/vllm-project/vllm/pull/31669)
+- [@johncalesp](https://github.com/johncalesp) made their first contribution in [#28874](https://github.com/vllm-project/vllm/pull/28874)
+- [@BlankRH](https://github.com/BlankRH) made their first contribution in [#31800](https://github.com/vllm-project/vllm/pull/31800)
+- [@guicho271828](https://github.com/guicho271828) made their first contribution in [#20610](https://github.com/vllm-project/vllm/pull/20610)
+- [@ReinforcedKnowledge](https://github.com/ReinforcedKnowledge) made their first contribution in [#31055](https://github.com/vllm-project/vllm/pull/31055)
+- [@vSeamar](https://github.com/vSeamar) made their first contribution in [#29197](https://github.com/vllm-project/vllm/pull/29197)
+- [@A1c0r-Z](https://github.com/A1c0r-Z) made their first contribution in [#31656](https://github.com/vllm-project/vllm/pull/31656)
+- [@MrIceCreamMan](https://github.com/MrIceCreamMan) made their first contribution in [#31465](https://github.com/vllm-project/vllm/pull/31465)
+- [@tianshu-Michael-yu](https://github.com/tianshu-Michael-yu) made their first contribution in [#31841](https://github.com/vllm-project/vllm/pull/31841)
+- [@weiyu0824](https://github.com/weiyu0824) made their first contribution in [#30808](https://github.com/vllm-project/vllm/pull/30808)
+- [@andyl98](https://github.com/andyl98) made their first contribution in [#31757](https://github.com/vllm-project/vllm/pull/31757)
+- [@JaredforReal](https://github.com/JaredforReal) made their first contribution in [#31779](https://github.com/vllm-project/vllm/pull/31779)
+- [@katec846](https://github.com/katec846) made their first contribution in [#29213](https://github.com/vllm-project/vllm/pull/29213)
+- [@kfirtoledo](https://github.com/kfirtoledo) made their first contribution in [#30761](https://github.com/vllm-project/vllm/pull/30761)
+- [@Ayobami-00](https://github.com/Ayobami-00) made their first contribution in [#31868](https://github.com/vllm-project/vllm/pull/31868)
+- [@ShaanveerS](https://github.com/ShaanveerS) made their first contribution in [#31825](https://github.com/vllm-project/vllm/pull/31825)
+- [@Zyyeric](https://github.com/Zyyeric) made their first contribution in [#31652](https://github.com/vllm-project/vllm/pull/31652)
+- [@wangshangsam](https://github.com/wangshangsam) made their first contribution in [#31775](https://github.com/vllm-project/vllm/pull/31775)
+- [@devbyteai](https://github.com/devbyteai) made their first contribution in [#31536](https://github.com/vllm-project/vllm/pull/31536)
+- [@BJWang-ant](https://github.com/BJWang-ant) made their first contribution in [#31719](https://github.com/vllm-project/vllm/pull/31719)
+- [@dangoldbj](https://github.com/dangoldbj) made their first contribution in [#31847](https://github.com/vllm-project/vllm/pull/31847)
+- [@maylikenoother](https://github.com/maylikenoother) made their first contribution in [#31610](https://github.com/vllm-project/vllm/pull/31610)
+- [@yxing-bj](https://github.com/yxing-bj) made their first contribution in [#31575](https://github.com/vllm-project/vllm/pull/31575)
+- [@xbfs](https://github.com/xbfs) made their first contribution in [#31948](https://github.com/vllm-project/vllm/pull/31948)
+- [@RunkaiTao](https://github.com/RunkaiTao) made their first contribution in [#29354](https://github.com/vllm-project/vllm/pull/29354)
+- [@AkshatSh](https://github.com/AkshatSh) made their first contribution in [#31550](https://github.com/vllm-project/vllm/pull/31550)
+- [@frelam](https://github.com/frelam) made their first contribution in [#31857](https://github.com/vllm-project/vllm/pull/31857)
+- [@shyeh25](https://github.com/shyeh25) made their first contribution in [#31617](https://github.com/vllm-project/vllm/pull/31617)
+- [@andikarachman](https://github.com/andikarachman) made their first contribution in [#32092](https://github.com/vllm-project/vllm/pull/32092)
+- [@minimAluminiumalism](https://github.com/minimAluminiumalism) made their first contribution in [#32158](https://github.com/vllm-project/vllm/pull/32158)
+- [@andyzhangx](https://github.com/andyzhangx) made their first contribution in [#32185](https://github.com/vllm-project/vllm/pull/32185)
+- [@sanghoon-yn](https://github.com/sanghoon-yn) made their first contribution in [#31956](https://github.com/vllm-project/vllm/pull/31956)
+- [@potatosalad](https://github.com/potatosalad) made their first contribution in [#32212](https://github.com/vllm-project/vllm/pull/32212)
+\*\*Full Changelog\*\*: [`v0.13.0...v0.14.0`](https://github.com/vllm-project/vllm/compare/v0.13.0...v0.14.0)
+### Contributors
+- [![@potatosalad](https://avatars.githubusercontent.com/u/1804?s=64&v=4)](https://github.com/potatosalad)
+- [![@SameerAsal](https://avatars.githubusercontent.com/u/725802?s=64&v=4)](https://github.com/SameerAsal)
+- [![@amithkk](https://avatars.githubusercontent.com/u/1029727?s=64&v=4)](https://github.com/amithkk)
+- [![@AmeenP](https://avatars.githubusercontent.com/u/1284292?s=64&v=4)](https://github.com/AmeenP)
+- [![@guicho271828](https://avatars.githubusercontent.com/u/1321968?s=64&v=4)](https://github.com/guicho271828)
+- [![@amittell](https://avatars.githubusercontent.com/u/1388680?s=64&v=4)](https://github.com/amittell)
+- [![@tpopp](https://avatars.githubusercontent.com/u/1491091?s=64&v=4)](https://github.com/tpopp)
+- [![@andyzhangx](https://avatars.githubusercontent.com/u/4178417?s=64&v=4)](https://github.com/andyzhangx)
+- [![@grzegorz-k-karch](https://avatars.githubusercontent.com/u/5200271?s=64&v=4)](https://github.com/grzegorz-k-karch)
+- [![@vintipandey](https://avatars.githubusercontent.com/u/7014512?s=64&v=4)](https://github.com/vintipandey)
+- [![@jzakrzew](https://avatars.githubusercontent.com/u/7714403?s=64&v=4)](https://github.com/jzakrzew)
+- [![@wangshangsam](https://avatars.githubusercontent.com/u/7806007?s=64&v=4)](https://github.com/wangshangsam)
+- [![@SungMinCho](https://avatars.githubusercontent.com/u/8216334?s=64&v=4)](https://github.com/SungMinCho)
+- [![@AkshatSh](https://avatars.githubusercontent.com/u/9097613?s=64&v=4)](https://github.com/AkshatSh)
+- [![@westers](https://avatars.githubusercontent.com/u/9313681?s=64&v=4)](https://github.com/westers)
+- [![@HaloWorld](https://avatars.githubusercontent.com/u/10569965?s=64&v=4)](https://github.com/HaloWorld)
+- [![@c0de128](https://avatars.githubusercontent.com/u/11350738?s=64&v=4)](https://github.com/c0de128)
+- [![@BlankRH](https://avatars.githubusercontent.com/u/12732072?s=64&v=4)](https://github.com/BlankRH)
+- [![@Tmn07](https://avatars.githubusercontent.com/u/12949091?s=64&v=4)](https://github.com/Tmn07)
+- [![@Bounty-hunter](https://avatars.githubusercontent.com/u/14822271?s=64&v=4)](https://github.com/Bounty-hunter)
+- [![@MrIceCreamMan](https://avatars.githubusercontent.com/u/14930133?s=64&v=4)](https://github.com/MrIceCreamMan)
+- [![@penfree](https://avatars.githubusercontent.com/u/15196366?s=64&v=4)](https://github.com/penfree)
+- [![@NickCao](https://avatars.githubusercontent.com/u/15247171?s=64&v=4)](https://github.com/NickCao)
+- [![@dangoldbj](https://avatars.githubusercontent.com/u/16420546?s=64&v=4)](https://github.com/dangoldbj)
+- [![@frelam](https://avatars.githubusercontent.com/u/16501118?s=64&v=4)](https://github.com/frelam)
+- [![@mratsim](https://avatars.githubusercontent.com/u/22738317?s=64&v=4)](https://github.com/mratsim)
+- [![@Catacomba](https://avatars.githubusercontent.com/u/24373776?s=64&v=4)](https://github.com/Catacomba)
+- [![@minimAluminiumalism](https://avatars.githubusercontent.com/u/25639317?s=64&v=4)](https://github.com/minimAluminiumalism)
+- [![@baoqian426](https://avatars.githubusercontent.com/u/28590172?s=64&v=4)](https://github.com/baoqian426)
+- [![@kfirtoledo](https://avatars.githubusercontent.com/u/29776516?s=64&v=4)](https://github.com/kfirtoledo)
+- [![@andyl98](https://avatars.githubusercontent.com/u/31980222?s=64&v=4)](https://github.com/andyl98)
+- [![@labAxiaoming](https://avatars.githubusercontent.com/u/34019940?s=64&v=4)](https://github.com/labAxiaoming)
+- [![@zzzzwwjj](https://avatars.githubusercontent.com/u/34335947?s=64&v=4)](https://github.com/zzzzwwjj)
+- [![@CedricHwong](https://avatars.githubusercontent.com/u/38417461?s=64&v=4)](https://github.com/CedricHwong)
+- [![@Jzz1943](https://avatars.githubusercontent.com/u/40157135?s=64&v=4)](https://github.com/Jzz1943)
+- [![@Ayobami-00](https://avatars.githubusercontent.com/u/41403457?s=64&v=4)](https://github.com/Ayobami-00)
+- [![@oscardev256](https://avatars.githubusercontent.com/u/42308241?s=64&v=4)](https://github.com/oscardev256)
+- [![@shanjiaz](https://avatars.githubusercontent.com/u/43143795?s=64&v=4)](https://github.com/shanjiaz)
+- [![@Tiiiktak](https://avatars.githubusercontent.com/u/44647051?s=64&v=4)](https://github.com/Tiiiktak)
+- [![@xbfs](https://avatars.githubusercontent.com/u/46224827?s=64&v=4)](https://github.com/xbfs)
+- [![@andikarachman](https://avatars.githubusercontent.com/u/47002617?s=64&v=4)](https://github.com/andikarachman)
+- [![@Xunzhuo](https://avatars.githubusercontent.com/u/48784001?s=64&v=4)](https://github.com/Xunzhuo)
+- [![@BJWang-ant](https://avatars.githubusercontent.com/u/50234076?s=64&v=4)](https://github.com/BJWang-ant)
+- [![@SongDI911](https://avatars.githubusercontent.com/u/50285788?s=64&v=4)](https://github.com/SongDI911)
+- [![@wzyrrr](https://avatars.githubusercontent.com/u/53074341?s=64&v=4)](https://github.com/wzyrrr)
+- [![@PHOEBEMOON0802](https://avatars.githubusercontent.com/u/56943221?s=64&v=4)](https://github.com/PHOEBEMOON0802)
+- [![@effortprogrammer](https://avatars.githubusercontent.com/u/57383540?s=64&v=4)](https://github.com/effortprogrammer)
+- [![@ppppqp](https://avatars.githubusercontent.com/u/60682078?s=64&v=4)](https://github.com/ppppqp)
+- [![@jr-shen](https://avatars.githubusercontent.com/u/61262453?s=64&v=4)](https://github.com/jr-shen)
+- [![@maylikenoother](https://avatars.githubusercontent.com/u/61589585?s=64&v=4)](https://github.com/maylikenoother)
+- [![@weiyu0824](https://avatars.githubusercontent.com/u/62784299?s=64&v=4)](https://github.com/weiyu0824)
+- [![@ZT-AIA](https://avatars.githubusercontent.com/u/63220130?s=64&v=4)](https://github.com/ZT-AIA)
+- [![@Somoku](https://avatars.githubusercontent.com/u/73059379?s=64&v=4)](https://github.com/Somoku)
+- [![@johncalesp](https://avatars.githubusercontent.com/u/81483067?s=64&v=4)](https://github.com/johncalesp)
+- [![@rogerxfeng8](https://avatars.githubusercontent.com/u/83291839?s=64&v=4)](https://github.com/rogerxfeng8)
+- [![@A1c0r-Z](https://avatars.githubusercontent.com/u/90311896?s=64&v=4)](https://github.com/A1c0r-Z)
+- [![@gateremark](https://avatars.githubusercontent.com/u/91592218?s=64&v=4)](https://github.com/gateremark)
+- [![@Dylan1229](https://avatars.githubusercontent.com/u/96292363?s=64&v=4)](https://github.com/Dylan1229)
+- [![@ReinforcedKnowledge](https://avatars.githubusercontent.com/u/96926916?s=64&v=4)](https://github.com/ReinforcedKnowledge)
+- [![@reaganjlee](https://avatars.githubusercontent.com/u/96998476?s=64&v=4)](https://github.com/reaganjlee)
+- [![@tianshu-Michael-yu](https://avatars.githubusercontent.com/u/101950379?s=64&v=4)](https://github.com/tianshu-Michael-yu)
+- [![@www-spam](https://avatars.githubusercontent.com/u/102578109?s=64&v=4)](https://github.com/www-spam)
+- [![@ricky-chaoju](https://avatars.githubusercontent.com/u/109416633?s=64&v=4)](https://github.com/ricky-chaoju)
+- [![@vsourirajan](https://avatars.githubusercontent.com/u/113937608?s=64&v=4)](https://github.com/vsourirajan)
+- [![@TheCodeWrangler](https://avatars.githubusercontent.com/u/125999937?s=64&v=4)](https://github.com/TheCodeWrangler)
+- [![@sanghoon-yn](https://avatars.githubusercontent.com/u/128017610?s=64&v=4)](https://github.com/sanghoon-yn)
+- [![@RunkaiTao](https://avatars.githubusercontent.com/u/129432511?s=64&v=4)](https://github.com/RunkaiTao)
+- [![@kevin-pw](https://avatars.githubusercontent.com/u/140451262?s=64&v=4)](https://github.com/kevin-pw)
+- [![@JaredforReal](https://avatars.githubusercontent.com/u/142211841?s=64&v=4)](https://github.com/JaredforReal)
+- [![@ShaanveerS](https://avatars.githubusercontent.com/u/146979751?s=64&v=4)](https://github.com/ShaanveerS)
+- [![@twjww](https://avatars.githubusercontent.com/u/151701930?s=64&v=4)](https://github.com/twjww)
+- [![@Zyyeric](https://avatars.githubusercontent.com/u/152658298?s=64&v=4)](https://github.com/Zyyeric)
+- [![@devbyteai](https://avatars.githubusercontent.com/u/161969603?s=64&v=4)](https://github.com/devbyteai)
+- [![@1643661061leo](https://avatars.githubusercontent.com/u/165983188?s=64&v=4)](https://github.com/1643661061leo)
+- [![@sarathc-cerebras](https://avatars.githubusercontent.com/u/175607860?s=64&v=4)](https://github.com/sarathc-cerebras)
+- [![@massif-01](https://avatars.githubusercontent.com/u/176381099?s=64&v=4)](https://github.com/massif-01)
+- [![@jiangkuaixue123](https://avatars.githubusercontent.com/u/180543660?s=64&v=4)](https://github.com/jiangkuaixue123)
+- [![@navmarri14](https://avatars.githubusercontent.com/u/189171082?s=64&v=4)](https://github.com/navmarri14)
+- [![@jayhemnani9910](https://avatars.githubusercontent.com/u/193022578?s=64&v=4)](https://github.com/jayhemnani9910)
+- [![@kunpengW-code](https://avatars.githubusercontent.com/u/196032337?s=64&v=4)](https://github.com/kunpengW-code)
+- [![@katec846](https://avatars.githubusercontent.com/u/203210648?s=64&v=4)](https://github.com/katec846)
+- [![@shyeh25](https://avatars.githubusercontent.com/u/206795756?s=64&v=4)](https://github.com/shyeh25)
+- [![@zhima771](https://avatars.githubusercontent.com/u/214431424?s=64&v=4)](https://github.com/zhima771)
+- [![@vSeamar](https://avatars.githubusercontent.com/u/225425322?s=64&v=4)](https://github.com/vSeamar)
+- [![@jeffreywang-anyscale](https://avatars.githubusercontent.com/u/248752665?s=64&v=4)](https://github.com/jeffreywang-anyscale)
+- [![@yxing-bj](https://avatars.githubusercontent.com/u/252322296?s=64&v=4)](https://github.com/yxing-bj)
+potatosalad, SameerAsal, and 84 other contributors
+Assets9
+Loading
+### Uh oh!
+There was an error while loading. [Please reload this page](https://github.com/vllm-project/vllm/releases/tag/v0.14.0).
+![+1](https://github.githubassets.com/assets/1f44d-41cb66fe1e22.png)7arkerwu, mirstar13, Colinlsh, dengdeng-cat, CycloneBoy, AQSAMA, and myngsooo reacted with thumbs up emoji![tada](https://github.githubassets.com/assets/1f389-36899a2cb781.png)43SONG-WONHO, MARD1NO, gbgblin, baeseongsu, Quentinchampenois, hivsem5, d8rt8v, jlsan92, lucaschr21, crossijinn, and 33 more reacted with hooray emoji![heart](https://github.githubassets.com/assets/2764-982dc91ea48a.png)20SONG-WONHO, lxw2015, baeseongsu, jlsan92, syaffers, lucaschr21, iceychris, karn-shivam, NiKlimenko, Xerxes-cn, and 10 more reacted with heart emoji![rocket](https://github.githubassets.com/assets/1f680-d0ef47fdb515.png)4s567901, Puiching-Memory, wedobetter, and JoelNiklaus reacted with rocket emoji
+All reactions
+- ![+1](https://github.githubassets.com/assets/1f44d-41cb66fe1e22.png)7 reactions
+- ![tada](https://github.githubassets.com/assets/1f389-36899a2cb781.png)43 reactions
+- ![heart](https://github.githubassets.com/assets/2764-982dc91ea48a.png)20 reactions
+- ![rocket](https://github.githubassets.com/assets/1f680-d0ef47fdb515.png)4 reactions
+55 people reacted
+You can’t perform that action at this time.

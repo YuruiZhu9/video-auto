@@ -1,0 +1,520 @@
+# Source URL: https://www.datainterview.com/blog/recommendation-systems-interview-questions
+# Content Length: 44871 characters
+# Extracted at: 2026-04-06 11:21:30
+#============================================================
+
+
+Top 31 Recommendation Systems Interview Questions (2026)[**Data Scientist class starts in**
+
+————
+
+**Land $240K offers at FAANG — Just 14 seats left**
+
+Join Now](/bootcamp/ds)[Join Now
+
+**DS interview class starts in**
+
+—](/bootcamp/ds)[![]()![]()](/)[Blog](/blog)[Questions](/questions)[Coaching](/coaching)
+
+Recommendation Systems Interview Questions
+==========================================
+
+![]()[Dan Lee](https://www.linkedin.com/in/danleedata/)Data & AI LeadLast updateMarch 16, 2026![]()
+
+Recommendation systems drive the core product experience at Meta, Netflix, Spotify, Amazon, Google, and TikTok. These companies ask detailed technical questions about collaborative filtering, deep learning architectures, and system design because recommendation quality directly impacts user engagement and revenue. You'll face questions about matrix factorization, two-tower models, and handling billions of daily requests.
+
+What makes these interviews challenging is the breadth of knowledge required. You might start discussing SVD for sparse matrices, then pivot to explaining why your A/B test showed flat CTR despite improved offline metrics, then design a real-time feature store that serves millions of users. Interviewers expect you to connect algorithmic choices to business impact and handle the messy realities of production systems.
+
+Here are the top 31 recommendation systems questions organized by core topic areas that matter most in interviews.
+
+Advanced31 questions
+
+Recommendation Systems Interview Questions
+------------------------------------------
+
+Top Recommendation Systems interview questions covering the key areas tested at leading tech companies. Practice with real questions and detailed solutions.
+
+Machine Learning Engineer![]()![]()![]()![]()![]()![]()![]()![]()
+
+Collaborative Filtering Fundamentals
+------------------------------------
+
+Collaborative filtering questions test your understanding of fundamental recommendation algorithms and when they break down. Most candidates can explain basic matrix factorization but struggle when asked about sparse data, implicit feedback, or computational tradeoffs at scale.
+
+The key insight interviewers want is that collaborative filtering isn't just about algorithms, it's about data characteristics. A system with 10 million items and 300 million users has completely different computational constraints than a music platform with implicit listening data versus explicit ratings.
+
+### Collaborative Filtering Fundamentals
+
+Before diving into deep learning approaches, you need a rock-solid grasp of collaborative filtering, including user-based, item-based, and matrix factorization methods. Interviewers at Netflix, Amazon, and Spotify frequently test whether you can explain the math behind SVD, ALS, and implicit feedback models, and candidates often stumble when asked to discuss trade-offs between memory-based and model-based approaches.
+
+You're building a movie recommendation system at Netflix where 95% of the user-item matrix is missing. Walk me through how you would apply matrix factorization using SVD, and explain why you can't just use standard SVD directly on this sparse matrix.
+
+![]()NetflixMediumCollaborative Filtering Fundamentals
+
+Sample Answer
+
+Most candidates default to applying standard SVD (like numpy.linalg.svd) directly to the ratings matrix with zeros filling in missing entries, but that fails here because SVD would treat missing ratings as actual zero ratings, distorting the learned latent factors entirely. Instead, you need to factorize only over observed entries by minimizing $$\min\_{U,V} \sum\_{(i,j) \in \text{observed}} (r\_{ij} - u\_i^T v\_j)^2 + \lambda(\|U\|^2 + \|V\|^2)$$ where $u\_i$ and $v\_j$ are latent vectors for user $i$ and item $j$. This is typically solved via stochastic gradient descent or alternating least squares (ALS), both of which naturally skip unobserved entries. You should also mention that adding bias terms $b\_i$, $b\_j$, and a global mean $\mu$ significantly improves performance, as the Netflix Prize famously demonstrated.
+
+At Spotify, users often listen to songs without giving explicit ratings. How would you adapt a collaborative filtering model to handle this implicit feedback, and what loss function would you use?
+
+![]()SpotifyHardCollaborative Filtering Fundamentals
+
+Sample Answer
+
+You should use the weighted matrix factorization framework from Hu, Koren, and Volinsky (2008), where you define a binary preference variable $p\_{ui} = 1$ if user $u$ interacted with item $i$ and a confidence weight $c\_{ui} = 1 + \alpha \cdot f(r\_{ui})$ that scales with interaction frequency. The loss function becomes $$\min\_{U,V} \sum\_{u,i} c\_{ui}(p\_{ui} - u\_u^T v\_i)^2 + \lambda(\|U\|^2 + \|V\|^2)$$ where the sum is over all user-item pairs, not just observed ones. This is critical because with implicit feedback, the absence of interaction is ambiguous (the user may not have seen the item), so you treat all zeros as negative signals but with low confidence. ALS is preferred here over SGD because the confidence-weighted formulation allows a closed-form per-row update that efficiently handles the dense summation.
+
+A team at Amazon is debating whether to use user-based or item-based collaborative filtering for product recommendations. The catalog has 10 million items and 300 million users. Which approach would you recommend and why?
+
+![]()AmazonEasyCollaborative Filtering Fundamentals
+
+Sample Answer
+
+You could do user-based CF, which finds similar users and recommends what they liked, or item-based CF, which finds similar items to what a user already interacted with. Item-based wins here because with 300 million users, computing and storing user-user similarities is far more expensive and unstable, since user profiles change frequently as new interactions arrive. Item-item similarity is more stable over time (a product's co-purchase pattern shifts slowly), the item catalog is 30x smaller than the user base making precomputation feasible, and Amazon's original published research confirmed this exact reasoning. You should also note that item-based CF provides more interpretable recommendations ("because you bought X"), which directly improves click-through rates.
+
+You're working on Pinterest's home feed and notice that ALS-based matrix factorization performs well offline but degrades for users who joined in the last 24 hours. Explain the cold-start problem in this context and describe two concrete strategies you would use to mitigate it within a collaborative filtering framework.
+
+![]()PinterestMediumCollaborative Filtering Fundamentals
+
+Sample Answer
+
+[Unlock the full solution
+
+View detailed answers and practice in our question bank
+
+View Solution](/questions?roles=role)
+
+A Meta interviewer hands you a user-item interaction matrix and asks: under what conditions would memory-based collaborative filtering (k-NN) actually outperform a model-based approach like ALS, and can you characterize the computational complexity trade-offs at serving time versus training time for both?
+
+![]()MetaHardCollaborative Filtering Fundamentals
+
+Sample Answer
+
+[Unlock the full solution
+
+View detailed answers and practice in our question bank
+
+View Solution](/questions?roles=role)[Practice more Collaborative Filtering Fundamentals questions](/questions?roles=role)
+
+Content-Based and Hybrid Filtering
+----------------------------------
+
+Content-based and hybrid questions reveal whether you can handle cold-start problems and feature engineering challenges. Candidates often fumble when asked to design systems for new users or sparse domains where collaborative signals are weak.
+
+Smart candidates recognize that content-based systems are only as good as your feature representation. Whether you're working with Pinterest's image data or Spotify's audio features, the similarity metric you choose and how you combine multiple content signals separates good answers from great ones.
+
+### Content-Based and Hybrid Filtering
+
+Companies like Pinterest and TikTok expect you to articulate how item and user features can drive recommendations when interaction data is sparse or unavailable. You will be tested on feature engineering for content signals, similarity metrics, and how to combine content-based methods with collaborative filtering into hybrid systems that outperform either approach alone.
+
+You are building a recommendation system for Pinterest's new user experience where you have rich pin metadata (images, text descriptions, categories) but almost no interaction history. How would you design a content-based recommender to handle this cold-start scenario, and what similarity metric would you choose for comparing items?
+
+![]()PinterestMediumContent-Based and Hybrid Filtering
+
+Sample Answer
+
+You should build item profiles using multimodal embeddings from pin images (via a pretrained CNN or ViT) concatenated with text embeddings (from a transformer like BERT) over descriptions and tags, then use cosine similarity to rank candidate pins against a lightweight user profile built from onboarding signals. Cosine similarity is the right default here because your embeddings are high-dimensional and you care about directional alignment rather than magnitude, meaning $\text{sim}(a, b) = \frac{a \cdot b}{\|a\|\|b\|}$ is robust to varying embedding norms across modalities. You can bootstrap the user profile by averaging the embeddings of pins the user selects during onboarding or from declared interests. As interaction data accumulates, you transition weight toward collaborative signals, but the content backbone remains critical for new pins that also lack engagement history.
+
+At TikTok, you notice that your collaborative filtering model performs well for active users but poorly for users with fewer than 5 interactions. Your team proposes either a pure content-based fallback or a hybrid model that blends both signals. Which approach would you recommend and why?
+
+![]()TikTokMediumContent-Based and Hybrid Filtering
+
+Sample Answer
+
+You could use a pure content-based fallback that switches on when interaction count drops below a threshold, or a hybrid model that learns to weight content and collaborative signals jointly. The hybrid wins here because a hard switch creates a jarring quality discontinuity at the threshold boundary, while a hybrid model like a two-tower architecture with both content features (video embeddings, audio, hashtags) and collaborative features (user/item interaction embeddings) can learn to smoothly downweight the collaborative signal when it is unreliable. In practice, you can implement this by feeding user interaction count as an input feature so the model learns the reliability of collaborative signals as a function of data density. This also avoids maintaining two separate systems in production, reducing serving complexity.
+
+You are an ML engineer at Spotify tasked with recommending podcasts, a relatively new content type where collaborative filtering data is sparse compared to music. Walk me through how you would engineer content-based features for podcast episodes and combine them with whatever collaborative signal exists.
+
+![]()SpotifyHardContent-Based and Hybrid Filtering
+
+Sample Answer
+
+First, you need to think about what content signals are available for a podcast episode: you have the audio itself, the transcript (via ASR), episode title and description text, show-level metadata like genre and creator, and episode duration. You would extract text embeddings from transcripts and descriptions using a sentence transformer, audio embeddings from a model like Audio Spectrogram Transformer for tone and style, and categorical features like genre encoded via learned embeddings. Next, you combine these into a unified episode embedding, potentially through a fusion network that learns cross-modal interactions. For the hybrid piece, you can use a weighted combination in a ranking model where collaborative features (e.g., user-podcast interaction matrix factorization embeddings) are concatenated with content features, and the model learns feature importance. The key insight is to use the content tower as a prior that regularizes the collaborative embeddings for sparse items, for example by adding a loss term $\lambda \|e\_{\text{collab}} - e\_{\text{content}}\|^2$ that pulls collaborative embeddings toward content embeddings when interaction data is limited.
+
+Netflix is exploring a hybrid recommendation approach that uses both user viewing history (collaborative signal) and movie metadata like genre, director, and plot synopsis (content signal). How would you design the architecture to ensure the content signal does not get dominated by the collaborative signal during training?
+
+![]()NetflixHardContent-Based and Hybrid Filtering
+
+Sample Answer
+
+[Unlock the full solution
+
+View detailed answers and practice in our question bank
+
+View Solution](/questions?roles=role)
+
+Explain how you would compute similarity between two items using TF-IDF representations of their text descriptions, and describe one major limitation of this approach for a platform like Amazon with millions of products.
+
+![]()AmazonEasyContent-Based and Hybrid Filtering
+
+Sample Answer
+
+[Unlock the full solution
+
+View detailed answers and practice in our question bank
+
+View Solution](/questions?roles=role)[Practice more Content-Based and Hybrid Filtering questions](/questions?roles=role)
+
+Deep Learning for Recommendations
+---------------------------------
+
+Deep learning questions separate candidates who've actually implemented neural recommendation models from those who just read papers. Interviewers probe whether you understand the computational tradeoffs and when added model complexity actually improves user experience.
+
+The critical mistake candidates make is proposing complex architectures without justifying them against simpler baselines. A two-tower model isn't automatically better than matrix factorization, and transformers aren't always the right choice for sequence modeling when you have strict latency requirements.
+
+### Deep Learning for Recommendations
+
+If you are interviewing at Meta, Google, or TikTok, expect questions on neural collaborative filtering, two-tower models, sequence-based recommenders like transformers, and embedding techniques. Candidates frequently struggle to explain when deep learning actually outperforms simpler baselines and how to handle the engineering complexity of training large-scale neural recommendation models.
+
+You are building a video recommendation system at a company like TikTok where you need to serve candidates in under 50ms. Walk me through how you would design a two-tower model for retrieval, and explain why you would choose this architecture over a single cross-network that scores user-item pairs jointly.
+
+![]()TikTokMediumDeep Learning for Recommendations
+
+Sample Answer
+
+You could use a single cross-network that jointly models user-item interactions for richer feature crosses, or a two-tower model that independently encodes users and items into a shared embedding space. The two-tower approach wins here because you can precompute item embeddings offline, store them in an approximate nearest neighbor index, and retrieve candidates at serving time with a simple dot product: $\text{score}(u, i) = \mathbf{e}\_u^T \mathbf{e}\_i$. This decoupling is what gets you under 50ms at scale, since you only need to compute the user tower at query time and then do ANN lookup. The cross-network gives better accuracy for ranking but is computationally infeasible when your candidate pool is in the hundreds of millions, so in practice you use two-tower for retrieval and reserve the heavier model for a downstream ranking stage.
+
+A team at Netflix has a matrix factorization baseline that already achieves strong offline metrics. Your manager asks you to replace it with a neural collaborative filtering model. How do you decide whether the added complexity of a deep learning approach is justified?
+
+![]()NetflixEasyDeep Learning for Recommendations
+
+Sample Answer
+
+First, you need to ask what the MF baseline is actually failing at. If the interaction matrix is sparse and the catalog is relatively static, MF with well-tuned regularization is surprisingly hard to beat, and a neural model may just overfit. Next, consider whether you have rich side features like user demographics, item metadata, or contextual signals, because that is where neural collaborative filtering shines: it can learn nonlinear feature interactions through its hidden layers, something MF with linear embeddings cannot capture via $\hat{y}\_{ui} = f(\mathbf{p}\_u, \mathbf{q}\_i; \theta)$ where $f$ is a learned MLP. Then you should run an A/B test, not just compare offline metrics, because improvements in NDCG do not always translate to engagement gains. If the neural model does not meaningfully move online metrics after a fair comparison, the engineering cost of training, serving, and maintaining it is not justified.
+
+At Meta, you are tasked with building a sequence-based recommender using transformers to model a user's content engagement history. The user history can span thousands of interactions. How do you handle this long sequence efficiently during both training and inference?
+
+![]()MetaHardDeep Learning for Recommendations
+
+Sample Answer
+
+This question is checking whether you can navigate the tension between capturing long-term user behavior and the quadratic self-attention cost $O(n^2 d)$ that makes naive transformer application impractical. You should truncate to the most recent $k$ interactions (typically 50 to 200) as your primary context window, since recency dominates relevance in most engagement prediction tasks. For longer-range signals, you can compress older history into a fixed-size summary embedding using a separate aggregation module or hierarchical attention, then concatenate it with the recent-window transformer output. At inference time, you cache the key-value pairs from previous forward passes so you only compute attention for the new interaction incrementally, similar to how autoregressive language models serve tokens. Techniques like sparse attention patterns or linear attention approximations are also worth mentioning, but in practice at Meta-scale systems, the truncation plus cached KV approach is the most deployed solution.
+
+You are designing the embedding layer for a large-scale recommendation model at Google where you have categorical features with cardinalities exceeding 100 million, such as video IDs. How do you handle the memory and training challenges of embedding tables at this scale?
+
+![]()GoogleHardDeep Learning for Recommendations
+
+Sample Answer
+
+[Unlock the full solution
+
+View detailed answers and practice in our question bank
+
+View Solution](/questions?roles=role)
+
+Pinterest wants to improve its home feed recommendations by incorporating both image embeddings and user behavioral signals into a single model. How would you fuse these multimodal features in a deep learning recommender, and what pitfalls should you watch for during training?
+
+![]()PinterestMediumDeep Learning for Recommendations
+
+Sample Answer
+
+[Unlock the full solution
+
+View detailed answers and practice in our question bank
+
+View Solution](/questions?roles=role)[Practice more Deep Learning for Recommendations questions](/questions?roles=role)
+
+Retrieval, Ranking, and System Design
+-------------------------------------
+
+System design questions test your ability to build recommendation systems that actually work in production. This means handling billions of requests, real-time feature serving, and multi-objective optimization beyond simple relevance scoring.
+
+Experienced candidates know that the hardest part isn't the ML model, it's the infrastructure around it. How do you serve thousands of candidates in 50ms? How do you balance relevance with business objectives? These architectural decisions matter more than algorithmic tweaks for senior roles.
+
+### Retrieval, Ranking, and System Design
+
+Understanding the full recommendation pipeline, from candidate generation to scoring to re-ranking, is critical for ML engineer roles at companies operating at scale. You should be prepared to design multi-stage systems, explain approximate nearest neighbor search, discuss feature stores, and articulate how latency constraints shape architectural decisions in production.
+
+You're designing a recommendation system for a short-video feed at TikTok scale, serving billions of requests per day. Walk me through how you would structure the candidate generation stage to return a few thousand candidates from a corpus of hundreds of millions of videos within a strict 50ms latency budget.
+
+![]()TikTokHardRetrieval, Ranking, and System Design
+
+Sample Answer
+
+Reason through it: Start by recognizing that scoring hundreds of millions of items per request is impossible in 50ms, so you need multiple retrieval channels running in parallel. You would combine an approximate nearest neighbor (ANN) index, such as HNSW or ScaNN, over learned user and item embeddings with lightweight rule-based filters (e.g., language, region, freshness) and collaborative filtering signals like item-to-item co-watch graphs. Each channel returns a few hundred candidates, you merge and deduplicate into a pool of roughly 2,000 to 5,000 candidates, then pass them to the ranking stage. The ANN index gives you sub-linear lookup, typically $O(\log n)$ to $O(n^{0.5})$ depending on the algorithm, which is what makes the latency budget feasible. You also want to pre-compute and cache embeddings in a low-latency store like Redis or a custom in-memory index, refreshing periodically via an offline pipeline.
+
+At Netflix, the ranking model needs to balance relevance, diversity, and business objectives like promoting original content. How would you design a re-ranking layer that sits on top of your primary scoring model to incorporate these multiple objectives?
+
+![]()NetflixMediumRetrieval, Ranking, and System Design
+
+Sample Answer
+
+This question is checking whether you can move beyond a single pointwise relevance score and reason about multi-objective optimization in a production setting. You would take the top-$k$ candidates from your ranking model and apply a re-ranking function that combines the relevance score with diversity penalties (e.g., Maximal Marginal Relevance or a determinantal point process) and business boost terms as a weighted sum or constrained optimization. You can formulate this as selecting an ordered slate $S$ that maximizes $\sum\_{i \in S} \alpha \cdot \text{rel}(i) + \beta \cdot \text{diversity}(i, S) + \gamma \cdot \text{boost}(i)$ where the weights are tuned via online A/B tests. The key design choice is keeping this layer lightweight, typically greedy sequential selection, so it adds minimal latency on top of the ranking stage.
+
+You're building a feature store to serve real-time features for Amazon's product recommendation ranking model. How do you decide which features should be precomputed and stored versus computed on the fly at inference time?
+
+![]()AmazonMediumRetrieval, Ranking, and System Design
+
+Sample Answer
+
+The standard move is to precompute any feature that is expensive to calculate or depends on large aggregations, such as a user's 30-day purchase history or an item's average rating. But here, feature freshness matters because some signals like "items added to cart in the last 5 minutes" lose value if stale, so those need to be computed on the fly from a streaming pipeline (e.g., Kafka into a low-latency key-value store). A good rule of thumb: if the feature changes slower than your serving SLA (say, once per hour vs. a 20ms budget), precompute it; if it changes within the session, compute it at request time or via near-real-time streaming. You should also consider that user-side features are fetched once per request while item-side features are fetched per candidate, so item features benefit more from precomputation to avoid a latency blowup proportional to the candidate set size.
+
+Pinterest asks you to design the two-tower retrieval model for their homefeed recommendations. The user tower and item tower produce 128-dimensional embeddings. How would you handle the cold-start problem for new pins that have no engagement data?
+
+![]()PinterestMediumRetrieval, Ranking, and System Design
+
+Sample Answer
+
+Get this wrong in production and new content never surfaces, creating a stale ecosystem that hurts both creators and users. The right call is to ensure your item tower relies heavily on content features (image embeddings from a vision model, text from pin descriptions, board metadata) rather than purely on engagement features, so new pins still produce meaningful embeddings at index time. You can also use a "warm-up" exploration policy that gives new pins a small guaranteed impression budget, then blend the resulting engagement signals back into the embedding via periodic re-indexing. For the user tower, you should include the user's recent interaction sequence so that even if the item is new, the dot product $\langle u, v \rangle$ in the shared embedding space can still capture semantic relevance based on content similarity to what the user has engaged with before.
+
+Spotify wants to improve its podcast recommendation system. You have a candidate generation stage that retrieves 1,000 podcasts and a ranking model that scores them. The team notices that the ranking model's offline NDCG is strong but online engagement metrics are flat. What would you investigate and how would you diagnose the gap?
+
+![]()SpotifyHardRetrieval, Ranking, and System Design
+
+Sample Answer
+
+[Unlock the full solution
+
+View detailed answers and practice in our question bank
+
+View Solution](/questions?roles=role)
+
+Explain how you would use approximate nearest neighbor search to serve candidate retrieval at Google scale. What are the tradeoffs between HNSW and quantization-based methods like ScaNN, and when would you pick one over the other?
+
+![]()GoogleEasyRetrieval, Ranking, and System Design
+
+Sample Answer
+
+[Unlock the full solution
+
+View detailed answers and practice in our question bank
+
+View Solution](/questions?roles=role)[Practice more Retrieval, Ranking, and System Design questions](/questions?roles=role)
+
+Cold Start, Exploration, and Bias
+---------------------------------
+
+Cold start and bias questions examine your understanding of fairness and practical deployment challenges. Many recommendation systems amplify existing biases or fail completely for new users and items, and interviewers want to see if you can identify and solve these problems.
+
+The most common oversight is treating bias as an afterthought rather than a core design consideration. Position bias, popularity bias, and demographic bias aren't edge cases you fix later, they're fundamental issues that require deliberate architectural choices from day one.
+
+### Cold Start, Exploration, and Bias
+
+One of the most common curveballs in recommendation system interviews involves handling new users, new items, and the exploration vs. exploitation trade-off. You need to demonstrate familiarity with bandit algorithms, popularity bias mitigation, position bias in training data, and strategies like contextual bandits or meta-learning that companies such as LinkedIn and Spotify use to address these challenges.
+
+You're building a job recommendation system at LinkedIn and a brand new user signs up with only a job title and location. How would you generate meaningful recommendations in the first session before any interaction data exists?
+
+![]()LinkedInMediumCold Start, Exploration, and Bias
+
+Sample Answer
+
+This question is checking whether you can bridge the gap between zero behavioral signal and a useful first experience. You should leverage the sparse profile features (job title, location, seniority) to map the new user into an embedding space learned from existing users with similar attributes, essentially a meta-learning or user-attribute-based nearest-neighbor approach. Combine this with a contextual bandit layer: serve a diverse slate mixing popularity-based candidates with cluster-based candidates, then use the user's in-session clicks to rapidly update a posterior over their preferences. You can formalize this as a LinUCB bandit where the context vector $x$ is the user's profile features and the reward is click or apply, letting you balance exploration of uncertain segments with exploitation of the profile prior.
+
+Spotify notices that its podcast recommendation model heavily favors already-popular shows, making it nearly impossible for new or niche podcasts to surface. How would you diagnose and mitigate this popularity bias?
+
+![]()SpotifyMediumCold Start, Exploration, and Bias
+
+Sample Answer
+
+The standard move is to audit your training data and loss function for implicit popularity amplification, since models trained on implicit feedback naturally learn that popular items get more positives. But here, the feedback loop matters because popular items get more exposure, which generates more clicks, which reinforces the model's preference in a rich-get-richer cycle. You should apply inverse propensity scoring (IPS) where each training example is weighted by $1 / p(\text{exposure})$ to down-weight items that were shown disproportionately, or use a causal debiasing approach that separates the popularity effect from genuine relevance. On the serving side, add a diversity-aware re-ranker or reserve a fraction of slots for exploration using Thompson Sampling over new podcast embeddings, so fresh content gets enough impressions to learn a reliable quality estimate.
+
+Your team at Google discovers that the click-through rate model for a vertical search product is heavily biased by position: items shown in position 1 get clicked 5x more than position 3 regardless of relevance. How do you correct for this in both training and serving?
+
+![]()GoogleHardCold Start, Exploration, and Bias
+
+Sample Answer
+
+Get this wrong in production and your model learns to replicate the existing ranking rather than true relevance, creating a self-reinforcing loop where position dictates clicks and clicks dictate position. The right call is to train a position-bias model: factor the click probability as $$P(\text{click} | \text{item}, \text{pos}) = P(\text{examine} | \text{pos}) \cdot P(\text{click} | \text{examine}, \text{item})$$ where the examination probability depends only on position and the relevance probability depends only on item features. You feed position as a separate input during training so the model learns to disentangle the two, then at serving time you set position to a constant (or remove it) so the model scores purely on relevance. You can also run occasional randomization experiments where a small percentage of traffic gets shuffled rankings to collect unbiased labels, which serves as ground truth for calibrating your propensity estimates.
+
+You are designing the exploration strategy for TikTok's For You feed. A product manager asks why you can't just use epsilon-greedy exploration and instead want to implement Thompson Sampling. How do you justify the added complexity?
+
+![]()TikTokEasyCold Start, Exploration, and Bias
+
+Sample Answer
+
+[Unlock the full solution
+
+View detailed answers and practice in our question bank
+
+View Solution](/questions?roles=role)
+
+Netflix launches a new content vertical (live sports) with no historical watch data. You need to bootstrap recommendations for millions of existing users on this new item type within the first week. Walk through your approach, covering both the cold start item problem and how you would rapidly learn user preferences for this novel content category.
+
+![]()NetflixHardCold Start, Exploration, and Bias
+
+Sample Answer
+
+[Unlock the full solution
+
+View detailed answers and practice in our question bank
+
+View Solution](/questions?roles=role)[Practice more Cold Start, Exploration, and Bias questions](/questions?roles=role)
+
+Evaluation and Online Experimentation
+-------------------------------------
+
+Evaluation questions test whether you can bridge the gap between offline metrics and online performance. Candidates often struggle to explain why improved recall doesn't translate to better user engagement or how to design meaningful A/B tests.
+
+The insight that distinguishes strong candidates is understanding that recommendation systems are optimization problems with multiple stakeholders. Users want relevance, the business wants engagement and revenue, and the platform needs computational efficiency. Your evaluation strategy must account for all three.
+
+### Evaluation and Online Experimentation
+
+Knowing how to properly evaluate a recommendation system separates strong candidates from average ones in interviews at Amazon, Meta, and Google. You will face questions on offline metrics like NDCG, MAP, and recall at K, as well as online A/B testing design, interleaving experiments, and why offline gains do not always translate to online improvements.
+
+You improved your candidate retrieval model at Amazon and see a 5% lift in Recall@100 offline, but after launching an A/B test the click-through rate is flat. Walk me through why this might happen and how you would diagnose it.
+
+![]()AmazonMediumEvaluation and Online Experimentation
+
+Sample Answer
+
+The standard move is to trust offline metric improvements as a signal of online gains. But here, the ranking stage downstream matters because Recall@100 only measures whether relevant items enter the candidate set, not whether the ranker surfaces them effectively. Your ranker may not know how to score the new candidates well, or the new candidates may be relevant but not novel compared to what was already retrieved. You should diagnose by checking overlap between old and new candidate sets, examining whether the ranker's top-10 actually changed, and segmenting by user cohort to see if the lift is concentrated in a subpopulation where the ranker underperforms. Also verify that your offline relevance labels actually correlate with clicks, since label mismatch is a common root cause of offline/online divergence.
+
+You are designing an A/B test for a new homepage recommendation algorithm at Netflix. A colleague suggests randomizing at the session level instead of the user level. What are the tradeoffs, and which would you recommend?
+
+![]()NetflixMediumEvaluation and Online Experimentation
+
+Sample Answer
+
+Get this wrong in production and you introduce massive variance and inconsistent user experiences. The right call is user-level randomization in almost all recommendation A/B tests. Session-level randomization means the same user could see the old algorithm in one session and the new one in the next, which contaminates any measurement of long-term engagement or retention and inflates variance due to within-user variation across groups. You should use user-level assignment with a stable hash on user ID, which gives you clean causal estimates and a consistent experience. The only scenario where session-level might be acceptable is if you are explicitly studying session-context effects and your metric is purely within-session, like session duration.
+
+Your team at Google is debating whether to use $\text{NDCG@10}$ or $\text{MAP@10}$ as the primary offline metric for a video recommendation ranker. The relevance labels are graded on a 0 to 4 scale. Which metric do you choose and why?
+
+![]()GoogleEasyEvaluation and Online Experimentation
+
+Sample Answer
+
+$\text{MAP@10}$ sounds reasonable but breaks under graded relevance because it treats relevance as binary, so you would have to threshold your 0-to-4 labels and lose information. Using raw precision-based metrics also does not reward putting a 4-star item above a 1-star item. That leaves $\text{NDCG@10}$, which is designed for graded relevance: it uses a gain function like $2^{rel\_i} - 1$ that naturally distinguishes between relevance levels and applies a logarithmic position discount via $$DCG@K = \sum\_{i=1}^{K} \frac{2^{rel\_i} - 1}{\log\_2(i+1)}$$. You normalize by the ideal DCG so the metric is comparable across queries with different numbers of relevant items.
+
+At Spotify, you want to compare two ranking models quickly without running a full A/B test. Describe how you would set up a team-draft interleaving experiment and what metric you would use to determine a winner.
+
+![]()SpotifyHardEvaluation and Online Experimentation
+
+Sample Answer
+
+[Unlock the full solution
+
+View detailed answers and practice in our question bank
+
+View Solution](/questions?roles=role)
+
+You are evaluating a new recommendation model at Meta that optimizes for long-term user satisfaction rather than immediate clicks. Your offline metrics show improvement, but you are concerned standard A/B test duration of two weeks is insufficient. How would you design the experiment to capture long-term effects, and what pitfalls should you watch for?
+
+![]()MetaHardEvaluation and Online Experimentation
+
+Sample Answer
+
+[Unlock the full solution
+
+View detailed answers and practice in our question bank
+
+View Solution](/questions?roles=role)[Practice more Evaluation and Online Experimentation questions](/questions?roles=role)
+
+How to Prepare for Recommendation Systems Interviews
+----------------------------------------------------
+
+### Practice Matrix Math on Whiteboards
+
+Work through SVD decomposition and gradient descent updates by hand during mock interviews. You'll likely need to derive loss functions or explain why certain matrix operations are computationally expensive without access to your IDE.
+
+### Memorize Latency Numbers That Matter
+
+Know that candidate retrieval typically needs sub-50ms response times, ranking models can take 100-200ms, and feature lookups from key-value stores take 1-5ms. These constraints drive architectural decisions in system design questions.
+
+### Build Mental Models for Scale Tradeoffs
+
+Understand when user-based vs item-based collaborative filtering makes sense, when to use approximate nearest neighbors vs exact search, and how batch vs real-time feature computation affects both cost and latency. Practice explaining these tradeoffs concisely.
+
+### Study Real A/B Test Results
+
+Read case studies from Netflix, Spotify, and Amazon about recommendation experiments that failed or had unexpected results. Interviewers often ask you to diagnose why offline improvements don't translate to online gains.
+
+### Practice Feature Engineering Walkthroughs
+
+Be ready to design features for different content types (text, images, audio, video) and explain how you'd handle missing data, feature drift, and computational constraints. Start with raw inputs and work toward final model features step by step.
+
+How Ready Are You for Recommendation Systems Interviews?
+
+1 / 6Collaborative Filtering Fundamentals
+
+You are building a movie recommendation system and notice that your user-item interaction matrix is 99.5% sparse. Your team wants to use matrix factorization. An interviewer asks: what is the primary reason matrix factorization works well despite this extreme sparsity?
+
+It learns dense latent factor representations for users and items, allowing generalization to unobserved entries through the inner product of these learned embeddingsIt fills in missing values with zeros before decomposition, which gives the algorithm enough signal to learn accurate preferencesIt relies on the 0.5% of observed entries being a perfectly random sample of user preferences, making the sparse matrix statistically representativeBackNext
+
+Frequently Asked Questions
+--------------------------
+
+How deep do I need to understand recommendation systems for an MLE interview?
+
+You should have a solid grasp of core paradigms: collaborative filtering, content-based filtering, hybrid methods, and modern deep learning approaches like two-tower models and sequential recommenders. Beyond surface-level definitions, interviewers expect you to discuss trade-offs, cold-start strategies, scalability concerns, and evaluation metrics like NDCG, MAP, and recall at K. Being able to walk through a full system design, from candidate generation to ranking to re-ranking, is often the bar for senior roles.
+
+Which companies ask the most recommendation systems questions in MLE interviews?
+
+Companies with large-scale personalization products tend to ask the most. Netflix, Spotify, Amazon, YouTube (Google), Pinterest, TikTok (ByteDance), Meta, and LinkedIn are well known for deep recommendation system interviews. E-commerce platforms like Instacart, DoorDash, and Etsy also frequently focus on recommendations. Even companies outside of media and retail, such as Airbnb and Uber, ask these questions because recommendations drive core product experiences.
+
+Will I need to write code during a recommendation systems interview?
+
+Yes, coding is almost always part of the process for Machine Learning Engineer roles. You may be asked to implement components like a similarity function, a basic collaborative filtering algorithm, or feature engineering pipelines. Some rounds focus on general data structures and algorithms, while others are ML-specific coding tasks. Practicing on datainterview.com/coding is a great way to sharpen both your general coding skills and ML-specific implementation ability.
+
+How do recommendation system interviews differ for MLEs compared to other roles?
+
+As a Machine Learning Engineer, the emphasis is on end-to-end system design, model implementation, and production concerns like latency, throughput, and online/offline consistency. Data Scientists may focus more on experimentation and metrics, while Research Scientists dive deeper into novel architectures and papers. MLEs are uniquely expected to discuss serving infrastructure, feature stores, model retraining pipelines, and how to handle real-time signals at scale.
+
+How can I prepare for recommendation systems interviews if I have no industry experience building them?
+
+Start by implementing classic algorithms like matrix factorization and item-based collaborative filtering on public datasets such as MovieLens or the Amazon product reviews corpus. Then study production-level architectures by reading engineering blogs from Netflix, YouTube, and Pinterest. Work through recommendation-focused interview questions on datainterview.com/questions to simulate real interview scenarios. Building a small end-to-end project that includes candidate retrieval, ranking, and evaluation will give you concrete talking points.
+
+What are the most common mistakes candidates make in recommendation systems interviews?
+
+One major mistake is jumping straight to complex deep learning models without first discussing simpler baselines and why they might or might not suffice. Another is ignoring practical production challenges like the cold-start problem, position bias in training data, and the feedback loop between recommendations and user behavior. Candidates also frequently overlook evaluation rigor, conflating offline metrics with online business impact. Finally, failing to discuss how you would iterate, run A/B tests, and monitor model performance post-deployment signals a lack of production awareness.
+
+![]()Unlock content that helped Generals get offers at![]()![]()![]()![]()[Join Membership Now](/pricing)
+
+* 4000+ Practice Problems
+* General Interview Courses
+* General Coding
+* Coding Engine
+* FAANG Instructors
+* Lifetime Slack Access
+✉️ Get free interview tips and practice question every week.Email addressGet Free Question![]()
+
+Written by
+
+### Dan Lee
+
+Data & AI Lead
+
+Dan is a seasoned data scientist and ML coach with 10+ years of experience at Google, PayPal, and startups. He has helped candidates land top-paying roles and offers personalized guidance to accelerate your data career.
+
+[Connect on LinkedIn](https://www.linkedin.com/in/danleedata/)
+### Related Articles
+
+[#### Unstructured Data Warehouse
+
+Read more](/blog/unstructured-data-warehouse)[#### Public Goods Game with Threshold and Refund
+
+Read more](/blog/public-goods-game-with-threshold-and-refund)[#### Envy-Free Cake Cut with Three Players
+
+Read more](/blog/envy-free-cake-cut-with-three-players)
+
+Footer
+------
+
+### Subscribe to our newsletter
+
+The latest news, articles, and resources, sent to your inbox weekly.
+
+Email addressSubscribe
+### Products
+
+* [Courses](/courses)
+* [Coaching](/coaching)
+* [Resume](/resume)
+* [Questions](/questions)
+* [Coding](/coding)
+* [Coding Engine](/coding)
+### Classes
+
+* [Data Scientist](/bootcamp/ds)
+* [ML Engineer](/bootcamp/mle)
+### Support
+
+* [Pricing](/pricing)
+* [Blog](/blog)
+* [Work with Us](/collaboration)
+### Legal
+
+* [Terms](/terms)
+* [Privacy](/privacy)
+[YouTube](https://www.youtube.com/@DataInterview)
+
+© 2026 DataInterview, LLC. All rights reserved.
+

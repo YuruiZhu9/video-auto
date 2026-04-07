@@ -1,0 +1,585 @@
+# Source URL: https://docs.github.com/en/copilot/tutorials/review-ai-generated-code
+# Content Length: 43444 characters
+# Extracted at: 2026-03-20 09:08:53
+#============================================================
+
+
+Review AI-generated code - GitHub Docs[Skip to main content](#main-content)[GitHub Docs](/en)Version: Free, Pro, & TeamSearch or ask CopilotSearch or askCopilotSelect language: current language is EnglishSearch or ask CopilotSearch or askCopilotOpen menuOpen Sidebar
+
+* [GitHub Copilot](/en/copilot)/
+* [Tutorials](/en/copilot/tutorials)/
+* [Review AI code](/en/copilot/tutorials/review-ai-generated-code)
+[Home](/en)
+
+[GitHub Copilot](/en/copilot)
+-----------------------------
+
+* Get started
+  + [Quickstart](/en/copilot/get-started/quickstart)
+  + [What is GitHub Copilot?](/en/copilot/get-started/what-is-github-copilot)
+  + [Plans](/en/copilot/get-started/plans)
+  + [Features](/en/copilot/get-started/features)
+  + [Best practices](/en/copilot/get-started/best-practices)
+  + [Choose enterprise plan](/en/copilot/get-started/choose-enterprise-plan)
+  + [Achieve company goals](/en/copilot/get-started/achieve-company-goals)
+  + [Resources for approval](/en/copilot/get-started/resources-for-approval)
+* Concepts
+  + Completions
+    - [Code suggestions](/en/copilot/concepts/completions/code-suggestions)
+    - [Code referencing](/en/copilot/concepts/completions/code-referencing)
+  + [Chat](/en/copilot/concepts/chat)
+  + Agents
+    - Coding agent
+      * [About coding agent](/en/copilot/concepts/agents/coding-agent/about-coding-agent)
+      * [Agent management](/en/copilot/concepts/agents/coding-agent/agent-management)
+      * [Custom agents](/en/copilot/concepts/agents/coding-agent/about-custom-agents)
+      * [Hooks](/en/copilot/concepts/agents/coding-agent/about-hooks)
+      * [Access management](/en/copilot/concepts/agents/coding-agent/access-management)
+      * [MCP and coding agent](/en/copilot/concepts/agents/coding-agent/mcp-and-coding-agent)
+    - Copilot CLI
+      * [About Copilot CLI](/en/copilot/concepts/agents/copilot-cli/about-copilot-cli)
+      * [About CLI plugins](/en/copilot/concepts/agents/copilot-cli/about-cli-plugins)
+      * [Comparing CLI features](/en/copilot/concepts/agents/copilot-cli/comparing-cli-features)
+      * [Autonomous task completion](/en/copilot/concepts/agents/copilot-cli/autopilot)
+      * [Parallel task execution](/en/copilot/concepts/agents/copilot-cli/fleet)
+      * [Researching with Copilot](/en/copilot/concepts/agents/copilot-cli/research)
+      * [Session data](/en/copilot/concepts/agents/copilot-cli/chronicle)
+    - [Code review](/en/copilot/concepts/agents/code-review)
+    - [Copilot Memory](/en/copilot/concepts/agents/copilot-memory)
+    - [Third-party agents](/en/copilot/concepts/agents/about-third-party-agents)
+    - [OpenAI Codex](/en/copilot/concepts/agents/openai-codex)
+    - [Anthropic Claude](/en/copilot/concepts/agents/anthropic-claude)
+    - [Agent skills](/en/copilot/concepts/agents/about-agent-skills)
+    - [Enterprise management](/en/copilot/concepts/agents/enterprise-management)
+  + [Spark](/en/copilot/concepts/spark)
+  + Copilot usage metrics
+    - [All articles](/copilot/concepts/copilot-usage-metrics)
+    - [Copilot usage metrics](/en/copilot/concepts/copilot-usage-metrics/copilot-metrics)
+  + Prompting
+    - [Prompt engineering](/en/copilot/concepts/prompting/prompt-engineering)
+    - [Response customization](/en/copilot/concepts/prompting/response-customization)
+  + Context
+    - [MCP](/en/copilot/concepts/context/mcp)
+    - [Spaces](/en/copilot/concepts/context/spaces)
+    - [Repository indexing](/en/copilot/concepts/context/repository-indexing)
+    - [Content exclusion](/en/copilot/concepts/context/content-exclusion)
+  + Tools
+    - [AI tools](/en/copilot/concepts/tools/ai-tools)
+    - [About Copilot integrations](/en/copilot/concepts/tools/about-copilot-integrations)
+  + [Auto model selection](/en/copilot/concepts/auto-model-selection)
+  + [Rate limits](/en/copilot/concepts/rate-limits)
+  + Billing
+    - [Copilot requests](/en/copilot/concepts/billing/copilot-requests)
+    - [Individual plans](/en/copilot/concepts/billing/individual-plans)
+    - [Billing for individuals](/en/copilot/concepts/billing/billing-for-individuals)
+    - [Organizations and enterprises](/en/copilot/concepts/billing/organizations-and-enterprises)
+    - [Premium request management](/en/copilot/concepts/billing/premium-request-management)
+  + [Copilot-only enterprises](/en/copilot/concepts/about-enterprise-accounts-for-copilot-business)
+  + [Policies](/en/copilot/concepts/policies)
+  + [MCP management](/en/copilot/concepts/mcp-management)
+  + [Network settings](/en/copilot/concepts/network-settings)
+  + [Base and LTS models](/en/copilot/concepts/fallback-and-lts-models)
+* How-tos
+  + Set up
+    - [Set up for self](/en/copilot/how-tos/set-up/set-up-for-self)
+    - [Set up for organization](/en/copilot/how-tos/set-up/set-up-for-organization)
+    - [Set up for enterprise](/en/copilot/how-tos/set-up/set-up-for-enterprise)
+    - [Set up a dedicated enterprise](/en/copilot/how-tos/set-up/set-up-a-dedicated-enterprise-for-copilot-business)
+    - [Install Copilot extension](/en/copilot/how-tos/set-up/install-copilot-extension)
+  + Get code suggestions
+    - [Get IDE code suggestions](/en/copilot/how-tos/get-code-suggestions/get-ide-code-suggestions)
+    - [Find matching code](/en/copilot/how-tos/get-code-suggestions/find-matching-code)
+  + Chat with Copilot
+    - [Get started with Chat](/en/copilot/how-tos/chat-with-copilot/get-started-with-chat)
+    - [Chat in IDE](/en/copilot/how-tos/chat-with-copilot/chat-in-ide)
+    - [Chat in Windows Terminal](/en/copilot/how-tos/chat-with-copilot/chat-in-windows-terminal)
+    - [Chat in GitHub](/en/copilot/how-tos/chat-with-copilot/chat-in-github)
+    - [Chat in Mobile](/en/copilot/how-tos/chat-with-copilot/chat-in-mobile)
+  + Copilot CLI
+    - [All articles](/copilot/how-tos/copilot-cli)
+    - [Copilot CLI quickstart](/en/copilot/how-tos/copilot-cli/cli-getting-started)
+    - [Copilot CLI best practices](/en/copilot/how-tos/copilot-cli/cli-best-practices)
+    - Set up Copilot CLI
+      * [Install Copilot CLI](/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/install-copilot-cli)
+      * [Authenticate Copilot CLI](/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/authenticate-copilot-cli)
+      * [Configure Copilot CLI](/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/configure-copilot-cli)
+      * [Troubleshoot Copilot CLI auth](/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/troubleshoot-copilot-cli-auth)
+    - Automate with Copilot CLI
+      * [Quickstart](/en/copilot/how-tos/copilot-cli/automate-copilot-cli/quickstart)
+      * [Run the CLI programmatically](/en/copilot/how-tos/copilot-cli/automate-copilot-cli/run-cli-programmatically)
+      * [Automate with Actions](/en/copilot/how-tos/copilot-cli/automate-copilot-cli/automate-with-actions)
+    - Customize Copilot CLI
+      * [Overview](/en/copilot/how-tos/copilot-cli/customize-copilot/overview)
+      * [Add custom instructions](/en/copilot/how-tos/copilot-cli/customize-copilot/add-custom-instructions)
+      * [Use hooks](/en/copilot/how-tos/copilot-cli/customize-copilot/use-hooks)
+      * [Create agent skills](/en/copilot/how-tos/copilot-cli/customize-copilot/create-skills)
+      * [Add MCP servers](/en/copilot/how-tos/copilot-cli/customize-copilot/add-mcp-servers)
+      * [Create custom agents](/en/copilot/how-tos/copilot-cli/customize-copilot/create-custom-agents-for-cli)
+      * [Plugins: Find and install](/en/copilot/how-tos/copilot-cli/customize-copilot/plugins-finding-installing)
+      * [Plugins: Create a plugin](/en/copilot/how-tos/copilot-cli/customize-copilot/plugins-creating)
+      * [Plugins: Create a marketplace](/en/copilot/how-tos/copilot-cli/customize-copilot/plugins-marketplace)
+    - Use Copilot CLI agents
+      * [Overview](/en/copilot/how-tos/copilot-cli/use-copilot-cli-agents/overview)
+      * [Delegate tasks to Copilot](/en/copilot/how-tos/copilot-cli/use-copilot-cli-agents/delegate-tasks-to-cca)
+      * [Invoke custom agents](/en/copilot/how-tos/copilot-cli/use-copilot-cli-agents/invoke-custom-agents)
+      * [Steer agents](/en/copilot/how-tos/copilot-cli/use-copilot-cli-agents/steer-agents)
+      * [Agentic code review](/en/copilot/how-tos/copilot-cli/use-copilot-cli-agents/agentic-code-review)
+    - [Administer for enterprise](/en/copilot/how-tos/copilot-cli/administer-copilot-cli-for-your-enterprise)
+    - [Speeding up task completion](/en/copilot/how-tos/copilot-cli/speeding-up-task-completion)
+    - [Use session data](/en/copilot/how-tos/copilot-cli/chronicle)
+  + Copilot SDK
+    - [Quickstart](/en/copilot/how-tos/copilot-sdk/sdk-getting-started)
+  + Use Copilot agents
+    - [Manage agents](/en/copilot/how-tos/use-copilot-agents/manage-agents)
+    - Coding agent
+      * [Create a PR](/en/copilot/how-tos/use-copilot-agents/coding-agent/create-a-pr)
+      * [Update existing PR](/en/copilot/how-tos/use-copilot-agents/coding-agent/make-changes-to-an-existing-pr)
+      * [Provide visual inputs](/en/copilot/how-tos/use-copilot-agents/coding-agent/provide-visual-inputs)
+      * [Track Copilot sessions](/en/copilot/how-tos/use-copilot-agents/coding-agent/track-copilot-sessions)
+      * [Review Copilot PRs](/en/copilot/how-tos/use-copilot-agents/coding-agent/review-copilot-prs)
+      * [Create custom agents](/en/copilot/how-tos/use-copilot-agents/coding-agent/create-custom-agents)
+      * [Test custom agents](/en/copilot/how-tos/use-copilot-agents/coding-agent/test-custom-agents)
+      * [Create agent skills](/en/copilot/how-tos/use-copilot-agents/coding-agent/create-skills)
+      * [Extend coding agent with MCP](/en/copilot/how-tos/use-copilot-agents/coding-agent/extend-coding-agent-with-mcp)
+      * [Integrate coding agent with Jira](/en/copilot/how-tos/use-copilot-agents/coding-agent/integrate-coding-agent-with-jira)
+      * [Integrate coding agent with Slack](/en/copilot/how-tos/use-copilot-agents/coding-agent/integrate-coding-agent-with-slack)
+      * [Integrate coding agent with Teams](/en/copilot/how-tos/use-copilot-agents/coding-agent/integrate-coding-agent-with-teams)
+      * [Integrate coding agent with Linear](/en/copilot/how-tos/use-copilot-agents/coding-agent/integrate-coding-agent-with-linear)
+      * [Integrate coding agent with Azure Boards](/en/copilot/how-tos/use-copilot-agents/coding-agent/integrate-coding-agent-with-azure-boards)
+      * [Changing the AI model](/en/copilot/how-tos/use-copilot-agents/coding-agent/changing-the-ai-model)
+      * [Configuring agent settings](/en/copilot/how-tos/use-copilot-agents/coding-agent/configuring-agent-settings)
+      * [Customize the agent environment](/en/copilot/how-tos/use-copilot-agents/coding-agent/customize-the-agent-environment)
+      * [Customize the agent firewall](/en/copilot/how-tos/use-copilot-agents/coding-agent/customize-the-agent-firewall)
+      * [Use hooks](/en/copilot/how-tos/use-copilot-agents/coding-agent/use-hooks)
+      * [Troubleshoot coding agent](/en/copilot/how-tos/use-copilot-agents/coding-agent/troubleshoot-coding-agent)
+    - Request a code review
+      * [Use code review](/en/copilot/how-tos/use-copilot-agents/request-a-code-review/use-code-review)
+      * [Configure automatic review](/en/copilot/how-tos/use-copilot-agents/request-a-code-review/configure-automatic-review)
+      * [Configure self-hosted runners](/en/copilot/how-tos/use-copilot-agents/request-a-code-review/configure-self-hosted-runners)
+    - [Copilot Memory](/en/copilot/how-tos/use-copilot-agents/copilot-memory)
+  + Use AI models
+    - [Configure access to AI models](/en/copilot/how-tos/use-ai-models/configure-access-to-ai-models)
+    - [Change the chat model](/en/copilot/how-tos/use-ai-models/change-the-chat-model)
+    - [Change the completion model](/en/copilot/how-tos/use-ai-models/change-the-completion-model)
+  + Provide context
+    - Use Copilot Spaces
+      * [Create Copilot Spaces](/en/copilot/how-tos/provide-context/use-copilot-spaces/create-copilot-spaces)
+      * [Use Copilot Spaces](/en/copilot/how-tos/provide-context/use-copilot-spaces/use-copilot-spaces)
+      * [Collaborate with others](/en/copilot/how-tos/provide-context/use-copilot-spaces/collaborate-with-others)
+    - Use MCP
+      * [Extend Copilot Chat with MCP](/en/copilot/how-tos/provide-context/use-mcp/extend-copilot-chat-with-mcp)
+      * [Set up the GitHub MCP Server](/en/copilot/how-tos/provide-context/use-mcp/set-up-the-github-mcp-server)
+      * [Enterprise configuration](/en/copilot/how-tos/provide-context/use-mcp/enterprise-configuration)
+      * [Configure toolsets](/en/copilot/how-tos/provide-context/use-mcp/configure-toolsets)
+      * [Use the GitHub MCP Server](/en/copilot/how-tos/provide-context/use-mcp/use-the-github-mcp-server)
+      * [Change MCP registry](/en/copilot/how-tos/provide-context/use-mcp/change-mcp-registry)
+  + Configure custom instructions
+    - [Add personal instructions](/en/copilot/how-tos/configure-custom-instructions/add-personal-instructions)
+    - [Add repository instructions](/en/copilot/how-tos/configure-custom-instructions/add-repository-instructions)
+    - [Add organization instructions](/en/copilot/how-tos/configure-custom-instructions/add-organization-instructions)
+  + Configure content exclusion
+    - [Exclude content from Copilot](/en/copilot/how-tos/configure-content-exclusion/exclude-content-from-copilot)
+    - [Review changes](/en/copilot/how-tos/configure-content-exclusion/review-changes)
+  + Use Copilot for common tasks
+    - [Use Copilot to create or update issues](/en/copilot/how-tos/use-copilot-for-common-tasks/use-copilot-to-create-or-update-issues)
+    - [Create a PR summary](/en/copilot/how-tos/use-copilot-for-common-tasks/create-a-pr-summary)
+    - [Use Copilot in the CLI](/en/copilot/how-tos/use-copilot-for-common-tasks/use-copilot-in-the-cli)
+  + Configure personal settings
+    - [Configure network settings](/en/copilot/how-tos/configure-personal-settings/configure-network-settings)
+    - [Configure in IDE](/en/copilot/how-tos/configure-personal-settings/configure-in-ide)
+    - [Authenticate to GHE.com](/en/copilot/how-tos/configure-personal-settings/authenticate-to-ghecom)
+  + Manage and track spending
+    - [Monitor premium requests](/en/copilot/how-tos/manage-and-track-spending/monitor-premium-requests)
+    - [Manage request allowances](/en/copilot/how-tos/manage-and-track-spending/manage-request-allowances)
+    - [Manage company spending](/en/copilot/how-tos/manage-and-track-spending/manage-company-spending)
+  + Manage your account
+    - [Get started with a Copilot plan](/en/copilot/how-tos/manage-your-account/get-started-with-a-copilot-plan)
+    - [Get free access with Copilot Student](/en/copilot/how-tos/manage-your-account/free-access-with-copilot-student)
+    - [Get free access to Copilot Pro](/en/copilot/how-tos/manage-your-account/get-free-access-to-copilot-pro)
+    - [View and change your Copilot plan](/en/copilot/how-tos/manage-your-account/view-and-change-your-copilot-plan)
+    - [Disable Copilot Free](/en/copilot/how-tos/manage-your-account/disable-copilot-free)
+    - [Manage policies](/en/copilot/how-tos/manage-your-account/manage-policies)
+  + Administer Copilot
+    - Manage for organization
+      * Manage plan
+        + [Subscribe](/en/copilot/how-tos/administer-copilot/manage-for-organization/manage-plan/subscribe)
+        + [Cancel](/en/copilot/how-tos/administer-copilot/manage-for-organization/manage-plan/cancel)
+      * Manage access
+        + [Grant access](/en/copilot/how-tos/administer-copilot/manage-for-organization/manage-access/grant-access)
+        + [Manage requests for access](/en/copilot/how-tos/administer-copilot/manage-for-organization/manage-access/manage-requests-for-access)
+        + [Revoke access](/en/copilot/how-tos/administer-copilot/manage-for-organization/manage-access/revoke-access)
+        + [Manage network access](/en/copilot/how-tos/administer-copilot/manage-for-organization/manage-access/manage-network-access)
+      * [Manage policies](/en/copilot/how-tos/administer-copilot/manage-for-organization/manage-policies)
+      * [Add Copilot coding agent](/en/copilot/how-tos/administer-copilot/manage-for-organization/add-copilot-coding-agent)
+      * [Prepare for custom agents](/en/copilot/how-tos/administer-copilot/manage-for-organization/prepare-for-custom-agents)
+      * Review activity
+        + [Review user activity data](/en/copilot/how-tos/administer-copilot/manage-for-organization/review-activity/review-user-activity-data)
+        + [Review audit logs](/en/copilot/how-tos/administer-copilot/manage-for-organization/review-activity/review-audit-logs)
+      * [Use your own API keys](/en/copilot/how-tos/administer-copilot/manage-for-organization/use-your-own-api-keys)
+    - Manage for enterprise
+      * Manage plan
+        + [Subscribe](/en/copilot/how-tos/administer-copilot/manage-for-enterprise/manage-plan/subscribe)
+        + [Cancel plan](/en/copilot/how-tos/administer-copilot/manage-for-enterprise/manage-plan/cancel-plan)
+        + [Upgrade plan](/en/copilot/how-tos/administer-copilot/manage-for-enterprise/manage-plan/upgrade-plan)
+        + [Downgrade subscription](/en/copilot/how-tos/administer-copilot/manage-for-enterprise/manage-plan/downgrade-subscription)
+      * Manage access
+        + [Grant access](/en/copilot/how-tos/administer-copilot/manage-for-enterprise/manage-access/grant-access)
+        + [Disable for organizations](/en/copilot/how-tos/administer-copilot/manage-for-enterprise/manage-access/disable-for-organizations)
+        + [View license usage](/en/copilot/how-tos/administer-copilot/manage-for-enterprise/manage-access/view-license-usage)
+        + [Manage network access](/en/copilot/how-tos/administer-copilot/manage-for-enterprise/manage-access/manage-network-access)
+      * [Manage enterprise policies](/en/copilot/how-tos/administer-copilot/manage-for-enterprise/manage-enterprise-policies)
+      * Manage agents
+        + [Prepare for custom agents](/en/copilot/how-tos/administer-copilot/manage-for-enterprise/manage-agents/prepare-for-custom-agents)
+        + [Monitor agentic activity](/en/copilot/how-tos/administer-copilot/manage-for-enterprise/manage-agents/monitor-agentic-activity)
+        + [Manage Copilot coding agent](/en/copilot/how-tos/administer-copilot/manage-for-enterprise/manage-agents/manage-copilot-coding-agent)
+        + [Manage Copilot code review](/en/copilot/how-tos/administer-copilot/manage-for-enterprise/manage-agents/manage-copilot-code-review)
+      * [Manage Spark](/en/copilot/how-tos/administer-copilot/manage-for-enterprise/manage-spark)
+      * [Use your own API keys](/en/copilot/how-tos/administer-copilot/manage-for-enterprise/use-your-own-api-keys)
+    - Manage MCP usage
+      * [Configure MCP registry](/en/copilot/how-tos/administer-copilot/manage-mcp-usage/configure-mcp-registry)
+      * [Configure MCP server access](/en/copilot/how-tos/administer-copilot/manage-mcp-usage/configure-mcp-server-access)
+    - [Download activity report](/en/copilot/how-tos/administer-copilot/download-activity-report)
+    - [View usage and adoption](/en/copilot/how-tos/administer-copilot/view-usage-and-adoption)
+    - [View code generation](/en/copilot/how-tos/administer-copilot/view-code-generation)
+  + Troubleshoot Copilot
+    - [Troubleshoot common issues](/en/copilot/how-tos/troubleshoot-copilot/troubleshoot-common-issues)
+    - [View logs](/en/copilot/how-tos/troubleshoot-copilot/view-logs)
+    - [Troubleshoot firewall settings](/en/copilot/how-tos/troubleshoot-copilot/troubleshoot-firewall-settings)
+    - [Troubleshoot network errors](/en/copilot/how-tos/troubleshoot-copilot/troubleshoot-network-errors)
+    - [Troubleshoot Spark](/en/copilot/how-tos/troubleshoot-copilot/troubleshoot-spark)
+* Reference
+  + [Chat cheat sheet](/en/copilot/reference/chat-cheat-sheet)
+  + [Customization cheat sheet](/en/copilot/reference/customization-cheat-sheet)
+  + AI models
+    - [Supported models](/en/copilot/reference/ai-models/supported-models)
+    - [Model comparison](/en/copilot/reference/ai-models/model-comparison)
+    - [Model hosting](/en/copilot/reference/ai-models/model-hosting)
+  + [Copilot feature matrix](/en/copilot/reference/copilot-feature-matrix)
+  + [Keyboard shortcuts](/en/copilot/reference/keyboard-shortcuts)
+  + Copilot CLI reference
+    - [CLI command reference](/en/copilot/reference/copilot-cli-reference/cli-command-reference)
+    - [CLI plugin reference](/en/copilot/reference/copilot-cli-reference/cli-plugin-reference)
+    - [CLI programmatic reference](/en/copilot/reference/copilot-cli-reference/cli-programmatic-reference)
+    - [ACP server](/en/copilot/reference/copilot-cli-reference/acp-server)
+  + [Custom agents configuration](/en/copilot/reference/custom-agents-configuration)
+  + [Custom instructions support](/en/copilot/reference/custom-instructions-support)
+  + [Hooks configuration](/en/copilot/reference/hooks-configuration)
+  + [Policy conflicts](/en/copilot/reference/policy-conflicts)
+  + [Copilot allowlist reference](/en/copilot/reference/copilot-allowlist-reference)
+  + [MCP allowlist enforcement](/en/copilot/reference/mcp-allowlist-enforcement)
+  + [Metrics data](/en/copilot/reference/metrics-data)
+  + Copilot billing
+    - [Billing cycle](/en/copilot/reference/copilot-billing/billing-cycle)
+    - [Seat assignment](/en/copilot/reference/copilot-billing/seat-assignment)
+    - [License changes](/en/copilot/reference/copilot-billing/license-changes)
+    - [Azure billing](/en/copilot/reference/copilot-billing/azure-billing)
+  + [Agentic audit log events](/en/copilot/reference/agentic-audit-log-events)
+  + [Review excluded files](/en/copilot/reference/review-excluded-files)
+  + Copilot usage metrics
+    - [Copilot usage metrics data](/en/copilot/reference/copilot-usage-metrics/copilot-usage-metrics)
+    - [Interpret usage metrics](/en/copilot/reference/copilot-usage-metrics/interpret-copilot-metrics)
+    - [Reconciling Copilot usage metrics](/en/copilot/reference/copilot-usage-metrics/reconciling-usage-metrics)
+    - [Copilot LoC metrics](/en/copilot/reference/copilot-usage-metrics/lines-of-code-metrics)
+    - [Example schema](/en/copilot/reference/copilot-usage-metrics/example-schema)
+* Tutorials
+  + [All tutorials](/copilot/tutorials)
+  + GitHub Copilot Chat Cookbook
+    - [All prompts](/copilot/tutorials/copilot-chat-cookbook)
+    - Communicate effectively
+      * [Create templates](/en/copilot/tutorials/copilot-chat-cookbook/communicate-effectively/creating-templates)
+      * [Extract information](/en/copilot/tutorials/copilot-chat-cookbook/communicate-effectively/extracting-information)
+      * [Synthesize research](/en/copilot/tutorials/copilot-chat-cookbook/communicate-effectively/synthesizing-research)
+      * [Create diagrams](/en/copilot/tutorials/copilot-chat-cookbook/communicate-effectively/creating-diagrams)
+      * [Generate tables](/en/copilot/tutorials/copilot-chat-cookbook/communicate-effectively/generating-tables)
+    - Debug errors
+      * [Debug invalid JSON](/en/copilot/tutorials/copilot-chat-cookbook/debug-errors/debug-invalid-json)
+      * [Handle API rate limits](/en/copilot/tutorials/copilot-chat-cookbook/debug-errors/handle-api-rate-limits)
+      * [Diagnose test failures](/en/copilot/tutorials/copilot-chat-cookbook/debug-errors/diagnose-test-failures)
+    - Analyze functionality
+      * [Explore implementations](/en/copilot/tutorials/copilot-chat-cookbook/analyze-functionality/explore-implementations)
+      * [Analyze feedback](/en/copilot/tutorials/copilot-chat-cookbook/analyze-functionality/analyze-feedback)
+    - Refactor code
+      * [Improve code readability](/en/copilot/tutorials/copilot-chat-cookbook/refactor-code/improve-code-readability)
+      * [Fix lint errors](/en/copilot/tutorials/copilot-chat-cookbook/refactor-code/fix-lint-errors)
+      * [Refactor for optimization](/en/copilot/tutorials/copilot-chat-cookbook/refactor-code/refactor-for-optimization)
+      * [Refactor for sustainability](/en/copilot/tutorials/copilot-chat-cookbook/refactor-code/refactor-for-sustainability)
+      * [Refactor design patterns](/en/copilot/tutorials/copilot-chat-cookbook/refactor-code/refactor-design-patterns)
+      * [Refactor data access layers](/en/copilot/tutorials/copilot-chat-cookbook/refactor-code/refactor-data-access-layers)
+      * [Decouple business logic](/en/copilot/tutorials/copilot-chat-cookbook/refactor-code/decouple-business-logic)
+      * [Handle cross-cutting](/en/copilot/tutorials/copilot-chat-cookbook/refactor-code/handle-cross-cutting)
+      * [Simplify inheritance hierarchies](/en/copilot/tutorials/copilot-chat-cookbook/refactor-code/simplify-inheritance-hierarchies)
+      * [Fix database deadlocks](/en/copilot/tutorials/copilot-chat-cookbook/refactor-code/fix-database-deadlocks)
+      * [Translate code](/en/copilot/tutorials/copilot-chat-cookbook/refactor-code/translate-code)
+    - Document code
+      * [Create issues](/en/copilot/tutorials/copilot-chat-cookbook/document-code/creating-issues)
+      * [Document legacy code](/en/copilot/tutorials/copilot-chat-cookbook/document-code/document-legacy-code)
+      * [Explain legacy code](/en/copilot/tutorials/copilot-chat-cookbook/document-code/explain-legacy-code)
+      * [Explain complex logic](/en/copilot/tutorials/copilot-chat-cookbook/document-code/explain-complex-logic)
+      * [Sync documentation](/en/copilot/tutorials/copilot-chat-cookbook/document-code/sync-documentation)
+      * [Write discussions or blog posts](/en/copilot/tutorials/copilot-chat-cookbook/document-code/write-discussions-or-blog-posts)
+    - Testing code
+      * [Generate unit tests](/en/copilot/tutorials/copilot-chat-cookbook/testing-code/generate-unit-tests)
+      * [Create mock objects](/en/copilot/tutorials/copilot-chat-cookbook/testing-code/create-mock-objects)
+      * [Create end-to-end tests](/en/copilot/tutorials/copilot-chat-cookbook/testing-code/create-end-to-end-tests)
+      * [Update unit tests](/en/copilot/tutorials/copilot-chat-cookbook/testing-code/update-unit-tests)
+    - Analyze security
+      * [Secure your repository](/en/copilot/tutorials/copilot-chat-cookbook/analyze-security/secure-your-repository)
+      * [Manage dependency updates](/en/copilot/tutorials/copilot-chat-cookbook/analyze-security/manage-dependency-updates)
+      * [Find vulnerabilities](/en/copilot/tutorials/copilot-chat-cookbook/analyze-security/find-vulnerabilities)
+  + Customization library
+    - [All customizations](/copilot/tutorials/customization-library)
+    - Custom instructions
+      * [Your first custom instructions](/en/copilot/tutorials/customization-library/custom-instructions/your-first-custom-instructions)
+      * [Concept explainer](/en/copilot/tutorials/customization-library/custom-instructions/concept-explainer)
+      * [Debugging tutor](/en/copilot/tutorials/customization-library/custom-instructions/debugging-tutor)
+      * [Code reviewer](/en/copilot/tutorials/customization-library/custom-instructions/code-reviewer)
+      * [GitHub Actions helper](/en/copilot/tutorials/customization-library/custom-instructions/github-actions-helper)
+      * [Pull request assistant](/en/copilot/tutorials/customization-library/custom-instructions/pull-request-assistant)
+      * [Issue manager](/en/copilot/tutorials/customization-library/custom-instructions/issue-manager)
+      * [Accessibility auditor](/en/copilot/tutorials/customization-library/custom-instructions/accessibility-auditor)
+      * [Testing automation](/en/copilot/tutorials/customization-library/custom-instructions/testing-automation)
+    - Prompt files
+      * [Your first prompt file](/en/copilot/tutorials/customization-library/prompt-files/your-first-prompt-file)
+      * [Create README](/en/copilot/tutorials/customization-library/prompt-files/create-readme)
+      * [Onboarding plan](/en/copilot/tutorials/customization-library/prompt-files/onboarding-plan)
+      * [Document API](/en/copilot/tutorials/customization-library/prompt-files/document-api)
+      * [Review code](/en/copilot/tutorials/customization-library/prompt-files/review-code)
+      * [Generate unit tests](/en/copilot/tutorials/customization-library/prompt-files/generate-unit-tests)
+    - Custom agents
+      * [Your first custom agent](/en/copilot/tutorials/customization-library/custom-agents/your-first-custom-agent)
+      * [Implementation planner](/en/copilot/tutorials/customization-library/custom-agents/implementation-planner)
+      * [Bug fix teammate](/en/copilot/tutorials/customization-library/custom-agents/bug-fix-teammate)
+      * [Cleanup specialist](/en/copilot/tutorials/customization-library/custom-agents/cleanup-specialist)
+  + Coding agent
+    - [Get the best results](/en/copilot/tutorials/coding-agent/get-the-best-results)
+    - [Pilot coding agent](/en/copilot/tutorials/coding-agent/pilot-coding-agent)
+    - [Improve a project](/en/copilot/tutorials/coding-agent/improve-a-project)
+  + Spark
+    - [Your first spark](/en/copilot/tutorials/spark/your-first-spark)
+    - [Prompt tips](/en/copilot/tutorials/spark/prompt-tips)
+    - [Build and deploy apps](/en/copilot/tutorials/spark/build-apps-with-spark)
+    - [Deploy from CLI](/en/copilot/tutorials/spark/deploy-from-cli)
+  + [Use custom instructions](/en/copilot/tutorials/use-custom-instructions)
+  + [Enhance agent mode with MCP](/en/copilot/tutorials/enhance-agent-mode-with-mcp)
+  + [Compare AI models](/en/copilot/tutorials/compare-ai-models)
+  + [Speed up development work](/en/copilot/tutorials/speed-up-development-work)
+  + Roll out at scale
+    - Assign licenses
+      * [Set up self-serve licenses](/en/copilot/tutorials/roll-out-at-scale/assign-licenses/set-up-self-serve-licenses)
+      * [Track usage and adoption](/en/copilot/tutorials/roll-out-at-scale/assign-licenses/track-usage-and-adoption)
+      * [Remind inactive users](/en/copilot/tutorials/roll-out-at-scale/assign-licenses/remind-inactive-users)
+    - [Establish AI managers](/en/copilot/tutorials/roll-out-at-scale/establish-ai-managers)
+    - Enable developers
+      * [Drive adoption](/en/copilot/tutorials/roll-out-at-scale/enable-developers/drive-adoption)
+      * [Integrate AI agents](/en/copilot/tutorials/roll-out-at-scale/enable-developers/integrate-ai-agents)
+    - Drive downstream impact
+      * [Increase test coverage](/en/copilot/tutorials/roll-out-at-scale/drive-downstream-impact/increase-test-coverage)
+      * [Accelerate pull requests](/en/copilot/tutorials/roll-out-at-scale/drive-downstream-impact/accelerate-pull-requests)
+      * [Reduce security debt](/en/copilot/tutorials/roll-out-at-scale/drive-downstream-impact/reduce-security-debt)
+    - [Measure trial success](/en/copilot/tutorials/roll-out-at-scale/measure-success)
+    - [Maintain codebase standards](/en/copilot/tutorials/roll-out-at-scale/maintain-codebase-standards)
+  + [Explore a codebase](/en/copilot/tutorials/explore-a-codebase)
+  + [Explore issues and discussions](/en/copilot/tutorials/explore-issues-and-discussions)
+  + [Explore pull requests](/en/copilot/tutorials/explore-pull-requests)
+  + [Write tests](/en/copilot/tutorials/write-tests)
+  + [Refactor code](/en/copilot/tutorials/refactor-code)
+  + [Optimize code reviews](/en/copilot/tutorials/optimize-code-reviews)
+  + [Reduce technical debt](/en/copilot/tutorials/reduce-technical-debt)
+  + [Review AI code](/en/copilot/tutorials/review-ai-generated-code)
+  + [Learn a new language](/en/copilot/tutorials/learn-a-new-language)
+  + [Modernize legacy code](/en/copilot/tutorials/modernize-legacy-code)
+  + [Modernize Java applications](/en/copilot/tutorials/modernize-java-applications)
+  + [Migrate a project](/en/copilot/tutorials/migrate-a-project)
+  + [Plan a project](/en/copilot/tutorials/plan-a-project)
+  + [Vibe coding](/en/copilot/tutorials/vibe-coding)
+  + [Upgrade projects](/en/copilot/tutorials/upgrade-projects)
+  + [Use hooks with Copilot CLI](/en/copilot/tutorials/copilot-cli-hooks)
+* Responsible use
+  + [Copilot inline suggestions](/en/copilot/responsible-use/copilot-code-completion)
+  + [Chat in your IDE](/en/copilot/responsible-use/chat-in-your-ide)
+  + [Chat in GitHub](/en/copilot/responsible-use/chat-in-github)
+  + [Chat in GitHub Mobile](/en/copilot/responsible-use/chat-in-github-mobile)
+  + [Copilot CLI](/en/copilot/responsible-use/copilot-cli)
+  + [Copilot in Windows Terminal](/en/copilot/responsible-use/copilot-in-windows-terminal)
+  + [Copilot in GitHub Desktop](/en/copilot/responsible-use/copilot-in-github-desktop)
+  + [Pull request summaries](/en/copilot/responsible-use/pull-request-summaries)
+  + [Commit message generation](/en/copilot/responsible-use/copilot-commit-message-generation)
+  + [Code review](/en/copilot/responsible-use/code-review)
+  + [Copilot coding agent](/en/copilot/responsible-use/copilot-coding-agent)
+  + [Spark](/en/copilot/responsible-use/spark)
+  + [Copilot Spaces](/en/copilot/responsible-use/copilot-spaces)
+
+* [GitHub Copilot](/en/copilot)/
+* [Tutorials](/en/copilot/tutorials)/
+* [Review AI code](/en/copilot/tutorials/review-ai-generated-code)
+
+Review AI-generated code
+========================
+
+Learn techniques to verify and validate AI-generated code, and how Copilot Chat can help.
+
+Copy as Markdown
+
+In this article
+---------------
+
+* [1. Start with functional checks](#1-start-with-functional-checks)
+* [2. Verify context and intent](#2-verify-context-and-intent)
+* [3. Assess code quality](#3-assess-code-quality)
+* [4. Scrutinize dependencies](#4-scrutinize-dependencies)
+* [5. Spot AI-specific pitfalls](#5-spot-ai-specific-pitfalls)
+* [6. Use collaborative reviews](#6-use-collaborative-reviews)
+* [7. Automate what you can](#7-automate-what-you-can)
+* [8. Keep improving your workflow](#8-keep-improving-your-workflow)
+* [Further reading](#further-reading)
+
+Reviewing code generated by AI tools like GitHub Copilot, ChatGPT, or other coding agents is becoming an essential part of the modern developer workflow. This guide provides practical techniques, emphasizes the importance of human oversight and testing, and includes example prompts to showcase how AI can assist in the review process.
+
+For both legacy codebases and larger pull requests in particular, a thorough review process is critical. Combining human expertise with automated tools can ensure that AI-generated code meets quality standards, aligns with project goals, and adheres to best practices.
+
+With Copilot, you can streamline your review process and enhance your ability to identify potential issues in AI-generated code.
+
+[1. Start with functional checks](#1-start-with-functional-checks)
+------------------------------------------------------------------
+
+Always run automated tests and static analysis tools first.
+
+* Make sure the code compiles and all tests pass. Check for any new warnings or errors.
+* Use tools like [CodeQL](https://codeql.github.com/) and [Dependabot](/en/code-security/supply-chain-security/keeping-your-dependencies-updated-automatically) to catch vulnerabilities and dependency issues.
+* See [Generating unit tests](/en/copilot/tutorials/copilot-chat-cookbook/testing-code/generate-unit-tests) and [Creating end-to-end tests for a webpage](/en/copilot/tutorials/copilot-chat-cookbook/testing-code/create-end-to-end-tests) for examples of verifying code with Copilot.
+
+### [Example prompts](#example-prompts)
+
+* `What functional tests to validate this code change do not exist or are missing?`
+* `What possible vulnerabilities or security issues could this code introduce?`
+
+[2. Verify context and intent](#2-verify-context-and-intent)
+------------------------------------------------------------
+
+Check that the AI-generated code fits the purpose and architecture of your project.
+
+* Review the AI output for alignment with your requirements and design patterns.
+* Ask yourself: “Does this code solve the right problem? Does it follow our conventions?”
+* Use your README, docs, and recent pull requests as a starting point for context for AI. Tell AI what sources to trust, what not to use, and give it good examples to work with.
+* Try [Synthesizing research](/en/copilot/tutorials/copilot-chat-cookbook/communicate-effectively/synthesizing-research) to see how Copilot uses documentation and research to inform code generation.
+* When asking AI to perform research and planning tasks, consider distilling the AI output into structured artifacts to then become context for future AI tasks such as code generation.
+
+### [Example prompts](#example-prompts-1)
+
+* `How does this refactored code section align with our project architecture?`
+* `What similar features or established design patterns did you identify and model your code after?`
+* `When examining this code, what assumptions about business logic, design preferences, or user behaviors have been made?`
+* `What are the potential issues or limitations with this approach?`
+
+[3. Assess code quality](#3-assess-code-quality)
+------------------------------------------------
+
+Human standards still matter.
+
+* Look for readability, maintainability, and clear naming.
+* Avoid accepting code that is hard to follow or would take longer to refactor than to rewrite.
+* Prefer code that is well-documented and includes clear comments.
+* Check [Improving code readability and maintainability](/en/copilot/tutorials/copilot-chat-cookbook/refactor-code/improve-code-readability) for prompts and tips on reviewing and refactoring generated code.
+
+### [Example prompts](#example-prompts-2)
+
+* `What are some readability and maintainability issues in this code?`
+* `How can this code be improved for clarity and simplicity? Suggest an alternative structure or variable names to enhance clarity.`
+* `How could this code be broken down into smaller, testable units?`
+
+[4. Scrutinize dependencies](#4-scrutinize-dependencies)
+--------------------------------------------------------
+
+Be vigilant with new packages and libraries.
+
+* Check if suggested dependencies exist and are actively maintained. Consider the origins and contributors of new dependencies to ensure they come from reputable, non-competing sources.
+* Review licensing. Avoid introducing code or dependencies that are incompatible with your project’s license (for example, AGPL-3.0 in a MIT licensed project, or dependencies with no declared license).
+* Watch out for hallucinated or suspicious packages (such as packages that don't actually exist), or slopsquatting (a theoretical attack on LLMs using fake or malicious packages).
+* [Creating templates](/en/copilot/tutorials/copilot-chat-cookbook/communicate-effectively/creating-templates) demonstrates how Copilot can assist with dependency setup, however it is good practice to always verify suggested packages yourself.
+* Use [GitHub Copilot code referencing](/en/copilot/concepts/completions/code-referencing) to review matches with publicly available code.
+
+### [Example prompts](#example-prompts-3)
+
+* `Analyze the attached package.json file and list all dependencies with their respective licenses.`
+* `Are each of the dependencies listed in this package.json file actively maintained (that is, not archived and have recent maintainer activity)?`
+
+[5. Spot AI-specific pitfalls](#5-spot-ai-specific-pitfalls)
+------------------------------------------------------------
+
+AI tools can make unique mistakes.
+
+* Look for hallucinated APIs, ignored constraints, or incorrect logic.
+* Watch for tests that are deleted or skipped, instead of fixed.
+* Be skeptical of code that “looks right” but doesn’t match your intent.
+* See [Debugging invalid JSON](/en/copilot/tutorials/copilot-chat-cookbook/debug-errors/debug-invalid-json) as an example of catching subtle errors and debugging with Copilot.
+
+### [Example prompts](#example-prompts-4)
+
+* `What was the reasoning behind the code change to delete the failing test? Suggest some alternatives that would fix the test instead of deleting it.`
+* `What potential complexities, edge cases, or scenarios are there that this code might not handle correctly?`
+* `What specific technical questions does this code raise that require human judgment or domain expertise to evaluate properly?`
+
+[6. Use collaborative reviews](#6-use-collaborative-reviews)
+------------------------------------------------------------
+
+Pairing and team input helps catch subtle issues.
+
+* Ask teammates to review complex or sensitive changes.
+* Use checklists to ensure all key review points (functionality, security, maintainability) are covered.
+* Share successful prompts and patterns for AI use across your team.
+* See [Communicate effectively](/en/copilot/tutorials/copilot-chat-cookbook/communicate-effectively) for examples of how to work with Copilot collaboratively and document findings.
+
+[7. Automate what you can](#7-automate-what-you-can)
+----------------------------------------------------
+
+Let tools handle the repetitive work.
+
+* Set up CI checks for style, linting, and security.
+* Use Dependabot for dependency updates and alerts.
+* Apply CodeQL or similar scanners for static analysis.
+* [Finding public code that matches GitHub Copilot suggestions](/en/copilot/how-tos/get-code-suggestions/find-matching-code) shows how Copilot can help track down code patterns and automate search tasks.
+* Consider if AI agents with reasoning capabilities can assist in automating parts of your review process. For example, build a self-reviewing agent that evaluates draft pull requests against your standards, checking for accuracy, appropriate tone, and business logic *before* requesting human review.
+
+[8. Keep improving your workflow](#8-keep-improving-your-workflow)
+------------------------------------------------------------------
+
+Embracing new AI tools and techniques can make your workflow even more effective.
+
+* Document your best practices for reviewing AI-generated code.
+* Encourage “AI champions” on your team to share tips and workflows.
+* Update your onboarding and contribution guides to include your AI review techniques and resources. Use a `CONTRIBUTING.md` file in your repository to document your expectations for AI-generated source code and content, see [Setting guidelines for repository contributors](/en/communities/setting-up-your-project-for-healthy-contributions/setting-guidelines-for-repository-contributors).
+* Reference [GitHub Copilot Chat Cookbook](/en/copilot/tutorials/copilot-chat-cookbook) for inspiration and share useful recipes in your team docs.
+
+[Further reading](#further-reading)
+-----------------------------------
+
+* [Human Oversight in Modern Code Review](https://resources.github.com/enterprise/human-oversight-modern-code-review/) in GitHub Resources
+
+Help and support
+----------------
+
+### Did you find what you needed?
+
+ Yes No[Privacy policy](/en/site-policy/privacy-policies/github-privacy-statement)
+### Help us make these docs great!
+
+All GitHub docs are open source. See something that's wrong or unclear? Submit a pull request.
+
+[Make a contribution](https://github.com/github/docs/blob/main/content/copilot/tutorials/review-ai-generated-code.md)
+
+[Learn how to contribute](/contributing)
+
+### Still need help?
+
+[Ask the GitHub community](https://github.com/orgs/community/discussions)[Contact support](https://support.github.com)
+
+Legal
+-----
+
+* © 2026 GitHub, Inc.
+* [Terms](/en/site-policy/github-terms/github-terms-of-service)
+* [Privacy](/en/site-policy/privacy-policies/github-privacy-statement)
+* [Status](https://www.githubstatus.com/)
+* [Pricing](https://github.com/pricing)
+* [Expert services](https://services.github.com)
+* [Blog](https://github.blog)

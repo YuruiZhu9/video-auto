@@ -1,0 +1,563 @@
+# Source URL: https://merchmindai.net/blog/zh/post/openai-sora-shutdown-analysis
+# Content Length: 18061 characters
+# Extracted at: 2026-03-28 08:13:00
+#============================================================
+
+
+OpenAI 为何突然关停 Sora？一条 AI 视频产品线的兴起与收缩 | 博客[MerchMindAI](/zh)
+
+* 面向电商商家
+  + [店铺名称生成器
+    
+    AI驱动的工具，用于创建独特且令人难忘的店铺名称](/zh/tools/shop-name)
+  + [图片编辑器
+    
+    使用我们的图片编辑器在线编辑您的图片。裁剪、调整大小、调整颜色等](/zh/tools/image-editor)
+  + [SEO关键词研究
+    
+    发现相关关键词以提高您的搜索引擎排名](/zh/tools/seo-keyword-research)
+  + [元描述生成器
+    
+    生成SEO优化的元描述，提升点击率](/zh/tools/meta-description-generator)
+  + [产品标题优化器
+    
+    为Amazon、eBay、Shopify等平台生成SEO优化的产品标题](/zh/tools/product-title-optimizer)
+  + [产品描述生成器
+    
+    在几秒钟内创建引人注目、SEO友好的产品描述](/zh/tools/product-description)
+  + [FAQ生成器
+    
+    为您的产品生成全面的FAQ，提升SEO并减少客服咨询](/zh/tools/faq-generator)
+  + [社交媒体分析器
+    
+    分析指定品类和国家的头部电商店铺社媒数据，获取策略灵感。](/zh/tools/shopify-social-analyzer)
+  + [商品评论生成器
+    
+    生成不同风格和语言的真实商品评论](/zh/tools/product-review-generator)
+  + [AI视频提示词生成器
+    
+    为Sora2、Wan和Veo模型生成专业的AI视频提示词](/zh/tools/ai-video-prompt-generator)
+* 面向进出口商
+  + [MID代码生成器
+    
+    为美国海关生成准确的制造商识别（MID）代码](/zh/tools/mid-code-generator)
+* 开发者工具
+  + [时间戳转换器
+    
+    将时间戳转换为人类可读的日期，反之亦然，支持时区。](/zh/tools/timestamp-converter)
+  + [Base64转换器
+    
+    从文本或文件编码和解码Base64字符串。](/zh/tools/base64-converter)
+  + [测试数据生成器
+    
+    免费且易于使用的在线测试数据生成器。使用各种数据类型创建真实的虚假数据用于测试和开发。](/zh/tools/test-data-generator)
+  + [JSON 字符串 ↔ 纯文本转换器
+    
+    带有无效 JSON 验证的 JSON 字符串和格式化纯文本之间的转换。](/zh/tools/json-string-plain-text-converter)
+  + [Markdown转PDF转换器
+    
+    直接在浏览器中将Markdown文档转换为PDF格式。](/zh/tools/markdown-to-pdf)
+[MerchMindAI](/zh)[工具](/zh/tools)[特性](/zh#features)[常见问题](/zh#faq)[Blogs](/blog/zh/1)Toggle themeToggle menu[← Back to Blog](/blog/zh/1)By GenCybers.inc•2026-03-25LLM中文
+
+OpenAI 为何突然关停 Sora？一条 AI 视频产品线的兴起与收缩
+====================================
+
+基于 OpenAI 公开页面、The Guardian、The Verge、WSJ 与行业资料，梳理 Sora 从 2024 到 2026 的关键节点、技术影响与行业位置，并分析 OpenAI 为何在 Sora 2 之后选择整体收缩这条产品线。
+
+![]()
+
+目录
+
+* [关键信息速览](#关键信息速览)
+* [Sora 的历史：它是怎样走到今天这一步的？](#sora-的历史它是怎样走到今天这一步的)
+* [1. 2024 年 2 月 15 日：Sora 首次亮相，重新打开了 AI 视频的想象空间](#1-2024-年-2-月-15-日sora-首次亮相重新打开了-ai-视频的想象空间)
+* [2. 2024 年 3 月 25 日：OpenAI 开始把 Sora 推向创作者工作流](#2-2024-年-3-月-25-日openai-开始把-sora-推向创作者工作流)
+* [3. 2024 年 12 月 9 日：Sora 从研究预览变成正式产品](#3-2024-年-12-月-9-日sora-从研究预览变成正式产品)
+* [4. 2025 年 9 月 30 日：Sora 2 发布，OpenAI 开始押注移动端和音视频一体化](#4-2025-年-9-月-30-日sora-2-发布openai-开始押注移动端和音视频一体化)
+* [5. 2025 年底到 2026 年初：Sora 还在继续迭代，并一度显得前景不错](#5-2025-年底到-2026-年初sora-还在继续迭代并一度显得前景不错)
+* [6. 2026 年 3 月 23 日到 24 日：从“继续讲安全”到“公开告别”，只隔了一天](#6-2026-年-3-月-23-日到-24-日从继续讲安全到公开告别只隔了一天)
+* [Sora 取得了什么成绩？](#sora-取得了什么成绩)
+* [1. 它把 AI 视频从“会动”推进到“可创作”](#1-它把-ai-视频从会动推进到可创作)
+* [2. 它为 OpenAI 拿下了视频生成领域的早期定义权](#2-它为-openai-拿下了视频生成领域的早期定义权)
+* [3. 它推动了安全、溯源和治理标准前移](#3-它推动了安全溯源和治理标准前移)
+* [4. 它证明了 AI 视频存在消费级市场](#4-它证明了-ai-视频存在消费级市场)
+* [Sora 的影响力，实际上比产品寿命更长](#sora-的影响力实际上比产品寿命更长)
+* [1. 它把“世界模型”叙事带进大众视野](#1-它把世界模型叙事带进大众视野)
+* [2. 它推动 AI 视频竞争从“单次出片”走向“完整工作流”](#2-它推动-ai-视频竞争从单次出片走向完整工作流)
+* [3. 它逼着竞争对手加速升级](#3-它逼着竞争对手加速升级)
+* [OpenAI 为什么会突然关停 Sora？我认为有 5 个核心原因](#openai-为什么会突然关停-sora我认为有-5-个核心原因)
+* [1. OpenAI 的公司重心已经明显转向“超级助手”、企业产品和更长期的研究方向](#1-openai-的公司重心已经明显转向超级助手企业产品和更长期的研究方向)
+* [2. 视频生成很贵，而 Sora 并没有建立起足够稳固的独立商业模式](#2-视频生成很贵而-sora-并没有建立起足够稳固的独立商业模式)
+* [3. OpenAI 可能意识到“独立 Sora”并不是最优产品形态](#3-openai-可能意识到独立-sora并不是最优产品形态)
+* [4. Seedance、Veo 等竞争者的崛起，大幅压缩了 Sora 的独特性](#4-seedanceveo-等竞争者的崛起大幅压缩了-sora-的独特性)
+* [5. 视频生成的安全、版权和人物风险，可能让 OpenAI 更倾向于收缩前台产品暴露面](#5-视频生成的安全版权和人物风险可能让-openai-更倾向于收缩前台产品暴露面)
+* [这是不是说明 Sora 失败了？](#这是不是说明-sora-失败了)
+* [真正的问题是：OpenAI 为什么没有把 Sora 继续做成平台？](#真正的问题是openai-为什么没有把-sora-继续做成平台)
+* [总结](#总结)
+* [常见问题（FAQ）](#常见问题faq)
+* [现在到底是 Sora 1 下线，还是整个 Sora 都要关？](#现在到底是-sora-1-下线还是整个-sora-都要关)
+* [Sora 2 也会一起关闭吗？](#sora-2-也会一起关闭吗)
+* [这是否意味着 OpenAI 放弃视频生成研究？](#这是否意味着-openai-放弃视频生成研究)
+* [参考资料](#参考资料)
+
+更新日期：2026 年 3 月 25 日
+
+![]()
+
+截至 2026 年 3 月 25 日，多家媒体根据 Sora 官方社交账号新公告与公司内部沟通报道，OpenAI 已决定关闭 `Sora app`、`sora.com` 和相关 `API` 路线，`Sora 2` 也不再继续作为独立产品推进。
+
+---
+
+如果你还记得 2024 年 2 月 Sora 首次亮相时带来的震动，就不难理解这次关停为何会引发如此强烈的关注。彼时，人们看到的不只是“AI 也能生成视频”，而是一条可能走向真实创作工具的产品路线。  
+
+但到了 2026 年 3 月，这条一度最能代表 OpenAI 视频野心的产品线，却突然走到了整体收口的节点。
+
+从外部观感看，这件事的确很突然。就在 2026 年 3 月 23 日，OpenAI 还发布了《[Creating with Sora safely](https://openai.com/index/creating-with-sora-safely/?utm_source=merchmindai.net)》，继续介绍 Sora 2 的安全机制、青少年保护和使用边界。仅一天后，多家媒体便开始报道 Sora 团队“向 Sora 告别”，并称 app 与 API 的关闭时间表将陆续公布。  
+
+这也是为什么最近关于 Sora 的讨论格外混乱：**新闻已经进入停服阶段，而 OpenAI 的部分官网页面仍停留在“产品还在”的状态。**
+
+但如果把 Sora 的历史、成绩、OpenAI 的产品路线，以及 Google Veo、字节 Seedance 的竞争环境放在一起看，这次关停并非毫无征兆。更准确地说，它更像是一场拖到最后才对外公开的战略收缩。
+
+关键信息速览
+------
+
+* `2026 年 3 月 24 日`，The Guardian、The Verge、Axios 和 WSJ 等媒体相继报道，OpenAI 将关闭 `Sora app`、`API` 和相关视频产品线。
+* 这些报道都指向同一个来源：Sora 官方账号发布“告别”消息，并提到后续会公布 app 与 API 的具体时间表。
+* WSJ 还报道称，OpenAI 将停止面向消费者的 Sora、面向开发者的版本，以及 ChatGPT 中的视频生成功能。
+* 与此同时，OpenAI 官网部分帮助页和 API 文档截至 `2026 年 3 月 25 日` 仍未完全撤下旧说明，显示出明显的信息同步滞后。
+* 因此，这次事件不能简单理解为“一个产品线自然升级”，而更像是 OpenAI 对视频业务方向做出的整体重组甚至收缩。
+
+Sora 的历史：它是怎样走到今天这一步的？
+----------------------
+
+### 1. 2024 年 2 月 15 日：Sora 首次亮相，重新打开了 AI 视频的想象空间
+
+OpenAI 在研究文章《Video generation models as world simulators》中首次发布 Sora。  
+
+这篇文章最大的意义，并不只是展示“可以文生视频”，而是把视频生成提升到了一个更大的叙事中：**世界模拟**。
+
+官方当时展示的能力包括：
+
+* 生成最长约 1 分钟的高保真视频
+* 更强的空间一致性和主体连续性
+* 从图片扩展到视频
+* 对复杂镜头运动和场景变化的更高控制力
+
+Sora 真正带来的冲击在于，它让外界第一次普遍意识到：AI 视频不再只是“会动的幻灯片”，而是可能走向真正的创作工具。
+
+### 2. 2024 年 3 月 25 日：OpenAI 开始把 Sora 推向创作者工作流
+
+在《Sora: first impressions》中，OpenAI 让艺术家、导演和设计师分享早期体验。  
+
+这一步很关键，因为它把 Sora 从“模型展示”拉进了“创作流程验证”。
+
+从当时的案例可以看出，Sora 的价值并不仅是生成成片，还包括：
+
+* 快速视觉化概念和分镜
+* 低成本试错超现实场景
+* 在拍摄前预演风格和叙事方向
+
+这也决定了 Sora 后来影响行业的方式：它不仅是模型竞赛选手，更是创意工作流的一部分。
+
+### 3. 2024 年 12 月 9 日：Sora 从研究预览变成正式产品
+
+OpenAI 在《Sora is here》中宣布 Sora 正式上线，并引入更快的 `Sora Turbo`。  
+
+这时的 Sora 已经具备了完整产品形态：
+
+* 独立网站 `sora.com`
+* 面向 ChatGPT Plus 和 Pro 用户开放
+* 支持最高 `1080p`、最长 `20 秒` 视频
+* 提供 remix、blend、storyboard 等工具
+* 引入 feed，强化“生成-分享-再创作”的社区路径
+
+同日发布的 `Sora System Card` 还显示，OpenAI 已经把它当成高风险真实产品来治理，而不是单纯技术演示。系统卡提到，上线前跨 9 个国家进行了外部红队测试，累计超过 `15,000` 次生成。
+
+### 4. 2025 年 9 月 30 日：Sora 2 发布，OpenAI 开始押注移动端和音视频一体化
+
+![]()
+
+`2025 年 9 月 30 日`，OpenAI 发布《Sora 2 is here》。  
+
+这次升级的重点已经不只是“更强视频”，而是更完整的媒体生成平台：
+
+* 更逼真的物理表现
+* 更高的可控性
+* 同步音频、对白与音效
+* 新的 Sora app
+
+OpenAI 在这篇文章里甚至直接把初代 Sora 定义为“video 的 GPT-1 时刻”。  
+
+这句话很重要，因为它说明 OpenAI 自己也承认：**Sora 1 是开创性起点，但并不是最终稳定形态。**
+
+### 5. 2025 年底到 2026 年初：Sora 还在继续迭代，并一度显得前景不错
+
+根据 OpenAI 的 Sora Release Notes 与工程文章，Sora 在之后仍然高速更新：
+
+* `2025 年 11 月 4 日`：Android app 上线
+* `2025 年 11 月 24 日`：增加多种视频风格
+* `2026 年 2 月 4 日`：开放人物照片驱动的 image-to-video
+* `2026 年 2 月 9 日`：加入 video extensions
+
+OpenAI 在 2025 年 12 月的官方文章中还提到，Sora Android app 上线首日冲到 Play Store 第 1，用户在前 24 小时生成超过 `100 万` 条视频。  
+
+至少从这个阶段看，Sora 并不是一个无人问津的失败产品，它曾证明自己具备真实的用户吸引力。
+
+### 6. 2026 年 3 月 23 日到 24 日：从“继续讲安全”到“公开告别”，只隔了一天
+
+真正让外界意外的，是最后这一步的节奏。
+
+`2026 年 3 月 23 日`，OpenAI 官网还发布了《Creating with Sora safely》，继续强调：
+
+* Sora 2 支持生成安全配置文件
+* 青少年用户限制更严格
+* 对真实人物、版权角色和高风险内容设置更强护栏
+
+但到了 `2026 年 3 月 24 日`，The Guardian、The Verge、Axios、WSJ 等媒体已根据 Sora 官方社交账号和内部消息报道：
+
+* OpenAI 正在向 Sora 告别
+* 会进一步公布 app 与 API 的关闭时间表
+* 视频生成能力不再继续作为现有产品线推进
+
+按这个时间线看，Sora 的确不是“慢慢停掉”，而是**内部战略决定先发生，外部随后才突然感知到结果**。
+
+Sora 取得了什么成绩？
+-------------
+
+今天如果只把 Sora 写成“一个后来被关掉的产品”，其实会严重低估它的历史地位。
+
+### 1. 它把 AI 视频从“会动”推进到“可创作”
+
+Sora 最大的成绩，不是某一次 demo 有多惊艳，而是它把整个行业的门槛抬高了。  
+
+在 Sora 出现之前，很多 AI 视频产品给人的感觉是：
+
+* 长度短
+* 一致性差
+* 容易穿帮
+* 难以编辑
+
+至少在公众认知层面，Sora 改变了这件事。它让“AI 视频是否能进入真实工作流”第一次成为一个严肃问题。
+
+### 2. 它为 OpenAI 拿下了视频生成领域的早期定义权
+
+2024 年相当长一段时间里，Sora 就是“OpenAI 视频能力”的代名词。  
+
+谁最早定义行业叙事，谁就先拥有品牌优势，而 Sora 在这方面几乎没有争议。
+
+它也把外界对 OpenAI 的印象，从文本和图像进一步扩展到了“未来媒体生成入口”。
+
+### 3. 它推动了安全、溯源和治理标准前移
+
+OpenAI 至少在公开策略上，比许多竞品更早把水印、`C2PA` 元数据、未成年人限制、人物同意和高风险内容防护写进产品设计。  
+
+这些机制当然不完美，但它们确实推动了整个行业正视一个现实：视频生成的风险，远高于普通文本生成。
+
+### 4. 它证明了 AI 视频存在消费级市场
+
+Sora Android 的快速登顶和首日百万视频生成，说明这不是一个只有开发者或创作者会碰的工具。  
+
+普通用户同样愿意拿它来做内容实验、娱乐创作和社交表达。
+
+这也是 Sora 的一个重要遗产：它让行业确认，AI 视频不仅是专业工具，也可能成为大众内容产品。
+
+Sora 的影响力，实际上比产品寿命更长
+--------------------
+
+### 1. 它把“世界模型”叙事带进大众视野
+
+Sora 从一开始就没有只把自己讲成一个视频工具。  
+
+OpenAI 用 `world simulators` 的说法，把视频模型和更广义的世界理解、物理建模、具身智能联系起来。
+
+不管这一叙事是否已经兑现，Sora 至少改变了外界的讨论方式。  
+
+从那之后，视频模型不再只是内容生成器，也被视作通向更复杂 AI 能力的一条路径。
+
+### 2. 它推动 AI 视频竞争从“单次出片”走向“完整工作流”
+
+Sora 后来的路线图其实已经很清楚了：
+
+* remix
+* blend
+* storyboard
+* feed
+* image-to-video
+* extensions
+* 音视频同步
+
+这意味着赛道的竞争重心，已经从“谁能生成一段最惊艳的视频”，转向“谁能把生成、编辑、延长、分享、复用做成一套工作流”。
+
+### 3. 它逼着竞争对手加速升级
+
+Google、ByteDance、Runway、Luma、Pika 后续的提速，很难说和 Sora 无关。  
+
+特别是 Google 和字节，两条路线都在快速平台化：
+
+* Google 官方在 `2025 年 7 月 10 日` 表示，Veo 3 在 Gemini 和 Flow 上线 7 周内已生成超过 `4000 万` 条视频。
+* 字节 Seed 团队的 `Seedance 1.5 pro` 和 `Seedance 2.0` 则把音视频联合生成、多模态参考输入、视频延长和工业级内容场景直接写成核心卖点。
+
+![]()
+
+Sora 的影响不只在于自己做了什么，更在于它迫使竞争对手不得不加快节奏。
+
+OpenAI 为什么会突然关停 Sora？我认为有 5 个核心原因
+---------------------------------
+
+下面这一部分属于**基于公开资料的分析判断**，不是 OpenAI 官方逐条列出的原因。
+
+### 1. OpenAI 的公司重心已经明显转向“超级助手”、企业产品和更长期的研究方向
+
+Axios 报道称，OpenAI 计划关闭 Sora，是为了把优先级转向更大的目标，例如 Sam Altman 提到的“super assistant”。  
+
+The Guardian 也援引 OpenAI 发言人的说法，称公司正在把重点转向“其他研究和产品优先事项”，包括机器人与世界模拟。
+
+这说明 OpenAI 内部对资源分配的判断已经发生变化。  
+
+Sora 虽然重要，但它可能不再被视为当前最值得单独投入的一条前台产品线。
+
+### 2. 视频生成很贵，而 Sora 并没有建立起足够稳固的独立商业模式
+
+视频生成天然比文本生成更吃算力、带宽和存储，也更难压缩延迟。  
+
+从商业角度看，Sora 一直面临几个现实难题：
+
+* 高昂的推理成本
+* 用户期望高，但付费意愿未必同样高
+* 社区型 feed 会进一步抬高内容审核与存储成本
+* 独立 app、网站、API 和 ChatGPT 集成同时维护，组织负担很重
+
+如果一条业务线既昂贵，又没有形成足够清晰的收入闭环，那么在公司开始强调资本效率和主航道时，它就很容易被收缩。
+
+### 3. OpenAI 可能意识到“独立 Sora”并不是最优产品形态
+
+这次最值得注意的一点在于：Sora 被关停时，OpenAI 官网上仍然同时存在这些信号：
+
+* 一部分页面还在写 `Sora 2`、`sora.com`、iOS app、Android app
+* API 文档还保留了视频生成预览说明
+* 新的安全文章才刚刚发布
+
+这种信息错位本身就暴露出一个问题：**Sora 的产品边界其实一直比较分裂。**
+
+它到底是：
+
+* 一个独立创作 app？
+* 一个视频模型品牌？
+* 一个开发者 API？
+* ChatGPT 内部的一项能力？
+
+如果内部最终决定把这些都收掉，某种程度上也意味着 OpenAI 认为，“独立 Sora”这套组织与产品结构已经不再成立。
+
+### 4. Seedance、Veo 等竞争者的崛起，大幅压缩了 Sora 的独特性
+
+这很可能不是唯一原因，但一定是重要原因。
+
+字节的 `Seedance 2.0` 官方页面显示，它已经支持文字、图片、音频、视频四模态混合输入，并强调：
+
+* 音视频联合生成
+* 多参考输入
+* 视频编辑与延长
+* 面向影视、广告、电商和游戏的生产级场景
+
+更关键的是，字节并不是只有模型，它还有豆包、即梦 AI、火山方舟和更完整的分发体系。  
+
+这意味着 Seedance 的威胁不只是“模型做得不错”，而是“模型、工具、用户入口和商业平台一起推进”。
+
+Google 的 Veo 路线也一样。  
+
+当 Veo 能通过 Gemini、Flow 和更成熟的产品矩阵迅速触达用户时，Sora 作为一个独立产品要维持长期优势，难度就会高很多。
+
+也就是说，**Sora 最初靠“惊艳”赢得市场关注，但后来竞争已经变成“谁能把视频生成做成平台能力”**。在这个阶段，独立 Sora 的产品形态未必仍是 OpenAI 的最优选择。
+
+### 5. 视频生成的安全、版权和人物风险，可能让 OpenAI 更倾向于收缩前台产品暴露面
+
+视频生成的风险面，明显比文本更复杂：
+
+* 深度伪造更逼真
+* 人物肖像与声音更敏感
+* 版权角色、影视风格和素材侵权更难界定
+* 音视频一体化会带来更高误导风险
+
+OpenAI 在 2026 年 3 月 23 日的安全文章里，仍在强调青少年限制、真实人物使用约束和高风险内容防护。  
+
+这说明 Sora 的治理压力并没有消失，反而随着能力增强而上升。
+
+当一条产品线同时面临高成本、激烈竞争和高风险治理负担时，被整体关停就不再是不可理解的事。
+
+这是不是说明 Sora 失败了？
+----------------
+
+我不这么看。  
+
+更准确地说：**Sora 作为“开创性产品”是成功的，但作为“长期独立业务”可能并不成功。**
+
+它完成了三件很难被抹掉的事：
+
+1. 重新定义了公众对 AI 视频的预期。
+2. 让 OpenAI 在视频赛道拿到过最早、最强的品牌定义权。
+3. 逼着整个行业把竞争从样片升级到工作流、平台和多模态控制。
+
+如果 Sora 最终没有成为 OpenAI 的长期独立产品，那并不意味着它没有价值；它更像是一款把行业推到下一阶段的过渡性产品。
+
+真正的问题是：OpenAI 为什么没有把 Sora 继续做成平台？
+---------------------------------
+
+这可能才是整件事最值得琢磨的地方。
+
+OpenAI 明明已经拥有：
+
+* 先发的品牌声量
+* 相对成熟的模型能力
+* 移动端 app
+* API 雏形
+* 创作者社群基础
+
+但最后仍选择整体关停。  
+
+这说明在 OpenAI 当前的战略排序里，Sora 的优先级终究让位于其他方向。可能是“超级助手”，可能是更大的企业产品，也可能是机器人和世界模拟研究本身，而不是视频 app 的持续经营。
+
+从这个角度看，Sora 的关闭并不只是一个产品新闻，它还是一个信号：  
+
+**OpenAI 正在重新定义什么样的产品值得它长期亲自运营，什么样的能力更适合停留在模型层、研究层，或者干脆让位于别的重点业务。**
+
+总结
+--
+
+Sora 的故事很短，却足够典型。
+
+它在 2024 年重新点燃了整个行业对 AI 视频的想象，帮助 OpenAI 建立了视频生成的早期统治性话语权；它也在 2025 年顺势走向产品化、移动化、音视频一体化。  
+
+但到了 2026 年，OpenAI 最终没有把它继续经营成长期平台，而是选择在竞争加剧、成本高企、战略重排的背景下，直接收掉整条前台产品线。
+
+所以，Sora 的问题可能从来不是“技术不够好”，而是：  
+
+**当 AI 视频从惊艳 demo 变成高成本、强竞争、强治理的真实业务时，OpenAI 可能已经判断，这不再是值得其继续投入大量资源的前台产品线。**
+
+常见问题（FAQ）
+---------
+
+### 现在到底是 Sora 1 下线，还是整个 Sora 都要关？
+
+截至 `2026 年 3 月 25 日`，多家媒体根据 Sora 官方社交公告和内部信息报道，范围已经不只是 `Sora 1`，而是 `Sora app`、`sora.com`、API 以及相关视频产品线整体进入关闭流程。  
+
+不过 OpenAI 官网部分旧页面还没完全同步，所以才会出现信息冲突。
+
+### Sora 2 也会一起关闭吗？
+
+根据当前媒体报道，是的。  
+
+这次并不是简单的 “Sora 1 sunset”，而是连 `Sora 2` 所在的 app 路线也一并结束。更具体的关闭时间表，仍有待 OpenAI 后续公布。
+
+### 这是否意味着 OpenAI 放弃视频生成研究？
+
+还不能下这个结论。  
+
+公开报道更接近“关闭现有 Sora 产品线”，而不是“彻底停止所有视频生成研究”。相反，一些报道提到 OpenAI 可能把重点转向更大的研究和产品目标，例如机器人、世界模拟或超级助手。
+
+参考资料
+----
+
+* [OpenAI: Video generation models as world simulators (2024-02-15)](https://openai.com/research/video-generation-models-as-world-simulators?utm_source=merchmindai.net)
+* [OpenAI: Sora: first impressions (2024-03-25)](https://openai.com/index/sora-first-impressions/?utm_source=merchmindai.net)
+* [OpenAI: Sora is here (2024-12-09)](https://openai.com/index/sora-is-here/?utm_source=merchmindai.net)
+* [OpenAI: Sora System Card (2024-12-09)](https://openai.com/index/sora-system-card/?utm_source=merchmindai.net)
+* [OpenAI: Sora 2 is here (2025-09-30)](https://openai.com/index/sora-2/?utm_source=merchmindai.net)
+* [OpenAI: Sora - Release Notes (still accessible as of 2026-03-25)](https://help.openai.com/en/articles/12593142-sora-release-notes?utm_source=merchmindai.net)
+* [OpenAI: Sora 1 Sunset - FAQ (still accessible as of 2026-03-25)](https://help.openai.com/en/articles/20001071-sora-1-sunset-faq?utm_source=merchmindai.net)
+* [OpenAI: Creating with Sora safely (2026-03-23)](https://openai.com/index/creating-with-sora-safely/?utm_source=merchmindai.net)
+* [OpenAI: How we used Codex to build Sora for Android in 28 days (2025-12-12)](https://openai.com/index/shipping-sora-for-android-with-codex?utm_source=merchmindai.net)
+* [The Guardian: OpenAI to shut down Sora in apparent AI video retreat (2026-03-24)](https://www.theguardian.com/technology/2026/mar/24/openai-ai-video-sora?utm_source=merchmindai.net)
+* [The Verge: OpenAI is shutting down Sora as Sam Altman pursues a 'super assistant' (2026-03-24)](https://www.theverge.com/ai-artificial-intelligence/899850/openai-sora-ai-chatgpt?utm_source=merchmindai.net)
+* [Axios: OpenAI to shut down Sora (2026-03-24)](https://www.axios.com/2026/03/24/openai-shut-down-sora?utm_source=merchmindai.net)
+* [The Wall Street Journal: OpenAI Is Shutting Down Sora as Altman Focuses on Superapp (2026-03-24)](https://www.wsj.com/tech/ai/openai-sora-shutdown-altman-superapp-9d2da860?utm_source=merchmindai.net)
+* [Reddit: What's going on with OpenAI's Sora shutting down? (2026-03-24)](https://www.reddit.com/r/OutOfTheLoop/comments/1s2u847/whats_going_on_with_openais_sora_shutting_down/?utm_source=merchmindai.net)
+* [ByteDance Seed: Seedance 1.5 pro (2025-12)](https://seed.bytedance.com/en/seedance1_5_pro?utm_source=merchmindai.net)
+* [ByteDance Seed: Seedance 2.0 (2026-02-12)](https://seed.bytedance.com/en/seedance2_0?utm_source=merchmindai.net)
+* [Google: Turn your photos into videos in Gemini (2025-07-10)](https://blog.google/products/gemini/photo-to-video/?utm_source=merchmindai.net)
+
+来源声明
+
+本文来自 merchmindai.net。分享或转载本文时，请注明出处，并附上原文链接。
+
+原文链接:<https://merchmindai.net/blog/zh/post/openai-sora-shutdown-analysis>
+
+目录
+
+* [关键信息速览](#关键信息速览)
+* [Sora 的历史：它是怎样走到今天这一步的？](#sora-的历史它是怎样走到今天这一步的)
+* [1. 2024 年 2 月 15 日：Sora 首次亮相，重新打开了 AI 视频的想象空间](#1-2024-年-2-月-15-日sora-首次亮相重新打开了-ai-视频的想象空间)
+* [2. 2024 年 3 月 25 日：OpenAI 开始把 Sora 推向创作者工作流](#2-2024-年-3-月-25-日openai-开始把-sora-推向创作者工作流)
+* [3. 2024 年 12 月 9 日：Sora 从研究预览变成正式产品](#3-2024-年-12-月-9-日sora-从研究预览变成正式产品)
+* [4. 2025 年 9 月 30 日：Sora 2 发布，OpenAI 开始押注移动端和音视频一体化](#4-2025-年-9-月-30-日sora-2-发布openai-开始押注移动端和音视频一体化)
+* [5. 2025 年底到 2026 年初：Sora 还在继续迭代，并一度显得前景不错](#5-2025-年底到-2026-年初sora-还在继续迭代并一度显得前景不错)
+* [6. 2026 年 3 月 23 日到 24 日：从“继续讲安全”到“公开告别”，只隔了一天](#6-2026-年-3-月-23-日到-24-日从继续讲安全到公开告别只隔了一天)
+* [Sora 取得了什么成绩？](#sora-取得了什么成绩)
+* [1. 它把 AI 视频从“会动”推进到“可创作”](#1-它把-ai-视频从会动推进到可创作)
+* [2. 它为 OpenAI 拿下了视频生成领域的早期定义权](#2-它为-openai-拿下了视频生成领域的早期定义权)
+* [3. 它推动了安全、溯源和治理标准前移](#3-它推动了安全溯源和治理标准前移)
+* [4. 它证明了 AI 视频存在消费级市场](#4-它证明了-ai-视频存在消费级市场)
+* [Sora 的影响力，实际上比产品寿命更长](#sora-的影响力实际上比产品寿命更长)
+* [1. 它把“世界模型”叙事带进大众视野](#1-它把世界模型叙事带进大众视野)
+* [2. 它推动 AI 视频竞争从“单次出片”走向“完整工作流”](#2-它推动-ai-视频竞争从单次出片走向完整工作流)
+* [3. 它逼着竞争对手加速升级](#3-它逼着竞争对手加速升级)
+* [OpenAI 为什么会突然关停 Sora？我认为有 5 个核心原因](#openai-为什么会突然关停-sora我认为有-5-个核心原因)
+* [1. OpenAI 的公司重心已经明显转向“超级助手”、企业产品和更长期的研究方向](#1-openai-的公司重心已经明显转向超级助手企业产品和更长期的研究方向)
+* [2. 视频生成很贵，而 Sora 并没有建立起足够稳固的独立商业模式](#2-视频生成很贵而-sora-并没有建立起足够稳固的独立商业模式)
+* [3. OpenAI 可能意识到“独立 Sora”并不是最优产品形态](#3-openai-可能意识到独立-sora并不是最优产品形态)
+* [4. Seedance、Veo 等竞争者的崛起，大幅压缩了 Sora 的独特性](#4-seedanceveo-等竞争者的崛起大幅压缩了-sora-的独特性)
+* [5. 视频生成的安全、版权和人物风险，可能让 OpenAI 更倾向于收缩前台产品暴露面](#5-视频生成的安全版权和人物风险可能让-openai-更倾向于收缩前台产品暴露面)
+* [这是不是说明 Sora 失败了？](#这是不是说明-sora-失败了)
+* [真正的问题是：OpenAI 为什么没有把 Sora 继续做成平台？](#真正的问题是openai-为什么没有把-sora-继续做成平台)
+* [总结](#总结)
+* [常见问题（FAQ）](#常见问题faq)
+* [现在到底是 Sora 1 下线，还是整个 Sora 都要关？](#现在到底是-sora-1-下线还是整个-sora-都要关)
+* [Sora 2 也会一起关闭吗？](#sora-2-也会一起关闭吗)
+* [这是否意味着 OpenAI 放弃视频生成研究？](#这是否意味着-openai-放弃视频生成研究)
+* [参考资料](#参考资料)
+
+Read More
+---------
+
+[![]()
+### 中国 LLM 现状观察：模型、产品与生态正在如何重排
+
+2026-03-24](/blog/zh/post/china-llm-landscape-2026)[![]()
+### Android Developer Verification 是什么？Google 提高侧载门槛的原因、机制与影响
+
+2026-03-20](/blog/zh/post/android-developer-verification-sideloading-analysis)[![]()
+### OpenClaw 安全吗？基于官方公告的风险梳理与使用建议
+
+2026-03-12](/blog/zh/post/openclaw-security-risks-and-hardening-guide)[![]()
+### Unity 是否可能出售中国业务？基于公开线索的早期分析
+
+2026-03-05](/blog/zh/post/unity-china-business-sale-early-analysis)
+
+为您推荐的Shopify应用
+--------------
+
+HeiChat: ChatGPT销售聊天机器人跟踪订单、推荐产品、提升销售、更好地了解客户。由ChatGPT和Claude AI提供支持的24/7 AI支持和解决方案，全天候处理客户咨询。[免费试用](https://apps.shopify.com/chatgpt-customer-service-bot?utm_source=merchmindai&utm_medium=website&utm_campaign=blog-page&utm_content=openai-sora-shutdown-analysis)Vtober: Shopify AI生成博客使用商店产品快速生成专业的博客文章。Vtober使用自定义描述和选定产品快速生成高质量的AI博客内容，以改善您的内容营销策略。[免费试用](https://apps.shopify.com/vtober?utm_source=merchmindai&utm_medium=website&utm_campaign=blog-page&utm_content=openai-sora-shutdown-analysis)Photoniex ‑ AI场景魔术使用AI场景生成和自然光照创建令人惊叹的产品展示。Photoniex使用先进的AI从文本提示生成完整的产品场景，并具有适应每个环境的自然光照。[免费试用](https://apps.shopify.com/photoniex?utm_source=merchmindai&utm_medium=website&utm_campaign=blog-page&utm_content=openai-sora-shutdown-analysis)
+### 主菜单
+
+* [首页](/zh)
+* [工具](/zh/tools)
+* [功能](/zh#features)
+* [博客](/blog/zh/1)
+* [常见问题](/zh#faq)
+### 法律
+
+* [隐私政策](/zh/privacy-policy)
+* [服务条款](/zh/terms-of-service)
+### 联系我们
+
+* [电子邮件](/cdn-cgi/l/email-protection#30585559535142525f5f5b70575d51595c1e535f5d)
+* [Discord](https://discord.gg/uXBag5Y8zq)
+### 关注我们
+
+### 合作伙伴
+
+* [HeiChat: Sales Chatbot for Shopify](https://apps.shopify.com/chatgpt-customer-service-bot?utm_source=merchmindai&utm_medium=website&utm_campaign=footer)
+* [Vtober: AI SEO Blog Writer](https://apps.shopify.com/vtober?utm_source=merchmindai&utm_medium=website&utm_campaign=footer)
+* [StoryBook: Create. Illustrate. Share.](https://www.genstory.app/?utm_source=merchmindai&utm_medium=website&utm_campaign=footer)
+© 2025 GenCybers.inc. 版权所有。由 GenCybers.inc 用 ♥ 制作 [GenCybers.inc](https://heichat.net)
+
+

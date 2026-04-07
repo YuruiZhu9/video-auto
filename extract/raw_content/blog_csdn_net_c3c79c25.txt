@@ -1,0 +1,1037 @@
+# Source URL: https://blog.csdn.net/weixin_39280437/article/details/145878958
+# Content Length: 17643 characters
+# Extracted at: 2026-03-19 12:01:19
+#============================================================
+
+ 
+
+
+
+
+
+【LLM系列9】GRPO训练-CSDN博客
+
+
+
+
+
+
+
+
+【LLM系列9】GRPO训练
+==============
+
+
+原创
+已于 2025-02-26 15:20:30 修改
+·
+1.7k 阅读
+·
+![]()
+![]()
+8
+
+
+·
+![]()
+![]()
+28
+·
+CC 4.0 BY-SA版权
+版权声明：本文为博主原创文章，遵循 [CC 4.0 BY-SA](http://creativecommons.org/licenses/by-sa/4.0/) 版权协议，转载请附上原文出处链接和本声明。
+
+
+
+
+
+文章标签：
+
+[#LLM](https://so.csdn.net/so/search/s.do?q=LLM&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#人工智能](https://so.csdn.net/so/search/s.do?q=%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+
+
+
+于 2025-02-26 14:52:13 首次发布
+
+
+
+
+[![]()
+大语言模型
+专栏收录该内容](https://blog.csdn.net/weixin_39280437/category_12902330.html)
+
+11 篇文章
+
+订阅专栏
+
+
+
+
+Llama Factory一键部署
+
+LLaMA Factory 是一个简单易用且高效的大型语言模型（Large Language Model）训练与微调平台。通过 LLaMA Factory，可以在无需编写任何代码的前提下，在本地完成上百种预训练模型的微调
+
+
+#### GRPO（Group Relative Policy Optimization）训练详解
+
+---
+
+##### **一、基本定义**
+
+GRPO（Group Relative Policy Optimization）是由DeepSeek团队提出的一种面向大规模语言模型（LLM）强化学习优化的算法，旨在解决传统PPO（Proximal Policy Optimization）算法中依赖价值网络（Critic Model）导致的计算开销大、策略更新不稳定等问题。其核心思想是通过**组内相对奖励比较**替代传统优势函数估计，从而简化训练流程并提升效率。
+
+**核心特点**：
+
+1. **无需价值网络**：通过同一状态下多个动作的组内奖励比较，直接计算相对优势，避免维护与策略模型规模相当的价值网络。
+2. **稳定性提升**：引入KL散度约束，防止策略更新偏离参考模型过远。
+3. **计算高效**：内存占用减少50%，训练速度提升30%。
+
+---
+
+##### **二、技术细节**
+
+###### **1. 算法流程**
+
+GRPO的训练流程分为以下关键步骤：
+
+1. **组采样（Group Sampling）**：对每个输入状态（如问题提示），从当前策略模型中采样一组动作（如生成多个候选答案）。
+2. **奖励评估（Reward Evaluation）**：通过奖励模型（RM）对每个动作打分，例如基于答案正确性或格式规范性。
+3. **相对优势计算（Relative Advantage Estimation）**：
+   * 对组内奖励进行归一化处理：  
+     
+     r~i=ri−mean(r)std(r) \tilde{r}\_i = \frac{r\_i - \text{mean}(\mathbf{r})}{\text{std}(\mathbf{r})} r~i​=std(r)ri​−mean(r)​  
+     
+     其中，r\mathbf{r}r为组内所有动作的奖励值。
+4. **策略更新（Policy Update）**：
+   * 目标函数结合策略梯度、裁剪机制和KL散度惩罚项：  
+     
+     L=E[min⁡(πθ(a∣s)πθold(a∣s)A^,clip(πθ(a∣s)πθold(a∣s),1−ϵ,1+ϵ)A^)]−β⋅KL(πθ∣∣πref) \mathcal{L} = \mathbb{E} \left[ \min\left( \frac{\pi\_\theta(a|s)}{\pi\_{\theta\_{\text{old}}}(a|s)} \hat{A}, \text{clip}\left( \frac{\pi\_\theta(a|s)}{\pi\_{\theta\_{\text{old}}}(a|s)}, 1-\epsilon, 1+\epsilon \right) \hat{A} \right) \right] - \beta \cdot \text{KL}(\pi\_\theta || \pi\_{\text{ref}}) L=E[min(πθold​​(a∣s)πθ​(a∣s)​A^,clip(πθold​​(a∣s)πθ​(a∣s)​,1−ϵ,1+ϵ)A^)]−β⋅KL(πθ​∣∣πref​)
+     + ϵ\epsilonϵ控制更新幅度，β\betaβ调节KL散度权重。
+
+###### **2. 与PPO的关键差异**
+
+| 维度 | PPO | GRPO |
+| --- | --- | --- |
+| **价值网络** | 依赖Critic模型估计优势函数 | 完全摒弃Critic模型 |
+| **优势估计** | 基于广义优势估计（GAE） | 基于组内奖励归一化 |
+| **更新约束** | 使用概率比裁剪（Clip） | 引入KL散度惩罚项 |
+| **适用场景** | 通用任务（如控制系统） | 推理密集型任务（如数学解题） |
+
+---
+
+##### **三、代码示例（伪代码）**
+
+```
+# GRPO核心训练循环（简化版）
+for epoch in epochs:
+    # 1. 采样组动作
+    prompts = sample_prompts(batch_size)
+    responses = [policy.generate(prompt, num_samples=G) for prompt in prompts]
+    
+    # 2. 计算奖励
+    rewards = reward_model.evaluate(responses)
+    
+    # 3. 计算相对优势
+    normalized_rewards = (rewards - rewards.mean()) / (rewards.std() + 1e-8)
+    
+    # 4. 策略更新
+    optimizer.zero_grad()
+    loss = compute_grpo_loss(
+        policy, 
+        old_policy, 
+        responses, 
+        normalized_rewards, 
+        clip_epsilon=0.2, 
+        kl_coef=0.1
+    )
+    loss.backward()
+    optimizer.step()
+
+```
+
+---
+
+##### **四、重点文献**
+
+1. **《DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models》**
+   * 首次提出GRPO算法，详细阐述其在数学推理任务中的应用及实验效果。
+2. **《DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning》**
+   * 展示GRPO在复杂推理任务（如代码生成）中的扩展性，结合迭代训练与奖励模型优化。
+3. **《Proximal Policy Optimization Algorithms》**
+   * PPO算法的原始论文，为GRPO的设计提供理论基础。
+
+---
+
+##### **五、重点技术**
+
+1. **组内相对优势估计**
+   * 通过多候选答案的对比，减少对单个奖励绝对值的依赖，降低方差。
+2. **KL散度约束**
+   * 防止策略更新偏离初始监督微调（SFT）模型，缓解灾难性遗忘。
+3. **结果与过程监督结合**
+   * **结果监督**：仅在输出序列末尾提供奖励（如答案正确性）。
+   * **过程监督**：在关键推理步骤（如中间计算）提供奖励信号，提升复杂任务表现。
+4. **自适应超参数调整**
+   * 动态调整KL散度系数β\betaβ，平衡策略更新与稳定性。
+
+---
+
+##### **应用案例**
+
+* **DeepSeek-R1**：在数学推理任务（AIME竞赛）中，通过GRPO将准确率提升至71%。
+* **DeepSeekMath**：在代码生成任务中，生成代码可运行性达85%。
+
+---
+
+##### **总结**
+
+GRPO通过组内对比和KL约束机制，显著提升了大规模语言模型强化学习的效率与稳定性，尤其在数学推理、代码生成等复杂任务中表现突出。其核心创新在于简化优势估计流程并增强策略更新的可控性，为未来LLM训练提供了重要技术参考。
+
+
+
+
+
+
+您可能感兴趣的与本文相关的镜像
+
+![]()
+
+Llama Factory
+
+模型微调
+LLama-Factory
+
+LLaMA Factory 是一个简单易用且高效的大型语言模型（Large Language Model）训练与微调平台。通过 LLaMA Factory，可以在无需编写任何代码的前提下，在本地完成上百种预训练模型的微调
+
+
+
+一键部署运行
+
+
+
+
+关注博主即可阅读全文
+![]()
+
+![]()
+确定要放弃本次机会？
+
+福利倒计时
+
+*:*
+
+*:*
+
+
+![]()
+立减 ¥
+
+
+普通VIP年卡可用
+
+[立即使用](https://mall.csdn.net/vip)
+
+
+[![]()
+西西阿西哥](https://blog.csdn.net/weixin_39280437)
+
+[关注](javascript:;)
+关注
+
+
+* ![]()
+  ![]()
+  ![]()
+  8
+  点赞
+* ![]()
+  ![]()
+  踩
+* [![]()
+  ![]()
+  ![]()
+  28](javascript:;)
+  收藏
+  
+  
+  
+  觉得还不错?
+  一键收藏
+  
+  ![]()
+* ![]()
+  知道了
+  
+  [![]()
+  0](#commentBox)
+  评论
+* [![]()
+  分享](javascript:;)
+  复制链接
+  
+  分享到 QQ
+  
+  分享到新浪微博
+  
+  ![]()扫一扫
+* ![]()
+  ![]()
+  举报
+  
+  ![]()
+  举报
+
+专栏目录
+
+
+
+
+![]()
+
+[*GRPO* / PPO / DPO 在医疗场景下的 *LLM* 优化与源码实战分析](https://zhxin.blog.csdn.net/article/details/147471998)
+
+[努力分享一些人工智能、计算机视觉、影像等相关的知识干货！](https://blog.csdn.net/sinat_28461591)
+
+04-24
+![]()
+1317
+
+
+
+
+[在医疗智能体系统中，任务高度复杂、容错要求极高、反馈滞后显著，因此 *LLM* 系统仅靠 Prompt 编排远远不够。为此，*GRPO*（Generalized Reward-Policy Optimization）、PPO（Proximal Policy Optimization）、DPO（Direct Preference Optimization）等 RL 策略成为强化智能问诊、医学问答、病历分析等 Agent 系统的关键优化路径。
+本篇将以医疗为真实背景，逐步解析如何结合 *LLM*+RL 策略实现*训练*、如何构](https://zhxin.blog.csdn.net/article/details/147471998)
+
+
+
+
+
+参与评论
+您还未登录，请先
+登录
+后发表或查看评论
+
+
+[*LLM* 强化对齐的四大天王：REINFORCE, PPO, DPO, *GRPO*](https://blog.csdn.net/kakaZhui/article/details/148201582)
+
+[kakaZhui的博客](https://blog.csdn.net/kakaZhui)
+
+05-27
+![]()
+600
+
+
+
+
+[大型语言模型 (*LLM*) 的对齐（Alignment）——使其行为和输出更符合人类期望、价值观和偏好——是释放其潜能并确保其安全、负责任应用的关键环节。在众多对齐技术中，强化学习（Reinforcement Learning, RL）扮演了核心角色，而直接利用偏好数据进行优化的方法也异军突起。最基础的策略梯度算法，理解 RL 的基石。RLHF 中最主流的 Actor-Critic 算法，以其稳定性和效率著称。一种“无奖励模型”的直接偏好学习方法，简洁高效。](https://blog.csdn.net/kakaZhui/article/details/148201582)
+
+
+
+[DeepSeek R1：了解*GRPO*和多阶段*训练*](https://blog.csdn.net/huake6/article/details/145419113)
+
+[柏企阅文](https://blog.csdn.net/huake6)
+
+02-02
+![]()
+1854
+
+
+
+
+[策略模型根据给定输入q生成输出O；一个单独的价值模型预测基线v，与广义优势估计（GAE）一起用于计算优势A；奖励r包含使用参考模型和奖励模型计算出的KL惩罚项；这种架构会导致显著的资源开销。](https://blog.csdn.net/huake6/article/details/145419113)
+
+
+
+
+[trl-强化学习*训练*-*grpo**训练*为例](https://blog.csdn.net/weixin_40777649/article/details/145664759)
+
+[weixin\_40777649的博客](https://blog.csdn.net/weixin_40777649)
+
+02-16
+![]()
+3236
+
+
+
+
+[1.trl + lora+ transformers *训练*模型2.部署与预测3.模型合并4.v*llm* 部署4. 代码讲解5. trl *训练*器参数讲解。](https://blog.csdn.net/weixin_40777649/article/details/145664759)
+
+
+
+[ms-swift强化学习实战：*GRPO*算法*训练*Agent详细步骤
+最新发布](https://devpress.csdn.net/v1/article/detail/157155918)
+
+[weixin\_36059856的博客](https://blog.csdn.net/weixin_36059856)
+
+01-20
+![]()
+979
+
+
+
+
+[本文介绍了基于星图GPU平台，利用ms-swift镜像自动化部署*GRPO*强化学习算法的完整流程。通过该平台，开发者可高效*训练*具备任务执行能力的AI Agent，典型应用于数学解题、工具调用等场景，实现从模型微调到推理验证的一站式开发，显著降低强化学习落地门槛。](https://devpress.csdn.net/v1/article/detail/157155918)
+
+
+
+[*GRPO*强化学习*训练*](https://blog.csdn.net/weixin_40777649/article/details/145664675)
+
+[weixin\_40777649的博客](https://blog.csdn.net/weixin_40777649)
+
+02-16
+![]()
+1400
+
+
+
+
+[理解*GRPO*算法*GRPO* 工作步骤奖励的理解目标函数的理解trl 源码中代码讲解。](https://blog.csdn.net/weixin_40777649/article/details/145664675)
+
+
+
+[*GRPO**训练*：如何将你的模型变成推理模型？](https://devpress.csdn.net/v1/article/detail/145922345)
+
+[老皮的博客](https://blog.csdn.net/m0_59614665)
+
+02-28
+![]()
+1335
+
+
+
+
+[理解策略梯度是基础， 就很容易看懂 PPO 和 *GRPO*，懂了 PPO 自然就明白 *GRPO*。对于弄懂损失的计算 和 损失计算的实现比较重要。当然还有 还有 MLA （多头潜在注意力）， MOE (混合专家模型)等等。](https://devpress.csdn.net/v1/article/detail/145922345)
+
+
+
+[*GRPO*难倒你？手把手教你从零打造！](https://devpress.csdn.net/v1/article/detail/148919094)
+
+[2401\_84204413的博客](https://blog.csdn.net/2401_84204413)
+
+06-26
+![]()
+1582
+
+
+
+
+[本文介绍了强化学习中的*GRPO*算法原理与实践。*GRPO*通过组内竞争机制优化模型输出：1）采样多个回答并计算奖励得分（包括准确性和格式）；2）通过优势函数评估相对表现，高于平均的获得正激励；3）结合重要性采样和KL散度约束更新策略。文中提供了数学公式解析和基于Huggingface的代码实现细节，包括奖励函数设计（XML格式校验、结果验证等）和*训练*流程。测试案例展示了模型对数学问题的推理能力提升。最后分享了包含学习路线图、视频教程等资源的大模型学习资料包获取方式。](https://devpress.csdn.net/v1/article/detail/148919094)
+
+
+
+[【*LLM*】使用 Transformer 强化学习的 *GRPO*](https://sonhhxg0529.blog.csdn.net/article/details/151221711)
+
+[sikh\_0529的博客](https://blog.csdn.net/sikh_0529)
+
+09-05
+![]()
+859
+
+
+
+
+[本文介绍了HuggingFaces的TRL如何实现*GRPO*（组相对策略优化）和自定义奖励函数。*GRPO*是强化学习的一种变体，通过组内响应的相对优势来优化模型输出。文章首先概述了*LLM**训练*的四个阶段：预*训练*、监督微调、专业化*训练*和基于奖励的强化学习，重点讲解了*GRPO*的工作原理及其与PPO的区别。随后详细展示了使用TRL实现*GRPO*的具体步骤，包括如何定义奖励函数（如控制输出长度、降低毒性等）并对Qwen模型进行微调。实验结果表明，*GRPO*能有效控制模型输出质量。最后总结了*GRPO*在提升模型推理能力和响应质量](https://sonhhxg0529.blog.csdn.net/article/details/151221711)
+
+
+
+[JudgeLRM：基于*GRPO**训练*的面向判断评估任务推理大模型，显著提升在深度推理的判断任务中性能！！](https://blog.csdn.net/m0_58581576/article/details/147361678)
+
+[王哥儿聊AI的博客](https://blog.csdn.net/m0_58581576)
+
+04-20
+![]()
+958
+
+
+
+
+[大型语言模型（*LLM*s）作为评估者的出现，为人类标注提供了一种可扩展的替代方案，但现有的监督微调（SFT）方法在需要复杂推理的领域往往表现不足。本研究探讨了*LLM*评估者是否真正从增强的推理能力中受益。通过对评估任务的推理需求进行详细分析，我们发现SFT的性能提升与推理需求样本的比例呈负相关，这突显了SFT在这些场景中的局限性。为了解决这一问题。](https://blog.csdn.net/m0_58581576/article/details/147361678)
+
+
+
+[借助 *GRPO* *训练*语言模型依据事件与优先级列表创建时间表](https://download.csdn.net/download/hub_cross/91832330)
+
+09-01
+
+
+
+[我希望这个实验能给其他深入研究 *LLM* 强化学习的人提供帮助，完整内容可在我的博客文章中查看。 先说说为什么做这个实验。教语言模型解决本可用确定性编程高效解决的问题，看似用处不大，但 2025 年大家都在用 GSM8K...](https://download.csdn.net/download/hub_cross/91832330)
+
+
+
+[*GRPO*强化学习尝试-*训练*自己的R1推理模型](https://blog.csdn.net/wxl781227/article/details/145571754)
+
+
+02-11
+![]()
+1220
+
+
+
+
+[DeepSeek-R1以其低成本优势（*训练*成本只有国外模型的1/5，推理成本在优惠期间是01的1/27）在春节期间🔥遍全球，是否你也想使用自己的数据去*训练*一个R1模型呢？下面给出了这个*训练*的过程。说明3: 说明通过强化学习，模型不仅能根据Answer（正确奖励）自行完成推理推理，而且还能按格式（格式奖励）输出推理过程和答案。说明2: 在62轮之后，推理过程被格式化了，推理过程出现在标记中，答案出现在标记中。说明1：在62轮之前的推理输出，推理过程是没有格式化的。](https://blog.csdn.net/wxl781227/article/details/145571754)
+
+
+
+[【*LLM*s篇】17：组相对策略优化 *GRPO*](https://devpress.csdn.net/v1/article/detail/150493943)
+
+[u013010473的博客](https://blog.csdn.net/u013010473)
+
+08-18
+![]()
+1397
+
+
+
+
+[*GRPO*是一种基于强化学习的在线*训练*算法，是对传统近端策略优化（PPO）的改进版本。它专门设计用于增强语言模型的数学推理能力，同时优化PPO的内存使用效率。](https://devpress.csdn.net/v1/article/detail/150493943)
+
+
+
+[【知识点】*GRPO* *训练*原理](https://qq742971636.blog.csdn.net/article/details/147918170)
+
+[q742971636的博客](https://blog.csdn.net/x1131230123)
+
+05-13
+![]()
+1929
+
+
+
+
+[*GRPO* (Group Relative Policy Optimization) 是一种用于大型语言模型(*LLM*)和视觉语言模型(VLM)*训练*的强化学习算法。它是一种相对优势计算方法，通过对同一输入生成多个输出回答，然后计算相对优势进行优化。不需要价值网络(Value Network)，简化了*训练*过程通过相对评估减少了回报的高方差问题特别适合处理离散奖励信号，如问答场景中的正确/错误奖励对同样的问题采样多次，通过组内相对比较学习更好的策略。](https://qq742971636.blog.csdn.net/article/details/147918170)
+
+
+
+[「*GRPO**训练*参数详解：理解Batch构成与生成数量的关系」](https://vincia-jun.blog.csdn.net/article/details/149276843)
+
+[Junseer的博客](https://blog.csdn.net/Junseer)
+
+07-11
+![]()
+2049
+
+
+
+
+[本文深入梳理了 *GRPO* *训练*中的关键参数：nproc\_per\_node、per\_device\_train\_batch\_size、gradient\_accumulation\_steps 与 num\_generations。这些参数共同决定了全局 batch size，并需满足特定的整除约束，否则*训练*会中断。本文将逐一解析它们的含义、相互关系及合法配置方式，帮助更高效地调试多卡多进程*训练*中的常见问题。](https://vincia-jun.blog.csdn.net/article/details/149276843)
+
+
+
+[DeepSeek-R1-*GRPO*理解](https://blog.csdn.net/yaohaishen/article/details/145282804)
+
+[yaohaishen的专栏](https://blog.csdn.net/yaohaishen)
+
+01-21
+![]()
+1万+
+
+
+
+
+[例如数学问题求解、代码生成、逻辑推理等。](https://blog.csdn.net/yaohaishen/article/details/145282804)
+
+
+
+[手把手教你用 *GRPO* 算法微调模型：从算法实现到模型*训练*全流程实战](https://blog.csdn.net/qq_53769632/article/details/147683906)
+
+[wxchyy的博客](https://blog.csdn.net/qq_53769632)
+
+05-03
+![]()
+2383
+
+
+
+
+[本期主要介绍了*GRPO*中核心的一些技术实现，不过由于篇幅原因，代码中删除了很多基础的配置以及一些异常处理过程。](https://blog.csdn.net/qq_53769632/article/details/147683906)
+
+
+
+[个人开发者也能*训练*推理模型？如何低成本突破性能瓶颈？*GRPO* 技术详解](https://devpress.csdn.net/v1/article/detail/146469174)
+
+[2401\_85375186的博客](https://blog.csdn.net/2401_85375186)
+
+03-24
+![]()
+1725
+
+
+
+
+[大模型很多技术干货，都可以共享给你们，如果你肯花时间沉下心去学习，它们一定能帮到你！](https://devpress.csdn.net/v1/article/detail/146469174)
+
+
+
+[【DeepSeek】一文详解*GRPO*算法——为什么能减少大模型*训练*资源？
+热门推荐](https://blog.csdn.net/qq_38961840/article/details/145384852)
+
+[qq\_38961840的博客](https://blog.csdn.net/qq_38961840)
+
+01-28
+![]()
+5万+
+
+
+
+
+[*GRPO*，一种新的强化学习方法，是DeepSeek R1使用到的*训练*方法。今天的这篇博客文章，笔者会从零开始，层层递进地为各位介绍一种在强化学习中极具实用价值的技术——\*\**GRPO*（Group Relative Policy Optimization）\*\*。如果你是第一次听说这个概念，也不必慌张，笔者会带领你从最基础的强化学习背景知识讲起，一步步剖析其来龙去脉，然后再结合实例讲解 *GRPO* 在实际应用中的思路和操作示例，最后再和其他近似方法对比，看看它和当下主流的 PPO（近端策略优化）等方法究竟有何区](https://blog.csdn.net/qq_38961840/article/details/145384852)
+
+
+
+
+
+
+
+
+
+
+[![]()](https://blog.csdn.net/weixin_39280437)
+
+[西西阿西哥](https://blog.csdn.net/weixin_39280437)
+
+
+博客等级
+
+![]()
+
+码龄9年
+
+
+
+[87
+原创](https://blog.csdn.net/weixin_39280437)
+
+566
+点赞
+
+619
+收藏
+
+522
+粉丝
+
+
+关注
+
+[私信](https://im.csdn.net/chat/weixin_39280437)
+
+
+
+[![]()](https://ai.csdn.net/workbench/wallet?utm_source=xtai_slb_bloglb)
+
+![]()
+
+
+### TA的精选
+
+* [新
+  用 STDIO 构建父子进程通信 —— 从管道到防御式编程](https://blog.csdn.net/weixin_39280437/article/details/154387459)
+  
+  958 阅读
+* [新
+  【随便聊聊】和ChatGPT聊聊潜空间](https://blog.csdn.net/weixin_39280437/article/details/154264742)
+  
+  1383 阅读
+* [热
+  #ifdef与#endif的作用及用法](https://blog.csdn.net/weixin_39280437/article/details/111353717)
+  
+  4114 阅读
+* [热
+  C语言：指针作为函数的入参](https://blog.csdn.net/weixin_39280437/article/details/118767688)
+  
+  3739 阅读
+* [热
+  C语言：布尔值、宏定义、类型定义](https://blog.csdn.net/weixin_39280437/article/details/112003284)
+  
+  3173 阅读
+
+[查看更多 ![]()](https://blog.csdn.net/weixin_39280437?type=blog)
+
+
+
+### 大家在看
+
+* [2026 企业培训系统排名出炉](https://blog.csdn.net/C_S_D_N_boss/article/details/159243084)
+* [VTJ.PRO 技术深潜：Agent + Skills 架构如何重构 Vue 开发工作流？
+  ![]()
+  827](https://blog.csdn.net/kenny185712818/article/details/159157515)
+* [rocketmq5.3-在rockylinux8.10上部署双主双从异步复制集群](https://blog.csdn.net/bingyan0371/article/details/159239220)
+* [Plugmem](https://blog.csdn.net/liuan957/article/details/159242631)
+* [MySQL 最左前缀，一篇讲明白，面试实战都能用](https://blog.csdn.net/lm5931466hao/article/details/159240481)
+
+
+### TA的历史创作历程
+
+
+
+[2025年
+24篇](https://blog.csdn.net/weixin_39280437?type=blog&year=2025&month=11)
+[2024年
+13篇](https://blog.csdn.net/weixin_39280437?type=blog&year=2024&month=10)
+[2023年
+1篇](https://blog.csdn.net/weixin_39280437?type=blog&year=2023&month=08)
+[2022年
+7篇](https://blog.csdn.net/weixin_39280437?type=blog&year=2022&month=10)
+[2021年
+36篇](https://blog.csdn.net/weixin_39280437?type=blog&year=2021&month=09)
+[2020年
+8篇](https://blog.csdn.net/weixin_39280437?type=blog&year=2020&month=12)
+
+
+
+
+
+
+
+### 分类专栏
+
+* [![]()
+  
+  Agentic AI](https://blog.csdn.net/weixin_39280437/category_13076493.html)
+  4篇
+* [![]()
+  
+  大语言模型](https://blog.csdn.net/weixin_39280437/category_12902330.html)
+  11篇
+* [![]()
+  
+  工作复盘](https://blog.csdn.net/weixin_39280437/category_12938939.html)
+  3篇
+* [![]()
+  
+  English Learning](https://blog.csdn.net/weixin_39280437/category_12814213.html)
+  2篇
+* [![]()
+  
+  计算结构](https://blog.csdn.net/weixin_39280437/category_11844405.html)
+  5篇
+* [![]()
+  
+  数据结构](https://blog.csdn.net/weixin_39280437/category_11198753.html)
+  21篇
+* [![]()
+  
+  C语言基础知识](https://blog.csdn.net/weixin_39280437/category_10680564.html)
+  12篇
+* [![]()
+  
+  组成原理](https://blog.csdn.net/weixin_39280437/category_11994481.html)
+* [![]()
+  
+  Leetcode](https://blog.csdn.net/weixin_39280437/category_12741887.html)
+  2篇
+* [![]()
+  
+  Python](https://blog.csdn.net/weixin_39280437/category_12741884.html)
+  1篇
+* [![]()
+  
+  论文阅读](https://blog.csdn.net/weixin_39280437/category_12426077.html)
+  1篇
+
+展开全部 ![]()
+收起 ![]()
+
+
+上一篇：
+
+[【LLM系列8】ORPO 训练](https://blog.csdn.net/weixin_39280437/article/details/145877993)
+
+
+下一篇：
+
+[【LLM系列10】LLM训练中的运算精度与微调方法](https://blog.csdn.net/weixin_39280437/article/details/145879851)
+
+
+
+官方同款运行环境
+
+Llama Factory
+
+LLaMA Factory 是一个简单易用且高效的大型语言模型（Large Language Model）训练与微调平台。通过 LLaMA Factory，可以在无需编写任何代码的前提下，在本地完成上百种预训练模型的微调
+
+模型微调
+LLama-Factory
+
+
+![]()显存大小
+
+24GB
+
+
+![]()CPU
+
+10核心
+
+
+![]()内存
+
+120GB
+
+
+![]()系统盘/数据盘
+
+40GB
+
+
+
+一键部署
+
+无需本地环境部署，可直接运行
+
+
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+
+
+官方同款运行环境
+
+Llama Factory
+
+LLaMA Factory 是一个简单易用且高效的大型语言模型（Large Language Model）训练与微调平台。通过 LLaMA Factory，可以在无需编写任何代码的前提下，在本地完成上百种预训练模型的微调
+
+模型微调
+LLama-Factory
+
+
+![]()显存大小
+
+24GB
+
+
+![]()CPU
+
+10核心
+
+
+![]()内存
+
+120GB
+
+
+![]()系统盘/数据盘
+
+40GB
+
+
+
+一键部署
+
+无需本地环境部署，可直接运行
+
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+![]()
+
+上一篇：
+
+[【LLM系列8】ORPO 训练](https://blog.csdn.net/weixin_39280437/article/details/145877993)
+
+
+下一篇：
+
+[【LLM系列10】LLM训练中的运算精度与微调方法](https://blog.csdn.net/weixin_39280437/article/details/145879851)
+
+
+
+### 分类专栏
+
+* [![]()
+  
+  Agentic AI](https://blog.csdn.net/weixin_39280437/category_13076493.html)
+  4篇
+* [![]()
+  
+  大语言模型](https://blog.csdn.net/weixin_39280437/category_12902330.html)
+  11篇
+* [![]()
+  
+  工作复盘](https://blog.csdn.net/weixin_39280437/category_12938939.html)
+  3篇
+* [![]()
+  
+  English Learning](https://blog.csdn.net/weixin_39280437/category_12814213.html)
+  2篇
+* [![]()
+  
+  计算结构](https://blog.csdn.net/weixin_39280437/category_11844405.html)
+  5篇
+* [![]()
+  
+  数据结构](https://blog.csdn.net/weixin_39280437/category_11198753.html)
+  21篇
+* [![]()
+  
+  C语言基础知识](https://blog.csdn.net/weixin_39280437/category_10680564.html)
+  12篇
+* [![]()
+  
+  组成原理](https://blog.csdn.net/weixin_39280437/category_11994481.html)
+* [![]()
+  
+  Leetcode](https://blog.csdn.net/weixin_39280437/category_12741887.html)
+  2篇
+* [![]()
+  
+  Python](https://blog.csdn.net/weixin_39280437/category_12741884.html)
+  1篇
+* [![]()
+  
+  论文阅读](https://blog.csdn.net/weixin_39280437/category_12426077.html)
+  1篇
+
+展开全部 ![]()
+收起 ![]()
+
+
+
+
+
+
+### 目录
+
+
+
+
+
+
+
+
+
+
+
+
+
+评论
+![]()
+
+![]()被折叠的  条评论
+[为什么被折叠?](https://blogdev.blog.csdn.net/article/details/122245662)
+[![]()到【灌水乐园】发言](https://bbs.csdn.net/forums/FreeZone)
+
+
+查看更多评论![]()
+
+
+
+添加红包
+
+
+祝福语
+
+
+请填写红包祝福语或标题
+
+
+红包数量
+
+个
+
+红包个数最小为10个
+
+
+红包总金额
+
+元
+
+红包金额最低5元
+
+
+余额支付
+当前余额3.43元
+[前往充值 >](https://i.csdn.net/#/wallet/balance/recharge)
+
+
+需支付：10.00元
+
+取消
+确定
+
+
+
+
+![]()
+下一步
+
+![]()
+知道了
+
+
+
+![]()
+成就一亿技术人!
+
+
+
+领取后你会自动成为博主和红包主的粉丝
+规则
+
+
+
+![]()
+hope\_wisdom 发出的红包
+
+
+
+
+
+
+
+
+
+实付元
+[使用余额支付](javascript:;)
+![]()
+点击重新获取
+
+
+![]()![]()![]()扫码支付
+
+
+
+
+钱包余额
+0
+![]()
+
+抵扣说明：
+
+1.余额是钱包充值的虚拟货币，按照1:1的比例进行支付金额的抵扣。  
+ 2.余额无法直接购买下载，可以购买VIP、付费专栏及课程。
+
+
+
+
+
+[![]()余额充值](https://i.csdn.net/#/wallet/balance/recharge)
+
+![]()
+
+
+
+
+
+

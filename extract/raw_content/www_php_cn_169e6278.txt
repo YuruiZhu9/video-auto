@@ -1,0 +1,837 @@
+# Source URL: https://www.php.cn/faq/2240790.html
+# Content Length: 12119 characters
+# Extracted at: 2026-03-25 05:36:59
+#============================================================
+
+
+
+
+
+
+
+
+
+
+
+
+OpenClaw怎么关闭自动更新\_OpenClaw版本锁定设置教程【操作】-人工智能-PHP中文网
+
+
+
+
+
+
+
+
+
+
+
+
+
+[讲师中心](/teacher.html)
+微信公众号
+![]()
+
+扫码关注*官方订阅号*
+注册 / 登录
+
+
+
+[首页](/) 
+[文章](/article.html)
+ [后端开发](/be/) 
+ [web前端](/web-designer.html) 
+ [数据库](/shujuku-tutorials.html) 
+ [开发工具](/tool/) 
+ [php框架](/phpkj/) 
+ [常见问题](/faq/) 
+ [人工智能](/keji/) 
+ [Java](/java/) 
+ [系统教程](/system-tutorial/) 
+ [电脑教程](/computer-tutorial/) 
+ [硬件教程](/hardware-tutorial/) 
+ [手机教程](/mobile-tutorial/) 
+ [软件教程](/software-tutorials/) 
+ [游戏教程](/mobile-game-tutorial/) 
+ [自媒体](/we-media/) 
+ [新闻](/xinwen/) 
+
+
+
+[专题](/faq/zt)
+[后端开发](/be-zt/)
+[web前端](/web-designer-zt.html)
+[数据库](/shujuku-tutorials-zt.html)
+[开发工具](/tool-zt/)
+[php框架](/phpkj-zt/)
+[人工智能](/keji-zt/)
+[Java](/java-zt/)
+[系统教程](/system-tutorial-zt/)
+[电脑教程](/computer-tutorial-zt/)
+[硬件教程](/hardware-tutorial-zt/)
+[手机教程](/mobile-tutorial-zt/)
+[软件教程](/software-tutorials-zt/)
+[游戏教程](/mobile-game-tutorial-zt/)
+[新闻](/xinwen-zt/)
+
+
+
+[AI工具](/ai)
+[AI聊天问答](/ai/tag/chat)
+[Agent智能体](/ai/tag/ai-agent)
+[AI文本写作](/ai/tag/text)
+[AI绘画作图](/ai/tag/image)
+[AI设计工具](/ai/tag/design)
+[AI视频创作](/ai/tag/ai-video-creation)
+[AI音频制作](/ai/tag/audio)
+[AI办公学习](/ai/tag/office)
+[AI编程开发](/ai/tag/code)
+[AI提示词](/ai/tag/prompt)
+
+
+
+[学习](/course/sort_new.html)
+[大前端](/course/list/1.html)
+[后端开发](/course/list/3.html)
+[数据库](/course/list/4.html)
+[移动端](/course/list/5.html)
+[运维开发](/course/list/9.html)
+[计算机基础](/course/list/10.html)
+
+
+
+[编程手册](/course/type/3.html)
+[大前端](/course/list/1/type/3.html)
+[后端开发](/course/list/3/type/3.html)
+[数据库](/course/list/4/type/3.html)
+[移动端](/course/list/5/type/3.html)
+[运维开发](/course/list/9/type/3.html)
+[计算机基础](/course/list/10/type/3.html)
+
+
+
+[下载](/xiazai/)
+[js特效](/xiazai/js)
+[网站源码](/xiazai/code)
+[工具下载](/xiazai/gongju)
+[类库下载](/xiazai/leiku)
+[网站素材](/xiazai/sucai)
+[学习资源](/xiazai/learn)
+[插件扩展](/xiazai/plugin)
+[手机游戏](/game)
+
+
+
+[最近更新](/new/)
+
+
+
+![]()
+
+
+
+
+
+
+
+
+![]()
+当前位置：[首页](/)
+> [人工智能](/keji/)
+> [人工智能](/ai-articles/)
+>
+
+正文
+
+
+
+![]()
+![]()
+
+0
+
+
+![]()
+![]()
+
+0
+
+
+
+OpenClaw怎么关闭自动更新\_OpenClaw版本锁定设置教程【操作】
+======================================
+
+[![]()](/member/1522153.html) 
+
+絕刀狂花
+
+发布时间：2026-03-23 00:55:08
+
+|
+
+476人浏览过
+
+|
+
+来源于php中文网
+
+
+
+原创
+
+
+
+
+> OpenClaw后台自动更新导致配置重置或服务中断时，需关闭自动更新并锁定版本：一、修改配置文件中update.auto.enabled为false并重启；二、用CLI命令openclaw config set禁用并验证；三、npm全局安装指定版本；四、Windows下删除计划任务；五、hosts屏蔽更新域名。
+
+[**☞☞☞AI 智能聊天, 问答助手, AI 智能搜索, 免费无限量使用 DeepSeek R1 模型☜☜☜**](https://pan.quark.cn/s/55dc67d30d8e#/list/share)
+
+![]()
+
+如果您发现 OpenClaw 在后台自动执行更新操作，导致配置意外重置或服务中断，则可能是自动更新功能已启用。以下是关闭自动更新并实现版本锁定的具体操作步骤：
+
+一、通过配置文件禁用自动更新
+--------------
+
+OpenClaw 的自动更新行为由 Gateway 配置文件中的 **update.auto.enabled** 字段控制。修改该字段可立即停用自动检查与安装逻辑。
+
+1、使用文本编辑器打开配置文件路径：**~/.[openclaw](https://www.php.cn/zt/214490.html)/config.json**（Linux/macOS）或 **%APPDATA%\OpenClaw\config.json**（Windows）。
+
+2、定位到 **update** 对象区块，将其中的 **auto.enabled** 值设为 **false**。
+
+3、保存文件后，执行命令重启 Gateway 以使配置生效：**openclaw gateway restart**。
+
+二、使用 CLI 命令行禁用自动更新
+------------------
+
+OpenClaw 提供了专用子命令用于动态修改自动更新状态，无需手动编辑 JSON 文件，适合脚本化或批量管理场景。
+
+1、在终端中运行以下命令关闭自动更新功能：**openclaw config set update.auto.enabled false**。
+
+2、确认设置已写入：**openclaw config get update.auto.enabled**，返回值应为 **false**。
+
+3、重启服务确保变更加载：**openclaw gateway restart**。
+
+三、通过 npm 锁定全局安装版本
+-----------------
+
+当 OpenClaw 以 npm 全局包方式安装时，禁用自动更新后仍需防止后续 `npm update -g` 意外升级。锁定版本可确保 CLI 始终运行指定 release。
+
+1、停止 Gateway 服务：**openclaw gateway stop**。
+
+2、卸载当前全局版本：**npm uninstall -g openclaw**。
+
+3、安装并固定至目标稳定版本（例如 v2026.3.13）：**npm install -g openclaw@2026.3.13**。
+
+[![]()](/ai/1645)
+[SmartWriter.ai](/ai/1645)
+
+用 AI生成个性化电子邮件或Linkedin消息
+
+
+[下载](/ai/1645) 
+
+4、验证安装版本：**openclaw --version**，输出应精确匹配 **2026.3.13**。
+
+四、禁用系统级自动更新服务（仅限 Windows）
+-------------------------
+
+在 Windows 环境下，OpenClaw 可能注册为计划任务实现开机自启及自动更新。需单独清除该任务以彻底阻断后台触发机制。
+
+1、以管理员身份打开 PowerShell 或 CMD。
+
+2、执行命令列出所有 OpenClaw 相关任务：**schtasks /query | findstr /i "openclaw"**。
+
+3、若存在名为 **OpenClaw AutoUpdate** 或类似名称的任务，运行：**schtasks /delete /tn "OpenClaw AutoUpdate" /f**。
+
+4、再次运行查询命令确认任务已移除。
+
+五、屏蔽更新检查域名（网络层防护）
+-----------------
+
+作为补充手段，可通过本地 hosts 文件阻止 OpenClaw 向更新服务器发起 HTTP 请求，从网络层面切断版本检测链路。
+
+1、编辑系统 hosts 文件：**C:\Windows\System32\drivers\etc\hosts**（Windows）或 **/etc/hosts**（Linux/macOS）。
+
+2、在文件末尾新增一行：**127.0.0.1 update.openclaw.dev**。
+
+3、保存文件（Windows 下需管理员权限）。
+
+4、清空 DNS 缓存：**ipconfig /flushdns**（Windows）或 **sudo dscacheutil -flushcache**（macOS）。
+
+
+相关文章
+
+
+[OpenClaw进阶自定义Skill模板\_OpenClaw高阶技能开发参考框架【方法】](/faq/2249117.html)
+[OpenClaw定时任务用Skill实现\_OpenClawcron结合技能自动化【技巧】](/faq/2249102.html)
+[OpenClaw多Agent协作用哪个Skill\_OpenClaw子代理分工最佳技能【汇总】](/faq/2249028.html)
+[OpenClaw低配机跑Skills优化\_OpenClaw轻量技能选择与配置【指南】](/faq/2249016.html)
+[OpenClaw遇到模型限速怎么办\_OpenClaw绕过限流实用方案【详解】](/faq/2248983.html)
+
+相关标签:
+
+[openclaw](/zt/214490.html) [AI应用软件](/search?q=AI应用软件) [PC软件](/search?q=PC软件) 
+
+本站声明：本文内容由网友自发贡献，版权归原作者所有，本站不承担相应法律责任。如您发现有涉嫌抄袭侵权的内容，请联系admin@php.cn
+
+[上一篇：OpenClawAI提示“模型不支持”怎么办\_OpenClawAI错误代码解答【解答】](/faq/2239956.html)
+[下一篇：为什么 API 调用报错 403？详解 Gemini 权限配置与解决方法](/faq/2240814.html)
+
+
+ 
+
+作者最新文章
+
+
+
+[番茄小说app怎么开启语音朗读倍速\_番茄小说AI听书加速设置](/faq/2243276.html)
+
+2026-03-23 15:04
+
+
+
+
+[139邮箱怎么开启新邮件提醒\_139邮箱通知设置操作指南](/faq/2243284.html)
+
+2026-03-23 15:05
+
+
+
+
+[骡子快跑能做安全审计吗\_骡子快跑部署环境检查清单](/faq/2243292.html)
+
+2026-03-23 15:07
+
+
+
+
+[阿里云企业邮箱别名设置无效怎么解决\_阿里云企业邮转发规则失效排查](/faq/2243316.html)
+
+2026-03-23 15:12
+
+
+
+
+[宝宝树怎么记录成长\_宝宝树成长日记填写详细步骤](/faq/2243336.html)
+
+2026-03-23 15:15
+
+
+
+
+[徽州府速刷开荒攻略！神级角色组合三天冲榜不是梦](/faq/2243337.html)
+
+2026-03-23 15:15
+
+
+
+
+[Minimax如何批量删除对话\_Minimax聊天记录清理方法【操作】](/faq/2243345.html)
+
+2026-03-23 15:16
+
+
+
+
+[QQ音乐怎么均衡器调音\_QQ音乐音效参数设置指南](/faq/2243382.html)
+
+2026-03-23 15:22
+
+
+
+
+[抖音极速版App怎么设置默认画质\_抖音极速版视频清晰度调整方法](/faq/2243387.html)
+
+2026-03-23 15:23
+
+
+
+
+[猿辅导课堂笔记怎么保存\_猿辅导笔记同步与查看方法](/faq/2243396.html)
+
+2026-03-23 15:24
+
+
+
+
+
+ 
+
+热门AI工具
+
+
+[更多](/ai)
+
+[![]()](/ai/723)
+[DeepSeek](/ai/723)
+
+幻方量化公司旗下的开源大模型平台
+
+[AI编程开发](/ai/tag/code)[AI聊天问答](/ai/tag/chat) 
+
+
+
+[![]()](/ai/726)
+[豆包大模型](/ai/726)
+
+字节跳动自主研发的一系列大型语言模型
+
+[AI编程开发](/ai/tag/code)[AI大模型](/ai/tag/code/large-model) 
+
+
+
+[![]()](/ai/2686)
+[WorkBuddy](/ai/2686)
+
+腾讯云推出的AI原生桌面智能体工作台
+
+[AI办公学习](/ai/tag/office)[Agent智能体](/ai/tag/ai-agent) 
+
+
+
+[![]()](/ai/854)
+[腾讯元宝](/ai/854)
+
+腾讯混元平台推出的AI助手
+
+[文档处理](/ai/tag/office/docs)[Excel 表格](/ai/tag/office/excel) 
+
+
+
+[![]()](/ai/724)
+[文心一言](/ai/724)
+
+文心一言是百度开发的AI聊天机器人，通过对话可以生成各种形式的内容。
+
+[AI编程开发](/ai/tag/code)[AI文本写作](/ai/tag/text) 
+
+
+
+[![]()](/ai/1507)
+[讯飞写作](/ai/1507)
+
+基于讯飞星火大模型的AI写作工具，可以快速生成新闻稿件、品宣文案、工作总结、心得体会等各种文文稿
+
+[AI文本写作](/ai/tag/text)[中文写作](/ai/tag/text/chinese-writing) 
+
+
+
+[![]()](/ai/1115)
+[即梦AI](/ai/1115)
+
+一站式AI创作平台，免费AI图片和视频生成。
+
+[图片拼接](/ai/tag/image/image-titching)[图画生成](/ai/tag/image/image-create) 
+
+
+
+[![]()](/ai/808)
+[ChatGPT](/ai/808)
+
+最最强大的AI聊天机器人程序，ChatGPT不单是聊天机器人，还能进行撰写邮件、视频脚本、文案、翻译、代码等任务。
+
+[AI编程开发](/ai/tag/code)[AI文本写作](/ai/tag/text) 
+
+
+
+[![]()](/ai/821)
+[智谱清言 - 免费全能的AI助手](/ai/821)
+
+智谱清言 - 免费全能的AI助手
+
+[AI编程开发](/ai/tag/code)[Agent智能体](/ai/tag/ai-agent) 
+
+
+
+
+
+
+
+
+ 
+
+相关专题
+
+
+[更多](/faq/zt)
+
+[![]()](/faq/windowsmltsf)
+[Windows命令提示符](/faq/windowsmltsf)
+
+本专题整合了Windows命令提示符相关操作教程，阅读专题下面的文章找到解决方法。
+
+ 
+
+0
+
+
+ 
+
+2026.03.24
+
+
+
+
+
+[![]()](/faq/winyywjjjmjch)
+[Win11文件夹加密教程合集](/faq/winyywjjjmjch)
+
+本专题整合了Win11文件夹加密教程合集，阅读专题下面的文章了解更多详细操作。
+
+ 
+
+1
+
+
+ 
+
+2026.03.24
+
+
+
+
+
+[![]()](/faq/cjdzzcc)
+[常见的纸张尺寸](/faq/cjdzzcc)
+
+本专题整合了常见的纸张尺寸类型、尺寸大小等等相关内容，阅读专题下面的文章了解更多详细内容。
+
+ 
+
+0
+
+
+ 
+
+2026.03.24
+
+
+
+
+
+[![]()](/faq/zfbcnggcxjchj)
+[支付宝菜鸟裹裹查询教程合集](/faq/zfbcnggcxjchj)
+
+本专题整合了支付宝查看菜鸟取件码、菜鸟裹裹绑定支付宝相关内容，阅读专题下面的文章了解更详细的教程。
+
+ 
+
+0
+
+
+ 
+
+2026.03.24
+
+
+
+
+
+[![]()](/faq/dnpmxzjc)
+[电脑屏幕旋转教程](/faq/dnpmxzjc)
+
+本专题整合了电脑屏幕旋转教程，阅读专题下面的文章了解更多详细内容。
+
+ 
+
+2
+
+
+ 
+
+2026.03.24
+
+
+
+
+
+[![]()](/faq/chromekaiqiwh)
+[Chrome开启无痕模式](/faq/chromekaiqiwh)
+
+本专题整合了Chrome无痕模式开启相关内容，阅读专题下面的文章了解更多详细教程。
+
+ 
+
+2
+
+
+ 
+
+2026.03.24
+
+
+
+
+
+[![]()](/faq/sjdcsmxxjs)
+[手机电池寿命详细介绍](/faq/sjdcsmxxjs)
+
+本专题整合了手机电池寿命、电池健康、延长技巧相关内容，阅读专题下面的文章了解更多详细内容。
+
+ 
+
+7
+
+
+ 
+
+2026.03.24
+
+
+
+
+
+[![]()](/faq/rhbxgxtsc)
+[如何编写高效提示词：Gemini结构化指令设计与优化指南](/faq/rhbxgxtsc)
+
+本指南深入解析高效提示词编写技巧，聚焦结构化指令设计与参数优化。通过拆解角色设定、任务分解及约束条件，演示如何引导Gemini输出精准结果。涵盖思维链应用与迭代优化策略，助初学者掌握核心方法论，显著提升交互质量与任务完成效率。
+
+ 
+
+5
+
+
+ 
+
+2026.03.24
+
+
+
+
+
+[![]()](/faq/geminiwybsz)
+[Gemini网页版实战：从文档分析到代码生成的全流程教程](/faq/geminiwybsz)
+
+本教程详解Gemini网页版全流程实战，涵盖长文档深度解析、关键信息提取及复杂代码生成。通过真实案例演示，指导用户高效利用多模态交互提升工作效率。适合初学者快速掌握核心功能，从基础问答进阶至自动化办公与开发辅助，轻松释放AI生产力。
+
+ 
+
+7
+
+
+ 
+
+2026.03.24
+
+
+
+
+
+
+
+ 
+
+热门下载
+
+
+[更多](/xiazai)
+
+网站特效   /
+网站源码  /
+网站素材  /
+前端模板 
+
+* [[图片特效]uisdc优设网jQuery焦点图](/xiazai/js/9083)
+* [[图片特效]jquery书架式图片展示特效](/xiazai/js/9082)
+* [[图片特效]移动端左右+自动滚动jQuery插件](/xiazai/js/9081)
+* [[图片特效]支持多种动画特效jQuery幻灯片](/xiazai/js/9080)
+* [[图片特效]jQuery带播放暂停按钮焦点图代码](/xiazai/js/9079)
+* [[图片特效]jQuery自适应浏览器图片切换代码](/xiazai/js/9078)
+* [[图片特效]mtime时光网宽屏焦点图](/xiazai/js/9077)
+* [[图片特效]华为荣耀3焦点图广告页面特效](/xiazai/js/9076)
+* [[图片特效]支持PC端手机端幻灯片代码](/xiazai/js/9075)
+* [[图片特效]js影视网站星级打分代码](/xiazai/js/9074)
+
+* [[电商源码]openaishop](/xiazai/code/11355)
+* [[其它模板]思翔企(事)业单位文件柜 build 20080313](/xiazai/code/11354)
+* [[企业站源码]雅龙智能装备工业设备类WordPress主题1.0](/xiazai/code/11353)
+* [[电商源码]威发卡自动发卡系统](/xiazai/code/11352)
+* [[电商源码]卡密分发系统](/xiazai/code/11351)
+* [[电商源码]中华陶瓷网](/xiazai/code/11350)
+* [[电商源码]简洁粉色食品公司网站](/xiazai/code/11349)
+* [[电商源码]极速网店系统](/xiazai/code/11348)
+* [[电商源码]淘宝妈妈\_淘客推广系统](/xiazai/code/11347)
+* [[电商源码]积客B2SCMS商城系统](/xiazai/code/11346)
+
+* [[网站素材]手绘园艺花园工具合集矢量素材](/xiazai/sucai/4579)
+* [[网站素材]扁平草莓蓝莓樱桃合集矢量素材](/xiazai/sucai/4578)
+* [[网站素材]蛋糕主题宣传INS模板设计下载](/xiazai/sucai/4577)
+* [[网站素材]彩色书本文具套矢量模板素材](/xiazai/sucai/4576)
+* [[网站素材]夜晚街区派对宣传海报传单模板设计下载](/xiazai/sucai/4575)
+* [[网站素材]咖啡书本阅读插画矢量素材](/xiazai/sucai/4574)
+* [[网站素材]复古蓝白格纹花卉边框矢量模板](/xiazai/sucai/4573)
+* [[网站素材]愚人节海报PSD源文件设计下载](/xiazai/sucai/4572)
+* [[网站素材]家居厨具用品合集矢量素材](/xiazai/sucai/4571)
+* [[网站素材]咖啡时光主题方形传单模板设计下载](/xiazai/sucai/4570)
+
+* [[前端模板]驾照考试驾校HTML5网站模板](/xiazai/code/8590)
+* [[前端模板]驾照培训服务机构宣传网站模板](/xiazai/code/8589)
+* [[前端模板]HTML5房地产公司宣传网站模板](/xiazai/code/8588)
+* [[前端模板]新鲜有机肉类宣传网站模板](/xiazai/code/8587)
+* [[前端模板]响应式天气预报宣传网站模板](/xiazai/code/8586)
+* [[前端模板]房屋建筑维修公司网站CSS模板](/xiazai/code/8585)
+* [[前端模板]响应式志愿者服务网站模板](/xiazai/code/8584)
+* [[前端模板]创意T恤打印店网站HTML5模板](/xiazai/code/8583)
+* [[前端模板]网页开发岗位简历作品展示网页模板](/xiazai/code/8582)
+* [[前端模板]响应式人力资源机构宣传网站模板](/xiazai/code/8581)
+
+
+
+ 
+
+相关下载
+
+
+[更多](/xiazai)
+
+[php商城系统](/xiazai/code/11178)
+[淘源码商城PHP淘宝查信誉](/xiazai/code/11177)
+[PHP房产程序[BBWPS]](/xiazai/code/11165)
+[PHP简约自动发卡平台个人版](/xiazai/code/11128)
+[ERMEB域名PHP离线网络授权系统](/xiazai/code/11040)
+[Difeye-敏捷的轻量级PHP框架](/xiazai/code/11037)
+[大泉州汽车网PHP整站程序](/xiazai/code/10963)
+
+
+ 
+
+精品课程
+
+
+[更多](/course/sort_new.html)
+
+相关推荐   /
+热门推荐  /
+最新课程 
+
+
+[![]()](/course/1656.html)
+[JavaScript ES5基础线上课程教学](/course/1656.html)
+
+共6课时 | 11.4万人学习
+
+
+
+
+[![]()](/course/812.html)
+[最新ThinkPHP 5.1全球首发视频教程(60天成就PHP大牛线上培训班课)](/course/812.html)
+
+共79课时 | 154.5万人学习
+
+
+
+
+[![]()](/course/639.html)
+[phpStudy极速入门视频教程](/course/639.html)
+
+共6课时 | 53.7万人学习
+
+
+
+
+
+[![]()](/course/1696.html)
+[最新Python教程 从入门到精通](/course/1696.html)
+
+共4课时 | 22.6万人学习
+
+
+
+
+[![]()](/course/1656.html)
+[JavaScript ES5基础线上课程教学](/course/1656.html)
+
+共6课时 | 11.4万人学习
+
+
+
+
+[![]()](/course/1655.html)
+[PHP新手语法线上课程教学](/course/1655.html)
+
+共13课时 | 1万人学习
+
+
+
+
+
+
+
+ 
+
+最新文章
+
+
+更多
+
+[WorkBuddy AI怎么写商业计划书\_WorkBuddy AI商业计划书生成教程【详解】](/faq/2250289.html)
+[WorkBuddy AI怎么保护隐私\_WorkBuddy AI本地执行数据安全教程【详解】](/faq/2249299.html)
+[如何通俗地学习 Transformer？大模型原理的保姆级教程](/faq/2249297.html)
+[OpenClawAI怎么判断模型是否兼容\_OpenClawAI模型兼容性检测说明【说明】](/faq/2249289.html)
+[WorkBuddy AI怎么绑定QQ\_WorkBuddy AI QQ远程遥控教程【实战】](/faq/2249276.html)
+[OpenClaw新手最该先装的Skills\_OpenClaw入门必备技能清单【方法】](/faq/2249275.html)
+[实战项目指南：构建一个基于视频分析的网课精彩片段自动剪辑工具](/faq/2249271.html)
+[Minimax企业版和个人版有什么区别？](/faq/2249263.html)
+[Gemini怎么切换语言\_Gemini多语言设置操作说明【操作】](/faq/2249262.html)
+[骡子快跑怎么采集竞争对手数据 骡子快跑竞品监控](/faq/2249260.html)
+
+
+
+
+
+
+[关于我们](/about/us.html)
+[免责申明](/about/disclaimer.html)
+[举报中心](/about/jbzx.html)
+[意见反馈](javascript:;)
+[讲师合作](https://www.php.cn/teacher.html)
+[广告合作](https://www.php.cn/blog/detail/20304.html)
+[最新更新](/new/)
+
+
+php中文网：公益在线php培训，帮助PHP学习者快速成长！
+[关注服务号](javascript:;)
+*微信扫码  
+关注PHP中文网服务号
+
+![]()*
+
+[技术交流群](tencent://message/?uin=27220243&Site=www.php.cn&Menu=yes)
+*QQ扫码  
+加入技术交流群
+
+![]()*
+
+
+
+
+
+![]()
+PHP中文网订阅号
+每天精选资源文章推送
+
+
+
+
+
+Copyright 2014-2026 <https://www.php.cn/> All Rights Reserved | php.cn | [湘ICP备2023035733号](https://beian.miit.gov.cn/)
+
+
+
+
+
+
+
+
+ 
+
+- [PHP学习](/k24.html)
+- [技术支持](https://www.php.cn/blog/detail/1047189.html)
+- [返回顶部](#)
+
+
+
+
+
+

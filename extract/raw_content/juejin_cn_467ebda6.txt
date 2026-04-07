@@ -1,0 +1,342 @@
+# Source URL: https://juejin.cn/post/7599852042531143690
+# Content Length: 22904 characters
+# Extracted at: 2026-03-31 09:16:23
+#============================================================
+
+# Anthropic 黑客松冠军的 Claude Code 最佳实践，建议程序员全员收藏！
+[悟鸣](https://juejin.cn/user/4107431171852270/posts)
+2026-01-27
+718
+阅读6分钟
+关注
+如果你是程序员，你最近在思考如何通过编写更专业的  commands、agents、rules、skills  来提升自己或团队的 AI Coding 效果。
+本文介绍的这个仓库，你一定不能错过！！
+![图片](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/b0fe34f6517840feacdcc08eb5b98ade~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5oKf6bij:q75.awebp?rk3s=f64ab15b&x-expires=1773185813&x-signature=0j2Q8XA8uCM%2FgM98xd3dbKUA4bQ%3D)
+作者是 @affaanmustafa，2025 年9月份，他纽约的 Anthropic x Forum Ventures 黑客松中拿下冠军，赢得了 1.5 万美金等值的 Anthropic API 额度！
+他近日公开了自己使用 Claude Code  的“最佳实践”。
+![图片](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/cc67aafa08b7412d951ad37482890a92~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5oKf6bij:q75.awebp?rk3s=f64ab15b&x-expires=1773185813&x-signature=bw2W%2BYtFTLC1g3cqdzJ73oYAhs0%3D)
+Github 地址： [github.com/affaan-m/ev…](https://link.juejin.cn/?target=https%3A%2F%2Fgithub.com%2Faffaan-m%2Feverything-claude-code%3Ftab%3Dreadme-ov-file "https://github.com/affaan-m/everything-claude-code?tab=readme-ov-file")
+```perl
+perl
+体验AI代码助手
+代码解读
+复制代码
+everything-claude-code/
+|-- .claude-plugin/   # Plugin and marketplace manifests
+|   |-- plugin.json         # Plugin metadata and component paths
+|   |-- marketplace.json    # Marketplace catalog for /plugin marketplace add
+|
+|-- agents/           # Specialized subagents for delegation
+|   |-- planner.md           # Feature implementation planning
+|   |-- architect.md         # System design decisions
+|   |-- tdd-guide.md         # Test-driven development
+|   |-- code-reviewer.md     # Quality and security review
+|   |-- security-reviewer.md # Vulnerability analysis
+|   |-- build-error-resolver.md
+|   |-- e2e-runner.md        # Playwright E2E testing
+|   |-- refactor-cleaner.md  # Dead code cleanup
+|   |-- doc-updater.md       # Documentation sync
+|
+|-- skills/           # Workflow definitions and domain knowledge
+|   |-- coding-standards/           # Language best practices
+|   |-- backend-patterns/           # API, database, caching patterns
+|   |-- frontend-patterns/          # React, Next.js patterns
+|   |-- continuous-learning/        # Auto-extract patterns from sessions (Longform Guide)
+|   |-- strategic-compact/          # Manual compaction suggestions (Longform Guide)
+|   |-- tdd-workflow/               # TDD methodology
+|   |-- security-review/            # Security checklist
+|   |-- eval-harness/               # Verification loop evaluation (Longform Guide)
+|   |-- verification-loop/          # Continuous verification (Longform Guide)
+|
+|-- commands/         # Slash commands for quick execution
+|   |-- tdd.md              # /tdd - Test-driven development
+|   |-- plan.md             # /plan - Implementation planning
+|   |-- e2e.md              # /e2e - E2E test generation
+|   |-- code-review.md      # /code-review - Quality review
+|   |-- build-fix.md        # /build-fix - Fix build errors
+|   |-- refactor-clean.md   # /refactor-clean - Dead code removal
+|   |-- learn.md            # /learn - Extract patterns mid-session (Longform Guide)
+|   |-- checkpoint.md       # /checkpoint - Save verification state (Longform Guide)
+|   |-- verify.md           # /verify - Run verification loop (Longform Guide)
+|   |-- setup-pm.md         # /setup-pm - Configure package manager (NEW)
+|
+|-- rules/            # Always-follow guidelines (copy to ~/.claude/rules/)
+|   |-- security.md         # Mandatory security checks
+|   |-- coding-style.md     # Immutability, file organization
+|   |-- testing.md          # TDD, 80% coverage requirement
+|   |-- git-workflow.md     # Commit format, PR process
+|   |-- agents.md           # When to delegate to subagents
+|   |-- performance.md      # Model selection, context management
+|
+|-- hooks/            # Trigger-based automations
+|   |-- hooks.json                # All hooks config (PreToolUse, PostToolUse, Stop, etc.)
+|   |-- memory-persistence/       # Session lifecycle hooks (Longform Guide)
+|   |-- strategic-compact/        # Compaction suggestions (Longform Guide)
+|
+|-- scripts/          # Cross-platform Node.js scripts (NEW)
+|   |-- lib/                     # Shared utilities
+|   |   |-- utils.js             # Cross-platform file/path/system utilities
+|   |   |-- package-manager.js   # Package manager detection and selection
+|   |-- hooks/                   # Hook implementations
+|   |   |-- session-start.js     # Load context on session start
+|   |   |-- session-end.js       # Save state on session end
+|   |   |-- pre-compact.js       # Pre-compaction state saving
+|   |   |-- suggest-compact.js   # Strategic compaction suggestions
+|   |   |-- evaluate-session.js  # Extract patterns from sessions
+|   |-- setup-package-manager.js # Interactive PM setup
+|
+|-- tests/            # Test suite (NEW)
+|   |-- lib/                     # Library tests
+|   |-- hooks/                   # Hook tests
+|   |-- run-all.js               # Run all tests
+|
+|-- contexts/         # Dynamic system prompt injection contexts (Longform Guide)
+|   |-- dev.md              # Development mode context
+|   |-- review.md           # Code review mode context
+|   |-- research.md         # Research/exploration mode context
+|
+|-- examples/         # Example configurations and sessions
+|   |-- CLAUDE.md           # Example project-level config
+|   |-- user-CLAUDE.md      # Example user-level config
+|
+|-- mcp-configs/      # MCP server configurations
+|   |-- mcp-servers.json    # GitHub, Supabase, Vercel, Railway, etc.
+|
+|-- marketplace.json  # Self-hosted marketplace config (for /plugin marketplace add)
+```
+\*\*核心思想\*\*
+![图片](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/a843e321179f45f885a81439f1917dd3~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5oKf6bij:q75.awebp?rk3s=f64ab15b&x-expires=1773185813&x-signature=GwBfUlfjurEPiBX2p%2Fogtabptbo%3D)
+- 把 Claude Code 当成长期合伙人，用配置「轻量微调」而不是造复杂架构，重点是减少重复、保护上下文、让并行开发更高效。
+- 控制启用的 MCP / 插件数量，避免工具太多把上下文窗口挤爆，影响性能。
+\*\*Skills / Commands\*\*
+![图片](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/d14d03ab65f748f3b3cdb7541590b839~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5oKf6bij:q75.awebp?rk3s=f64ab15b&x-expires=1773185813&x-signature=Lo9B9MLkZQik1UBks3H%2B8P7Q9nI%3D)
+- Skills 就是可复用的工作流提示词，限定在特定场景，比如 `/refactor-clean` 清理死代码和零散 md，`/tdd`、`/e2e`、`/test-coverage` 负责测试流程，可以在一次提示里链式组合多个命令。
+- Skills 以 markdown 文件存放在 `~/.claude/skills`，Commands 则是以「斜杠命令」方式快速执行，存放在 `~/.claude/commands`。
+\*\*Hooks（钩子自动化）\*\*
+![图片](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/6fd4ce07129a45a1beb3b112941535af~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5oKf6bij:q75.awebp?rk3s=f64ab15b&x-expires=1773185813&x-signature=HgVDVsoV8Ydh21Ji3Otn8U0lppg%3D)
+- Hooks 是基于事件的自动化，触发点包括：工具调用前后、用户发消息时、Claude 回答结束、压缩上下文前，以及权限通知等。
+- 示例：在执行 npm / pytest 等长命令之前提醒你用 tmux；PostToolUse 自动跑 Prettier、TypeScript 检查，或者在会话结束前自动扫描 `console.log`。
+- 推荐用 `hookify` 插件用自然语言生成 Hook，而不是手写 JSON。
+\*\*Subagents（子代理）\*\*
+![图片](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/2e8325be71894fd3ae77bda32ca1fec3~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5oKf6bij:q75.awebp?rk3s=f64ab15b&x-expires=1773185813&x-signature=%2BzQdY6JFufppOxgtJzuWx1i0%2FyU%3D)
+- Subagents 是由主 Claude 调度的子进程，负责某一类任务（如 planner、architect、tdd-guide、code-reviewer、security-reviewer 等），可以前台或后台跑，隔离权限、节约主会话上下文。
+- 每个子代理只开放有限的工具 / MCP，使其专注于一小块职责，比如专门跑 e2e、解决 build 错误或做 refactor-clean。
+\*\*规则与记忆\*\*
+![图片](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/c6d93b3192994fb7836a1d83b1bb475f~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5oKf6bij:q75.awebp?rk3s=f64ab15b&x-expires=1773185813&x-signature=8y%2Blqfu3RP0LvEjBwQlSt9nUwdU%3D)
+- `~/.claude/rules` 里放「永远要遵守」的最佳实践，可以是单一 `CLAUDE.md`，也可以是按安全、代码风格、测试、Git 工作流、agents、性能等拆分的多文件结构。
+- 规则内容包括：禁止代码中 emoji、前端避免紫色、必须先测试再部署、优先模块化、禁止提交 `console.log` 等，为整个项目定下统一行为准则。
+\*\*MCP（Model Context Protocol）\*\*
+![图片](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/55834ca8ba354027818b3ed085346135~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5oKf6bij:q75.awebp?rk3s=f64ab15b&x-expires=1773185813&x-signature=l6pu1F6IfkncEC4bD1%2B%2Bp1DRU3I%3D)
+- MCP 是把外部服务「挂接」到 Claude 的协议，本质是对 API 的高层封装，方便对数据库、部署平台、Supabase 等进行查询与操作，比如 Supabase MCP 可直接列表、跑 SQL。
+- Chrome MCP 让 Claude 能自主在浏览器里点击、查看页面，提升探索能力；但 MCP / 工具过多会极大消耗上下文，因此建议配置 20–30 个 MCP，但每个项目只启用 5–10 个、少于约 80 个工具。
+\*\*插件（Plugins）\*\*
+![图片](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/f1acd28c3e3f44318465e68022fa6797~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5oKf6bij:q75.awebp?rk3s=f64ab15b&x-expires=1773185813&x-signature=omC1BYAOcbLa9VjWBu6c97fw9K0%3D)
+- 插件是「打包好的工具集」，可以包含 skill + MCP + hooks 等，避免手工配置；可以通过 marketplace 地址添加后，在 `/plugins` 界面安装，比如 `mgrep` 提供比 ripgrep 更好的搜索。
+- LSP 类插件（如 typescript-lsp、pyright-lsp）在没有 IDE 的情况下提供类型检查和跳转能力，但同样要注意它们对上下文窗口的影响。
+\*\*效率 Tips\*\*
+![图片](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/1a181d8b70334620a8ed529614d06de2~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5oKf6bij:q75.awebp?rk3s=f64ab15b&x-expires=1773185813&x-signature=Q00hvvQ0jGVT0TF63kZRVzs6sgs%3D)
+- 快捷键：`Ctrl+U` 删整行、`!` 快速 shell 命令、`@` 搜索文件、`/` 进入命令、Shift+Enter 多行输入、Tab 查看思考、Esc Esc 中断执行等。
+- 并行：用 `/fork` 分叉对话处理互不影响的任务，配合 Git worktree 为不同分支开独立 Claude 实例；用 tmux 跑长时间的前后端服务并实时看日志。
+- `mgrep` 支持本地和 `--web` 搜索；其它有用命令包括 `/rewind` 回到之前状态、`/statusline` 定制状态栏、`/checkpoints` 文件级撤销点、`/compact` 手动压缩上下文。
+\*\*编辑器与工作流\*\*![图片](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/c063a05640df4b4ba1cd57b101a65656~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5oKf6bij:q75.awebp?rk3s=f64ab15b&x-expires=1773185813&x-signature=UikDyTcsaNjsQy1aqBjaOZP%2BsY4%3D)
+- 作者偏好 Zed：Rust 写的轻量编辑器，和 Claude 深度集成，有 Agent 面板、实时文件追踪、命令面板（CMD+Shift+R）、低资源占用、支持 Vim 模式等。
+- 推荐布局：左边终端跑 Claude Code，右边 Zed；启用自动保存、文件监听以及 Git 集成，用编辑器审查 Claude 的改动后再提交。
+- VSCode / Cursor 也可以，通过终端 + `\ide` 同步或装官方扩展获得类似效果。
+\*\*作者自己的 Setup\*\*![图片](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/f9512be3598540caa13167ddd6e52cbc~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5oKf6bij:q75.awebp?rk3s=f64ab15b&x-expires=1773185813&x-signature=gObYNei9%2BHHG65Zx%2FcWF%2FMsLXA8%3D)
+- 插件：安装了十几个（如 ralph-wiggum、frontend-design、commit-commands、security-guidance、pr-review-toolkit、typescript-lsp、pyright-lsp、hookify、mgrep 等），但通常只同时启用 4–5 个。
+- MCP：配置了 GitHub、Firecrawl、Supabase、memory、sequential-thinking、Vercel、Railway、Cloudflare 系列、ClickHouse、Ableton、Magic 等约 14 个，通过 `disabledMcpServers` 针对不同项目禁用一部分，从而控制上下文占用。
+- 还有自定义状态栏（展示用户、目录、分支、脏标记、剩余上下文百分比、模型、时间、待办数），清晰的 rules / agents 目录结构以及一组关键 Hooks，使整个开发和协作流程高度自动化。
+\*\*最后的几点要诀\*\*
+![图片](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/18afd59ee0074aabad8c0d375da5e837~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5oKf6bij:q75.awebp?rk3s=f64ab15b&x-expires=1773185813&x-signature=jxDGFQs1UoP7xbVOQZumpQ%2FCnyE%3D)
+- 配置是「轻量微调」，别过度复杂化。
+- 上下文是 \*\*稀缺\*\* 资源，要持续关掉不用的 MCP / 插件。
+- 利用并行执行（fork 对话、worktree）、自动化（hooks）、和有边界的 subagents，最大化 Claude Code 的开发效率与可靠性。
+\* \* \*
+需要的朋友可以把仓库下载下来深入研究一下，结合作者提供的配套文章。
+欢迎关注我的公众号： \*\*悟鸣AI\*\*，后续会陆续分享比较有用的 AI 工具和比较好的 AI 经验，比较客观理性的 AI 观点等。!
+![image.png](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/9eedffb3b4044842bff78345d3e706f5~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5oKf6bij:q75.awebp?rk3s=f64ab15b&x-expires=1773185813&x-signature=2zSwRybntGBc9wv0yl01ubzFHS4%3D)
+标签：
+[人工智能](https://juejin.cn/tag/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD)
+评论 0
+![avatar](https://lf-web-assets.juejin.cn/obj/juejin-web/xitu\_juejin\_web/58aaf1326ac763d8a1054056f3b7f2ef.svg)
+0/ 1000
+标点符号、链接等不计算在有效字数内
+Ctrl + Enter
+发送
+登录 / 注册即可发布评论！
+暂无评论数据
+![](https://lf-web-assets.juejin.cn/obj/juejin-web/xitu\_juejin\_web/c12d6646efb2245fa4e88f0e1a9565b7.svg)点赞
+![](https://lf-web-assets.juejin.cn/obj/juejin-web/xitu\_juejin\_web/336af4d1fafabcca3b770c8ad7a50781.svg)评论
+![](https://lf-web-assets.juejin.cn/obj/juejin-web/xitu\_juejin\_web/3d482c7a948bac826e155953b2a28a9e.svg)
+收藏
+加个关注，精彩更新不错过~
+![avatar](https://lf-web-assets.juejin.cn/obj/juejin-web/xitu\_juejin\_web/58aaf1326ac763d8a1054056f3b7f2ef.svg)
+关注
+为你推荐
+[还得是腾讯，Claude Code迎来最强中国对手！企业Agent有救了～](https://juejin.cn/post/7601435429409767458 "还得是腾讯，Claude Code迎来最强中国对手！企业Agent有救了～")
+[如果你也受够了Anthropic的小气，或者正在寻找一个稳定、强大、可扩展的CLI Agent，我墙裂建议你试试CodeBuddy Code。](https://juejin.cn/post/7601435429409767458)
+- [AI袋鼠帝](https://juejin.cn/user/2032372037988990)
+- 1月前
+- 9.2k
+- 67
+- 7
+[云计算](https://juejin.cn/tag/%E4%BA%91%E8%AE%A1%E7%AE%97 "云计算") [腾讯](https://juejin.cn/tag/%E8%85%BE%E8%AE%AF "腾讯") [AI编程](https://juejin.cn/tag/AI%E7%BC%96%E7%A8%8B "AI编程")
+![还得是腾讯，Claude Code迎来最强中国对手！企业Agent有救了～](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/eedb2400c86f42a1aae6fd6ce12fe232~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAgQUnooovpvKDluJ0=:q75.awebp?rk3s=f64ab15b&x-expires=1773461454&x-signature=n7Ppe1UgvWIAEgEyUVhScfyOE9c%3D)
+[堪称外挂的 Claude Code 配置神器，在 GitHub 上杀疯了。](https://juejin.cn/post/7602158221851607055 "堪称外挂的 Claude Code 配置神器，在 GitHub 上杀疯了。")
+[这个叫 everything-claude-code 的开源项目太顶了。开源没几天就 3.5 万的 Star 了。。。 先看它的简介，上面写的是：完整的 Claude Code 配置合集——Agent](https://juejin.cn/post/7602158221851607055)
+- [逛逛GitHub](https://juejin.cn/user/1442202996186093)
+- 1月前
+- 518
+- 点赞
+- 评论
+[GitHub](https://juejin.cn/tag/GitHub "GitHub")
+[黑客松冠军配置！老金拆解8大核心思路，值得反复品味](https://juejin.cn/post/7603195719458078726 "黑客松冠军配置！老金拆解8大核心思路，值得反复品味")
+[老金我之前写过3篇AI记忆方案的文章：claude-mem（轻量）、mcp-memory-service（重量）、openclaw三层架构（概念性）。 今天讲的第四种方案，不只是记忆。 它是一套完整的](https://juejin.cn/post/7603195719458078726)
+- [老金带你玩AI](https://juejin.cn/user/2561191397043127)
+- 29天前
+- 122
+- 1
+- 评论
+[人工智能](https://juejin.cn/tag/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD "人工智能")
+![黑客松冠军配置！老金拆解8大核心思路，值得反复品味](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/c3e09d27824847d9912226e99fe1cd2b~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg6ICB6YeR5bim5L2g546pQUk=:q75.awebp?rk3s=f64ab15b&x-expires=1773461454&x-signature=AMuL%2F28Si81jF3Bc4WW4ShDsLTU%3D)
+[Claude Code 官方内部团队最佳实践！](https://juejin.cn/post/7543532220952150042 "Claude Code 官方内部团队最佳实践！")
+[大家好，我是 Immerse，一名独立开发者、内容创作者、AGI 实践者。 关注公众号：#沉浸式趣谈，获取最新文章（更多内容只在公众号更新） 个人网站：https://yaolifeng.com 也同](https://juejin.cn/post/7543532220952150042)
+- [Immerse](https://juejin.cn/user/2708812817761752)
+- 6月前
+- 1.2k
+- 9
+- 评论
+[前端](https://juejin.cn/tag/%E5%89%8D%E7%AB%AF "前端") [后端](https://juejin.cn/tag/%E5%90%8E%E7%AB%AF "后端") [程序员](https://juejin.cn/tag/%E7%A8%8B%E5%BA%8F%E5%91%98 "程序员")
+![Claude Code 官方内部团队最佳实践！](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/e0a043c97d184dca925f52e4d0b091fc~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAgSW1tZXJzZQ==:q75.awebp?rk3s=f64ab15b&x-expires=1773461454&x-signature=Dston4u8%2Bmu%2BZYv%2BzmBeA9%2FI6yw%3D)
+[一文玩转 Claude Code](https://juejin.cn/post/7613260653386629129 "一文玩转 Claude Code")
+[你的 claude code 用对了吗，一文让你的 claude 发挥超10倍的价值，省 50% 的 token](https://juejin.cn/post/7613260653386629129)
+- [耿耿余淮十余载](https://juejin.cn/user/3922673945284983)
+- 2天前
+- 78
+- 1
+- 评论
+[AI编程](https://juejin.cn/tag/AI%E7%BC%96%E7%A8%8B "AI编程") [Claude](https://juejin.cn/tag/Claude "Claude")
+![一文玩转 Claude Code](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/0eb45ae4e48e43cca9f95e8e86450069~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg6IC\_6IC\_5L2Z5reu5Y2B5L2Z6L29:q75.awebp?rk3s=f64ab15b&x-expires=1773461454&x-signature=Q3C7neSE5Z6vy3z5AH3%2FwdyrKY0%3D)
+[Everything Claude Code 速查指南](https://juejin.cn/post/7611165150922752050 "Everything Claude Code 速查指南")
+[这是黑客松冠军日常使用 10 个月后的完整配置：技能（skills）、钩子（hooks）、子代理（subagents）、MCP、插件（plugins），以及真正好用的部分。 自从 2 月份实验性发布以](https://juejin.cn/post/7611165150922752050)
+- [王小酱](https://juejin.cn/user/3438928100867438)
+- 7天前
+- 288
+- 1
+- 评论
+[AI编程](https://juejin.cn/tag/AI%E7%BC%96%E7%A8%8B "AI编程") [AIOps](https://juejin.cn/tag/AIOps "AIOps") [OpenAI](https://juejin.cn/tag/OpenAI "OpenAI")
+[火爆全网的Skills，看这一篇就够了！](https://juejin.cn/post/7601077290682286132 "火爆全网的Skills，看这一篇就够了！")
+[大家好，我是势必要把Skills咬烂嚼碎的码哥！ Skills 最近火得一塌糊涂，热度不亚于去年的MCP ，经过几周零碎时间的研究摸索，写下了这篇可能是全网最详细的Skills教程了，哈哈😃！ 一、什](https://juejin.cn/post/7601077290682286132)
+- [程序员码歌](https://juejin.cn/user/764915820529831)
+- 1月前
+- 9.7k
+- 59
+- 6
+[前端](https://juejin.cn/tag/%E5%89%8D%E7%AB%AF "前端") [Android](https://juejin.cn/tag/Android "Android") [AI编程](https://juejin.cn/tag/AI%E7%BC%96%E7%A8%8B "AI编程")
+![火爆全网的Skills，看这一篇就够了！](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/c0b7af7953dd406392d13306d4a12c24~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg56iL5bqP5ZGY56CB5q2M:q75.awebp?rk3s=f64ab15b&x-expires=1773461454&x-signature=Sj199LsclGdjAk8Gx4ZWStQvPkg%3D)
+[Claude Code 官方内部团队最佳实践！](https://juejin.cn/post/7543797314281226282 "Claude Code 官方内部团队最佳实践！")
+[本文概述了已被证明有效的通用模式，适用于 Anthropic 内部团队和在各种代码库、语言和环境中使用 Claude Code 的外部工程师。](https://juejin.cn/post/7543797314281226282)
+- [AI大模型](https://juejin.cn/user/3817967696221534)
+- 6月前
+- 985
+- 5
+- 评论
+[LLM](https://juejin.cn/tag/LLM "LLM") [Agent](https://juejin.cn/tag/Agent "Agent") [Claude](https://juejin.cn/tag/Claude "Claude")
+[Claude code的强大之处，附国内Claude code镜像使用方式！](https://juejin.cn/post/7515585862551240738 "Claude code的强大之处，附国内Claude code镜像使用方式！")
+[Claude code的强大之处，附国内Claude code镜像使用方式！ Claude Code国内使用方式：](https://juejin.cn/post/7515585862551240738)
+- [挽安学长](https://juejin.cn/user/961451815613625)
+- 8月前
+- 1.1k
+- 点赞
+- 评论
+[人工智能](https://juejin.cn/tag/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD "人工智能")
+![Claude code的强大之处，附国内Claude code镜像使用方式！](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/41adbecf469d4aa8addd04004aae02e6~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5oy95a6J5a2m6ZW\_:q75.awebp?rk3s=f64ab15b&x-expires=1773461454&x-signature=Aw8WWWoVy%2FcxtXawdI6FEdTk9iw%3D)
+[🔥 AI编程神器大PK！Claude Code vs Cursor：谁才是2025年程序员的最强助手](https://juejin.cn/post/7514983928379293734 "🔥 AI编程神器大PK！Claude Code vs Cursor：谁才是2025年程序员的最强助手")
+[引言 在AI快速发展的今天，编程工具正在经历前所未有的变革。继 GitHub Copilot、Cursor 等AI编程工具之后，Anthropic 公司推出了全新的编程助手——Claude Code。](https://juejin.cn/post/7514983928379293734)
+- [苦川](https://juejin.cn/user/35628192118750)
+- 8月前
+- 6.7k
+- 5
+- 2
+[AI编程](https://juejin.cn/tag/AI%E7%BC%96%E7%A8%8B "AI编程")
+![🔥 AI编程神器大PK！Claude Code vs Cursor：谁才是2025年程序员的最强助手](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/2689a45cf3d04b6b96a3a344036b80aa~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg6Ium5bed:q75.awebp?rk3s=f64ab15b&x-expires=1773461454&x-signature=WwGBoqWpJAATg4%2B0Xks%2BSjPSTdE%3D)
+[Claude Code 完全指南:使用方式、技巧与最佳实践](https://juejin.cn/post/7592079304923824138 "Claude Code 完全指南:使用方式、技巧与最佳实践")
+[Claude Code 完全指南:使用方式、技巧与最佳实践 最近在深度使用 Claude Code，发现真的很香！即整理了一份全面的指南，从零开始逐步了解 Claude Code 的核心功能、高级特性](https://juejin.cn/post/7592079304923824138)
+- [knqiufan](https://juejin.cn/user/4265760848347998)
+- 1月前
+- 10k
+- 160
+- 19
+[Claude](https://juejin.cn/tag/Claude "Claude") [AI编程](https://juejin.cn/tag/AI%E7%BC%96%E7%A8%8B "AI编程")
+![Claude Code 完全指南:使用方式、技巧与最佳实践](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/556f945bfad546cab746c2382652420e~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAga25xaXVmYW4=:q75.awebp?rk3s=f64ab15b&x-expires=1773461454&x-signature=AbH8PoD0FgHam0gevxtUTDyhG5o%3D)
+[Claude 4.5发布！Cursor 宣布加量不加价支持！](https://juejin.cn/post/7558741477967872040 " Claude 4.5发布！Cursor 宣布加量不加价支持！")
+[\`Anthropic\` 最新发布的 \`Claude Sonnet 4.5\` 不仅是目前世界上最强大的编程模型，更是在推理、数学和复杂任务处理方面取得了重大突破。与此同时，主流 \`AI\` 编程工具 \`C](https://juejin.cn/post/7558741477967872040)
+- [AryaNimbus](https://juejin.cn/user/3024089651610736)
+- 4月前
+- 1.0k
+- 9
+- 1
+[Cursor](https://juejin.cn/tag/Cursor "Cursor") [Claude](https://juejin.cn/tag/Claude "Claude") [AI编程](https://juejin.cn/tag/AI%E7%BC%96%E7%A8%8B "AI编程")
+![ Claude 4.5发布！Cursor 宣布加量不加价支持！](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/c6de743170a24adc9b4f2d0c82b79230~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAgQXJ5YU5pbWJ1cw==:q75.awebp?rk3s=f64ab15b&x-expires=1773461454&x-signature=Y4jWIvHrUwyssrp4gtQbbzHMdbc%3D)
+[Claude Code 最佳实践](https://juejin.cn/post/7591013450526064692 "Claude Code 最佳实践")
+[Claude Code 最佳实践 1. 简介 Claude Code 是 Anthropic 推出的命令行工具，旨在为工程师和研究人员提供一种低级别、无偏见的方式，将 Claude AI 无缝集成到编](https://juejin.cn/post/7591013450526064692)
+- [东风微鸣](https://juejin.cn/user/1983961207144568)
+- 2月前
+- 207
+- 点赞
+- 评论
+[程序员](https://juejin.cn/tag/%E7%A8%8B%E5%BA%8F%E5%91%98 "程序员")
+![Claude Code 最佳实践](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/1a18f19b9b284b6982ce4fd6d533b763~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5Lic6aOO5b6u6bij:q75.awebp?rk3s=f64ab15b&x-expires=1773461454&x-signature=48BDWycztmBdl0S3buzMWx9czq0%3D)
+[写给前端程序员的 Claude Code 使用指南](https://juejin.cn/post/7584073390693908495 "写给前端程序员的 Claude Code 使用指南")
+[📋 目录 什么是 Claude Code 安装与配置 基本使用 核心功能 高级特性 最佳实践 常见问题 什么是 Claude Code Claude Code 是 Anthropic 官方推出的命令行](https://juejin.cn/post/7584073390693908495)
+- [张海潮](https://juejin.cn/user/2991152561662296)
+- 2月前
+- 284
+- 点赞
+- 评论
+[前端](https://juejin.cn/tag/%E5%89%8D%E7%AB%AF "前端")
+![写给前端程序员的 Claude Code 使用指南](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/afef66dfcd83408c8eb379635053376f~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5byg5rW35r2u:q75.awebp?rk3s=f64ab15b&x-expires=1773461454&x-signature=WRbKCV96SWuTA1hj6ofjvJ62SKo%3D)
+[开发者的新“超能力”——Claude Code 全面解析与使用指南](https://juejin.cn/post/7538276940290555930 "开发者的新“超能力”——Claude Code 全面解析与使用指南")
+[在 AI 编程工具百花齐放的今天， Claude Code 正在成为开发者圈的新宠。 它不仅仅是一个代码补全工具，更像是一个能理解你项目全局、直接在终端帮你“干活”的智能编程助手。](https://juejin.cn/post/7538276940290555930)
+- [小镇cxy](https://juejin.cn/user/3318776686718483)
+- 6月前
+- 1.7k
+- 点赞
+- 评论
+[后端](https://juejin.cn/tag/%E5%90%8E%E7%AB%AF "后端") [Claude](https://juejin.cn/tag/Claude "Claude")
+![开发者的新“超能力”——Claude Code 全面解析与使用指南](https://p3-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/6635cc52c2ac4283bce01ab87f81f428~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg5bCP6ZWHY3h5:q75.awebp?rk3s=f64ab15b&x-expires=1773461454&x-signature=j0lcHQfb%2BkCA98gNJFr%2FM3rmG7w%3D)
+收藏成功！
+已添加到「」， 点击更改
+- 微信
+![](https://juejin.cn/post/7599852042531143690)微信扫码分享
+- 新浪微博
+- QQ
+![image](https://lf-web-assets.juejin.cn/obj/juejin-web/xitu\_juejin\_web/img/cartoon.31472f0.png)
+AI代码助手上线啦
+选中代码，体验AI替你一键快速解读代码
+立即体验
+APP内打开
+- ![下载掘金APP](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/2ad212d53ccd44569d10317171664bae~tplv-k3u1fbpfcp-jj:90:0:0:0:q75.avis)下载APP
+下载APP
+- ![微信扫一扫](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9f4933cc8fdb411cba89904f14a3ec0a~tplv-k3u1fbpfcp-jj:90:0:0:0:q75.avis)微信扫一扫
+微信公众号
+- [新浪微博](https://weibo.com/xitucircle)
+![](https://lf-web-assets.juejin.cn/obj/juejin-web/xitu\_juejin\_web/img/MaskGroup.13dfc4f.png)选择你感兴趣的技术方向
+后端
+前端
+Android
+iOS
+人工智能
+开发工具
+代码人生
+阅读
+跳过
+上一步
+至少选择1个分类
+![](https://lf-web-assets.juejin.cn/obj/juejin-web/xitu\_juejin\_web/8867e249c23a7c0ea596c139befc04d7.svg)
+温馨提示
+当前操作失败，如有疑问，可点击申诉
+前往申诉我知道了
+沉浸阅读
+确定屏蔽该用户
+屏蔽后，对方将不能关注你、与你产生任何互动，无法查看你的主页

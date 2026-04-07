@@ -1,0 +1,289 @@
+# Source URL: https://www.bestaiweb.ai/beyond-o-n-how-linear-attention-ring-attention-and-gated-deltanet-are-reshaping-ai-in-2026/
+# Content Length: 17805 characters
+# Extracted at: 2026-03-25 12:10:40
+#============================================================
+
+
+Beyond O(n²): How Linear Attention, Ring Attention, and Gated DeltaNet Are Reshaping AI in 2026 - Best AI Web[![]()
+![]()](/)
+Menu Open
+Menu Close
+
+* [AI Transition](/category/ai-transition/)
+* [AI Principles](/category/ai-principles/)
+  + [LLM Foundations](/category/llm-foundations/)
+  + [Model Architectures](/category/model-architectures/)
+  + [RAG & Semantic Search](/category/rag-semantic-search/)
+  + [Data & Datasets](/category/data-datasets/)
+  + [Evaluation & Benchmarking](/category/evaluation-benchmarking/)
+* [AI Tools](/category/ai-tools/)
+  + [Prompt Engineering](/category/prompt-engineering/)
+  + [AI Agents & Orchestration](/category/ai-agents-orchestration/)
+  + [AI-Assisted Development](/category/ai-assisted-development/)
+  + [LLMOps & Performance](/category/llmops-performance/)
+  + [Generative Media](/category/generative-media/)
+* [AI Trends](/category/ai-trends/)
+  + [AI Industry News](/category/ai-industry-news/)
+  + [Model Landscape](/category/model-landscape/)
+  + [AI Adoption](/category/ai-adoption/)
+* [AI Ethics](/category/ai-ethics/)
+  + [AI Ethics & Bias](/category/ai-ethics-bias/)
+  + [AI & Society](/category/ai-society/)
+  + [Data Governance](/category/data-governance/)
+* [Fifth Element](/fifth-element/)
+* [Glossary](/glossary/)
+
+theme switcher
+search icon
+
+
+Type something to search..to navigate
+to select
+
+`ESC` to close[DAN](/authors/dan/)[Analysis](/articles/news/)
+8 min read
+March 20, 2026
+
+Beyond O(n²): How Linear Attention, Ring Attention, and Gated DeltaNet Are Reshaping AI in 2026
+===============================================================================================
+
+[Home](/)
+/
+[Transformer & Attention Internals](/themes/transformer-attention-internals/)
+/
+[Attention Mechanism](/topics/attention-mechanism/)
+/
+Beyond O(n²): How Linear Attention, Ring Attention, and Gated DeltaNet Are Reshaping AI in 2026![]()[![]()](/human-in-the-loop/jula/)
+Editor's Note
+by [Jula](/human-in-the-loop/jula/), Editor & Analyst
+
+The attention layer just split in two. I asked Dan to map who wins and who stalls.
+
+[Editorial Standards](/editorial-standards/)
+·
+[Meet Our Editors](/human-in-the-loop/)Before you dive in
+
+This article assumes familiarity with:
+
+[Attention Mechanism](/glossary/attention-mechanism/)
+[Cross Attention](/glossary/cross-attention/)
+[Scaled Dot Product Attention](/glossary/scaled-dot-product-attention/)
+[Grouped Query Attention](/glossary/grouped-query-attention/)
+[Flash Attention](/glossary/flash-attention/)
+[Softmax](/glossary/softmax/)
+[Transformer Architecture](/glossary/transformer-architecture/)
+
+Coming from software engineering? [Read the bridge first: Transformer Internals for Developers: What Maps, What Breaks →](/bridge-transformer-attention-internals/)
+
+Table of Contents
+
+1. [The Architecture Race Just Split](#the-architecture-race-just-split)
+2. [Three Signals, One Direction](#three-signals-one-direction)
+3. [Who Rides the Hybrid Stack](#who-rides-the-hybrid-stack)
+4. [The Full-Quadratic Holdouts](#the-full-quadratic-holdouts)
+5. [What Happens Next](#what-happens-next)
+6. [Frequently Asked Questions](#frequently-asked-questions)
+7. [The Bottom Line](#the-bottom-line)
+8. [Sources](#sources)
+9. [Aha Moments](#aha-moments)
+
+TL;DR
+
+* The shift: Labs are converging on a 3:1 hybrid ratio of linear-to-full attention, ending the all-or-nothing quadratic debate.
+* Why it matters: This architectural split determines who can scale to million-token contexts affordably — and who burns GPU budgets trying.
+* What’s next: The next 12 months decide whether hybrid attention becomes the industry default or fragments into incompatible stacks.
+
+For years, the
+[Attention Mechanism](/glossary/attention-mechanism/) inside every major language model ran on the same quadratic math. O(n²) cost. Double the context, quadruple the compute. That constraint shaped model design, hardware procurement, and API pricing. In the first quarter of 2026, that constraint cracked — not from a single breakthrough, but from independent labs arriving at the same architectural answer.
+
+The Architecture Race Just Split
+--------------------------------
+
+**Thesis: The attention wars are over — hybrid won, and the winning formula is three parts linear, one part quadratic.**
+
+The old debate — linear attention versus quadratic
+[Scaled Dot Product Attention](/glossary/scaled-dot-product-attention/) — framed the problem as a binary. Pick one. Two independent teams just proved that framing was wrong.
+
+Qwen3.5 shipped on February 16, 2026. A 397-billion-parameter mixture-of-experts model with 17 billion active parameters and a 1-million-token context window (HuggingFace Blog). Its architecture: three layers of GatedDeltaNet linear attention for every one layer of full quadratic attention.
+
+Months earlier, Moonshot AI published Kimi Linear — a 48-billion-parameter model with 3 billion active, built on a linear variant called KDA that extends GatedDeltaNet foundations (Kimi Team). Its design: three KDA layers to every one global MLA layer. The same ratio.
+
+**Different continents. Same engineering conclusion.** That pattern isn’t coincidence — it’s convergence on a structural optimum (Sebastian Raschka).
+
+Three Signals, One Direction
+----------------------------
+
+The evidence stacks in layers.
+
+The math works. Kimi Linear’s hybrid architecture delivers a 75% reduction in KV cache memory and up to 6x decoding throughput at 1-million-token context lengths (Kimi Team). That’s a direct attack on the cost structure of inference at scale.
+
+The kernel layer caught up.
+[Flash Attention](/glossary/flash-attention/) was already the default training kernel. FlashAttention-4, released March 5, 2026, pushes throughput to 1,613 TFLOPs/s at 71% utilization on NVIDIA Blackwell B200 hardware — 1.3x faster than cuDNN 9.13 and 2.7x faster than Triton (Dao et al.). The
+[Softmax](/glossary/softmax/)-based quadratic path isn’t dead. It got a faster engine for the layers that still need it.
+
+Context windows are scaling past the point where pure quadratic attention stays economically viable. Meta’s Llama 4 Scout hit 10 million tokens — roughly 78x the context of Llama 3’s 128K (Exxact Blog). Techniques like ring attention — distributing sequences across GPUs via blockwise computation with overlapped communication (Liu et al.) — make that kind of distributed
+[Transformer Architecture](/glossary/transformer-architecture/) scaling possible.
+
+The GatedDeltaNet architecture underneath these hybrid models came from NVIDIA Research, presented at ICLR 2025. It improves on Mamba2’s state-space approach by incorporating the delta rule into gated recurrences — the ingredient that makes the hybrid ratio viable.
+
+Who Rides the Hybrid Stack
+--------------------------
+
+The winners committed to hybrid architectures before the market validated the pattern.
+
+Alibaba’s Qwen team. Their 3.5 release is an architectural bet that hybrid GatedDeltaNet attention is the path to scaling past the million-token barrier without proportional cost increases.
+
+Moonshot AI. Kimi Linear’s KV cache savings translate directly to lower inference costs per token. For API providers operating at scale, that’s margin.
+
+NVIDIA. They built the foundational layer — GatedDeltaNet — and FlashAttention-4 runs best on their Blackwell hardware. They sell the picks and shovels on every side of the hybrid split.
+
+Research teams building on
+[Cross Attention](/glossary/cross-attention/) and
+[Grouped Query Attention](/glossary/grouped-query-attention/) variants now have a proven template: mix linear and full attention at a ratio that preserves reasoning accuracy while cutting memory costs.
+
+The Full-Quadratic Holdouts
+---------------------------
+
+MiniMax learned this the hard way. Their M2 model dropped linear attention entirely, citing poor accuracy in reasoning and multi-turn tasks (Sebastian Raschka). They reverted to full multi-head attention with M2.5. Pure linear attention, without quadratic stabilizer layers, breaks on tasks that demand precise recall.
+
+Any team still running pure quadratic attention at scale faces a losing cost curve. And any team that went all-in on pure linear attention without the hybrid stabilizer is now retraining.
+
+The hybrid middle ground is where the engineering evidence points. The teams that aren’t there yet are spending compute to catch up. You’re either retooling or you’re falling behind.
+
+What Happens Next
+-----------------
+
+**Base case (most likely):** The 3:1 hybrid ratio becomes the default architecture template for new large-scale models through 2027. Labs adopt variants of GatedDeltaNet or KDA as the linear component, with full attention reserved for precision-critical layers.
+**Signal to watch:** A third major lab shipping a production model with a similar hybrid ratio.
+**Timeline:** Next two quarters.
+
+**Bull case:** Hybrid attention enables practical multi-million-token context at competitive cost, unlocking new application categories — full-codebase reasoning, book-length document analysis, persistent agent memory.
+**Signal:** Cloud providers advertising million-token context tiers below current 128K pricing.
+**Timeline:** Late 2026 to mid-2027.
+
+**Bear case:** The hybrid approach fragments into incompatible variants. GatedDeltaNet, KDA, and future alternatives require different training infrastructure, splitting the ecosystem and slowing adoption.
+**Signal:** Major frameworks unable to converge on a unified hybrid attention API.
+**Timeline:** 2027 if standardization efforts stall.
+
+Frequently Asked Questions
+--------------------------
+
+**Q:** How are Gated DeltaNet and linear attention hybrids changing model architecture in 2026?
+**A:** Labs are replacing uniform quadratic attention stacks with hybrid designs — typically three linear layers per one full-attention layer. This cuts KV cache memory and decoding costs while preserving reasoning quality on precision-critical tasks.
+
+**Q:** How does ring attention enable million-token context windows across distributed GPUs?
+**A:** Ring attention partitions long sequences into blocks distributed across GPUs. Each GPU computes attention on its local block while simultaneously sending key-value data to the next GPU. This overlap of compute and communication removes the single-device memory bottleneck.
+
+**Q:** How FlashAttention became the default attention kernel for training large language models
+**A:** FlashAttention fused attention operations into a single GPU kernel pass, eliminating costly memory reads. Each version pushed utilization higher — FlashAttention-4 now reaches over 1,600 TFLOPs/s on Blackwell hardware, making it the standard kernel for the quadratic layers in hybrid architectures.
+
+**Q:** Will linear attention fully replace quadratic self-attention in large language models by 2027?
+**A:** Full replacement is unlikely. MiniMax abandoned pure linear attention after accuracy dropped on reasoning tasks. The evidence favors hybrid architectures — linear attention handles most layers, but quadratic attention remains essential for precision-critical computation.
+
+The Bottom Line
+---------------
+
+The attention layer debate is settling — not on a single winner, but on a ratio. Three parts linear, one part quadratic. The labs that built for this hybrid future are already shipping. The rest are retraining. **The architecture tax is real.** Pay it now or pay more later.
+
+ℹ️
+
+Disclaimer
+
+This article discusses financial topics for educational purposes only. It does not constitute financial advice. Consult a qualified financial advisor before making investment decisions.
+
+### Sources
+
+* **HuggingFace Blog**: [Qwen3.5: Nobody Agrees on Attention Anymore](https://huggingface.co/blog/mlabonne/qwen35) - Qwen3.5 architecture, release details, and hybrid attention ratio
+* **Kimi Team**: [Kimi Linear: An Expressive, Efficient Attention Architecture](https://arxiv.org/abs/2510.26692) - KDA architecture, KV cache reduction, and throughput benchmarks
+* **Dao et al.**: [FlashAttention-4: Algorithm and Kernel Pipelining Co-Design](https://arxiv.org/abs/2603.05451) - FlashAttention-4 performance on Blackwell hardware
+* **Sebastian Raschka**: [Beyond Standard LLMs](https://magazine.sebastianraschka.com/p/beyond-standard-llms) - Hybrid attention convergence analysis and MiniMax reversal
+* **Exxact Blog**: [Context Parallelism & Ring Attention](https://www.exxactcorp.com/blog/deep-learning/how-llms-reach-large-token-context-windows) - Llama 4 Scout context length and ring attention overview
+* **Liu et al.**: [Ring Attention with Blockwise Transformers for Near-Infinite Context](https://arxiv.org/abs/2310.01889) - Ring attention distributed context mechanism
+[![]()](/authors/dan/)[DAN](/authors/dan/)
+Synthetic AuthorVisionary & Insider
+
+Tracks who is shipping what in AI and why it matters. Market signals, funding moves, and the trends shaping what comes next.
+
+[View full profile →](/authors/dan/)
+### Aha Moments
+
+![]() [MONA](/authors/mona/)
+
+The convergence on a consistent hybrid ratio isn’t arbitrary — it reflects a mathematical trade-off between recurrence efficiency and recall precision. Linear attention variants like GatedDeltaNet approximate the attention matrix through gated state updates, which compress well across long sequences but lose resolution on token-specific retrieval. The quadratic layers act as periodic checkpoints that restore full-rank attention where the model needs exact token matching. The ratio likely corresponds to how frequently models need full-rank access during deep reasoning chains. What’s technically significant is that distinct linear variants — GatedDeltaNet and KDA — converge on the same answer, suggesting the constraint is architectural, not implementation-specific.
+
+![]() [MAX](/authors/max/)
+
+Mona’s right about the math, but the deployment story is what matters for anyone building on these models. The hybrid architecture creates a new dependency graph in your inference stack: linear layers follow a distinct memory access pattern, quadratic layers follow another, and FlashAttention only accelerates the quadratic path. Your serving infrastructure now carries separate compute profiles per forward pass. Teams that hard-coded assumptions about uniform layer behavior in their inference pipelines will hit silent performance cliffs. The specification gap isn’t the attention mechanism itself — it’s the serving layer that has to orchestrate these modes without latency spikes at the boundary.
+
+![]() [ALAN](/authors/alan/)
+
+Independent teams arrive at the same ratio and we call it convergence. But convergence toward what? Toward the cheapest architecture that still passes benchmarks — which is a different optimization target than the most capable architecture we could build. Every layer replaced with a linear approximation is a layer where the model compresses instead of fully attending. We’re optimizing for cost at the exact moment these systems are asked to reason about longer, more complex inputs. If this ratio becomes an industry default, who audits whether the dropped quadratic layers were the ones that mattered for safety-critical reasoning — and who decides that trade-off is acceptable?
+
+### Key Terms
+
+[Attention Mechanism (attention)](/glossary/attention-mechanism/)[Cross Attention (Cross-Attention)](/glossary/cross-attention/)[Scaled Dot Product Attention (SDPA)](/glossary/scaled-dot-product-attention/)[Grouped Query Attention (GQA)](/glossary/grouped-query-attention/)[Flash Attention (FlashAttention)](/glossary/flash-attention/)[Softmax (softmax function)](/glossary/softmax/)[Transformer Architecture (transformer model)](/glossary/transformer-architecture/)
+### Related Articles
+
+[![]()](/attention-mechanism-explained-how-queries-keys-and-values-power-modern-ai/)[MONA](/authors/mona/)[explainer](/articles/explainer/)
+10 minMar 20, 2026
+#### [Attention Mechanism Explained: How Queries, Keys, and Values Power Modern AI](/attention-mechanism-explained-how-queries-keys-and-values-power-modern-ai/)
+
+[![]()](/implementing-attention-from-scratch-pytorch-flashattention-and-grouped-query-optimization/)[MAX](/authors/max/)[guide](/articles/guide/)
+10 minMar 20, 2026
+#### [Implementing Attention from Scratch: PyTorch, FlashAttention, and Grouped-Query Optimization](/implementing-attention-from-scratch-pytorch-flashattention-and-grouped-query-optimization/)
+
+[![]()](/quadratic-attention-concentrated-power-who-wins-and-who-loses-as-attention-models-scale/)[ALAN](/authors/alan/)[opinion](/articles/opinion/)
+10 minMar 20, 2026
+#### [Quadratic Attention, Concentrated Power: Who Wins and Who Loses as Attention Models Scale](/quadratic-attention-concentrated-power-who-wins-and-who-loses-as-attention-models-scale/)
+
+[![]()](/bridge-transformer-attention-internals/)[MONA](/authors/mona/)[Bridge](/articles/bridge/)
+11 minMar 23, 2026
+#### [Transformer Internals for Developers: What Maps, What Breaks](/bridge-transformer-attention-internals/)
+
+AI-assisted content, human-reviewed. Images AI-generated.
+[Editorial Standards](/editorial-standards/) · [Our Editors](/human-in-the-loop/)
+
+##### Share:
+
+[![]()
+![]()](/)
+
+Company
+
+* [About](/about/)
+* [Contact](/contact/)
+* [FAQ](/faq/)
+
+Team
+
+* [Human-in-the-Loop](/human-in-the-loop/)
+* [Authors](/authors/)
+
+Legal
+
+* [Editorial Standards](/editorial-standards/)
+* [Privacy Policy](/privacy-policy/)
+
+
+© 2026 Best AI Web. All rights reserved.
+
+We use cookies to analyze traffic, remember preferences, and serve relevant ads.
+[Learn more](/privacy-policy/)
+
+Reject all
+Settings
+Accept all
+### Cookie Settings
+
+Back
+
+We use cookies to analyze traffic, remember preferences, and serve relevant ads.
+[Learn more](/privacy-policy/)
+
+Necessary
+Always activePreferences
+Statistics
+Marketing
+Only necessary
+Save preferences
+Accept all

@@ -1,0 +1,421 @@
+# Source URL: https://yam.gift/
+# Content Length: 28862 characters
+# Extracted at: 2026-04-04 12:03:28
+#============================================================
+
+
+
+
+长琴
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[长琴](/)
+=======
+
+[知乎：长琴 | 公众号：技术与人](/)
+---------------------
+
+
+菜单
+[跳至内容](/#content)
+
+* [Home/首页](/)
+* [Series/导览](/series/)
+* [About/关于我](/about/)
+* [Fun/有趣](/fun/)
+* [BigHuge/大神](/leading/)
+* [Projects/项目](https://github.com/hscspring)
+* [Archives/存档](/archives/)
+
+
+
+[RL新范式：从经验到更高质量数据——我们不再训练模型，而是在制造数据](/2026/03/29/NLP/LLM-Training/2026-03-29-RL-New-Paradigm-Data/)
+===================================================================================================
+
+
+
+TL;DR
+
+新一代 RL 范式，本质是在“制造更高质量的训练数据”，而不是单纯优化参数。
+
+| 方法 | 提升的信息类型 |
+| --- | --- |
+| ERL/OEL | 局部修正（reflection），通过“反思 → 经验 → 蒸馏”，把一次尝试变成可复用知识 |
+| MR-Search | 跨 episode 经验，把“反思”提升为跨 episode 的持续积累（接近元学习） |
+| Reconstruction | 隐式推理过程，不学结果反推“生成过程”（学习思维轨迹而非表面数据） |
+| ACT | 偏好信号（implicit reward），用对比学习逼出“真正的自我反思”，而不是模仿式反思 |
+| CRL | 长期可复用经验，让“策略”和“经验系统”协同进化，形成闭环学习系统 |
+
+以上方法其实都在做一件事：Trajectory → Information Gain → Policy Improvement。核心是把低信息密度的轨迹转换为高信息密度监督信号。
+
+---
+
+上篇《[Training-Free RL：当“训练”不再更新参数，而是更新上下文 | 长琴](https://yam.gift/2026/03/24/NLP/LLM-Context/2026-03-24-RL-New-Paradigm-Traning-Free/)[1]》我们介绍了一些不更新参数的“训练”范式，目前还在实验中，但目测应该是有效果的——我个人老早就想自动化 prompt 的调整了，这一步着实不应该成为门槛，更不应该投入过多精力去 try-and-error，实在是太不自动化、太不可控了。
+
+不过本文不讨论 Training-Free，而是介绍一些基于 “反思和经验” 的学习范式，固然是需要训练的，但更多的难道不算是一种数据构造方式？从这个角度看也挺有意思。
+
+[More →](/2026/03/29/NLP/LLM-Training/2026-03-29-RL-New-Paradigm-Data/#more)
+
+
+[2026-03-29](/2026/03/29/NLP/LLM-Training/2026-03-29-RL-New-Paradigm-Data/)
+•
+[Thinking](/categories/Thinking/)
+
+•
+
+* [ACT](/tags/ACT/)
+* [AI](/tags/AI/)
+* [CRL](/tags/CRL/)
+* [ERL](/tags/ERL/)
+* [LLM](/tags/LLM/)
+* [MR-Search](/tags/MR-Search/)
+* [Meta RL](/tags/Meta-RL/)
+* [NLP](/tags/NLP/)
+* [OEL](/tags/OEL/)
+* [RL](/tags/RL/)
+
+
+[Training-Free RL：当“训练”不再更新参数，而是更新上下文](/2026/03/24/NLP/LLM-Training/2026-03-24-RL-New-Paradigm-Traning-Free/)
+=============================================================================================================
+
+
+
+**TL;DR：**  
+
+随着 LLM 能力增强，强化学习正在从“更新模型参数”转向“优化上下文”。Training-Free RL 不再训练 policy，而是通过自评估、对比、反思和记忆机制，从 rollout 中提取“经验/洞察”，并以自然语言形式注入上下文，从而改变模型输出分布。本质上，这是一种以 LLM 为先验、以“经验文本”为 advantage 的新型 RL 范式。
+
+RL 近期出现了大量新的学习范式，我们此前已经介绍过几篇关于 RM 建模的文章：
+
+* [Reward Model建模 | 长琴](https://yam.gift/2025/06/09/NLP/LLM-Training/2025-06-09-RM-Modeling/)[1]
+* [Reward建模新范式：无验证器RL与Reference的妙用 | 长琴](https://yam.gift/2025/11/11/NLP/LLM-Training/2025-11-11-RM-New-Paradigm-Verifier-Free-RL/)[2]
+* [Reward建模新范式：无验证RL——当模型只能相信自己，会发生什么？ | 长琴](https://yam.gift/2025/12/21/NLP/LLM-Training/2025-12-21-RM-New-Paradigm-Verify-Free-RL/)[3]
+
+虽然是 RM 建模，但其实再放大了说也就是 RL 建模。而且，R1 之后，RL 大多都简化为 GRPO，其关键就在 Reward（或者说 Advantage）建模和设计上。从这个角度看，之前介绍的无验证 RL，它既是 Reward 建模范式，但更多的其实是一种新的 RL 范式——验证都不需要了，都不是验证器的问题。
+
+本文介绍的是另一种范式——免训练 RL。是的，没错，随着 LLM 能力不断变强，保持 LLM 不动，对“上下文”进行调整也能很好地完成任务。还记得前几个月腾讯姚顺雨的 [CL-bench Leaderboard](https://www.clbench.com/)[4] 吗——即使你把所有相关上下文都给了 LLM，它也不一定能用好。从某种意义上说，免训练 RL 的作用点也是“用好”上下文。
+
+[More →](/2026/03/24/NLP/LLM-Training/2026-03-24-RL-New-Paradigm-Traning-Free/#more)
+
+
+[2026-03-24](/2026/03/24/NLP/LLM-Training/2026-03-24-RL-New-Paradigm-Traning-Free/)
+•
+[Thinking](/categories/Thinking/)
+
+•
+
+* [AI](/tags/AI/)
+* [Context Learning](/tags/Context-Learning/)
+* [LLM](/tags/LLM/)
+* [MemAPO](/tags/MemAPO/)
+* [Meta Learning](/tags/Meta-Learning/)
+* [Meta RL](/tags/Meta-RL/)
+* [NLP](/tags/NLP/)
+* [RL](/tags/RL/)
+* [TRT](/tags/TRT/)
+
+
+[从 OpenClaw 再谈 AI Coding：我们还剩下什么](/2026/03/13/AI/2026-03-13-From-OpencClaw-to-AI-Coding/)
+=========================================================================================
+
+
+
+TL;DR
+
+* OpenClaw 的爆火，本质上不是产品本身，而是 Agent 生态被突然点燃：个人级 AI 操作系统开始具象化，整个 AI 产业链（模型、平台、云、工具）随之受益。
+* 与此同时，AI Coding 正在重写软件开发范式——代码的重要性下降，系统设计、上下文管理和判断力成为新的核心能力。
+* 在这个时代，真正重要的不再是“会不会写代码”，而是：能否提出好问题、设计系统，并驾驭 AI 去实现它。
+
+[More →](/2026/03/13/AI/2026-03-13-From-OpencClaw-to-AI-Coding/#more)
+
+
+[2026-03-13](/2026/03/13/AI/2026-03-13-From-OpencClaw-to-AI-Coding/)
+•
+[Coding](/categories/Coding/)
+
+•
+
+* [AGI](/tags/AGI/)
+* [AI](/tags/AI/)
+* [AI-Coding](/tags/AI-Coding/)
+* [LLM](/tags/LLM/)
+* [Monad](/tags/Monad/)
+* [OpenClaw](/tags/OpenClaw/)
+
+
+[Roleplay AI 观察：从 C.AI 到 Talkie，产品、数据、模型与情感需求](/2026/03/09/Product/2026-03-09-From-Cai-and-Talkie-to-Roleplay/)
+===============================================================================================================
+
+
+
+**TL;DR**
+
+* RP（Roleplay） AI 的核心价值不是「扮演角色」，而是满足用户的**情感寄托与沉浸体验**。
+* RP 的评估极其困难，本质是**用户偏好问题而非正确性问题**，因此线上 A/B 和用户行为信号依然是核心。
+* 高质量 RP 数据不仅是语句质量，更是**叙事推进、角色一致性和情绪峰值设计**。
+* 未来的方向可能是 **Worldplay**：可演化的世界、多角色互动和长期关系。
+
+[More →](/2026/03/09/Product/2026-03-09-From-Cai-and-Talkie-to-Roleplay/#more)
+
+
+[2026-03-09](/2026/03/09/Product/2026-03-09-From-Cai-and-Talkie-to-Roleplay/)
+•
+[Thinking](/categories/Thinking/)
+
+•
+
+* [AI](/tags/AI/)
+* [C.AI](/tags/C-AI/)
+* [LLM](/tags/LLM/)
+* [RolePlay](/tags/RolePlay/)
+* [Talkie](/tags/Talkie/)
+
+
+[DLM 漫谈：并行不是重点，模式才是 —— 从 ARM 到 DLM 的 LLM 第二曲线](/2026/03/01/NLP/LLM/2026-03-01-DLM/)
+===================================================================================
+
+
+
+TL;DR
+
+本文深度梳理了离散扩散语言模型（MDLM）的发展脉络。从 SEMDLM 的理论奠基，到 LLaDA 实现 100B 参数的 Scaling 验证，再到 2026 年初关于 DLM 十大挑战的宏观思考。文章重点剖析了 DLM 与自回归模型（ARM）的差异，介绍了 “DLM 规划 + ARM 执行” 等多种前沿混合架构，并探讨了 RL 后训练中的“灵活性陷阱”。核心观点认为：DLM 的真正潜力不在于并行推理，而在于其非线性推理、全局编辑与迭代修正的认知模式。
+
+---
+
+本来正打算写（学）一写（学） DLM 的，都看了一阵子了，突然刷到这么一篇论文：[2601 Top 10 Open Challenges Steering the Future of Diffusion Language Model and Its Variants](https://arxiv.org/abs/2601.14041)[1]，这是篇好论文呀。于是，就趁着这股东风，把一些观点一并梳理下。本文内容相对侧重观点介绍和梳理而非公式推导。另外，本文涉及的 DLM 并不是完整的，大部分时候仅指 MDLM，也就是 Masked Diffusion Language Models。
+
+[More →](/2026/03/01/NLP/LLM/2026-03-01-DLM/#more)
+
+
+[2026-03-01](/2026/03/01/NLP/LLM/2026-03-01-DLM/)
+•
+[Thinking](/categories/Thinking/)
+
+•
+
+* [AI](/tags/AI/)
+* [CARD](/tags/CARD/)
+* [DLM](/tags/DLM/)
+* [JustGRPO](/tags/JustGRPO/)
+* [LLM](/tags/LLM/)
+* [LLaDA](/tags/LLaDA/)
+* [MDLM](/tags/MDLM/)
+* [RL](/tags/RL/)
+* [STAR-LDM](/tags/STAR-LDM/)
+* [TiDAR](/tags/TiDAR/)
+
+
+[从 FlashAttention 到 Streaming Reduction：如何把“全局算子”改写成可分块计算](/2026/02/01/NLP/LLM/2026-02-01-Flash-Attention-to-Streaming-Reduction/)
+==================================================================================================================================
+
+
+
+TL;DR
+
+本文深度解析了 FlashAttention 核心机制——Online Softmax 的数学原理，并由此发散展开，揭示了高性能计算中的通用模式：**Streaming Reduction**。
+
+* 只要算子具备“可结合的累积结构”与“平移/缩放不变性”（能拆分、可压缩和能修正、可补偿），就能通过动态维护“参考系”和“代数补偿”，将原本依赖全局数据的算子改造为流式、可分块的并行实现。
+* 统一了 Softmax、LayerNorm/RMSNorm 、Adam/RMSProp 优化器及分布式 AllReduce 的底层逻辑——它们本质上都是在维护一套 O(1) 复杂度的状态迁移。
+* 判断算子能否分块化：重写归约形式、检查结合律与坐标系补偿、构造 Merge 函数。
+
+[More →](/2026/02/01/NLP/LLM/2026-02-01-Flash-Attention-to-Streaming-Reduction/#more)
+
+
+[2026-02-01](/2026/02/01/NLP/LLM/2026-02-01-Flash-Attention-to-Streaming-Reduction/)
+•
+[Thinking](/categories/Thinking/)
+
+•
+
+* [AI](/tags/AI/)
+* [Adam](/tags/Adam/)
+* [Flash-Attention](/tags/Flash-Attention/)
+* [LLM](/tags/LLM/)
+* [LayerNorm](/tags/LayerNorm/)
+* [Online Softmax](/tags/Online-Softmax/)
+* [RMSProp](/tags/RMSProp/)
+* [Reduction](/tags/Reduction/)
+* [Streaming](/tags/Streaming/)
+
+
+[【聆听·微光】006：一位传统企业中层管理在AI转型升级中的“蜀道”](/2026/01/26/ListenGlimmer/006/)
+====================================================================
+
+
+
+【来访者个人档案】
+
+* **身份**： 工作多年的项目负责人。
+* **自述**： 想把 AI 用在公司内部和项目上，但很难推进。
+
+这次来访的和前面的大有不同，我们称其为 G 同学，G 同学已经在一家公司做到了领导层，负责软件开发相关项目，手下也有十几号人。G 同学通过 Datawhale 关注到我，读了《[为了让AI干活儿，我竭尽所能——我的 Vibe Coding 认知升级之路](https://yam.gift/2026/01/18/AI/2026-01-18-Upgrade-VibeCoding/)》，那会儿正在想办法让团队用上 AI，提升效率。
+
+G 同学的烦恼如果用一句话概括，那就是：“传统企业如何用好 AI 之落在中层管理者身上的职责和困惑”。这其中除了技术相关问题，还有大量沟通、管理、协调等非技术问题。好在我也做过管理，还是能聊一聊的。
+
+[More →](/2026/01/26/ListenGlimmer/006/#more)
+
+
+[2026-01-26](/2026/01/26/ListenGlimmer/006/)
+•
+[Feeling](/categories/Feeling/)
+
+•
+
+* [Growth](/tags/Growth/)
+
+
+[通向 AGI 的技术路径：多模态、强化学习与新架构的交汇点——结合近期研究者访谈的一些技术判断与个人思考](/2026/01/25/AI/2026-01-25-AI-Future-Framework/)
+======================================================================================================
+
+
+
+注意注意，本文并非试图给出一条确定的 AGI 技术路线，也不是对某一种路线的辩护或预测，而是有意将多位一线研究者在不同语境下提及的方向进行整理。在此基础上，也夹杂了一些个人长期形成的判断和思考，供参考，而非结论。
+
+TL;DR
+
+* 多位一线研究者的观点在**三个方向上高度收敛**：**多模态（尤其是视频）、强化学习、自进化系统**，它们共同指向比纯 LLM 更高阶的智能形态。
+* **Scaling 仍然重要，但对象在变化**：从模型规模 → 推理过程 → 自学习环境（System 3），再加上 Token 效率、多尺度学习等，Scaling 正在更加精细和广泛。
+* **多模态不是“加模态”，而是“建世界”**：视频和感知建模可能拥有比文本高一个数量级的 Scaling 上限，语言并非理解物理世界的必要条件。
+* **强化学习是自主进化的核心机制**：预训练擅长吸收信息，RL 擅长通过试错优化策略，可能是持续学习、自我修正和边缘能力提升的关键。
+* **Agent 不应只是工具封装**：真正的 Agent 更像一个“可训练的智能系统”，本身就是产品，具备学习、记忆和进化能力。
+* 从更长期看，**现有 Attention 和 NTP 可能不是终局**，新架构、新目标函数、新范式雨后春笋。
+
+[More →](/2026/01/25/AI/2026-01-25-AI-Future-Framework/#more)
+
+
+[2026-01-25](/2026/01/25/AI/2026-01-25-AI-Future-Framework/)
+•
+[Thinking](/categories/Thinking/)
+
+•
+
+* [AGI](/tags/AGI/)
+* [AI](/tags/AI/)
+* [Agent](/tags/Agent/)
+* [Attention](/tags/Attention/)
+* [LLM](/tags/LLM/)
+* [NTP](/tags/NTP/)
+* [RL](/tags/RL/)
+* [Scaling](/tags/Scaling/)
+
+
+[MoE RL 训练不稳定性再思考：训推不一致，还是采样噪声？](/2026/01/22/NLP/LLM-Training/2026-01-22-RL-MoE-Stable-2/)
+==========================================================================================
+
+
+
+来自快手的 [KAT-Coder-V1 Pro 重磅升级，揭秘强化学习训练稳定性关键因素 - KwaiPilot](https://kwaikat.github.io/kwaikat-blog/posts/katcoder_1201/)[1]，直接给出了让人惊讶的发现：
+
+**RL 训练不稳定的主导因素并不是训推不一致，而是采样噪声本身**。
+
+他们发现，当显式抑制噪声强度后，即使存在明显的训推差异，训练依旧保持稳定，并能获得更快的收敛速度。
+
+这可真是——玄之又玄啊。
+
+[More →](/2026/01/22/NLP/LLM-Training/2026-01-22-RL-MoE-Stable-2/#more)
+
+
+[2026-01-22](/2026/01/22/NLP/LLM-Training/2026-01-22-RL-MoE-Stable-2/)
+•
+[Feeling](/categories/Feeling/)
+
+•
+
+* [AI](/tags/AI/)
+* [KAT](/tags/KAT/)
+* [LLM](/tags/LLM/)
+* [NLP](/tags/NLP/)
+* [RL](/tags/RL/)
+
+
+[为了让AI干活儿，我竭尽所能——我的 Vibe Coding 认知升级之路](/2026/01/18/AI/2026-01-18-Upgrade-VibeCoding/)
+======================================================================================
+
+
+
+AI Coding 已经疯了。
+
+我也在一边根据本能在使用，同时也在学习一些新的技巧和方法。直到看到《[认知重建：Speckit 用了三个月，我放弃了——走出工具很强但用不好的困境 - 知乎](https://zhuanlan.zhihu.com/p/1993009461451831150)[1]》这篇文章，我觉得自己得系统梳理一下了。
+
+这里就随便那么梳理一下吧，可能会比较乱。
+
+[More →](/2026/01/18/AI/2026-01-18-Upgrade-VibeCoding/#more)
+
+
+[2026-01-18](/2026/01/18/AI/2026-01-18-Upgrade-VibeCoding/)
+•
+[Coding](/categories/Coding/)
+
+•
+
+* [AGI](/tags/AGI/)
+* [AI](/tags/AI/)
+* [AI-Coding](/tags/AI-Coding/)
+* [CompoundEngineering](/tags/CompoundEngineering/)
+* [LLM](/tags/LLM/)
+* [OpenSpec](/tags/OpenSpec/)
+* [context](/tags/context/)
+* [kanban](/tags/kanban/)
+* [skill](/tags/skill/)
+* [spec](/tags/spec/)
+
+
+1[2](/page/2/)[3](/page/3/)…[30](/page/30/)[Next »](/page/2/)
+
+
+
+### Categories
+
+* [Coding](/categories/Coding/)77
+* [Feeling](/categories/Feeling/)158
+* [Thinking](/categories/Thinking/)60
+
+
+### Music
+
+
+
+
+
+### Recents
+
+* [RL新范式：从经验到更高质量数据——我们不再训练模型，而是在制造数据](/2026/03/29/NLP/LLM-Training/2026-03-29-RL-New-Paradigm-Data/)
+* [Training-Free RL：当“训练”不再更新参数，而是更新上下文](/2026/03/24/NLP/LLM-Training/2026-03-24-RL-New-Paradigm-Traning-Free/)
+* [从 OpenClaw 再谈 AI Coding：我们还剩下什么](/2026/03/13/AI/2026-03-13-From-OpencClaw-to-AI-Coding/)
+* [Roleplay AI 观察：从 C.AI 到 Talkie，产品、数据、模型与情感需求](/2026/03/09/Product/2026-03-09-From-Cai-and-Talkie-to-Roleplay/)
+* [DLM 漫谈：并行不是重点，模式才是 —— 从 ARM 到 DLM 的 LLM 第二曲线](/2026/03/01/NLP/LLM/2026-03-01-DLM/)
+
+
+### Tag Cloud
+
+[ACT](/tags/ACT/) [AE](/tags/AE/) [AGAPO](/tags/AGAPO/) [AGI](/tags/AGI/) [AI](/tags/AI/) [AI-Coding](/tags/AI-Coding/) [AIGC](/tags/AIGC/) [ALBERT](/tags/ALBERT/) [AR](/tags/AR/) [AUC](/tags/AUC/) [Accuracy](/tags/Accuracy/) [Activation](/tags/Activation/) [Activation Steering](/tags/Activation-Steering/) [Adam](/tags/Adam/) [Age](/tags/Age/) [Agent](/tags/Agent/) [Aha](/tags/Aha/) [Algorithm](/tags/Algorithm/) [Array](/tags/Array/) [Arrow](/tags/Arrow/) [Attention](/tags/Attention/) [Automatic Speech Processing](/tags/Automatic-Speech-Processing/) [Automation](/tags/Automation/) [BERT](/tags/BERT/) [BIO](/tags/BIO/) [BIOHD](/tags/BIOHD/) [BM25](/tags/BM25/) [BPE](/tags/BPE/) [BabyGrow](/tags/BabyGrow/) [Backtracking](/tags/Backtracking/) [Backward](/tags/Backward/) [Bahdanau Attention](/tags/Bahdanau-Attention/) [Bart](/tags/Bart/) [Bayes](/tags/Bayes/) [Beam Search](/tags/Beam-Search/) [Bert-Flow](/tags/Bert-Flow/) [Bi-LSTM](/tags/Bi-LSTM/) [Biasing](/tags/Biasing/) [BigCodec](/tags/BigCodec/) [Binary Search](/tags/Binary-Search/) [Blending](/tags/Blending/) [Brain](/tags/Brain/) [Brain Decoding](/tags/Brain-Decoding/) [Bridge](/tags/Bridge/) [Business](/tags/Business/) [C](/tags/C/) [C.AI](/tags/C-AI/) [C4](/tags/C4/) [CARD](/tags/CARD/) [CCG](/tags/CCG/) [CE BERT](/tags/CE-BERT/) [CFG](/tags/CFG/) [CISPO](/tags/CISPO/) [CKY](/tags/CKY/) [CNN](/tags/CNN/) [CRF](/tags/CRF/) [CRL](/tags/CRL/) [CS](/tags/CS/) [CYK](/tags/CYK/) [Calculus](/tags/Calculus/) [Camera](/tags/Camera/) [Cascades](/tags/Cascades/) [Catalan](/tags/Catalan/) [ChatBot](/tags/ChatBot/) [ChatGPT](/tags/ChatGPT/) [Chi2](/tags/Chi2/) [Chunking](/tags/Chunking/) [Class Imbalance Loss](/tags/Class-Imbalance-Loss/) [Classification](/tags/Classification/) [Clip](/tags/Clip/) [CoT](/tags/CoT/) [Codec](/tags/Codec/) [Cognition](/tags/Cognition/) [Collaborative Filtering](/tags/Collaborative-Filtering/) [Collins Parser](/tags/Collins-Parser/) [CompoundEngineering](/tags/CompoundEngineering/) [Computational Linguistics](/tags/Computational-Linguistics/) [Computer](/tags/Computer/) [Computer Science](/tags/Computer-Science/) [Confusing Labels](/tags/Confusing-Labels/) [Context Engineering](/tags/Context-Engineering/) [Context Learning](/tags/Context-Learning/) [Context-Free Grammars](/tags/Context-Free-Grammars/) [Continual Pre-training](/tags/Continual-Pre-training/) [Continual Pretraining](/tags/Continual-Pretraining/) [Contrastive-Learning](/tags/Contrastive-Learning/) [Coordinate Ascent](/tags/Coordinate-Ascent/) [Cosine](/tags/Cosine/) [Cosine Similarity](/tags/Cosine-Similarity/) [Cross Entropy](/tags/Cross-Entropy/) [Cross-brackets](/tags/Cross-brackets/) [Cross-view](/tags/Cross-view/) [Ctrl](/tags/Ctrl/) [Culture](/tags/Culture/) [DA](/tags/DA/) [DAC](/tags/DAC/) [DAPO](/tags/DAPO/) [DB](/tags/DB/) [DCPO](/tags/DCPO/) [DELTA](/tags/DELTA/) [DLM](/tags/DLM/) [DNN](/tags/DNN/) [DP](/tags/DP/) [DPO](/tags/DPO/) [Darling](/tags/Darling/) [Data Augmentation](/tags/Data-Augmentation/) [Data Clearing](/tags/Data-Clearing/) [Data Enhancement](/tags/Data-Enhancement/) [Data Preprocess](/tags/Data-Preprocess/) [Data Science](/tags/Data-Science/) [Data Structure](/tags/Data-Structure/) [DataManagement](/tags/DataManagement/) [Database](/tags/Database/) [DeBERTa](/tags/DeBERTa/) [Debiasing](/tags/Debiasing/) [Decoder](/tags/Decoder/) [Decoding](/tags/Decoding/) [Deep](/tags/Deep/) [DeepGen](/tags/DeepGen/) [DeepGraph](/tags/DeepGraph/) [DeepLearning](/tags/DeepLearning/) [DeepScaleR](/tags/DeepScaleR/) [DeepSeek](/tags/DeepSeek/) [DeepSeek-GRM](/tags/DeepSeek-GRM/) [DeepSeek-V3.2](/tags/DeepSeek-V3-2/) [DeepSeekMath-V2](/tags/DeepSeekMath-V2/) [DeltaNet](/tags/DeltaNet/) [Dependence](/tags/Dependence/) [Diary](/tags/Diary/) [Disentangled Attention](/tags/Disentangled-Attention/) [DistilBERT](/tags/DistilBERT/) [Distillation](/tags/Distillation/) [Django](/tags/Django/) [Docker](/tags/Docker/) [Docker-Compose](/tags/Docker-Compose/) [Dockerfile](/tags/Dockerfile/) [Dr GRPO](/tags/Dr-GRPO/) [DrDAPO](/tags/DrDAPO/) [DrGRPO](/tags/DrGRPO/) [Dream](/tags/Dream/) [Dropout](/tags/Dropout/) [Dynamic-Mask](/tags/Dynamic-Mask/) [EDA](/tags/EDA/) [EM](/tags/EM/) [EMD](/tags/EMD/) [EMPO](/tags/EMPO/) [ERL](/tags/ERL/) [ERNIE](/tags/ERNIE/) [ETTRL](/tags/ETTRL/) [EVOL-RL](/tags/EVOL-RL/) [EXAONE](/tags/EXAONE/) [Economics](/tags/Economics/) [Edit Distance](/tags/Edit-Distance/) [Efficient-DeepLearning](/tags/Efficient-DeepLearning/) [Elasticsearch](/tags/Elasticsearch/) [Electra](/tags/Electra/) [Elixir](/tags/Elixir/) [Ellipsis](/tags/Ellipsis/) [Embedding](/tags/Embedding/) [Embeddings](/tags/Embeddings/) [Embodied AI](/tags/Embodied-AI/) [Encoder](/tags/Encoder/) [Entropy](/tags/Entropy/) [Evaluation](/tags/Evaluation/) [Eventlet](/tags/Eventlet/) [ExT5](/tags/ExT5/) [Exam](/tags/Exam/) [F1](/tags/F1/) [FD Leak](/tags/FD-Leak/) [FDW](/tags/FDW/) [FLAN](/tags/FLAN/) [FSM](/tags/FSM/) [Faith](/tags/Faith/) [FastCuRL](/tags/FastCuRL/) [Feature Engineering](/tags/Feature-Engineering/) [Feature-based](/tags/Feature-based/) [Few-Shot](/tags/Few-Shot/) [Few-shot Prompting](/tags/Few-shot-Prompting/) [Fine-tuning](/tags/Fine-tuning/) [Flash-Attention](/tags/Flash-Attention/) [Formal Grammars](/tags/Formal-Grammars/) [Forward](/tags/Forward/) [Full-Text-Search](/tags/Full-Text-Search/) [Function Syntax](/tags/Function-Syntax/) [Funk MF](/tags/Funk-MF/) [Funnel Transformer](/tags/Funnel-Transformer/) [Future](/tags/Future/) [GAE](/tags/GAE/) [GBTD](/tags/GBTD/) [GELU](/tags/GELU/) [GLU](/tags/GLU/) [GMPO](/tags/GMPO/) [GP](/tags/GP/) [GPT-1](/tags/GPT-1/) [GPT-2](/tags/GPT-2/) [GPT-3](/tags/GPT-3/) [GPT3](/tags/GPT3/) [GPU](/tags/GPU/) [GRM](/tags/GRM/) [GRPO](/tags/GRPO/) [GRU](/tags/GRU/) [GSG](/tags/GSG/) [GSPO](/tags/GSPO/) [GTPO](/tags/GTPO/) [GTPO-S](/tags/GTPO-S/) [Gan](/tags/Gan/) [Garden-path](/tags/Garden-path/) [Gated DeltaNet](/tags/Gated-DeltaNet/) [GiGPO](/tags/GiGPO/) [Git](/tags/Git/) [Global Pointer](/tags/Global-Pointer/) [Glow](/tags/Glow/) [Graceful Shutdown](/tags/Graceful-Shutdown/) [Gradient Descent](/tags/Gradient-Descent/) [Graph](/tags/Graph/) [GraphQL](/tags/GraphQL/) [Grid Grammar](/tags/Grid-Grammar/) [Growth](/tags/Growth/) [H2O-Danube](/tags/H2O-Danube/) [HMM](/tags/HMM/) [Hard-SVM](/tags/Hard-SVM/) [Hinge Loss](/tags/Hinge-Loss/) [Hope](/tags/Hope/) [Host-only](/tags/Host-only/) [HuggingLLM](/tags/HuggingLLM/) [Human-in-Loop](/tags/Human-in-Loop/) [Human-in-the-Loop](/tags/Human-in-the-Loop/) [IDE](/tags/IDE/) [IE](/tags/IE/) [IQR](/tags/IQR/) [IcePop](/tags/IcePop/) [Imbalance Data](/tags/Imbalance-Data/) [Impossible-Triangle](/tags/Impossible-Triangle/) [In-Context Learning](/tags/In-Context-Learning/) [Industry](/tags/Industry/) [Inference Scaling](/tags/Inference-Scaling/) [Information Extraction](/tags/Information-Extraction/) [Information Theory](/tags/Information-Theory/) [Instruct](/tags/Instruct/) [InstructGPT](/tags/InstructGPT/) [Instruction Following](/tags/Instruction-Following/) [Instruction Inference](/tags/Instruction-Inference/) [Intuitor](/tags/Intuitor/) [Isolation Forest](/tags/Isolation-Forest/) [ItemCF](/tags/ItemCF/) [Jaccard](/tags/Jaccard/) [Java](/tags/Java/) [Jax](/tags/Jax/) [Job](/tags/Job/) [Jupyter](/tags/Jupyter/) [JustGRPO](/tags/JustGRPO/) [K2](/tags/K2/) [KAT](/tags/KAT/) [KKT](/tags/KKT/) [KL](/tags/KL/) [KS](/tags/KS/) [Kernel](/tags/Kernel/) [Kernel Function](/tags/Kernel-Function/) [Kernel Method](/tags/Kernel-Method/) [Keyword](/tags/Keyword/) [Kimi](/tags/Kimi/) [Knowledge Graph](/tags/Knowledge-Graph/) [L1](/tags/L1/) [LCPO](/tags/LCPO/) [LIMD](/tags/LIMD/) [LIMO](/tags/LIMO/) [LIMR](/tags/LIMR/) [LLM](/tags/LLM/) [LLM-Colosseum](/tags/LLM-Colosseum/) [LLaDA](/tags/LLaDA/) [LM](/tags/LM/) [LOF](/tags/LOF/) [LR](/tags/LR/) [LSTM](/tags/LSTM/) [Labeling](/tags/Labeling/) [Language Model](/tags/Language-Model/) [LayerNorm](/tags/LayerNorm/) [Lexical Semantics](/tags/Lexical-Semantics/) [Lexicalism](/tags/Lexicalism/) [Lexicalized CFG](/tags/Lexicalized-CFG/) [Lexicalized Grammars](/tags/Lexicalized-Grammars/) [Life](/tags/Life/) [Linear Algebra](/tags/Linear-Algebra/) [Linear Sturcture](/tags/Linear-Sturcture/) [Linked List](/tags/Linked-List/) [LinkedList](/tags/LinkedList/) [Linux](/tags/Linux/) [Listen](/tags/Listen/) [Llama](/tags/Llama/) [Logistic Regression](/tags/Logistic-Regression/) [Lucene](/tags/Lucene/) [Luong Attention](/tags/Luong-Attention/) [MDLM](/tags/MDLM/) [MEMM](/tags/MEMM/) [MF](/tags/MF/) [MIO](/tags/MIO/) [MM Fusion](/tags/MM-Fusion/) [MOPD](/tags/MOPD/) [MR-Search](/tags/MR-Search/) [MTL](/tags/MTL/) [Machine](/tags/Machine/) [Machine Learning](/tags/Machine-Learning/) [Machine Translation](/tags/Machine-Translation/) [Manacher](/tags/Manacher/) [Managemnt](/tags/Managemnt/) [MarkBERT](/tags/MarkBERT/) [Markov](/tags/Markov/) [Materialized Views](/tags/Materialized-Views/) [Math](/tags/Math/) [Matplotlib](/tags/Matplotlib/) [Matrix Factorization](/tags/Matrix-Factorization/) [Median](/tags/Median/) [MemAPO](/tags/MemAPO/) [Meta Learning](/tags/Meta-Learning/) [Meta RL](/tags/Meta-RL/) [Metric](/tags/Metric/) [MiMo](/tags/MiMo/) [MiniMax](/tags/MiniMax/) [Minimum Edit Distance](/tags/Minimum-Edit-Distance/) [Minkowski](/tags/Minkowski/) [MoE](/tags/MoE/) [Model Evaluation](/tags/Model-Evaluation/) [Module](/tags/Module/) [Monad](/tags/Monad/) [Monkey Patch](/tags/Monkey-Patch/) [Multi-Head Attention](/tags/Multi-Head-Attention/) [Multi-Modal](/tags/Multi-Modal/) [MultiModal](/tags/MultiModal/) [Multitask](/tags/Multitask/) [Multiway Tree](/tags/Multiway-Tree/) [NAT](/tags/NAT/) [NER](/tags/NER/) [NLG](/tags/NLG/) [NLM](/tags/NLM/) [NLP](/tags/NLP/) [NLU](/tags/NLU/) [NMT](/tags/NMT/) [NNW](/tags/NNW/) [NOVER](/tags/NOVER/) [NTP](/tags/NTP/) [Naive Bayes](/tags/Naive-Bayes/) [Neo4j](/tags/Neo4j/) [Network](/tags/Network/) [Ngram](/tags/Ngram/) [NodeJS](/tags/NodeJS/) [Normalizing Flow](/tags/Normalizing-Flow/) [NumPy](/tags/NumPy/) [Numba](/tags/Numba/) [Numpy](/tags/Numpy/) [OEL](/tags/OEL/) [OMNI](/tags/OMNI/) [ORZ](/tags/ORZ/) [Occupation](/tags/Occupation/) [One-Shot](/tags/One-Shot/) [Online Learning](/tags/Online-Learning/) [Online Softmax](/tags/Online-Softmax/) [Online-DPO-R1](/tags/Online-DPO-R1/) [OpenAI](/tags/OpenAI/) [OpenClaw](/tags/OpenClaw/) [OpenSource](/tags/OpenSource/) [OpenSpec](/tags/OpenSpec/) [Orientation](/tags/Orientation/) [P-R](/tags/P-R/) [PCCG](/tags/PCCG/) [PCFG](/tags/PCFG/) [PEGASUS](/tags/PEGASUS/) [PLM](/tags/PLM/) [PPMI](/tags/PPMI/) [PPO](/tags/PPO/) [PTM](/tags/PTM/) [PageRank](/tags/PageRank/) [Palindromic](/tags/Palindromic/) [Pandarallel](/tags/Pandarallel/) [Pandas](/tags/Pandas/) [Partial Parsing](/tags/Partial-Parsing/) [Passion](/tags/Passion/) [Pearson](/tags/Pearson/) [Philosophy](/tags/Philosophy/) [Phrase Structure Grammar](/tags/Phrase-Structure-Grammar/) [Phrase Structure Grammars](/tags/Phrase-Structure-Grammars/) [PoS](/tags/PoS/) [Polars](/tags/Polars/) [Pooling](/tags/Pooling/) [Position-Encoding](/tags/Position-Encoding/) [Post-Training](/tags/Post-Training/) [Post-training](/tags/Post-training/) [Postgres](/tags/Postgres/) [Pragmatic Automatic Processing](/tags/Pragmatic-Automatic-Processing/) [Pre-Trained](/tags/Pre-Trained/) [Pre-Training](/tags/Pre-Training/) [Pre-training](/tags/Pre-training/) [Precision](/tags/Precision/) [Pretrain](/tags/Pretrain/) [Pretrained](/tags/Pretrained/) [Pretraining](/tags/Pretraining/) [Probabilistic Grammar](/tags/Probabilistic-Grammar/) [Probabilistic Model](/tags/Probabilistic-Model/) [Promote](/tags/Promote/) [Prompt](/tags/Prompt/) [ProtoBERT](/tags/ProtoBERT/) [Pruning](/tags/Pruning/) [Psychology](/tags/Psychology/) [PyPI](/tags/PyPI/) [Python](/tags/Python/) [QA](/tags/QA/) [Quant](/tags/Quant/) [Quantization](/tags/Quantization/) [Query](/tags/Query/) [Queue](/tags/Queue/) [Qwen](/tags/Qwen/) [Qwen3](/tags/Qwen3/) [Qwen3-Next](/tags/Qwen3-Next/) [R-Drop](/tags/R-Drop/) [R1](/tags/R1/) [R1-Zero](/tags/R1-Zero/) [R3](/tags/R3/) [RAG](/tags/RAG/) [RAVR](/tags/RAVR/) [REER](/tags/REER/) [RELU](/tags/RELU/) [RENT](/tags/RENT/) [RESTRAIN](/tags/RESTRAIN/) [RFE](/tags/RFE/) [RGR](/tags/RGR/) [RHO](/tags/RHO/) [RHO-1](/tags/RHO-1/) [RL](/tags/RL/) [RLHF](/tags/RLHF/) [RM](/tags/RM/) [RM-R1](/tags/RM-R1/) [RMSE](/tags/RMSE/) [RMSProp](/tags/RMSProp/) [RNN](/tags/RNN/) [ROC](/tags/ROC/) [RWD](/tags/RWD/) [Rank](/tags/Rank/) [RaspberryPi](/tags/RaspberryPi/) [Raspberrypi](/tags/Raspberrypi/) [Reasoning](/tags/Reasoning/) [Recall](/tags/Recall/) [Recommendation](/tags/Recommendation/) [Recursion](/tags/Recursion/) [Reduction](/tags/Reduction/) [Reformer](/tags/Reformer/) [Regex](/tags/Regex/) [Regular Expression](/tags/Regular-Expression/) [Reinforce++](/tags/Reinforce/) [Reinforcement Learning](/tags/Reinforcement-Learning/) [Relationship Extraction](/tags/Relationship-Extraction/) [Representation](/tags/Representation/) [Reqular Expressions](/tags/Reqular-Expressions/) [Retrieving](/tags/Retrieving/) [Reward](/tags/Reward/) [RoBERTa](/tags/RoBERTa/) [RolePlay](/tags/RolePlay/) [Rotated Sorted Array](/tags/Rotated-Sorted-Array/) [Rust](/tags/Rust/) [SAPO](/tags/SAPO/) [SCFG](/tags/SCFG/) [SGD](/tags/SGD/) [SLM](/tags/SLM/) [SMO](/tags/SMO/) [SQL](/tags/SQL/) [SRN](/tags/SRN/) [SRT](/tags/SRT/) [STAR-LDM](/tags/STAR-LDM/) [STaR](/tags/STaR/) [SVD++](/tags/SVD/) [SVM](/tags/SVM/) [Scaling](/tags/Scaling/) [Scaling Law](/tags/Scaling-Law/) [Seaborn](/tags/Seaborn/) [Search](/tags/Search/) [Seed-Thinking](/tags/Seed-Thinking/) [Segmentation](/tags/Segmentation/) [Selection-Inference](/tags/Selection-Inference/) [Self-Attention](/tags/Self-Attention/) [Self-Verified](/tags/Self-Verified/) [Semantic Automatic Processing](/tags/Semantic-Automatic-Processing/) [Semantic Similarity](/tags/Semantic-Similarity/) [Senta](/tags/Senta/) [Sentence Representation](/tags/Sentence-Representation/) [Sentence Similarity](/tags/Sentence-Similarity/) [Sentence-BERT](/tags/Sentence-BERT/) [Sentiment Classification](/tags/Sentiment-Classification/) [SentimentAnalysis](/tags/SentimentAnalysis/) [Sentry](/tags/Sentry/) [Siamese](/tags/Siamese/) [Sigmoid](/tags/Sigmoid/) [SimCSE](/tags/SimCSE/) [Similarity](/tags/Similarity/) [Simon](/tags/Simon/) [Simple-Zoo](/tags/Simple-Zoo/) [Simpson Paradox](/tags/Simpson-Paradox/) [Skill](/tags/Skill/) [Skywork Reward](/tags/Skywork-Reward/) [Slide](/tags/Slide/) [Smoothing](/tags/Smoothing/) [Soft-SVM](/tags/Soft-SVM/) [Softmax](/tags/Softmax/) [Sort](/tags/Sort/) [Span](/tags/Span/) [Sparse Attention](/tags/Sparse-Attention/) [Spell Check](/tags/Spell-Check/) [Spurious Reward](/tags/Spurious-Reward/) [SqueezeBERT](/tags/SqueezeBERT/) [Stable LM](/tags/Stable-LM/) [Stack](/tags/Stack/) [Stacking](/tags/Stacking/) [Statistics](/tags/Statistics/) [Stirling](/tags/Stirling/) [Strategic](/tags/Strategic/) [StratifiedKFold](/tags/StratifiedKFold/) [Streaming](/tags/Streaming/) [String](/tags/String/) [Study](/tags/Study/) [Style](/tags/Style/) [Substring](/tags/Substring/) [Summarization](/tags/Summarization/) [Supertagging](/tags/Supertagging/) [Swap](/tags/Swap/) [System](/tags/System/) [T5](/tags/T5/) [TF-IDF](/tags/TF-IDF/) [THW](/tags/THW/) [TIS](/tags/TIS/) [TRT](/tags/TRT/) [TS3-Codec](/tags/TS3-Codec/) [TTRL](/tags/TTRL/) [TTS](/tags/TTS/) [Tagging](/tags/Tagging/) [Talkie](/tags/Talkie/) [TanH](/tags/TanH/) [TensorBay](/tags/TensorBay/) [Tensorflow](/tags/Tensorflow/) [Test](/tags/Test/) [Text Classification](/tags/Text-Classification/) [Text Generation](/tags/Text-Generation/) [Text Normalization](/tags/Text-Normalization/) [TextCNN](/tags/TextCNN/) [TextRank](/tags/TextRank/) [Thought](/tags/Thought/) [TiDAR](/tags/TiDAR/) [Tokenizer](/tags/Tokenizer/) [Transformer](/tags/Transformer/) [Transformer-XL](/tags/Transformer-XL/) [Tree](/tags/Tree/) [Treebank](/tags/Treebank/) [Tuning](/tags/Tuning/) [Tutorial](/tags/Tutorial/) [Ubuntu](/tags/Ubuntu/) [UniLM](/tags/UniLM/) [Unity Operation](/tags/Unity-Operation/) [Unix](/tags/Unix/) [Unsupervised Elicitation](/tags/Unsupervised-Elicitation/) [UserCF](/tags/UserCF/) [VAPO](/tags/VAPO/) [VITS](/tags/VITS/) [Vagrant](/tags/Vagrant/) [Valence](/tags/Valence/) [Vector Semantics](/tags/Vector-Semantics/) [Verifier](/tags/Verifier/) [Virtual Network](/tags/Virtual-Network/) [VirtualBox](/tags/VirtualBox/) [Visualization](/tags/Visualization/) [Viterbi](/tags/Viterbi/) [Vocabulary Learning](/tags/Vocabulary-Learning/) [VoiceAgent](/tags/VoiceAgent/) [Voila](/tags/Voila/) [Voting](/tags/Voting/) [W2NER](/tags/W2NER/) [WOE](/tags/WOE/) [Web Server Multithreaded Server](/tags/Web-Server-Multithreaded-Server/) [Wide](/tags/Wide/) [Word2vec](/tags/Word2vec/) [Work](/tags/Work/) [World Model](/tags/World-Model/) [XLNet](/tags/XLNet/) [XTTS](/tags/XTTS/) [Z-Score](/tags/Z-Score/) [Zero-Short](/tags/Zero-Short/) [Zero-Shot](/tags/Zero-Shot/) [Zero-shot](/tags/Zero-shot/) [ZhouZhihua](/tags/ZhouZhihua/) [Zipf](/tags/Zipf/) [Ziya](/tags/Ziya/) [antigravity](/tags/antigravity/) [attention sink](/tags/attention-sink/) [bias](/tags/bias/) [binning](/tags/binning/) [context](/tags/context/) [emacs](/tags/emacs/) [few-shot](/tags/few-shot/) [ffmpeg](/tags/ffmpeg/) [gated attention](/tags/gated-attention/) [gpt-oss](/tags/gpt-oss/) [harmony format](/tags/harmony-format/) [jpype](/tags/jpype/) [kanban](/tags/kanban/) [knowledge Graph](/tags/knowledge-Graph/) [lightinfer](/tags/lightinfer/) [motion](/tags/motion/) [node2vec](/tags/node2vec/) [oat-zero](/tags/oat-zero/) [off-by-one attention](/tags/off-by-one-attention/) [orz](/tags/orz/) [pararun](/tags/pararun/) [promptlog](/tags/promptlog/) [s1](/tags/s1/) [skill](/tags/skill/) [spec](/tags/spec/) [ssh](/tags/ssh/) [str](/tags/str/) [trae](/tags/trae/) [vim](/tags/vim/) [vlc](/tags/vlc/)
+
+
+
+
+© 2026 hscspring
+All rights reserved.
+
+Powered by [Hexo](https://hexo.io/)
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,683 @@
+# Source URL: https://www.aipuzi.cn/ai-news/tldw.html
+# Content Length: 17360 characters
+# Extracted at: 2026-04-01 12:23:14
+#============================================================
+
+
+
+
+
+TLDW：AI驱动的开源YouTube长视频结构化学习工具 | AI铺子
+
+
+
+
+
+
+
+
+
+[![]()](/)
+[![]()](/)
+
+* [首页](/)
+* [AI工具](https://www.aipuzi.cn/ai-tools/)
+* [AI软件](https://www.aipuzi.cn/ai-softs/)
+* [AI书籍](https://www.aipuzi.cn/ai-books/)
+* [AI新闻](https://www.aipuzi.cn/ai-news/)
+* [AI教程](https://www.aipuzi.cn/ai-tutorial/)
+* [排行榜](https://www.aipuzi.cn/toprank/)
+
+
+
+
+
+
+[文章目录](javascript:void(0))
+
+[相关文章](javascript:void(0))
+
+分享本文
+
+
+
+
+
+
+1. [AI铺子](https://www.aipuzi.cn/)
+2. [AI新闻](https://www.aipuzi.cn/ai-news/)
+3. TLDW：AI驱动的开源YouTube长视频结构化学习工具
+
+TLDW：AI驱动的开源YouTube长视频结构化学习工具
+=============================
+
+ 原创
+ 发布日期：2025-11-25
+
+ 71
+
+
+
+#### 文章目录
+
+
+
+
+一、TLDW是什么？
+----------
+
+**TLDW**（Too Long; Didn't Watch）是一款面向长视频信息高效提取的开源应用，核心目标是解决“长视频耗时久、核心信息难抓取”的痛点。它并非简单的视频剪辑工具，而是一个集“AI内容处理、交互学习、个人化管理”于一体的结构化工作区——用户只需粘贴YouTube视频URL，即可自动生成高光片段、结构化摘要、智能问答、关键语录等内容，配合同步 transcript 查看、笔记记录与跨视频聚合功能，让原本需要1小时观看的视频，仅需几分钟就能掌握核心信息。
+
+从技术定位来看，TLDW是基于Next.js 15 App Router与React 19构建的全栈应用，前端采用Tailwind CSS v4与shadcn/ui实现高效UI开发，后端通过Next.js无服务器路由处理器提供API服务，AI能力依赖xAI Grok 4 Fast（默认）或Google Gemini模型，数据存储、认证与速率限制则由Supabase（Postgres数据库+Auth服务）支撑。整体架构强调“快速迭代、用户体验优化与安全性”，支持匿名使用与登录认证两种模式，兼顾临时用户的便捷性与注册用户的个性化需求。
+
+作为开源项目，TLDW的代码完全公开，开发者可基于此进行二次开发、功能扩展或本地化部署，适配特定场景（如企业内部培训视频处理、教育机构网课辅助工具等），其开源协议为GNU Affero General Public License v3.0，保障用户的使用与修改自由。
+
+二、功能特色
+------
+
+TLDW的核心优势在于“AI驱动的全链路视频信息处理”与“贴近学习场景的实用功能设计”，每个特性均围绕“高效吸收视频知识”展开，具体可分为以下7大模块：
+
+### 1. AI高光片段生成：精准抓取视频核心场景
+
+TLDW的核心功能之一是自动生成视频高光片段，解决“手动剪辑耗时”的问题，支持两种生成模式：
+
+* **Smart（优质模式）**：AI深度分析视频transcript与内容逻辑，提取关键论点、核心案例、重要结论等“高价值片段”，确保片段的完整性与逻辑性，适合学习、工作等需要精准获取信息的场景；
+* **Fast（快速模式）**：优先追求生成速度，通过轻量化算法抓取视频中出现频率高、情绪波动大或信息密度高的片段，适合快速筛选视频核心内容的场景。
+
+此外，高光片段支持“Play All（连续播放）”功能，用户无需跳转原视频即可连贯观看所有高光；同时提供“主题重生成”选项，可根据需求（如“只保留技术讲解片段”“提取案例分析部分”）重新生成高光，适配不同使用场景。
+
+### 2. AI多维度内容提炼：全方位覆盖核心信息
+
+除高光片段外，TLDW通过AI模型并行生成多维度视频摘要内容，避免用户遗漏关键信息：
+
+* **结构化摘要**：并非简单的文字堆砌，而是按照“核心观点→分论点→支撑案例→结论”的逻辑组织内容，清晰呈现视频的逻辑框架；
+* **快速预览**：100-200字的精简摘要，让用户在10秒内判断视频是否符合自身需求，节省筛选时间；
+* **建议问题**：AI基于视频内容自动生成高频疑问（如“视频中提到的核心方法是什么？”“案例的适用场景有哪些？”），帮助用户带着问题回顾内容，加深理解；
+* **经典语录**：提取视频中具有启发性、总结性或趣味性的句子，方便用户引用、记忆或分享。
+
+所有AI生成内容均与视频transcript关联，点击内容即可跳转至对应时间戳，实现“摘要→原视频”的快速联动。
+
+### 3. transcript交互：同步播放与精准跳转
+
+TLDW提供与YouTube播放器实时同步的transcript（字幕文本）查看器，核心优势在于“交互性”：
+
+* **同步滚动**：视频播放时，transcript对应句子自动高亮，用户可通过文本定位视频进度；
+* **点击跳转**：点击transcript中的任意句子，视频会直接跳转到该内容对应的时间点，无需手动拖拽进度条；
+* **引用捕捉**：遇到关键句子时，可直接点击“捕捉引用”按钮，将该句子快速添加至个人笔记，无需手动复制粘贴；
+* **翻译支持**：通过配置环境变量`NEXT_PUBLIC_ENABLE_TRANSLATION_SELECTOR`，可启用transcript翻译下拉框，支持多语言切换（需AI模型支持）。
+
+### 4. 个人笔记管理：跨视频聚合与高效整理
+
+TLDW内置“笔记工作区”，将视频学习与笔记记录无缝结合，解决“笔记分散、难以回顾”的问题：
+
+* **即时记录**：在分析视频页面（`/analyze/[videoId]`），可随时输入笔记，支持Markdown格式，且笔记会自动关联当前视频与时间戳；
+* **跨视频聚合**：通过`/all-notes`页面，聚合所有视频的笔记内容，支持按“视频名称、创建时间、关键词”筛选，按“时间顺序、视频分类”排序，方便用户进行跨主题回顾；
+* **笔记操作**：支持笔记的编辑、删除、Markdown渲染（如代码块、列表、链接等格式），满足多样化笔记整理需求；
+* **来源追溯**：每条笔记均标注关联视频的标题与时间戳，点击即可跳转至对应视频片段，实现“笔记→视频”的反向联动。
+
+### 5. 用户个性化功能：适配不同使用习惯
+
+TLDW通过Supabase存储用户偏好，支持个性化配置，提升长期使用体验：
+
+* **主题生成模式记忆**：用户可在“设置”页面选择默认的高光生成模式（Smart/Fast），系统会自动保存偏好，后续生成高光时无需重复选择；
+* **视频库管理**：登录用户可通过`/my-videos`页面查看所有已分析的视频，支持“收藏标记”“搜索筛选”“快速续看”（直接跳转至上次分析进度）；
+* **使用统计查看**：在“设置”页面可查看个人使用数据（如分析视频数量、生成高光次数、笔记总数），了解使用情况；
+* **账号配置**：支持修改用户名、密码，管理登录方式（基于Supabase Auth，支持邮箱OTP等认证方式）。
+
+### 6. 高效缓存与速率控制：平衡体验与资源消耗
+
+为避免重复计算与资源浪费，TLDW设计了完善的缓存与速率限制机制：
+
+* **缓存策略**：对已分析的视频内容进行 aggressive 缓存，再次分析同一视频时，直接调用缓存结果，无需重新生成，提升响应速度；同时支持“后台刷新”，确保内容时效性；
+* **速率限制**：区分匿名用户与登录用户的使用权限——匿名用户有每日生成次数限制，登录用户可获得更高限额，部分用户可通过`UNLIMITED_VIDEO_USERS`环境变量配置， bypass 每日限制；
+* **限流提示**：当用户达到速率限制时，系统会触发AuthModal登录提示，引导用户注册以解锁更多权限。
+
+### 7. 安全防护：全方位保障使用安全
+
+TLDW重视用户数据与系统安全，通过多层防护机制降低风险：
+
+* **CSP/HSTS headers**：全局中间件添加内容安全策略（CSP）与HTTP严格传输安全（HSTS）头，防止跨站脚本攻击（XSS）与协议降级攻击；
+* **CSRF保护**：状态ful请求（如保存笔记、收藏视频）需携带CSRF令牌，通过`csrfFetch`方法发起请求，由`withSecurity`中间件验证，防止跨站请求伪造；
+* **数据安全**：用户IP通过哈希处理后用于匿名用户限流，避免隐私泄露；请求体大小限制，防止恶意请求攻击；
+* **认证安全**：Supabase Auth提供会话刷新机制，通过`middleware.ts`维护登录状态，确保账号安全。
+
+三、技术细节
+------
+
+TLDW的技术架构围绕“前端高效交互、后端轻量化、AI可扩展、数据可信赖”设计，整体采用Next.js全栈方案，各模块职责清晰，以下是详细拆解：
+
+### 1. 前端技术栈
+
+TLDW的前端基于现代Web技术构建，兼顾开发效率与用户体验：
+
+| 技术组件 | 版本/用途 | 核心作用 |
+| --- | --- | --- |
+| Next.js | 15（App Router） | 全栈框架，提供路由管理、服务端渲染（SSR）、无服务器API等能力，支持Turbopack加速开发 |
+| React | 19 | UI渲染核心，支持并发渲染、钩子函数等特性，保障组件交互流畅 |
+| TypeScript | - | 提供类型安全，减少开发错误，提升代码可维护性 |
+| Tailwind CSS | 4 | 原子化CSS框架，快速构建响应式UI，适配不同设备 |
+| shadcn/ui | - | 可复用UI组件库，提供按钮、卡片、标签页等基础组件，提升UI一致性 |
+| lucide-react | - | 轻量级图标库，提供简洁统一的图标，优化视觉体验 |
+| sonner | - | 通知组件，用于展示操作结果（如“笔记保存成功”“速率限制提醒”） |
+
+前端页面采用“组件化+上下文管理”设计，核心上下文包括`auth-context.tsx`（处理Supabase认证状态），确保全局状态统一；页面路由基于Next.js App Router，通过文件夹结构定义路由，支持动态路由（如`/analyze/[videoId]`），适配不同视频的分析页面。
+
+### 2. 后端技术栈
+
+后端基于Next.js Serverless Route Handlers实现，无需额外部署独立后端服务，轻量化且易于扩展：
+
+* **核心能力**：提供API接口、处理AI调用、数据读写、安全验证等逻辑；
+* **中间件支持**：通过`withSecurity`中间件统一处理路由的“允许请求方法、速率限制、CSRF验证、输入验证”，减少重复代码；
+* **输入验证**：使用Zod库定义API请求参数的 schema，确保输入数据格式正确，防止恶意请求；
+* **跨域处理**：适配Supabase自定义域名，通过`middleware.ts`修复CSP（内容安全策略）问题，确保跨域请求正常。
+
+### 3. AI pipeline：可扩展的模型适配架构
+
+TLDW的AI能力采用“provider-agnostic（提供商无关）”设计，支持灵活切换AI模型，核心架构如下：
+
+* **核心文件**：`lib/ai-processing.ts`（负责prompt构建、transcript分片、结果聚合）与`lib/ai-client.ts`（AI调用入口，统一封装不同模型的调用逻辑）；
+* **模型支持**：默认使用xAI Grok 4.1 Fast模型（`grok-4-1-fast-non-reasoning`），可选集成Google Gemini模型（需配置`GEMINI_API_KEY`与`AI_PROVIDER=gemini`）；
+* **prompt设计**：通过`resources/`目录下的配置文件，为不同功能（摘要生成、高光提取、问答）设计针对性prompt，并添加视频上下文信息，提升生成准确性；
+* **降级处理**：当AI提供商触发速率限制时，系统会自动启用 fallback 机制，确保功能可用性；
+* **结构化输出**：通过Zod定义AI输出的 schema，确保AI返回的数据格式统一，便于前端解析展示。
+
+### 4. 数据存储与认证：基于Supabase的全链路支持
+
+Supabase是TLDW的数据核心，提供数据库、认证、存储等一站式服务，具体配置如下：
+
+#### （1）核心数据表结构
+
+| 表名 | 核心用途 | 关键字段 |
+| --- | --- | --- |
+| video\_analyses | 存储视频分析结果（高光片段、摘要、语录等） | video\_id、transcript、highlights、summary、quotes、created\_at |
+| user\_videos | 关联用户与分析视频（历史记录+收藏） | user\_id、video\_id、is\_favorite、last\_accessed\_at |
+| user\_notes | 存储用户笔记 | user\_id、video\_id、content（Markdown）、timestamp、created\_at |
+| profiles | 存储用户配置 | user\_id、name、preferred\_topic\_mode（Smart/Fast）、updated\_at |
+| rate\_limits | 存储速率限制记录 | user\_id/ip\_hash、action（如“generate\_highlights”）、count、reset\_at |
+
+#### （2）认证机制
+
+* 基于Supabase Auth实现用户认证，支持邮箱OTP、第三方登录等方式（需在Supabase后台配置）；
+* 通过`middleware.ts`自动刷新用户会话，确保登录状态持续有效；
+* 未登录用户触发速率限制时，引导至AuthModal完成注册/登录，解锁更多权限。
+
+#### （3）数据交互流程
+
+* 前端通过Supabase Browser Client与数据库交互，后端通过Supabase Server Client处理敏感操作（如更新速率限制、批量写入数据）；
+* 视频transcript通过Supadata API获取，视频封面、标题等元数据通过YouTube oEmbed接口获取，轻量化且高效。
+
+### 5. 安全架构
+
+TLDW的安全设计贯穿“请求入口→API处理→数据存储”全链路：
+
+* **请求入口防护**：`middleware.ts`作为全局中间件，拦截所有请求，添加CSP/HSTS头、验证Supabase会话、处理CSRF令牌生成与验证；
+* **API层防护**：`withSecurity`中间件为每个API路由添加“允许方法校验（如仅POST请求可保存笔记）、速率限制校验、CSRF令牌校验、请求体大小限制”；
+* **数据层防护**：用户敏感数据（如密码）由Supabase Auth加密存储，IP地址通过哈希处理后用于限流，避免隐私泄露；
+* **输入校验**：所有API请求参数通过Zod schema校验，防止恶意输入（如注入攻击）。
+
+### 6. 核心目录结构
+
+TLDW的目录结构遵循Next.js App Router规范，逻辑清晰，便于开发与维护：
+
+```
+.
+├── app/           # 路由与页面核心目录
+│  ├── api/         # 后端API路由（视频处理、AI生成、笔记管理等）
+│  ├── analyze/[videoId]/  # 视频分析工作区（核心页面）
+│  ├── all-notes/      # 跨视频笔记仪表盘
+│  ├── my-videos/      # 用户视频库（收藏+历史）
+│  ├── settings/      # 用户配置页面
+│  ├── auth/        # 认证相关UI片段
+│  ├── layout.tsx      # 根布局（包含Auth、主题提供商）
+│  └── page.tsx       # 首页（URL输入+模式选择）
+├── components/       # UI组件目录
+│  ├── ai-chat.tsx     # 基于transcript的AI聊天组件
+│  ├── highlights-panel.tsx # 高光片段展示与控制组件
+│  ├── notes-panel.tsx   # 笔记记录与展示组件
+│  ├── right-column-tabs.tsx # 摘要/聊天/transcript/笔记标签页组件
+│  ├── youtube-player.tsx  # YouTube播放器封装组件
+│  └── ui/         # shadcn/ui可复用组件
+├── contexts/        # 全局上下文目录
+│  └── auth-context.tsx   # Supabase认证上下文
+├── lib/           # 工具库目录
+│  ├── ai-client.ts     # AI调用统一入口
+│  ├── ai-processing.ts   # AI处理逻辑（prompt构建、分片等）
+│  ├── ai-providers/    # AI模型适配器（Grok/Gemini）
+│  ├── notes-client.ts   # 笔记操作工具（CSRF保护）
+│  ├── rate-limiter.ts   # 速率限制工具
+│  ├── security-middleware.ts # 安全中间件
+│  ├── supabase/      # Supabase客户端封装
+│  ├── validation.ts    # Zod校验schema
+│  └── utils.ts       # 通用工具（URL解析、格式转换等）
+├── public/         # 静态资源（图标、Logo等）
+├── supabase/        # Supabase相关目录
+│  └── migrations/     # 数据库迁移脚本
+├── CLAUDE.md        # 架构详情与贡献者手册
+└── next.config.ts      # Next.js配置文件（Turbopack、图片允许列表等）
+```
+
+四、应用场景
+------
+
+TLDW的核心价值是“高效提取视频核心信息”，适用于所有需要处理长时长YouTube视频的场景，以下是典型应用场景拆解：
+
+### 1. 学生群体：网课学习与知识梳理
+
+* **痛点**：网课视频时长过长（1-3小时），课堂时间有限，难以实时记录重点；课后复习需重新观看完整视频，效率低下；不同课程的笔记分散在多个文档，难以整合回顾。
+* **TLDW解决方案**：
+
+1. 粘贴网课URL，选择“Smart模式”生成高光片段与结构化摘要，快速获取课程核心知识点（如公式推导、例题解析、考点总结）；
+2. 通过transcript查看器定位重点内容，点击句子跳转视频回放，针对性复习；
+3. 在笔记面板记录疑问、补充知识点，通过`/all-notes`页面按课程分类整理笔记，形成知识体系；
+4. 收藏重要课程视频至`/my-videos`，方便考前快速回顾核心内容。
+
+### 2. 职场人士：教程学习与会议录像处理
+
+* **痛点**：技术教程视频（如编程、设计工具）步骤繁琐，需反复观看定位关键操作；行业会议、线上研讨会录像时长可达数小时，难以快速获取核心观点与行业动态；工作笔记与视频内容脱节，后续回顾难以对应具体操作。
+* **TLDW解决方案**：
+
+1. 分析技术教程视频时，生成“Fast模式”高光片段，快速定位关键操作步骤；通过AI建议问题，确认未理解的环节，点击跳转视频反复观看；
+2. 处理会议录像时，生成结构化摘要与经典语录，快速掌握会议决议、核心讨论点，无需观看完整录像；
+3. 记录工作笔记时，关联视频时间戳（如“15:32 提到的项目截止日期”），后续查看笔记可直接跳转对应片段，明确上下文；
+4. 收藏行业会议录像，通过`/my-videos`的搜索功能，快速查找特定主题的会议内容。
+
+### 3. 内容创作者：竞品分析与素材收集
+
+* **痛点**：需观看大量竞品视频（如同领域博主的内容、行业标杆案例），分析创作思路与亮点；需要从视频中提取经典语录、案例素材，用于自身内容创作；竞品视频数量多，难以系统管理与回顾。
+* **TLDW解决方案**：
+
+1. 批量分析竞品视频，生成高光片段与摘要，快速对比不同视频的创作结构、核心观点，提炼自身创作灵感；
+2. 通过“经典语录”功能，快速收集可复用的素材（如行业观点、金句），添加至笔记并标注来源；
+3. 在`/my-videos`中按“收藏标签”分类竞品视频（如“选题参考”“素材库”），方便后续查找；
+4. 通过`/all-notes`筛选竞品相关笔记，整合不同视频的优势，形成创作大纲。
+
+### 4. 终身学习者：海量视频筛选与知识吸收
+
+* **痛点**：互联网上海量优质视频（如TED演讲、纪录片、知识分享），难以判断是否符合自身需求；单视频时长过长，业余时间有限，无法全部观看；跨主题的知识碎片难以整合，形成体系。
+* **TLDW解决方案**：
+
+1. 粘贴视频URL后，先查看“快速预览”，判断视频是否符合学习需求，避免浪费时间；
+2. 对符合需求的视频，生成高光片段与结构化摘要，利用碎片化时间快速吸收核心知识；
+3. 在笔记中记录个人感悟与延伸思考，通过`/all-notes`按主题筛选笔记（如“心理学”“历史”），整合跨视频的知识，形成个人知识库；
+4. 收藏优质视频至`/my-videos`，建立个人学习清单，定期回顾复习。
+
+![]()
+
+五、使用方法
+------
+
+TLDW目前主要支持本地部署使用（开源项目未提供公开在线服务），以下是详细的本地部署与使用步骤：
+
+### 1. 前置要求
+
+在开始部署前，需准备以下环境与资源：
+
+* **系统环境**：支持Windows、macOS、Linux，需安装Node.js 18.18+（Next.js 15要求）；
+* **包管理器**：npm（推荐，项目自带package-lock.json）、pnpm或yarn均可；
+* **Supabase资源**：
+
+1. 注册Supabase账号，创建新项目；
+2. 获取项目的`NEXT_PUBLIC_SUPABASE_URL`（项目URL）与`NEXT_PUBLIC_SUPABASE_ANON_KEY`（匿名密钥）；
+3. 启用Supabase Auth（推荐邮箱OTP认证）。
+
+* **AI提供商密钥**：至少准备一个AI模型的API密钥：
+
+1. xAI Grok密钥（推荐）：注册xAI账号，创建API密钥；
+2. Google Gemini密钥（可选）：注册Google Cloud账号，开通Gemini API并获取密钥。
+
+### 2. 克隆项目与安装依赖
+
+打开终端，执行以下命令：
+
+```
+# 克隆项目仓库
+git clone https://github.com/SamuelZ12/TLDW.git
+
+# 进入项目目录
+cd TLDW
+
+# 安装依赖
+npm install
+```
+### 3. 配置环境变量
+
+在项目根目录创建`.env.local`文件，按以下要求配置环境变量（核心变量说明如下表）：
+
+| 环境变量名称 | 是否必填 | 描述 |
+| --- | --- | --- |
+| XAI\_API\_KEY | 是\* | xAI Grok API密钥，默认使用`grok-4-1-fast-non-reasoning`模型 |
+| GEMINI\_API\_KEY | 可选\* | Google Gemini API密钥，需配合`AI_PROVIDER=gemini`使用 |
+| SUPADATA\_API\_KEY | 是 | Supadata transcript API密钥（用于获取视频字幕） |
+| NEXT\_PUBLIC\_SUPABASE\_URL | 是 | Supabase项目URL（在Supabase项目设置→API中获取） |
+| NEXT\_PUBLIC\_SUPABASE\_ANON\_KEY | 是 | Supabase匿名密钥（在Supabase项目设置→API中获取） |
+| CSRF\_SALT | 是 | 用于签署CSRF令牌的随机字符串，可通过`openssl rand -base64 32`生成 |
+| AI\_PROVIDER | 可选 | 选择AI模型提供商，值为`grok`（默认）或`gemini` |
+| AI\_DEFAULT\_MODEL | 可选 | 覆盖默认模型（如`grok-4-1-fast-non-reasoning`） |
+| NEXT\_PUBLIC\_APP\_URL | 可选 | 应用的标准URL，默认`http://localhost:3000` |
+| NEXT\_PUBLIC\_ENABLE\_TRANSLATION\_SELECTOR | 可选 | 设置为`true`启用transcript翻译功能，默认隐藏 |
+| YOUTUBE\_API\_KEY | 可选 | 启用后可获取更多YouTube视频元数据 |
+| UNLIMITED\_VIDEO\_USERS | 可选 | 绕过每日限制的用户邮箱/ID（逗号分隔，小写） |
+
+\*注：至少需配置`XAI_API_KEY`或`GEMINI_API_KEY`中的一个，否则无法使用AI生成功能。
+
+示例`.env.local`配置：
+
+```
+XAI_API_KEY=your-grok-api-key
+SUPADATA_API_KEY=your-supadata-api-key
+NEXT_PUBLIC_SUPABASE_URL=https://abc123.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+CSRF_SALT=abcdefghijklmnopqrstuvwxyz1234567890+/=
+AI_PROVIDER=grok
+NEXT_PUBLIC_ENABLE_TRANSLATION_SELECTOR=true
+```
+### 4. Supabase数据库配置
+
+需在Supabase中执行数据库迁移，创建必要的表与函数：
+
+1. 登录Supabase项目后台，进入“SQL编辑器”；
+2. 上传项目`supabase/migrations/`目录下的迁移脚本，执行SQL语句；
+3. 确保创建以下表：`video_analyses`、`user_videos`、`user_notes`、`profiles`、`rate_limits`（表结构详情见`CLAUDE.md`）；
+4. 创建Postgres函数`upsert_video_analysis_with_user_link`（用于关联视频分析结果与用户）；
+5. 配置Supabase Auth的 redirect URL，需与`NEXT_PUBLIC_APP_URL`一致（如`http://localhost:3000`），确保登录后正常跳转。
+
+### 5. 启动项目
+
+完成配置后，执行以下命令启动开发服务器：
+
+```
+# 启动Next.js开发服务器（使用Turbopack加速）
+npm run dev
+```
+
+启动成功后，访问`http://localhost:3000`即可使用TLDW。
+
+### 6. 基本使用流程
+
+#### （1）匿名使用（无需登录）
+
+1. 在首页（`http://localhost:3000`）粘贴YouTube视频URL；
+2. 选择生成模式（Smart/Fast），点击“分析视频”；
+3. 系统自动跳转至`/analyze/[videoId]`页面，生成高光片段、摘要、transcript等内容；
+4. 可查看内容、记录临时笔记（未登录状态下笔记不持久化）、播放高光片段。
+
+#### （2）登录使用（推荐，解锁全部功能）
+
+1. 在首页点击右上角“登录”，通过邮箱OTP完成注册/登录；
+2. 粘贴YouTube URL并分析视频，生成的内容会自动关联至你的账号；
+3. 在分析页面记录笔记（自动保存至`user_notes`表）；
+4. 通过`/my-videos`查看历史分析视频，点击“收藏”标记重要视频；
+5. 通过`/all-notes`查看所有笔记，进行筛选、编辑或删除；
+6. 在`/settings`页面修改个人信息、切换默认生成模式、查看使用统计。
+
+### 7. 额外命令
+
+* **代码校验**：`npm run lint`（使用ESLint v9检查代码规范，提交PR前建议执行）；
+* **生产构建**：`npm run build`（构建生产环境版本，用于部署至Vercel等平台）。
+
+六、常见问题解答（FAQ）
+-------------
+
+**1. TLDW支持哪些视频平台？**
+
+目前仅支持YouTube视频，需提供完整的YouTube视频URL（如`https://www.youtube.com/watch?v=xxx`）。暂不支持B站、抖音、Vimeo等其他平台，后续可能通过扩展transcript获取渠道支持更多平台（需开发者二次开发）。
+
+**2. 必须配置AI密钥才能使用吗？**
+
+是的。TLDW的核心功能（高光生成、摘要、问答等）依赖AI模型，必须配置至少一个AI提供商的密钥（xAI Grok或Google Gemini）。如果仅需查看transcript，无需AI密钥，但功能会大幅受限。
+
+**3. 匿名用户与登录用户有什么区别？**
+
+| 功能 | 匿名用户 | 登录用户 |
+| --- | --- | --- |
+| 视频分析次数 | 每日有限制 | 更高限额，支持配置无限额度 |
+| 笔记功能 | 临时记录，刷新后丢失 | 持久化存储，跨设备同步 |
+| 视频库 | 无，无法保存分析记录 | 支持查看历史分析、收藏视频 |
+| 个性化配置 | 无，每次需重新选择生成模式 | 保存偏好，自动应用 |
+| 跨视频笔记 | 无 | 支持`/all-notes`聚合与筛选 |
+
+**4. 如何切换AI模型（Grok→Gemini）？**
+
+1. 在`.env.local`中配置`GEMINI_API_KEY`；
+2. 添加`AI_PROVIDER=gemini`（默认值为`grok`）；
+3. 重启开发服务器，系统会自动使用Gemini模型生成内容。
+
+**5. 本地开发时，API调用失败怎么办？**
+
+* 检查`.env.local`中的环境变量是否配置正确（尤其是API密钥、Supabase URL/密钥）；
+* 确认AI提供商（xAI/Google Cloud）的API密钥是否有效，且未超出调用限额；
+* 检查Supabase项目的IP允许列表，确保本地IP未被限制；
+* 查看终端日志，根据错误信息定位问题（如“CSRF令牌无效”需检查`CSRF_SALT`配置）。
+
+**6. 如何清除本地开发环境的速率限制？**
+
+速率限制记录存储在Supabase的`rate_limits`表中，可通过以下方式清除：
+
+1. 登录Supabase后台，进入“数据库→表→rate\_limits”；
+2. 执行SQL语句`DELETE FROM rate_limits;`，删除所有限流记录；
+3. 刷新TLDW页面，即可重新获得调用额度。
+
+**7. 能否部署到线上（如Vercel、Netlify）？**
+
+可以。TLDW基于Next.js开发，可直接部署至Vercel（推荐，与Next.js兼容性最佳）：
+
+1. 将项目推送到GitHub仓库；
+2. 在Vercel中关联该仓库，配置`.env.local`中的环境变量；
+3. 部署完成后，更新Supabase Auth的redirect URL为Vercel分配的域名；
+4. 确保Vercel的IP在Supabase的允许列表中，避免API调用失败。
+
+七、相关链接
+------
+
+* 项目GitHub仓库：<https://github.com/SamuelZ12/TLDW>
+
+八、总结
+----
+
+TLDW作为一款开源的YouTube长视频结构化学习工具，以“AI驱动高效信息提取”为核心，通过高光片段生成、结构化摘要、transcript交互、跨视频笔记管理等实用功能，精准解决了长视频耗时久、核心信息难抓取的痛点。其技术架构基于Next.js 15、React 19与Supabase构建，兼顾开发效率、用户体验与安全性，支持Grok/Gemini双AI模型切换，具备良好的可扩展性；应用场景覆盖学生学习、职场培训、内容创作、终身学习等多个领域，适配不同人群的高效信息吸收需求。通过本地部署即可快速使用，登录用户可解锁个性化配置、持久化存储等完整功能，开发者也可基于开源代码进行二次开发与定制化改造。整体而言，TLDW是一款“功能实用、技术成熟、生态友好”的开源工具，为长视频信息处理提供了高效、灵活的解决方案。
+
+
+ [开源项目](https://www.aipuzi.cn/tags/59.html)
+ [AI内容总结](https://www.aipuzi.cn/tags/1347.html)
+ [结构化学习](https://www.aipuzi.cn/tags/1348.html)
+
+打赏
+
+
+ **版权及免责申明：**本文由@**dotaai**原创发布。该文章观点仅代表作者本人，不代表本站立场。本站不承担任何相关法律责任。
+
+如若转载，请注明出处：https://www.aipuzi.cn/ai-news/tldw.html
+
+
+THE END
+
+[![]()](https://www.aipuzi.cn/user/5.html)
+dotaai
+正在和我的聊天机器人谈恋爱，它很会捧场。
+
+
+[+ 关注](https://www.aipuzi.cn/user/follow/uid/5.html)
+
+
+
+
+### 相关文章
+
+
+
+[![]()
+
+数据标注职业全景：薪资、前景、发展路径全解析](https://www.aipuzi.cn/ai-tutorial/932.html)
+
+[![]()
+
+GigaWorld-1：极佳视界开源的高精度物理交互AI世界模型](https://www.aipuzi.cn/ai-news/gigaworld-1.html)
+
+[![]()
+
+MicroCoder：微软剑桥联合开源的AI 代码模型专属强化学习库](https://www.aipuzi.cn/ai-news/microcoder.html)
+
+[![]()
+
+Pascal Editor：开源Web 3D建筑设计编辑器，零安装专业级建模与实时渲染](https://www.aipuzi.cn/ai-news/pascal-editor.html)
+
+
+
+
+热门文章
+----
+
+
+
+[![]()
+
+### Cursor 编辑器中自定义大模型设置方法（2025最新教程）
+
+ 2813](https://www.aipuzi.cn/ai-tutorial/53.html)
+
+[![]()
+
+### LuoGen-agent：开源 AI 视频生成智能体，一键实现爆款数字人口播视频自动化生产
+
+ 1548](https://www.aipuzi.cn/ai-news/luogen-agent.html)
+
+[![]()
+
+### 什么是AI Infra？AI Infra 到底包含哪些关键技术？
+
+ 1180](https://www.aipuzi.cn/ai-tutorial/what-is-ai-infra.html)
+
+[![]()
+
+### AICG是什么意思？AICG和AIGC有什么区别？
+
+ 1106](https://www.aipuzi.cn/ai-tutorial/what-is-aicg.html)
+
+
+
+热门工具
+----
+
+
+
+[![]()
+
+### Kuli
+
+Kuli是一个由人工智能驱动的网红营销平台，其核心功能是帮助品牌方通过分析TikTok和Instagram创作者的实际视频内容，实现精准的创作者发现、审...](https://www.aipuzi.cn/ai-tools/kuli.html)
+
+[![]()
+
+### Oniichan
+
+Oniichan是一个AI漫画生成器、OC（原创角色）制作器与动漫艺术创作平台。该平台的核心功能是允许用户通过简单的故事描述，由人工智能自动生成...](https://www.aipuzi.cn/ai-tools/oniichan.html)
+
+[![]()
+
+### SonificaLabs
+
+SonificaLabs是一个基于人工智能技术的专业音频内容生产平台。该平台的核心功能是，用户通过输入自然语言描述，即可在无需任何录音设备或专业...](https://www.aipuzi.cn/ai-tools/sonificalabs.html)
+
+[![]()
+
+### Vooka
+
+Vooka是一个专为时尚电商品牌设计的AI虚拟试衣平台。该平台的核心功能是，用户上传一张服装平铺图，即可在几秒钟内生成该服装穿在不同体型AI模...](https://www.aipuzi.cn/ai-tools/vooka.html)
+
+[![]()
+
+### 码上飞（CodeFlying）
+
+码上飞(CodeFlying)是由北京跨赴科技有限公司研发的AI自动化软件开发平台，其产品定位为自然语言驱动的自动化应用开发工具。该平台属于国内首...](https://www.aipuzi.cn/ai-tools/codeflying.html)
+
+[![]()
+
+### Maestri
+
+Maestri是一款专为macOS设计的原生终端应用程序，它通过一个无限画布彻底重构了开发者与多个AI编码代理协同工作的方式。它并非一个编写代码的...](https://www.aipuzi.cn/ai-tools/maestri.html)
+
+
+
+最新文章
+----
+
+
+
+[### 数据标注职业全景：薪资、前景、发展路径全解析
+
+ 2026-04-01 
+AI教程](https://www.aipuzi.cn/ai-tutorial/932.html)
+
+[### GigaWorld-1：极佳视界开源的高精度物理交互AI世界模型
+
+ 2026-04-01 
+AI新闻](https://www.aipuzi.cn/ai-news/gigaworld-1.html)
+
+[### MicroCoder：微软剑桥联合开源的AI 代码模型专属强化学习库
+
+ 2026-04-01 
+AI新闻](https://www.aipuzi.cn/ai-news/microcoder.html)
+
+[### Pascal Editor：开源Web 3D建筑设计编辑器，零安装专业级建模与实时渲染
+
+ 2026-04-01 
+AI新闻](https://www.aipuzi.cn/ai-news/pascal-editor.html)
+
+
+
+
+
+##### 打赏支持
+
+
+
+感谢您的支持，您的打赏是我创作的动力！
+
+![]()
+
+扫描二维码进行打赏
+
+
+
+
+
+
+© 2026 AI铺子(www.aipuzi.cn) 版权所有
+
+* [关于我们](/about/)
+* [隐私政策](/privacypolicy/)
+* [联系我们](/contactus/)
+* [网站地图](/sitemap.xml)
+
+
+
+工具
+新闻
+应用
+书籍
+
+
+
+
+
+
+
+
+
+
+AI铺子
+
+
+* [网站首页](/)
+* [AI工具](https://www.aipuzi.cn/ai-tools/)
+* [AI软件](https://www.aipuzi.cn/ai-softs/)
+* [AI书籍](https://www.aipuzi.cn/ai-books/)
+* [AI新闻](https://www.aipuzi.cn/ai-news/)
+* [AI教程](https://www.aipuzi.cn/ai-tutorial/)
+* [排行榜](https://www.aipuzi.cn/toprank/)
+
+
+
+
+
+

@@ -1,0 +1,1054 @@
+# Source URL: https://blog.csdn.net/u010522887/article/details/143247877
+# Content Length: 19367 characters
+# Extracted at: 2026-03-24 19:39:27
+#============================================================
+
+ 
+
+
+
+
+
+49K 下载！最强开源语音克隆TTS：本地部署实测，2秒复刻你的声音\_f5-tts官网-CSDN博客
+
+
+
+
+
+
+
+
+49K 下载！最强开源语音克隆TTS：本地部署实测，2秒复刻你的声音
+==================================
+
+
+最新推荐文章于 2026-03-23 21:04:08 发布
+原创
+最新推荐文章于 2026-03-23 21:04:08 发布
+·
+3w 阅读
+·
+![]()
+![]()
+25
+
+
+·
+![]()
+![]()
+67
+·
+CC 4.0 BY-SA版权
+版权声明：本文为博主原创文章，遵循 [CC 4.0 BY-SA](http://creativecommons.org/licenses/by-sa/4.0/) 版权协议，转载请附上原文出处链接和本声明。
+
+
+
+
+
+文章标签：
+
+[#人工智能](https://so.csdn.net/so/search/s.do?q=%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#音频](https://so.csdn.net/so/search/s.do?q=%E9%9F%B3%E9%A2%91&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+
+
+
+
+
+
+
+[![]()
+AI实战
+专栏收录该内容](https://blog.csdn.net/u010522887/category_12611551.html)
+
+131 篇文章
+
+订阅专栏
+
+
+
+
+最近，社区开源了一款语音克隆 TTS 模型 - `F5-TTS`，效果非常惊艳，不到一周，HuggingFace 模型下载量高达 49K！
+
+实操只需 2 秒音频即可合成超拟人的语音，推理速度优于前段时间和大家分享的：
+
+* [FishSpeech 实测，免费语音克隆神器，5分钟部署实战](https://zhuanlan.zhihu.com/p/713552916)
+* [CosyVoice 实测，阿里开源语音合成模型，3s极速语音克隆，5分钟部署实战](https://blog.csdn.net/u010522887/article/details/141010689)
+
+最近打算在项目中用到它，顺便做一个测评，分享给大家。
+
+### 1. F5-TTS 简介
+
+> 官方地址：<https://github.com/SWivid/F5-TTS>
+
+老规矩，先来简单介绍下~
+
+F5-TTS 有哪些亮点？
+
+* 在 E2-TTS 的基础上改进：**文本表示细化**和**推理采样策略**。
+* 在保持简单架构的同时，提供了更好的性能和更快的推理速度。
+* 零样本能力更强，也就是语音克隆效果更加惊艳（文末有实测）
+
+官方实测，不管在英文和中文数据集上，均优于阿里开源的 CosyVoice：
+
+![]()
+
+### 2. 在线体验
+
+> 在线体验地址：<https://www.modelscope.cn/studios/modelscope/E2-F5-TTS>
+
+F5-TTS 已上线 ModelScope，无需本地部署，即刻在线体验！
+
+![]()
+
+支持三种形式：
+
+* TTS：标准的单音色语音克隆；
+* Podcast：多音色克隆：有声读物制作者的福音；
+* Multi-Style：多种说话情绪，例如 Shouting…
+
+当然，如果需要在生产环境使用，那就少不了要本地部署服务。
+
+### 3. 本地部署
+
+#### 3.1 环境准备
+
+首先准备 F5-TTS 环境：
+
+```
+git clone https://github.com/SWivid/F5-TTS.git
+cd F5-TTS
+conda create -n f5tts python=3.10 -y
+conda activate f5tts
+pip install -r requirements.txt
+
+```
+
+然后，把模型下载到本地，方便调用：
+
+```
+export HF_ENDPOINT=https://hf-mirror.com
+huggingface-cli download SWivid/F5-TTS --local-dir ckpts/
+huggingface-cli download charactr/vocos-mel-24khz --local-dir ckpts/vocos
+
+```
+#### 3.2 推理测试
+
+先来测试下**单音色语音克隆**：
+
+```
+python inference-cli.py \
+--model "F5-TTS" \
+--ref_audio "tests/ref_audio/test_en_1_ref_short.wav" \
+--ref_text "Some call me nature, others call me mother nature." \
+--gen_text "I don't really care what you call me. I've been a silent spectator, watching species evolve, empires rise and fall. But always remember, I am mighty and enduring. Respect me and I'll nurture you; ignore me and you shall face the consequences." \
+--load_vocoder_from_local
+
+```
+
+相关参数说明：
+
+* –model 代表对应的模型，这里指定 F5-TTS;
+* –ref\_audio 待克隆的音频；
+* –ref\_text 待克隆的音频对应的文本，如果不提供的话会默认下载 `openai/whisper-large-v3-turbo` 进行语音识别；
+* –gen\_text 希望合成的文本;
+
+**多音色克隆**：
+
+```
+python inference-cli.py -c samples/story.toml
+
+```
+
+项目采用 `tomli` 管理配置信息，我们来看下配置文件，这里的 `voices.town` 用来指定不同的音色：
+
+![]()
+
+#### 3.3 服务端部署
+
+项目仓库中没有实现后端，因此我们采用 fastapi 完成后端部署。
+
+首先，新建一个配置文件，把后端支持的音色，都放进来：
+
+```
+[voices.zh]
+ref_audio = "tests/ref_audio/test_zh_1_ref_short.wav"
+ref_text = "对，这就是我，万人敬仰的太乙真人。"
+
+[voices.zh-CN-XiaoxiaoNeural]
+ref_audio = "tests/ref_audio/zh-CN-XiaoxiaoNeural.wav"
+ref_text = "曾经有一份真诚的爱情放在我面前，我没有珍惜。"
+
+[voices.zh-CN-XiaoyiNeural]
+ref_audio = "tests/ref_audio/zh-CN-XiaoyiNeural.wav"
+ref_text = "曾经有一份真诚的爱情放在我面前，我没有珍惜。"
+
+[voices.zh-CN-YunjianNeural]
+ref_audio = "tests/ref_audio/zh-CN-YunjianNeural.wav"
+ref_text = "曾经有一份真诚的爱情放在我面前，我没有珍惜。"
+
+```
+
+此外，还应该支持客户端上传待克隆的音频文件，因此数据模型定义如下：
+
+```
+class TTSRequest(BaseModel):
+    voice_name: str = '' # 目标语音名称
+    ref_audio: str = '' # 参考语音 base64编码的音频文件
+    ref_text: str = '' # 参考语音的文本
+    ref_tag: str = '' # 参考语音的标签
+    gen_text: str = '' # 待合成的文本
+
+```
+
+如果客户端指定了 `voice_name` 则采用配置文件中的音色进行克隆，如果客户端上传了`ref_audio`，则参考`ref_audio`进行克隆。
+
+实现逻辑如下，供大家参考：
+
+```
+@app.post("/f5tts")
+async def f5tts(request: TTSRequest):
+    if request.voice_name:
+        ref_voice = target_voices[request.voice_name]
+        ref_audio, ref_text = ref_voice['ref_audio'], ref_voice['ref_text']
+    else:
+        ref_audio, ref_text = request.ref_audio, request.ref_text
+        if not ref_audio:
+            return {"msg": "Please provide voice name or reference audio"}
+        ref_audio = save_audio(ref_audio, request.ref_tag)
+        if not ref_text:
+            ref_text = asr_sensevoice(ref_audio)
+    final_wave = infer_batch(ref_audio, ref_text, gen_text)
+
+```
+
+最后，调用 F5-TTS 模型将生成的音频文件返回，就 OK 了！
+
+### 4. 性能实测
+
+#### 4.1 显存占用
+
+模型加载后的显存占用情况：
+
+![]()
+
+语音合成的显存占用情况：
+
+![]()
+
+一张消费级显卡，妥妥够了！相比 CosyVoice 的 6G 显存，优势显著~
+
+**生成 13 秒的音频，只需 4.1 秒！**
+
+#### 4.2 合成效果
+
+最后，一起来感受一下合成效果：
+
+参考音频1：  
+ [ref\_audio\_1](https://objectstorage.ap-singapore-1.oraclecloud.com/n/axcvs2xtkbpq/b/bucket-20240802-0845/o/ref_audio_1.wav)
+
+语音克隆效果：  
+ [gen\_audio\_1](https://objectstorage.ap-singapore-1.oraclecloud.com/n/axcvs2xtkbpq/b/bucket-20240802-0845/o/gen_audio_1.wav)
+
+参考音频2：  
+ [ref\_audio\_2](https://objectstorage.ap-singapore-1.oraclecloud.com/n/axcvs2xtkbpq/b/bucket-20240802-0845/o/ref_audio_2.wav)
+
+语音克隆效果：  
+ [gen\_audio\_2](https://objectstorage.ap-singapore-1.oraclecloud.com/n/axcvs2xtkbpq/b/bucket-20240802-0845/o/gen_audio_2.wav)
+
+### 写在最后
+
+本文带大家本地部署并实测了最新开源的语音合成/克隆工具 - `F5-TTS`。
+
+AI 应用大体可分为：文本、语音、图片、视频，其中语音已被硅基生物攻破。从 GPT-SoVITS 到 F5-TTS，语音克隆的难度已经极大降低，不得不说，**一个人人有嘴替的时代已经到来**。
+
+如果对你有帮助，欢迎**点赞收藏**备用。
+
+---
+
+为方便大家交流，新建了一个 `AI 交流群`，欢迎感兴趣的小伙伴加入。
+
+最近打造的微信机器人`小爱(AI)`也在群里，公众号后台「联系我」，拉你进群。
+
+
+
+
+
+
+
+
+![]()
+确定要放弃本次机会？
+
+福利倒计时
+
+*:*
+
+*:*
+
+
+![]()
+立减 ¥
+
+
+普通VIP年卡可用
+
+[立即使用](https://mall.csdn.net/vip)
+
+
+[![]()
+AI码上来](https://hougeai.blog.csdn.net)
+
+[关注](javascript:;)
+关注
+
+
+* ![]()
+  ![]()
+  ![]()
+  25
+  点赞
+* ![]()
+  ![]()
+  踩
+* [![]()
+  ![]()
+  ![]()
+  67](javascript:;)
+  收藏
+  
+  
+  
+  觉得还不错?
+  一键收藏
+  
+  ![]()
+* ![]()
+  知道了
+  
+  [![]()
+  8](#commentBox)
+  评论
+* [![]()
+  分享](javascript:;)
+  复制链接
+  
+  分享到 QQ
+  
+  分享到新浪微博
+  
+  ![]()扫一扫
+* [![]()
+  打赏](javascript:;)
+  打赏
+* ![]()
+  ![]()
+  打赏
+  ![]()
+  举报
+  
+  ![]()
+  举报
+
+专栏目录
+
+
+
+
+![]()
+
+[GPT*-*SoVITS*本地**部署*：低成本实现*语音**克隆*远程生成*音频*全流程实战
+热门推荐](https://zhuyh.blog.csdn.net/article/details/146481044)
+
+[私聊前往站内信：https://i.csdn.net/#/msg/chat/weixin\_44976692](https://blog.csdn.net/weixin_44976692)
+
+03-24
+![]()
+1万+
+
+
+
+
+[今天要给大家安利一个绝对能让你大呼过瘾的*声音*黑科技——GPT*-*SoVITS！这款由花儿不哭大佬精心打造的*语音**克隆*神器，已经在GitHub上收获了超过3*5*K颗星星，简直是*声音*界的扛把子。你可能会想：这玩意儿难用吗？完全不会！GPT*-*SoVITS V*2*版不仅支持中、日、英、韩、粤五种语言，还加入了语速调节和无参考文本模式等实用功能。更让人兴奋的是，它为Windows用户准备了超简单的整合包，*下载*解压就能直接上手。但是，如果你只有一台性能强劲的电脑，并且希望在外出时也能随时随地使用这款神器怎么办？别担心！](https://zhuyh.blog.csdn.net/article/details/146481044)
+
+
+
+
+
+8 条评论
+您还未登录，请先
+登录
+后发表或查看评论
+
+
+[19k Star！最快*语音**克隆*方案 *2*0毫*秒*，FishSpeech1.*5* Windows 11*本地**部署*教程（附加速和API）](https://blog.csdn.net/a232541/article/details/145657888)
+
+[a232541的博客](https://blog.csdn.net/a232541)
+
+02-15
+![]()
+5211
+
+
+
+
+[最快*语音**克隆*方案，FishSpeech1.*5* Windows 11*本地**部署*教程](https://blog.csdn.net/a232541/article/details/145657888)
+
+
+
+[一款*下载*量高达 *49*K 的*语音**克隆*模型F*5**-*TT，*本地**部署**实测*，*2**秒**复刻*你的*声音*，效果非常惊艳！（带私活源码）](https://blog.csdn.net/m0_68103752/article/details/143370261)
+
+[m0\_68103752的博客](https://blog.csdn.net/m0_68103752)
+
+10-31
+![]()
+4139
+
+
+
+
+[本文带大家*部署*并*实测*：最新*开源*的*语音*合成/*克隆*工具 *-* F*5**-**TTS*。](https://blog.csdn.net/m0_68103752/article/details/143370261)
+
+
+
+
+[解锁F*5**-**TTS*：高性能*本地**语音*合成的*5*个实战技巧](https://blog.csdn.net/gitblog_00413/article/details/157929850)
+
+[gitblog\_00413的博客](https://blog.csdn.net/gitblog_00413)
+
+02-10
+![]()
+277
+
+
+
+
+[在数字化时代，*本地**语音*合成技术正成为开发者构建隐私保护型应用的核心需求。然而*开源**TTS*工具往往面临*部署*复杂、跨平台兼容性差、多语言支持不足等挑战。本文将带您深入探索F*5**-**TTS*这一基于流匹配技术的*开源**语音*合成系统，通过*5*个实战技巧掌握从环境搭建到生产*部署*的全流程，轻松实现高质量多语言*语音*生成。
+## 剖析*语音*合成的痛点：开发者面临的三大挑战
+当我们尝试在*本地**部署**开源**TTS*系统时，往往会陷入三个](https://blog.csdn.net/gitblog_00413/article/details/157929850)
+
+
+
+[*开源**语音**克隆*模型MeloVC：零样本*声音**复刻*的技术解析与实践](https://blog.csdn.net/oauth7security/article/details/155044625)
+
+[oauth7security的博客](https://blog.csdn.net/oauth7security)
+
+02-16
+![]()
+871
+
+
+
+
+[本文深入解析了*开源**语音**克隆*模型MeloVC如何实现零样本*声音**复刻*。通过剖析其核心技术Speaker Embedding与*语音*合成架构，并结合详细的实践教程，指导开发者快速上手，实现个性化*语音*生成。文章还探讨了其应用场景、训练方法及关键的伦理注意事项。](https://blog.csdn.net/oauth7security/article/details/155044625)
+
+
+
+[CosyVoice*语音**克隆*实战：*5*分钟*部署*教程，小白也能3*秒**复刻**声音*](https://blog.csdn.net/NightshadeHawk54/article/details/157004542)
+
+[NightshadeHawk54的博客](https://blog.csdn.net/NightshadeHawk54)
+
+01-16
+![]()
+376
+
+
+
+
+[本文介绍了基于星图GPU平台自动化*部署*🎙️ CosyVoice*-*300M Lite*:* 轻量级*语音*合成引擎的完整流程。通过预置镜像，用户可快速搭建*语音**克隆*服务，仅需3*秒**音频*即可*复刻*音色，适用于AI主播、多语言播报、情感化*TTS*等场景，实现高效*语音*交互开发与应用。](https://blog.csdn.net/NightshadeHawk54/article/details/157004542)
+
+
+
+[17k star！*开源*最快*语音**克隆*方案，FishSpeech 焕新升级，*本地**部署**实测*](https://devpress.csdn.net/v1/article/detail/144733762)
+
+[u010522887的专栏](https://blog.csdn.net/u010522887)
+
+12-26
+![]()
+1万+
+
+
+
+
+[本文和大家分享了一款强大的*语音**克隆*工具：fish*-*speech，\*\*从质量到速度\*\*，相比已有*开源*方案，有了全方位提升。](https://devpress.csdn.net/v1/article/detail/144733762)
+
+
+
+[Qwen3*-**TTS**声音**克隆**实测*：上传一段*语音*，AI完美*复刻*你的音色](https://blog.csdn.net/weixin_31776191/article/details/158754274)
+
+[weixin\_31776191的博客](https://blog.csdn.net/weixin_31776191)
+
+03-07
+![]()
+187
+
+
+
+
+[本文介绍了如何在星图GPU平台上自动化*部署*Qwen3*-**TTS**-*1*2*Hz*-*1.7B*-*Base镜像，快速实现AI*声音**克隆*功能。用户仅需上传一段简短*语音*样本，即可让AI完美*复刻*其音色，并生成任意文本的*语音*，可广泛应用于视频配音、个性化*语音*助手等场景，极大简化了高质量*语音*内容的创作流程。](https://blog.csdn.net/weixin_31776191/article/details/158754274)
+
+
+
+[VoxCPM*-*1.*5**-**TTS**-*WEB*-*UI*语音**克隆**实测*：高频细节还原度惊人](https://blog.csdn.net/weixin_42611177/article/details/156511418)
+
+[weixin\_42611177的博客](https://blog.csdn.net/weixin_42611177)
+
+01-01
+![]()
+1000
+
+
+
+
+[*实测*VoxCPM*-*1.*5**-**TTS**-*WEB*-*UI，其在44.1kHz高采样率与6.*2**5*Hz低标记率协同优化下，实现高频细节精准还原与高效推理。配合简洁Web界面，非专业用户也能快速完成高质量*语音**克隆*，展现AI*语音*技术向大众化落地的重要进展。](https://blog.csdn.net/weixin_42611177/article/details/156511418)
+
+
+
+[EmotiVoice*语音**克隆*功能*实测*：几*秒**音频*即可复制音色](https://blog.csdn.net/weixin_36487018/article/details/155958559)
+
+[weixin\_36487018的博客](https://blog.csdn.net/weixin_36487018)
+
+12-15
+![]()
+933
+
+
+
+
+[EmotiVoice是一款支持零样本音色*克隆*与情感控制的*开源**TTS*系统，仅需3*-*10*秒**音频*即可*复刻**声音*，并可叠加喜怒哀乐等情绪。其采用音色与情感解耦架构，实现高效、实时的个性化*语音*合成，适用于虚拟人、有声书、智能客服等场景。](https://blog.csdn.net/weixin_36487018/article/details/155958559)
+
+
+
+[Index*TTS* *2*.0*部署*教程：*本地*运行B站*开源**语音*模型全流程](https://devpress.csdn.net/v1/article/detail/156600917)
+
+[weixin\_36122351的博客](https://blog.csdn.net/weixin_36122351)
+
+01-04
+![]()
+810
+
+
+
+
+[B站*开源*的Index*TTS* *2*.0支持*5**秒*音色*克隆*、情感解耦与*语音*时长精准控制，基于自回归架构实现高自然度中文*语音*合成。本文详解从环境配置、模型加载到多角色情感迁移的完整*本地*运行流程，助力创作者实现音画同步、情绪丰富的AI配音。](https://devpress.csdn.net/v1/article/detail/156600917)
+
+
+
+[Index*TTS**2* *-* 宇宙*最强**开源**语音**克隆*模型，实现*语音*时长与情感精准控制 *语音*生成更真实更自然 支持*5*0系显卡 一键整合包*下载*](https://blog.csdn.net/yihuaixu/article/details/151354407)
+
+[AI人工智能影像技术博客](https://blog.csdn.net/yihuaixu)
+
+09-09
+![]()
+1088
+
+
+
+
+[Index*TTS**2* 是B站最新*开源*的*语音**克隆*及文本转*语音*模型，实现了对*语音*时长的精准控制（当前版本未实现），你可以明确指定想要生成的*语音*有多少个“*语音*单元”（类似词语或音节），从而精确控制*语音*的长度。今天分享的 Index*TTS**2* 基于B站最新*开源*的*2*.0模型打包，*实测*了下，无论是情感*复刻*还是*语音**克隆*，都是一个飞跃的提升，*语音**克隆*几乎是一比一*复刻*，情感控制也表现的非常出色，我将其称之为目前*开源**语音**克隆*项目里的*最强*王者，没有之一。比如，你可以用同一个人的音色，但改变*语音*的情感（如高兴、悲伤）。](https://blog.csdn.net/yihuaixu/article/details/151354407)
+
+
+
+[【颠覆未来】Spark*-**TTS*：3*秒**克隆*任何*声音*！零门槛打造你的AI*语音*帝国（附保姆级教程）](https://blog.csdn.net/wykqh/article/details/147282332)
+
+[记录学习编程的日常](https://blog.csdn.net/wykqh)
+
+04-16
+![]()
+1783
+
+
+
+
+[Spark*-**TTS*核心BiCodec编码器语义Tokens（*5*0个/*秒*）：专注"说什么" → 用ConvNeXt网络提取，相当于*语音*的"文字稿"全局Tokens（固定长度）：记录"怎么说"→ 通过ECAPA*-*TDNN编码音色/语调，像"声纹DNA"](https://blog.csdn.net/wykqh/article/details/147282332)
+
+
+
+[【Gradio系列】使用 Gradio 快速构建对话式 AI 应用
+最新发布](https://zwzhangyu.blog.csdn.net/article/details/159395139)
+
+[发现问题，面对问题，分析问题，解决问题，总结问题](https://blog.csdn.net/Octopus21)
+
+03-23
+![]()
+182
+
+
+
+
+[本文介绍了一个基于Gradio框架的AI智能助手实现方案。该方案通过Gradio的ChatInterface组件快速构建聊天界面，核心功能由chat\_stream函数实现：该函数会整理用户输入和历史对话记录，调用大模型API进行流式响应，实现类似ChatGPT的实时对话效果。系统采用Qwen*-*plus模型作为基础，并预设了友好专业的AI角色设定。整个方案仅需少量代码即可完成前后端开发，展现了Gradio在快速构建AI应用方面的优势。](https://zwzhangyu.blog.csdn.net/article/details/159395139)
+
+
+
+[【文献阅读】MINT：让AI“学会”蛋白质对话的语言，开启相互作用预测新时代](https://devpress.csdn.net/v1/article/detail/159283300)
+
+[weixin\_42038527的博客](https://blog.csdn.net/weixin_42038527)
+
+03-20
+![]()
+332
+
+
+
+
+[不再满足于看懂单个蛋白质，新一代蛋白质语言模型MINT通过跨链注意力机制，直接从海量序列中学习蛋白质之间如何“握手”与“交谈”，在抗体设计、癌症突变解读、病毒免疫逃逸预测等领域大放异彩。](https://devpress.csdn.net/v1/article/detail/159283300)
+
+
+
+[Figo神经网络几何优化：基于深度学习发现复杂参数空间中的最优测量几何](https://figocheung.blog.csdn.net/article/details/159285961)
+
+[在科技赋能新时代，共同探索基础理论和宇宙未知。](https://blog.csdn.net/Figo_Cheung)
+
+03-20
+![]()
+1017
+
+
+
+
+[我们提出了一种新颖的神经网络几何优化方法，用于发现复杂参数空间中的最优测量几何。我们的方法成功地将量子Fisher信息几何与深度学习相结合，在多个量子系统和应用中实现了优越的性能。
+关键创新包括保持几何对称性的等变神经网络架构、维持流形约束的黎曼优化算法，以及基于量子Cramér*-*Rao界的几何感知损失函数。实验结果证明了收敛速度提升3*-**5*倍，达到理论最优值的9*5*%以上。](https://figocheung.blog.csdn.net/article/details/159285961)
+
+
+
+[基于OpenClaw环境的Agent强化学习（RFT+GRPO）训练机制与自动化实践报告](https://devpress.csdn.net/v1/article/detail/159280274)
+
+[保持热爱。](https://blog.csdn.net/Rainsirius)
+
+03-20
+![]()
+499
+
+
+
+
+[本报告围绕OpenClaw体系下Agent的强化学习（RL）训练方法论，重点解析\*\*RFT（Reward Fine*-*Tuning，奖励微调）+ GRPO（Group Relative Policy Optimization）\*\*训练链路，并结合自动化工具，梳理从需求输入到模型*部署*的全流程实践方案。报告旨在降低大模型RL训练门槛，实现自然语言驱动的训练自动化，为OpenClaw环境下Agent的偏好对齐与任务性能优化提供可落地的技术路径。# 进阶版RFT+GRPO训练命令。](https://devpress.csdn.net/v1/article/detail/159280274)
+
+
+
+[ToDesk 全新 ToClaw，正在把电脑交给AI去操作](https://devpress.csdn.net/v1/article/detail/159280275)
+
+[qq\_2778465975的博客](https://blog.csdn.net/2401_86326742)
+
+03-20
+![]()
+5832
+
+
+
+
+[这两年，AI 工具层出不穷，但大多数产品还停留在“能回答、会生成”的阶段：帮你写一段话、搜一份资料、整理一个思路，真正到了执行层，还是得你自己坐回电脑前，一个软件一个软件地点、一项任务一项任务地做。](https://devpress.csdn.net/v1/article/detail/159280275)
+
+
+
+[107\_PyTorch 实战：深度解析 nn.Conv*2*d 卷积层参数与应用](https://blog.csdn.net/weixin_74245685/article/details/159284632)
+
+[weixin\_74245685的博客](https://blog.csdn.net/weixin_74245685)
+
+03-20
+![]()
+1111
+
+
+
+
+[参数化：卷积层中的卷积核（Kernel）是具有参数的，网络通过反向传播来学习这些参数，从而使其能够识别出有用的特征。降维与特征提取：通过调整stride和，卷积层在提取特征的同时，通常也会减小图像的宽高，从而降低后续计算的复杂度。](https://blog.csdn.net/weixin_74245685/article/details/159284632)
+
+
+
+[讯飞*语音*合成引擎：高准确率中文*TTS*解决方案，支持离线安装与*本地**部署*](https://wenku.csdn.net/doc/yafbdk3twa)
+
+
+
+
+[该引擎在实际*部署*中展现出卓越的中文*语音*自然度与可懂度，亲测合成*语音*在语调连贯性、停顿合理性、轻重音分布及情感倾向表达方面显著优于通用*开源**TTS*系统（如eSpeak、Festival或早期基于HMM的HTS系统）。尤为关键的...](https://wenku.csdn.net/doc/yafbdk3twa)
+
+
+
+
+
+
+[![]()](https://hougeai.blog.csdn.net)
+
+[AI码上来](https://hougeai.blog.csdn.net)
+
+
+博客等级
+
+![]()
+
+码龄13年
+
+
+
+[206
+原创](https://hougeai.blog.csdn.net)
+
+4254
+点赞
+
+7264
+收藏
+
+1万+
+粉丝
+
+
+关注
+
+[私信](https://im.csdn.net/chat/u010522887)
+
+
+
+[![]()](https://ai.csdn.net/workbench/wallet?utm_source=xtai_slb_bloglb)
+
+![]()
+
+
+### 热门文章
+
+* [最强开源Qwen2.5：本地部署 Ollma/vLLM 实测对比，邀你围观体验
+  ![]()
+  60829](https://hougeai.blog.csdn.net/article/details/142478091)
+* [【保姆级教程】免费域名注册 & Cloudflare 域名解析 & Ngnix端口转发
+  ![]()
+  57900](https://hougeai.blog.csdn.net/article/details/140786338)
+* [SenseVoice 实测，阿里开源语音大模型，识别效果和效率优于 Whisper，居然还能检测掌声、笑声！5分钟带你部署体验
+  ![]()
+  44129](https://hougeai.blog.csdn.net/article/details/140624599)
+* [本地部署大模型？Ollama 部署和实战，看这篇就够了
+  ![]()
+  39333](https://hougeai.blog.csdn.net/article/details/140651584)
+* [搭建微信机器人的第4种方式，免费开源，轻量高效
+  ![]()
+  38717](https://hougeai.blog.csdn.net/article/details/141348878)
+
+
+### 分类专栏
+
+* [![]()
+  AI实战](https://blog.csdn.net/u010522887/category_12611551.html)
+  131篇
+* [![]()
+  AI 工具](https://blog.csdn.net/u010522887/category_12697729.html)
+  18篇
+* [![]()
+  玩转云服务](https://blog.csdn.net/u010522887/category_12743774.html)
+  14篇
+* [![]()
+  AIoT嵌入式开发](https://blog.csdn.net/u010522887/category_12786169.html)
+  18篇
+* [![]()
+  Linux合集](https://blog.csdn.net/u010522887/category_12611445.html)
+  9篇
+* [![]()
+  Python 实战](https://blog.csdn.net/u010522887/category_12742465.html)
+  8篇
+* [![]()
+  效率工具](https://blog.csdn.net/u010522887/category_12736446.html)
+  1篇
+
+展开全部 ![]()
+收起 ![]()
+
+
+上一篇：
+
+[「AI数学老师」，一个前后端分离的小项目](https://blog.csdn.net/u010522887/article/details/143138023)
+
+
+下一篇：
+
+[开源视频生成 Pyramid Flow 本地部署实测](https://blog.csdn.net/u010522887/article/details/143279061)
+
+
+
+### 最新评论
+
+* [小智 AI 接入视觉能力：原理拆解+服务端实现](https://hougeai.blog.csdn.net/article/details/148972643#comments_39279528)
+  
+  [走神大赛第一名:](https://blog.csdn.net/Instantnoo111) 
+  我也想问(((φ(◎ロ◎;)φ)))，兄弟你成功了不，我试了几次接mcp，但是它只返回了文件名，解析不到base64编码或完整路径名，类似{看看你面前是谁？
+  AI
+  2026-03-14 21:45:51
+  self.camera.take\_photo({"question":"看看你面前是谁"})
+  以上内容由 AI (glm) 生成
+  Tool
+  2026-03-14 21:45:56
+  {"result":{"success":true,"filename":"pynjj70cvajbym592pxyqxo0c.jpg","text":"画面是一位戴着细框眼镜的人，能看到其部分面部（眼睛、鼻子、嘴及下巴区域），头发乌黑，背景有白色墙面、灯光和深色物体（如窗帘），整体是近距离拍摄的人物局部画面。"}}
+  Preview
+  4448ms
+  AI
+  2026-03-14 21:45:57
+  recognize\_lab\_member({"image\_input":"pynjj70cvajbym592pxyqxo0c.jpg"})
+  以上内容由 AI (glm) 生成
+  Tool
+  2026-03-14 21:46:08
+  {"success":false,"error":"Tool call was aborted due to timeout (10000ms)","aborted":true}
+  }
+
+
+### 大家在看
+
+* [HBuilderX 4.75 安装教程：详细步骤+桌面快捷方式创建](https://blog.csdn.net/idolao/article/details/159433601)
+* [Java工程师如何转型大模型AI？系统学习路径+全套资料，一次收藏够用！](https://blog.csdn.net/jennycisp/article/details/159433574)
+* [考研数学一、二、三历年真题及答案解析PDF电子版（1987-2026年）](https://blog.csdn.net/2608_94927382/article/details/159433368)
+* [SEO效果越来越差，线上获客的出路在哪
+  ![]()
+  221](https://blog.csdn.net/a5209763/article/details/159354130)
+* [OpenClaw 入门指南：从零开始搭建个人 AI 助手
+  ![]()
+  863](https://blog.csdn.net/Openclaw2026/article/details/159356160)
+
+
+### 最新文章
+
+* [Claude Code国内使用教程：从用上到用好](https://hougeai.blog.csdn.net/article/details/159156656)
+* [永久免费 OpenClaw 部署（续）：踩坑记录和实操指南](https://hougeai.blog.csdn.net/article/details/159043278)
+* [成功打通OpenClaw+微信群聊，纯视觉 不HOOK，无需公网](https://hougeai.blog.csdn.net/article/details/158611403)
+
+
+[2026年10篇](https://hougeai.blog.csdn.net?type=blog&year=2026&month=03)
+[2025年61篇](https://hougeai.blog.csdn.net?type=blog&year=2025&month=12)
+[2024年126篇](https://hougeai.blog.csdn.net?type=blog&year=2024&month=12)
+[2023年9篇](https://hougeai.blog.csdn.net?type=blog&year=2023&month=11)
+
+
+
+![]()
+
+
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+
+
+![]()
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+![]()
+
+上一篇：
+
+[「AI数学老师」，一个前后端分离的小项目](https://blog.csdn.net/u010522887/article/details/143138023)
+
+
+下一篇：
+
+[开源视频生成 Pyramid Flow 本地部署实测](https://blog.csdn.net/u010522887/article/details/143279061)
+
+
+
+### 分类专栏
+
+* [![]()
+  AI实战](https://blog.csdn.net/u010522887/category_12611551.html)
+  131篇
+* [![]()
+  AI 工具](https://blog.csdn.net/u010522887/category_12697729.html)
+  18篇
+* [![]()
+  玩转云服务](https://blog.csdn.net/u010522887/category_12743774.html)
+  14篇
+* [![]()
+  AIoT嵌入式开发](https://blog.csdn.net/u010522887/category_12786169.html)
+  18篇
+* [![]()
+  Linux合集](https://blog.csdn.net/u010522887/category_12611445.html)
+  9篇
+* [![]()
+  Python 实战](https://blog.csdn.net/u010522887/category_12742465.html)
+  8篇
+* [![]()
+  效率工具](https://blog.csdn.net/u010522887/category_12736446.html)
+  1篇
+
+展开全部 ![]()
+收起 ![]()
+
+
+
+
+
+
+### 目录
+
+
+
+
+
+
+
+
+
+
+
+
+
+评论 8
+![]()
+
+![]()被折叠的  条评论
+[为什么被折叠?](https://blogdev.blog.csdn.net/article/details/122245662)
+[![]()到【灌水乐园】发言](https://bbs.csdn.net/forums/FreeZone)
+
+
+查看更多评论![]()
+
+
+
+添加红包
+
+
+祝福语
+
+
+请填写红包祝福语或标题
+
+
+红包数量
+
+个
+
+红包个数最小为10个
+
+
+红包总金额
+
+元
+
+红包金额最低5元
+
+
+余额支付
+当前余额3.43元
+[前往充值 >](https://i.csdn.net/#/wallet/balance/recharge)
+
+
+需支付：10.00元
+
+取消
+确定
+
+
+
+
+![]()
+下一步
+
+![]()
+知道了
+
+
+
+![]()
+成就一亿技术人!
+
+
+
+领取后你会自动成为博主和红包主的粉丝
+规则
+
+
+
+![]()
+hope\_wisdom 发出的红包
+
+
+
+
+
+
+
+
+
+打赏作者![]()
+
+[![]()](https://hougeai.blog.csdn.net)
+
+AI码上来
+
+你的鼓励将是我创作的最大动力
+
+
+
+
+¥1
+¥2
+¥4
+¥6
+¥10
+¥20
+
+扫码支付：¥1
+
+![]()
+获取中
+
+
+![]()
+![]()
+扫码支付
+
+
+
+您的余额不足，请更换扫码支付或[充值](https://i.csdn.net/#/wallet/balance/recharge?utm_source=RewardVip)
+
+打赏作者
+
+
+
+
+实付元
+[使用余额支付](javascript:;)
+![]()
+点击重新获取
+
+
+![]()![]()![]()扫码支付
+
+
+
+
+钱包余额
+0
+![]()
+
+抵扣说明：
+
+1.余额是钱包充值的虚拟货币，按照1:1的比例进行支付金额的抵扣。  
+ 2.余额无法直接购买下载，可以购买VIP、付费专栏及课程。
+
+
+
+
+
+[![]()余额充值](https://i.csdn.net/#/wallet/balance/recharge)
+
+![]()
+
+
+
+
+
+

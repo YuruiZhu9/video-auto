@@ -1,0 +1,272 @@
+# Source URL: https://whatllm.org/blog/llm-releases-march-2026
+# Content Length: 19562 characters
+# Extracted at: 2026-03-31 06:47:00
+#============================================================
+
+
+New LLMs March 2026: GPT-5.4 Tied for #1. Nobody Talked About It. | What LLM?[![]()](/)[Home](/)[Explore](/explore)[Guess](/guess)[Compare](/compare)[Tools](/tools)[Blog](/blog)[About](/about)[@demian\_ai](https://twitter.com/demian_ai)[LinkedIn](https://www.linkedin.com/in/dylanbristot/)Monthly RoundupMarch 2026
+
+New LLMs March 2026: GPT-5.4 Tied for #1. Nobody Talked About It.
+=================================================================
+
+GPT-5.4 matched Gemini 3.1 Pro Preview within 0.01 points for the top spot. NVIDIA unveiled trillion-parameter infrastructure. Anthropic got labeled a supply-chain risk by the Pentagon. And nine text models shipped, seven open-weight, reshaping the leaderboard from top to bottom.
+
+By Dylan Bristot-March 24, 2026-18 min read
+
+March 2026 at a glance
+----------------------
+
+9Text models shipped7Open-weight3MoE architectures0.01Gap at #1$1T+Infra pipeline (GTC)
+
+GPT-5.4 tied Gemini for #1 within 0.01 points. The middle got rewritten. And the industry quietly pivoted from "build bigger models" to "make them useful at scale."
+
+March was bigger than the models
+--------------------------------
+
+GPT-5.4 (xhigh) scored 57.17 on the Intelligence Index. Gemini 3.1 Pro Preview sits at 57.18. A gap of 0.01. OpenAI effectively matched the top spot, and the story barely registered. That tells you something about where the industry's attention went in March.
+
+Zoom out, and March was one of the most consequential months in AI this year. Not just because of who scored highest, but because of everything happening around the models.
+
+### The bigger picture: what else happened in March
+
+GTC 2026NVIDIA's flagship conference (March 16-19) debuted the Vera Rubin AI platform, claiming ~10x training cost reduction for trillion-parameter models. Jensen Huang announced $1T+ in infrastructure orders in the pipeline. New dedicated inference chips, an open Agent Toolkit, and the Nemotron Coalition (Mistral, Perplexity, Cursor, and others) for open frontier models. Physical AI and robotics got marquee billing for the first time.Pentagon AIAnthropic refused to loosen restrictions on autonomous weapons use. Multiple U.S. agencies began phasing out Claude models over a 6-month transition. Anthropic was labeled a "supply-chain risk," a designation normally reserved for foreign adversaries. OpenAI moved fast with a new DoD agreement, triggering internal backlash and at least one public resignation.Agentic toolsMistral launched Forge: fully custom model training with zero vendor lock-in. ByteDance open-sourced DeerFlow 2.0 with isolated agent environments. Microsoft shipped Copilot Cowork (desktop agent). Perplexity launched a persistent local agent. The "agentic" label moved from pitch deck to shipping product.InfrastructureMorgan Stanley warned of 9-18 GW U.S. power-grid shortfall from AI compute. Nebius raised $2B+ for AI factories. AMD launched Ryzen AI 400 for consumer AI. Projected infrastructure spend: $3T+ by 2028. Apple deepened its Siri-Gemini integration.
+
+This is the context that makes March's model releases meaningful. The industry is visibly pivoting from "new model every week" to "how do we deploy this at scale, securely, on real hardware, for real workloads." GPT-5.4 matched the top, but the seven open-weight releases below it are what changed the practical landscape: efficient MoEs, edge-capable reasoning, low-hallucination accuracy, open licenses.
+
+Nine text models from seven companies across three continents. Seven open-weight. Three built on MoE architectures. GPT-5.4 joined Gemini 3.1 Pro Preview in a virtual tie at the summit. MiniMax-M2.7, MiMo-V2-Pro, and Grok 4.20 packed the 48-50 band. And the entire tier below that got flooded with efficient, self-hostable alternatives.
+
+March 2026 is the month the entire leaderboard moved at once.
+
+The complete release list
+-------------------------
+
+Every text-focused model that shipped in March 2026, ordered chronologically. Data sourced from [Artificial Analysis](https://artificialanalysis.ai) and developer announcements.
+
+| Date | Model | Developer | Intelligence Index | License | Architecture |
+| --- | --- | --- | --- | --- | --- |
+| Mar 3 | Gemini 3.1 Flash-Lite Preview | Google | 34 | Proprietary | — |
+| Mar 5 | Qwen3.5 (small series) | Alibaba | — | Open | 0.8B–9B |
+| Mar 5 | Qwen3.5 (large series) | Alibaba | 45 | Open | MoE 27B–397B |
+| Mar 6 | GPT-5.4 (xhigh) | OpenAI | 57 | Proprietary | — |
+| Mar 11 | Nemotron 3 Super | NVIDIA | 36 | Open | MoE 120B (12B active) |
+| Mar 12 | Grok 4.20 Beta | xAI | 48 | Proprietary | — |
+| Mar 16 | Nemotron 3 VoiceChat | NVIDIA | — | Open | ~12B |
+| Mar 18 | MiMo-V2-Pro | Xiaomi | 49 | Open | — |
+| Mar 18 | MiniMax-M2.7 | MiniMax | 50 | Open | — |
+| Mar 20 | Mistral Small 4 | Mistral AI | 27 | Open (Apache 2.0) | MoE 119B (6.5B active) |
+
+Intelligence Index from Artificial Analysis. "—" indicates score not yet published or model is a specialized variant. Highlighted rows scored 49+ on the index. MoE = Mixture-of-Experts.
+
+GPT-5.4 tied for #1. The industry shrugged.
+-------------------------------------------
+
+OpenAI shipped GPT-5.4 (xhigh) on March 6. It scored 57.17 on the Artificial Analysis Intelligence Index. Gemini 3.1 Pro Preview sits at 57.18. That is a 0.01-point gap. OpenAI effectively matched Google for the #1 position on the leaderboard, leapfrogging GPT-5.2 (51.28) and Claude Opus 4.5 (43.09) in the process. At $5.63 per million tokens, it's priced competitively against Gemini's $4.50/M while matching it on quality.
+
+And yet the story barely registered. Partly because the "(xhigh)" suffix signals a reasoning-effort configuration rather than a clean new generation. Partly because the industry's attention was elsewhere: GTC, the Pentagon drama, agentic tooling. But the data is clear. GPT-5.4 is co-#1 by any meaningful measure.
+
+### Current leaderboard (top models by Intelligence Index)
+
+Gemini 3.1 Pro PreviewFeb 202657.18GPT-5.4 (xhigh)Mar 202657.17Claude Opus 4.6Pre-March52.95GPT-5.2 (xhigh)Pre-March51.28MiniMax-M2.7Mar 202649.62Grok 4.20 BetaMar 202648.48MiMo-V2-ProMar 202649
+
+Intelligence Index (Artificial Analysis). Higher is better. GPT-5.4 (xhigh) is virtually tied with Gemini 3.1 Pro Preview for the #1 position.
+
+The real winners: MiniMax-M2.7 and MiMo-V2-Pro
+----------------------------------------------
+
+While GPT-5.4 took the #1 spot, two models from Chinese labs quietly delivered what matters more for most builders. **MiniMax-M2.7** landed March 18 with Intelligence Index 49.62 at just $0.53 per million tokens. MiniMax has been steadily climbing (M2, M2.1, now M2.7), each iteration reducing hallucination rates. At that price-to-quality ratio, it's genuinely useful for production workloads.
+
+**MiMo-V2-Pro**, also March 18, from Xiaomi. Intelligence Index 49. Elo 1426 on GDPval-AA for agentic tasks. The successor to MiMo-V2-Flash pushes reasoning further while staying open-weight and priced to undercut everything in its tier.
+
+### MiniMax-M2.7
+
+MiniMax · March 18 · Open
+
+49.62Intelligence IndexLowHallucination rate
+
+Third iteration of MiniMax's M2 line. Each version has shipped tighter factual accuracy and lower cost. The M2.7 is the best price-to-quality ratio in its tier.
+
+### MiMo-V2-Pro
+
+Xiaomi · March 18 · Open
+
+49Intelligence Index1426GDPval-AA Elo
+
+Strong reasoning upgrade from Xiaomi's MiMo line. The agentic Elo of 1426 puts it in competitive territory for tool-calling and multi-step workflows.
+
+Both models are open-weight. Both score close to 49-50 on the Intelligence Index. Both were released on the same day. Whether that's coincidence or competitive signaling, the result is the same: the 45-to-50 band, the tier that handles the majority of real production workloads, got two strong new entrants in a single afternoon.
+
+Mixture-of-Experts ate March
+----------------------------
+
+Three of March's nine releases used MoE architectures. That's not new. MoE has been the default for large open models since late 2025. What's new is the efficiency ratios.
+
+| Model | Total params | Active params | Ratio | License |
+| --- | --- | --- | --- | --- |
+| Qwen3.5 (large series) | Up to 397B | 3B–10B | ~2.5% active | Open |
+| Nemotron 3 Super | 120B | 12B | 10% active | Open |
+| Mistral Small 4 | 119B | 6.5B | 5.5% active | Apache 2.0 |
+
+Active parameter ratios for March 2026 MoE releases. Lower ratio = more efficient routing. Qwen3.5's 397B model runs with as few as ~10B active parameters per forward pass.
+
+Mistral Small 4 is the one worth lingering on. 119 billion total parameters with only 6.5 billion active. That's a model with the knowledge capacity of a large model but the inference cost of a small one. It supports image and text inputs, offers hybrid reasoning (score of 27 in reasoning mode), and ships under Apache 2.0. You can run it, modify it, build on it, sell products with it. And pair it with Mistral Forge, the custom model training platform Mistral launched at GTC on March 17, and the picture becomes clearer: Mistral is selling the full stack for enterprises that want to own their AI pipeline end-to-end.
+
+NVIDIA's Nemotron 3 Super tells a similar story: 120B total, 12B active, open weights, Intelligence Index of 36. Not frontier-class, but running at 12B active parameters means it fits on hardware that most companies already own. Read this release in the context of GTC 2026, where Jensen Huang unveiled the Vera Rubin platform, the Nemotron Coalition with Mistral and Perplexity, and an open Agent Toolkit built around Nemotron models. NVIDIA isn't just building chips anymore. It's building the model-to-hardware pipeline, and Nemotron 3 Super is the open-weight anchor of that strategy.
+
+Grok 4.20: lowest hallucination rate ever measured
+--------------------------------------------------
+
+xAI's Grok 4.20 Beta, released March 12, deserves a separate section because of one number: **22% hallucination rate**. That is the lowest hallucination rate Artificial Analysis has measured on any model to date.
+
+The rest of the spec sheet is solid but not record-breaking: 82.9% on IFBench (instruction following), 265 tokens per second output speed, priced at $2 input / $6 output per million tokens. What sets it apart is the factual accuracy. For applications where making things up is catastrophic (legal, medical, financial, compliance), a 22% hallucination rate versus the 30-40% range most models sit in is a genuine differentiator.
+
+### Grok 4.20 Beta at a glance
+
+22%Hallucination rateLowest measured82.9%IFBench265Tokens/sec$2/$6In/Out per M tokens
+
+The "Beta" tag still applies, and xAI has historically iterated quickly on Grok versions post-beta. But the hallucination number alone is worth tracking. If it holds in independent testing, Grok 4.20 becomes the default answer for factuality-sensitive deployments.
+
+Alibaba went wide with Qwen3.5
+------------------------------
+
+Qwen3.5 isn't a model. It's a product line. Alibaba shipped reasoning variants at 0.8B, 2B, 4B, and 9B (dense), plus MoE variants at 27B, 35B (3B active), 122B (10B active), and 397B. Eight models in one release, each targeting a different hardware tier.
+
+The small variants matter most. A 0.8B reasoning model that runs on a phone is qualitatively different from the cloud-first releases of 2024. The 4B variant hits the sweet spot for single-GPU consumer hardware. On the large end, the 397B MoE scored 45.05 on the Intelligence Index at $1.35/M, the 27B scored 42.07, and the 122B scored 41.6. Alibaba remains one of the most consistent open-weight contributors in the industry.
+
+The open-weight scoreboard
+--------------------------
+
+Seven of nine. That ratio has held steady since December 2025.
+
+### Open-weight (7 models)
+
+* **Qwen3.5** (8 variants), Alibaba
+* **Nemotron 3 Super**, NVIDIA
+* **Nemotron 3 VoiceChat**, NVIDIA
+* **MiMo-V2-Pro**, Xiaomi
+* **MiniMax-M2.7**, MiniMax
+* **Mistral Small 4**, Mistral (Apache 2.0)
+### Proprietary (2 models)
+
+* **GPT-5.4 (xhigh)**, OpenAI
+* **Gemini 3.1 Flash-Lite Preview**, Google
+
+Grok 4.20 Beta sits in a gray area. xAI has not committed to an open-weight release for this version, though earlier Grok models were partially opened.
+
+The practical implication: if you're building a product today and want to avoid vendor lock-in, the selection of capable open models in the 35-to-50 range is now deep enough to staff an entire AI pipeline. Reasoning (MiMo-V2-Pro at 49), general tasks (MiniMax-M2.7 at 49.62), efficient inference (Mistral Small 4), and edge deployment (Qwen3.5 small variants) are all covered without a single proprietary API call.
+
+How March shifted the landscape
+-------------------------------
+
+At the end of February, Gemini 3.1 Pro Preview sat alone at the top (57.18). GPT-5.2 (51.28) and Claude Opus 4.6 (52.95) held the upper tier. Below that, the 45-50 band was thin. March changed every layer.
+
+### Landscape shift: end of Feb → end of March
+
+Top tier (55+)
+
++1 model. GPT-5.4 (57.17) joined Gemini 3.1 Pro Preview (57.18) in a virtual tie for #1. The ceiling didn't rise, but a second model now shares it.
+
+Strong tier (45–55)
+
++4 models. MiniMax-M2.7 (49.62), MiMo-V2-Pro (49), Grok 4.20 (48.48), Qwen3.5 397B (45.05). This tier went from sparse to crowded and fiercely competitive on price.
+
+Efficient tier (25–45)
+
++3 models. Nemotron 3 Super (36), Gemini 3.1 Flash-Lite (34), Mistral Small 4 (27 in reasoning mode). MoE efficiency dominates here.
+
+Edge & Small
+
++8 variants. Qwen3.5 small series (0.8B-9B). On-device reasoning is no longer aspirational. It ships.
+
+Practical guidance for March 2026
+---------------------------------
+
+GPT-5.4 now matches Gemini 3.1 Pro Preview at the top, giving you two co-#1 options. But the biggest value shifts happened in the tiers below. If you're evaluating cost:
+
+| If you need… | Consider | Why |
+| --- | --- | --- |
+| Lowest hallucination risk | Grok 4.20 Beta | 22% hallucination rate, lowest ever measured. $2/$6 per M tokens. |
+| Budget production workloads | MiniMax-M2.7 | Intelligence Index 50, aggressively priced, open-weight. |
+| Open-weight agent/reasoning | MiMo-V2-Pro | Elo 1426 on agentic tasks, II 49, self-hostable. |
+| Efficient self-hosting | Mistral Small 4 | 6.5B active params, Apache 2.0, image + text, hybrid reasoning. |
+| On-device / edge inference | Qwen3.5 small (0.8B–4B) | Reasoning variants that run on phones and consumer GPUs. |
+| OpenAI ecosystem, mid-tier | GPT-5.4 (xhigh) | II 57.17, co-#1 on the leaderboard. $5.63/M. |
+
+What to watch next
+------------------
+
+The ceiling (57.18) has held since February, even though GPT-5.4 now shares it. Google, OpenAI, and Anthropic are all expected to ship significant updates in Q2 2026, and Morgan Stanley estimates roughly 10x more training compute coming online in H1. When one lab breaks above 57, the others will respond fast.
+
+But model intelligence is no longer the only axis. Sub-10B reasoning from Qwen3.5 and 6.5B-active Mistral Small 4 signal that local-first AI is a category now, not a compromise. NVIDIA's GTC bet on physical AI says the next demand wave won't just be chatbots. And the Anthropic-Pentagon standoff raised alignment questions the industry can't ignore. "Which model is best?" is giving way to "How do we deploy this at scale, on our hardware, without breaking the power grid?"
+
+Re-evaluate monthly. The leaderboard is stable. Everything around it is not.
+
+### The bottom line
+
+GPT-5.4 matched Gemini 3.1 Pro Preview within 0.01 points for the #1 spot, and the story barely made noise. Nine models shipped, seven open. MiniMax-M2.7, MiMo-V2-Pro, and Grok 4.20 packed the 48-50 band with strong, affordable options. Mistral Small 4 proved a 6.5B-active-param MoE can be genuinely useful. Grok 4.20 posted the lowest hallucination rate ever recorded.
+
+Meanwhile, NVIDIA bet $1T+ on physical AI infrastructure, Anthropic went to war with the Pentagon over alignment principles, and agentic frameworks went from demo to deployment. The ceiling held at 57. But the floor rose, the middle got crowded, and the industry decided that building bigger models matters less than making them work. That's not a pause. That's a pivot.
+
+Data sourced from [Artificial Analysis](https://artificialanalysis.ai), developer announcements, and WhatLLM.org tracking. See our [interactive model explorer](/explore) for live pricing, speed, and benchmark data across 280+ models.
+
+Frequently asked questions
+--------------------------
+
+### What new AI models were released in March 2026?
+
+Nine text models shipped: GPT-5.4 (xhigh) from OpenAI, Qwen3.5 series from Alibaba (8 variants from 0.8B to 397B), Grok 4.20 Beta from xAI, Nemotron 3 Super and VoiceChat from NVIDIA, MiMo-V2-Pro from Xiaomi, MiniMax-M2.7 from MiniMax, Mistral Small 4 from Mistral AI, and Gemini 3.1 Flash-Lite Preview from Google.
+
+### What is the best new AI model from March 2026?
+
+GPT-5.4 (xhigh) scored 57.17 on the Intelligence Index, virtually tied with Gemini 3.1 Pro Preview (57.18) for #1 overall. For open-weight, MiniMax-M2.7 (49.62) and MiMo-V2-Pro (49) offer the best value. For factual accuracy, Grok 4.20 Beta posted the lowest hallucination rate ever measured at 22%.
+
+### Is GPT-5.4 better than GPT-5.2?
+
+Yes. GPT-5.4 (xhigh) scored 57.17 on the Intelligence Index, well above GPT-5.2 (xhigh) at 51.28. It is effectively tied for #1 overall with Gemini 3.1 Pro Preview (57.18). It is a clear upgrade in quality.
+
+### Which March 2026 AI models are open source?
+
+Seven of nine: Qwen3.5 (Alibaba), Nemotron 3 Super and VoiceChat (NVIDIA), MiMo-V2-Pro (Xiaomi), MiniMax-M2.7, and Mistral Small 4 (Apache 2.0). Only GPT-5.4 and Gemini 3.1 Flash-Lite Preview are proprietary.
+
+### What is Mistral Small 4?
+
+Mistral Small 4 is a 119B parameter MoE model with only 6.5B active parameters per forward pass. It supports image and text inputs, offers hybrid reasoning, and is licensed under Apache 2.0. It's designed for efficient self-hosting on modest hardware.
+
+### Cite this analysis
+
+If you are referencing this analysis:
+
+Bristot, D. (2026, March 24). *New LLMs March 2026: GPT-5.4 Tied for #1. Nobody Talked About It.* What LLM. https://whatllm.org/blog/llm-releases-march-2026
+
+Sources: [Artificial Analysis](https://artificialanalysis.ai), OpenAI, Google DeepMind, Alibaba Cloud, xAI, NVIDIA, Xiaomi, MiniMax, Mistral AI announcements, March 2026
+
+### About WhatLLM.org
+
+**WhatLLM.org** helps you compare 100+ large language models across price, performance, speed, and quality using the [Artificial Analysis Intelligence Index](https://artificialanalysis.ai).
+
+We provide interactive visualization, filtering, and [analysis](/blog) to help you find the right LLM for your needs.
+
+Data from [artificialanalysis.ai](https://artificialanalysis.ai) • Updated daily
+
+### Resources
+
+* [📊 Methodology & Quality Index](/methodology)
+* [📝 LLM Analysis Blog](/blog)
+* [ℹ️ About WhatLLM.org](/about/what-is-whatllm)
+* [⚖️ Compare Models](/compare)
+* [🧰 Tools](/tools)
+* [🧭 LLM Selector](/tools/llm-selector)
+* [📬 Contact](/contact)
+* [🔒 Privacy Policy](/privacy)
+* [📄 Terms of Service](/terms)
+### Connect & Cite
+
+[@demian\_ai](https://x.com/demian_ai)[GitHub](https://github.com/demianarc)[LinkedIn](https://www.linkedin.com/in/dylanbristot/)
+
+Cite WhatLLM.org:
+
+Bristot, D. (2025). WhatLLM.org. https://whatllm.org
+
+© 2025 WhatLLM.org • Compare LLMs by price, performance & speed • [Privacy](/privacy) • [Terms](/terms) • [Contact](/contact)
+
+Built by [Dylan Bristot](https://www.linkedin.com/in/dylanbristot/) • Data from [Artificial Analysis](https://artificialanalysis.ai)
+

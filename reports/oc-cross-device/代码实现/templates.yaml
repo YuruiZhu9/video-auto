@@ -1,0 +1,125 @@
+# 任务模板配置
+# oc-cross-device 任务模板系统
+
+templates:
+  # ========== 信息抓取类 ==========
+  quick_fetch:
+    name: "快速信息抓取"
+    description: "抓取当日AI领域热门资讯"
+    icon: "🔍"
+    tags: ["info", "daily"]
+    action: spawn
+    agent: "info-fetcher"
+    params:
+      scope: "hot"
+      count: 10
+
+  full_fetch:
+    name: "全量信息抓取"
+    description: "全量抓取所有信息源"
+    icon: "🌐"
+    tags: ["info", "full"]
+    action: spawn
+    agent: "info-fetcher"
+    params:
+      full: true
+
+  # ========== 技术分析类 ==========
+  tech_brief:
+    name: "技术简报"
+    description: "生成当日技术前沿简报"
+    icon: "📊"
+    tags: ["tech", "brief"]
+    action: spawn
+    agent: "tech-analyst"
+    params:
+      scope: "brief"
+
+  tech_deep:
+    name: "深度技术分析"
+    description: "深度分析推荐系统和大模型前沿"
+    icon: "🔬"
+    tags: ["tech", "deep"]
+    action: spawn
+    agent: "tech-analyst"
+    params:
+      scope: "deep"
+
+  # ========== 商业洞察类 ==========
+  biz_brief:
+    name: "商业简报"
+    description: "生成当日商业需求洞察"
+    icon: "💼"
+    tags: ["biz", "brief"]
+    action: spawn
+    agent: "business-analyst"
+    params:
+      scope: "brief"
+
+  # ========== 系统操作类 ==========
+  status_check:
+    name: "状态检查"
+    description: "检查OpenClaw系统状态"
+    icon: "📡"
+    tags: ["system"]
+    action: get_status
+    params: {}
+
+  session_list:
+    name: "会话列表"
+    description: "查看当前活跃会话"
+    icon: "📋"
+    tags: ["system"]
+    action: list_sessions
+    params:
+      active_minutes: 60
+
+  # ========== 文件操作类 ==========
+  memory_backup:
+    name: "记忆备份"
+    description: "备份MEMORY.md到当日记录"
+    icon: "💾"
+    tags: ["system", "memory"]
+    action: exec_command
+    params:
+      command: "cp /workspace/MEMORY.md /workspace/memory/$(date +%Y-%m-%d)-backup.md"
+
+  # ========== 快捷任务 ==========
+  morning_report:
+    name: "早间日报"
+    description: "生成包含天气、资讯、日程的早间简报"
+    icon: "🌅"
+    tags: ["daily", "report"]
+    action: composite
+    steps:
+      - template: quick_fetch
+      - template: tech_brief
+      - action: send_message
+        params:
+          message: "{{report_content}}"
+    schedule:
+      cron: "0 8 * * *"
+      timezone: "Asia/Shanghai"
+
+  night_backup:
+    name: "晚间备份"
+    description: "每日自动备份工作区"
+    icon: "🌙"
+    tags: ["daily", "backup"]
+    action: composite
+    steps:
+      - action: exec_command
+        params:
+          command: "tar -czf /workspace/backups/$(date +%Y%m%d).tar.gz /workspace/"
+    schedule:
+      cron: "0 23 * * *"
+      timezone: "Asia/Shanghai"
+
+# 快捷命令别名
+shortcuts:
+  "/status": status_check
+  "/sessions": session_list
+  "/tech": tech_brief
+  "/biz": biz_brief
+  "/fetch": quick_fetch
+  "/backup": memory_backup

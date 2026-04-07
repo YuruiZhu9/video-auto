@@ -1,0 +1,169 @@
+# Source URL: https://zhuanlan.zhihu.com/p/1966078849205900416
+# Content Length: 14832 characters
+# Extracted at: 2026-03-30 13:37:27
+#============================================================
+
+![](https://zhuanlan.zhihu.com/p/1966078849205900416)
+![NeurIPS 2025 | Video-RAG：革新长视频理解，开源视频理解模型也能媲美GPT-4o](https://pic1.zhimg.com/v2-21d25f9f180006d0689939f850bea9d4\_720w.jpg?source=172ae18b)
+作者丨TechBeat硬核播报
+来源丨将门创投
+编辑丨极市平台
+面对时长从几分钟到数小时的长视频，现有[多模态视频语言模型](https://zhida.zhihu.com/search?content\_id=265599011&content\_type=Article&match\_order=1&q=%E5%A4%9A%E6%A8%A1%E6%80%81%E8%A7%86%E9%A2%91%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwMjE4NDIsInEiOiLlpJrmqKHmgIHop4bpopHor63oqIDmqKHlnosiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNjU1OTkwMTEsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.P\_A7yCf9JYfxAHteyyPGGSaqktAmpzwUvPLXXlJZ3zU&zhida\_source=entity)（Large Video-Language Models, LVLMs）却因[上下文窗口](https://zhida.zhihu.com/search?content\_id=265599011&content\_type=Article&match\_order=1&q=%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AA%97%E5%8F%A3&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwMjE4NDIsInEiOiLkuIrkuIvmlofnqpflj6MiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNjU1OTkwMTEsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.Pw-YhnFSKgrTV3ndq-bQ8udVLyKsd9MY9ytuV5y--mQ&zhida\_source=entity)有限、[视觉-文本对齐](https://zhida.zhihu.com/search?content\_id=265599011&content\_type=Article&match\_order=1&q=%E8%A7%86%E8%A7%89-%E6%96%87%E6%9C%AC%E5%AF%B9%E9%BD%90&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwMjE4NDIsInEiOiLop4bop4kt5paH5pys5a-56b2QIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjY1NTk5MDExLCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.DxE94OC4-v0EbntIP2FZ9VzYG98he8y-dP2lhGVSdR0&zhida\_source=entity)不足等问题屡屡 “失灵”，要么需海量数据与 GPU 资源进行微调，要么依赖 GPT-4o 等闭源模型导致成本难以承担。为打破这一困境，厦门大学联合南京大学、罗切斯特大学提出Video-RAG，一种无需训练、低成本的长视频理解范式。它通过提取视频中与视觉对齐的辅助文本（如音频转录、文字识别、目标检测结果），结合检索增强生成（Retrieval-Augmented Generation, RAG）技术，为任意多模态视频语言模型注入长视频理解能力。
+![](https://pica.zhimg.com/v2-5ea1993ba6ffd5c9490ed9e0ee2f16f0\_1440w.jpg)
+论文题目： Video-RAG: Visually-aligned Retrieval-Augmented Long Video Comprehension
+论文链接： [https://arxiv.org/abs/2411.13093](https://link.zhihu.com/?target=https%3A//arxiv.org/abs/2411.13093)
+代码链接： [https://github.com/Leon1207/Video-RAG-master](https://link.zhihu.com/?target=https%3A//github.com/Leon1207/Video-RAG-master)
+项目主页： [https://video-rag.github.io/](https://link.zhihu.com/?target=https%3A//video-rag.github.io/)
+## 01 研究背景
+长视频（如纪录片、监控录像、在线课程）包含丰富的时空信息，是具身智能、视频分析等领域的关键数据来源。但现有多模态视频语言模型在处理长视频时，面临三大难以突破的瓶颈（图1所示）：
+1. 上下文窗口受限：传统依赖采样视频帧提取视觉特征，但帧数量增多会导致信息冗余，甚至引发性能下降。例如 LongVA模型在帧采样率从 128 提升至 384 时，Video-MME 测试基准上得分反而从 52.6% 降至 51.8%。
+2. 微调成本高昂：为扩展 LVLM 的上下文长度，现有方法需在大规模文本上预训练，再迁移到视频任务，不仅需要TB级数据，还需数十张 A100 GPU 支持，普通研究者难以企及。
+3. 闭源模型依赖：GPT-4o、Gemini 1.5-Pro等闭源模型虽能处理长视频，但调用 API 成本极高（如VideoAgent 处理完整Video-MME数据集需消耗约2000美元API费用，耗时超 20 天），且灵活性受限。更关键的是，多数方法将视频转化为纯文本后再用 RAG 检索，丢失了关键视觉信息；而多轮交互式处理又进一步增加了计算开销，导致 “性能” 与 “效率” 难以兼得。
+![](https://pica.zhimg.com/v2-553133639eecde05a4b4f102c0798230\_1440w.jpg)
+图1 不同主流长视频理解方案对比
+为了推动这一问题的解决，我们提出了Video-RAG算法，旨在通过引入视觉对齐的辅助文本输入，以无需训练的方式无缝集成到任何已有的LVLM中提升其处理长视频的能力。
+## 02 Video-RAG 算法介绍
+如图2所示，Video-RAG的核心思路是：用开源工具提取视频中的视觉对齐辅助文本，通过 RAG 筛选出与查询相关的信息，再输入任意 LVLM 生成答案。整个流程无需训练，可即插即用，具体分为三个阶段。
+![](https://pic4.zhimg.com/v2-b4c757aafdcd3d90b2c125827a432e77\_1440w.jpg)
+图2 Video-RAG 整体框架示意图i
+![](https://pic3.zhimg.com/v2-0f9cc7e9890c622c6c12adc9658ca69a\_1440w.jpg)
+图3 Video-RAG 示例
+### 2.1 第一步：查询解耦
+如图3例子所示，用户输入关于长视频的查询（如 “当介绍“德国现代圣诞树最初会用苹果、蜡烛和浆果来装饰”时，数量最多的是哪一种装饰？”）后，Video-RAG 会先让 LVLM 生成结构化检索请求（JSON 格式），明确需要提取的信息类型：
+1. ASR 请求：需从音频中获取的信息（如 “null”）；
+2. DET 请求：需检测的物理实体（如 “apples、candles、berries”）；
+3. TYPE 请求：需补充的实体属性（如 “number”）。
+这一步仅处理文本，无需访问视频帧，确保检索目标精准，避免后续信息冗余。
+### 2.2 第二步：辅助文本生成与检索
+基于检索请求，Video-RAG 调用开源工具从视频中提取三类核心辅助文本，并构建数据库进行高效检索：
+1. [OCR 文本库](https://zhida.zhihu.com/search?content\_id=265599011&content\_type=Article&match\_order=1&q=OCR+%E6%96%87%E6%9C%AC%E5%BA%93&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwMjE4NDIsInEiOiJPQ1Ig5paH5pys5bqTIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjY1NTk5MDExLCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.c1ARjueqg2rAVK5qQ-U65d6At1P8yl9qGYAkW6YMTZM&zhida\_source=entity)：用 EasyOCR 提取每帧中的文字（如屏幕字幕、标识牌），再用 Contriever 编码为向量，存入 FAISS 索引库；
+2. [ASR 文本库](https://zhida.zhihu.com/search?content\_id=265599011&content\_type=Article&match\_order=1&q=ASR+%E6%96%87%E6%9C%AC%E5%BA%93&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwMjE4NDIsInEiOiJBU1Ig5paH5pys5bqTIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjY1NTk5MDExLCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.RCXkPZhJaZwRX06Y3XTtjZ2jlpjOxhnfRq8KIOmDVlE&zhida\_source=entity)：用 Whisper 将视频音频转录为文字（如人物对话、旁白），同样编码后存入数据库；
+3. 目标检测（DET）库：先通过 CLIP 筛选与查询相关的关键帧（排除无关帧减少计算），再用 APE（开源开放词汇目标检测模型）识别实体类别与位置，从而形成结构化的场景图，最后用场景图将原始检测结果转化为 LVLM 易理解的文本（如 “物体 1 是苹果，位于坐标 \[x,y\]，尺寸为长 × 宽；物体 2 是蜡烛，位于坐标 \[a,b\]”）。
+随后，Video-RAG 继续使用Contriever编码用户查询与检索请求，通过 FAISS 计算向量相似度，筛选出相似度高于阈值（默认0.3）的辅助文本，用以确保仅保留与查询强相关的信息，避免上下文窗口溢出。
+### 2.3 第三步：整合与生成
+将筛选后的 OCR、ASR、DET 辅助文本按时间顺序合并，与原始查询、视频采样帧的视觉特征一起输入 LVLM，最终生成精准答案。例如上述查询中，Video-RAG 会提取到 ASR 文本和 DET 文本（“5个苹果，5个蜡烛和7个浆果”），辅助 LVLM 准确回答 “C:浆果”。值得注意的是，检索过程是并行单轮执行的，无需多轮交互，计算开销极低；且所有工具均为开源（EasyOCR、Whisper、APE、FAISS 等），无需依赖任何闭源 API。
+## 03 实验与分析
+![](https://pic3.zhimg.com/v2-3e963f35e6a1fe8362f1c9b0a658c21c\_1440w.jpg)
+表1 主流LVLM接入Video-RAG在Video-MME上的性能表现
+研究团队在三大主流长视频基准（Video-MME、MLVU、LongVideoBench）上，对6个常见的开源 LVLM（从 7B 到 72B 参数）进行了全面测试，结果表明 Video-RAG 的性能与效率优势显著。
+### 3.1 性能：72B 模型媲美 GPT-4o
+如表1所示，在 Video-MME 数据集上，72B 参数的 LLaVA-Video 结合 Video-RAG 后，整体得分达 77.4%，超过 GPT-4o 的 77.2%；在 LongVideoBench 数据集上，该组合得分 65.4%，超越 Gemini 1.5-Pro（64.0%），仅比 GPT-4o 低 1.3 个百分点，成为开源模型中的顶尖水平。
+即使是 7B 小模型，Video-RAG 也能带来平均 3.2% 的性能提升。例如 LongVA-7B 在添加辅助文本后，长视频任务得分从 52.9% 升至 59.4%，且仅需额外 8GB GPU 显存、5 秒推理时间。
+### 3.2 效率：资源消耗远低于现有方法
+如图4所示，与长上下文微调模型（如 LongVA-128fs）相比，Video-RAG 在 16 帧采样下即可实现更高性能，且 GPU 显存消耗减少 150GB 以上；与 GPT-based Agent（如 VideoAgent）相比，处理相同数据集的成本从 2000 美元降至 “零 API 费用”，推理时间从 20 天缩短至小时级。
+![](https://pic3.zhimg.com/v2-978584dc6219863e9f369cd53710f5ea\_1440w.jpg)
+图4 不同方案资源消耗对比图
+### 3.3 鲁棒性：适配不同帧采样率与任务类型
+消融实验显示，Video-RAG 在 8~256 帧采样率下均能稳定提升性能，尤其在低帧采样（8 帧）时增益更明显，适合资源受限场景；而拆分辅助文本组件后发现，ASR 对长视频推理帮助最大，DET能显著提升目标计数与空间关系判断精度，OCR 则优化文字相关任务，通过三者结合可实现最优长视频效果。
+如图5所示，借助检索增强机制，Video-RAG能够精准筛选出与当前查询高度相关的信息片段，并将其注入到模型输入中。这些检索到的文本不仅引导LVLM更聚焦于与问题相关的关键帧，还起到了“桥梁”作用，强化了问题与视觉内容之间的语义对齐，从而提升模型在长视频理解任务中的准确性和鲁棒性。
+![](https://pic4.zhimg.com/v2-4de91b1a29c2b7deaaf72783a07ea969\_1440w.jpg)
+图5 Video-RAG检索并注入相关文本，促使LVLM聚焦关键帧、强化文-视语义对齐
+## 04 总结
+Video-RAG 的突破在于，它没有陷入 “增大模型上下文” 或 “依赖闭源 API” 的传统路径，而是通过 “视觉对齐辅助文本 + 检索增强生成” 的轻量设计，让任意开源 LVLM 都能高效处理长视频。其价值不仅体现在技术层面：
+1. 对研究者：提供无需训练、低成本的长视频理解工具，代码开源可复现；
+2. 对工业界：可快速集成到监控分析、视频内容检索、在线教育等场景，降低部署成本；
+3. 对领域发展：为 LVLM 的跨模态对齐提供新思路，后续可进一步优化辅助文本与视觉特征的融合方式。
+目前，Video-RAG 的代码已开源，研究者可直接基于现有 LVLM（如LLaVA-Video、[Qwen2-VL](https://zhida.zhihu.com/search?content\_id=265599011&content\_type=Article&match\_order=1&q=Qwen2-VL&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwMjE4NDIsInEiOiJRd2VuMi1WTCIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI2NTU5OTAxMSwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.PIjPRrPspgUPJEwNldCE5MDZTZnQapm7UEc76W7VdJk&zhida\_source=entity) ）进行拓展。未来团队计划探索自适应帧选择策略，进一步提升长视频理解的效率与精度，推动开源生态在多模态领域的发展。
+## 主要引用文献
+\[1\] Zhang, Peiyuan, et al. "Long context transfer from language to vision." arXiv preprint arXiv:2406.16852 (2024).
+\[2\] Fu, Chaoyou, et al. "Video-mme: The first-ever comprehensive evaluation benchmark of multi-modal llms in video analysis." CVPR. 2025.
+\[3\] Fan, Yue, et al. "Videoagent: A memory-augmented multimodal agent for video understanding." ECCV, 2024.
+\[4\] Izacard, Gautier, et al. "Unsupervised dense information retrieval with contrastive learning." arXiv preprint arXiv:2112.09118 (2021).
+\[5\] Yuanhan Zhang, et al. "Video instruction tuning with synthetic data." arXiv preprint arXiv:2410.02713 (2024).
+\[6\] Wang, Peng, et al. "Qwen2-vl: Enhancing vision-language model's perception of the world at any resolution." arXiv preprint arXiv:2409.12191 (2024).
+发布于 2025-10-26 21:49・广东
+[ima的AI笔记，让你的灵感不流失，创作永不止步\\
+\\
+还在为创作灵感一闪而过却难以留存而苦恼？ima AI 笔记帮你解决难题。它能将你转瞬即逝的灵感转化为可沉淀的内容，记录的笔记可随时编辑打磨，成为二次创作的优质素材，拓展写作思路，让创意想法无限延伸，创作之路从此不再断档。查看详情还在为创作灵感一闪而过却难以留存而苦恼？ima AI 笔记帮你解决难题。它能将你转瞬即逝的灵感转化为可沉淀的内容，记录的笔记可随时编辑打磨，成为二次创作的优质素材，拓展写作思路，让创意想法无限延伸，创作之路从此不再断档。 查看详情\\
+\\
+![用户头像](https://pic3.zhimg.com/v2-6bcab51aab5519d3e668f35b0a210fc3\_xl.webp?source=d6434cab)\\
+\\
+ima的广告](https://ima.qq.com/download/?webFrom=10000435&channel=10000435&cb=https%3A%2F%2Fsugar.zhihu.com%2Fplutus\_adreaper\_callback%3Fsi%3D4cfbbdc6-ceec-4762-9186-155ba0a138ee%26os%3D3%26zid%3D1629%26zaid%3D3669267%26zcid%3D3626054%26cid%3D3626054%26event%3D\_\_EVENTTYPE\_\_%26value%3D\_\_EVENTVALUE\_\_%26ts%3D\_\_TIMESTAMP\_\_%26cts%3D\_\_TS\_\_%26mh%3D\_\_MEMBERHASHID\_\_%26adv%3D703838%26ocg%3D4%26cp%3D2700%26ocs%3D1%26aic%3D0%26atp%3D0%26ct%3D2%26ed%3DGiBNJgVzfCMmUW9XFyEvRA8xBGxJICwkOhh0FlwxKw1fY0gnWzUoISkY6onvXKClOvM%3D&spu=biz%3D0%26ci%3D3626054%26si%3D1a50af98-dc4f-4c7d-b688-6d99a6236b11%26ts%3D1774849043%26zid%3D1629)
+​赞同 10​​添加评论​24 ​1
+​分享
+​申请转载​
+​
+![](https://pic1.zhimg.com/v2-d41c2ceaed8f51999522f903672a521f\_l.jpeg)
+未登录用户
+还没有评论，发表第一个评论吧
+关于作者
+[![极市平台](https://picx.zhimg.com/v2-d075a6bda4890c544013f9130e192988\_l.jpg?source=32738c0c&needBackground=1)](https://www.zhihu.com/org/ji-shi-jiao-14)
+[极市平台](https://www.zhihu.com/org/ji-shi-jiao-14)
+公众号：极市平台，为CV开发者提供全流程算法开发训练平台
+[​](https://zhuanlan.zhihu.com/p/96956163)
+已认证机构号
+[回答\\
+\\
+\*\*20\*\*](https://www.zhihu.com/org/ji-shi-jiao-14/answers) [文章\\
+\\
+\*\*1,789\*\*](https://www.zhihu.com/org/ji-shi-jiao-14/posts) [关注者\\
+\\
+\*\*37,650\*\*](https://www.zhihu.com/org/ji-shi-jiao-14/followers)
+​关注​发私信
+大家都在搜
+换一换
+[张雪WSBK葡萄牙站夺冠698 万](https://www.zhihu.com/search?q=%E5%BC%A0%E9%9B%AAWSBK%E8%91%A1%E8%90%84%E7%89%99%E7%AB%99%E5%A4%BA%E5%86%A0&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[伊朗局势697 万](https://www.zhihu.com/search?q=%E4%BC%8A%E6%9C%97%E5%B1%80%E5%8A%BF&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[广州暴雨574 万](https://www.zhihu.com/search?q=%E5%B9%BF%E5%B7%9E%E6%9A%B4%E9%9B%A8&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 新
+[单依纯向李荣浩道歉512 万](https://www.zhihu.com/search?q=%E5%8D%95%E4%BE%9D%E7%BA%AF%E5%90%91%E6%9D%8E%E8%8D%A3%E6%B5%A9%E9%81%93%E6%AD%89&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[AI简历分析大师481 万](https://zhihu.com/search?q=AI%E7%AE%80%E5%8E%86%E5%88%86%E6%9E%90%E5%A4%A7%E5%B8%88&search\_type\_string=ai\_zhida&category=ai\_zhida&search\_type\_str=ai\_zhida&type=zhida) 活动
+[DeepSeek宕机12小时后恢复466 万](https://www.zhihu.com/search?q=DeepSeek%E5%AE%95%E6%9C%BA12%E5%B0%8F%E6%97%B6%E5%90%8E%E6%81%A2%E5%A4%8D&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[美以袭击伊朗451 万](https://www.zhihu.com/search?q=%E7%BE%8E%E4%BB%A5%E8%A2%AD%E5%87%BB%E4%BC%8A%E6%9C%97&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[李荣浩喊话单依纯称其强行侵权《李白》438 万](https://www.zhihu.com/search?q=%E6%9D%8E%E8%8D%A3%E6%B5%A9%E5%96%8A%E8%AF%9D%E5%8D%95%E4%BE%9D%E7%BA%AF%E7%A7%B0%E5%85%B6%E5%BC%BA%E8%A1%8C%E4%BE%B5%E6%9D%83%E3%80%8A%E6%9D%8E%E7%99%BD%E3%80%8B&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[中科大少年班学生课上往黑板扔水杯354 万](https://www.zhihu.com/search?q=%E4%B8%AD%E7%A7%91%E5%A4%A7%E5%B0%91%E5%B9%B4%E7%8F%AD%E5%AD%A6%E7%94%9F%E8%AF%BE%E4%B8%8A%E5%BE%80%E9%BB%91%E6%9D%BF%E6%89%94%E6%B0%B4%E6%9D%AF&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[张雪峰追悼会举行民众排长队送别335 万](https://www.zhihu.com/search?q=%E5%BC%A0%E9%9B%AA%E5%B3%B0%E8%BF%BD%E6%82%BC%E4%BC%9A%E4%B8%BE%E8%A1%8C%E6%B0%91%E4%BC%97%E6%8E%92%E9%95%BF%E9%98%9F%E9%80%81%E5%88%AB&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[广告\\
+\\
+![广告](https://picx.zhimg.com/v2-fbd2e5ee48a5e7341812f8bf8926918d\_720w.webp?source=d6434cab)](https://ima.qq.com/download/?webFrom=10000435&channel=10000435&cb=https%3A%2F%2Fsugar.zhihu.com%2Fplutus\_adreaper\_callback%3Fsi%3D0c5f6c5f-0d4b-4a0b-8486-0ec3e2a50b49%26os%3D3%26zid%3D6001%26zaid%3D3671775%26zcid%3D3629529%26cid%3D3629529%26event%3D\_\_EVENTTYPE\_\_%26value%3D\_\_EVENTVALUE\_\_%26ts%3D\_\_TIMESTAMP\_\_%26cts%3D\_\_TS\_\_%26mh%3D\_\_MEMBERHASHID\_\_%26adv%3D703838%26ocg%3D4%26cp%3D2100%26ocs%3D1%26aic%3D0%26atp%3D0%26ct%3D2%26ed%3DGiBNJgVzfCMmUW9XFyEvRA8xBGxJICwkOhh0FlwxKw1fY0gnWzUoISkY6onvXKClOvM%3D&spu=biz%3D0%26ci%3D3629529%26si%3Dd3bcc40c-25b4-4df6-8698-fe6d01f2a0e3%26ts%3D1774849044%26zid%3D6001)
+### 推荐阅读
+[\*\*轻量高效，即插即用：Video-RAG为长视频理解带来新范式\*\* \\
+\\
+尽管视觉语言模型（LVLMs）在图像与短视频理解中已取得显著进展，但在处理长时序、复杂语义的视频内容时仍面临巨大挑战 —— 上下文长度限制、跨模态对齐困难、计算成本高昂等问题制约着其…\\
+\\
+机器之心](https://zhuanlan.zhihu.com/p/1963610626099218297) [\*\*「视频理解」高质量工作汇总：Video-LLaVA \| VideoGPT+ \| VideoNIAH\*\* \\
+\\
+写在前面 「视频理解」作为多模态大型语言模型（MLLM）的关键下一步，意味着模型需要能够处理和理解视频内容，包括视觉信息、音频信息以及可能的文本信息。视频理解的发展将极大地扩展 MLLM…\\
+\\
+猫先生](https://zhuanlan.zhihu.com/p/704973467) [![单卡搞定万帧视频理解！智源研究院开源轻量级超长视频理解模型Video-XL-2](https://picx.zhimg.com/v2-b01f430d11b07582bfc9f6ee870488de\_250x0.jpg?source=172ae18b)\*\*单卡搞定万帧视频理解！智源研究院开源轻量级超长视频理解模型Video-XL-2\*\* \\
+\\
+量子位发表于量子位](https://zhuanlan.zhihu.com/p/1913602015206028132) [![视频生成可以无限长？谷歌VideoPoet大模型上线，网友：革命性技术](https://pica.zhimg.com/v2-e1f3b8ee572c2c27c7685bfe73601cb6\_250x0.jpg?source=172ae18b)\*\*视频生成可以无限长？谷歌VideoPoet大模型上线，网友：革命性技术\*\* \\
+\\
+机器之心发表于机器之心](https://zhuanlan.zhihu.com/p/673276487)
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_
+打开知乎App
+在「我的页」右上角打开扫一扫
+![](https://picx.zhimg.com/v2-9e41ea16bdfbe9cf4896617ecad5b4ca.png)
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+中国 +86
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+打开知乎App
+在「我的页」右上角打开扫一扫
+![](https://picx.zhimg.com/v2-9e41ea16bdfbe9cf4896617ecad5b4ca.png)
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+中国 +86
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+![](https://static.zhihu.com/heifetz/assets/liukanshan-peek.a71ecf3e.png)登录即可查看 超5亿 专业优质内容
+超 5 千万创作者的优质提问、专业回答、深度文章和精彩视频尽在知乎。
+立即登录/注册

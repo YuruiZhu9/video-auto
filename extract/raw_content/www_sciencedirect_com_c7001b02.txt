@@ -1,0 +1,201 @@
+# Source URL: https://www.sciencedirect.com/science/article/pii/S1051200425001459
+# Content Length: 27517 characters
+# Extracted at: 2026-03-12 18:00:16
+#============================================================
+
+An unsupervised anomalous sound detection method based on similarity-driven automatic feature selection - ScienceDirect
+[Skip to main content](#screen-reader-main-content)[Skip to article](#screen-reader-main-title)
+[![](https://sciencedirect.elseviercdn.cn/shared-assets/24/images/elsevier-non-solus-new-grey.svg)ScienceDirect](/)
+\* [Journals & Books](/browse/journals-and-books)
+\* Help
+\* [Search](/search)
+[My account](/user/login?targetURL=%2Fscience%2Farticle%2Fpii%2FS1051200425001459&from=globalheader)
+[Sign in](/user/institution/login?targetURL=%2Fscience%2Farticle%2Fpii%2FS1051200425001459)
+\* [Access through \*\*your organization\*\*](/user/institution/login?targetUrl=%2Fscience%2Farticle%2Fpii%2FS1051200425001459)
+\* [Purchase PDF](/getaccess/pii/S1051200425001459/purchase)
+Search ScienceDirect
+## Article preview
+\* [Abstract](#preview-section-abstract)
+\* [Introduction](#preview-section-introduction)
+\* [Section snippets](#preview-section-snippets)
+\* [References (53)](#preview-section-references)
+\* [Cited by (3)](#preview-section-cited-by)
+[![](https://sciencedirect.elseviercdn.cn/prod/91e815c6826a7342dcdd5de2dc12c28888886be8/image/elsevier-non-solus.svg)](/journal/digital-signal-processing)
+## [Digital Signal Processing](/journal/digital-signal-processing)
+[Volume 161](/journal/digital-signal-processing/vol/161/suppl/C), June 2025, 105123
+[![](https://ars.els-cdn.com/content/image/1-s2.0-S1051200425X0004X-cov150h.gif)](/journal/digital-signal-processing/vol/161/suppl/C)
+# An unsupervised anomalous sound detection method based on similarity-driven automatic feature selection[☆](#aep-article-footnote-id1)
+Author links open overlay panelYiZhanga, JieFengb, QiaolingZhangbc, JunyaoHua, WeiweiZhangd
+Show more
+Add to Mendeley
+Share
+Cite
+[Get rights and content](https://s100.copyright.com/AppDispatchServlet?publisherName=ELS&contentID=S1051200425001459&orderBeanReset=true)
+## Abstract
+Unsupervised anomalous sound detection (ASD) aims to identify unknown abnormal sounds in machines using normal sounds. Most unsupervised ASD methods extract log-Mel [spectrogram](/topics/engineering/spectrogram) features of machine sounds and directly employ them all for [anomaly detection](/topics/engineering/anomaly-detection), whereas the sound characteristics of different machine types are not considered. It has been proved that distinguishing the sound characteristics across different machine types is important for anomaly detection. To address the issue, a similarity-based automatic classification method is proposed for common machine sounds, based on the temporal characteristics of sounds. Furthermore, a similarity-based feature selection strategy is presented for different sound categories. Finally, the selected features are employed by a classic \*β\*-VAE for anomaly detection. [Comparative experiments](/topics/engineering/comparative-experiment) were made with several competing ASD methods on the datasets of the DCASE 2020 Task2 and DCASE 2022 Task2. The results demonstrate the performance superiority of our method over relevant competing unsupervised models.
+## Introduction
+Anomalous sound detection (ASD) has attracted much attention over decades. It has widespread applications [1], [2], including predictive maintenance of equipment [3], machine condition monitoring [4], medical diagnostics [5] and audio surveillance [6], to name a few.
+In industrial scenarios, the ASD tasks aim to distinguish between normal and abnormal sounds emitted by a target machine or device [7], [8], [9]. Since 2020, the IEEE Audio and Acoustic Signal Processing (AASP) Technical Committee has included the industrial ASD as a challenging task in the Detection and Classification of Acoustic Scenes and Events (DCASE) competition, encouraging global researchers to explore and advance this field. Based on the definition of anomalies, ASD tasks can be roughly divided into two types. For one type, the anomalous sounds are clearly defined [10], [11], and the model is normally trained in a supervised behavior. For the other type, the anomalous sounds are not clearly defined or unknown. In the second case, the anomalous sounds usually refer to those with large deviations from the normal or reference pattern, and the outlier-detection techniques are usually employed [4]. In this paper, we focus on this type of ASD.
+In real-world factories, anomalous sounds occur rarely and have high variability [1], and it is non-trivial to collect anomalous data. Therefore, the unsupervised ASD methods that do not require anomalous sounds for model training have been widely developed. In early anomaly detection research, various statistical models such as GMM [12], SVM [13], and HMM [14] were used to model normal sounds and calculate anomaly scores for anomaly detection. These methods usually relied on mathematical assumptions about data distributions or sequences. While effective for simpler sound patterns, they often struggled to capture the complex and high-dimensional nature of sound signals, resulting in suboptimal performance.
+In the past decade, deep learning-based unsupervised ASD has achieved significant progress. Conventionally, Autoencoders (AE) [15] and Variational Autoencoders (VAE) [16] have been widely applied in unsupervised learning tasks [1], [17], where they compressed and reduced the dimensionality of input features and then reconstructed the input features from the reduced representations. Their powerful feature representation capabilities and simple, easy-to-train network structures lay the cornerstone for an encoder-based ASD model. Duman et al. [18] proposed an end-to-end unsupervised ASD system based on convolutional autoencoders. Girl et al. [19] introduced a group-masked autoencoder for density estimation of audio time series. Despite capturing frame-level statistics, the approach relied heavily on predefined frame-level structures, limiting its adaptability to diverse machine sound types. Suefusa et al. [20] proposed the IDNN method to enhance reconstruction for non-stationary sounds by masking and reconstructing central frames. However, it focused on isolated frames neglected the broader temporal context, leading to potential inaccuracies in detecting anomalies distributed over time. Instead of employing the reconstruction error in model training, Koizumi et al. [4] designed an objective function based on the Neyman-Pearson lemma, which trains the encoder-based model to maximize the true positive rate (DPR) under low false positive rate (FPR) conditions. Overall, these unsupervised ASD methods learned the feature pattern of normal sounds and detected anomaly with the learned pattern, achieving excellent performance on specific datasets. However, for complex detection scenarios [21], such as domain shifts [22], [23] (i.e., there are distribution discrepancies between the source and target domains), their detection performances may significantly decline. To address this issue, many researchers are devoted to improving the model's stability and adaptivity. For instance, Yan et al. [22] proposed the Transformer and Dynamic Graph Convolution (Unsuper-TDGCN) for anomaly detection under domain shifts. It employed Transformer to fully learn the local and global dependencies of time-frequency domain features, and designed a Dynamic Graph Convolution Network (DyGCN) to fully capture content-aware features of sound signals from different machine IDs and dynamically capture feature relationships from machine IDs under domain shifts by using content-aware features, improving the model's stability and adaptivity under shifts. Chen et al. [23] proposed a multi-scale dual-decoder autoencoder (MS-D2AE) model, which leverages a Multi-scale Feature Fusion Module (MTSFFM) to learn normal data features. By incorporating a dual-decoder structure and residual connections, the model enhanced the reconstruction accuracy and anomaly detection capabilities. Moreover, a feature domain mixing method was designed to improve its robustness against domain shifts.
+In addition to unsupervised methods, self-supervised learning-based ASD has attracted much attention [24]. Normally, the self-supervised ASD methods introduce additional information such as machine IDs [25], [26] to train an effective classifier for anomaly detection, enabling the models to effectively focus on distinguishing the features for abnormal sounds. Ritwik et al. [27] utilized MobileNetV2 to create a classification framework for anomaly detection, which aims to determine the machine ID of audio samples. Liu et al. [28] proposed a spectral-temporal information fusion-based method, which combines the temporal information extracted by a CNN network with the spectral information from log-Mel spectrograms for anomaly detection. Similarly, Kota et al. [29] introduced an auxiliary model to distinguish targets within the same machine type from other machine IDs, aiming for precise likelihood estimation for each machine ID. Moreover, contrastive learning has been an promising alternative in self-supervised ASD. Hadi et al. [30] first introduced contrastive learning into the ASD framework. By employing data augmentation and contrastive loss, it learned the representations from unlabeled data. Guan et al. [31] proposed the CLP-SLF method, which combines the machine IDs with a self-supervised ID classifier and optimizes the audio representation of each machine ID through contrastive learning. This approach not only utilized labeled samples but also trained the model to recognize mixed proportions of different IDs through random combinations. In the research conducted by Yang et al. [32], a dual attention structure is proposed based on contrastive learning, which aimed to learn a permutation-invariant representation for anomaly detection.
+In all, most self-supervised ASD methods obtained superior performances over unsupervised ones, by leveraging additional information (i.e., machine IDs or attribution information) during training. Nevertheless, it is unrealistic to expect that such information will always be available in real-world scenarios. Moreover, it has been proven that distinguishing sound characteristics across different machine types is important for anomaly detection. Practically, temporal characteristics of most machine sounds may be roughly grouped into two categories [20], [33]: stationary sounds and non-stationary sounds. For stationary sounds, the related target sound event is dispersed among almost the whole time interval, where most time periods are dominated by the target sound accompanied by noise or interference. For non-stationary sounds, the related target sound event is dispersed among a very few time periods, where most time periods are dominated by noise or interferences. Thus, employing the sound features from the whole time interval may be not optimal for anomaly detection. It is rational to select the feature of partial time intervals that contain the main information of target sounds for anomaly detection, according to the temporal characteristics of different sounds.
+In this paper, an unsupervised ASD method is proposed, based on similarity-driven automatic feature selection. First, the log-Mel spectrogram features are extracted from the raw audio. Then, considering the temporal characteristics of most machine sounds, a similarity-based automatic classification strategy is developed. Furthermore, a similarity-based feature selection strategy is presented. Finally, the selected features are fed into a \*β\*-VAE model for anomaly detection. Reconstruction error is used as an anomaly score to determine whether the sound is anomalous. In comparison with our previous work in [34], where the sound stationarity classification of common machine types is assumed as known prior information, an automatic classification strategy is developed herein and such prior information is assumed as unknown. The contributions of this paper can be summarized as follows:
+1) Based on the temporal characteristics of common machine sounds, a similarity-based automatic classification method is developed, without knowledge of the stationarity classification prior of common machine types.
+2) A similarity-based selection strategy is presented, which aims to select the time frames associated with the target sounds from the log-Mel spectrogram. This may alleviate the influences of noises and other redundant factors from the original sound signals.
+3) By combining the automatic classification and feature selection, an unsupervised ASD method SCFS-VAE is developed. This method achieves expected detection performance by selectively learning the audio features after classifying the sound signals.
+The paper is organized as follows. Section 2 provides a detailed overview of the proposed SCFS-VAE method. Section 3 presents the related experiments and analysis to validate our method. Section 4 summarizes some conclusions of this study.
+## Access through your organization
+Check access to the full text by signing in through your organization.
+[Access through \*\*your organization\*\*](/user/institution/login?targetUrl=%2Fscience%2Farticle%2Fpii%2FS1051200425001459)
+## Section snippets
+## Proposed method
+Acoustic features play a crucial role in industrial anomalous sound detection (ASD), which reveals the fundamental properties of raw sound signals. To achieve an excellent anomaly detection performance, extracting effective acoustic features is crucial. Meanwhile, distinguishing sound characteristics across different machine types has been proven important as well. Based on the temporal characteristics of sounds across different machine types, an unsupervised ASD method is proposed in this
+## Dataset
+In this study, we utilized the anomalous sound detection datasets of DCASE 2020 Task2 [7] and DCASE 2022 Task2 [21], as shown in Table 1.
+The proposed method is mainly evaluated with the DCASE 2020 Task2 dataset. It comprises two sub-datasets: MIMII [33] and ToyADMOS [41]. The MIMII dataset covers four machine types: Valve, Pump, Fan and Slider, where each machine type has four distinct IDs: ID00, ID02, ID04 and ID06, resulting 16 machines in total. Each machine type considers various real-world
+## Conclusion
+In this paper, we propose an unsupervised ASD approach based on similarity-based automatic feature selection. Considering the sound characteristics of common industrial machines, a similarity-based automatic classification is first presented for industrial sounds. Then, a similarity-based automatic feature selection strategy is developed as well, which aims to select the spectrogram frames containing main information of target sounds. Subsequently, the selected features are fed to \*β\*-VAE for
+## CRediT authorship contribution statement
+\*\*Yi Zhang:\*\* Conceptualization, Data curation, Formal analysis, Investigation, Methodology, Software, Validation, Visualization, Writing – original draft. \*\*Jie Feng:\*\* Conceptualization, Investigation, Supervision, Writing – review & editing. \*\*Qiaoling Zhang:\*\* Conceptualization, Formal analysis, Funding acquisition, Investigation, Methodology, Supervision, Writing – review & editing. \*\*Junyao Hu:\*\* Conceptualization, Data curation, Investigation. \*\*Weiwei Zhang:\*\* Investigation, Supervision, Writing – review &
+## Declaration of Competing Interest
+The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+## Acknowledgements
+The work is supported by the Zhejiang Provincial Natural Science Foundation of China (LY21F010015), National Natural Science Foundation of China (61806178), National Natural Science Foundation of China (No. U22A2004), and the Key Research and Development Program Foundation of Zhejiang (No. 2022C01079).
+\*\*Yi Zhang\*\* received the B.S. degree from Zhejiang Sci-Tech University, Hangzhou, China, in 2022, where he is currently pursuing the M.S. degree with Information and Communication Engineering. His current research interests include anomalous sound detection and deep learning.
+Recommended articles
+## References (53)
+\* Federico Civerchia \*et al.\*
+### [Industrial Internet of things monitoring solution for advanced predictive maintenance applications](/science/article/pii/S2452414X16300954)
+### J. Ind. Inf. Integr.
+(2017)
+\* Emanuele Di Fiore \*et al.\*
+### [An anomalous sound detection methodology for predictive maintenance](/science/article/pii/S0957417422014518)
+### Expert Syst. Appl.
+(2022)
+\* Alessandro Sebastian Podda \*et al.\*
+### [Cargram: cnn-based accident recognition from road sounds through intensity-projected spectrogram analysis](/science/article/pii/S1051200424000563)
+### Digit. Signal Process.
+(2024)
+\* Jisheng Bai \*et al.\*
+### [Ssdpt: self-supervised dual-path transformer for anomalous sound detection](/science/article/pii/S1051200423000349)
+### Digit. Signal Process.
+(2023)
+\* Yao Cheng \*et al.\*
+### [An improved envelope spectrum via candidate fault frequency optimization-gram for bearing fault diagnosis](/science/article/pii/S0022460X22000037)
+### J. Sound Vib.
+(2022)
+\* Yawei Wang \*et al.\*
+### [A lightweight framework for unsupervised anomalous sound detection based on selective learning of time-frequency domain features](/science/article/pii/S0003682X24004596)
+### Appl. Acoust.
+(2025)
+\* Peipei Xia \*et al.\*
+### [Learning similarity with cosine similarity ensemble](/science/article/pii/S0020025515001243)
+### Inf. Sci.
+(2015)
+\* Yuma Koizumi \*et al.\*
+### Unsupervised detection of anomalous sound based on deep learning and the Neyman–Pearson lemma
+### IEEE/ACM Trans. Audio Speech Lang. Process.
+(2018)
+\* Yuma Koizumi \*et al.\*
+### Optimizing acoustic feature extractor for anomalous sound detection based on Neyman-Pearson lemma
+\* Xue Zheng \*et al.\*
+### A crnn system for sound event detection based on gastrointestinal sound dataset collected by wearable auscultation devices
+### IEEE Access
+(2020)
+- Yuma Koizumi \*et al.\*
+### Description and discussion on dcase2020 challenge task2: unsupervised anomalous sound detection for machine condition monitoring
+- Yohei Kawaguchi \*et al.\*
+### Anomaly detection based on an ensemble of dereverberation and anomalous sound extraction
+- Yao Cheng \*et al.\*
+### Cffsbd: a candidate fault frequencies-based blind deconvolution for rolling element bearings fault feature enhancement
+### IEEE Trans. Instrum. Meas.
+(2023)
+- Stavros Ntalampiras \*et al.\*
+### Probabilistic novelty detection for acoustic surveillance under real-world conditions
+### IEEE Trans. Multimed.
+(2011)
+- Junshui Ma \*et al.\*
+### Time-series novelty detection using one-class support vector machines
+- Lujun Li \*et al.\*
+### Towards constructing hmm structure for speech recognition with deep neural fenonic baseform growing
+### IEEE Access
+(2021)
+- Yohei Kawaguchi \*et al.\*
+### How can we detect anomalies from subsampled audio signals?
+- Yuta Kawachi \*et al.\*
+### Complementary set variational autoencoder for supervised anomaly detection
+- Dong Yul Oh \*et al.\*
+### Residual error based anomaly detection using auto-encoder in smd machine sound
+### Sensors
+(2018)
+- Taha Berkay Duman \*et al.\*
+### Acoustic anomaly detection using convolutional autoencoders in industrial processes
+- Ritwik Giri, Fangzhou Cheng, Karim Helwani, Srikanth V. Tenneti, Umut Isik, and Arvindh Krishnaswamy. Group masked...
+- Kaori Suefusa \*et al.\*
+### Anomalous sound detection based on interpolation deep neural network
+- Kota Dohi \*et al.\*
+### Description and discussion on dcase 2022 challenge task 2: unsupervised anomalous sound detection for machine condition monitoring applying domain generalization techniques
+- Jingke Yan \*et al.\*
+### Transformer and graph convolution-based unsupervised detection of machine anomalous sound under domain shifts
+### IEEE Trans. Emerg. Top. Comput. Intell.
+(2024)
+- Shengbing Chen \*et al.\*
+### A multi-scale dual-decoder autoencoder model for domain-shift machine sound anomaly detection
+- Yanxiong Li \*et al.\*
+### Anomalous sound detection using deep audio representation and a blstm network for audio surveillance of roads
+### IEEE Access
+(2018)
+View more references
+## Cited by (3)
+\* ### [MSANet: Multi-Stage attention network for anomalous sound detection in machine condition monitoring](/science/article/pii/S1051200425006487)
+2026, Digital Signal Processing A Review Journal
+Show abstract
+Anomalous Sound Detection (ASD) system identifies sound waves from sensors to detect the anomaly of industrial machines. However, recent methods have failed to sufficiently focus on partial details and long-term dependence information in acoustic features, resulting in poor performance on certain machine types. To address this challenge, we propose a novel ASD model based on the multi-stage attention network (MSANet). The spectral-temporal concatenated spectrogram of the audio samples is used as the MSANet input, and serially modeled by the network. The fusion spectrogram attention network (FSAN) enhances inter-spectrogram correlation via directional pooling and attention weighting. Convolutional Block Attention Module (CBAM) is used in the local attention network to focus on the channel and spatial information in acoustic vectors, hence improving capacity of ASD system for modeling local information. In global attention network, the gated recurrent unit (GRU) is applied to improve the feed-forward layer of transformer, enhancing the model to capture global correlation feature and contextual information. Extensive experiments are conducted out on the DCASE 2020 Challenge Task 2 dataset to evaluate the proposed model. Experimental results demonstrate that MSANet achieves an average AUC of 94.89 % and an average pAUC of 89.11 %, both of which surpass the performance of previously methods.
+\* ### [An Efficient Fine-Grained Recognition Method Enhanced by Res2Net Based on Dynamic Sparse Attention](https://doi.org/10.3390/s25134147)
+2025, Sensors
+\* ### [A Machine Anomalous Sound Detection Method Based on Deep Residual Generative Adversarial Network](https://doi.org/10.1109/ICCEA65460.2025.11102437)
+2025, 2025 6th International Conference on Computer Engineering and Application Iccea 2025
+![](https://ars.els-cdn.com/content/image/1-s2.0-S1051200425001459-fx001.jpg)
+\*\*Yi Zhang\*\* received the B.S. degree from Zhejiang Sci-Tech University, Hangzhou, China, in 2022, where he is currently pursuing the M.S. degree with Information and Communication Engineering. His current research interests include anomalous sound detection and deep learning.
+![](https://ars.els-cdn.com/content/image/1-s2.0-S1051200425001459-fx002.jpg)
+\*\*Jie Feng\*\* received the Ph.D. degree in Instrumentation Science and Technology from the School of Biomedical Engineering and Instrumentation Science, Zhejiang University, China, in 2009. Now he is an associate professor in the School of Computer Science and Technology (School of Artificial Intelligence), Zhejiang Sci-Tech University. His research interests include image processing, intelligent video analysis, and text recognition.
+![](https://ars.els-cdn.com/content/image/1-s2.0-S1051200425001459-fx003.jpg)
+\*\*Qiaoling Zhang\*\* received the Ph.D. degrees in signal and information processing from the School of Information and Communication Engineering, Dalian University of Technology (DUT), China, in 2016. She is currently an associate professor in the School of Computer Science and Technology (School of Artificial Intelligence), Zhejiang Sci-Tech University, Hangzhou, China. Her research interests include intelligent voice interaction, sound source localization, and industrial AI.
+![](https://ars.els-cdn.com/content/image/1-s2.0-S1051200425001459-fx004.jpg)
+\*\*Junyao Hu\*\* received the B.S. degree from Huainan Normal University, China, in 2023. She is currently pursuing the M.S. degree in Information and Communication Engineering. Her research interests include anomalous sound detection and deep learning.
+![](https://ars.els-cdn.com/content/image/1-s2.0-S1051200425001459-fx005.jpg)
+\*\*Weiwei Zhang\*\* received her Ph.D. degree in Signal and Information Processing in the School of Information and Communication Engineering, Dalian University of Technology (DUT), Dalian, China, in 2019. She is currently an associate professor in the Information Science and Technology College, Dalian Maritime University. Her research interests include audio signal processing, sound source localization and fault diagnosis.
+[☆](#baep-article-footnote-id1)
+: This document is the results of the research project funded by the Zhejiang Provincial Natural Science Foundation of China ([LY21F010015](#gsp0010)), National Natural Science Foundation of China ([61806178](#gsp0020)), National Natural Science Foundation of China (No. [U22A2004](#gsp0030)), and the Key Research and Development Program Foundation of Zhejiang (No. [2022C01079](#gsp0040)).
+[View full text](/science/article/pii/S1051200425001459)
+© 2025 Elsevier Inc. All rights are reserved, including those for text and data mining, AI training, and similar technologies.
+## Recommended articles
+\* ### [TMN: Transformer in matrix network for single image super-resolution with enhanced shallow feature preservation](/science/article/pii/S1051200425002295)
+Digital Signal Processing, Volume 162, 2025, Article 105207
+OuAo, ZhenhongShang
+\* ### [An accurate and efficient surface defect detection network for hot-pressed light guide plates](/science/article/pii/S1051200425002933)
+Digital Signal Processing, Volume 164, 2025, Article 105271
+CunlingLiu, …, JunfengLi
+\* ### [Multimodal survival analysis using optimal transport matching and global-local feature fusion](/science/article/pii/S1051200425001411)
+Digital Signal Processing, Volume 161, 2025, Article 105119
+BowenSun, …, YangleiGe
+\* ### [Dual frames of localized spectral graph wavelets](/science/article/pii/S1051200425001162)
+Digital Signal Processing, Volume 161, 2025, Article 105094
+David B.Tay
+\* ### [Distributed spectral conjugate gradient algorithm for node localization in wireless sensor networks](/science/article/pii/S1051200425001873)
+Digital Signal Processing, Volume 162, 2025, Article 105165
+JunzhengJiang, …, FangZhou
+\* ### [Attention-based three-branch network for RGB-D indoor semantic segmentation](/science/article/pii/S1051200425002003)
+Digital Signal Processing, Volume 162, 2025, Article 105178
+BoLei, …, ShaoyunJia
+Show 3 more articles
+[![](https://sciencedirect.elseviercdn.cn/shared-assets/47/images/elsevier-non-solus-new-with-wordmark.svg)](https://www.elsevier.com/)
+\* [About ScienceDirect](https://www.elsevier.com/solutions/sciencedirect)
+\* [Remote access](/user/institution/login?targetURL=%2Fscience%2Farticle%2Fpii%2FS1051200425001459)
+\* [Contact and support](https://service.elsevier.com/app/contact/supporthub/sciencedirect/)
+\* [Terms and conditions](https://www.elsevier.com/legal/elsevier-website-terms-and-conditions)
+\* [Privacy policy](https://www.elsevier.com/legal/privacy-policy)
+\* Cookie settings
+All content on this site: Copyright © 2026 Elsevier B.V., its licensors, and contributors. All rights are reserved, including those for text and data mining, AI training, and similar technologies. For all open access content, the relevant licensing terms apply.
+[![](https://sciencedirect.elseviercdn.cn/shared-assets/60/images/logo-relx-tm.svg)](https://www.relx.com/)

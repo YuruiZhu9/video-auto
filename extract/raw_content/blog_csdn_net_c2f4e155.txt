@@ -1,0 +1,1819 @@
+# Source URL: https://blog.csdn.net/yangshangwei/article/details/157941667
+# Content Length: 38504 characters
+# Extracted at: 2026-03-19 09:06:16
+#============================================================
+
+ 
+
+
+
+
+
+Vibe Coding - Claude Code 7大进阶实战技巧指南\_claude code plan模式为何文档在根目录而不是在项目目录-CSDN博客
+
+
+
+
+
+
+
+
+Vibe Coding - Claude Code 7大进阶实战技巧指南
+====================================
+
+
+最新推荐文章于 2026-03-03 05:30:00 发布
+原创
+最新推荐文章于 2026-03-03 05:30:00 发布
+·
+1.8k 阅读
+·
+![]()
+![]()
+51
+
+
+·
+![]()
+![]()
+29
+·
+CC 4.0 BY-SA版权
+版权声明：本文为博主原创文章，遵循 [CC 4.0 BY-SA](http://creativecommons.org/licenses/by-sa/4.0/) 版权协议，转载请附上原文出处链接和本声明。
+
+
+
+
+
+文章标签：
+
+[#Claude code](https://so.csdn.net/so/search/s.do?q=Claude+code&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+
+
+
+
+
+
+
+[![]()
+【Vibe Coding】
+专栏收录该内容](https://blog.csdn.net/yangshangwei/category_12991347.html)
+
+72 篇文章
+
+订阅专栏
+
+
+
+
+[![]()
+ModelEngine·创作计划征文活动
+10w+人浏览
+3.7k人参与
+
+![]()](https://activity.csdn.net/writing?id=11016)
+
+#### 文章目录
+
+* [一、先说结论：Claude Code 的「正确打开方式」](#Claude_Code__11)
+* [二、Plan 模式：先把活说清楚，再写代码](#Plan__29)
+* + [2.1 Plan 模式是什么？](#21_Plan__31)
+  + [2.2 怎么实际使用 Plan 模式？](#22__Plan__46)
+  + [2.3 为什么这一步能大幅减少返工？](#23__70)
+* [三、根目录 CLAUDE.md：给 AI 立几条硬规矩](#_CLAUDEmd_AI__82)
+* + [3.1 CLAUDE.md 是干嘛的？](#31_CLAUDEmd__84)
+  + [3.2 「称呼规则」：用来检测上下文过载](#32__90)
+  + [3.3 「自由意志约束」：禁止它自己拍脑袋](#33__103)
+  + [3.4 「拒绝冗余兼容」：不乱加 if，代码更干净](#34__if_117)
+  + [3.5 「状态监控」：上下文超过 50% 就要警惕](#35__50__133)
+* [四、Vibe Coding：「分级加载」代码库](#Vibe_Coding_149)
+* + [4.1 问题：AI 要么看太少，要么看太多](#41_AI__151)
+  + [4.2 每个业务模块配一份 CLAUDE.md](#42__CLAUDEmd_159)
+  + [4.3 每个源码文件加三行头注释](#43__173)
+* [五、提示词三原则：别说术语，把话说明白就行](#_197)
+* + [5.1 不需要「魔法咒语」](#51__199)
+  + [5.2 一个更贴近日常的示例](#52__217)
+* [六、MCP：不要等它「想起来用工具」](#MCP_233)
+* + [6.1 MCP 是什么角色？](#61_MCP__235)
+  + [6.2 主动命令它用 MCP](#62__MCP_242)
+  + [6.3 「本地优先」的考量](#63__253)
+* [七、Agent 高级玩法：用多个「小助手」互相挑错](#Agent__268)
+* + [7.1 为什么需要多个 Agent？](#71__Agent_270)
+  + [7.2 SubAgent：专门用来查和搜](#72_SubAgent_278)
+  + [7.3 对抗式纠错：CodeReview Agent + Test Agent](#73_CodeReview_Agent__Test_Agent_291)
+* [八、Custom Skills：把高频套路固定下来](#Custom_Skills_308)
+* + [8.1 为什么要做 Skill？](#81__Skill_310)
+  + [8.2 一个典型 Skill 的结构](#82__Skill__319)
+* [九、实践](#_341)
+* + [9.1 第一步：搭好基础约束](#91__344)
+  + [9.2 第二步：整理模块和文件结构](#92__355)
+  + [9.3 第三步：改造你的「提问方式」](#93__366)
+  + [9.4 第四步：接入 MCP 和 Agent](#94__MCP__Agent_375)
+  + [9.5 第五步：从「常用套路」里提炼 Skills](#95__Skills_387)
+* [十、最后的几句实话](#_397)
+
+![]()
+
+> 面向对象：日常写代码、带团队或做工程实践的开发者和技术同学，希望把 Claude Code 真正融进工作流，而不是偶尔玩一玩。
+
+围绕一件事展开：**怎么把 Claude Code 变成你稳定、可控、可复用的「协作伙伴」**，而不是一时爽、一会儿就开始瞎编的「工具人」。我们会从官方没怎么讲清楚的实战细节入手，一步步拆开：会话怎么开、项目怎么组织、提示词怎么给、工具和 Agent 怎么搭、最后怎么沉淀成自己的技能体系。
+
+---
+
+一、先说结论：Claude Code 的「正确打开方式」
+----------------------------
+
+如果只看一个结论，那就是：**把 Claude Code 当「协作开发同事」来设计，而不是当「万能代码生成器」来祈祷。**
+
+围绕这个思路，整套实践大致分成七个方面：
+
+* 用 Plan 模式，让 Claude 先想清楚再写
+* 用根目录 CLAUDE.md 设「防呆规则」，防止会话失控
+* 用「分级加载」整理代码库，让它理解项目结构
+* 提示词只抓三件事：目的、上下文、怎么测
+* 主动让它用 MCP 查资料，而不是等它自己悟
+* 用多个 Agent 分工和互相挑错，提升质量
+* 把高频工作流固化成自定义 Skill，少重复讲废话
+
+后面我们按这个顺序展开，每一节都尽量结合平时真会遇到的场景来讲。
+
+---
+
+二、Plan 模式：先把活说清楚，再写代码
+---------------------
+
+### 2.1 Plan 模式是什么？
+
+Claude Code 里有个很关键但容易被忽略的能力：Plan 模式（Shift + Tab）。简单说，它会先跟你对齐目标、拆任务，而不是直接开始写代码。
+
+默认大家容易这样用：
+
+> 「帮我写个 xxx 功能，前端 React，后端是 Spring Boot……」  
+>  Claude：一顿输出，写了一屏又一屏。
+
+结果往往是：
+
+* 业务边界不清楚，你发现写出来的和你想的差一截
+* 中途需求补充了几次，前后风格和设计都不统一
+* 返工成本极高，改来改去不如自己写
+
+Plan 模式就是强制它：先别写，先想清楚。
+
+### 2.2 怎么实际使用 Plan 模式？
+
+一个推荐的最小套路是这样的：
+
+1. 先给「目标+边界」
+   
+   * 我要做什么（例如「新增一个订单列表页，可筛选、分页、导出 Excel」）
+   * 暂时不做什么（例如「暂时不支持多租户、也不对接权限系统」）
+2. 明确要它怎么问你
+   
+   * 「你先把需要确认的问题列出来，一次性问完」
+   * 「不要自己脑补业务设定，有疑问必须问」
+3. 要求它输出结构化 Plan
+   
+   * 整体方案
+   * 任务拆解（分成几大块，每块有哪些子任务）
+   * 每块大概会涉及哪些文件、接口或模块
+
+一个简单示例提示：
+
+> 「接下来你只做一件事：帮我整理开发计划，不要写任何代码。  
+>  先列出你需要确认的问题，然后给出分步骤的开发方案，按模块划分任务。等我逐条确认后，再进入写代码阶段。」
+
+你可以理解为：Plan 模式就是帮你「先写一份用人能看懂的需求+设计文档」，只不过这份文档是你和 Claude 共同磨出来的。
+
+### 2.3 为什么这一步能大幅减少返工？
+
+原因很简单：大部分返工不是因为「写错」，而是因为「一开始没讲清楚」。Plan 模式等于在会话刚开始时，给你一个「停下来对齐」的机会：
+
+* 发现他理解错的地方，当场纠正，不让问题在代码里发酵
+* 边界说清楚，避免一路加需求、一路改架构
+* 计划写出后，你可以拿给同事或产品一起看，相当于一份轻量设计文档
+
+尤其是大任务（比如重构一个模块、搭一套管理后台），强烈值得要求 Claude 把 Plan 持久化成文档，放在项目仓库或知识库里，以后新开会话直接引用。
+
+---
+
+三、根目录 CLAUDE.md：给 AI 立几条硬规矩
+---------------------------
+
+### 3.1 CLAUDE.md 是干嘛的？
+
+可以把根目录的 `CLAUDE.md` 当成「团队工作手册」，里面写的是：**你希望这个 AI 员工在这个项目里，遵守哪些铁律。**
+
+几个很实用的例子，我们拆开看。
+
+### 3.2 「称呼规则」：用来检测上下文过载
+
+有一个很有意思的约定：
+
+* 强制它在对话里称呼你为「Boss」
+* 如果有一轮突然不这么叫了，很可能是上下文被截断或挤满，之前的约定丢失了
+
+这其实是一个非常简单但好用的「健康监控」：
+
+* 一旦发现它开始不按规矩说话，你就知道：会话该重开了
+* 搭配类似 `/new` 这种命令，能快速切一个干净的上下文
+
+这比你盯着 token 数字有用得多，因为你能第一时间感知「它已经不记得刚才你们说过什么了」。
+
+### 3.3 「自由意志约束」：禁止它自己拍脑袋
+
+这里的核心要求是：
+
+* 设计之前必须给你至少两个可选方案
+* 不允许自己决定「哪种更好」，而是不停问：
+  + 「你更倾向哪种？成本和收益分别是…」
+
+这对架构决策特别重要：
+
+* 很多时候你需要权衡「简单 vs 可扩展」，AI 不知道你团队的实际情况
+* 如果它直接拍板，很快就引发风格混乱、技术债增加
+
+让它先列方案，再讨论，可以保证关键决策掌握在你手里。
+
+### 3.4 「拒绝冗余兼容」：不乱加 if，代码更干净
+
+另一条很接地气的约束是：
+
+> 除非我明确要求，不要「为了健壮性」给我加一堆 if 分支。
+
+很多模型有个习惯：
+
+* 害怕出错，就疯狂包 try-catch、疯狂 if 判空
+* 对简单场景写成「防导弹级」代码，看着很安全，其实可读性极差
+
+在 CLAUDE.md 里直接说明：
+
+* 只对我们已有明确需求的情况做兼容
+* 其他场景宁可先不处理，有真实需求再说
+
+你会发现，代码简洁度会好很多。
+
+### 3.5 「状态监控」：上下文超过 50% 就要警惕
+
+监控上下文占用，并关闭自动上下文压缩。
+
+原因是：
+
+* 上下文接近一半时，模型开始变「糊涂」：
+  + 记不住之前的细节
+  + 回答变含糊、摇摆
+* 自动压缩有时会把关键信息「模糊处理」掉，你还以为它记着
+
+更稳妥的做法是：
+
+* 适时把阶段性结论沉淀到文档（例如 README、设计文档）
+* 新开会话时，把这份文档当冷启动上下文喂给它，而不是指望它记着长长的聊天记录
+
+---
+
+四、Vibe Coding：「分级加载」代码库
+-----------------------
+
+### 4.1 问题：AI 要么看太少，要么看太多
+
+在实际项目里，我们经常碰到两种极端：
+
+* 只贴一小段代码，它看不出上下文，乱猜意图
+* 把整个项目文件夹扔给它，它上下文爆炸，抓不到重点
+
+所谓「Vibe Coding 自分形（分级加载）」就是用 Claude Code 的懒加载能力，让它按层级、按模块去理解代码，而不是一股脑全塞进去。
+
+### 4.2 每个业务模块配一份 CLAUDE.md
+
+做法很简单：
+
+* 每个业务模块（比如 `user/`、`order/`、`billing/`）下面都放一份自己的 `CLAUDE.md`，里面写：
+  + 这个模块是干什么的
+  + 和其他模块的关系
+  + 关键约束（比如「这里所有金额都以分为单位」）
+  + 重要文件列表和作用
+
+好处是：
+
+* 当 Claude 只加载 `order/` 相关文件时，它会优先看这个目录下的说明
+* 它能在「正确的上下文」里理解你给的代码，不会拿用户模块的习惯套到订单模块上
+
+### 4.3 每个源码文件加三行头注释
+
+建议：在每个源码文件头部加三行注释：
+
+* INPUT：它依赖哪些东西（比如依赖哪些接口、哪些配置）
+* OUTPUT：它提供哪些能力或数据
+* POS：它在整体系统中的位置（例如「这是订单服务的聚合根」「这是前端订单列表页」）
+
+这三行看似简单，但对 Claude 来说非常重要：
+
+* 它不再是盯着几百行代码「猜」用途，而是先看你给的标签
+* 搜索代码时，能更快找到正确文件，而不是翻半天
+
+举个例子：
+
+```
+// INPUT: 依赖 /api/orders, userStore, route query
+// OUTPUT: 展示订单列表，支持筛选、分页、导出
+// POS: 订单域的主列表页，用于运营查看订单概况
+
+```
+
+有了这些注释，你以后只要说「帮我改订单列表页，让导出时多一个 xxx 字段」，它更容易定位到正确的文件，而且知道这块改动对整体有什么影响。
+
+---
+
+五、提示词三原则：别说术语，把话说明白就行
+---------------------
+
+### 5.1 不需要「魔法咒语」
+
+**提示词不需要搞成玄学，只要把三件事讲清楚：你要干什么，有哪些参考，它该如何验证。**
+
+这三件事分别对应：
+
+1. 清晰目的
+   
+   * 功能点：你到底要实现什么
+   * 页面元素：需要有哪些按钮、输入框、表格列等
+2. 参考上下文
+   
+   * 接口文档地址
+   * 现有页面或组件路径
+3. 测试方法
+   
+   * 用哪个浏览器
+   * 需要覆盖哪些操作步骤
+
+### 5.2 一个更贴近日常的示例
+
+例如，你可以这样说：
+
+> 「我要在订单列表页加一个导出按钮，点击后导出当前筛选条件下的订单。  
+>  参考接口：`GET /api/orders/export`，文档在 `docs/api/orders.md`。  
+>  前端框架是 Vue3 + Element Plus，现有列表组件是 `src/pages/order/OrderList.vue`。  
+>  你改完后，请说明如何在 Chrome 里验证，包括：
+> 
+> * 哪里能看到这个按钮
+> * 点击后应出现什么反馈
+> * 异常时如何提示用户。」
+
+这段话完全不用任何玄乎的术语，但信息量对 Claude 来说已经足够。
+
+---
+
+六、MCP：不要等它「想起来用工具」
+------------------
+
+### 6.1 MCP 是什么角色？
+
+简单理解，MCP（Model Context Protocol）是一套「让模型主动去调用外部工具和数据源」的机制。
+
+* 不要指望 Claude 自己想起来用 MCP
+* 你要像带新人一样，明确告诉它「去查哪儿」
+
+### 6.2 主动命令它用 MCP
+
+举一个指令例子：「Use Context7」——你可以理解为明确指定它：
+
+* 去某个配置好的知识源（比如内部文档、Wiki、API 文档）里查
+* 把相关内容拉进当前上下文，再开始分析或编码
+
+这有两个好处：
+
+* 避免它凭记忆瞎编接口字段、业务规则
+* 让它在需要精确信息时，优先查「权威来源」而不是自己瞎猜
+
+### 6.3 「本地优先」的考量
+
+**能用本地工具解决的，就别全推给云端 MCP。**
+
+原因包括：
+
+* MCP 越多，占用的上下文和心智负担越大
+* 延迟和稳定性也受网络影响
+* 有些信息（比如当前项目代码）本地就能直接读取，没必要绕一圈
+
+比较合理的设计是：
+
+* 把「稳定、通用、更新不太频繁」的知识（比如 API 文档、设计说明）放到 MCP
+* 把「强依赖当前项目结构」的东西交给本地插件或直接读文件
+
+---
+
+七、Agent 高级玩法：用多个「小助手」互相挑错
+-------------------------
+
+### 7.1 为什么需要多个 Agent？
+
+在开发实践里，「一个会话干所有事」很容易弄成垃圾场：
+
+* 它既要写代码、又要查文档、还要做 code review、顺便帮你改改测试
+* 上下文混在一起，很难保持清晰的角色边界
+
+**用子 Agent（SubAgent）和对抗式 Agent。可以理解为给 Claude 分几个「小号」，每个只干一件事**
+
+### 7.2 SubAgent：专门用来查和搜
+
+SubAgent 的典型用法：
+
+* 专门负责搜索代码、查资料
+* 有独立的上下文，不会把一堆搜索结果塞进你的主开发会话
+
+比如：
+
+* 主会话是「实现功能」
+* 子 Agent A：只查项目里相关代码
+* 子 Agent B：只查知识库或外部文档
+
+这样你的主会话就不会被一堆「搜索过程」的噪音污染。
+
+### 7.3 对抗式纠错：CodeReview Agent + Test Agent
+
+另一个好玩但很有用的玩法是「对抗式纠错」：
+
+* 一个 Agent 只负责 code review：
+  + 看风格、复杂度、潜在 bug
+* 另一个 Agent 只负责测试设计：
+  + 写测试用例、设计边界场景
+
+你可以一条指令把它俩都拉上来，然后要求它们互相挑错：
+
+* Test Agent 根据 review 结果补充测试
+* CodeReview Agent 根据测试发现的问题调整建议
+
+这种「内部 PK」，很多时候能暴露你自己都没想到的坑。
+
+---
+
+八、Custom Skills：把高频套路固定下来
+-------------------------
+
+### 8.1 为什么要做 Skill？
+
+如果你每天都在用 Claude Code 工作，很快会发现：
+
+* 自己对它说的话，80% 都是重复的套路
+  + 比如「先帮我看一下这段代码有啥问题」
+  + 「按之前风格帮我扩展一个接口」
+
+Custom Skills 的意义，就是把这些高频工作流固化成可复用的「任务模板」。以后只要一句话，就能触发一整套流程。
+
+### 8.2 一个典型 Skill 的结构
+
+一个成熟的 Skill 通常包含：
+
+* 触发方式：你说什么话，代表要启动这个 Skill
+* 输入约定：它需要你提供哪些信息（代码片段、文件路径、接口文档等）
+* 内部步骤：
+  + 先检查什么
+  + 再做什么修改
+  + 最后如何给出结果（比如顺带产出一份变更说明）
+
+例如你可以定义一个「安全审查 Skill」：
+
+* 触发语：
+  + 「用安全审查流程过一遍这段接口代码」
+* 内部流程：
+  + 检查 SQL 注入、XSS、鉴权是否缺失
+  + 给出修改建议
+  + 生成一份简要审查报告
+
+长期来看，Skill 是你把个人经验和团队最佳实践，沉淀到工具里的方式，而不是只存在于「老员工脑子里」。
+
+---
+
+九、实践
+----
+
+### 9.1 第一步：搭好基础约束
+
+* 在项目根目录加上 `CLAUDE.md`：
+  
+  + 写清称呼规则（如「必须叫我 Boss」）
+  + 写清「自由意志约束」（不得自行拍板重要设计）
+  + 写清「冗余兼容」策略（不乱加 if）
+  + 写清上下文健康规则（比如超过 50% 就建议新开会话）
+* 在团队里达成共识：
+  
+  + 所有人在这个仓库里，都按这套规则和 Claude 互动
+
+### 9.2 第二步：整理模块和文件结构
+
+* 给每个核心业务模块都加一份 `CLAUDE.md`：
+  
+  + 模块职责
+  + 对外接口
+  + 和其他模块的关系
+* 给关键源码文件头部加那三行注释：INPUT / OUTPUT / POS
+
+这是最费时间的一步，但也是最值得投资的部分。
+
+### 9.3 第三步：改造你的「提问方式」
+
+* 把所有「口头需求」都改成三段式：
+  + 我要实现什么
+  + 参考什么（接口、页面、文档）
+  + 怎么测
+
+你可以考虑写一个简单的「提示词模板」，贴在团队 Wiki 里，让大家照这个格式问。
+
+### 9.4 第四步：接入 MCP 和 Agent
+
+* 挑一两类「信息稳定、变更不太频繁」的文档优先接入 MCP，比如：
+  
+  + API 文档
+  + 领域模型说明
+* 搭建 1~2 个辅助 Agent：
+  
+  + Search Agent：只负责查代码与文档
+  + Review Agent：只负责做 code review
+
+先从简单场景开始，不要一上来做太复杂的编排。
+
+### 9.5 第五步：从「常用套路」里提炼 Skills
+
+* 观察 1~2 周你和团队最常用的几类对话
+* 挑 2~3 个最有价值的场景先做 Skill：
+  + 比如「新接口开发流程」、「新页面开发流程」、「常规 bug 分析流程」
+
+后面再逐步扩充，不要追求一步到位。
+
+---
+
+十、最后的几句实话
+---------
+
+* Claude Code 真正的价值，不在于「它能写多少行代码」，而在于你能不能把它稳定地融到日常开发节奏里，让它变成团队的一部分。
+* Plan 模式、CLAUDE.md、防呆规则、分级加载、MCP、Agent、Skill，本质上都是在做一件事：**把不确定性收紧，让 AI 在「你设计好的轨道」里发挥能力。**
+
+![]()
+
+
+
+
+
+
+
+![]()
+确定要放弃本次机会？
+
+福利倒计时
+
+*:*
+
+*:*
+
+
+![]()
+立减 ¥
+
+
+普通VIP年卡可用
+
+[立即使用](https://mall.csdn.net/vip)
+
+
+[![]()
+小小工匠](https://artisan.blog.csdn.net)
+
+[关注](javascript:;)
+关注
+
+
+* ![]()
+  ![]()
+  ![]()
+  51
+  点赞
+* ![]()
+  ![]()
+  踩
+* [![]()
+  ![]()
+  ![]()
+  29](javascript:;)
+  收藏
+  
+  
+  
+  觉得还不错?
+  一键收藏
+  
+  ![]()
+* ![]()
+  知道了
+  
+  [![]()
+  0](#commentBox)
+  评论
+* [![]()
+  分享](javascript:;)
+  复制链接
+  
+  分享到 QQ
+  
+  分享到新浪微博
+  
+  ![]()扫一扫
+* [![]()
+  打赏](javascript:;)
+  打赏
+* ![]()
+  ![]()
+  打赏
+  ![]()
+  举报
+  
+  ![]()
+  举报
+
+专栏目录
+
+
+
+
+[*Vibe* *coding* 氛围编程：编程就像聊天一样，低代码开发时代来了？](https://yueliusu.blog.csdn.net/article/details/148167247)
+
+[Code\_流苏：在代码中寻诗意，在实践中觅真知](https://blog.csdn.net/qq_51646682)
+
+05-23
+![]()
+4239
+
+
+
+
+[*Vibe* *coding*：编程就像聊天一样，低代码开发时代来了！](https://yueliusu.blog.csdn.net/article/details/148167247)
+
+
+
+
+[*Vibe* *Coding* *-* *Claude* *Code* Viewer：打造更高效的本地 *Claude* *Code* 可视化体验](https://artisan.blog.csdn.net/article/details/154298003)
+
+[小工匠](https://blog.csdn.net/yangshangwei)
+
+11-07
+![]()
+1882
+
+
+
+
+[*Claude* *Code* Viewer 是一个由社区开发者 d*-*kimuson 创建的 基于 Web 的 *Claude* *Code* 可视化客户端，用于在浏览器中全面管理和分析 *Claude* *Code* 项目的交互日志与开发会话。
+它的设计理念是 “零数据丢失 + 有效组织 + 远程友好”，旨在让开发者能够通过现代化界面查看历史会话、继续中断的任务、执行 Git 操作、上传文件以及监控系统状态。](https://artisan.blog.csdn.net/article/details/154298003)
+
+
+
+
+
+参与评论
+您还未登录，请先
+登录
+后发表或查看评论
+
+
+[*Claude* *Code* 从入门到精通：开发者必备终端命令完全*指南*（附*实战*）](https://blog.csdn.net/2301_81413380/article/details/158068395)
+
+[2301\_81413380的博客](https://blog.csdn.net/2301_81413380)
+
+02-14
+![]()
+1300
+
+
+
+
+[Anthropic推出的*Claude**Code*标志着AI编程进入新阶段，它不再仅是代码生成器，而是能直接操作电脑的终端级开发工具。该工具具备三*大*核心*模式*：Default（安全确认）、Auto（全自动执行）和*Plan*（项目规划），通过Shift+Tab切换。它能自动完成创建文件、修改代码、执行命令、修复错误等完整开发流程，并支持上下文管理、后台任务控制、项目初始化等高级功能。使用/init、/*plan*、/auto、/compact组合可实现最高效开发，将传统"人写代码"转变为"人描述需求，AI完成开发"的新*模式*](https://blog.csdn.net/2301_81413380/article/details/158068395)
+
+
+
+[*Vibe* *Coding* *-* *Claude* *Code**实战*使用*技巧*深度解析与应用实录](https://devpress.csdn.net/v1/article/detail/155039214)
+
+[小工匠](https://blog.csdn.net/yangshangwei)
+
+11-20
+![]()
+1963
+
+
+
+
+[摘要：*Claude* *Code*作为Anthropic推出的AI编程助手，通过自然语言处理技术实现智能代码辅助。文章详解其核心功能：/init命令自动建立项目知识库，/compact优化对话效率，/clear重置上下文；介绍IDE集成与对比修改功能；分享think系列Prompt提升思考深度，以及命令行*模式*和长期记忆管理。还包含MCP Server集成方法，并通过案例展示*Claude* *Code*如何优化微服务项目开发全流程，实现知识沉淀和高效协作。该工具通过智能化命令体系推动AI驱动开发的创新实践。](https://devpress.csdn.net/v1/article/detail/155039214)
+
+
+
+
+[*Vibe* *Coding* *-* *Claude* *Code* 上下文管理*实战**指南*](https://artisan.blog.csdn.net/article/details/158585374)
+
+[小工匠](https://blog.csdn.net/yangshangwei)
+
+03-03
+![]()
+902
+
+
+
+
+[*Claude* 的“*大*脑”可以被看作一块白板：你发给它的每条消息、它读过的每个代码文件、看过的每条终端命令输出，都会被写在这块白板上。
+问题在于：这块白板会写满。一旦写满，模型就不得不“遗忘”一部分内容，表现为：
+*-* 忘记之前你反复强调的业务约束和编码规范
+*-* 开始犯非常基础的语法或逻辑错误
+*-* 回答变得啰嗦、模糊，甚至反复自我重复](https://artisan.blog.csdn.net/article/details/158585374)
+
+
+
+[*Vibe* *Coding* *-* *Claude* *Code* *实战**技巧*： 命令、*Plan* Mode、并行、多技能与成本监控](https://devpress.csdn.net/v1/article/detail/157946925)
+
+[小工匠](https://blog.csdn.net/yangshangwei)
+
+02-12
+![]()
+1532
+
+
+
+
+[本文为开发者、技术负责人和研究验证人员提供了一套高效的*Claude* *Code*工作流解决方案，重点解决AI编程中的权限确认打断、复杂需求失控和成本不可控三*大*痛点。核心方法包括：1）使用*Plan* Mode先规划再执行；2）将任务拆分为可跟踪的task；3）多任务隔离并行处理；4）固化常用提示词为可复用资产；5）通过ccusage工具监控token消耗。文章强调在追求效率的同时保持可控性，建议仅在隔离环境中使用高风险参数，并提供了从任务规划到成本优化的完整落地流程。](https://devpress.csdn.net/v1/article/detail/157946925)
+
+
+
+[*Vibe* *Coding* *-* *Claude* *Code* Git Worktree最佳实践](https://artisan.blog.csdn.net/article/details/157981120)
+
+[小工匠](https://blog.csdn.net/yangshangwei)
+
+02-13
+![]()
+1004
+
+
+
+
+[摘要：Git worktree 是一种高效解决开发者被AI工具（如*Claude* *Code*）占用工作区问题的方案。它允许在同一个仓库下创建多个独立工作目录，每个目录绑定不同分支，实现并行任务处理。相比重复克隆仓库，worktree更节省空间和时间，并能保持分支同步。典型应用场景包括：AI执行长任务时继续开发新功能、同时推进多个分支任务等。使用时需注意及时清理已完成任务的worktree目录。这套方法能将原本的等待时间转化为并行产能，显著提升开发效率。](https://artisan.blog.csdn.net/article/details/157981120)
+
+
+
+[*Vibe* *Coding* *-* *Claude* *Code* Infrastructure 从技能自动激活到智能开发工作流](https://devpress.csdn.net/v1/article/detail/154295543)
+
+[小工匠](https://blog.csdn.net/yangshangwei)
+
+11-07
+![]()
+2489
+
+
+
+
+[*Claude* *Code*基础设施：构建自动化的AI开发辅助系统 Anthropic推出的*Claude* *Code*系统通过"技能+钩子+代理"架构，旨在实现AI助手对开发流程的主动介入。该项目提出了一套完整的工程化解决方案，核心机制包括： 自动激活：通过Hook监听用户输入触发对应技能 模块化设计：技能采用500行分割原则，动态加载资源 协同运作：Hooks实现事件监听，Agents处理特定任务，Commands标准化交互 该架构将AI从被动应答转变为主动协作，未来可能成为AI IDE的标准配](https://devpress.csdn.net/v1/article/detail/154295543)
+
+
+
+[*Vibe* *Coding* *-* *Claude* *Code* ：从安装到高阶玩法](https://devpress.csdn.net/v1/article/detail/153794642)
+
+[小工匠](https://blog.csdn.net/yangshangwei)
+
+10-24
+![]()
+2559
+
+
+
+
+[本文详细介绍了如何安装、配置和使用*Claude* *Code*进行自动化开发。主要内容包括：系统要求与安装方法（支持npm、PowerShell和curl等多种方式）；API密钥获取与环境变量设置；基础命令与交互*模式*；高阶配置与环境变量管理；MCP协议扩展功能（连接外部服务）；子代理系统配置；Vim*模式*快捷键等。文章还提供了常见问题解决方案和团队协作建议，强调配置即代码、权限最小化和版本控制的原则。通过分步*指南*和实用示例，帮助开发者快速掌握*Claude* *Code*的核心功能，实现高效AI辅助编程。](https://devpress.csdn.net/v1/article/detail/153794642)
+
+
+
+[222*-*spingboot茶文化推广系统(*文档*+源码)\_kaic.zip](https://download.csdn.net/download/weixin_52720882/92737115)
+
+03-16
+
+
+
+[222*-*spingboot茶文化推广系统(*文档*+源码)\_kaic.zip](https://download.csdn.net/download/weixin_52720882/92737115)
+
+
+
+[（45页PPT）华夏幸福计划运营管控体系分享.pptx](https://download.csdn.net/download/2501_92796370/92736944)
+
+03-16
+
+
+
+[（45页PPT）华夏幸福计划运营管控体系分享.pptx](https://download.csdn.net/download/2501_92796370/92736944)
+
+
+
+[基于MATLAB/Simulink的卫星轨道动力学建模与碰撞规避策略仿真系统
+最新发布](https://download.csdn.net/download/zru_9602/92737790)
+
+03-16
+
+
+
+[随着航天领域技术能力的持续提升，人造卫星的部署频次与在轨规模不断扩*大*，由此引发的空间目标碰撞风险已成为关键安全议题。为确保航天器在轨运行安全，必须构建有效的碰撞规避策略。本方案基于MATLAB/Simulink仿真环境，构建了一套完整的卫星碰撞规避仿真系统，用于模拟轨道动力学行为、识别碰撞威胁并生成规避机动指令。
+系统首先建立精确的卫星轨道动力学模型。该模型依据牛顿力学与开普勒轨道定律，同时纳入地球非球形引力摄动、日月引力扰动及其他空间环境因素的影响，以准确描述卫星在复杂力场中的运动轨迹。
+在动力学模型基础上，系统集成了实时碰撞预警模块。该模块持续监测卫星与周边空间目标之间的相对运动状态，通过位置与速度矢量的实时计算，快速识别潜在的近距离接近事件。一旦判定存在碰撞风险，系统随即启动规避策略计算单元。规避策略通常包括调整速度矢量、改变轨道高度或轨道倾角，乃至实施紧急变轨机动，以在确保安全的前提下最*大*限度地减少对原定任务的影响。
+Simulink的图形化建模环境为系统各模块的集成与测试提供了便利。通过搭建包含动力学、预警与决策模块的仿真模型，可在统一平台中进行闭环测试与迭代优化，从而验证规避策略的有效性与实时性。
+方案实施中需着重关注以下方面：系统需具备高可靠性及毫秒级响应能力，确保在极短时间内完成威胁评估与机动规划；规避策略应尽可能降低燃料消耗，延长卫星服役寿命；系统架构应保持开放性与可扩展性，以适应未来多星协同、星座运行等复杂场景。
+基于MATLAB/Simulink的卫星碰撞规避仿真系统，不仅提升了在轨航天器的生存能力与任务可靠性，也为航天器设计、轨道控制与任务规划提供了重要的技术支撑，对促进航天工程的安全发展具有显著的实际价值。
+资源来源于网络分享，仅用于学习交流使用，请勿用于商业，如有侵权请联系我删除！](https://download.csdn.net/download/zru_9602/92737790)
+
+
+
+[*大*模型MLOps全流程管理与自动化训练平台搭建.md](https://download.csdn.net/download/weixin_43107715/92737466)
+
+03-16
+
+
+
+[覆盖*大*模型基础原理、Transformer架构、预训练与微调全流程、量化推理优化、本地化部署、RAG/Agent/多模态应用开发、垂直领域定制、安全伦理防控、成本优化等全链路知识点，兼具理论深度与*实战*可操作性，能够帮助开发者从入门到精通，快速掌握*大*模型落地全栈技能，解决实际项目中的各类痛点问题。](https://download.csdn.net/download/weixin_43107715/92737466)
+
+
+
+[基于Andriod的家庭理财系统的设计与实现(*文档*+源码)\_kaic.zip](https://download.csdn.net/download/weixin_52720882/92737345)
+
+03-16
+
+
+
+[计算机毕业设计](https://download.csdn.net/download/weixin_52720882/92737345)
+
+
+
+[（45页PPT）麦肯锡KPI资料.ppt](https://download.csdn.net/download/2501_92796370/92736933)
+
+03-16
+
+
+
+[（45页PPT）麦肯锡KPI资料.ppt](https://download.csdn.net/download/2501_92796370/92736933)
+
+
+
+[数智化比赛工业算法新生代PPT模版](https://download.csdn.net/download/weixin_42616439/92736918)
+
+03-16
+
+
+
+[数智化比赛工业算法新生代PPT模版](https://download.csdn.net/download/weixin_42616439/92736918)
+
+
+
+[（45页PPT）麦肯锡咨询手册麦肯锡好的开始是成功的一半如何进行团队内部及团队与客户之间的交流.ppt](https://download.csdn.net/download/2501_92796370/92736939)
+
+03-16
+
+
+
+[（45页PPT）麦肯锡咨询手册麦肯锡好的开始是成功的一半如何进行团队内部及团队与客户之间的交流.ppt](https://download.csdn.net/download/2501_92796370/92736939)
+
+
+
+[256*-*Java校园二手交易平台(*文档*+源码)\_kaic.zip](https://download.csdn.net/download/weixin_52720882/92737151)
+
+03-16
+
+
+
+[256*-*Java校园二手交易平台(*文档*+源码)\_kaic.zip](https://download.csdn.net/download/weixin_52720882/92737151)
+
+
+
+
+
+
+
+
+
+
+[![]()](https://artisan.blog.csdn.net)
+
+[小小工匠](https://artisan.blog.csdn.net)
+
+
+博客等级
+
+![]()
+
+码龄14年
+
+
+
+![]()
+优质创作者: Java技术领域
+
+![]()
+领域专家: 后端开发技术领域
+
+
+[2641
+原创](https://artisan.blog.csdn.net)
+
+2万+
+点赞
+
+2万+
+收藏
+
+14万+
+粉丝
+
+
+关注
+
+[私信](https://im.csdn.net/chat/yangshangwei)
+
+
+
+[![]()](https://ai.csdn.net/workbench/wallet?utm_source=xtai_slb_bloglb)
+
+### 热门文章
+
+* [Linux字符截取命令-cut
+  ![]()
+  104225](https://artisan.blog.csdn.net/article/details/52563123)
+* [Oracle-分析函数之sum(...) over(...)
+  ![]()
+  96040](https://artisan.blog.csdn.net/article/details/52985553)
+* [小工匠聊架构文章一览【不间断持续更新】
+  ![]()
+  92994](https://artisan.blog.csdn.net/article/details/109634170)
+* [Spring-AOP @AspectJ切点函数之@annotation()
+  ![]()
+  89139](https://artisan.blog.csdn.net/article/details/77619875)
+* [Spring-AOP @AspectJ切点函数之@within()和@target
+  ![]()
+  83414](https://artisan.blog.csdn.net/article/details/77846974)
+
+
+### 分类专栏
+
+* [![]()
+  【小工匠聊架構】
+  
+  付费](https://blog.csdn.net/yangshangwei/category_10007842.html)
+  135篇
+* [![]()
+  【实战-并发编程】
+  
+  付费](https://blog.csdn.net/yangshangwei/category_11278568.html)
+  10篇
+* [![]()
+  【OpenClaw】](https://blog.csdn.net/yangshangwei/category_13133148.html)
+  12篇
+* [![]()
+  【大模型应用开发实战】](https://blog.csdn.net/yangshangwei/category_13025963.html)
+  81篇
+* [![]()
+  【Apache Flink】](https://blog.csdn.net/yangshangwei/category_13112680.html)
+  1篇
+* [![]()
+  【LLM大模型】](https://blog.csdn.net/yangshangwei/category_12853030.html)
+  129篇
+* [![]()
+  【Vibe Coding】](https://blog.csdn.net/yangshangwei/category_12991347.html)
+  72篇
+* [![]()
+  【大规模数据处理】](https://blog.csdn.net/yangshangwei/category_13091981.html)
+  19篇
+* [![]()
+  【n8n】](https://blog.csdn.net/yangshangwei/category_12995854.html)
+  2篇
+* [![]()
+  【Dify智能应用开发实战】](https://blog.csdn.net/yangshangwei/category_12949382.html)
+  5篇
+* [![]()
+  【架构思维】](https://blog.csdn.net/yangshangwei/category_12898640.html)
+  87篇
+* [![]()
+  【安全攻防】](https://blog.csdn.net/yangshangwei/category_12575609.html)
+  70篇
+* [![]()
+  【凤凰架构】](https://blog.csdn.net/yangshangwei/category_12778786.html)
+  7篇
+* [![]()
+  【AIGC】](https://blog.csdn.net/yangshangwei/category_12285779.html)
+  34篇
+* [![]()
+  【Simple RPC】](https://blog.csdn.net/yangshangwei/category_12455464.html)
+  9篇
+* [![]()
+  【Netty原理与 RPC 实践】](https://blog.csdn.net/yangshangwei/category_12618292.html)
+  2篇
+* [![]()
+  【Netty入门到精通】](https://blog.csdn.net/yangshangwei/category_10743783.html)
+  48篇
+* [![]()
+  【性能优化】](https://blog.csdn.net/yangshangwei/category_12978842.html)
+  21篇
+* [![]()
+  【Java开发避坑指南】](https://blog.csdn.net/yangshangwei/category_12807559.html)
+  17篇
+* [![]()
+  【EDA事件驱动架构】](https://blog.csdn.net/yangshangwei/category_12430899.html)
+  2篇
+* [![]()
+  【大厂案例】](https://blog.csdn.net/yangshangwei/category_12388414.html)
+  7篇
+* [![]()
+  【大数据&云计算】](https://blog.csdn.net/yangshangwei/category_12297536.html)
+  6篇
+* [![]()
+  【Nacos架构与原理】](https://blog.csdn.net/yangshangwei/category_12191841.html)
+  10篇
+* [![]()
+  【开源项目鉴赏】](https://blog.csdn.net/yangshangwei/category_11672628.html)
+  39篇
+* [![]()
+  【DDD-领域驱动设计】](https://blog.csdn.net/yangshangwei/category_11586769.html)
+  22篇
+* [![]()
+  【分布式架构】](https://blog.csdn.net/yangshangwei/category_12210387.html)
+  48篇
+* [![]()
+  【每日一博】](https://blog.csdn.net/yangshangwei/category_11221271.html)
+  87篇
+* [![]()
+  【计算机网络】](https://blog.csdn.net/yangshangwei/category_11177290.html)
+  30篇
+* [![]()
+  【设计模式GOF】](https://blog.csdn.net/yangshangwei/category_10976759.html)
+  63篇
+* [![]()
+  【异步编程】](https://blog.csdn.net/yangshangwei/category_12431607.html)
+  15篇
+* [![]()
+  【响应式编程】](https://blog.csdn.net/yangshangwei/category_12341097.html)
+  9篇
+* [![]()
+  【JVM性能调优实战】](https://blog.csdn.net/yangshangwei/category_10986663.html)
+  61篇
+* [![]()
+  【实战-Spring Cloud Alibaba】](https://blog.csdn.net/yangshangwei/category_12109805.html)
+  1篇
+* [![]()
+  【Spring Cloud Alibaba】](https://blog.csdn.net/yangshangwei/category_11063729.html)
+  29篇
+* [![]()
+  【Spring Cloud Finchley】](https://blog.csdn.net/yangshangwei/category_8468891.html)
+  20篇
+* [![]()
+  【实战-Spring Cloud Finchley实战】](https://blog.csdn.net/yangshangwei/category_8782852.html)
+  7篇
+* [![]()
+  【Spring5.x 源码】](https://blog.csdn.net/yangshangwei/category_10361068.html)
+  26篇
+* [![]()
+  【Spring WebFlux】](https://blog.csdn.net/yangshangwei/category_12041054.html)
+  3篇
+* [![]()
+  【开发规范】](https://blog.csdn.net/yangshangwei/category_10908912.html)
+  19篇
+* [![]()
+  【一起学Golang】](https://blog.csdn.net/yangshangwei/category_12579962.html)
+  2篇
+* [![]()
+  【OS System】](https://blog.csdn.net/yangshangwei/category_10797049.html)
+  3篇
+* [![]()
+  【APM】](https://blog.csdn.net/yangshangwei/category_10202456.html)
+  7篇
+* [![]()
+  【MyBatis源码解析】](https://blog.csdn.net/yangshangwei/category_10076044.html)
+  6篇
+* [![]()
+  【LeetCode】](https://blog.csdn.net/yangshangwei/category_9707478.html)
+  2篇
+* [![]()
+  【Tomcat架构&源码&调优】](https://blog.csdn.net/yangshangwei/category_10039552.html)
+  11篇
+* [![]()
+  【Data Structures & Algorithms】](https://blog.csdn.net/yangshangwei/category_9437076.html)
+  16篇
+* [![]()
+  【MQ-Apache RocketMQ】](https://blog.csdn.net/yangshangwei/category_9480223.html)
+  11篇
+* [![]()
+  【MQ-Apache Kafka】](https://blog.csdn.net/yangshangwei/category_9516809.html)
+  65篇
+* [![]()
+  【MQ-RabbitMQ】](https://blog.csdn.net/yangshangwei/category_8823038.html)
+  2篇
+* [![]()
+  【ZK-Apache ZooKeeper】](https://blog.csdn.net/yangshangwei/category_9518261.html)
+  27篇
+* [![]()
+  【ES-Elasticsearch】](https://blog.csdn.net/yangshangwei/category_8849319.html)
+  93篇
+* [![]()
+  【Spring Boot】](https://blog.csdn.net/yangshangwei/category_7487795.html)
+  119篇
+* [![]()
+  【Spring Session】](https://blog.csdn.net/yangshangwei/category_10811367.html)
+  3篇
+* [![]()
+  【实战-SSM In Action】](https://blog.csdn.net/yangshangwei/category_7659134.html)
+  48篇
+* [![]()
+  【MyBatis】](https://blog.csdn.net/yangshangwei/category_7205317.html)
+  31篇
+* [![]()
+  【Redis-入门到精通】](https://blog.csdn.net/yangshangwei/category_7916438.html)
+  34篇
+* [![]()
+  【Redis-进阶实战】](https://blog.csdn.net/yangshangwei/category_9781187.html)
+  44篇
+* [![]()
+  【Java并发编程】](https://blog.csdn.net/yangshangwei/category_6035731.html)
+  75篇
+* [![]()
+  【JVM高级特性】](https://blog.csdn.net/yangshangwei/category_6466077.html)
+  39篇
+* [![]()
+  【Java - Java 8】](https://blog.csdn.net/yangshangwei/category_9983288.html)
+  35篇
+* [![]()
+  【J.U.C源码】](https://blog.csdn.net/yangshangwei/category_10351628.html)
+  30篇
+* [![]()
+  【Java - Java Base】](https://blog.csdn.net/yangshangwei/category_6218110.html)
+  75篇
+* [![]()
+  【Java工具类】](https://blog.csdn.net/yangshangwei/category_7141449.html)
+  3篇
+* [![]()
+  【Java设计模式】](https://blog.csdn.net/yangshangwei/category_6007941.html)
+  20篇
+* [![]()
+  【Spring-IOC】](https://blog.csdn.net/yangshangwei/category_6954325.html)
+  41篇
+* [![]()
+  【Spring-AOP】](https://blog.csdn.net/yangshangwei/category_7092062.html)
+  25篇
+* [![]()
+  【Spring-AOP进阶】](https://blog.csdn.net/yangshangwei/category_7118308.html)
+  23篇
+* [![]()
+  【Spring-JDBC】](https://blog.csdn.net/yangshangwei/category_7174937.html)
+  20篇
+* [![]()
+  【Spring-Cache】](https://blog.csdn.net/yangshangwei/category_7206254.html)
+  9篇
+* [![]()
+  【Spring-MVC】](https://blog.csdn.net/yangshangwei/category_7161369.html)
+  19篇
+* [![]()
+  【Spring-OXM】](https://blog.csdn.net/yangshangwei/category_7301687.html)
+  5篇
+* [![]()
+  【Quartz任务调度】](https://blog.csdn.net/yangshangwei/category_7209029.html)
+  20篇
+* [![]()
+  【MySQL深度剖析】](https://blog.csdn.net/yangshangwei/category_10210212.html)
+  34篇
+* [![]()
+  【MySQL基础篇】](https://blog.csdn.net/yangshangwei/category_9684554.html)
+  32篇
+* [![]()
+  【Oracle基础】](https://blog.csdn.net/yangshangwei/category_6039125.html)
+  63篇
+* [![]()
+  【Oracle通用优化】](https://blog.csdn.net/yangshangwei/category_6554141.html)
+  24篇
+* [![]()
+  【Git】](https://blog.csdn.net/yangshangwei/category_7112110.html)
+  11篇
+* [![]()
+  【Maven】](https://blog.csdn.net/yangshangwei/category_6989894.html)
+  20篇
+* [![]()
+  【系统运维-Shell】](https://blog.csdn.net/yangshangwei/category_6385678.html)
+  40篇
+* [![]()
+  【Dubbo】](https://blog.csdn.net/yangshangwei/category_6784679.html)
+  1篇
+* [![]()
+  【容器技术-Docker】](https://blog.csdn.net/yangshangwei/category_6421904.html)
+  18篇
+* [![]()
+  【系统运维-Linux】](https://blog.csdn.net/yangshangwei/category_6317348.html)
+  74篇
+* [![]()
+  【Nginx】](https://blog.csdn.net/yangshangwei/category_8751325.html)
+  46篇
+* [![]()
+  【软考-恰狗狮】](https://blog.csdn.net/yangshangwei/category_12058689.html)
+  10篇
+* [![]()
+  【Hadoop】](https://blog.csdn.net/yangshangwei/category_6018205.html)
+  5篇
+* [![]()
+  【Python】](https://blog.csdn.net/yangshangwei/category_6407175.html)
+  18篇
+* [![]()
+  【前端开发-Vue2.x基础篇】](https://blog.csdn.net/yangshangwei/category_8522658.html)
+  5篇
+* [![]()
+  【前端开发-JavaScript基础篇】](https://blog.csdn.net/yangshangwei/category_7038286.html)
+  4篇
+* [![]()
+  【移动开发-Android基础篇】](https://blog.csdn.net/yangshangwei/category_6012527.html)
+  28篇
+* [![]()
+  【移动开发-Android网络编程】](https://blog.csdn.net/yangshangwei/category_6009945.html)
+  3篇
+* [![]()
+  【移动开发-AndroidMD】](https://blog.csdn.net/yangshangwei/category_6107825.html)
+  12篇
+* [![]()
+  【移动开发-Android常见UI】](https://blog.csdn.net/yangshangwei/category_6198893.html)
+  3篇
+* [![]()
+  【移动开发-Android-图片处理】](https://blog.csdn.net/yangshangwei/category_6009687.html)
+  8篇
+* [![]()
+  【移动开发-Android杂货箱】](https://blog.csdn.net/yangshangwei/category_5969777.html)
+  17篇
+* [![]()
+  【移动开发-Android中级篇】](https://blog.csdn.net/yangshangwei/category_6026751.html)
+  11篇
+* [![]()
+  【移动开发-AndroidStudio】](https://blog.csdn.net/yangshangwei/category_5978865.html)
+  17篇
+* [![]()
+  【万花筒】](https://blog.csdn.net/yangshangwei/category_6395075.html)
+  12篇
+
+展开全部 ![]()
+收起 ![]()
+
+
+上一篇：
+
+[Vibe Coding - Oh My Claude Code：把 Claude Code 变成“多智能体开发助手”的完整实战指南](https://blog.csdn.net/yangshangwei/article/details/157939411)
+
+
+下一篇：
+
+[Vibe Coding - Claude Skills 最佳实践指南：把“提示词”升级成可复用的工作流](https://blog.csdn.net/yangshangwei/article/details/157946178)
+
+
+
+### 最新评论
+
+* [LLM -Awesome OpenClaw Skills：给本地 AI 助手装一个「超级插件市场」](https://artisan.blog.csdn.net/article/details/158182209#comments_39286663)
+  
+  [ha\_lydms:](https://blog.csdn.net/weixin_44624117) 
+  LLM 内容整理，加油
+
+
+### 大家在看
+
+* [AI驱动的体育服饰商城系统
+  ![]()
+  322](https://blog.csdn.net/yibo2022/article/details/159160812)
+* [上市公司大数据应用指数（2001-2024）](https://blog.csdn.net/2401_84585615/article/details/159120284)
+* [LLM漏洞检测技术前沿综述](https://blog.csdn.net/XLYcmy/article/details/159002887)
+* [天河PCCAD自定义快捷键命令的方法](https://blog.csdn.net/Sunny_2022/article/details/159209744)
+* [EUV光刻机核心数学模型解析
+  ![]()
+  416](https://blog.csdn.net/weixin_49199313/article/details/159089796)
+
+
+### 最新文章
+
+* [OpenClaw - Day9 Star-Office-UI 给虾哥一个可视化的家](https://artisan.blog.csdn.net/article/details/158853684)
+* [OpenClaw - Day 8 用这 4 个 Skills，把 OpenClaw 的搜索能力拉到天花板](https://artisan.blog.csdn.net/article/details/158813041)
+* [OpenClaw - Day 7 从聊天机器人到数字分身：OpenClaw 高级玩法与未来路线图](https://artisan.blog.csdn.net/article/details/158705821)
+
+
+2026
+[03月
+15篇](https://artisan.blog.csdn.net?type=blog&year=2026&month=03)
+
+[02月
+45篇](https://artisan.blog.csdn.net?type=blog&year=2026&month=02)
+
+[01月
+28篇](https://artisan.blog.csdn.net?type=blog&year=2026&month=01)
+
+
+[2025年534篇](https://artisan.blog.csdn.net?type=blog&year=2025&month=12)
+[2024年280篇](https://artisan.blog.csdn.net?type=blog&year=2024&month=12)
+[2023年303篇](https://artisan.blog.csdn.net?type=blog&year=2023&month=12)
+[2022年150篇](https://artisan.blog.csdn.net?type=blog&year=2022&month=12)
+[2021年286篇](https://artisan.blog.csdn.net?type=blog&year=2021&month=12)
+[2020年230篇](https://artisan.blog.csdn.net?type=blog&year=2020&month=12)
+[2019年166篇](https://artisan.blog.csdn.net?type=blog&year=2019&month=12)
+[2018年159篇](https://artisan.blog.csdn.net?type=blog&year=2018&month=12)
+[2017年202篇](https://artisan.blog.csdn.net?type=blog&year=2017&month=12)
+[2016年218篇](https://artisan.blog.csdn.net?type=blog&year=2016&month=12)
+[2015年31篇](https://artisan.blog.csdn.net?type=blog&year=2015&month=12)
+
+
+
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+上一篇：
+
+[Vibe Coding - Oh My Claude Code：把 Claude Code 变成“多智能体开发助手”的完整实战指南](https://blog.csdn.net/yangshangwei/article/details/157939411)
+
+
+下一篇：
+
+[Vibe Coding - Claude Skills 最佳实践指南：把“提示词”升级成可复用的工作流](https://blog.csdn.net/yangshangwei/article/details/157946178)
+
+
+
+### 分类专栏
+
+* [![]()
+  【小工匠聊架構】
+  
+  付费](https://blog.csdn.net/yangshangwei/category_10007842.html)
+  135篇
+* [![]()
+  【实战-并发编程】
+  
+  付费](https://blog.csdn.net/yangshangwei/category_11278568.html)
+  10篇
+* [![]()
+  【OpenClaw】](https://blog.csdn.net/yangshangwei/category_13133148.html)
+  12篇
+* [![]()
+  【大模型应用开发实战】](https://blog.csdn.net/yangshangwei/category_13025963.html)
+  81篇
+* [![]()
+  【Apache Flink】](https://blog.csdn.net/yangshangwei/category_13112680.html)
+  1篇
+* [![]()
+  【LLM大模型】](https://blog.csdn.net/yangshangwei/category_12853030.html)
+  129篇
+* [![]()
+  【Vibe Coding】](https://blog.csdn.net/yangshangwei/category_12991347.html)
+  72篇
+* [![]()
+  【大规模数据处理】](https://blog.csdn.net/yangshangwei/category_13091981.html)
+  19篇
+* [![]()
+  【n8n】](https://blog.csdn.net/yangshangwei/category_12995854.html)
+  2篇
+* [![]()
+  【Dify智能应用开发实战】](https://blog.csdn.net/yangshangwei/category_12949382.html)
+  5篇
+* [![]()
+  【架构思维】](https://blog.csdn.net/yangshangwei/category_12898640.html)
+  87篇
+* [![]()
+  【安全攻防】](https://blog.csdn.net/yangshangwei/category_12575609.html)
+  70篇
+* [![]()
+  【凤凰架构】](https://blog.csdn.net/yangshangwei/category_12778786.html)
+  7篇
+* [![]()
+  【AIGC】](https://blog.csdn.net/yangshangwei/category_12285779.html)
+  34篇
+* [![]()
+  【Simple RPC】](https://blog.csdn.net/yangshangwei/category_12455464.html)
+  9篇
+* [![]()
+  【Netty原理与 RPC 实践】](https://blog.csdn.net/yangshangwei/category_12618292.html)
+  2篇
+* [![]()
+  【Netty入门到精通】](https://blog.csdn.net/yangshangwei/category_10743783.html)
+  48篇
+* [![]()
+  【性能优化】](https://blog.csdn.net/yangshangwei/category_12978842.html)
+  21篇
+* [![]()
+  【Java开发避坑指南】](https://blog.csdn.net/yangshangwei/category_12807559.html)
+  17篇
+* [![]()
+  【EDA事件驱动架构】](https://blog.csdn.net/yangshangwei/category_12430899.html)
+  2篇
+* [![]()
+  【大厂案例】](https://blog.csdn.net/yangshangwei/category_12388414.html)
+  7篇
+* [![]()
+  【大数据&云计算】](https://blog.csdn.net/yangshangwei/category_12297536.html)
+  6篇
+* [![]()
+  【Nacos架构与原理】](https://blog.csdn.net/yangshangwei/category_12191841.html)
+  10篇
+* [![]()
+  【开源项目鉴赏】](https://blog.csdn.net/yangshangwei/category_11672628.html)
+  39篇
+* [![]()
+  【DDD-领域驱动设计】](https://blog.csdn.net/yangshangwei/category_11586769.html)
+  22篇
+* [![]()
+  【分布式架构】](https://blog.csdn.net/yangshangwei/category_12210387.html)
+  48篇
+* [![]()
+  【每日一博】](https://blog.csdn.net/yangshangwei/category_11221271.html)
+  87篇
+* [![]()
+  【计算机网络】](https://blog.csdn.net/yangshangwei/category_11177290.html)
+  30篇
+* [![]()
+  【设计模式GOF】](https://blog.csdn.net/yangshangwei/category_10976759.html)
+  63篇
+* [![]()
+  【异步编程】](https://blog.csdn.net/yangshangwei/category_12431607.html)
+  15篇
+* [![]()
+  【响应式编程】](https://blog.csdn.net/yangshangwei/category_12341097.html)
+  9篇
+* [![]()
+  【JVM性能调优实战】](https://blog.csdn.net/yangshangwei/category_10986663.html)
+  61篇
+* [![]()
+  【实战-Spring Cloud Alibaba】](https://blog.csdn.net/yangshangwei/category_12109805.html)
+  1篇
+* [![]()
+  【Spring Cloud Alibaba】](https://blog.csdn.net/yangshangwei/category_11063729.html)
+  29篇
+* [![]()
+  【Spring Cloud Finchley】](https://blog.csdn.net/yangshangwei/category_8468891.html)
+  20篇
+* [![]()
+  【实战-Spring Cloud Finchley实战】](https://blog.csdn.net/yangshangwei/category_8782852.html)
+  7篇
+* [![]()
+  【Spring5.x 源码】](https://blog.csdn.net/yangshangwei/category_10361068.html)
+  26篇
+* [![]()
+  【Spring WebFlux】](https://blog.csdn.net/yangshangwei/category_12041054.html)
+  3篇
+* [![]()
+  【开发规范】](https://blog.csdn.net/yangshangwei/category_10908912.html)
+  19篇
+* [![]()
+  【一起学Golang】](https://blog.csdn.net/yangshangwei/category_12579962.html)
+  2篇
+* [![]()
+  【OS System】](https://blog.csdn.net/yangshangwei/category_10797049.html)
+  3篇
+* [![]()
+  【APM】](https://blog.csdn.net/yangshangwei/category_10202456.html)
+  7篇
+* [![]()
+  【MyBatis源码解析】](https://blog.csdn.net/yangshangwei/category_10076044.html)
+  6篇
+* [![]()
+  【LeetCode】](https://blog.csdn.net/yangshangwei/category_9707478.html)
+  2篇
+* [![]()
+  【Tomcat架构&源码&调优】](https://blog.csdn.net/yangshangwei/category_10039552.html)
+  11篇
+* [![]()
+  【Data Structures & Algorithms】](https://blog.csdn.net/yangshangwei/category_9437076.html)
+  16篇
+* [![]()
+  【MQ-Apache RocketMQ】](https://blog.csdn.net/yangshangwei/category_9480223.html)
+  11篇
+* [![]()
+  【MQ-Apache Kafka】](https://blog.csdn.net/yangshangwei/category_9516809.html)
+  65篇
+* [![]()
+  【MQ-RabbitMQ】](https://blog.csdn.net/yangshangwei/category_8823038.html)
+  2篇
+* [![]()
+  【ZK-Apache ZooKeeper】](https://blog.csdn.net/yangshangwei/category_9518261.html)
+  27篇
+* [![]()
+  【ES-Elasticsearch】](https://blog.csdn.net/yangshangwei/category_8849319.html)
+  93篇
+* [![]()
+  【Spring Boot】](https://blog.csdn.net/yangshangwei/category_7487795.html)
+  119篇
+* [![]()
+  【Spring Session】](https://blog.csdn.net/yangshangwei/category_10811367.html)
+  3篇
+* [![]()
+  【实战-SSM In Action】](https://blog.csdn.net/yangshangwei/category_7659134.html)
+  48篇
+* [![]()
+  【MyBatis】](https://blog.csdn.net/yangshangwei/category_7205317.html)
+  31篇
+* [![]()
+  【Redis-入门到精通】](https://blog.csdn.net/yangshangwei/category_7916438.html)
+  34篇
+* [![]()
+  【Redis-进阶实战】](https://blog.csdn.net/yangshangwei/category_9781187.html)
+  44篇
+* [![]()
+  【Java并发编程】](https://blog.csdn.net/yangshangwei/category_6035731.html)
+  75篇
+* [![]()
+  【JVM高级特性】](https://blog.csdn.net/yangshangwei/category_6466077.html)
+  39篇
+* [![]()
+  【Java - Java 8】](https://blog.csdn.net/yangshangwei/category_9983288.html)
+  35篇
+* [![]()
+  【J.U.C源码】](https://blog.csdn.net/yangshangwei/category_10351628.html)
+  30篇
+* [![]()
+  【Java - Java Base】](https://blog.csdn.net/yangshangwei/category_6218110.html)
+  75篇
+* [![]()
+  【Java工具类】](https://blog.csdn.net/yangshangwei/category_7141449.html)
+  3篇
+* [![]()
+  【Java设计模式】](https://blog.csdn.net/yangshangwei/category_6007941.html)
+  20篇
+* [![]()
+  【Spring-IOC】](https://blog.csdn.net/yangshangwei/category_6954325.html)
+  41篇
+* [![]()
+  【Spring-AOP】](https://blog.csdn.net/yangshangwei/category_7092062.html)
+  25篇
+* [![]()
+  【Spring-AOP进阶】](https://blog.csdn.net/yangshangwei/category_7118308.html)
+  23篇
+* [![]()
+  【Spring-JDBC】](https://blog.csdn.net/yangshangwei/category_7174937.html)
+  20篇
+* [![]()
+  【Spring-Cache】](https://blog.csdn.net/yangshangwei/category_7206254.html)
+  9篇
+* [![]()
+  【Spring-MVC】](https://blog.csdn.net/yangshangwei/category_7161369.html)
+  19篇
+* [![]()
+  【Spring-OXM】](https://blog.csdn.net/yangshangwei/category_7301687.html)
+  5篇
+* [![]()
+  【Quartz任务调度】](https://blog.csdn.net/yangshangwei/category_7209029.html)
+  20篇
+* [![]()
+  【MySQL深度剖析】](https://blog.csdn.net/yangshangwei/category_10210212.html)
+  34篇
+* [![]()
+  【MySQL基础篇】](https://blog.csdn.net/yangshangwei/category_9684554.html)
+  32篇
+* [![]()
+  【Oracle基础】](https://blog.csdn.net/yangshangwei/category_6039125.html)
+  63篇
+* [![]()
+  【Oracle通用优化】](https://blog.csdn.net/yangshangwei/category_6554141.html)
+  24篇
+* [![]()
+  【Git】](https://blog.csdn.net/yangshangwei/category_7112110.html)
+  11篇
+* [![]()
+  【Maven】](https://blog.csdn.net/yangshangwei/category_6989894.html)
+  20篇
+* [![]()
+  【系统运维-Shell】](https://blog.csdn.net/yangshangwei/category_6385678.html)
+  40篇
+* [![]()
+  【Dubbo】](https://blog.csdn.net/yangshangwei/category_6784679.html)
+  1篇
+* [![]()
+  【容器技术-Docker】](https://blog.csdn.net/yangshangwei/category_6421904.html)
+  18篇
+* [![]()
+  【系统运维-Linux】](https://blog.csdn.net/yangshangwei/category_6317348.html)
+  74篇
+* [![]()
+  【Nginx】](https://blog.csdn.net/yangshangwei/category_8751325.html)
+  46篇
+* [![]()
+  【软考-恰狗狮】](https://blog.csdn.net/yangshangwei/category_12058689.html)
+  10篇
+* [![]()
+  【Hadoop】](https://blog.csdn.net/yangshangwei/category_6018205.html)
+  5篇
+* [![]()
+  【Python】](https://blog.csdn.net/yangshangwei/category_6407175.html)
+  18篇
+* [![]()
+  【前端开发-Vue2.x基础篇】](https://blog.csdn.net/yangshangwei/category_8522658.html)
+  5篇
+* [![]()
+  【前端开发-JavaScript基础篇】](https://blog.csdn.net/yangshangwei/category_7038286.html)
+  4篇
+* [![]()
+  【移动开发-Android基础篇】](https://blog.csdn.net/yangshangwei/category_6012527.html)
+  28篇
+* [![]()
+  【移动开发-Android网络编程】](https://blog.csdn.net/yangshangwei/category_6009945.html)
+  3篇
+* [![]()
+  【移动开发-AndroidMD】](https://blog.csdn.net/yangshangwei/category_6107825.html)
+  12篇
+* [![]()
+  【移动开发-Android常见UI】](https://blog.csdn.net/yangshangwei/category_6198893.html)
+  3篇
+* [![]()
+  【移动开发-Android-图片处理】](https://blog.csdn.net/yangshangwei/category_6009687.html)
+  8篇
+* [![]()
+  【移动开发-Android杂货箱】](https://blog.csdn.net/yangshangwei/category_5969777.html)
+  17篇
+* [![]()
+  【移动开发-Android中级篇】](https://blog.csdn.net/yangshangwei/category_6026751.html)
+  11篇
+* [![]()
+  【移动开发-AndroidStudio】](https://blog.csdn.net/yangshangwei/category_5978865.html)
+  17篇
+* [![]()
+  【万花筒】](https://blog.csdn.net/yangshangwei/category_6395075.html)
+  12篇
+
+展开全部 ![]()
+收起 ![]()
+
+
+
+
+
+
+### 目录
+
+
+
+
+
+
+
+
+
+
+
+
+
+评论
+![]()
+
+![]()被折叠的  条评论
+[为什么被折叠?](https://blogdev.blog.csdn.net/article/details/122245662)
+[![]()到【灌水乐园】发言](https://bbs.csdn.net/forums/FreeZone)
+
+
+查看更多评论![]()
+
+
+
+添加红包
+
+
+祝福语
+
+
+请填写红包祝福语或标题
+
+
+红包数量
+
+个
+
+红包个数最小为10个
+
+
+红包总金额
+
+元
+
+红包金额最低5元
+
+
+余额支付
+当前余额3.43元
+[前往充值 >](https://i.csdn.net/#/wallet/balance/recharge)
+
+
+需支付：10.00元
+
+取消
+确定
+
+
+
+
+![]()
+下一步
+
+![]()
+知道了
+
+
+
+![]()
+成就一亿技术人!
+
+
+
+领取后你会自动成为博主和红包主的粉丝
+规则
+
+
+
+![]()
+hope\_wisdom 发出的红包
+
+
+
+
+
+
+
+
+
+打赏作者![]()
+
+[![]()](https://artisan.blog.csdn.net)
+
+小小工匠
+
+你的鼓励将是我创作的最大动力
+
+
+
+
+¥1
+¥2
+¥4
+¥6
+¥10
+¥20
+
+扫码支付：¥1
+
+![]()
+获取中
+
+
+![]()
+![]()
+扫码支付
+
+
+
+您的余额不足，请更换扫码支付或[充值](https://i.csdn.net/#/wallet/balance/recharge?utm_source=RewardVip)
+
+打赏作者
+
+
+
+
+实付元
+[使用余额支付](javascript:;)
+![]()
+点击重新获取
+
+
+![]()![]()![]()扫码支付
+
+
+
+
+钱包余额
+0
+![]()
+
+抵扣说明：
+
+1.余额是钱包充值的虚拟货币，按照1:1的比例进行支付金额的抵扣。  
+ 2.余额无法直接购买下载，可以购买VIP、付费专栏及课程。
+
+
+
+
+
+[![]()余额充值](https://i.csdn.net/#/wallet/balance/recharge)
+
+![]()
+
+
+
+
+
+

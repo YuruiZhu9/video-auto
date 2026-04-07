@@ -1,0 +1,562 @@
+# Source URL: https://internvl.github.io/blog/2025-04-11-InternVL-3.0/
+# Content Length: 38654 characters
+# Extracted at: 2026-03-30 19:05:47
+#============================================================
+
+[\[🆕 Go Back\]](https://internvl.github.io/blog/) [\[📜 InternVL3 Report\]](https://huggingface.co/papers/2504.10479) [\[📜 InternVL 2.5 Report\]](https://huggingface.co/papers/2412.05271) [\[📜\\
+InternVL 1.0 Paper\]](https://openaccess.thecvf.com/content/CVPR2024/papers/Chen\_InternVL\_Scaling\_up\_Vision\_Foundation\_Models\_and\_Aligning\_for\_Generic\_CVPR\_2024\_paper.pdf) [\[📜 InternVL\\
+1.5 Paper\]](https://arxiv.org/abs/2404.16821) [\[🗨️ Chat Demo\]](https://internvl.opengvlab.com/) [\[📂 GitHub\]](https://github.com/OpenGVLab/InternVL/tree/main) [\[📖 Documents\]](https://internvl.readthedocs.io/en/latest/) [\[🤗 HF Demo\]](https://huggingface.co/spaces/OpenGVLab/InternVL) [\[![](https://internvl.github.io/blog/2025-04-11-InternVL-3.0/images/modelscope\_logo.png) ModelScope\]](https://modelscope.cn/models/OpenGVLab/Mini-InternVL-Chat-4B-V1-5/summary) [\[🚀\\
+Quick Start\]](https://github.com/OpenGVLab/InternVL?tab=readme-ov-file#quick-start-with-huggingface)
+| Type | Model | Date | HF Link | MS Link | Document |
+| --- | --- | --- | --- | --- | --- |
+| Multimodal Large Language Models | InternVL3-1B | 2025.04.11 | [🤗 link](https://huggingface.co/OpenGVLab/InternVL3-1B) | [🤖\  
+ link](https://modelscope.cn/models/OpenGVLab/InternVL3-1B) | [📖\  
+ doc](https://huggingface.co/OpenGVLab/InternVL3-1B#quick-start) |
+| InternVL3-2B | 2025.04.11 | [🤗 link](https://huggingface.co/OpenGVLab/InternVL3-2B) | [🤖\  
+ link](https://modelscope.cn/models/OpenGVLab/InternVL3-2B) | [📖\  
+ doc](https://huggingface.co/OpenGVLab/InternVL3-2B#quick-start) |
+| InternVL3-8B | 2025.04.11 | [🤗 link](https://huggingface.co/OpenGVLab/InternVL3-8B) | [🤖\  
+ link](https://modelscope.cn/models/OpenGVLab/InternVL3-8B) | [📖\  
+ doc](https://huggingface.co/OpenGVLab/InternVL3-8B#quick-start) |
+| InternVL3-9B | 2025.04.11 | [🤗 link](https://huggingface.co/OpenGVLab/InternVL3-9B) | [🤖\  
+ link](https://modelscope.cn/models/OpenGVLab/InternVL3-9B) | [📖\  
+ doc](https://huggingface.co/OpenGVLab/InternVL3-9B#quick-start) |
+| InternVL3-14B | 2025.04.11 | [🤗 link](https://huggingface.co/OpenGVLab/InternVL3-14B) | [🤖\  
+ link](https://modelscope.cn/models/OpenGVLab/InternVL3-14B) | [📖\  
+ doc](https://huggingface.co/OpenGVLab/InternVL3-14B#quick-start) |
+| InternVL3-38B | 2025.04.11 | [🤗 link](https://huggingface.co/OpenGVLab/InternVL3-38B) | [🤖\  
+ link](https://modelscope.cn/models/OpenGVLab/InternVL3-38B) | [📖\  
+ doc](https://huggingface.co/OpenGVLab/InternVL3-38B#quick-start) |
+| InternVL3-78B | 2025.04.11 | [🤗\  
+ link](https://huggingface.co/OpenGVLab/InternVL3-78B) | [🤖\  
+ link](https://modelscope.cn/models/OpenGVLab/InternVL3-78B) | [📖\  
+ doc](https://huggingface.co/OpenGVLab/InternVL3-78B#quick-start) |
+| Visual Process Reward Model | VisualPRM-8B-v1.1 | 2025.04.11 | [🤗\  
+ link](https://huggingface.co/OpenGVLab/VisualPRM-8B-v1.1) | [🤖\  
+ link](https://modelscope.cn/models/VisualPRM-8B-v1.1) | [📖 doc](https://huggingface.co/VisualPRM-8B-v1.1) |
+![image](https://internvl.github.io/blog/2025-04-11-InternVL-3.0/images/overview\_performance.png)
+We introduce InternVL3, an advanced multimodal large language model (MLLM) series that
+demonstrates superior overall performance. Compared to InternVL 2.5, InternVL3 exhibits superior
+multimodal perception and reasoning capabilities, while further extending its multimodal
+capabilities to encompass tool usage, GUI agents, industrial image analysis, 3D vision
+perception, and more. Additionally, we compare InternVL3 with Qwen2.5 Chat models, whose
+corresponding pre-trained base models are employed as the initialization of the langauge
+component in InternVL3. Benefitting from Native Multimodal Pre-Training, the InternVL3 series
+achieves even better overall text performance than the Qwen2.5 series.
+InternVL3 family is built upon the following designs:
+1. \*\*Variable Visual Position Encoding\*\*:
+We integrates the
+[Variable Visual Position Encoding (V2PE)](https://arxiv.org/abs/2412.09616)
+, which utilizes smaller, more flexible
+position increments for visual tokens. This modification facilitates the handling of longer
+multimodal contexts without excessively extending the position window.
+2. \*\*Native Multimodal Pre-Training\*\*:
+We propose a Native Multimodal Pre-Training approach that consolidates language pre-training
+and multi-modal alignment training into a single pre-training stage.
+Unlike conventional paradigms—where a language-only large model is first trained (typically
+with language pre-training followed by language post-training) and later adapted to
+accommodate additional modalities—our method performs integrated optimization by
+interleaving multimodal data (e.g., image–text, video–text, or interleaved image–text
+sequences) with large-scale textual corpora during the pre-training process.
+This unified training scheme allows the pre-trainied model to learn both linguistic and
+multimodal capabilities simultaneously, ultimately enhancing its capability to handle
+vision-language tasks without introducing additional bridging modules or subsequent
+inter-model alignment procedures.
+3. \*\*Mixed Preference Optimization\*\*:
+During Pre-training and SFT, the model is trained to predict the next token conditioned on
+previous ground-truth tokens.
+However, during inference, the model predicts each token based on its own prior outputs.
+This discrepancy between ground-truth tokens and model-predicted tokens introduces a
+distribution shift, which can impair the model’s Chain-of-Thought (CoT) reasoning
+capabilities.
+To mitigate this issue, we employ
+[Mixed Preference Optimization (MPO)](https://arxiv.org/abs/2411.10442)
+, which introduces
+additional supervision from both positive and negative samples to align the model response
+distribution with the ground-truth distribution, thereby improving reasoning performance.
+4. \*\*Test-Time Scaling with VisualPRM\*\*:
+Test-Time Scaling has been shown to be an effective method to enhance the reasoning
+abilities of LLMs and MLLMs.
+In this work, we use the Best-of-N evaluation strategy and employ
+[VisualPRM-8B](https://arxiv.org/abs/2503.10291)
+as the critic
+model to select the best response for reasoning and mathematics evaluation.
+![image](https://internvl.github.io/blog/2025-04-11-InternVL-3.0/images/overview\_method.png)
+The architecture of InternVL3 follows the same general framework as its predecessors, adhering
+to the "ViT-MLP-LLM" paradigm.
+As in the previous version, we applied a pixel unshuffle operation, reducing the number of
+visual tokens to one-quarter of the original. Besides, we adopted a similar dynamic resolution
+strategy as InternVL 1.5, dividing images into tiles of 448×448 pixels. The key difference,
+starting from InternVL 2.0, is that we additionally introduced support for multi-image and video
+data.
+Notably, in InternVL3, we integrate the
+[Variable Visual Position Encoding (V2PE)](https://arxiv.org/abs/2412.09616)
+, which utilizes
+smaller, more flexible position increments for visual tokens. Benefiting from V2PE, InternVL3
+exhibits better long context understanding capabilities compared to its predecessors.
+### Model Card
+| Name | InternVL3-1B | InternVL3-2B | InternVL3-8B | InternVL3-9B | InternVL3-14B | InternVL3-38B | InternVL3-78B |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Model Size | Total | \*\*938.19M\*\* | \*\*2.09B\*\* | \*\*7.94B\*\* | \*\*9.14B\*\* | \*\*15.12B\*\* | \*\*38.39B\*\* | \*\*78.41B\*\* |
+| ViT | 304.01M | 304.01M | 304.01M | 304.01M | 304.01M | 5.54B | 5.54B |
+| MLP | 4.48M | 8.66M | 27.54M | 33.57M | 47.20M | 91.79M | 172.01M |
+| LLM | 629.70M | 1.78B | 7.61B | 8.80B | 14.77B | 32.76B | 72.70B |
+| Resolution | dynamic resolution, max to 36 tiles of 448 × 448 in training, max to 128  
+ tiles in testing. |
+| Native Multimodal Pre-Training | Training Data | The pre-training data used in InternVL3 can be broadly categorized into two types:  
+ multimodal data and pure language data.  
+ The multimodal data comprises a combination of existing high-quality datasets and newly  
+ collected real-world data. Specifically, we leverage the pre-training data from  
+ InternVL2.5, which covers a diverse range of domains such as image captioning, general  
+ question answering, mathematics, charts, optical character recognition (OCR), knowledge  
+ grounding, document understanding, multi-turn dialogue, and medical data. Although the  
+ overall data scale was not increased, the utility of this dataset was significantly  
+ improved by updating not only the weights of the MLP module but also those of the Vision  
+ Transformer (ViT) and the large language model (LLM) components. In addition, to enhance  
+ the model's ability to generalize to practical applications, we supplement this with  
+ newly collected data from real-world tasks, including graphical user interfaces (GUI)  
+ tasks, tool usage, 3D scene understanding, and video comprehension.  
+   
+ To compensate for the relatively short and less diverse textual content typically found  
+ in multimodal datasets, we incorporate pure language data into the pre-training process.  
+ This helps preserve and enhance the model’s capabilities in language understanding and  
+ generation. The language corpus is constructed based on the pre-training data of  
+ InternLM2.5, and is further enriched with several open-source text datasets to improve  
+ the model’s performance in knowledge-intensive, mathematical, and reasoning tasks |
+| Trainable Module | ViT + MLP + LLM |
+| Supervised Fine-Tuning | Training Data | For SFT data, we construct the training corpora based on those used in InternVL2.5 while  
+ introducing additional tool usage, 3D scene understanding, GUI operations, scientific  
+ diagrams, creative writing, and multimodal reasoning samples.  
+ As a result, the number of training samples grows from 16.3M in InternVL2.5 to 21.7M in  
+ InternVL3. |
+| Trainable Module | ViT + MLP + LLM |
+| Mixed Preference Optimization | Training Data | For MPO data, we construct preference pairs based on the data pipeline and samples  
+ proposed in  
+ [MMPR v1.2](https://huggingface.co/datasets/OpenGVLab/MMPR-v1.2)  
+ , which cover a wide range of domains, including general visual  
+ question answering (VQA), science, chart, mathematics, OCR, and document.  
+ We use the SFT versions of InternVL3-8B, 38B, and 78B to generate rollouts. During the  
+ MPO phase, all models are trained on the same dataset, which comprises about 300K  
+ samples. |
+| Trainable Module | ViT + MLP + LLM |
+### Performance
+#### Multimodal Reasoning and Mathematics
+| Model | MMMU | MathVista | MathVision | MathVerse | DynaMath | WeMath | LogicVista | Overall |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| LLaVA-OV-0.5B | 31.4 | 34.8 | - | - | - | - | - | - |
+| InternVL2.5-1B | 41.2 | 47.1 | 21.1 | 16.4 | 5.6 | 11.1 | 26.0 | 24.1 |
+| InternVL3-1B | 43.4 | 45.8 | 18.8 | 18.7 | 5.8 | 13.4 | 29.8 | 25.1 |
+| w/ VisualPRM-Bo8 | 55.4 | 62.1 | 21.7 | 28.9 | 13.4 | 28.5 | 34.9 | 35.0 |
+| Aquila-VL-2B | 46.9 | 59.1 | 17.9 | 17.4 | 5.0 | 15.9 | 30.6 | 27.5 |
+| Qwen2.5-VL-3B | 51.2 | 61.2 | 21.9 | 31.2 | 13.2 | 22.9 | 40.3 | 34.6 |
+| Ovis-2B | 45.6 | 64.1 | 17.7 | 29.4 | 10.0 | 9.9 | 34.7 | 30.2 |
+| Ovis-4B | 49.0 | 69.6 | 21.5 | 38.5 | 18.0 | 16.9 | 35.3 | 35.5 |
+| InternVL2.5-2B | 43.2 | 51.1 | 14.0 | 22.3 | 4.4 | 8.0 | 27.3 | 24.3 |
+| InternVL2.5-4B | 51.8 | 64.1 | 18.4 | 27.7 | 15.2 | 21.2 | 34.2 | 33.2 |
+| InternVL3-2B | 48.6 | 57.0 | 21.7 | 25.3 | 14.6 | 22.4 | 36.9 | 32.4 |
+| w/ VisualPRM-Bo8 | 57.8 | 70.5 | 26.6 | 36.7 | 21.4 | 38.5 | 40.5 | 41.7 |
+| LLaVA-OV-7B | 47.9 | 58.6 | 18.3 | 19.3 | 9.0 | 20.9 | 33.3 | 29.6 |
+| MiniCPM-V2.6 | 49.8 | 60.8 | 23.4 | 18.9 | 9.8 | 16.4 | 27.5 | 29.5 |
+| MiniCPM-o2.6 | 50.9 | 73.3 | 21.7 | 35.0 | 10.4 | 25.2 | 36.0 | 36.1 |
+| Ovis-8B | 57.4 | 71.8 | 25.9 | 42.3 | 20.4 | 27.2 | 39.4 | 40.6 |
+| Qwen2.5-VL-8B | 55.0 | 67.8 | 25.4 | 41.1 | 21.0 | 35.2 | 44.1 | 41.4 |
+| InternVL2.5-8B | 56.2 | 64.5 | 17.0 | 22.8 | 9.4 | 23.5 | 36.0 | 32.8 |
+| InternVL3-8B | 62.7 | 71.6 | 29.3 | 39.8 | 25.5 | 37.1 | 44.1 | 44.3 |
+| w/ VisualPRM-Bo8 | 66.0 | 75.2 | 37.5 | 46.3 | 28.5 | 48.1 | 49.7 | 50.2 |
+| InternVL3-9B | 57.7 | 71.5 | 27.6 | 35.3 | 26.7 | 33.8 | 49.2 | 43.1 |
+| w/ VisualPRM-Bo8 | 63.7 | 76.2 | 33.9 | 45.8 | 29.1 | 46.6 | 50.6 | 49.4 |
+| Ovis2-16B | 60.7 | 73.7 | 30.1 | 45.8 | 26.3 | 45.0 | 47.4 | 47.0 |
+| InternVL2.5-26B | 60.7 | 68.2 | 23.4 | 24.0 | 11.4 | 30.9 | 39.6 | 36.9 |
+| InternVL3-14B | 67.1 | 75.1 | 37.2 | 44.4 | 31.3 | 43.0 | 51.2 | 49.9 |
+| w/ VisualPRM-Bo8 | 69.3 | 77.9 | 40.1 | 47.7 | 33.1 | 52.0 | 56.2 | 53.8 |
+| Cambrian-34B | 49.7 | 53.2 | - | - | - | - | - | - |
+| VILA-1.5-40B | 55.1 | 49.5 | - | - | - | - | - | - |
+| Ovis2-34B | 66.7 | 76.1 | 31.9 | 50.1 | 27.5 | 51.9 | 49.9 | 50.6 |
+| InternVL2.5-38B | 63.9 | 71.9 | 32.2 | 36.9 | 20.0 | 38.3 | 47.9 | 44.4 |
+| InternVL3-38B | 70.1 | 75.1 | 34.2 | 48.2 | 35.3 | 48.6 | 58.4 | 52.8 |
+| w/ VisualPRM-Bo8 | 71.0 | 79.4 | 41.8 | 54.2 | 36.1 | 55.2 | 58.4 | 56.6 |
+| GPT-4o-20241120 | 70.7 | 60.0 | 31.2 | 40.6 | 34.5 | 45.8 | 52.8 | 47.9 |
+| Claude-3.7-Sonnet | 75.0 | 66.8 | 41.9 | 46.7 | 39.7 | 49.3 | 58.2 | 53.9 |
+| Gemini-2.0-Flash | 72.6 | 70.4 | 43.6 | 47.8 | 42.1 | 47.4 | 52.3 | 53.7 |
+| Gemini-2.0-Pro | 69.9 | 71.3 | 48.1 | 67.3 | 43.3 | 56.5 | 53.2 | 58.5 |
+| LLaVA-OV-72B | 55.7 | 67.1 | 25.3 | 27.2 | 15.6 | 32.0 | 40.9 | 37.7 |
+| QvQ-72B-Preview | 70.3 | 70.3 | 34.9 | 48.2 | 30.7 | 39.0 | 58.2 | 50.2 |
+| Qwen2.5-VL-72B | 68.2 | 74.2 | 39.3 | 47.3 | 35.9 | 49.1 | 55.7 | 52.8 |
+| InternVL2.5-78B | 70.0 | 72.3 | 32.2 | 39.2 | 19.2 | 39.8 | 49.0 | 46.0 |
+| InternVL3-78B | 72.2 | 79.0 | 43.1 | 51.0 | 35.1 | 46.1 | 55.9 | 54.6 |
+| w/ VisualPRM-Bo8 | 72.2 | 80.5 | 40.8 | 54.2 | 37.3 | 52.4 | 57.9 | 56.5 |
+#### OCR, Chart, and Document Understanding
+| Model Name | AI2D  
+(w./wo Mask) | ChartQA  
+(test avg.) | TextVQA  
+(val) | DocVQA  
+(test) | InfoVQA  
+(test) | OCR  
+Bench | SEED-2  
+Plus | CharXiv  
+(RQ/DQ) | VCR-EN-Easy  
+(EM/Jaccard) | Overall |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| LLaVA-OneVision-0.5B | 57.1 / \\lsp | 61.4 | - | 70.0 | 41.8 | 565 | - | - | - | - |
+| InternVL2-1B | 64.1 / 70.5 | 72.9 | 70.5 | 81.7 | 50.9 | 754 | 54.3 | 18.1 / 30.7 | 21.5 / 48.4 | 54.9 |
+| InternVL2.5-1B | 69.3 / 77.8 | 75.9 | 72.0 | 84.8 | 56.0 | 785 | 59.0 | 19.0 / 38.4 | 91.5 / 97.0 | 68.3 |
+| InternVL3-1B | 69.4 / 78.3 | 75.3 | 74.1 | 81.9 | 53.7 | 790 | 58.2 | 21.0 / 47.1 | 89.3 / 96.2 | 68.6 |
+| Qwen2-VL-2B | 74.7 / 84.6 | 73.5 | 79.7 | 90.1 | 65.5 | 809 | 62.4 | - | 81.5 / \\lsp | - |
+| Qwen2.5-VL-3B | 81.6 / \\lsp | 84.0 | 79.3 | 93.9 | 77.1 | 797 | 67.6 | 31.3 / 58.6 | - | - |
+| Aquila-VL-2B | 75.0 / \\lsp | 76.5 | 76.4 | 85.0 | 58.3 | 772 | 63.0 | - | 70.0 / \\lsp | - |
+| InternVL2-2B | 74.1 / 82.3 | 76.2 | 73.4 | 86.9 | 58.9 | 784 | 60.0 | 21.0 / 40.6 | 32.9 / 59.2 | 62.0 |
+| InternVL2.5-2B | 74.9 / 83.5 | 79.2 | 74.3 | 88.7 | 60.9 | 804 | 60.9 | 21.3 / 49.7 | 93.2 / 97.6 | 72.1 |
+| InternVL3-2B | 78.7 / 87.4 | 80.2 | 77.0 | 88.3 | 66.1 | 835 | 64.6 | 28.3 / 54.7 | 91.2 / 96.9 | 74.7 |
+| Ovis1.6-Gemma2-9B | 84.4 / \\lsp | - | - | - | - | 830 | - | - | - | - |
+| MiniCPM-V2.6 | 82.1 / \\lsp | 82.4 | 80.1 | 90.8 | - | 852 | 65.7 | 31.0 / 57.1 | 73.9 / 85.7 | - |
+| Molmo-7B-D | \\rsp / 93.2 | 84.1 | 81.7 | 92.2 | 72.6 | 694 | - | - | - | - |
+| Qwen2-VL-7B | 83.0 / 92.1 | 83.0 | 84.3 | 94.5 | 76.5 | 866 | 69.0 | - | 89.7 / 93.8 | - |
+| Qwen2.5-VL-7B | 83.9 / \\lsp | 87.3 | 84.9 | 95.7 | 82.6 | 864 | 70.4 | 42.5/73.9 | - | - |
+| InternVL2-8B | 83.8 / 91.7 | 83.3 | 77.4 | 91.6 | 74.8 | 794 | 67.5 | 31.2 / 56.1 | 37.9 / 61.5 | 69.7 |
+| InternVL2.5-8B | 84.5 / 92.8 | 84.8 | 79.1 | 93.0 | 77.6 | 822 | 69.7 | 32.9 / 68.6 | 92.6 / 97.4 | 79.6 |
+| InternVL3-8B | 85.2 / 92.6 | 86.6 | 80.2 | 92.7 | 76.8 | 880 | 69.7 | 37.6 / 73.6 | 94.5 / 98.1 | 81.3 |
+| InternVL3-9B | 84.6 / 92.9 | 86.2 | 79.4 | 93.6 | 79.6 | 877 | 68.8 | 38.0 / 72.5 | 94.2 / 97.9 | 81.3 |
+| InternVL3-14B | 86.0 / 93.7 | 87.3 | 80.5 | 94.1 | 83.6 | 875 | 70.3 | 43.1 / 82.2 | 94.8 / 98.2 | 83.4 |
+| InternVL-Chat-V1.5 | 80.7 / 89.8 | 83.8 | 80.6 | 90.9 | 72.5 | 724 | 66.3 | 29.2 / 58.5 | 14.7 / 51.4 | 65.9 |
+| InternVL2-26B | 84.5 / 92.5 | 84.9 | 82.3 | 92.9 | 75.9 | 825 | 67.6 | 33.4 / 62.4 | 74.5 / 86.7 | 76.7 |
+| InternVL2.5-26B | 86.4 / 94.4 | 87.2 | 82.4 | 94.0 | 79.8 | 852 | 70.8 | 35.9 / 73.5 | 94.4 / 98.0 | 81.8 |
+| Qwen2.5-VL-32B | - | - | - | 94.8 | 83.4 | - | - | - | - | - |
+| Cambrian-34B | 79.5 / \\lsp | 75.6 | 76.7 | 75.5 | 46.0 | 600 | - | 27.3 / 59.7 | 79.7 / 89.3 | - |
+| VILA-1.5-40B | 69.9 / \\lsp | 67.2 | 73.6 | - | - | 460 | - | 24.0 / 38.7 | - | - |
+| InternVL2-40B | 86.6 / 94.5 | 86.2 | 83.0 | 93.9 | 78.7 | 837 | 69.2 | 32.3 / 66.0 | 84.7 / 92.6 | 79.3 |
+| InternVL2.5-38B | 87.6 / 95.1 | 88.2 | 82.7 | 95.3 | 83.6 | 842 | 71.2 | 42.4 / 79.6 | 94.7 / 98.2 | 83.6 |
+| InternVL3-38B | 88.9 / 95.5 | 89.2 | 83.9 | 95.4 | 85.0 | 886 | 71.6 | 46.4 / 87.2 | 96.1 / 98.7 | 85.5 |
+| GPT-4V | 78.2 / 89.4 | 78.5 | 78.0 | 88.4 | 75.1 | 645 | 53.8 | 37.1 / 79.9 | 52.0 / 65.4 | 70.0 |
+| GPT-4o-20240513 | 84.6 / 94.2 | 85.7 | 77.4 | 92.8 | 79.2 | 736 | 72.0 | 47.1 / 84.5 | 91.6 / 96.4 | 81.6 |
+| Claude-3-Opus | 70.6 / 88.1 | 80.8 | 67.5 | 89.3 | 55.6 | 694 | 44.2 | 30.2 / 71.6 | 62.0 / 77.7 | 67.3 |
+| Claude-3.5-Sonnet | 81.2 / 94.7 | 90.8 | 74.1 | 95.2 | 74.3 | 788 | 71.7 | 60.2 / 84.3 | 63.9 / 74.7 | 78.7 |
+| Gemini-1.5-Pro | 79.1 / 94.4 | 87.2 | 78.8 | 93.1 | 81.0 | 754 | - | 43.3 / 72.0 | 62.7 / 77.7 | - |
+| LLaVA-OneVision-72B | 85.6 / \\lsp | 83.7 | 80.5 | 91.3 | 74.9 | 741 | - | - | - | - |
+| NVLM-D-72B | 85.2 / 94.2 | 86.0 | 82.1 | 92.6 | - | 853 | - | - | - | - |
+| Molmo-72B | \\rsp / 96.3 | 87.3 | 83.1 | 93.5 | 81.9 | - | - | - | - | - |
+| Qwen2-VL-72B | 88.1 / \\lsp | 88.3 | 85.5 | 96.5 | 84.5 | 877 | - | - | 91.3 / 94.6 | - |
+| Qwen2.5-VL-72B | 88.7 / \\lsp | 89.5 | 83.5 | 96.4 | 87.3 | 885 | 73.0 | 49.7 / 87.4 | - | - |
+| InternVL2-Llama3-76B | 87.6 / 94.8 | 88.4 | 84.4 | 94.1 | 82.0 | 839 | 69.7 | 38.9 / 75.2 | 83.2 / 91.3 | 81.1 |
+| InternVL2.5-78B | 89.1 / 95.7 | 88.3 | 83.4 | 95.1 | 84.1 | 854 | 71.3 | 42.4 / 82.3 | 95.7 / 94.5 | 83.9 |
+| InternVL3-78B | 89.7 / 96.0 | 89.7 | 84.3 | 95.4 | 86.5 | 906 | 71.9 | 46.0 / 85.1 | 96.0 / 98.6 | 85.8 |
+#### Multi-Image & Real-World Comprehension
+| Model Name | BLINK  
+(val) | Mantis  
+Eval | MMIU | Muir  
+Bench | MMT  
+(val) | MIRB  
+(avg) | Overall |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| LLaVA-OneVision-0.5B | 52.1 | 39.6 | - | 25.5 | - | - | - |
+| InternVL2-1B | 38.6 | 46.1 | 37.3 | 29.3 | 49.5 | 31.5 | 38.7 |
+| InternVL2.5-1B | 42.0 | 51.2 | 38.5 | 29.9 | 50.3 | 35.6 | 41.3 |
+| InternVL3-1B | 42.9 | 50.2 | 39.3 | 31.2 | 52.9 | 36.1 | 42.1 |
+| Qwen2-VL-2B | 44.4 | - | - | - | 55.1 | - | - |
+| Qwen2.5-VL-3B | 47.6 | - | - | 47.7 | - | - | - |
+| InternVL2-2B | 43.8 | 48.4 | 39.8 | 32.5 | 50.4 | 32.1 | 41.2 |
+| InternVL2.5-2B | 44.0 | 54.8 | 43.5 | 40.6 | 54.5 | 36.4 | 45.6 |
+| InternVL3-2B | 50.3 | 65.9 | 43.0 | 38.8 | 59.5 | 42.9 | 50.1 |
+| Qwen2-VL-7B | 53.2 | - | - | - | 64.0 | - | - |
+| Qwen2.5-VL-7B | 56.4 | - | - | 59.6 | - | - | - |
+| MiniCPM-V2.6 | 53.0 | 69.0 | - | - | 60.8 | - | - |
+| InternVL2-8B | 50.9 | 65.4 | 42.0 | 48.7 | 60.0 | 50.0 | 52.8 |
+| InternVL2.5-8B | 54.8 | 67.7 | 46.7 | 51.1 | 62.3 | 52.5 | 55.9 |
+| InternVL3-8B | 55.5 | 70.1 | 46.8 | 55.0 | 65.0 | 56.8 | 58.2 |
+| InternVL3-9B | 58.6 | 70.1 | 50.4 | 51.4 | 65.4 | 58.6 | 59.1 |
+| InternVL3-14B | 60.3 | 76.0 | 50.9 | 56.2 | 70.3 | 59.3 | 62.2 |
+| InternVL-Chat-V1.5 | 46.6 | 66.8 | 37.4 | 38.5 | 58.0 | 50.3 | 49.6 |
+| InternVL2-26B | 56.2 | 69.6 | 42.6 | 50.6 | 60.6 | 53.7 | 55.6 |
+| InternVL2.5-26B | 61.8 | 75.6 | 49.4 | 61.1 | 66.9 | 55.7 | 61.8 |
+| InternVL2-40B | 57.2 | 71.4 | 47.9 | 54.4 | 66.2 | 55.2 | 58.7 |
+| InternVL2.5-38B | 63.2 | 78.3 | 55.3 | 62.7 | 70.0 | 61.2 | 65.1 |
+| InternVL3-38B | 64.0 | 77.9 | 57.4 | 63.8 | 71.8 | 62.3 | 66.2 |
+| GPT-4V | 54.6 | 62.7 | - | 62.3 | 64.3 | 53.1 | - |
+| GPT-4o-20240513 | 68.0 | - | 55.7 | 68.0 | 65.4 | - | - |
+| Claude-3.5-Sonnet | - | - | 53.4 | - | - | - | - |
+| Gemini-1.5-Pro | - | - | 53.4 | - | 64.5 | - | - |
+| LLaVA-OneVision-72B | 55.4 | 77.6 | - | 54.8 | - | - | - |
+| Qwen2-VL-72B | - | - | - | - | 71.8 | - | - |
+| Qwen2.5-VL-72B | 64.4 | - | - | 70.7 | - | - | - |
+| InternVL2-Llama3-76B | 56.8 | 73.7 | 44.2 | 51.2 | 67.4 | 58.2 | 58.6 |
+| InternVL2.5-78B | 63.8 | 77.0 | 55.8 | 63.5 | 70.8 | 61.1 | 65.3 |
+| InternVL3-78B | 66.3 | 79.3 | 60.4 | 64.5 | 73.2 | 64.3 | 68.0 |
+| Model Name | RealWorld  
+QA | MME-RW  
+(EN) | WildVision  
+(win rate) | R-Bench  
+(dis) | Overall |
+| --- | --- | --- | --- | --- | --- |
+| LLaVA-OneVision-0.5B | 55.6 | - | - | - | - |
+| InternVL2-1B | 50.3 | 40.2 | 17.8 | 55.6 | 41.0 |
+| InternVL2.5-1B | 57.5 | 44.2 | 43.4 | 59.0 | 51.0 |
+| InternVL3-1B | 58.2 | 46.0 | 43.8 | 60.4 | 52.1 |
+| Qwen2-VL-2B | 62.6 | - | - | - | - |
+| Qwen2.5-VL-3B | 65.4 | 53.1 | - | - | - |
+| InternVL2-2B | 57.3 | 47.3 | 31.8 | 56.8 | 48.3 |
+| InternVL2.5-2B | 60.1 | 48.8 | 44.2 | 62.2 | 53.8 |
+| InternVL3-2B | 64.3 | 53.8 | 48.8 | 67.5 | 58.6 |
+| Qwen2-VL-7B | 70.1 | 56.5 | - | 64.0 | - |
+| Qwen2.5-VL-7B | 68.5 | 57.4 | - | - | - |
+| MiniCPM-V2.6 | 65.0 | - | - | - | - |
+| InternVL2-8B | 64.4 | 53.5 | 54.4 | 67.9 | 60.1 |
+| InternVL2.5-8B | 70.1 | 59.1 | 62.0 | 70.1 | 65.3 |
+| InternVL3-8B | 70.8 | 62.0 | 69.8 | 74.1 | 69.2 |
+| InternVL3-9B | 70.5 | 61.3 | 63.8 | 70.3 | 66.5 |
+| InternVL3-14B | 70.7 | 64.0 | 69.8 | 69.3 | 68.5 |
+| InternVL-Chat-V1.5 | 66.0 | 49.4 | 56.6 | 67.9 | 60.0 |
+| InternVL2-26B | 68.3 | 58.7 | 62.2 | 70.1 | 64.8 |
+| InternVL2.5-26B | 74.5 | 61.8 | 65.2 | 72.9 | 68.6 |
+| Cambrian-34B | 67.8 | 44.1 | - | - | - |
+| InternVL2-40B | 71.8 | 61.8 | 63.2 | 73.3 | 67.5 |
+| InternVL2.5-38B | 73.5 | 64.0 | 66.4 | 72.1 | 69.0 |
+| InternVL3-38B | 75.6 | 67.3 | 71.6 | 73.3 | 72.0 |
+| GPT-4V | 61.4 | - | 71.8 | 65.6 | - |
+| GPT-4o-20240513 | 75.4 | 45.2 | 80.6 | 77.7 | 69.7 |
+| Claude-3.5-Sonnet | 60.1 | 51.6 | - | - | - |
+| Gemini-1.5-Pro | 67.5 | 38.2 | - | - | - |
+| LLaVA-OneVision-72B | 71.9 | - | - | - | - |
+| Qwen2-VL-72B | 77.8 | - | - | - | - |
+| Qwen2.5-VL-72B | 75.7 | 63.2 | - | - | - |
+| InternVL2-Llama3-76B | 72.2 | 63.0 | 65.8 | 74.1 | 68.8 |
+| InternVL2.5-78B | 78.7 | 62.9 | 71.4 | 77.2 | 72.6 |
+| InternVL3-78B | 78.0 | 65.4 | 73.6 | 77.4 | 73.6 |
+#### Comprehensive Multimodal & Hallucination Evaluation
+| Model Name | MME  
+(sum) | MMB  
+(EN/CN) | MMBv1.1  
+(EN) | MMVet  
+(turbo) | MMVetv2  
+(0613) | MMStar | Overall |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| LLaVA-OneVision-0.5B | 1438.0 | 61.6 / 55.5 | 59.6 | 32.2 | - | 37.7 | - |
+| InternVL2-1B | 1794.4 | 65.4 / 60.7 | 61.6 | 32.7 | 36.1 | 45.7 | 51.7 |
+| InternVL2.5-1B | 1950.5 | 70.7 / 66.3 | 68.4 | 48.8 | 43.2 | 50.1 | 58.9 |
+| InternVL3-1B | 1934.4 | 72.6 / 67.9 | 69.9 | 59.5 | 47.5 | 51.5 | 61.9 |
+| Qwen2-VL-2B | 1872.0 | 74.9 / 73.5 | 72.2 | 49.5 | - | 48.0 | - |
+| Qwen2.5-VL-3B | 2157 | 79.1 / 78.1 | 77.4 | 61.8 | - | 55.9 | - |
+| InternVL2-2B | 1876.8 | 73.2 / 70.9 | 70.2 | 39.5 | 39.6 | 50.1 | 58.0 |
+| InternVL2.5-2B | 2138.2 | 74.7 / 71.9 | 72.2 | 60.8 | 52.3 | 53.7 | 65.3 |
+| InternVL3-2B | 2221.2 | 81.1 / 78.4 | 78.6 | 62.2 | 53.9 | 60.7 | 69.8 |
+| Qwen2-VL-7B | 2326.8 | 83.0 / 80.5 | 80.7 | 62.0 | - | 60.7 | - |
+| Qwen2.5-VL-7B | 2347 | 83.5 / 83.4 | 82.6 | 67.1 | - | 63.9 | - |
+| MiniCPM-V2.6 | 2348.4 | 81.5 / 79.3 | 78.0 | 60.0 | - | 57.5 | - |
+| InternVL2-8B | 2210.3 | 81.7 / 81.2 | 79.5 | 54.2 | 52.3 | 62.0 | 69.2 |
+| InternVL2.5-8B | 2344.1 | 84.6 / 82.6 | 83.2 | 62.8 | 58.1 | 62.8 | 73.2 |
+| InternVL3-8B | 2415.4 | 83.4 / 82.2 | 81.7 | 81.3 | 66.3 | 68.2 | 77.7 |
+| InternVL3-9B | 2372.8 | 83.4 / 82.2 | 81.7 | 76.2 | 65.4 | 66.3 | 76.3 |
+| InternVL3-14B | 2478.3 | 85.6 / 84.1 | 83.5 | 80.2 | 68.4 | 68.8 | 79.0 |
+| InternVL-Chat-V1.5 | 2194.2 | 82.2 / 82.0 | 80.3 | 61.5 | 51.5 | 57.3 | 69.7 |
+| InternVL2-26B | 2260.7 | 83.4 / 82.0 | 81.5 | 62.1 | 57.2 | 61.2 | 71.8 |
+| InternVL2.5-26B | 2373.3 | 85.4 / 85.5 | 84.2 | 65.0 | 60.8 | 66.5 | 75.2 |
+| Cambrian-34B | - | 80.4 / 79.2 | 78.3 | 53.2 | - | 54.2 | - |
+| InternVL2-40B | 2307.5 | 86.8 / 86.5 | 85.1 | 65.5 | 63.8 | 65.4 | 75.7 |
+| InternVL2.5-38B | 2455.8 | 86.5 / 86.3 | 85.5 | 68.8 | 62.1 | 67.9 | 77.0 |
+| InternVL3-38B | 2523.6 | 87.6 / 86.8 | 86.9 | 83.9 | 69.6 | 71.5 | 81.5 |
+| GPT-4V | 1926.6 | 81.0 / 80.2 | 80.0 | 67.5 | 66.3 | 56.0 | 70.7 |
+| GPT-4o-20240513 | - | 83.4 / 82.1 | 83.1 | 69.1 | 71.0 | 64.7 | - |
+| Claude-3-Opus | 1586.8 | 63.3 / 59.2 | 60.1 | 51.7 | 55.8 | 45.7 | 55.5 |
+| Claude-3.5-Sonnet | - | 82.6 / 83.5 | 80.9 | 70.1 | 71.8 | 65.1 | - |
+| Gemini-1.5-Pro | - | 73.9 / 73.8 | 74.6 | 64.0 | 66.9 | 59.1 | - |
+| LLaVA-OneVision-72B | 2261.0 | 85.8 / 85.3 | 85.0 | 60.6 | - | 65.8 | - |
+| Qwen2-VL-72B | 2482.7 | 86.5 / 86.6 | 85.9 | 74.0 | 66.9 | 68.3 | 78.7 |
+| Qwen2.5-VL-72B | 2448.0 | 88.6 / 87.9 | 88.4 | 76.2 | - | 70.8 | - |
+| InternVL2-Llama3-76B | 2414.7 | 86.5 / 86.3 | 85.5 | 65.7 | 68.4 | 67.4 | 77.2 |
+| InternVL2.5-78B | 2494.5 | 88.3 / 88.5 | 87.4 | 72.3 | 65.5 | 69.5 | 79.2 |
+| InternVL3-78B | 2549.8 | 89.0 / 88.7 | 87.7 | 81.3 | 70.0 | 72.5 | 82.0 |
+| Model Name | HallBench  
+(avg.) | MMHal  
+(score) | CRPE  
+(relation) | POPE  
+(avg.) | Overall |
+| --- | --- | --- | --- | --- | --- |
+| LLaVA-OneVision-0.5B | 27.9 | - | - | - | - |
+| InternVL2-1B | 34.0 | 2.25 | 57.5 | 87.3 | 45.3 |
+| InternVL2.5-1B | 39.0 | 2.49 | 60.9 | 89.9 | 48.1 |
+| InternVL3-1B | 41.4 | 2.59 | 64.0 | 90.7 | 49.7 |
+| Qwen2-VL-2B | 41.7 | - | - | - | - |
+| Qwen2.5-VL-3B | 46.3 | - | 73.6 | - | - |
+| InternVL2-2B | 37.9 | 2.52 | 66.3 | 88.3 | 48.8 |
+| InternVL2.5-2B | 42.6 | 2.94 | 70.2 | 90.6 | 51.6 |
+| InternVL3-2B | 42.5 | 3.26 | 71.5 | 89.6 | 51.7 |
+| Qwen2-VL-7B | 50.6 | 3.40 | 74.4 | 88.1 | 54.1 |
+| Qwen2.5-VL-7B | 52.9 | - | 76.4 | - | - |
+| MiniCPM-V2.6 | 48.1 | 3.60 | 75.2 | 87.3 | 53.6 |
+| InternVL2-8B | 45.2 | 3.33 | 75.8 | 86.9 | 52.8 |
+| InternVL2.5-8B | 50.1 | 3.65 | 78.4 | 90.6 | 55.7 |
+| InternVL3-8B | 49.9 | 3.61 | 76.3 | 91.1 | 55.2 |
+| InternVL3-9B | 51.2 | 3.47 | 75.0 | 90.4 | 55.0 |
+| InternVL3-14B | 55.1 | 3.49 | 77.3 | 90.2 | 56.5 |
+| InternVL-Chat-V1.5 | 50.3 | 3.11 | 75.4 | 88.4 | 54.3 |
+| InternVL2-26B | 50.7 | 3.55 | 75.6 | 88.0 | 54.5 |
+| InternVL2.5-26B | 55.0 | 3.70 | 79.1 | 90.6 | 57.1 |
+| Cambrian-34B | 41.6 | - | - | - | - |
+| InternVL2-40B | 56.9 | 3.75 | 77.6 | 88.4 | 56.7 |
+| InternVL2.5-38B | 56.8 | 3.71 | 78.3 | 90.7 | 57.4 |
+| InternVL3-38B | 57.1 | 3.77 | 77.1 | 90.6 | 57.1 |
+| GPT-4V | 46.5 | - | - | - | - |
+| GPT-4o-20240513 | 55.0 | 4.00 | 76.6 | 86.9 | 55.6 |
+| Claude-3-Opus | 37.8 | - | - | - | - |
+| Claude-3.5-Sonnet | 55.5 | - | - | - | - |
+| Gemini-1.5-Pro | 45.6 | - | - | - | - |
+| LLaVA-OneVision-72B | 49.0 | - | - | - | - |
+| Qwen2-VL-72B | 58.1 | - | - | - | - |
+| Qwen2.5-VL-72B | 55.2 | - | 79.2 | - | - |
+| InternVL2-Llama3-76B | 55.2 | 3.83 | 77.6 | 89.0 | 56.4 |
+| InternVL2.5-78B | 57.4 | 3.89 | 78.8 | 90.8 | 57.7 |
+| InternVL3-78B | 59.1 | 3.85 | 79.2 | 90.3 | 58.1 |
+#### Visual Grounding
+| Model Name | RefCOCO | RefCOCO+ | RefCOCOg | Overall |
+| --- | --- | --- | --- | --- |
+| val | test-A | test-B | val | test-A | test-B | val | test |
+| Grounding-DINO-L | 90.6 | 93.2 | 88.2 | 82.8 | 89.0 | 75.9 | 86.1 | 87.0 | 86.6 |
+| UNINEXT-H | 92.6 | 94.3 | 91.5 | 85.2 | 89.6 | 79.8 | 88.7 | 89.4 | 88.9 |
+| ONE-PEACE | 92.6 | 94.2 | 89.3 | 88.8 | 92.2 | 83.2 | 89.2 | 89.3 | 89.8 |
+| Qwen2.5-VL-3B | 89.1 | 91.7 | 84.0 | 82.4 | 88.0 | 74.1 | 85.2 | 85.7 | 85.0 |
+| InternVL3-1B | 85.8 | 90.1 | 81.7 | 76.6 | 84.1 | 69.2 | 82.8 | 82.6 | 81.6 |
+| InternVL3-2B | 89.8 | 92.6 | 86.4 | 84.0 | 89.2 | 76.5 | 87.6 | 87.2 | 86.7 |
+| Shikra-7B | 87.0 | 90.6 | 80.2 | 81.6 | 87.4 | 72.1 | 82.3 | 82.2 | 82.9 |
+| Ferret-v2-13B | 92.6 | 95.0 | 88.9 | 87.4 | 92.1 | 81.4 | 89.4 | 90.0 | 89.6 |
+| CogVLM-Grounding | 92.8 | 94.8 | 89.0 | 88.7 | 92.9 | 83.4 | 89.8 | 90.8 | 90.3 |
+| MM1.5 | - | 92.5 | 86.7 | - | 88.7 | 77.8 | - | 87.1 | - |
+| Qwen2-VL-7B | 91.7 | 93.6 | 87.3 | 85.8 | 90.5 | 79.5 | 87.3 | 87.8 | 87.9 |
+| Qwen2.5-VL-7B | 90.0 | 92.5 | 85.4 | 84.2 | 89.1 | 76.9 | 87.2 | 87.2 | 86.6 |
+| TextHawk2 | 91.9 | 93.0 | 87.6 | 86.2 | 90.0 | 80.4 | 88.2 | 88.1 | 88.2 |
+| InternVL2-8B | 87.1 | 91.1 | 80.7 | 79.8 | 87.9 | 71.4 | 82.7 | 82.7 | 82.9 |
+| InternVL2.5-8B | 90.3 | 94.5 | 85.9 | 85.2 | 91.5 | 78.8 | 86.7 | 87.6 | 87.6 |
+| InternVL3-8B | 92.5 | 94.6 | 88.0 | 88.2 | 92.5 | 81.8 | 89.6 | 90.0 | 89.6 |
+| InternVL3-9B | 91.8 | 93.2 | 86.6 | 86.4 | 91.0 | 79.9 | 88.0 | 88.5 | 88.2 |
+| InternVL3-14B | 92.0 | 94.4 | 87.8 | 87.4 | 92.1 | 81.5 | 88.6 | 89.3 | 89.1 |
+| Qwen2-VL-72B | 93.2 | 95.3 | 90.7 | 90.1 | 93.8 | 85.6 | 89.9 | 90.4 | 91.1 |
+| Qwen2.5-VL-72B | 92.7 | 94.6 | 89.7 | 88.9 | 92.2 | 83.7 | 89.9 | 90.3 | 90.3 |
+| InternVL2-Llama3-76B | 92.2 | 94.8 | 88.4 | 88.8 | 93.1 | 82.8 | 89.5 | 90.3 | 90.0 |
+| InternVL2.5-78B | 93.7 | 95.6 | 92.5 | 90.4 | 94.7 | 86.9 | 92.7 | 92.2 | 92.3 |
+| InternVL3-38B | 93.2 | 95.1 | 90.2 | 89.8 | 93.2 | 85.2 | 91.4 | 91.5 | 91.2 |
+| InternVL3-78B | 93.4 | 95.4 | 90.3 | 90.1 | 93.8 | 85.3 | 91.5 | 91.5 | 91.4 |
+#### Multimodal Multilingual Understanding
+| Model Name | MMMB | Multilingual MMBench | MTVQA  
+(avg.) | Overall |
+| --- | --- | --- | --- | --- |
+| en | zh | pt | ar | tr | ru | en | zh | pt | ar | tr | ru |
+| InternVL2-1B | 73.2 | 67.4 | 55.5 | 53.5 | 43.8 | 55.2 | 67.9 | 61.2 | 50.8 | 43.3 | 31.8 | 52.7 | 12.6 | 40.7 |
+| InternVL2.5-1B | 78.8 | 70.2 | 61.5 | 55.0 | 45.3 | 61.1 | 72.5 | 64.7 | 57.0 | 43.0 | 37.8 | 53.2 | 21.4 | 46.0 |
+| InternVL3-1B | 79.4 | 70.1 | 62.3 | 58.0 | 47.6 | 61.9 | 72.6 | 66.2 | 62.3 | 48.0 | 39.5 | 60.3 | 22.2 | 47.9 |
+| Qwen2-VL-2B | 78.3 | 74.2 | 72.6 | 68.3 | 61.8 | 72.8 | 72.1 | 71.1 | 69.9 | 61.1 | 54.4 | 69.3 | 20.0 | 52.6 |
+| Qwen2.5-VL-3B | - | - | - | - | - | - | - | - | - | - | - | - | 24.8 | - |
+| InternVL2-2B | 79.4 | 71.6 | 54.0 | 43.5 | 46.4 | 48.1 | 73.8 | 69.6 | 51.4 | 29.8 | 31.3 | 42.3 | 10.9 | 39.3 |
+| InternVL2.5-2B | 81.4 | 74.4 | 58.2 | 48.3 | 46.4 | 53.2 | 76.5 | 71.6 | 55.9 | 37.3 | 33.9 | 44.8 | 21.8 | 45.2 |
+| InternVL3-2B | 81.9 | 78.3 | 75.4 | 68.6 | 62.9 | 74.6 | 81.3 | 77.8 | 75.9 | 66.4 | 59.5 | 70.7 | 26.7 | 57.4 |
+| mPLUG-Owl2 | 67.3 | 61.0 | 59.7 | 45.8 | 45.4 | 62.6 | 66.2 | 59.4 | 58.2 | 37.9 | 47.7 | 60.4 | - | - |
+| Qwen2-VL-7B | 83.9 | 82.4 | 81.2 | 79.0 | 74.7 | 82.4 | 81.8 | 81.6 | 79.1 | 75.6 | 74.5 | 79.3 | 25.6 | 61.6 |
+| Qwen2.5-VL-7B | - | - | - | - | - | - | - | - | - | - | - | - | 29.2 | - |
+| InternVL2-8B | 83.4 | 81.5 | 76.1 | 66.3 | 69.2 | 75.7 | 82.9 | 81.8 | 76.0 | 60.5 | 66.0 | 74.4 | 20.9 | 56.6 |
+| InternVL2.5-8B | 84.3 | 83.1 | 78.6 | 69.3 | 71.5 | 79.5 | 83.8 | 83.2 | 79.4 | 64.3 | 67.8 | 77.3 | 27.6 | 60.4 |
+| InternVL3-8B | 85.1 | 83.1 | 82.5 | 81.6 | 76.2 | 83.4 | 85.5 | 85.6 | 83.2 | 79.2 | 75.9 | 82.6 | 30.2 | 64.7 |
+| InternVL3-9B | 84.8 | 83.7 | 80.6 | 69.9 | 68.5 | 80.8 | 86.5 | 85.2 | 79.1 | 64.3 | 68.3 | 79.1 | 27.1 | 60.7 |
+| InternVL3-14B | 85.7 | 84.7 | 83.1 | 83.7 | 79.3 | 83.6 | 86.7 | 85.8 | 83.2 | 81.1 | 80.7 | 83.8 | 31.6 | 66.2 |
+| InternVL-Chat-V1.5 | 82.6 | 80.8 | 76.3 | 65.2 | 68.6 | 74.0 | 81.1 | 80.2 | 76.9 | 56.2 | 66.7 | 71.0 | 20.5 | 55.7 |
+| InternVL2-26B | 83.8 | 81.7 | 78.0 | 68.8 | 69.3 | 76.3 | 82.7 | 81.8 | 77.8 | 61.9 | 69.6 | 74.4 | 17.7 | 56.2 |
+| InternVL2.5-26B | 86.2 | 83.8 | 81.6 | 73.3 | 73.7 | 82.8 | 86.1 | 85.5 | 80.7 | 67.5 | 75.0 | 79.6 | 28.5 | 62.6 |
+| InternVL2-40B | 85.3 | 84.1 | 81.1 | 70.3 | 74.2 | 81.4 | 86.2 | 85.8 | 82.8 | 64.0 | 74.2 | 81.8 | 20.6 | 59.7 |
+| InternVL2.5-38B | 86.4 | 85.1 | 84.1 | 84.3 | 82.8 | 84.9 | 87.5 | 88.6 | 85.3 | 84.5 | 84.0 | 85.9 | 31.7 | 67.4 |
+| InternVL3-38B | 86.7 | 85.6 | 84.5 | 84.8 | 82.6 | 85.1 | 89.0 | 89.3 | 87.1 | 84.6 | 84.3 | 87.4 | 32.4 | 68.1 |
+| GPT-4V | 75.0 | 74.2 | 71.5 | 73.5 | 69.0 | 73.1 | 77.6 | 74.4 | 72.5 | 72.3 | 70.5 | 74.8 | 22.0 | 56.1 |
+| GPT-4o | - | - | - | - | - | - | - | - | - | - | - | - | 27.8 | - |
+| Gemini-1.0-Pro | 75.0 | 71.9 | 70.6 | 69.9 | 69.6 | 72.7 | 73.6 | 72.1 | 70.3 | 61.1 | 69.8 | 70.5 | - | - |
+| Qwen2-VL-72B | 86.8 | 85.3 | 85.2 | 84.8 | 84.2 | 85.3 | 86.9 | 87.2 | 85.8 | 83.5 | 84.4 | 85.3 | 30.9 | 67.2 |
+| Qwen2.5-VL-72B | - | - | - | - | - | - | - | - | - | - | - | - | 31.7 | - |
+| InternVL2-Llama3-76B | 85.3 | 85.1 | 82.8 | 82.8 | 83.0 | 83.7 | 87.8 | 87.3 | 85.9 | 83.1 | 85.0 | 85.7 | 22.0 | 63.9 |
+| InternVL2.5-78B | 86.3 | 85.6 | 85.1 | 84.8 | 83.1 | 85.4 | 90.0 | 89.7 | 87.4 | 83.3 | 84.9 | 86.3 | 31.9 | 68.0 |
+| InternVL3-78B | 87.2 | 86.6 | 85.5 | 86.5 | 84.6 | 86.1 | 89.4 | 90.3 | 88.7 | 86.1 | 86.6 | 88.1 | 32.5 | 68.9 |
+#### Video Understanding
+| Model Name | Video-MME  
+(wo/w. sub.) | MVBench | MMBench-Video | MLVU  
+(M-Avg) | LongVideoBench  
+(val total) | CG-Bench  
+(long/clue acc.) | Overall |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| InternVL2-1B | 42.9 / 45.4 | 57.5 | 1.14 | 51.6 | 43.3 | - | - |
+| InternVL2.5-1B | 50.3 / 52.3 | 64.3 | 1.36 | 57.3 | 47.9 | - | - |
+| InternVL3-1B | 51.0 / 53.0 | 63.1 | 1.3 | 53.0 | 48.1 | 24.8 / 39.1 | 46.9 |
+| Qwen2-VL-2B | 55.6 / 60.4 | 63.2 | - | - | - | - | - |
+| Qwen2.5-VL-3B | 61.5 / 67.6 | 67.0 | 1.63 | 68.2 | 43.3 | - | - |
+| InternVL2-2B | 46.2 / 49.1 | 60.2 | 1.30 | 54.3 | 46.0 | - | - |
+| InternVL2.5-2B | 51.9 / 54.1 | 68.8 | 1.44 | 61.4 | 52.0 | - | - |
+| InternVL3-2B | 58.9 / 61.4 | 70.4 | 1.42 | 64.2 | 55.4 | 30.8 / 50.7 | 54.9 |
+| VideoChat2-HD | 45.3 / 55.7 | 62.3 | 1.22 | 47.9 | - | - | - |
+| MiniCPM-V-2.6 | 60.9 / 63.6 | - | 1.70 | - | 54.9 | - | - |
+| LLaVA-OneVision-7B | 58.2 / \\lsp | 56.7 | - | - | - | - | - |
+| Qwen2-VL-7B | 63.3 / 69.0 | 67.0 | 1.44 | - | 55.6 | - | - |
+| Qwen2.5-VL-7B | 65.1 / 71.6 | 69.6 | 1.79 | 70.2 | 45.3 | - | - |
+| InternVL2-8B | 56.3 / 59.3 | 65.8 | 1.57 | 64.0 | 54.6 | - | - |
+| InternVL2.5-8B | 64.2 / 66.9 | 72.0 | 1.68 | 68.9 | 60.0 | - | - |
+| InternVL3-8B | 66.3 / 68.9 | 75.4 | 1.69 | 71.4 | 58.8 | 38.6 / 55.2 | 61.4 |
+| InternVL3-9B | 66.7 / 68.9 | 74.3 | 1.69 | 70.8 | 62.5 | 41.1 / 58.0 | 62.3 |
+| InternVL3-14B | 70.4 / 73.0 | 76.6 | 1.73 | 73.3 | 63.9 | 44.1 / 60.6 | 64.9 |
+| InternVL2-26B | 57.0 / 60.2 | 67.5 | 1.67 | 64.2 | 56.1 | - | - |
+| InternVL2.5-26B | 66.9 / 69.2 | 75.2 | 1.86 | 72.3 | 59.9 | - | - |
+| Oryx-1.5-32B | 67.3 / 74.9 | 70.1 | 1.52 | 72.3 | - | - | - |
+| Qwen2.5-VL-32B | 70.5 / 77.9 | - | 1.93 | - | - | - | - |
+| VILA-1.5-40B | 60.1 / 61.1 | - | 1.61 | 56.7 | - | - | - |
+| InternVL2-40B | 66.1 / 68.6 | 72.0 | 1.78 | 71.0 | 60.6 | - | - |
+| InternVL2.5-38B | 70.7 / 73.1 | 74.4 | 1.82 | 75.3 | 63.3 | - | - |
+| InternVL3-38B | 72.7 / 75.0 | 76.9 | 1.81 | 77.8 | 67.3 | 46.9 / 62.8 | 67.5 |
+| GPT-4V/4T | 59.9 / 63.3 | 43.7 | 1.53 | 49.2 | 59.1 | - | - |
+| GPT-4o-20240513 | 71.9 / 77.2 | - | 1.63 | 64.6 | 66.7 | - | - |
+| GPT-4o-20240806 | - | - | 1.87 | - | - | 41.8 / 58.3 | - |
+| Gemini-1.5-Pro | 75.0 / 81.3 | - | 1.30 | - | 64.0 | 40.1 / 56.4 | - |
+| VideoLLaMA2-72B | 61.4 / 63.1 | 62.0 | - | - | - | - | - |
+| LLaVA-OneVision-72B | 66.2 / 69.5 | 59.4 | - | 66.4 | 61.3 | - | - |
+| Qwen2-VL-72B | 71.2 / 77.8 | 73.6 | 1.70 | - | - | 41.3 / 56.2 | - |
+| Qwen2.5-VL-72B | 73.3 / 79.1 | 70.4 | 2.02 | 74.6 | 60.7 | - | - |
+| InternVL2-Llama3-76B | 64.7 / 67.8 | 69.6 | 1.71 | 69.9 | 61.1 | - | - |
+| InternVL2.5-78B | 72.1 / 74.0 | 76.4 | 1.97 | 75.7 | 63.6 | 42.2 / 58.5 | 66.0 |
+| InternVL3-78B | 72.7 / 75.7 | 78.7 | 1.81 | 79.5 | 65.7 | 48.4 / 65.3 | 68.3 |
+#### GUI Grounding
+| Benchmarks | GPT-4o | Gemini 2.0 | Claude | Aguvis-72B | Qwen2.5-VL-72B | UI-TARS-72B | InternVL3-8B | InternVL3-38B | InternVL3-72B |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| ScreenSpot | 18.1 | 84.0 | 83.0 | 89.2 | 87.1 | 88.4 | 79.5 | 85.6 | 88.7 |
+| ScreenSpot-V2 | - | - | - | - | - | 90.3 | 81.4 | 88.3 | 90.9 |
+#### Spatial Reasoning
+| Model Name | Obj.count | Abs.Dist. | Obj.size | Room Size | Rel.Dist. | Rel.Dir. | Route Plan | Appr.Order | Overall |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| GPT-4o | 46.2 | 5.3 | 43.8 | 38.2 | 37.0 | 41.3 | 31.5 | 28.5 | 34.0 |
+| Gemini-1.5 Flash | 49.8 | 30.8 | 53.5 | 54.4 | 37.7 | 41.0 | 31.5 | 37.8 | 42.1 |
+| Gemini-1.5 Pro | 56.2 | 30.9 | 64.1 | 43.6 | 51.3 | 46.3 | 36.0 | 34.6 | 45.4 |
+| VILA-1.5-8B | 17.4 | 21.8 | 50.3 | 18.8 | 32.1 | 34.8 | 31.0 | 24.8 | 28.9 |
+| LongVA-7B | 38.0 | 16.6 | 38.9 | 22.2 | 33.1 | 43.3 | 25.4 | 15.7 | 29.2 |
+| LLaVA-NeXT-Video-7B | 48.5 | 14.0 | 47.8 | 24.2 | 43.5 | 42.4 | 34.0 | 30.6 | 35.6 |
+| LLaVA-OneVision-7B | 47.7 | 20.2 | 47.4 | 12.3 | 42.5 | 35.2 | 29.4 | 24.4 | 32.4 |
+| InternVL3-8B | 68.1 | 39.0 | 48.4 | 33.6 | 48.3 | 36.4 | 27.3 | 35.4 | 42.1 |
+| InternVL3-38B | 71.7 | 50.2 | 46.1 | 41.7 | 53.5 | 38.6 | 28.9 | 60.7 | 48.9 |
+| LLaVA-NeXT-Video-72B | 48.9 | 22.8 | 57.4 | 35.3 | 42.4 | 36.7 | 35.0 | 48.6 | 40.9 |
+| LLaVA-OneVision-72B | 43.5 | 23.9 | 57.6 | 37.5 | 42.5 | 39.9 | 32.5 | 44.6 | 40.2 |
+| InternVL3-78B | 71.2 | 53.7 | 44.4 | 39.5 | 55.9 | 39.5 | 28.9 | 54.5 | 48.4 |
+## Citation
+```
+@article{wang2024mpo,
+title={Enhancing the Reasoning Ability of Multimodal Large Language Models via Mixed Preference Optimization},
+author={Wang, Weiyun and Chen, Zhe and Wang, Wenhai and Cao, Yue and Liu, Yangzhou and Gao, Zhangwei and Zhu, Jinguo and Zhu, Xizhou and Lu, Lewei and Qiao, Yu and Dai, Jifeng},
+journal={arXiv preprint arXiv:2411.10442},
+year={2024}
+}
+@article{chen2024expanding,
+title={Expanding Performance Boundaries of Open-Source Multimodal Models with Model, Data, and Test-Time Scaling},
+author={Chen, Zhe and Wang, Weiyun and Cao, Yue and Liu, Yangzhou and Gao, Zhangwei and Cui, Erfei and Zhu, Jinguo and Ye, Shenglong and Tian, Hao and Liu, Zhaoyang and others},
+journal={arXiv preprint arXiv:2412.05271},
+year={2024}
+}
+@article{chen2024far,
+title={How Far Are We to GPT-4V? Closing the Gap to Commercial Multimodal Models with Open-Source Suites},
+author={Chen, Zhe and Wang, Weiyun and Tian, Hao and Ye, Shenglong and Gao, Zhangwei and Cui, Erfei and Tong, Wenwen and Hu, Kongzhi and Luo, Jiapeng and Ma, Zheng and others},
+journal={arXiv preprint arXiv:2404.16821},
+year={2024}
+}
+@inproceedings{chen2024internvl,
+title={Internvl: Scaling up vision foundation models and aligning for generic visual-linguistic tasks},
+author={Chen, Zhe and Wu, Jiannan and Wang, Wenhai and Su, Weijie and Chen, Guo and Xing, Sen and Zhong, Muyan and Zhang, Qinglong and Zhu, Xizhou and Lu, Lewei and others},
+booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+pages={24185--24198},
+year={2024}
+}
+```
+#### [🔙 Go Back](https://internvl.github.io/blog/)

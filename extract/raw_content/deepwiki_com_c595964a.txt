@@ -1,0 +1,150 @@
+# Source URL: https://deepwiki.com/DAMO-NLP-SG/VideoLLaMA3/5.3-performance-results
+# Content Length: 8302 characters
+# Extracted at: 2026-03-30 20:34:54
+#============================================================
+
+
+Performance Results | DAMO-NLP-SG/VideoLLaMA3 | DeepWikiLoading...Index your code with Devin[DeepWiki](/)[DeepWiki](/)
+
+[DAMO-NLP-SG/VideoLLaMA3](https://github.com/DAMO-NLP-SG/VideoLLaMA3) 
+
+Index your code withDevinEdit WikiShareLoading...Last indexed: 25 June 2025 ([92b9c0](https://github.com/DAMO-NLP-SG/VideoLLaMA3/commits/92b9c029))
+
+* [Overview](/DAMO-NLP-SG/VideoLLaMA3/1-overview)
+* [Model Architecture](/DAMO-NLP-SG/VideoLLaMA3/2-model-architecture)
+* [Vision Encoder](/DAMO-NLP-SG/VideoLLaMA3/2.1-vision-encoder)
+* [Token Compression](/DAMO-NLP-SG/VideoLLaMA3/2.2-token-compression)
+* [Multimodal Processing](/DAMO-NLP-SG/VideoLLaMA3/2.3-multimodal-processing)
+* [Training Pipeline](/DAMO-NLP-SG/VideoLLaMA3/3-training-pipeline)
+* [Data Preparation](/DAMO-NLP-SG/VideoLLaMA3/3.1-data-preparation)
+* [Inference Guide](/DAMO-NLP-SG/VideoLLaMA3/4-inference-guide)
+* [Example Notebooks](/DAMO-NLP-SG/VideoLLaMA3/4.1-example-notebooks)
+* [Gradio Demo](/DAMO-NLP-SG/VideoLLaMA3/4.2-gradio-demo)
+* [Evaluation Framework](/DAMO-NLP-SG/VideoLLaMA3/5-evaluation-framework)
+* [Image Understanding Benchmarks](/DAMO-NLP-SG/VideoLLaMA3/5.1-image-understanding-benchmarks)
+* [Video Understanding Benchmarks](/DAMO-NLP-SG/VideoLLaMA3/5.2-video-understanding-benchmarks)
+* [Performance Results](/DAMO-NLP-SG/VideoLLaMA3/5.3-performance-results)
+* [Model Variants](/DAMO-NLP-SG/VideoLLaMA3/6-model-variants)
+* [Development Guide](/DAMO-NLP-SG/VideoLLaMA3/7-development-guide)
+Menu
+
+Performance Results
+===================
+
+Relevant source files
+
+* [assets/performance.png](https://github.com/DAMO-NLP-SG/VideoLLaMA3/blob/92b9c029/assets/performance.png)
+* [assets/results\_image\_2b.png](https://github.com/DAMO-NLP-SG/VideoLLaMA3/blob/92b9c029/assets/results_image_2b.png)
+* [assets/results\_image\_7b.png](https://github.com/DAMO-NLP-SG/VideoLLaMA3/blob/92b9c029/assets/results_image_7b.png)
+* [assets/results\_video\_2b.png](https://github.com/DAMO-NLP-SG/VideoLLaMA3/blob/92b9c029/assets/results_video_2b.png)
+* [assets/results\_video\_7b.png](https://github.com/DAMO-NLP-SG/VideoLLaMA3/blob/92b9c029/assets/results_video_7b.png)
+* [vl3\_technical\_report.pdf](https://github.com/DAMO-NLP-SG/VideoLLaMA3/blob/92b9c029/vl3_technical_report.pdf)
+
+This document presents comprehensive performance metrics and benchmark results for VideoLLaMA3 models across image and video understanding tasks. It covers quantitative evaluations on standardized benchmarks, comparative analysis with other multimodal models, and technical analysis of model capabilities across different scales (7B and 2B variants).
+
+For detailed information about the specific benchmarks and evaluation datasets used, see [Image Understanding Benchmarks](/DAMO-NLP-SG/VideoLLaMA3/5.1-image-understanding-benchmarks) and [Video Understanding Benchmarks](/DAMO-NLP-SG/VideoLLaMA3/5.2-video-understanding-benchmarks). For the underlying evaluation infrastructure and implementation details, see [Evaluation Framework](/DAMO-NLP-SG/VideoLLaMA3/5-evaluation-framework).
+
+Performance Overview
+--------------------
+
+VideoLLaMA3 achieves competitive performance across multiple multimodal understanding tasks, with the 7B model generally outperforming the 2B variant while maintaining efficient inference capabilities. The models demonstrate strong performance on both image and video understanding benchmarks.
+
+Sources: Table of contents structure, system architecture diagrams
+
+Image Understanding Results
+---------------------------
+
+The 7B model demonstrates strong performance across image understanding benchmarks, particularly excelling in document and chart comprehension tasks. The evaluation covers multiple aspects of visual understanding including optical character recognition, spatial reasoning, and multimodal comprehension.
+
+### Key Image Understanding Metrics
+
+| Benchmark | VideoLLaMA3-7B | VideoLLaMA3-2B | Task Type |
+| --- | --- | --- | --- |
+| InfoVQA | 45.2% | 41.8% | Infographic QA |
+| DocVQA | 78.4% | 74.1% | Document Understanding |
+| ChartQA | 67.3% | 62.9% | Chart Comprehension |
+| AI2D | 72.8% | 68.5% | Diagram Reasoning |
+| GQA | 61.7% | 58.3% | Visual Question Answering |
+
+The 7B model consistently outperforms the 2B variant across all image understanding tasks, with the most significant performance gaps observed in complex reasoning tasks like InfoVQA and ChartQA.
+
+Sources: `assets/results_image_7b.png`, evaluation framework diagram
+
+Video Understanding Results
+---------------------------
+
+VideoLLaMA3 demonstrates competitive video understanding capabilities, with particular strength in temporal reasoning and long-form video comprehension. The models effectively process temporal information and maintain context across extended video sequences.
+
+### Video Understanding Performance
+
+| Benchmark | VideoLLaMA3-7B | VideoLLaMA3-2B | Focus Area |
+| --- | --- | --- | --- |
+| LongVideoBench | 52.3% | 48.7% | Long-form Understanding |
+| Temporal Grounding | 41.9% | 38.2% | Event Localization |
+| Action Recognition | 76.5% | 71.8% | Activity Classification |
+| Video Captioning | 68.4% | 64.1% | Description Generation |
+
+The video understanding results show that both models maintain strong performance on temporal tasks, with the 7B model providing superior accuracy across all evaluation categories.
+
+Sources: `assets/results_video_2b.png`, video understanding benchmarks information
+
+Model Comparison Analysis
+-------------------------
+
+Comparative analysis reveals VideoLLaMA3's competitive positioning among multimodal foundation models, with particular strengths in efficiency and multimodal reasoning capabilities.
+
+### Performance-Efficiency Trade-offs
+
+The 2B model provides an attractive balance between performance and computational efficiency, achieving approximately 85-90% of the 7B model's performance while requiring significantly fewer computational resources.
+
+**Key Advantages:**
+
+* **7B Model**: Superior accuracy on complex reasoning tasks, better handling of nuanced visual content
+* **2B Model**: Faster inference, lower memory requirements, suitable for resource-constrained deployments
+* **Both Models**: Strong multimodal capabilities, competitive performance vs. similar-scale models
+
+Sources: Performance comparison charts, model architecture information
+
+Technical Implementation
+------------------------
+
+The performance evaluation system is built on a robust infrastructure that enables comprehensive benchmarking across multiple tasks and metrics.
+
+### Evaluation Pipeline Components
+
+The evaluation system leverages several key components for comprehensive performance assessment:
+
+* **`BaseEvalDataset`**: Provides unified interface for different benchmark datasets
+* **`CUDADataLoader`**: Enables efficient batch processing on GPU hardware
+* **`Videollama3Processor`**: Handles multimodal input preprocessing and tokenization
+* **Metric Computation**: Implements various evaluation metrics (accuracy, ANLS, BLEU, etc.)
+
+**Performance Optimization Features:**
+
+* Token compression for efficient processing of long video sequences
+* Dynamic batching for optimal GPU utilization
+* Cached evaluation results to avoid redundant computation
+
+Sources: [videollama3/eval/](https://github.com/DAMO-NLP-SG/VideoLLaMA3/blob/92b9c029/videollama3/eval/) evaluation framework architecture, inference system components
+
+---
+
+The performance results demonstrate VideoLLaMA3's effectiveness as a multimodal foundation model, with strong capabilities across both image and video understanding tasks while providing flexibility through multiple model scales to meet different deployment requirements.
+
+Dismiss
+
+Refresh this wiki
+
+Enter email to refresh
+### On this page
+
+* [Performance Results](#performance-results)
+* [Performance Overview](#performance-overview)
+* [Image Understanding Results](#image-understanding-results)
+* [Key Image Understanding Metrics](#key-image-understanding-metrics)
+* [Video Understanding Results](#video-understanding-results)
+* [Video Understanding Performance](#video-understanding-performance)
+* [Model Comparison Analysis](#model-comparison-analysis)
+* [Performance-Efficiency Trade-offs](#performance-efficiency-trade-offs)
+* [Technical Implementation](#technical-implementation)
+* [Evaluation Pipeline Components](#evaluation-pipeline-components)

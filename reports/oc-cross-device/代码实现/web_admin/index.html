@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenClaw 控制台</title>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+  <style>
+    :root { --bg:#0f1117;--card:#1a1d27;--card-hover:#22263a;--border:#2a2d3e;--text:#e2e4ea;--text-dim:#8b8fa8;--accent:#5b8def;--accent-hover:#7aa3f5;--green:#4ade80;--red:#f87171;--yellow:#fbbf24;--orange:#fb923c; }
+    * { box-sizing:border-box;margin:0;padding:0; }
+    body { font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--text);min-height:100vh; }
+    header { background:var(--card);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;height:60px;gap:16px;position:sticky;top:0;z-index:100; }
+    .logo { font-size:20px;font-weight:700;color:var(--accent); }
+    .logo span { color:var(--text); }
+    .header-right { margin-left:auto;display:flex;align-items:center;gap:12px; }
+    .api-status { font-size:12px;padding:4px 10px;border-radius:12px;background:var(--border); }
+    .api-status.ok { background:rgba(74,222,128,0.15);color:var(--green); }
+    .api-status.err { background:rgba(248,113,113,0.15);color:var(--red); }
+    .layout { display:flex;min-height:calc(100vh - 60px); }
+    nav { width:200px;border-right:1px solid var(--border);padding:16px 0;flex-shrink:0; }
+    nav a { display:block;padding:10px 20px;color:var(--text-dim);text-decoration:none;font-size:14px;border-left:3px solid transparent;transition:all .15s; }
+    nav a:hover { color:var(--text);background:var(--card-hover); }
+    nav a.active { color:var(--accent);border-left-color:var(--accent);background:rgba(91,141,239,0.08); }
+    main { flex:1;padding:24px;overflow-x:hidden; }
+    .grid-4 { display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:24px; }
+    .stat-card { background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px;transition:border-color .2s; }
+    .stat-card:hover { border-color:var(--accent); }
+    .stat-label { font-size:12px;color:var(--text-dim);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px; }
+    .stat-value { font-size:28px;font-weight:700; }
+    .stat-card.green .stat-value { color:var(--green); }
+    .stat-card.blue .stat-value { color:var(--accent); }
+    .stat-card.orange .stat-value { color:var(--orange); }
+    .stat-card.red .stat-value { color:var(--red); }
+    .section { margin-bottom:32px; }
+    .section-header { display:flex;align-items:center;justify-content:space-between;margin-bottom:12px; }
+    .section-title { font-size:15px;font-weight:600; }
+    .btn { font-size:13px;padding:6px 14px;border-radius:6px;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:6px; }
+    .btn:hover { border-color:var(--accent);color:var(--accent); }
+    .btn.primary { background:var(--accent);border-color:var(--accent);color:#fff; }
+    .btn.primary:hover { background:var(--accent-hover); }
+    .btn.danger { border-color:var(--red);color:var(--red); }
+    .btn.danger:hover { background:rgba(248,113,113,0.1); }
+    .btn-sm { font-size:11px;padding:3px 8px; }
+    table { width:100%;border-collapse:collapse;background:var(--card);border-radius:8px;overflow:hidden;font-size:13px;margin-bottom:16px; }
+    th,td { padding:12px 16px;text-align:left;border-bottom:1px solid var(--border); }
+    th { background:rgba(255,255,255,0.03);color:var(--text-dim);font-weight:500;font-size:12px;text-transform:uppercase;letter-spacing:.5px; }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:var(--card-hover); }
+    .badge { display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600; }
+    .badge.success { background:rgba(74,222,128,0.15);color:var(--green); }
+    .badge.running { background:rgba(251,191,36,0.15);color:var(--yellow); }
+    .badge.failed { background:rgba(248,113,113,0.15);color:var(--red); }
+    .badge.pending { background:rgba(139,143,168,0.15);color:var(--text-dim); }
+    .badge.active { background:rgba(91,141,239,0.15);color:var(--accent); }
+    .form-group { margin-bottom:14px; }
+    .form-label { display:block;font-size:12px;color:var(--text-dim);margin-bottom:5px; }
+    .form-input { width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px 12px;color:var(--text);font-size:13px;transition:border-color .15s; }
+    .form-input:focus { outline:none;border-color:var(--accent); }
+    textarea.form-input { resize:vertical;min-height:80px;font-family:inherit; }
+    select.form-input { cursor:pointer; }
+    .modal-overlay { position:fixed;inset:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:1000;opacity:0;pointer-events:none;transition:opacity .2s; }
+    .modal-overlay.show { opacity:1;pointer-events:auto; }
+    .modal { background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;width:480px;max-width:95vw;max-height:90vh;overflow-y:auto; }
+    .modal h3 { font-size:16px;margin-bottom:16px; }
+    .modal-footer { display:flex;justify-content:flex-end;gap:8px;margin-top:16px; }
+    .tabs { display:flex;gap:4px;border-bottom:1px solid var(--border);margin-bottom:20px; }
+    .tab { padding:8px 16px;font-size:13px;color:var(--text-dim);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s; }
+    .tab:hover { color:var(--text); }
+    .tab.active { color:var(--accent);border-bottom-color:var(--accent); }
+    .tab-content { display:none; }
+    .tab-content.active { display:block; }
+    #toast { position:fixed;bottom:24px;right:24px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px 18px;font-size:13px;z-index:9999;transition:opacity .3s,transform .3s;transform:translateY(20px);opacity:0; }
+    #toast.show { transform:translateY(0);opacity:1; }
+    #toast.success { border-color:var(--green);color:var(--green); }
+    #toast.error { border-color:var(--red);color:var(--red); }
+    .empty { text-align:center;padding:40px;color:var(--text-dim);font-size:13px; }
+    .hidden { display:none !important; }
+    code { background:rgba(255,255,255,0.05);padding:2px 6px;border-radius:4px;font-size:11px; }
+    .preset-card { background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px; }
+    .preset-card .preset-name { font-size:14px;font-weight:500; }
+    .preset-card .preset-desc { font-size:11px;color:var(--text-dim);margin-top:3px; }
+    .preset-card .preset-cron { font-size:11px;color:var(--accent);font-family:monospace;margin-top:4px; }
+    .code-block { background:#0d0f18;border:1px solid var(--border);border-radius:8px;padding:16px;font-family:'JetBrains Mono','Fira Code',monospace;font-size:12px;white-space:pre-wrap;color:#a8b2c8;overflow-x:auto;margin-bottom:16px; }
+    ::-webkit-scrollbar { width:6px;height:6px; }
+    ::-webkit-scrollbar-thumb { background:var(--border);border-radius:3px; }
+    .page-title { font-size:20px;font-weight:600;margin-bottom:20px; }
+    .actions { display:flex;gap:6px; }
+  </style>
+</head>
+<body>
+<header>
+  <div class="logo">&#128640; Open<span>Claw</span></div>
+  <div style="font-size:13px;color:var(--text-dim)">跨设备控制台 v1.3</div>
+  <div class="header-right">
+    <span id="serverTime" style="font-size:12px;color:var(--text-dim)"></span>
+    <div id="userBadge"></div>
+    <span id="apiStatus" class="api-status">检测中...</span>
+  </div>
+</header>
+
+<div class="layout">
+  <nav>
+    <a href="#" class="active" data-page="dashboard">&#128202; 仪表盘</a>
+    <a href="#" data-page="tasks">&#128203; 任务管理</a>
+    <a href="#" data-page="scheduler">&#9200; 定时任务</a>
+    <a href="#" data-page="notify">&#128236; 消息推送</a>
+    <a href="#" data-page="keys">&#128273; API Keys</a>
+    <a href="#" data-page="templates">&#128196; 任务模板</a>
+    <a href="#" data-page="audit">&#128221; 审计日志</a>
+    <a href="#" data-page="docs">&#128218; 接口文档</a>
+  </nav>
+  <main>
+
+    <!-- Dashboard -->
+    <div id="page-dashboard" class="page">
+      <div class="page-title">&#128202; 系统概览</div>
+      <div class="grid-4">
+        <div class="stat-card green"><div class="stat-label">已完成任务</div><div class="stat-value" id="stat-completed">-</div></div>
+        <div class="stat-card orange"><div class="stat-label">进行中</div><div class="stat-value" id="stat-running">-</div></div>
+        <div class="stat-card blue"><div class="stat-label">活跃定时任务</div><div class="stat-value" id="stat-jobs">-</div></div>
+        <div class="stat-card red"><div class="stat-label">失败任务</div><div class="stat-value" id="stat-failed">-</div></div>
+      </div>
+      <!-- ECharts 可视化图表 -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px">
+        <div class="stat-card" style="padding:12px">
+          <div class="section-title" style="margin-bottom:8px">&#128202; 任务状态分布</div>
+          <div id="chart-task-status" style="width:100%;height:220px"></div>
+        </div>
+        <div class="stat-card" style="padding:12px">
+          <div class="section-title" style="margin-bottom:8px">&#128197; 近7天任务趋势</div>
+          <div id="chart-task-trend" style="width:100%;height:220px"></div>
+        </div>
+      </div>
+      <div class="section">
+        <div class="section-header"><div class="section-title">&#9200; 最近任务</div><button class="btn" onclick="switchPage('tasks')">查看全部 &#8594;</button></div>
+        <table><thead><tr><th>任务ID</th><th>任务名</th><th>动作</th><th>状态</th><th>创建时间</th><th>耗时</th></tr></thead>
+          <tbody id="recentTasks"><tr><td colspan="6" class="empty">加载中...</td></tr></tbody></table>
+      </div>
+      <div class="section">
+        <div class="section-header"><div class="section-title">&#63720; 快捷操作</div></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn primary" onclick="spawnTask('status_check')">&#128260; 状态检查</button>
+          <button class="btn primary" onclick="spawnTask('quick_fetch')">&#128269; 快速抓取</button>
+          <button class="btn primary" onclick="spawnTask('tech_brief')">&#128200; 技术简报</button>
+          <button class="btn primary" onclick="spawnTask('biz_brief')">&#128188; 商业简报</button>
+          <button class="btn" onclick="openModal('modal-send-msg')">&#9993; 发送消息</button>
+        </div>
+      </div>
+      <div class="section">
+        <div class="section-header"><div class="section-title">&#128736; Agent 状态</div><button class="btn" onclick="refreshDashboard()">&#128260; 刷新</button></div>
+        <div id="agentStats"></div>
+      </div>
+    </div>
+
+    <!-- Tasks -->
+    <div id="page-tasks" class="page hidden">
+      <div class="page-title">&#128203; 任务管理</div>
+      <div class="tabs">
+        <div class="tab active" data-tab="active">进行中</div>
+        <div class="tab" data-tab="completed">已完成</div>
+        <div class="tab" data-tab="failed">失败</div>
+        <div class="tab" data-tab="all">全部</div>
+      </div>
+      <div id="tab-active" class="tab-content active"><table><thead><tr><th>任务ID</th><th>任务名</th><th>动作</th><th>创建时间</th></tr></thead><tbody id="tasks-active"><tr><td colspan="4" class="empty">加载中...</td></tr></tbody></table></div>
+      <div id="tab-completed" class="tab-content"><table><thead><tr><th>任务ID</th><th>任务名</th><th>耗时</th><th>完成时间</th><th>结果摘要</th></tr></thead><tbody id="tasks-completed"><tr><td colspan="5" class="empty">加载中...</td></tr></tbody></table></div>
+      <div id="tab-failed" class="tab-content"><table><thead><tr><th>任务ID</th><th>任务名</th><th>错误</th><th>失败时间</th></tr></thead><tbody id="tasks-failed"><tr><td colspan="4" class="empty">加载中...</td></tr></tbody></table></div>
+      <div id="tab-all" class="tab-content"><table><thead><tr><th>任务ID</th><th>任务名</th><th>动作</th><th>状态</th><th>创建时间</th><th>操作</th></tr></thead><tbody id="tasks-all"><tr><td colspan="6" class="empty">加载中...</td></tr></tbody></table></div>
+      <div class="section" style="margin-top:20px">
+        <div class="section-header"><div class="section-title">&#43; 创建新任务</div></div>
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:20px;max-width:600px">
+          <div class="form-group"><label class="form-label">任务模板</label>
+            <select class="form-input" id="newTaskTemplate">
+              <option value="">-- 自定义任务 --</option>
+              <option value="quick_fetch">快速信息抓取</option>
+              <option value="full_fetch">全量信息抓取</option>
+              <option value="tech_brief">技术简报</option>
+              <option value="tech_deep">深度技术分析</option>
+              <option value="biz_brief">商业简报</option>
+              <option value="status_check">状态检查</option>
+              <option value="memory_backup">记忆备份</option>
+            </select></div>
+          <div class="form-group"><label class="form-label">任务名称</label><input class="form-input" id="newTaskName" placeholder="给任务起个名字"></div>
+          <div class="form-group"><label class="form-label">参数 (JSON)</label><textarea class="form-input" id="newTaskParams" placeholder='{"scope": "brief"}'></textarea></div>
+          <button class="btn primary" onclick="createNewTask()">&#63720; 创建并执行</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scheduler -->
+    <div id="page-scheduler" class="page hidden">
+      <div class="page-title">&#9200; 定时任务</div>
+      <div class="section">
+        <div class="section-header"><div class="section-title">&#128197; 当前定时任务</div><button class="btn primary" onclick="openModal('modal-new-job')">&#43; 新建定时任务</button></div>
+        <table><thead><tr><th>任务名</th><th>模板</th><th>触发方式</th><th>下次执行</th><th>上次执行</th><th>状态</th><th>操作</th></tr></thead>
+          <tbody id="scheduledJobs"><tr><td colspan="7" class="empty">加载中...</td></tr></tbody></table>
+      </div>
+      <div class="section">
+        <div class="section-header"><div class="section-title">&#9889; 推荐预设</div></div>
+        <div id="jobPresets"></div>
+      </div>
+    </div>
+
+    <!-- Notify -->
+    <div id="page-notify" class="page hidden">
+      <div class="page-title">&#128236; 消息推送</div>
+      <div class="tabs">
+        <div class="tab active" data-tab="send">发送消息</div>
+        <div class="tab" data-tab="channels">推送渠道</div>
+        <div class="tab" data-tab="templates">消息模板</div>
+      </div>
+      <div id="tab-send" class="tab-content active">
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:20px;max-width:600px">
+          <div class="form-group"><label class="form-label">推送渠道</label>
+            <select class="form-input" id="notifyChannel">
+              <option value="dingtalk">&#127760; 钉钉</option>
+              <option value="feishu">&#127759; 飞书</option>
+              <option value="wecom">&#127774; 企业微信</option>
+              <option value="telegram">&#128172; Telegram</option>
+            </select></div>
+          <div class="form-group"><label class="form-label">消息类型</label>
+            <select class="form-input" id="notifyType">
+              <option value="text">纯文本</option>
+              <option value="task_complete">&#9989; 任务完成卡片</option>
+              <option value="task_failed">&#10060; 任务失败卡片</option>
+              <option value="alert">&#9888; 系统告警卡片</option>
+              <option value="status_report">&#128200; 状态报告卡片</option>
+            </select></div>
+          <div class="form-group"><label class="form-label">消息内容</label><textarea class="form-input" id="notifyContent" rows="5" placeholder="输入消息内容..."></textarea></div>
+          <button class="btn primary" onclick="sendNotify()">&#128240; 发送推送</button>
+        </div>
+      </div>
+      <div id="tab-channels" class="tab-content">
+        <table><thead><tr><th>渠道</th><th>状态</th><th>说明</th><th>操作</th></tr></thead>
+          <tbody>
+            <tr><td>&#127760; 钉钉</td><td><span class="badge active">已支持</span></td><td style="font-size:12px;color:var(--text-dim)">添加自定义机器人，复制 Webhook URL</td><td><button class="btn btn-sm" onclick="testChannel('dingtalk')">测试</button></td></tr>
+            <tr><td>&#127759; 飞书</td><td><span class="badge active">已支持</span></td><td style="font-size:12px;color:var(--text-dim)">添加自定义机器人，复制 Webhook URL</td><td><button class="btn btn-sm" onclick="testChannel('feishu')">测试</button></td></tr>
+            <tr><td>&#128172; Telegram</td><td><span class="badge pending">需配置</span></td><td style="font-size:12px;color:var(--text-dim)">设置 BOT_TOKEN 和 CHAT_ID</td><td>-</td></tr>
+            <tr><td>&#127774; 企业微信</td><td><span class="badge active">已支持</span></td><td style="font-size:12px;color:var(--text-dim)">添加群机器人，复制 Webhook URL（key=xxx）</td><td><button class="btn btn-sm" onclick="testChannel('wecom')">测试</button></td></tr>
+          </tbody></table>
+      </div>
+      <div id="tab-templates" class="tab-content"><div id="templateList"></div></div>
+    </div>
+
+    <!-- Keys -->
+    <div id="page-keys" class="page hidden">
+      <div class="page-title">&#128273; API Keys</div>
+      <div class="section">
+        <div class="section-header"><div class="section-title">&#128101; 已有的 Key</div><button class="btn primary" onclick="openModal('modal-new-key')">&#43; 新建 Key</button></div>
+        <table><thead><tr><th>名称</th><th>权限级别</th><th>创建时间</th><th>过期时间</th><th>Key（部分）</th><th>操作</th></tr></thead>
+          <tbody id="keysList"><tr><td colspan="6" class="empty">加载中...</td></tr></tbody></table>
+        <div style="margin-top:12px;font-size:12px;color:var(--text-dim)">&#9888; readonly &lt; execute &lt; admin | Key 仅在生成时显示一次，请妥善保管</div>
+      </div>
+    </div>
+
+    <!-- Templates -->
+    <div id="page-templates" class="page hidden">
+      <div class="page-title">&#128196; 任务模板管理</div>
+      <div class="section">
+        <div class="section-header">
+          <div class="section-title">&#128196; 任务模板列表</div>
+          <div style="display:flex;gap:8px">
+            <button class="btn" onclick="loadTemplates()">&#128260; 刷新</button>
+            <button class="btn primary" onclick="openNewTemplate()">&#43; 新建模板</button>
+          </div>
+        </div>
+        <table><thead><tr><th>ID</th><th>名称</th><th>Agent</th><th>描述</th><th>默认参数</th><th>创建时间</th><th>操作</th></tr></thead>
+          <tbody id="templatesList"><tr><td colspan="7" class="empty">加载中...</td></tr></tbody></table>
+        <div style="margin-top:8px;font-size:12px;color:var(--text-dim)">
+          模板是预定义的任务配置，可通过 <code>POST /api/v1/tasks</code> 或定时任务调用。<br>
+          内置模板：status_check / quick_fetch / tech_brief / biz_brief
+        </div>
+      </div>
+    </div>
+
+    <!-- Audit -->
+    <div id="page-audit" class="page hidden">
+      <div class="page-title">&#128221; 审计日志</div>
+      <div class="section-header" style="margin-bottom:12px"><div></div><button class="btn" onclick="loadAudit()">&#128260; 刷新</button></div>
+      <table><thead><tr><th>时间</th><th>动作</th><th>Key名</th><th>IP</th><th>路径</th><th>方法</th><th>状态</th><th>详情</th></tr></thead>
+        <tbody id="auditLogs"><tr><td colspan="8" class="empty">加载中...</td></tr></tbody></table>
+    </div>
+
+    <!-- Docs -->
+    <div id="page-docs" class="page hidden">
+      <div class="page-title">&#128218; 接口文档</div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:20px;max-width:720px">
+        <h3 style="margin-bottom:12px">&#128240; REST API 示例</h3>
+        <div class="code-block"># 发送钉钉消息
+curl -X POST http://localhost:18790/api/v1/message \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"channel":"dingtalk","message":"Hello from OC-Ctrl!"}'</div>
+        <h3 style="margin:16px 0 12px">&#127759; 发送飞书卡片</h3>
+        <div class="code-block">curl -X POST http://localhost:18790/api/v1/notify \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"channel":"feishu","template":"task_complete","task_name":"测试","duration":3.2}'</div>
+        <h3 style="margin:16px 0 12px">&#63720; 触发 Agent</h3>
+        <div class="code-block">curl -X POST http://localhost:18790/api/v1/spawn \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"task":"生成今日技术简报","runtime":"subagent"}'</div>
+        <h3 style="margin:16px 0 12px">&#9200; 创建定时任务</h3>
+        <div class="code-block">curl -X POST http://localhost:18790/api/v1/scheduler/jobs \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"name":"晨报","template_id":"quick_fetch","cron_expr":"0 8 * * *"}'</div>
+        <h3 style="margin:16px 0 12px">&#128203; 获取任务列表</h3>
+        <div class="code-block">curl http://localhost:18790/api/v1/tasks \
+  -H "Authorization: Bearer YOUR_API_KEY"</div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Modals -->
+<!-- 登录 Modal -->
+<div class="modal-overlay" id="modal-login"><div class="modal">
+  <h3>&#128272; OpenClaw 控制台登录</h3>
+  <div class="form-group">
+    <label class="form-label">API Key</label>
+    <input class="form-input" id="modal-login-key" type="password" placeholder="输入您的 API Key" onkeydown="if(event.key==='Enter')doLogin()">
+  </div>
+  <p style="font-size:11px;color:var(--text-dim);margin-bottom:12px">
+    API Key 可在服务器配置文件或启动日志中获取。
+    <br>支持三种权限级别：admin &gt; execute &gt; readonly
+  </p>
+  <div class="modal-footer">
+    <button class="btn primary" onclick="doLogin()">&#128272; 登录</button>
+  </div>
+</div></div>
+
+<div class="modal-overlay" id="modal-new-job"><div class="modal">
+  <h3>&#43; 新建定时任务</h3>
+  <div class="form-group"><label class="form-label">任务名称</label><input class="form-input" id="modal-job-name" placeholder="例如：晨报"></div>
+  <div class="form-group"><label class="form-label">关联模板</label><select class="form-input" id="modal-job-template">
+    <option value="quick_fetch">快速信息抓取</option>
+    <option value="full_fetch">全量信息抓取</option>
+    <option value="tech_brief">技术简报</option>
+    <option value="biz_brief">商业简报</option>
+    <option value="status_check">状态检查</option>
+  </select></div>
+  <div class="form-group"><label class="form-label">触发方式</label><select class="form-input" id="modal-job-type" onchange="toggleJobCronInterval()">
+    <option value="cron">Cron 表达式</option><option value="interval">间隔触发</option>
+  </select></div>
+  <div class="form-group" id="modal-job-cron-group"><label class="form-label">Cron（秒 分 时 日 月 周）</label>
+    <input class="form-input" id="modal-job-cron" placeholder="0 8 * * *" value="0 8 * * *">
+    <div style="font-size:11px;color:var(--text-dim);margin-top:4px">每天8点: 0 8 * * * | 每30分: */30 * * * * | 工作日9点: 0 9 * * 1-5</div></div>
+  <div class="form-group hidden" id="modal-job-interval-group"><label class="form-label">间隔秒数</label>
+    <input class="form-input" id="modal-job-interval" type="number" value="3600" placeholder="3600"></div>
+  <div class="modal-footer"><button class="btn" onclick="closeModal('modal-new-job')">取消</button><button class="btn primary" onclick="createJob()">&#43; 创建</button></div>
+</div></div>
+
+<div class="modal-overlay" id="modal-new-key"><div class="modal">
+  <h3>&#128273; 新建 API Key</h3>
+  <div class="form-group"><label class="form-label">Key 名称</label><input class="form-input" id="modal-key-name" placeholder="例如：手机端"></div>
+  <div class="form-group"><label class="form-label">权限级别</label><select class="form-input" id="modal-key-level">
+    <option value="readonly">只读 (readonly) - 查看状态、任务</option>
+    <option value="execute">执行 (execute) - 发送消息、触发任务</option>
+    <option value="admin">管理 (admin) - 全部权限</option>
+  </select></div>
+  <div class="form-group"><label class="form-label">过期天数（留空永不过期）</label><input class="form-input" id="modal-key-expires" type="number" placeholder="30"></div>
+  <div class="modal-footer"><button class="btn" onclick="closeModal('modal-new-key')">取消</button><button class="btn primary" onclick="createKey()">&#128273; 生成</button></div>
+</div></div>
+
+<div class="modal-overlay" id="modal-send-msg"><div class="modal">
+  <h3>&#9993; 发送消息</h3>
+  <div class="form-group"><label class="form-label">消息内容（支持 Markdown 格式）</label><textarea class="form-input" id="modal-msg-content" rows="5" placeholder="输入要发送的消息..."></textarea></div>
+  <div class="modal-footer"><button class="btn" onclick="closeModal('modal-send-msg')">取消</button><button class="btn primary" onclick="doSendCustomMsg()">&#128240; 发送</button></div>
+</div></div>
+
+<div class="modal-overlay" id="modal-task-detail"><div class="modal" style="width:640px">
+  <h3>&#128203; 任务详情</h3>
+  <div id="task-detail-content" style="font-size:13px;color:var(--text-dim);padding:8px 0">加载中...</div>
+  <div class="modal-footer"><button class="btn" onclick="closeModal('modal-task-detail')">关闭</button></div>
+</div></div>
+
+<div id="toast"></div>
+
+<!-- 新建/编辑模板 Modal -->
+<div class="modal-overlay" id="modal-new-template"><div class="modal" style="width:560px">
+  <h3 id="modal-template-title">&#128196; 新建任务模板</h3>
+  <input type="hidden" id="modal-tpl-editing" value="">
+  <div class="form-group"><label class="form-label">模板 ID <span style="color:var(--red)">*</span></label><input class="form-input" id="modal-tpl-id" placeholder="例如：my_report（英文/下划线/数字）" pattern="[a-z0-9_]+"></div>
+  <div class="form-group"><label class="form-label">显示名称 <span style="color:var(--red)">*</span></label><input class="form-input" id="modal-tpl-name" placeholder="例如：每日资讯汇总"></div>
+  <div class="form-group"><label class="form-label">Agent 类型</label>
+    <select class="form-input" id="modal-tpl-agent">
+      <option value="info-fetcher">信息抓取助手</option>
+      <option value="tech-analyst">技术前沿分析师</option>
+      <option value="biz-analyst">商业需求洞察分析师</option>
+      <option value="custom">自定义</option>
+    </select>
+  </div>
+  <div class="form-group"><label class="form-label">描述</label><input class="form-input" id="modal-tpl-desc" placeholder="模板用途说明（选填）"></div>
+  <div class="form-group"><label class="form-label">默认参数（JSON）</label><textarea class="form-input" id="modal-tpl-params" rows="4" placeholder='{"scope": "daily", "count": 10}'></textarea></div>
+  <div class="form-group"><label class="form-label">执行动作</label>
+    <select class="form-input" id="modal-tpl-action">
+      <option value="spawn">spawn - 触发子 Agent</option>
+      <option value="message">message - 发送消息</option>
+      <option value="status">status - 状态查询</option>
+    </select>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" onclick="closeModal('modal-new-template')">取消</button>
+    <button class="btn primary" onclick="submitTemplate()">&#10004; 保存模板</button>
+  </div>
+<!-- v1.4.0: Redirect to production Web Admin v2 -->
+<script>window.location.replace('index_v2.html');</script>
+<noscript><meta http-equiv="refresh" content="0;url=index_v2.html"></noscript>
+<p style="text-align:center;padding:40px;font-family:sans-serif;">
+  <a href="index_v2.html">→ 跳转到新版管理后台</a>
+</p>

@@ -1,0 +1,831 @@
+# Source URL: https://blog.csdn.net/weixin_42560991/article/details/156499888
+# Content Length: 15545 characters
+# Extracted at: 2026-03-24 13:28:27
+#============================================================
+
+ 
+
+
+
+
+
+从GitHub下载到本地运行：完整部署CosyVoice3语音克隆系统的步骤-CSDN博客
+
+
+
+
+
+
+
+从GitHub下载到本地运行：完整部署CosyVoice3语音克隆系统的步骤
+======================================
+
+
+最新推荐文章于 2026-03-08 09:21:46 发布
+原创
+最新推荐文章于 2026-03-08 09:21:46 发布
+·
+1.3k 阅读
+·
+![]()
+![]()
+19
+
+
+·
+![]()
+![]()
+18
+·
+CC 4.0 BY-SA版权
+版权声明：本文为博主原创文章，遵循 [CC 4.0 BY-SA](http://creativecommons.org/licenses/by-sa/4.0/) 版权协议，转载请附上原文出处链接和本声明。
+
+
+
+
+
+文章标签：
+
+[#CosyVoice3](https://so.csdn.net/so/search/s.do?q=CosyVoice3&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[# 语音克隆](https://so.csdn.net/so/search/s.do?q=+%E8%AF%AD%E9%9F%B3%E5%85%8B%E9%9A%86&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[# GitHub部署](https://so.csdn.net/so/search/s.do?q=+GitHub%E9%83%A8%E7%BD%B2&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+
+
+
+
+
+
+
+![]()
+
+cosyvoce3阿里最新开源声音克隆应用普通话粤语英语日语18种中国方言更加精准情感丰富 构建By科哥
+
+PyTorch
+语音合成
+
+cosyvoce3阿里最新开源声音克隆应用普通话粤语英语日语18种中国方言更加精准情感丰富 构建By科哥
+
+
+
+一键部署运行
+
+
+
+从GitHub下载到本地运行：完整部署CosyVoice3语音克隆系统的步骤
+--------------------------------------
+
+在AI语音技术飞速发展的今天，个性化声音不再是影视后期或专业配音的专属。随着大模型能力下沉，普通人只需几秒音频，就能“复制”自己的声音——这正是 **CosyVoice3** 带来的变革。
+
+这款由阿里系 FunAudioLLM 团队开源的语音克隆系统，支持普通话、粤语、英语、日语以及18种中国方言，仅需3秒样本即可完成音色复刻。更令人兴奋的是，它允许用户通过自然语言指令控制语气和口音，比如输入“用四川话说这句话”，系统就会自动切换方言风格。
+
+但再强大的模型，也得先跑起来才算数。本文不讲抽象理论，而是带你从零开始，一步步把 CosyVoice3 从 GitHub 源码变成你服务器上可交互运行的服务。过程中会深入解析关键组件的工作机制，并结合实际问题给出工程建议。
+
+---
+
+我们先从最基础的动作开始：获取代码。
+
+要使用一个开源项目，第一步永远是拉取源码。对于 CosyVoice3 来说，核心仓库位于 <https://github.com/FunAudioLLM/CosyVoice>。执行以下命令即可将整个项目克隆到本地：
+
+```
+git clone https://github.com/FunAudioLLM/CosyVoice.git
+
+```
+
+这条命令背后其实完成了一系列动作：Git 客户端向 GitHub 发起 HTTPS 请求，下载所有文件、提交历史和分支信息，并在本地初始化 `.git` 目录以支持后续版本管理。如果你的网络环境较差（例如某些企业内网），可以考虑配置代理或使用国内镜像加速。
+
+值得注意的是，这个项目可能包含子模块（submodule）。有些依赖库不会直接打包进主仓库，而是以 Git 子模块的形式引用。因此，在克隆完成后，最好检查是否有未初始化的子模块：
+
+```
+git submodule update --init --recursive
+
+```
+
+否则可能会遇到“找不到模块”的报错。另外，确保你的系统已安装 Git 工具，Linux 用户可通过 `sudo apt install git` 安装。
+
+拿到代码后，下一步就是让它跑起来。理想情况下，开发者希望做到“一键部署”。而实现这一目标的关键，往往藏在一个叫 `run.sh` 的脚本里。
+
+来看一段典型的启动脚本示例：
+
+```
+#!/bin/bash
+cd /root/CosyVoice || { echo "项目目录不存在"; exit 1; }
+
+python3 -m venv venv
+source venv/bin/activate
+
+pip install --upgrade pip
+pip install -r requirements.txt
+
+echo "正在启动CosyVoice3 WebUI..."
+python app.py --host 0.0.0.0 --port 7860
+
+```
+
+这段 Bash 脚本虽然短，却完成了路径切换、虚拟环境创建、依赖安装和服务启动的全流程。其中几个细节值得强调：
+
+* 使用 `||` 操作符判断目录是否存在，避免因路径错误导致后续命令误执行；
+* 通过 `venv` 创建独立 Python 环境，防止与系统全局包冲突；
+* `--host 0.0.0.0` 是为了让服务能被外部设备访问，而不是仅限本地回环；
+* 若想提升健壮性，还可以加入端口占用检测、日志记录等功能。
+
+别忘了给脚本赋予执行权限：
+
+```
+chmod +x run.sh
+
+```
+
+然后就可以运行：
+
+```
+bash run.sh
+
+```
+
+一旦服务成功启动，你会看到类似这样的输出：
+
+```
+Running on local URL:  http://0.0.0.0:7860
+
+```
+
+这时打开浏览器访问该地址，就能看到界面了——这一切都得益于 Gradio 这个轻量级 WebUI 框架。
+
+Gradio 的魅力在于，无需前端知识也能快速构建交互式页面。它本质上是一个 Python 库，可以把任意函数封装成可视化接口。例如下面这段代码就定义了一个简单的语音合成界面：
+
+```
+import gradio as gr
+
+def generate_speech(prompt_audio, text_input):
+    if not prompt_audio:
+        raise ValueError("请上传prompt音频")
+    if len(text_input) > 200:
+        raise ValueError("文本长度不得超过200字符")
+    return "outputs/output.wav"
+
+with gr.Blocks() as demo:
+    gr.Markdown("# CosyVoice3 语音克隆系统")
+
+    with gr.Tab("3s极速复刻"):
+        prompt_upload = gr.Audio(label="选择prompt音频文件", type="filepath")
+        gen_text = gr.Textbox(label="输入合成文本（≤200字符）", max_lines=2)
+        output_audio = gr.Audio(label="生成音频")
+        gen_btn = gr.Button("生成音频")
+        gen_btn.click(fn=generate_speech, 
+                      inputs=[prompt_upload, gen_text], 
+                      outputs=output_audio)
+
+    with gr.Tab("自然语言控制"):
+        instruct_dropdown = gr.Dropdown(
+            choices=[
+                "用四川话说这句话",
+                "用粤语说这句话",
+                "用兴奋的语气说这句话",
+                "用悲伤的语气说这句话"
+            ],
+            label="选择语音风格"
+        )
+        # 其他组件省略...
+
+demo.launch(server_name="0.0.0.0", port=7860)
+
+```
+
+这里有几个关键点：
+
+* `gr.Blocks()` 提供了灵活的布局能力，支持多标签页设计；
+* 音频输入使用 `gr.Audio` 组件，既支持上传文件也支持麦克风录音；
+* 下拉菜单 `gr.Dropdown` 实现了“自然语言控制”模式，用户只需选择描述性文本即可改变输出风格；
+* `click()` 方法将按钮点击事件绑定到后端函数，形成完整的调用链。
+
+更重要的是，Gradio 支持实时刷新和共享链接（通过 `share=True`），非常适合调试和演示场景。
+
+不过真正让声音“像人”的，还是背后的模型架构和控制机制。
+
+CosyVoice3 的推理流程大致如下：
+
+1. 用户上传一段3–10秒的清晰音频作为参考（prompt）；
+2. 系统从中提取说话人声纹特征（即“音色指纹”）；
+3. 输入待合成的文本，经过文本规整、分词、G2P（Grapheme-to-Phoneme）转换为音素序列；
+4. 如果文本中包含 `[h][ào]` 或 `[M][AY0]` 这样的标注，则强制替换对应发音；
+5. 结合声纹特征与修正后的音素序列，送入扩散模型或自回归解码器生成梅尔频谱图；
+6. 最后由 Vocoder（如 HiFi-GAN）将频谱还原为波形音频。
+
+这套流程看似复杂，但在代码层面已被高度封装。你只需要关注两个核心控制手段：**多音字处理** 和 **音素级干预**。
+
+中文最大的挑战之一就是多音字。“好”可以读 hǎo（好人），也可以读 hào（爱好）。传统TTS系统依赖上下文理解来判断读音，但一旦语境模糊就容易出错。CosyVoice3 的解决方案很直接：允许用户手动指定。
+
+比如你想表达“她的爱好[h][ào]很广泛”，只要在“好”字处加上 `[h][ào]` 标注，模型就会跳过常规G2P模块，直接使用你提供的拼音发音。这种机制基于正则匹配 `\[[^\]]+\]` 解析标注内容，在保持灵活性的同时避免过度干扰整体语流。
+
+英文方面则采用 ARPAbet 音标系统进行精细控制。例如，“minute” 可写作 `[M][AY0][N][UW1][T]`，分别对应每个音节的发音与重音位置。这对于专业术语、品牌名或特殊词汇非常有用。
+
+当然，标注不是越多越好。过度标注可能导致语调生硬、连贯性下降。建议只在关键歧义词上使用，其余交给模型自动处理。
+
+整个系统的架构可以用一张简图概括：
+
+```
++------------------+       +--------------------+
+|   用户终端浏览器  | <---> |  Gradio WebUI (Python) |
++------------------+       +--------------------+
+                                 ↓
+                   +----------------------------+
+                   |   语音克隆推理引擎（PyTorch） |
+                   +----------------------------+
+                                 ↓
+                   +----------------------------+
+                   |  声学模型 + 风格编码器 + Vocoder |
+                   +----------------------------+
+
+```
+
+前端负责交互，逻辑层协调流程，模型层完成真正的“声音生成”。生成的音频默认保存在 `outputs/` 目录下，命名格式为 `output_YYYYMMDD_HHMMSS.wav`，便于追溯和管理。
+
+在实际使用中，常见问题往往集中在效果和稳定性两方面。
+
+比如“生成的声音不像本人”？首要排查音频质量：是否清晰无噪？采样率是否达到16kHz以上？背景有没有音乐或混响？推荐使用WAV格式的无损录音，且尽量选取情感平稳、语速适中的片段作为参考音频。
+
+又比如“多音字还是读错了”？检查是否漏掉了标注，或者标注格式有误。注意 `[h][ào]` 必须紧贴汉字，不能留空格，也不能跨词使用。正确的写法是 `爱好[h][ào]`，而不是 `[h][ào]爱`。
+
+性能方面，如果出现卡顿或显存不足，可以尝试点击界面上的【重启应用】按钮释放资源。查看后台日志也很重要，很多错误信息会在终端输出中明确提示，比如缺少某个依赖包或CUDA版本不兼容。
+
+为了长期稳定运行，建议采取一些运维措施：
+
+* 生产环境中启用身份验证，Gradio 支持 `auth=('username', 'password')` 参数；
+* 使用 systemd 或 Docker 将服务守护起来，避免意外中断；
+* 定期备份 `outputs/` 目录，防止生成内容丢失；
+* 关注 GitHub 仓库更新，及时拉取最新代码获取修复和新功能。
+
+从工程角度看，CosyVoice3 的设计思路非常务实：**降低门槛、聚焦体验、开放可控**。它没有追求极致复杂的架构，而是通过清晰的模块划分和自动化脚本，让普通开发者也能快速上手。
+
+这也正是其应用潜力所在。无论是内容创作者需要定制播客配音，教育机构为视障学生生成教师朗读音频，还是企业打造统一品牌声线的客服助手，都可以基于这套系统快速实现原型。
+
+甚至在科研教学中，它也是一个极佳的实验平台——你可以修改模型结构、调整风格编码方式、测试不同的Vocoder效果，所有改动都能立即通过Web界面验证。
+
+当你在浏览器中听到第一段由自己声音“说出”的合成语音时，那种感觉是难以言喻的。而这背后，是一整套精心设计的技术链条在默默支撑：从 GitHub 的版本协同，到 Bash 脚本的自动化部署，再到 Gradio 的即时交互与底层模型的精准控制。
+
+未来，这类高度集成的语音生成工具只会越来越多。而 CosyVoice3 的意义，不仅在于它的功能有多强，更在于它展示了如何将前沿AI能力转化为真正可用的产品体验。
+
+
+
+
+
+ 
+
+您可能感兴趣的与本文相关的镜像
+
+![]()
+
+cosyvoce3阿里最新开源声音克隆应用普通话粤语英语日语18种中国方言更加精准情感丰富 构建By科哥
+
+PyTorch
+语音合成
+
+cosyvoce3阿里最新开源声音克隆应用普通话粤语英语日语18种中国方言更加精准情感丰富 构建By科哥
+
+
+
+一键部署运行
+
+
+
+创作声明：本文部分内容由AI辅助生成（AIGC），仅供参考
+
+
+
+![]()
+确定要放弃本次机会？
+
+福利倒计时
+
+*:*
+
+*:*
+
+
+![]()
+立减 ¥
+
+
+普通VIP年卡可用
+
+[立即使用](https://mall.csdn.net/vip)
+
+
+[![]()
+Omoo](https://blog.csdn.net/weixin_42560991)
+
+[关注](javascript:;)
+关注
+
+
+* ![]()
+  ![]()
+  ![]()
+  19
+  点赞
+* ![]()
+  ![]()
+  踩
+* [![]()
+  ![]()
+  ![]()
+  18](javascript:;)
+  收藏
+  
+  
+  
+  觉得还不错?
+  一键收藏
+  
+  ![]()
+* ![]()
+  知道了
+  
+  [![]()
+  0](#commentBox)
+  评论
+* [![]()
+  分享](javascript:;)
+  复制链接
+  
+  分享到 QQ
+  
+  分享到新浪微博
+  
+  ![]()扫一扫
+* ![]()
+  ![]()
+  举报
+  
+  ![]()
+  举报
+
+
+
+
+![]()
+
+[【数字人学习之*语音*合成】Fun-*CosyVoice**3*-0.5B-2512的windows*系统*中*本地**部署*的方法](https://blog.csdn.net/qq_42944545/article/details/156147015)
+
+[qq\_42944545的博客](https://blog.csdn.net/qq_42944545)
+
+12-23
+![]()
+1171
+
+
+
+
+[本文介绍了在Windows*系统**本地**部署*Fun-*CosyVoice**3*-0.5B-2512*语音*合成模型的方法。主要内容包括：1）通过Git*克隆*源代码及处理子模块*下载*问题；2）使用conda创建Python *3*.10虚拟环境；*3*）安装依赖包时遇到的setuptools缺失问题及解决方法。文章特别指出要避免使用Python *3*.12版本，并提供了国内镜像源以解决网络问题。*部署*过程中需要注意版本兼容性和依赖包安装顺序，确保环境配置正确。](https://blog.csdn.net/qq_42944545/article/details/156147015)
+
+
+
+
+
+参与评论
+您还未登录，请先
+登录
+后发表或查看评论
+
+
+[TTS：*CosyVoice*2 高质量*语音*生成](https://shao12138.blog.csdn.net/article/details/147550415)
+
+[燕双嘤](https://blog.csdn.net/qq_42192693)
+
+04-28
+![]()
+3804
+
+
+
+
+[*CosyVoice*2 只需*3*~10秒的原始音频，即可生成音色，实现不同语言之间的*语音*合成，中文、英文、日语、韩语、中国方言（粤语、四川话、上海话、天津话、武汉话、长沙话、郑州话等），还支持生成具有多种情感表达的*语音*，包括快乐、兴奋、悲伤、愤怒等，还能通过指令控制说话的语气、情绪等](https://shao12138.blog.csdn.net/article/details/147550415)
+
+
+
+[*CosyVoice* 实测，阿里开源*语音*合成模型，*3*s极速*语音**克隆*，5分钟带你*部署*实战
+热门推荐](https://devpress.csdn.net/v1/article/detail/141010689)
+
+[u010522887的专栏](https://blog.csdn.net/u010522887)
+
+08-08
+![]()
+2万+
+
+
+
+
+[*CosyVoice* 极速*语音**克隆*，从在线体验到*本地**部署*](https://devpress.csdn.net/v1/article/detail/141010689)
+
+
+
+
+[*Cosyvoice*的*部署*，在Ubuntu22.04*系统*下——点动科技](https://blog.csdn.net/weixin_63782093/article/details/141320485)
+
+[weixin\_63782093的博客](https://blog.csdn.net/weixin_63782093)
+
+08-19
+![]()
+4429
+
+
+
+
+[在服务器Ubuntu22.04*系统*下，*Cosyvoice*的*部署*](https://blog.csdn.net/weixin_63782093/article/details/141320485)
+
+
+
+[阿里开源TTS *CosyVoice* 再升级！*语音**克隆*玩出新花样，支持流式输出，*本地**部署*实测](https://devpress.csdn.net/v1/article/detail/144899524)
+
+[u010522887的专栏](https://blog.csdn.net/u010522887)
+
+01-03
+![]()
+1万+
+
+
+
+
+[最近看到阿里开源的 *CosyVoice* 又发布了重大更新。
+今日分享，将介绍 *CosyVoice* 2.0，并带大家*本地**部署*体验，为*本地* TTS 选型提供参考。](https://devpress.csdn.net/v1/article/detail/144899524)
+
+
+
+[*CosyVoice**3**本地**部署*教程：无需联网也能使用的*语音**克隆*工具](https://blog.csdn.net/weixin_35696112/article/details/156498799)
+
+[weixin\_35696112的博客](https://blog.csdn.net/weixin_35696112)
+
+01-01
+![]()
+961
+
+
+
+
+[*CosyVoice**3*是一款支持多语种、多方言的*本地*化*语音**克隆*工具，仅需*3*秒音频即可在个人设备上生成高拟真度*语音*。无需联网，保护隐私，同时支持自然语言控制语气与口音，适合内容创作、教育、数字遗产等多种场景。](https://blog.csdn.net/weixin_35696112/article/details/156498799)
+
+
+
+[Windows*系统*下*CosyVoice**本地**部署*避坑指南：从CUDA配置到模型*运行*全流程](https://blog.csdn.net/s3t4u/article/details/153709635)
+
+[s3t4u的博客](https://blog.csdn.net/s3t4u)
+
+02-26
+![]()
+912
+
+
+
+
+[本文提供了一份详细的Windows*系统*下*CosyVoice**本地**部署*避坑指南。文章从CUDA版本检查与配置、Python虚拟环境搭建入手，逐步指导如何正确*克隆*项目、解决依赖安装难题、*下载*模型文件，并最终成功启动Web UI。重点解析了*部署*过程中最常见的中文路径、CUDA兼容性、依赖冲突等问题的解决方案，旨在帮助用户高效完成*本地**语音*合成与*克隆*环境的搭建。](https://blog.csdn.net/s3t4u/article/details/153709635)
+
+
+
+[Windows下用Conda搞定*CosyVoice**语音**克隆*：从环境配置到模型*下载*全流程](https://blog.csdn.net/go5gopher/article/details/155329674)
+
+[go5gopher的博客](https://blog.csdn.net/go5gopher)
+
+02-13
+![]()
+157
+
+
+
+
+[本文详细介绍了在Windows*系统*下使用Conda*部署**CosyVoice**语音**克隆*技术的全流程，包括环境配置、依赖安装、模型*下载*及实战测试。通过Conda管理Python环境，解决Windows专属依赖问题，帮助开发者高效完成*语音**克隆*项目的*部署*与应用。](https://blog.csdn.net/go5gopher/article/details/155329674)
+
+
+
+[Windows下用Conda搞定*CosyVoice**语音**克隆*：从环境配置到音色复刻全流程](https://blog.csdn.net/milk5/article/details/152775796)
+
+[milk5的博客](https://blog.csdn.net/milk5)
+
+03-01
+![]()
+605
+
+
+
+
+[本文详细介绍了在Windows*系统*下，使用Conda环境*部署*阿里通义实验室开源的*CosyVoice**语音**克隆*模型的全流程。文章重点解决了Windows平台特有的环境配置难题，包括通过Conda安装关键依赖pynini和DeepSpeed，并提供了从项目*克隆*、模型*下载*到启动WebUI进行零样本音色复刻的*完整**步骤*与避坑指南。](https://blog.csdn.net/milk5/article/details/152775796)
+
+
+
+[*CosyVoice**语音*生成模型*完整**部署*指南：从环境配置到Docker容器化实践](https://wenku.csdn.net/doc/3hx5azhct6)
+
+
+
+
+[首先，在项目拉取阶段，用户需要从*GitHub*或GitLab等平台*克隆**CosyVoice*的源码仓库。根据压缩包子文件名称“JQ8VV92UXpooLAkqdtZE-master-6bd17289e499167cfa2c6e8614edfe76f8099de2”可知，该项目为一个典型的Git托管...](https://wenku.csdn.net/doc/3hx5azhct6)
+
+
+
+[*CosyVoice**语音**克隆*实战：如何用*3*00M模型实现零样本复刻（附Windows避坑指南）
+最新发布](https://blog.csdn.net/rnn9storyteller/article/details/150506503)
+
+[rnn9storyteller的博客](https://blog.csdn.net/rnn9storyteller)
+
+03-08
+![]()
+407
+
+
+
+
+[本文详细介绍了如何在Windows*系统*上*部署*和*运行*阿里通义实验室开源的*CosyVoice**语音**克隆*模型。通过*3*00M轻量级模型实现零样本音色复刻，仅需*3*-10秒音频即可精准*克隆*音色。文章提供了从Conda环境配置、依赖安装、模型*下载*到WebUI启动和Python API调用的*完整*实战指南，并重点解决了Windows平台特有的*部署*难题，帮助用户快速搭建个性化的*语音**克隆*工具。](https://blog.csdn.net/rnn9storyteller/article/details/150506503)
+
+
+
+[*本地**部署* SenseVoice - 阿里开源*语音*大模型](https://engchina.blog.csdn.net/article/details/140257420)
+
+[engchina的专栏](https://blog.csdn.net/engchina)
+
+07-08
+![]()
+6415
+
+
+
+
+[*本地**部署* SenseVoice - 阿里开源*语音*大模型](https://engchina.blog.csdn.net/article/details/140257420)
+
+
+
+[*CosyVoice*安装配置体验 chattts被换下](https://blog.csdn.net/shelutai/article/details/140214328)
+
+[shelutai的博客](https://blog.csdn.net/shelutai)
+
+07-05
+![]()
+3763
+
+
+
+
+[对报错文件进行修改，改为下面的方式导入即可。](https://blog.csdn.net/shelutai/article/details/140214328)
+
+
+
+[*语音*生成工具：*CosyVoice*！为角色生成个性化*语音*](https://blog.csdn.net/Datawhale/article/details/140509125)
+
+[Datawhale](https://blog.csdn.net/Datawhale)
+
+07-17
+![]()
+2766
+
+
+
+
+[Datawhale学习实践：AI+*语音*生成，出品方：魔搭社区每个角色有自己的性格、形象，那也一定需要自己个性化的声音。来介绍一个超实用的*语音*生成工具：*CosyVoice*体验创空间：https*:*//www.modelscope.cn/studios/iic/*CosyVoice*-*3*00M*GitHub*：https*:*//*github*.com/FunAudioLLM/*CosyVoice*01案例设定【角色...](https://blog.csdn.net/Datawhale/article/details/140509125)
+
+
+
+[*CosyVoice*安装过程详解](https://blog.csdn.net/u013983235/article/details/144661160)
+
+[提笔不为风雅](https://blog.csdn.net/u013983235)
+
+12-23
+![]()
+6235
+
+
+
+
+[*CosyVoice**语音*转写*部署*安装](https://blog.csdn.net/u013983235/article/details/144661160)
+
+
+
+[*CosyVoice*：开源强大的 AI *语音*合成工具](https://devpress.csdn.net/v1/article/detail/141957374)
+
+[四楼没电梯的专栏](https://blog.csdn.net/problc)
+
+09-06
+![]()
+3943
+
+
+
+
+[在当今科技飞速发展的时代，AI *语音*合成技术正逐渐改变着我们的生活。今天，就为大家介绍一款卓越的*语音*合成工具——*CosyVoice*。](https://devpress.csdn.net/v1/article/detail/141957374)
+
+
+
+[使用 *GitHub* Actions 构建 *CosyVoice* 项目的*运行*环境镜像并推送到阿里云容器镜像服务和 *GitHub* Package Registry](https://blog.csdn.net/u014547167/article/details/145062580)
+
+[u014547167的博客](https://blog.csdn.net/u014547167)
+
+01-10
+![]()
+803
+
+
+
+
+[使用 *GitHub* Ac](https://blog.csdn.net/u014547167/article/details/145062580)
+
+
+
+[基于*CosyVoice*的多语言*语音*合成](https://datayang.blog.csdn.net/article/details/141398629)
+
+[Mr数据杨](https://blog.csdn.net/qq_20288327)
+
+09-16
+![]()
+1876
+
+
+
+
+[*CosyVoice*凭借其卓越的多语言支持和高效的音色*克隆*能力，成为了开源*语音*合成领域的领军者。无论是中、英、日、粤、韩多种语言的合成，还是跨语言的*语音*转换，*CosyVoice*都表现出了出色的合成质量。阿里通义实验室通过*CosyVoice*展示了国内AI*语音*合成技术的最高水准，使其成为科研与开发应用中不可或缺的工具。](https://datayang.blog.csdn.net/article/details/141398629)
+
+
+
+
+
+
+[![]()](https://blog.csdn.net/weixin_42560991)
+
+[Omoo](https://blog.csdn.net/weixin_42560991)
+
+
+博客等级
+
+![]()
+
+码龄6年
+
+
+关注
+
+
+[2728原创](https://blog.csdn.net/weixin_42560991)
+
+2万+点赞
+
+2万+收藏
+
+2721粉丝
+
+
+[![]()TA的文章
+![]()](https://blog.csdn.net/weixin_42560991?type=blog)
+[![]()TA的专栏
+![]()](https://blog.csdn.net/weixin_42560991?type=blogColumn)
+[![]()
+![]()](https://im.csdn.net/chat/weixin_42560991)
+
+
+
+---
+
+
+### 官方同款运行环境
+
+[![]()](https://ai.csdn.net?openMirrorId=img6942ec7b38f5213d371ce4de&spm=1001.2101.3001.11380&utm_source=cj_side&articleId=156499888)
+[#### cosyvoce3阿里最新开源声音克隆应用普通话粤语英语日语18种中国方言更加精准情感丰富 构建By科哥
+
+cosyvoce3阿里最新开源声音克隆应用普通话粤语英语日语18种中国方言更加精准情感丰富 构建By科哥](https://ai.csdn.net?openMirrorId=img6942ec7b38f5213d371ce4de&spm=1001.2101.3001.11380&utm_source=cj_side&articleId=156499888)
+
+
+[PyTorch](https://ai.csdn.net?openMirrorId=img6942ec7b38f5213d371ce4de&spm=1001.2101.3001.11380&utm_source=cj_side&articleId=156499888)
+[语音合成](https://ai.csdn.net?openMirrorId=img6942ec7b38f5213d371ce4de&spm=1001.2101.3001.11380&utm_source=cj_side&articleId=156499888)
+
+浏览次数
+**5k+** 次
+
+使用人数
+**1k+** 人
+
+
+##### 关键参数:
+
+| 显存 | CPU | 内存 | 系统盘 | 数据盘 |
+| --- | --- | --- | --- | --- |
+| 24GB | 10核心 | 120GB | 50GB | 40GB |
+
+
+[创建实例](https://ai.csdn.net?openMirrorId=img6942ec7b38f5213d371ce4de&spm=1001.2101.3001.11380&utm_source=cj_side&articleId=156499888)
+
+预装环境一键复现无需本地配置
+
+
+
+
+
+
+
+
+
+
+
+评论
+![]()
+
+![]()被折叠的  条评论
+[为什么被折叠?](https://blogdev.blog.csdn.net/article/details/122245662)
+[![]()到【灌水乐园】发言](https://bbs.csdn.net/forums/FreeZone)
+
+
+查看更多评论![]()
+
+
+
+添加红包
+
+
+祝福语
+
+
+请填写红包祝福语或标题
+
+
+红包数量
+
+个
+
+红包个数最小为10个
+
+
+红包总金额
+
+元
+
+红包金额最低5元
+
+
+余额支付
+当前余额3.43元
+[前往充值 >](https://i.csdn.net/#/wallet/balance/recharge)
+
+
+需支付：10.00元
+
+取消
+确定
+
+
+
+
+![]()
+下一步
+
+![]()
+知道了
+
+
+
+![]()
+成就一亿技术人!
+
+
+
+领取后你会自动成为博主和红包主的粉丝
+规则
+
+
+
+![]()
+hope\_wisdom 发出的红包
+
+
+
+
+
+
+
+
+
+实付元
+[使用余额支付](javascript:;)
+![]()
+点击重新获取
+
+
+![]()![]()![]()扫码支付
+
+
+
+
+钱包余额
+0
+![]()
+
+抵扣说明：
+
+1.余额是钱包充值的虚拟货币，按照1:1的比例进行支付金额的抵扣。  
+ 2.余额无法直接购买下载，可以购买VIP、付费专栏及课程。
+
+
+
+
+
+[![]()余额充值](https://i.csdn.net/#/wallet/balance/recharge)
+
+![]()
+
+
+
+
+
+

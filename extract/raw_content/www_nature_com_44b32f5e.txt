@@ -1,0 +1,572 @@
+# Source URL: https://www.nature.com/articles/s41467-026-70509-w
+# Content Length: 83499 characters
+# Extracted at: 2026-03-31 19:35:04
+#============================================================
+
+TrialMatchAI: an end-to-end AI-powered clinical trial recommendation system to streamline patient-to-trial matching | Nature Communications
+## Your privacy, your choice
+We use essential cookies to make sure the site can function. We also use optional cookies for advertising, personalisation of content, usage analysis, and social media, as well as to allow video information to be shared for both marketing, analytics and editorial purposes.
+By accepting optional cookies, you consent to the processing of your personal data - including transfers to third parties. Some third parties are outside of the European Economic Area, with varying standards of data protection.
+See our [privacy policy](https://www.nature.com/info/privacy) for more information on the use of your personal data.
+Manage preferences for further information and to change your choices.
+Accept all cookiesReject optional cookies
+[Skip to main content](#content)
+Thank you for visiting nature.com. You are using a browser version with limited support for CSS. To obtain
+the best experience, we recommend you use a more up to date browser (or turn off compatibility mode in
+Internet Explorer). In the meantime, to ensure continued support, we are displaying the site without styles
+and JavaScript.
+Advertisement
+[![](https://media.springernature.com/full/nature-cms/uploads/product/ncomms/header-7001f06bc3fe2437048388e9f2f44215.svg)](/ncomms)
+\* [View all journals](https://www.nature.com/siteindex)
+\* [Search](javascript:;)
+## Search
+Search articles by subject, keyword or author
+Show results fromAll journalsThis journal
+Search
+[Advanced search](/search/advanced)
+### Quick links
++ [Explore articles by subject](/subjects)
++ [Find a job](/naturecareers)
++ [Guide to authors](/authors/index.html)
++ [Editorial policies](/authors/editorial\_policies/)
+\* [Log in](https://idp.nature.com/auth/personal/springernature?redirect\_uri=https://www.nature.com/articles/s41467-026-70509-w)
+\* [ContentExplore content](javascript:;)
+## Explore content
++ [Research articles](/ncomms/research-articles)
++ [Reviews & Analysis](/ncomms/reviews-and-analysis)
++ [News & Comment](/ncomms/news-and-comment)
++ [Videos](/ncomms/video)
++ [Collections](/ncomms/collections)
++ [Subjects](/ncomms/browse-subjects)
++ [Follow us on Facebook](https://www.facebook.com/NatureCommunications)
++ [Follow us on X](https://twitter.com/NatureComms)
++ [Sign up for alerts](https://journal-alerts.springernature.com/subscribe?journal\_id=41467)
++ [RSS feed](https://www.nature.com/ncomms.rss)
+\* [About the journal](javascript:;)
+## About the journal
++ [Aims & Scope](/ncomms/aims)
++ [Editors](/ncomms/editors)
++ [Journal Information](/ncomms/journal-information)
++ [Open Access Fees and Funding](/ncomms/open-access)
++ [Calls for Papers](/ncomms/calls-for-papers)
++ [Editorial Values Statement](/ncomms/editorial-values-statement)
++ [Journal Metrics](/ncomms/journal-impact)
++ [Editors' Highlights](/ncomms/editorshighlights)
++ [Contact](/ncomms/contact)
++ [Editorial policies](/ncomms/editorial-policies)
++ [Top Articles](/ncomms/top-articles)
+\* [Publish with us](javascript:;)
+## Publish with us
++ [For authors](/ncomms/submit)
++ [For Reviewers](/ncomms/for-reviewers)
++ [Language editing services](https://authorservices.springernature.com/go/sn/?utm\_source=For+Authors&utm\_medium=Website\_Nature&utm\_campaign=Platform+Experimentation+2022&utm\_id=PE2022)
++ [Open access funding](/ncomms/open-access-funding)
++ [Submit manuscript](https://mts-ncomms.nature.com/)
+\* [Sign up for alerts](https://journal-alerts.springernature.com/subscribe?journal\_id=41467)
+\* [RSS feed](https://www.nature.com/ncomms.rss)
+1. [nature](/)
+2. [nature communications](/ncomms)
+3. [articles](/ncomms/articles?type=article)
+4. article
+TrialMatchAI: an end-to-end AI-powered clinical trial recommendation system to streamline patient-to-trial matching
+[Download PDF](/articles/s41467-026-70509-w\_reference.pdf)
+[Download PDF](/articles/s41467-026-70509-w\_reference.pdf)
+\* Article
+\* [Open access](https://www.springernature.com/gp/open-science/about/the-fundamentals-of-open-access-and-open-research)
+\* Published: 25 March 2026
+# TrialMatchAI: an end-to-end AI-powered clinical trial recommendation system to streamline patient-to-trial matching
+\* [Majd Abdallah](#auth-Majd-Abdallah-Aff1-Aff2)[ORCID: orcid.org/0000-0002-8371-1793](https://orcid.org/0000-0002-8371-1793)[1](#Aff1),[2](#Aff2),
+\* [Sigve Nakken](#auth-Sigve-Nakken-Aff3-Aff4-Aff5)[ORCID: orcid.org/0000-0001-8468-2050](https://orcid.org/0000-0001-8468-2050)[3](#Aff3),[4](#Aff4),[5](#Aff5),
+\* [Mikaël Georges](#auth-Mika\_l-Georges-Aff1-Aff2)[1](#Aff1),[2](#Aff2),
+\* [Mariska Bierkens](#auth-Mariska-Bierkens-Aff6)[6](#Aff6),
+\* [Johanna Galvis](#auth-Johanna-Galvis-Aff1-Aff2)[ORCID: orcid.org/0000-0001-9852-3798](https://orcid.org/0000-0001-9852-3798)[1](#Aff1),[2](#Aff2),
+\* [Alexis Groppi](#auth-Alexis-Groppi-Aff1-Aff2)[ORCID: orcid.org/0000-0002-3341-8281](https://orcid.org/0000-0002-3341-8281)[1](#Aff1),[2](#Aff2),
+\* [Slim Karkar](#auth-Slim-Karkar-Aff1-Aff2)[1](#Aff1),[2](#Aff2),
+\* [Lana Meiqari](#auth-Lana-Meiqari-Aff6)[ORCID: orcid.org/0000-0001-9348-4830](https://orcid.org/0000-0001-9348-4830)[6](#Aff6),
+\* [Maria Alexandra Rujano](#auth-Maria\_Alexandra-Rujano-Aff7)[7](#Aff7),
+\* [Steve Canham](#auth-Steve-Canham-Aff7)[7](#Aff7),
+\* [Rodrigo Dienstmann](#auth-Rodrigo-Dienstmann-Aff8-Aff9)[8](#Aff8),[9](#Aff9),
+\* [Remond Fijneman](#auth-Remond-Fijneman-Aff6)[ORCID: orcid.org/0000-0003-2076-5521](https://orcid.org/0000-0003-2076-5521)[6](#Aff6),
+\* [Eivind Hovig](#auth-Eivind-Hovig-Aff3-Aff5)[ORCID: orcid.org/0000-0002-9103-1077](https://orcid.org/0000-0002-9103-1077)[3](#Aff3),[5](#Aff5),
+\* [Gerrit Meijer](#auth-Gerrit-Meijer-Aff6)[ORCID: orcid.org/0000-0003-0330-3130](https://orcid.org/0000-0003-0330-3130)[6](#Aff6) &
+\* …
+\* [Macha Nikolski](#auth-Macha-Nikolski-Aff1-Aff2)[ORCID: orcid.org/0000-0001-6059-577X](https://orcid.org/0000-0001-6059-577X)[1](#Aff1),[2](#Aff2)
+Show authors
+[\*Nature Communications\*](/ncomms)
+, Article number:  (2026)
+[Cite this article](#citeas)
+\* 4343 Accesses
+\* 10 Altmetric
+\* [Metrics details](/articles/s41467-026-70509-w/metrics)
+We are providing an unedited version of this manuscript to give early access to its
+findings. Before final publication, the manuscript will undergo further editing. Please note
+there may be errors present which affect the content, and all legal disclaimers apply.
+## Abstract
+Patient recruitment remains a major bottleneck in clinical trials, calling for scalable and automated solutions. We present TrialMatchAI, an AI-powered recommendation system that automates patient-to-trial matching by processing heterogeneous clinical data, including structured records and unstructured physician notes. Built on fine-tuned, open-source large language models (LLMs) within a retrieval-augmented generation framework, TrialMatchAI ensures transparency and reproducibility and maintains a lightweight deployment footprint suitable for clinical environments. The system normalizes biomedical entities, retrieves relevant trials using a hybrid search strategy combining lexical and semantic similarity, re-ranks results, and performs criterion-level eligibility assessments using medical Chain-of-Thought reasoning. This pipeline delivers explainable outputs with traceable decision rationales. In real-world validation, 92% of oncology patients had at least one relevant trial retrieved within the top 20 recommendations. Evaluation across synthetic and real clinical datasets confirmed state-of-the-art performance, with expert assessment validating over 90% accuracy in criterion-level eligibility classification - particularly excelling in biomarker-driven matches. Designed for modularity and privacy, TrialMatchAI supports Phenopackets-standardized data, enables secure local deployment, and allows seamless replacement of LLM components as more advanced models emerge. By enhancing efficiency, interpretability and offering lightweight, open-source deployment, TrialMatchAI provides a scalable solution for AI-driven clinical trial matching in precision medicine.
+## Data availability
+The data generated in this study have been deposited in the Zenodo repository dedicated to TrialMatchAI under accession code 15045515: . These include the fine-tuned models (low rank adapter format), the “Ideal Candidates” synthetic patient dataset and matching results, the expert-examined patient-criterion pairs, the curated and parsed clinical trial database, the results on the TREC benchmarks, and the dictionaries used for entity normalization. Source data are provided as a Source File with this paper. The synthetic datasets used in this study for the TREC 2021 and 2022 Clinical Trials tracks are available at  and . The lists of publicly accessible clinical trial identifiers used in the evaluation (ClinicalTrials.gov and CCMO) are provided in the Source Data file. The WIDE study data from the Netherlands Cancer Institute (NKI) are available under restricted access because they contain patient-level clinical information subject to privacy and institutional governance requirements. Access can be obtained by submitting a request through the Office Manager Knowledge Transfer & Contracting (KT&C) at NKI and completing the required data transfer/use agreements; requests are reviewed on a case-by-case basis. The expected response timeframe is approximately 3–6 months, and access is typically granted for one year (extensions may be requested). [Source data](/articles/s41467-026-70509-w#Sec39) are provided with this paper.
+## Code availability
+The TrialMatchAI source code is available under the MIT Licence on GitHub at . A citable archived release is available on Zenodo[80](/articles/s41467-026-70509-w#ref-CR80).
+## References
+1. Garraway, L. A., Verweij, J. & Ballman, K. V. Precision oncology: an overview. \*J. Clin. Oncol.\*\*\*31\*\*, 1803–1805 (2013).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Precision%20oncology%3A%20an%20overview&journal=J.%20Clin.%20Oncol.&volume=31&pages=1803-1805&publication\_year=2013&author=Garraway%2CLA&author=Verweij%2CJ&author=Ballman%2CKV)
+2. Dienstmann, R., Jang, I. S., Bot, B., Friend, S. & Guinney, J. Database of genomic biomarkers for cancer drugs and clinical targetability in solid tumors. \*Cancer Discov.\*\*\*5\*\*, 118–123 (2015).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Database%20of%20genomic%20biomarkers%20for%20cancer%20drugs%20and%20clinical%20targetability%20in%20solid%20tumors&journal=Cancer%20Discov.&volume=5&pages=118-123&publication\_year=2015&author=Dienstmann%2CR&author=Jang%2CIS&author=Bot%2CB&author=Friend%2CS&author=Guinney%2CJ)
+3. Briel, M. et al. A systematic review of discontinued trials suggested that most reasons for recruitment failure were preventable. \*J. Clin. Epidemiol.\*\*\*80\*\*, 8–15 (2016).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=A%20systematic%20review%20of%20discontinued%20trials%20suggested%20that%20most%20reasons%20for%20recruitment%20failure%20were%20preventable&journal=J.%20Clin.%20Epidemiol.&volume=80&pages=8-15&publication\_year=2016&author=Briel%2CM)
+4. Fogel, D. B. Factors associated with clinical trials that fail and opportunities for improving the likelihood of success: a review. \*Contemp. Clin. Trials Commun.\*\*\*11\*\*, 156–164 (2018).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Factors%20associated%20with%20clinical%20trials%20that%20fail%20and%20opportunities%20for%20improving%20the%20likelihood%20of%20success%3A%20a%20review&journal=Contemp.%20Clin.%20Trials%20Commun.&volume=11&pages=156-164&publication\_year=2018&author=Fogel%2CDB)
+5. Luchini, C., Lawlor, R. T., Milella, M. & Scarpa, A. Molecular tumor boards in clinical practice. \*Trends Cancer\*\*\*6\*\*, 738–744 (2020).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Molecular%20tumor%20boards%20in%20clinical%20practice&journal=Trends%20Cancer&volume=6&pages=738-744&publication\_year=2020&author=Luchini%2CC&author=Lawlor%2CRT&author=Milella%2CM&author=Scarpa%2CA)
+6. Malone, E. R., Oliva, M., Sabatini, P. J. B., Stockley, T. L. & Siu, L. L. Molecular profiling for precision cancer therapies. \*Genome Med.\*\*\*12\*\*, 8 (2020).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Molecular%20profiling%20for%20precision%20cancer%20therapies&journal=Genome%20Med.&volume=12&publication\_year=2020&author=Malone%2CER&author=Oliva%2CM&author=Sabatini%2CPJB&author=Stockley%2CTL&author=Siu%2CLL)
+7. Penberthy, L. T., Dahman, B. A., Petkov, V. I. & DeShazo, J. P. Effort required in eligibility screening for clinical trials. \*J. Oncol. Pract.\*\*\*8\*\*, 365–370 (2012).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Effort%20required%20in%20eligibility%20screening%20for%20clinical%20trials&journal=J.%20Oncol.%20Pract.&volume=8&pages=365-370&publication\_year=2012&author=Penberthy%2CLT&author=Dahman%2CBA&author=Petkov%2CVI&author=DeShazo%2CJP)
+8. Meystre, S. M. et al. Piloting an automated clinical trial eligibility surveillance and provider alert system based on artificial intelligence and standard data models. \*BMC Med. Res. Methodol.\*\*\*23\*\*, 88 (2023).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Piloting%20an%20automated%20clinical%20trial%20eligibility%20surveillance%20and%20provider%20alert%20system%20based%20on%20artificial%20intelligence%20and%20standard%20data%20models&journal=BMC%20Med.%20Res.%20Methodol.&volume=23&publication\_year=2023&author=Meystre%2CSM)
+9. Ni, Y. et al. Increasing the efficiency of trial-patient matching: automated clinical trial eligibility pre-screening for pediatric oncology patients. \*BMC Med. Inform. Decis. Mak.\*\*\*15\*\*, 28 (2015).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Increasing%20the%20efficiency%20of%20trial-patient%20matching%3A%20automated%20clinical%20trial%20eligibility%20pre-screening%20for%20pediatric%20oncology%20patients&journal=BMC%20Med.%20Inform.%20Decis.%20Mak.&volume=15&publication\_year=2015&author=Ni%2CY)
+10. Hassanzadeh, H., Karimi, S. & Nguyen, A. Matching patients to clinical trials using semantically enriched document representation. \*J. Biomed. Inform.\*\*\*105\*\*, 103406 (2020).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Matching%20patients%20to%20clinical%20trials%20using%20semantically%20enriched%20document%20representation&journal=J.%20Biomed.%20Inform.&volume=105&publication\_year=2020&author=Hassanzadeh%2CH&author=Karimi%2CS&author=Nguyen%2CA)
+11. Weng, C. et al. An integrated model for patient care and clinical trials (IMPACT) to support clinical research visit scheduling workflow for future learning health systems. \*J. Biomed. Inform.\*\*\*46\*\*, 642–652 (2013).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=An%20integrated%20model%20for%20patient%20care%20and%20clinical%20trials%20%28IMPACT%29%20to%20support%20clinical%20research%20visit%20scheduling%20workflow%20for%20future%20learning%20health%20systems&journal=J.%20Biomed.%20Inform.&volume=46&pages=642-652&publication\_year=2013&author=Weng%2CC)
+12. Jin, Q. et al. Matching patients to clinical trials with large language models. \*Nat. Commun.\*\*\*15\*\*, 9074 (2024).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Matching%20patients%20to%20clinical%20trials%20with%20large%20language%20models&journal=Nat.%20Commun.&volume=15&publication\_year=2024&author=Jin%2CQ)
+13. Gao, J., Xiao, C., Glass, L. M. & Sun, J. COMPOSE: cross-modal pseudo-Siamese network for patient trial matching. In \*Proceedings of the 26th ACM SIGKDD International Conference on Knowledge Discovery & Data Mining\*, 803–812 (ACM, 2020).
+14. Thadani, S. R., Weng, C., Bigger, J. T., Ennever, J. F. & Wajngurt, D. Electronic screening improves efficiency in clinical trial recruitment. \*J. Am. Med. Inform. Assoc.\*\*\*16\*\*, 869–873 (2009).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Electronic%20screening%20improves%20efficiency%20in%20clinical%20trial%20recruitment&journal=J.%20Am.%20Med.%20Inform.%20Assoc.&volume=16&pages=869-873&publication\_year=2009&author=Thadani%2CSR&author=Weng%2CC&author=Bigger%2CJT&author=Ennever%2CJF&author=Wajngurt%2CD)
+15. Zhang, X., Xiao, C., Glass, L. M. & Sun, J. DeepEnroll: patient-trial matching with deep embedding and entailment prediction. In \*Proceedings of The Web Conference 2020\*, 1029–1037 (Association for Computing Machinery, 2020).
+16. Weng, C. et al. EliXR: an approach to eligibility criteria extraction and representation. \*J. Am. Med. Inform. Assoc.\*\*\*18\*\*, i116–i124 (2011).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=EliXR%3A%20an%20approach%20to%20eligibility%20criteria%20extraction%20and%20representation&journal=J.%20Am.%20Med.%20Inform.%20Assoc.&volume=18&pages=i116-i124&publication\_year=2011&author=Weng%2CC)
+17. Yuan, C. et al. Criteria2Query: a natural language interface to clinical databases for cohort definition. \*J. Am. Med. Inform. Assoc.\*\*\*26\*\*, 294–305 (2019).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Criteria2Query%3A%20a%20natural%20language%20interface%20to%20clinical%20databases%20for%20cohort%20definition&journal=J.%20Am.%20Med.%20Inform.%20Assoc.&volume=26&pages=294-305&publication\_year=2019&author=Yuan%2CC)
+18. Shi, J., Graves, K. & Hurdle, J. F. A generic rule-based system for clinical trial patient selection. Preprint at  (2019).
+19. O’Regan, P. et al. Digital ECMT cancer trial matching tool: an open source research application to support oncologists in the identification of precision medicine clinical trials. \*JCO Clin. Cancer Inform.\*\*\*7\*\*, e2200137 (2023).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Digital%20ECMT%20cancer%20trial%20matching%20tool%3A%20an%20open%20source%20research%20application%20to%20support%20oncologists%20in%20the%20identification%20of%20precision%20medicine%20clinical%20trials&journal=JCO%20Clin.%20Cancer%20Inform.&volume=7&publication\_year=2023&author=O%E2%80%99Regan%2CP)
+20. Alzubaidi, L. et al. Review of deep learning: concepts, CNN architectures, challenges, applications, future directions. \*J. Big Data\*\*\*8\*\*, 53 (2021).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Review%20of%20deep%20learning%3A%20concepts%2C%20CNN%20architectures%2C%20challenges%2C%20applications%2C%20future%20directions&journal=J.%20Big%20Data&volume=8&publication\_year=2021&author=Alzubaidi%2CL)
+21. Klein, H. et al. MatchMiner: an open-source platform for cancer precision medicine. \*Npj Precis. Oncol.\*\*\*6\*\*, 69 (2022).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=MatchMiner%3A%20an%20open-source%20platform%20for%20cancer%20precision%20medicine&journal=Npj%20Precis.%20Oncol.&volume=6&publication\_year=2022&author=Klein%2CH)
+22. Rybinski, M., Kusa, W., Karimi, S. & Hanbury, A. Learning to match patients to clinical trials using large language models. \*J. Biomed. Inform.\*\*\*159\*\*, 104734 (2024).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Learning%20to%20match%20patients%20to%20clinical%20trials%20using%20large%20language%20models&journal=J.%20Biomed.%20Inform.&volume=159&publication\_year=2024&author=Rybinski%2CM&author=Kusa%2CW&author=Karimi%2CS&author=Hanbury%2CA)
+23. Vaswani, A. et al. Attention is all you need. Preprint at  (2023).
+24. Lee, J. et al. BioBERT: a pre-trained biomedical language representation model for biomedical text mining. \*Bioinformatics\*\*\*36\*\*, 1234–1240 (2020).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=BioBERT%3A%20a%20pre-trained%20biomedical%20language%20representation%20model%20for%20biomedical%20text%20mining&journal=Bioinformatics&volume=36&pages=1234-1240&publication\_year=2020&author=Lee%2CJ)
+25. Devlin, J., Chang, M.-W., Lee, K. & Toutanova, K. BERT: pre-training of deep bidirectional transformers for language understanding. Preprint at  (2019).
+26. Brown, T. et al. Language models are few-shot learners. \*Adv. Neural Inf. Process. Syst.\*\*\*33\*\*, 1877–1901 (2020).
+27. Meng, X. et al. The application of large language models in medicine: a scoping review. \*iScience\*\*\*27\*\*, 109713 (2024).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=The%20application%20of%20large%20language%20models%20in%20medicine%3A%20a%20scoping%20review&journal=iScience&volume=27&publication\_year=2024&author=Meng%2CX)
+28. Kaskovich, S. et al. Automated matching of patients to clinical trials: a patient-centric natural language processing approach for pediatric leukemia. \*JCO Clin. Cancer Inform.\*\*\*7\*\*, e2300009 (2023).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Automated%20matching%20of%20patients%20to%20clinical%20trials%3A%20a%20patient-centric%20natural%20language%20processing%20approach%20for%20pediatric%20leukemia&journal=JCO%20Clin.%20Cancer%20Inform.&volume=7&publication\_year=2023&author=Kaskovich%2CS)
+29. Gueguen, L. et al. A prospective pragmatic evaluation of automatic trial matching tools in a molecular tumor board. \*Npj Precis. Oncol.\*\*\*9\*\*, 28 (2025).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=A%20prospective%20pragmatic%20evaluation%20of%20automatic%20trial%20matching%20tools%20in%20a%20molecular%20tumor%20board&journal=Npj%20Precis.%20Oncol.&volume=9&publication\_year=2025&author=Gueguen%2CL)
+30. de Kok, J. W. T. M. et al. A guide to sharing open healthcare data under the General Data Protection Regulation. \*Sci. Data\*\*\*10\*\*, 404 (2023).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=A%20guide%20to%20sharing%20open%20healthcare%20data%20under%20the%20General%20Data%20Protection%20Regulation&journal=Sci.%20Data&volume=10&publication\_year=2023&author=Kok%2CJWTM)
+31. Li, X. et al. LLM-Match: an open-sourced patient matching model based on large language models and retrieval-augmented generation. Preprint at  (2025).
+32. Lin, J., Xu, H., Wang, Z., Wang, S. & Sun, J. Panacea: a foundation model for clinical trial search, summarization, design, and recruitment. Preprint at  (2024).
+33. Lewis, P. et al. Retrieval-augmented generation for knowledge-intensive NLP tasks. Preprint at  (2021).
+34. Jacobsen, J. O. B. et al. The GA4GH Phenopacket schema defines a computable representation of clinical data. \*Nat. Biotechnol.\*\*\*40\*\*, 817–820 (2022).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=The%20GA4GH%20Phenopacket%20schema%20defines%20a%20computable%20representation%20of%20clinical%20data&journal=Nat.%20Biotechnol.&volume=40&pages=817-820&publication\_year=2022&author=Jacobsen%2CJOB)
+35. Roberts, K., Demner-Fushman, D., Voorhees, E. M., Bedrick, S. & Hersh, W. R. Overview of the TREC 2021 Clinical Trials Track. In \*Proc. 30th Text REtrieval Conference\* (TREC, 2021).
+36. Roberts, K., Demner-Fushman, D., Voorhees, E. M., Bedrick, S. & Hersh, W. R. Overview of the TREC 2022 Clinical Trials Track. In \*Proc. 31sr Text REtrieval Conference\* (TREC, 2022).
+37. Samsom, K. G. et al. Study protocol: whole genome sequencing implementation in standard diagnostics for every cancer patient (WIDE). \*BMC Med. Genomics\*\*\*13\*\*, 169 (2020).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Study%20protocol%3A%20whole%20genome%20sequencing%20implementation%20in%20standard%20diagnostics%20for%20every%20cancer%20patient%20%28WIDE%29&journal=BMC%20Med.%20Genomics&volume=13&publication\_year=2020&author=Samsom%2CKG)
+38. Wei, J. et al. Chain-of-thought prompting elicits reasoning in large language models. \*Adv. Neural Inf. Process. Syst.\*\*\*35\*\*, 24824–24837 (2022).
+39. Ayaz, M., Pasha, M. F., Alzahrani, M. Y., Budiarto, R. & Stiawan, D. The fast health interoperability resources (FHIR) standard: systematic literature review of implementations, applications, challenges and opportunities. \*JMIR Med. Inform.\*\*\*9\*\*, e21929 (2021).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=The%20fast%20health%20interoperability%20resources%20%28FHIR%29%20standard%3A%20systematic%20literature%20review%20of%20implementations%2C%20applications%2C%20challenges%20and%20opportunities&journal=JMIR%20Med.%20Inform.&volume=9&publication\_year=2021&author=Ayaz%2CM&author=Pasha%2CMF&author=Alzahrani%2CMY&author=Budiarto%2CR&author=Stiawan%2CD)
+40. Robertson, S. E., Walker, S., Jones, S., Hancock-Beaulieu, M. M. & Gatford, M. Okapi at TREC-3. In \*Proc. Third Text REtrieval Conference (TREC-3)\*, NIST Spec. Publ. 500-225, 109–126 (1995).
+41. Robertson, S. & Zaragoza, H. The probabilistic relevance framework: BM25 and beyond. \*Found. Trends Inf. Retr.\*\*\*3\*\*, 333–389 (2009).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=The%20probabilistic%20relevance%20framework%3A%20BM25%20and%20beyond&journal=Found.%20Trends%20Inf.%20Retr.&volume=3&pages=333-389&publication\_year=2009&author=Robertson%2CS&author=Zaragoza%2CH)
+42. Malkov, Y. A. & Yashunin, D. A. Efficient and robust approximate nearest neighbor search using hierarchical navigable small world graphs. \*IEEE Trans. Pattern Anal. Mach. Intell.\*\*\*42\*\*, 824–836 (2020).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Efficient%20and%20robust%20approximate%20nearest%20neighbor%20search%20using%20hierarchical%20navigable%20small%20world%20graphs&journal=IEEE%20Trans.%20Pattern%20Anal.%20Mach.%20Intell.&volume=42&pages=824-836&publication\_year=2020&author=Malkov%2CYA&author=Yashunin%2CDA)
+43. Team, G. et al. Gemma 2: improving open language models at a practical size. Preprint at  (2024).
+44. Abdin, M. et al. Phi-4 technical report. Preprint at  (2024).
+45. Sung, M. et al. BERN2: an advanced neural biomedical named entity recognition and normalization tool. \*Bioinformatics\*\*\*38\*\*, 4837–4839 (2022).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=BERN2%3A%20an%20advanced%20neural%20biomedical%20named%20entity%20recognition%20and%20normalization%20tool&journal=Bioinformatics&volume=38&pages=4837-4839&publication\_year=2022&author=Sung%2CM)
+46. Sung, M., Jeon, H., Lee, J. & Kang, J. Biomedical entity representations with synonym marginalization. In \*Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics\* (eds Jurafsky, D. et al.) 3641–3650  (Association for Computational Linguistics, Online, 2020).
+47. Lewis, P., Ott, M., Du, J. & Stoyanov, V. Pretrained language models for biomedical and clinical tasks: understanding and extending the state-of-the-art. In \*Proceedings of the 3rd Clinical Natural Language Processing Workshop\* (eds Rumshisky, A. et al.) 146–157  (Association for Computational Linguistics, Online, 2020).
+48. Zaratiana, U., Tomeh, N., Holat, P. & Charnois, T. GLiNER: generalist model for named entity recognition using bidirectional transformer. In \*Proc. Conf. North Am. Chapter Assoc. Comput. Linguist. Hum. Lang. Technol.\*\*\*1\*\*, 5364–5376 (2024).
+49. Peng, H. et al. Biomedical named entity normalization via interaction-based synonym marginalization. \*J. Biomed. Inform.\*\*\*136\*\*, 104238 (2022).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Biomedical%20named%20entity%20normalization%20via%20interaction-based%20synonym%20marginalization&journal=J.%20Biomed.%20Inform.&volume=136&publication\_year=2022&author=Peng%2CH)
+50. Chen, J. et al. M3-embedding: multi-linguality, multi-functionality, multi-granularity text embeddings through self-knowledge distillation. \*Findings of the Association for Computational Linguistics\*, 2318–2335 (ACL, 2024).
+51. Gormley, C. & Tong, Z. \*Elasticsearch: The Definitive Guide\* (O’Reilly Media, Inc., 2015).
+52. Durden, K. et al. Provider motivations and barriers to cancer clinical trial screening, referral, and operations: findings from a survey. \*Cancer\*\*\*130\*\*, 68–76 (2024).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Provider%20motivations%20and%20barriers%20to%20cancer%20clinical%20trial%20screening%2C%20referral%2C%20and%20operations%3A%20findings%20from%20a%20survey&journal=Cancer&volume=130&pages=68-76&publication\_year=2024&author=Durden%2CK)
+53. Davis, S. ICH GCP E6 has arrived: are we ready? \*Perspect. Clin. Res.\*\*\*16\*\*, 171–172 (2025).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=ICH%20GCP%20E6%20has%20arrived%3A%20are%20we%20ready%3F&journal=Perspect.%20Clin.%20Res.&volume=16&pages=171-172&publication\_year=2025&author=Davis%2CS)
+54. Dexheimer, J. W. et al. A time-and-motion study of clinical trial eligibility screening in a pediatric emergency department. \*Pediatr. Emerg. Care\*\*\*35\*\*, 868–873 (2019).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=A%20time-and-motion%20study%20of%20clinical%20trial%20eligibility%20screening%20in%20a%20pediatric%20emergency%20department&journal=Pediatr.%20Emerg.%20Care&volume=35&pages=868-873&publication\_year=2019&author=Dexheimer%2CJW)
+55. Yu, C. et al. A survey on agent workflow - status and future. In \*2025 8th International Conference on Artificial Intelligence and Big Data (ICAIBD)\* 770–781  (2025).
+56. Xu, X. et al. A survey on knowledge distillation of large language models. Preprint at  (2024).
+57. Nievas, M., Basu, A., Wang, Y. & Singh, H. Distilling large language models for matching patients to clinical trials. \*J. Am. Med. Inform. Assoc.\*\*\*31\*\*, 1953–1963 (2024).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Distilling%20large%20language%20models%20for%20matching%20patients%20to%20clinical%20trials&journal=J.%20Am.%20Med.%20Inform.%20Assoc.&volume=31&pages=1953-1963&publication\_year=2024&author=Nievas%2CM&author=Basu%2CA&author=Wang%2CY&author=Singh%2CH)
+58. Schafer, J. B., Frankowski, D., Herlocker, J. & Sen, S. Collaborative Filtering Recommender Systems. In \*The Adaptive Web: Methods and Strategies of Web Personalization\* (eds Brusilovsky, P. et al.) 291–324  (Springer, Berlin, Heidelberg, 2007).
+59. Kundra, R. et al. OncoTree: a cancer classification system for precision oncology. \*JCO Clin. Cancer Inform.\*\*\*5\*\*, 221–230 (2021).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=OncoTree%3A%20a%20cancer%20classification%20system%20for%20precision%20oncology&journal=JCO%20Clin.%20Cancer%20Inform.&volume=5&pages=221-230&publication\_year=2021&author=Kundra%2CR)
+60. Huiskens, J. et al. From registration to publication: a study on Dutch academic randomized controlled trials. \*Res. Synth. Methods\*\*\*11\*\*, 218–226 (2020).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=From%20registration%20to%20publication%3A%20a%20study%20on%20Dutch%20academic%20randomized%20controlled%20trials&journal=Res.%20Synth.%20Methods&volume=11&pages=218-226&publication\_year=2020&author=Huiskens%2CJ)
+61. Gallifant, J. et al. Peer review of GPT-4 technical report and systems card. \*PLoS Digit. Health\*\*\*3\*\*, e0000417 (2024).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Peer%20review%20of%20GPT-4%20technical%20report%20and%20systems%20card&journal=PLoS%20Digit.%20Health&volume=3&publication\_year=2024&author=Gallifant%2CJ)
+62. Biedermann, P. et al. Standardizing registry data to the OMOP Common Data Model: experience from three pulmonary hypertension databases. \*BMC Med. Res. Methodol.\*\*\*21\*\*, 238 (2021).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Standardizing%20registry%20data%20to%20the%20OMOP%20Common%20Data%20Model%3A%20experience%20from%20three%20pulmonary%20hypertension%20databases&journal=BMC%20Med.%20Res.%20Methodol.&volume=21&publication\_year=2021&author=Biedermann%2CP)
+63. Canham, S. & Ohmann, C. A metadata schema for data objects in clinical research. \*Trials\*\*\*17\*\*, 557 (2016).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=A%20metadata%20schema%20for%20data%20objects%20in%20clinical%20research&journal=Trials&volume=17&publication\_year=2016&author=Canham%2CS&author=Ohmann%2CC)
+64. Hamosh, A., Scott, A. F., Amberger, J., Valle, D. & McKusick, V. A. Online mendelian inheritance in man (OMIM). \*Hum. Mutat.\*\*\*15\*\*, 57–61 (2000).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Online%20mendelian%20inheritance%20in%20man%20%28OMIM%29&journal=Hum.%20Mutat.&volume=15&pages=57-61&publication\_year=2000&author=Hamosh%2CA&author=Scott%2CAF&author=Amberger%2CJ&author=Valle%2CD&author=McKusick%2CVA)
+65. Degtyarenko, K. et al. ChEBI: a database and ontology for chemical entities of biological interest. \*Nucleic Acids Res.\*\*\*36\*\*, D344–D350 (2008).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=ChEBI%3A%20a%20database%20and%20ontology%20for%20chemical%20entities%20of%20biological%20interest&journal=Nucleic%20Acids%20Res.&volume=36&pages=D344-D350&publication\_year=2008&author=Degtyarenko%2CK)
+66. Meehan, T. F. et al. Logical development of the cell ontology. \*BMC Bioinforma.\*\*\*12\*\*, 6 (2011).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Logical%20development%20of%20the%20cell%20ontology&journal=BMC%20Bioinforma.&volume=12&publication\_year=2011&author=Meehan%2CTF)
+67. Brown, G. R. et al. Gene: a gene-centered information resource at NCBI. \*Nucleic Acids Res.\*\*\*43\*\*, D36–D42 (2015).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Gene%3A%20a%20gene-centered%20information%20resource%20at%20NCBI&journal=Nucleic%20Acids%20Res.&volume=43&pages=D36-D42&publication\_year=2015&author=Brown%2CGR)
+68. Bodenreider, O. The unified medical language system (UMLS): integrating biomedical terminology. \*Nucleic Acids Res.\*\*\*32\*\*, D267–D270 (2004).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=The%20unified%20medical%20language%20system%20%28UMLS%29%3A%20integrating%20biomedical%20terminology&journal=Nucleic%20Acids%20Res.&volume=32&pages=D267-D270&publication\_year=2004&author=Bodenreider%2CO)
+69. Chen, J. et al. Towards medical complex reasoning with LLMs through verifiable medical problems. \*Findings of the Association for Computational Linguistics\*, 14558–14575 (ACL, 2025).
+70. Smith, L. et al. Overview of BioCreative II gene mention recognition. \*Genome Biol.\*\*\*9\*\*, S2 (2008).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Overview%20of%20BioCreative%20II%20gene%20mention%20recognition&journal=Genome%20Biol.&volume=9&publication\_year=2008&author=Smith%2CL)
+71. Krallinger, M. et al. The CHEMDNER corpus of chemicals and drugs and its annotation principles. \*J. Cheminform.\*\*\*7\*\*, S2 (2015).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=The%20CHEMDNER%20corpus%20of%20chemicals%20and%20drugs%20and%20its%20annotation%20principles&journal=J.%20Cheminform.&volume=7&publication\_year=2015&author=Krallinger%2CM)
+72. Caufield, J. H. et al. A reference set of curated biomedical data and metadata from clinical case reports. \*Sci. Data\*\*\*5\*\*, 180258 (2018).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=A%20reference%20set%20of%20curated%20biomedical%20data%20and%20metadata%20from%20clinical%20case%20reports&journal=Sci.%20Data&volume=5&publication\_year=2018&author=Caufield%2CJH)
+73. Kim, J.-D., Ohta, T., Tsuruoka, Y., Tateisi, Y. & Collier, N. Introduction to the bio-entity recognition task at JNLPBA. In \*Proceedings of the International Joint Workshop on Natural Language Processing in Biomedicine and its Applications - JNLPBA ’04\* 70  (Association for Computational Linguistics, Geneva, Switzerland, 2004).
+74. Li, J. et al. BioCreative V CDR task corpus: a resource for chemical disease relation extraction. \*Database J. Biol. Databases Curation\*\*\*2016\*\*, baw068 (2016).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=BioCreative%20V%20CDR%20task%20corpus%3A%20a%20resource%20for%20chemical%20disease%20relation%20extraction&journal=Database%20J.%20Biol.%20Databases%20Curation&volume=2016&publication\_year=2016&author=Li%2CJ)
+75. Wei, C.-H. et al. tmVar 2.0: integrating genomic variant information from literature with dbSNP and ClinVar for precision medicine. \*Bioinforma. Oxf. Engl.\*\*\*34\*\*, 80–87 (2018).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=tmVar%202.0%3A%20integrating%20genomic%20variant%20information%20from%20literature%20with%20dbSNP%20and%20ClinVar%20for%20precision%20medicine&journal=Bioinforma.%20Oxf.%20Engl.&volume=34&pages=80-87&publication\_year=2018&author=Wei%2CC-H)
+76. Doğan, R. I., Leaman, R. & Lu, Z. NCBI disease corpus: a resource for disease name recognition and concept normalization. \*J. Biomed. Inform.\*\*\*47\*\*, 1–10 (2014).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=NCBI%20disease%20corpus%3A%20a%20resource%20for%20disease%20name%20recognition%20and%20concept%20normalization&journal=J.%20Biomed.%20Inform.&volume=47&pages=1-10&publication\_year=2014&author=Do%C4%9Fan%2CRI&author=Leaman%2CR&author=Lu%2CZ)
+77. Dettmers, T., Pagnoni, A., Holtzman, A. & Zettlemoyer, L. QLoRA: efficient finetuning of quantized LLMs. \*Adv. Neural Inf. Process. Syst.\* 36 (2023).
+78. Romanov, A. & Shivade, C. Lessons from natural language inference in the clinical domain. Preprint at  (2018).
+79. Parthasarathy, V. B., Zafar, A., Khan, A. & Shahid, A. The ultimate guide to fine-tuning LLMs from basics to breakthroughs: an exhaustive review of technologies, research, best practices, applied research challenges and opportunities. Preprint at  (2024).
+80. Abdallah, M., Georges, M. & Nikolski, M. TrialMatchAI: an end-to-end AI-powered clinical trial recommendation system to streamline patient-to-trial matching. cbib/TrialMatchAI.  (2026).
+[Download references](https://citation-needed.springer.com/v2/references/10.1038/s41467-026-70509-w?format=refman&flavour=references)
+## Acknowledgements
+This work was supported by the European Union under the EOSC4Cancer project, funded by the European Research Executive Agency (REA) under the European Union’s Horizon Europe program (grant agreement ID:101058427; M.A., M.G., M.A.R., S.C., S.N., M.N., R.D., R.F., G.M., M.B., L.M., E.H., J.G., A.G., and S.K.). The grant supported research costs and personnel, including M.A. This work also benefited from access to the computing resources of the “CALI 3” cluster. This cluster is operated and hosted by the University of Limoges. It is part of the HPC network in the Nouvelle-Aquitaine Region in France, funded by the French government and the Region.
+## Author information
+### Authors and Affiliations
+1. University of Bordeaux, CNRS, IBGC UMR 5095, Bordeaux, France
+Majd Abdallah, Mikaël Georges, Johanna Galvis, Alexis Groppi, Slim Karkar & Macha Nikolski
+2. University of Bordeaux, Bordeaux Bioinformatics Center, Bordeaux, France
+Majd Abdallah, Mikaël Georges, Johanna Galvis, Alexis Groppi, Slim Karkar & Macha Nikolski
+3. Department of Tumor Biology, Institute of Cancer Research, The Norwegian Radium Hospital, Oslo University Hospital, Oslo, Norway
+Sigve Nakken & Eivind Hovig
+4. Centre for Cancer Cell Reprogramming, Institute of Clinical Medicine, Faculty of Medicine, University of Oslo, Oslo, Norway
+Sigve Nakken
+5. Department of Informatics, University of Oslo, Oslo, Norway
+Sigve Nakken & Eivind Hovig
+6. Department of Pathology, The Netherlands Cancer Institute, Amsterdam, The Netherlands
+Mariska Bierkens, Lana Meiqari, Remond Fijneman & Gerrit Meijer
+7. European Clinical Research Infrastructure Network (ECRIN), Boulevard Saint Jacques 30, Paris, France
+Maria Alexandra Rujano & Steve Canham
+8. Oncology Data Science (ODysSey) Group, Vall d’Hebron Institute of Oncology (VHIO), Barcelona, Spain
+Rodrigo Dienstmann
+9. University of Vic - Central University of Catalonia, Barcelona, Spain
+Rodrigo Dienstmann
+Authors
+1. Majd Abdallah
+[View author publications](/search?author=Majd%20Abdallah)
+Search author on:[PubMed](https://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=search&term=Majd%20Abdallah)[Google Scholar](https://scholar.google.co.uk/scholar?as\_q=#=10&btnG=Search+Scholar&as\_epq=&as\_oq=&as\_eq=&as\_occt=any&as\_sauthors=%22Majd%20Abdallah%22&as\_publication=&as\_ylo=&as\_yhi=&as\_allsubj=all&hl=en)
+2. Sigve Nakken
+[View author publications](/search?author=Sigve%20Nakken)
+Search author on:[PubMed](https://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=search&term=Sigve%20Nakken)[Google Scholar](https://scholar.google.co.uk/scholar?as\_q=#=10&btnG=Search+Scholar&as\_epq=&as\_oq=&as\_eq=&as\_occt=any&as\_sauthors=%22Sigve%20Nakken%22&as\_publication=&as\_ylo=&as\_yhi=&as\_allsubj=all&hl=en)
+3. Mikaël Georges
+[View author publications](/search?author=Mika%C3%ABl%20Georges)
+Search author on:[PubMed](https://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=search&term=Mika%C3%ABl%20Georges)[Google Scholar](https://scholar.google.co.uk/scholar?as\_q=#=10&btnG=Search+Scholar&as\_epq=&as\_oq=&as\_eq=&as\_occt=any&as\_sauthors=%22Mika%C3%ABl%20Georges%22&as\_publication=&as\_ylo=&as\_yhi=&as\_allsubj=all&hl=en)
+4. Mariska Bierkens
+[View author publications](/search?author=Mariska%20Bierkens)
+Search author on:[PubMed](https://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=search&term=Mariska%20Bierkens)[Google Scholar](https://scholar.google.co.uk/scholar?as\_q=#=10&btnG=Search+Scholar&as\_epq=&as\_oq=&as\_eq=&as\_occt=any&as\_sauthors=%22Mariska%20Bierkens%22&as\_publication=&as\_ylo=&as\_yhi=&as\_allsubj=all&hl=en)
+5. Johanna Galvis
+[View author publications](/search?author=Johanna%20Galvis)
+Search author on:[PubMed](https://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=search&term=Johanna%20Galvis)[Google Scholar](https://scholar.google.co.uk/scholar?as\_q=#=10&btnG=Search+Scholar&as\_epq=&as\_oq=&as\_eq=&as\_occt=any&as\_sauthors=%22Johanna%20Galvis%22&as\_publication=&as\_ylo=&as\_yhi=&as\_allsubj=all&hl=en)
+6. Alexis Groppi
+[View author publications](/search?author=Alexis%20Groppi)
+Search author on:[PubMed](https://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=search&term=Alexis%20Groppi)[Google Scholar](https://scholar.google.co.uk/scholar?as\_q=#=10&btnG=Search+Scholar&as\_epq=&as\_oq=&as\_eq=&as\_occt=any&as\_sauthors=%22Alexis%20Groppi%22&as\_publication=&as\_ylo=&as\_yhi=&as\_allsubj=all&hl=en)
+7. Slim Karkar
+[View author publications](/search?author=Slim%20Karkar)
+Search author on:[PubMed](https://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=search&term=Slim%20Karkar)[Google Scholar](https://scholar.google.co.uk/scholar?as\_q=#=10&btnG=Search+Scholar&as\_epq=&as\_oq=&as\_eq=&as\_occt=any&as\_sauthors=%22Slim%20Karkar%22&as\_publication=&as\_ylo=&as\_yhi=&as\_allsubj=all&hl=en)
+8. Lana Meiqari
+[View author publications](/search?author=Lana%20Meiqari)
+Search author on:[PubMed](https://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=search&term=Lana%20Meiqari)[Google Scholar](https://scholar.google.co.uk/scholar?as\_q=#=10&btnG=Search+Scholar&as\_epq=&as\_oq=&as\_eq=&as\_occt=any&as\_sauthors=%22Lana%20Meiqari%22&as\_publication=&as\_ylo=&as\_yhi=&as\_allsubj=all&hl=en)
+9. Maria Alexandra Rujano
+[View author publications](/search?author=Maria%20Alexandra%20Rujano)
+Search author on:[PubMed](https://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=search&term=Maria%20Alexandra%20Rujano)[Google Scholar](https://scholar.google.co.uk/scholar?as\_q=#=10&btnG=Search+Scholar&as\_epq=&as\_oq=&as\_eq=&as\_occt=any&as\_sauthors=%22Maria%20Alexandra%20Rujano%22&as\_publication=&as\_ylo=&as\_yhi=&as\_allsubj=all&hl=en)
+10. Steve Canham
+[View author publications](/search?author=Steve%20Canham)
+Search author on:[PubMed](https://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=search&term=Steve%20Canham)[Google Scholar](https://scholar.google.co.uk/scholar?as\_q=#=10&btnG=Search+Scholar&as\_epq=&as\_oq=&as\_eq=&as\_occt=any&as\_sauthors=%22Steve%20Canham%22&as\_publication=&as\_ylo=&as\_yhi=&as\_allsubj=all&hl=en)
+11. Rodrigo Dienstmann
+[View author publications](/search?author=Rodrigo%20Dienstmann)
+Search author on:[PubMed](https://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=search&term=Rodrigo%20Dienstmann)[Google Scholar](https://scholar.google.co.uk/scholar?as\_q=#=10&btnG=Search+Scholar&as\_epq=&as\_oq=&as\_eq=&as\_occt=any&as\_sauthors=%22Rodrigo%20Dienstmann%22&as\_publication=&as\_ylo=&as\_yhi=&as\_allsubj=all&hl=en)
+12. Remond Fijneman
+[View author publications](/search?author=Remond%20Fijneman)
+Search author on:[PubMed](https://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=search&term=Remond%20Fijneman)[Google Scholar](https://scholar.google.co.uk/scholar?as\_q=#=10&btnG=Search+Scholar&as\_epq=&as\_oq=&as\_eq=&as\_occt=any&as\_sauthors=%22Remond%20Fijneman%22&as\_publication=&as\_ylo=&as\_yhi=&as\_allsubj=all&hl=en)
+13. Eivind Hovig
+[View author publications](/search?author=Eivind%20Hovig)
+Search author on:[PubMed](https://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=search&term=Eivind%20Hovig)[Google Scholar](https://scholar.google.co.uk/scholar?as\_q=#=10&btnG=Search+Scholar&as\_epq=&as\_oq=&as\_eq=&as\_occt=any&as\_sauthors=%22Eivind%20Hovig%22&as\_publication=&as\_ylo=&as\_yhi=&as\_allsubj=all&hl=en)
+14. Gerrit Meijer
+[View author publications](/search?author=Gerrit%20Meijer)
+Search author on:[PubMed](https://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=search&term=Gerrit%20Meijer)[Google Scholar](https://scholar.google.co.uk/scholar?as\_q=#=10&btnG=Search+Scholar&as\_epq=&as\_oq=&as\_eq=&as\_occt=any&as\_sauthors=%22Gerrit%20Meijer%22&as\_publication=&as\_ylo=&as\_yhi=&as\_allsubj=all&hl=en)
+15. Macha Nikolski
+[View author publications](/search?author=Macha%20Nikolski)
+Search author on:[PubMed](https://www.ncbi.nlm.nih.gov/entrez/query.fcgi?cmd=search&term=Macha%20Nikolski)[Google Scholar](https://scholar.google.co.uk/scholar?as\_q=#=10&btnG=Search+Scholar&as\_epq=&as\_oq=&as\_eq=&as\_occt=any&as\_sauthors=%22Macha%20Nikolski%22&as\_publication=&as\_ylo=&as\_yhi=&as\_allsubj=all&hl=en)
+### Contributions
+M.A. developed the TrialMatchAI system and performed the main experiments. M.A. and M.G. conducted the benchmarking analyses. M.A.R. and S.C. designed the inclusion/exclusion criteria splitting methodology. M.A., S.N., and M.N. performed data analysis and interpretation. M.A., M.N., R.D., R.F., and G.M. contributed to the analysis and interpretation of the real patient’s cohort data, with M.B. and L.M. supporting curation and clinical context. J.G. assessed the clinical plausibility of the generated eligibility rationales. A.G. and S.K. contributed to system design choices and implementation discussions. E.H. contributed to scientific discussion and project oversight. M.N. supervised and directed the project. M.A. and M.N. wrote the manuscript. All authors reviewed and approved the final manuscript.
+### Corresponding authors
+Correspondence to
+[Majd Abdallah](mailto:abdallahmajd7@gmail.com) or [Macha Nikolski](mailto:macha.nikolski@u-bordeaux.fr).
+## Ethics declarations
+### Competing interests
+The authors declare no competing interests.
+## Peer review
+### Peer review information
+\*Nature Communications\* thanks Kirk Roberts, and the other, anonymous, reviewer(s) for their contribution to the peer review of this work. A peer review file is available.
+## Additional information
+\*\*Publisher’s note\*\* Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.
+## Supplementary information
+### [Supplementary Information (download PDF )](https://static-content.springer.com/esm/art%3A10.1038%2Fs41467-026-70509-w/MediaObjects/41467\_2026\_70509\_MOESM1\_ESM.pdf)
+### [Peer Review File (download PDF )](https://static-content.springer.com/esm/art%3A10.1038%2Fs41467-026-70509-w/MediaObjects/41467\_2026\_70509\_MOESM2\_ESM.pdf)
+### [Description of Additional Supplementary Files (download PDF )](https://static-content.springer.com/esm/art%3A10.1038%2Fs41467-026-70509-w/MediaObjects/41467\_2026\_70509\_MOESM3\_ESM.pdf)
+### [Supplementary Data 1-7 (download XLSX )](https://static-content.springer.com/esm/art%3A10.1038%2Fs41467-026-70509-w/MediaObjects/41467\_2026\_70509\_MOESM4\_ESM.xlsx)
+### [Reporting Summary (download PDF )](https://static-content.springer.com/esm/art%3A10.1038%2Fs41467-026-70509-w/MediaObjects/41467\_2026\_70509\_MOESM5\_ESM.pdf)
+## Source data
+### [Source Data (download XLSX )](https://static-content.springer.com/esm/art%3A10.1038%2Fs41467-026-70509-w/MediaObjects/41467\_2026\_70509\_MOESM6\_ESM.xlsx)
+## Rights and permissions
+\*\*Open Access\*\* This article is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License, which permits any non-commercial use, sharing, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if you modified the licensed material. You do not have permission under this licence to share adapted material derived from this article or parts of it. The images or other third party material in this article are included in the article’s Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article’s Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit .
+[Reprints and permissions](https://s100.copyright.com/AppDispatchServlet?title=TrialMatchAI%3A%20an%20end-to-end%20AI-powered%20clinical%20trial%20recommendation%20system%20to%20streamline%20patient-to-trial%20matching&author=Majd%20Abdallah%20et%20al&contentID=10.1038%2Fs41467-026-70509-w&copyright=The%20Author%28s%29&publication=2041-1723&publicationDate=2026-03-25&publisherName=SpringerNature&orderBeanReset=true&oa=CC%20BY-NC-ND)
+## About this article
+### Cite this article
+Abdallah, M., Nakken, S., Georges, M. \*et al.\* TrialMatchAI: an end-to-end AI-powered clinical trial recommendation system to streamline patient-to-trial matching.
+\*Nat Commun\* (2026). https://doi.org/10.1038/s41467-026-70509-w
+[Download citation](https://citation-needed.springer.com/v2/references/10.1038/s41467-026-70509-w?format=refman&flavour=citation)
+\* Received: 26 March 2025
+\* Accepted: 27 February 2026
+\* Published: 25 March 2026
+\* DOI: https://doi.org/10.1038/s41467-026-70509-w
+### Share this article
+Anyone you share the following link with will be able to read this content:
+Get shareable link
+Sorry, a shareable link is not currently available for this article.
+Copy shareable link to clipboard
+Provided by the Springer Nature SharedIt content-sharing initiative
+### Subjects
+\* [Cancer screening](/subjects/cancer-screening)
+\* [Clinical trials](/subjects/clinical-trials)
+\* [Machine learning](/subjects/machine-learning)
+\* [Oncology](/subjects/oncology)
+[Download PDF](/articles/s41467-026-70509-w\_reference.pdf)
+## Associated content
+Collection
+### [Applications of Artificial Intelligence in Cancer](https://www.nature.com/collections/ahbeeijjfb)
+\* Sections
+\* References
+\* [Abstract](#Abs1)
+\* [Data availability](#data-availability)
+\* [Code availability](#code-availability)
+\* [References](#Bib1)
+\* [Acknowledgements](#Ack1)
+\* [Author information](#author-information)
+\* [Ethics declarations](#ethics)
+\* [Peer review](#peer-review)
+\* [Additional information](#additional-information)
+\* [Supplementary information](#Sec38)
+\* [Source data](#Sec39)
+\* [Rights and permissions](#rightslink)
+\* [About this article](#article-info)
+Advertisement
+1. Garraway, L. A., Verweij, J. & Ballman, K. V. Precision oncology: an overview. \*J. Clin. Oncol.\*\*\*31\*\*, 1803–1805 (2013).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Precision%20oncology%3A%20an%20overview&journal=J.%20Clin.%20Oncol.&volume=31&pages=1803-1805&publication\_year=2013&author=Garraway%2CLA&author=Verweij%2CJ&author=Ballman%2CKV)
+2. Dienstmann, R., Jang, I. S., Bot, B., Friend, S. & Guinney, J. Database of genomic biomarkers for cancer drugs and clinical targetability in solid tumors. \*Cancer Discov.\*\*\*5\*\*, 118–123 (2015).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Database%20of%20genomic%20biomarkers%20for%20cancer%20drugs%20and%20clinical%20targetability%20in%20solid%20tumors&journal=Cancer%20Discov.&volume=5&pages=118-123&publication\_year=2015&author=Dienstmann%2CR&author=Jang%2CIS&author=Bot%2CB&author=Friend%2CS&author=Guinney%2CJ)
+3. Briel, M. et al. A systematic review of discontinued trials suggested that most reasons for recruitment failure were preventable. \*J. Clin. Epidemiol.\*\*\*80\*\*, 8–15 (2016).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=A%20systematic%20review%20of%20discontinued%20trials%20suggested%20that%20most%20reasons%20for%20recruitment%20failure%20were%20preventable&journal=J.%20Clin.%20Epidemiol.&volume=80&pages=8-15&publication\_year=2016&author=Briel%2CM)
+4. Fogel, D. B. Factors associated with clinical trials that fail and opportunities for improving the likelihood of success: a review. \*Contemp. Clin. Trials Commun.\*\*\*11\*\*, 156–164 (2018).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Factors%20associated%20with%20clinical%20trials%20that%20fail%20and%20opportunities%20for%20improving%20the%20likelihood%20of%20success%3A%20a%20review&journal=Contemp.%20Clin.%20Trials%20Commun.&volume=11&pages=156-164&publication\_year=2018&author=Fogel%2CDB)
+5. Luchini, C., Lawlor, R. T., Milella, M. & Scarpa, A. Molecular tumor boards in clinical practice. \*Trends Cancer\*\*\*6\*\*, 738–744 (2020).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Molecular%20tumor%20boards%20in%20clinical%20practice&journal=Trends%20Cancer&volume=6&pages=738-744&publication\_year=2020&author=Luchini%2CC&author=Lawlor%2CRT&author=Milella%2CM&author=Scarpa%2CA)
+6. Malone, E. R., Oliva, M., Sabatini, P. J. B., Stockley, T. L. & Siu, L. L. Molecular profiling for precision cancer therapies. \*Genome Med.\*\*\*12\*\*, 8 (2020).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Molecular%20profiling%20for%20precision%20cancer%20therapies&journal=Genome%20Med.&volume=12&publication\_year=2020&author=Malone%2CER&author=Oliva%2CM&author=Sabatini%2CPJB&author=Stockley%2CTL&author=Siu%2CLL)
+7. Penberthy, L. T., Dahman, B. A., Petkov, V. I. & DeShazo, J. P. Effort required in eligibility screening for clinical trials. \*J. Oncol. Pract.\*\*\*8\*\*, 365–370 (2012).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Effort%20required%20in%20eligibility%20screening%20for%20clinical%20trials&journal=J.%20Oncol.%20Pract.&volume=8&pages=365-370&publication\_year=2012&author=Penberthy%2CLT&author=Dahman%2CBA&author=Petkov%2CVI&author=DeShazo%2CJP)
+8. Meystre, S. M. et al. Piloting an automated clinical trial eligibility surveillance and provider alert system based on artificial intelligence and standard data models. \*BMC Med. Res. Methodol.\*\*\*23\*\*, 88 (2023).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Piloting%20an%20automated%20clinical%20trial%20eligibility%20surveillance%20and%20provider%20alert%20system%20based%20on%20artificial%20intelligence%20and%20standard%20data%20models&journal=BMC%20Med.%20Res.%20Methodol.&volume=23&publication\_year=2023&author=Meystre%2CSM)
+9. Ni, Y. et al. Increasing the efficiency of trial-patient matching: automated clinical trial eligibility pre-screening for pediatric oncology patients. \*BMC Med. Inform. Decis. Mak.\*\*\*15\*\*, 28 (2015).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Increasing%20the%20efficiency%20of%20trial-patient%20matching%3A%20automated%20clinical%20trial%20eligibility%20pre-screening%20for%20pediatric%20oncology%20patients&journal=BMC%20Med.%20Inform.%20Decis.%20Mak.&volume=15&publication\_year=2015&author=Ni%2CY)
+10. Hassanzadeh, H., Karimi, S. & Nguyen, A. Matching patients to clinical trials using semantically enriched document representation. \*J. Biomed. Inform.\*\*\*105\*\*, 103406 (2020).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Matching%20patients%20to%20clinical%20trials%20using%20semantically%20enriched%20document%20representation&journal=J.%20Biomed.%20Inform.&volume=105&publication\_year=2020&author=Hassanzadeh%2CH&author=Karimi%2CS&author=Nguyen%2CA)
+11. Weng, C. et al. An integrated model for patient care and clinical trials (IMPACT) to support clinical research visit scheduling workflow for future learning health systems. \*J. Biomed. Inform.\*\*\*46\*\*, 642–652 (2013).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=An%20integrated%20model%20for%20patient%20care%20and%20clinical%20trials%20%28IMPACT%29%20to%20support%20clinical%20research%20visit%20scheduling%20workflow%20for%20future%20learning%20health%20systems&journal=J.%20Biomed.%20Inform.&volume=46&pages=642-652&publication\_year=2013&author=Weng%2CC)
+12. Jin, Q. et al. Matching patients to clinical trials with large language models. \*Nat. Commun.\*\*\*15\*\*, 9074 (2024).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Matching%20patients%20to%20clinical%20trials%20with%20large%20language%20models&journal=Nat.%20Commun.&volume=15&publication\_year=2024&author=Jin%2CQ)
+13. Gao, J., Xiao, C., Glass, L. M. & Sun, J. COMPOSE: cross-modal pseudo-Siamese network for patient trial matching. In \*Proceedings of the 26th ACM SIGKDD International Conference on Knowledge Discovery & Data Mining\*, 803–812 (ACM, 2020).
+14. Thadani, S. R., Weng, C., Bigger, J. T., Ennever, J. F. & Wajngurt, D. Electronic screening improves efficiency in clinical trial recruitment. \*J. Am. Med. Inform. Assoc.\*\*\*16\*\*, 869–873 (2009).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Electronic%20screening%20improves%20efficiency%20in%20clinical%20trial%20recruitment&journal=J.%20Am.%20Med.%20Inform.%20Assoc.&volume=16&pages=869-873&publication\_year=2009&author=Thadani%2CSR&author=Weng%2CC&author=Bigger%2CJT&author=Ennever%2CJF&author=Wajngurt%2CD)
+15. Zhang, X., Xiao, C., Glass, L. M. & Sun, J. DeepEnroll: patient-trial matching with deep embedding and entailment prediction. In \*Proceedings of The Web Conference 2020\*, 1029–1037 (Association for Computing Machinery, 2020).
+16. Weng, C. et al. EliXR: an approach to eligibility criteria extraction and representation. \*J. Am. Med. Inform. Assoc.\*\*\*18\*\*, i116–i124 (2011).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=EliXR%3A%20an%20approach%20to%20eligibility%20criteria%20extraction%20and%20representation&journal=J.%20Am.%20Med.%20Inform.%20Assoc.&volume=18&pages=i116-i124&publication\_year=2011&author=Weng%2CC)
+17. Yuan, C. et al. Criteria2Query: a natural language interface to clinical databases for cohort definition. \*J. Am. Med. Inform. Assoc.\*\*\*26\*\*, 294–305 (2019).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Criteria2Query%3A%20a%20natural%20language%20interface%20to%20clinical%20databases%20for%20cohort%20definition&journal=J.%20Am.%20Med.%20Inform.%20Assoc.&volume=26&pages=294-305&publication\_year=2019&author=Yuan%2CC)
+18. Shi, J., Graves, K. & Hurdle, J. F. A generic rule-based system for clinical trial patient selection. Preprint at  (2019).
+19. O’Regan, P. et al. Digital ECMT cancer trial matching tool: an open source research application to support oncologists in the identification of precision medicine clinical trials. \*JCO Clin. Cancer Inform.\*\*\*7\*\*, e2200137 (2023).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Digital%20ECMT%20cancer%20trial%20matching%20tool%3A%20an%20open%20source%20research%20application%20to%20support%20oncologists%20in%20the%20identification%20of%20precision%20medicine%20clinical%20trials&journal=JCO%20Clin.%20Cancer%20Inform.&volume=7&publication\_year=2023&author=O%E2%80%99Regan%2CP)
+20. Alzubaidi, L. et al. Review of deep learning: concepts, CNN architectures, challenges, applications, future directions. \*J. Big Data\*\*\*8\*\*, 53 (2021).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Review%20of%20deep%20learning%3A%20concepts%2C%20CNN%20architectures%2C%20challenges%2C%20applications%2C%20future%20directions&journal=J.%20Big%20Data&volume=8&publication\_year=2021&author=Alzubaidi%2CL)
+21. Klein, H. et al. MatchMiner: an open-source platform for cancer precision medicine. \*Npj Precis. Oncol.\*\*\*6\*\*, 69 (2022).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=MatchMiner%3A%20an%20open-source%20platform%20for%20cancer%20precision%20medicine&journal=Npj%20Precis.%20Oncol.&volume=6&publication\_year=2022&author=Klein%2CH)
+22. Rybinski, M., Kusa, W., Karimi, S. & Hanbury, A. Learning to match patients to clinical trials using large language models. \*J. Biomed. Inform.\*\*\*159\*\*, 104734 (2024).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Learning%20to%20match%20patients%20to%20clinical%20trials%20using%20large%20language%20models&journal=J.%20Biomed.%20Inform.&volume=159&publication\_year=2024&author=Rybinski%2CM&author=Kusa%2CW&author=Karimi%2CS&author=Hanbury%2CA)
+23. Vaswani, A. et al. Attention is all you need. Preprint at  (2023).
+24. Lee, J. et al. BioBERT: a pre-trained biomedical language representation model for biomedical text mining. \*Bioinformatics\*\*\*36\*\*, 1234–1240 (2020).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=BioBERT%3A%20a%20pre-trained%20biomedical%20language%20representation%20model%20for%20biomedical%20text%20mining&journal=Bioinformatics&volume=36&pages=1234-1240&publication\_year=2020&author=Lee%2CJ)
+25. Devlin, J., Chang, M.-W., Lee, K. & Toutanova, K. BERT: pre-training of deep bidirectional transformers for language understanding. Preprint at  (2019).
+26. Brown, T. et al. Language models are few-shot learners. \*Adv. Neural Inf. Process. Syst.\*\*\*33\*\*, 1877–1901 (2020).
+27. Meng, X. et al. The application of large language models in medicine: a scoping review. \*iScience\*\*\*27\*\*, 109713 (2024).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=The%20application%20of%20large%20language%20models%20in%20medicine%3A%20a%20scoping%20review&journal=iScience&volume=27&publication\_year=2024&author=Meng%2CX)
+28. Kaskovich, S. et al. Automated matching of patients to clinical trials: a patient-centric natural language processing approach for pediatric leukemia. \*JCO Clin. Cancer Inform.\*\*\*7\*\*, e2300009 (2023).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Automated%20matching%20of%20patients%20to%20clinical%20trials%3A%20a%20patient-centric%20natural%20language%20processing%20approach%20for%20pediatric%20leukemia&journal=JCO%20Clin.%20Cancer%20Inform.&volume=7&publication\_year=2023&author=Kaskovich%2CS)
+29. Gueguen, L. et al. A prospective pragmatic evaluation of automatic trial matching tools in a molecular tumor board. \*Npj Precis. Oncol.\*\*\*9\*\*, 28 (2025).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=A%20prospective%20pragmatic%20evaluation%20of%20automatic%20trial%20matching%20tools%20in%20a%20molecular%20tumor%20board&journal=Npj%20Precis.%20Oncol.&volume=9&publication\_year=2025&author=Gueguen%2CL)
+30. de Kok, J. W. T. M. et al. A guide to sharing open healthcare data under the General Data Protection Regulation. \*Sci. Data\*\*\*10\*\*, 404 (2023).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=A%20guide%20to%20sharing%20open%20healthcare%20data%20under%20the%20General%20Data%20Protection%20Regulation&journal=Sci.%20Data&volume=10&publication\_year=2023&author=Kok%2CJWTM)
+31. Li, X. et al. LLM-Match: an open-sourced patient matching model based on large language models and retrieval-augmented generation. Preprint at  (2025).
+32. Lin, J., Xu, H., Wang, Z., Wang, S. & Sun, J. Panacea: a foundation model for clinical trial search, summarization, design, and recruitment. Preprint at  (2024).
+33. Lewis, P. et al. Retrieval-augmented generation for knowledge-intensive NLP tasks. Preprint at  (2021).
+34. Jacobsen, J. O. B. et al. The GA4GH Phenopacket schema defines a computable representation of clinical data. \*Nat. Biotechnol.\*\*\*40\*\*, 817–820 (2022).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=The%20GA4GH%20Phenopacket%20schema%20defines%20a%20computable%20representation%20of%20clinical%20data&journal=Nat.%20Biotechnol.&volume=40&pages=817-820&publication\_year=2022&author=Jacobsen%2CJOB)
+35. Roberts, K., Demner-Fushman, D., Voorhees, E. M., Bedrick, S. & Hersh, W. R. Overview of the TREC 2021 Clinical Trials Track. In \*Proc. 30th Text REtrieval Conference\* (TREC, 2021).
+36. Roberts, K., Demner-Fushman, D., Voorhees, E. M., Bedrick, S. & Hersh, W. R. Overview of the TREC 2022 Clinical Trials Track. In \*Proc. 31sr Text REtrieval Conference\* (TREC, 2022).
+37. Samsom, K. G. et al. Study protocol: whole genome sequencing implementation in standard diagnostics for every cancer patient (WIDE). \*BMC Med. Genomics\*\*\*13\*\*, 169 (2020).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Study%20protocol%3A%20whole%20genome%20sequencing%20implementation%20in%20standard%20diagnostics%20for%20every%20cancer%20patient%20%28WIDE%29&journal=BMC%20Med.%20Genomics&volume=13&publication\_year=2020&author=Samsom%2CKG)
+38. Wei, J. et al. Chain-of-thought prompting elicits reasoning in large language models. \*Adv. Neural Inf. Process. Syst.\*\*\*35\*\*, 24824–24837 (2022).
+39. Ayaz, M., Pasha, M. F., Alzahrani, M. Y., Budiarto, R. & Stiawan, D. The fast health interoperability resources (FHIR) standard: systematic literature review of implementations, applications, challenges and opportunities. \*JMIR Med. Inform.\*\*\*9\*\*, e21929 (2021).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=The%20fast%20health%20interoperability%20resources%20%28FHIR%29%20standard%3A%20systematic%20literature%20review%20of%20implementations%2C%20applications%2C%20challenges%20and%20opportunities&journal=JMIR%20Med.%20Inform.&volume=9&publication\_year=2021&author=Ayaz%2CM&author=Pasha%2CMF&author=Alzahrani%2CMY&author=Budiarto%2CR&author=Stiawan%2CD)
+40. Robertson, S. E., Walker, S., Jones, S., Hancock-Beaulieu, M. M. & Gatford, M. Okapi at TREC-3. In \*Proc. Third Text REtrieval Conference (TREC-3)\*, NIST Spec. Publ. 500-225, 109–126 (1995).
+41. Robertson, S. & Zaragoza, H. The probabilistic relevance framework: BM25 and beyond. \*Found. Trends Inf. Retr.\*\*\*3\*\*, 333–389 (2009).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=The%20probabilistic%20relevance%20framework%3A%20BM25%20and%20beyond&journal=Found.%20Trends%20Inf.%20Retr.&volume=3&pages=333-389&publication\_year=2009&author=Robertson%2CS&author=Zaragoza%2CH)
+42. Malkov, Y. A. & Yashunin, D. A. Efficient and robust approximate nearest neighbor search using hierarchical navigable small world graphs. \*IEEE Trans. Pattern Anal. Mach. Intell.\*\*\*42\*\*, 824–836 (2020).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Efficient%20and%20robust%20approximate%20nearest%20neighbor%20search%20using%20hierarchical%20navigable%20small%20world%20graphs&journal=IEEE%20Trans.%20Pattern%20Anal.%20Mach.%20Intell.&volume=42&pages=824-836&publication\_year=2020&author=Malkov%2CYA&author=Yashunin%2CDA)
+43. Team, G. et al. Gemma 2: improving open language models at a practical size. Preprint at  (2024).
+44. Abdin, M. et al. Phi-4 technical report. Preprint at  (2024).
+45. Sung, M. et al. BERN2: an advanced neural biomedical named entity recognition and normalization tool. \*Bioinformatics\*\*\*38\*\*, 4837–4839 (2022).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=BERN2%3A%20an%20advanced%20neural%20biomedical%20named%20entity%20recognition%20and%20normalization%20tool&journal=Bioinformatics&volume=38&pages=4837-4839&publication\_year=2022&author=Sung%2CM)
+46. Sung, M., Jeon, H., Lee, J. & Kang, J. Biomedical entity representations with synonym marginalization. In \*Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics\* (eds Jurafsky, D. et al.) 3641–3650  (Association for Computational Linguistics, Online, 2020).
+47. Lewis, P., Ott, M., Du, J. & Stoyanov, V. Pretrained language models for biomedical and clinical tasks: understanding and extending the state-of-the-art. In \*Proceedings of the 3rd Clinical Natural Language Processing Workshop\* (eds Rumshisky, A. et al.) 146–157  (Association for Computational Linguistics, Online, 2020).
+48. Zaratiana, U., Tomeh, N., Holat, P. & Charnois, T. GLiNER: generalist model for named entity recognition using bidirectional transformer. In \*Proc. Conf. North Am. Chapter Assoc. Comput. Linguist. Hum. Lang. Technol.\*\*\*1\*\*, 5364–5376 (2024).
+49. Peng, H. et al. Biomedical named entity normalization via interaction-based synonym marginalization. \*J. Biomed. Inform.\*\*\*136\*\*, 104238 (2022).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Biomedical%20named%20entity%20normalization%20via%20interaction-based%20synonym%20marginalization&journal=J.%20Biomed.%20Inform.&volume=136&publication\_year=2022&author=Peng%2CH)
+50. Chen, J. et al. M3-embedding: multi-linguality, multi-functionality, multi-granularity text embeddings through self-knowledge distillation. \*Findings of the Association for Computational Linguistics\*, 2318–2335 (ACL, 2024).
+51. Gormley, C. & Tong, Z. \*Elasticsearch: The Definitive Guide\* (O’Reilly Media, Inc., 2015).
+52. Durden, K. et al. Provider motivations and barriers to cancer clinical trial screening, referral, and operations: findings from a survey. \*Cancer\*\*\*130\*\*, 68–76 (2024).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Provider%20motivations%20and%20barriers%20to%20cancer%20clinical%20trial%20screening%2C%20referral%2C%20and%20operations%3A%20findings%20from%20a%20survey&journal=Cancer&volume=130&pages=68-76&publication\_year=2024&author=Durden%2CK)
+53. Davis, S. ICH GCP E6 has arrived: are we ready? \*Perspect. Clin. Res.\*\*\*16\*\*, 171–172 (2025).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=ICH%20GCP%20E6%20has%20arrived%3A%20are%20we%20ready%3F&journal=Perspect.%20Clin.%20Res.&volume=16&pages=171-172&publication\_year=2025&author=Davis%2CS)
+54. Dexheimer, J. W. et al. A time-and-motion study of clinical trial eligibility screening in a pediatric emergency department. \*Pediatr. Emerg. Care\*\*\*35\*\*, 868–873 (2019).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=A%20time-and-motion%20study%20of%20clinical%20trial%20eligibility%20screening%20in%20a%20pediatric%20emergency%20department&journal=Pediatr.%20Emerg.%20Care&volume=35&pages=868-873&publication\_year=2019&author=Dexheimer%2CJW)
+55. Yu, C. et al. A survey on agent workflow - status and future. In \*2025 8th International Conference on Artificial Intelligence and Big Data (ICAIBD)\* 770–781  (2025).
+56. Xu, X. et al. A survey on knowledge distillation of large language models. Preprint at  (2024).
+57. Nievas, M., Basu, A., Wang, Y. & Singh, H. Distilling large language models for matching patients to clinical trials. \*J. Am. Med. Inform. Assoc.\*\*\*31\*\*, 1953–1963 (2024).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Distilling%20large%20language%20models%20for%20matching%20patients%20to%20clinical%20trials&journal=J.%20Am.%20Med.%20Inform.%20Assoc.&volume=31&pages=1953-1963&publication\_year=2024&author=Nievas%2CM&author=Basu%2CA&author=Wang%2CY&author=Singh%2CH)
+58. Schafer, J. B., Frankowski, D., Herlocker, J. & Sen, S. Collaborative Filtering Recommender Systems. In \*The Adaptive Web: Methods and Strategies of Web Personalization\* (eds Brusilovsky, P. et al.) 291–324  (Springer, Berlin, Heidelberg, 2007).
+59. Kundra, R. et al. OncoTree: a cancer classification system for precision oncology. \*JCO Clin. Cancer Inform.\*\*\*5\*\*, 221–230 (2021).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=OncoTree%3A%20a%20cancer%20classification%20system%20for%20precision%20oncology&journal=JCO%20Clin.%20Cancer%20Inform.&volume=5&pages=221-230&publication\_year=2021&author=Kundra%2CR)
+60. Huiskens, J. et al. From registration to publication: a study on Dutch academic randomized controlled trials. \*Res. Synth. Methods\*\*\*11\*\*, 218–226 (2020).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=From%20registration%20to%20publication%3A%20a%20study%20on%20Dutch%20academic%20randomized%20controlled%20trials&journal=Res.%20Synth.%20Methods&volume=11&pages=218-226&publication\_year=2020&author=Huiskens%2CJ)
+61. Gallifant, J. et al. Peer review of GPT-4 technical report and systems card. \*PLoS Digit. Health\*\*\*3\*\*, e0000417 (2024).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Peer%20review%20of%20GPT-4%20technical%20report%20and%20systems%20card&journal=PLoS%20Digit.%20Health&volume=3&publication\_year=2024&author=Gallifant%2CJ)
+62. Biedermann, P. et al. Standardizing registry data to the OMOP Common Data Model: experience from three pulmonary hypertension databases. \*BMC Med. Res. Methodol.\*\*\*21\*\*, 238 (2021).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Standardizing%20registry%20data%20to%20the%20OMOP%20Common%20Data%20Model%3A%20experience%20from%20three%20pulmonary%20hypertension%20databases&journal=BMC%20Med.%20Res.%20Methodol.&volume=21&publication\_year=2021&author=Biedermann%2CP)
+63. Canham, S. & Ohmann, C. A metadata schema for data objects in clinical research. \*Trials\*\*\*17\*\*, 557 (2016).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=A%20metadata%20schema%20for%20data%20objects%20in%20clinical%20research&journal=Trials&volume=17&publication\_year=2016&author=Canham%2CS&author=Ohmann%2CC)
+64. Hamosh, A., Scott, A. F., Amberger, J., Valle, D. & McKusick, V. A. Online mendelian inheritance in man (OMIM). \*Hum. Mutat.\*\*\*15\*\*, 57–61 (2000).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Online%20mendelian%20inheritance%20in%20man%20%28OMIM%29&journal=Hum.%20Mutat.&volume=15&pages=57-61&publication\_year=2000&author=Hamosh%2CA&author=Scott%2CAF&author=Amberger%2CJ&author=Valle%2CD&author=McKusick%2CVA)
+65. Degtyarenko, K. et al. ChEBI: a database and ontology for chemical entities of biological interest. \*Nucleic Acids Res.\*\*\*36\*\*, D344–D350 (2008).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=ChEBI%3A%20a%20database%20and%20ontology%20for%20chemical%20entities%20of%20biological%20interest&journal=Nucleic%20Acids%20Res.&volume=36&pages=D344-D350&publication\_year=2008&author=Degtyarenko%2CK)
+66. Meehan, T. F. et al. Logical development of the cell ontology. \*BMC Bioinforma.\*\*\*12\*\*, 6 (2011).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Logical%20development%20of%20the%20cell%20ontology&journal=BMC%20Bioinforma.&volume=12&publication\_year=2011&author=Meehan%2CTF)
+67. Brown, G. R. et al. Gene: a gene-centered information resource at NCBI. \*Nucleic Acids Res.\*\*\*43\*\*, D36–D42 (2015).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Gene%3A%20a%20gene-centered%20information%20resource%20at%20NCBI&journal=Nucleic%20Acids%20Res.&volume=43&pages=D36-D42&publication\_year=2015&author=Brown%2CGR)
+68. Bodenreider, O. The unified medical language system (UMLS): integrating biomedical terminology. \*Nucleic Acids Res.\*\*\*32\*\*, D267–D270 (2004).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=The%20unified%20medical%20language%20system%20%28UMLS%29%3A%20integrating%20biomedical%20terminology&journal=Nucleic%20Acids%20Res.&volume=32&pages=D267-D270&publication\_year=2004&author=Bodenreider%2CO)
+69. Chen, J. et al. Towards medical complex reasoning with LLMs through verifiable medical problems. \*Findings of the Association for Computational Linguistics\*, 14558–14575 (ACL, 2025).
+70. Smith, L. et al. Overview of BioCreative II gene mention recognition. \*Genome Biol.\*\*\*9\*\*, S2 (2008).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=Overview%20of%20BioCreative%20II%20gene%20mention%20recognition&journal=Genome%20Biol.&volume=9&publication\_year=2008&author=Smith%2CL)
+71. Krallinger, M. et al. The CHEMDNER corpus of chemicals and drugs and its annotation principles. \*J. Cheminform.\*\*\*7\*\*, S2 (2015).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=The%20CHEMDNER%20corpus%20of%20chemicals%20and%20drugs%20and%20its%20annotation%20principles&journal=J.%20Cheminform.&volume=7&publication\_year=2015&author=Krallinger%2CM)
+72. Caufield, J. H. et al. A reference set of curated biomedical data and metadata from clinical case reports. \*Sci. Data\*\*\*5\*\*, 180258 (2018).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=A%20reference%20set%20of%20curated%20biomedical%20data%20and%20metadata%20from%20clinical%20case%20reports&journal=Sci.%20Data&volume=5&publication\_year=2018&author=Caufield%2CJH)
+73. Kim, J.-D., Ohta, T., Tsuruoka, Y., Tateisi, Y. & Collier, N. Introduction to the bio-entity recognition task at JNLPBA. In \*Proceedings of the International Joint Workshop on Natural Language Processing in Biomedicine and its Applications - JNLPBA ’04\* 70  (Association for Computational Linguistics, Geneva, Switzerland, 2004).
+74. Li, J. et al. BioCreative V CDR task corpus: a resource for chemical disease relation extraction. \*Database J. Biol. Databases Curation\*\*\*2016\*\*, baw068 (2016).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=BioCreative%20V%20CDR%20task%20corpus%3A%20a%20resource%20for%20chemical%20disease%20relation%20extraction&journal=Database%20J.%20Biol.%20Databases%20Curation&volume=2016&publication\_year=2016&author=Li%2CJ)
+75. Wei, C.-H. et al. tmVar 2.0: integrating genomic variant information from literature with dbSNP and ClinVar for precision medicine. \*Bioinforma. Oxf. Engl.\*\*\*34\*\*, 80–87 (2018).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=tmVar%202.0%3A%20integrating%20genomic%20variant%20information%20from%20literature%20with%20dbSNP%20and%20ClinVar%20for%20precision%20medicine&journal=Bioinforma.%20Oxf.%20Engl.&volume=34&pages=80-87&publication\_year=2018&author=Wei%2CC-H)
+76. Doğan, R. I., Leaman, R. & Lu, Z. NCBI disease corpus: a resource for disease name recognition and concept normalization. \*J. Biomed. Inform.\*\*\*47\*\*, 1–10 (2014).
+[Google Scholar](http://scholar.google.com/scholar\_lookup?&title=NCBI%20disease%20corpus%3A%20a%20resource%20for%20disease%20name%20recognition%20and%20concept%20normalization&journal=J.%20Biomed.%20Inform.&volume=47&pages=1-10&publication\_year=2014&author=Do%C4%9Fan%2CRI&author=Leaman%2CR&author=Lu%2CZ)
+77. Dettmers, T., Pagnoni, A., Holtzman, A. & Zettlemoyer, L. QLoRA: efficient finetuning of quantized LLMs. \*Adv. Neural Inf. Process. Syst.\* 36 (2023).
+78. Romanov, A. & Shivade, C. Lessons from natural language inference in the clinical domain. Preprint at  (2018).
+79. Parthasarathy, V. B., Zafar, A., Khan, A. & Shahid, A. The ultimate guide to fine-tuning LLMs from basics to breakthroughs: an exhaustive review of technologies, research, best practices, applied research challenges and opportunities. Preprint at  (2024).
+80. Abdallah, M., Georges, M. & Nikolski, M. TrialMatchAI: an end-to-end AI-powered clinical trial recommendation system to streamline patient-to-trial matching. cbib/TrialMatchAI.  (2026).
+Nature Communications
+(\*Nat Commun\*)
+ISSN2041-1723 (online)
+## nature.com footer links
+### About Nature Portfolio
+\* [About us](https://www.nature.com/npg\_/company\_info/index.html)
+\* [Press releases](https://www.nature.com/npg\_/press\_room/press\_releases.html)
+\* [Press office](https://press.nature.com/)
+\* [Contact us](https://support.nature.com/support/home)
+### Discover content
+\* [Journals A-Z](https://www.nature.com/siteindex)
+\* [Articles by subject](https://www.nature.com/subjects)
+\* [protocols.io](https://www.protocols.io/)
+\* [Nature Index](https://www.natureindex.com/)
+### Publishing policies
+\* [Nature portfolio policies](https://www.nature.com/authors/editorial\_policies)
+\* [Open access](https://www.nature.com/nature-research/open-access)
+### Author & Researcher services
+\* [Reprints & permissions](https://www.nature.com/reprints)
+\* [Research data](https://www.springernature.com/gp/authors/research-data)
+\* [Language editing](https://authorservices.springernature.com/language-editing/)
+\* [Scientific editing](https://authorservices.springernature.com/scientific-editing/)
+\* [Nature Masterclasses](https://masterclasses.nature.com/)
+\* [Research Solutions](https://solutions.springernature.com/)
+### Libraries & institutions
+\* [Librarian service & tools](https://www.springernature.com/gp/librarians/tools-services)
+\* [Librarian portal](https://www.springernature.com/gp/librarians/manage-your-account/librarianportal)
+\* [Open research](https://www.nature.com/openresearch/about-open-access/information-for-institutions)
+\* [Recommend to library](https://www.springernature.com/gp/librarians/recommend-to-your-library)
+### Advertising & partnerships
+\* [Advertising](https://partnerships.nature.com/product/digital-advertising/)
+\* [Partnerships & Services](https://partnerships.nature.com/)
+\* [Media kits](https://partnerships.nature.com/media-kits/)
+\* [Branded
+content](https://partnerships.nature.com/product/branded-content-native-advertising/)
+### Professional development
+\* [Nature Awards](https://www.nature.com/immersive/natureawards/index.html)
+\* [Nature Careers](https://www.nature.com/naturecareers/)
+\* [Nature
+Conferences](https://conferences.nature.com)
+### Regional websites
+\* [Nature Africa](https://www.nature.com/natafrica)
+\* [Nature China](http://www.naturechina.com)
+\* [Nature India](https://www.nature.com/nindia)
+\* [Nature Japan](https://www.natureasia.com/ja-jp)
+\* [Nature Middle East](https://www.nature.com/nmiddleeast)
+\* [Privacy
+Policy](https://www.nature.com/info/privacy)
+\* [Use
+of cookies](https://www.nature.com/info/cookies)
+\* Your privacy choices/Manage cookies
+\* [Legal
+notice](https://www.nature.com/info/legal-notice)
+\* [Accessibility
+statement](https://www.nature.com/info/accessibility-statement)
+\* [Terms & Conditions](https://www.nature.com/info/terms-and-conditions)
+\* [Your US state privacy rights](https://www.springernature.com/ccpa)
+[![](/static/images/logos/sn-logo-white-c8f7a9c061.svg)](https://www.springernature.com/)
+© 2026 Springer Nature Limited
+Close bannerClose
+![](/static/images/logos/nature-briefing-logo-cancer-white-bc2338cade.svg)
+Sign up for the \*Nature Briefing: Cancer\* newsletter — what matters in cancer research, free to your inbox weekly.
+Email address
+Sign up
+I agree my information will be processed in accordance with the \*Nature\* and Springer Nature Limited [Privacy Policy](https://www.nature.com/info/privacy).
+Close bannerClose
+Get what matters in cancer research, free to your inbox weekly.[Sign up for Nature Briefing: Cancer](/briefing/cancer/?brieferEntryPoint=CancerBriefingBanner)

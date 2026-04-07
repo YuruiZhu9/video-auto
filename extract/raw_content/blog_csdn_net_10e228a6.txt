@@ -1,0 +1,408 @@
+# Source URL: https://blog.csdn.net/julyedu_7/article/details/121798127
+# Content Length: 22481 characters
+# Extracted at: 2026-03-30 10:09:46
+#============================================================
+
+推荐系统经典面试题（附答案和解析）\\_推荐系统面经-CSDN博客
+[![](https://img-home.csdnimg.cn/images/20201124032511.png)](https://www.csdn.net/)
+\* [博客](https://blog.csdn.net/)
+\* [下载](https://download.csdn.net/)
+\* [社区](https://devpress.csdn.net/)
+\* [![](https://img-home.csdnimg.cn/images/20240829093757.png)AtomGit](https://link.csdn.net?target=https%3A%2F%2Fgitcode.com%3Futm\_source%3Dcsdn\_toolbar)
+\* [![](https://i-operation.csdnimg.cn/images/3c66245675ae423e9cc897dc790b8ac9.png)GPU算力
+![](https://i-operation.csdnimg.cn/images/d8d2f104eeeb4a428045d2b34d72ed13.png)](https://ai.csdn.net/)
+\* 更多
+[会议](https://www.bagevent.com/event/9117243)[学习](https://edu.csdn.net?utm\_source=zhuzhantoolbar)[![](https://i-operation.csdnimg.cn/images/77c4dd7a760a493498bee1d336b064c0.png)InsCode](https://inscode.net?utm\_source=csdn\_blog\_top\_bar)
+搜索
+AI 搜索
+登录
+登录后您可以：
+\* 复制代码和一键运行
+\* 与博主大V深度互动
+\* 解锁海量精选资源
+\* 获取前沿技术资讯
+立即登录
+[![](https://i-operation.csdnimg.cn/images/f9098e9320264ddc85f274234b2f0c6a.png)新客开通会员 立减60![](https://i-operation.csdnimg.cn/images/97f199b02b604390ab516e4897fb5bfe.png)](https://mall.csdn.net/vip?utm\_source=dl\_hover)
+[会员·新人礼包 ![](https://i-operation.csdnimg.cn/images/105eda9d414f4250a7c3fe45be3cd15f.png)](https://mall.csdn.net/vip?utm\_source=260309\_vip\_toolbarhyzx\_hy)
+[消息](https://i.csdn.net/#/msg/index)
+[创作中心](https://mp.csdn.net)
+[创作](https://mp.csdn.net/edit)
+[![](https://i-operation.csdnimg.cn/images/6e41bd372d1f4ec39b3cd36ab95046c4.png)](https://mp.csdn.net/edit)![](https://i-operation.csdnimg.cn/images/43349e98a45341699652b0b6fa4ea541.png)![](https://i-operation.csdnimg.cn/images/0f13ec529b6b4195ad99894f76653e56.png)
+# 推荐系统经典面试题（附答案和解析）
+最新推荐文章于 2026-02-07 09:56:38 发布
+原创[![](https://csdnimg.cn/release/blogv2/dist/pc/img/identityVipNew.png)](https://mall.csdn.net/vip)于 2021-12-08 18:41:23 发布·2.2k 阅读
+·![](https://csdnimg.cn/release/blogv2/dist/pc/img/newHeart2023Active.png)![](https://csdnimg.cn/release/blogv2/dist/pc/img/newHeart2023Black.png)
+0
+·![](https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollect2.png)![](https://csdnimg.cn/release/blogv2/dist/pc/img/tobarCollectionActive2.png)
+9
+文章标签：
+[#机器学习](https://so.csdn.net/so/search/s.do?q=%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0&t=all&o=vip&s=&l=&f=&viparticle=&from\_tracking\_code=tag\_word&from\_code=app\_blog\_art)[#算法](https://so.csdn.net/so/search/s.do?q=%E7%AE%97%E6%B3%95&t=all&o=vip&s=&l=&f=&viparticle=&from\_tracking\_code=tag\_word&from\_code=app\_blog\_art)[#python](https://so.csdn.net/so/search/s.do?q=python&t=all&o=vip&s=&l=&f=&viparticle=&from\_tracking\_code=tag\_word&from\_code=app\_blog\_art)[#人工智能](https://so.csdn.net/so/search/s.do?q=%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD&t=all&o=vip&s=&l=&f=&viparticle=&from\_tracking\_code=tag\_word&from\_code=app\_blog\_art)[#自然语言处理](https://so.csdn.net/so/search/s.do?q=%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86&t=all&o=vip&s=&l=&f=&viparticle=&from\_tracking\_code=tag\_word&from\_code=app\_blog\_art)
+![](https://i-operation.csdnimg.cn/images/a7311a21245d4888a669ca3155f1f4e5.png)本文涵盖了推荐系统面试中的经典问题，包括召回分支的作用、离线评价召回模型的方法、多任务学习概念、特征选择策略、特征交叉方式、阿里X-Deep Learning在在线学习的解决方案、FTRL的技巧、逻辑回归在大规模广告点击率预估的局限、知识图谱在推荐系统的应用以及Collaborative Knowledge Base Embedding的三种知识学习。
+### \*\*问题1：召回分支的作用是什么？\*\*
+解析：快速帮助用户找到可能感兴趣的候选物品；减少排序模型的候选输入，降低系统RT。
+### \*\*问题2：如何离线评价召回阶段各种模型算法的好坏？由于没有明确的召回预期值，所以无论rmse还是auc都不知道该怎么做？\*\*
+解析：召回最直接的评估就是召回率，也就是召回集里正样本的比例；也可以不同的召回
+算法 +同一个排序算法，还是用排序之后的AUC和RMSE来评估。
+\*\*双12限时秒杀，不止5折，活动会场-->www.julyedu.com\*\*
+七月在线双12活动正式开启 · \*\*40门AI好课1分起秒！涵盖 ML | DL | CV | NLP | 推荐 全方向程！\*\*
+### \*\*问题3：简述Multi-task learning(MLT)多任务学习\*\*
+解析：在机器学习中，我们通常关心优化某一特定指标，不管这个指标是一个标准值，还是企业KPI。为了达到这个目标，我们训练单一模型或多个模型
+集合 来完成指定得任务。
+然后，我们通过精细调参，来改进模型直至性能不再提升。尽管这样做可以针对一个任务得到一个可接受得性能，但是我们可能忽略了一些
+信息
+，这些信息有助于在我们关心的指标上做得更好。
+具体来说，这些信息就是相关任务的监督数据。通过在相关任务间共享表示信息，我们的模型在原始任务上泛化性能更好。这种方法称为多任务学习（Multi-Task Learning）
+### \*\*问题4：特征选择的方法有哪些?\*\*
+\*\*Filter:过滤法,\*\*按照发散性或者相关性对各个特征进行行行评分,设定阈值或者待选择阈值的个数,选择特征。
+\*\*Wrapper:包装法,\*\*根据目目标函数(通常是预测效果评分),每次选择若干干特征,或者排除若干干特征。Embedded:嵌入入法,
+![](https://csdnimg.cn/release/blogv2/dist/pc/img/lock.png)最低0.47元/天 解锁文章![](https://i-operation.csdnimg.cn/images/b9c3a9dc1fab405e88dc37d5d75ee9d5.png)
+![](https://csdnimg.cn/release/blogv2/dist/pc/img/vip-limited-close-newWhite.png)
+确定要放弃本次机会？
+福利倒计时
+\*:\*\*:\*
+![](https://csdnimg.cn/release/blogv2/dist/pc/img/vip-limited-close-roup.png)立减 ¥
+普通VIP年卡可用
+[立即使用](https://mall.csdn.net/vip)
+[![](https://profile-avatar.csdnimg.cn/default.jpg!1)
+julyedu\\_7](https://blog.csdn.net/julyedu\_7)
+[关注](javascript:;)关注
+\* ![](https://csdnimg.cn/release/blogv2/dist/pc/img/tobarThumbUpactive.png)![](https://csdnimg.cn/release/blogv2/dist/pc/img/toolbar/like-active.png)![](https://csdnimg.cn/release/blogv2/dist/pc/img/toolbar/like.png)
+0
+点赞
+\* ![](https://csdnimg.cn/release/blogv2/dist/pc/img/toolbar/unlike-active.png)![](https://csdnimg.cn/release/blogv2/dist/pc/img/toolbar/unlike.png)
+踩
+\* [![](https://csdnimg.cn/release/blogv2/dist/pc/img/toolbar/collect-active.png)![](https://csdnimg.cn/release/blogv2/dist/pc/img/toolbar/collect.png)![](https://csdnimg.cn/release/blogv2/dist/pc/img/newCollectActive.png)
+9](javascript:;)
+收藏
+觉得还不错?
+一键收藏
+![](https://csdnimg.cn/release/blogv2/dist/pc/img/collectionCloseWhite.png)
+\* [![](https://csdnimg.cn/release/blogv2/dist/pc/img/toolbar/comment.png)
+0](#commentBox)
+评论
+\* [![](https://csdnimg.cn/release/blogv2/dist/pc/img/toolbar/share.png)分享](javascript:;)
+复制链接
+分享到 QQ
+分享到新浪微博
+![]()
+![](https://csdnimg.cn/release/blogv2/dist/pc/img/share/icon-wechat.png)扫一扫
+\* ![](https://csdnimg.cn/release/blogv2/dist/pc/img/toolbar/more.png)
+![](https://csdnimg.cn/release/blogv2/dist/pc/img/toolbar/report.png)举报
+![](https://csdnimg.cn/release/blogv2/dist/pc/img/toolbar/report.png)举报
+专栏目录
+![]()
+[【\*面\*经&八股】搜广推方向：常见\*面试题\*（二）](https://blog.csdn.net/qq\_51392112/article/details/134632953)
+[Danger的博客](https://blog.csdn.net/qq\_51392112)
+11-26![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)
+649
+[【\*面\*经&八股】搜广推方向：常见\*面试题\*（二）](https://blog.csdn.net/qq\_51392112/article/details/134632953)
+参与评论您还未登录，请先登录后发表或查看评论
+[数据库常见\*面试题\*（\*附\*\*答案\*）
+热门推荐](https://blog.csdn.net/qq\_22222499/article/details/79060495)
+[csdn问鼎](https://blog.csdn.net/qq\_22222499)
+03-13![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)
+46万+
+[1.事务四大特性
+原子性，要么执行，要么不执行
+隔离性，所有操作全部执行完以前，其它会话不能看到过程
+一致性，事务前后，数据总额一致
+持久性，一旦事务提交，对数据的改变就是永久的
+2.数据库隔离级别，每个级别会引发什么问题，mysql默认是哪个级别
+脏读：事务B读取事务A还没有提交的数据
+不可重复读：两次事务读的数据不一致
+幻读:事务A修改了数据，事务B也修改了数据，这时在事务A看...](https://blog.csdn.net/qq\_22222499/article/details/79060495)
+[\*面试题\*---\*推荐系统\*](https://blog.csdn.net/weixin\_41620184/article/details/134989777)
+[数据科学知识库](https://blog.csdn.net/weixin\_41620184)
+12-14![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)
+791
+[在一个项目中，我们使用了基于协同过滤的推荐\*算法\*，将用户行为数据进行处理并提取出有用的特征，通过计算用户之间的相似度来实现个性化推荐。我相信随着\*推荐系统\*技术的不断发展，我们会看到更多更高效的\*算法\*被提出\*和\*应用，我也会一直保持学习\*和\*实践的态度，不断提升自己的\*推荐系统\*技术水平。\*推荐系统\*的\*算法\*：\*推荐系统\*的\*算法\*包括但不限于协同过滤、基于内容的推荐\*算法\*、矩阵分解、深度学习、强化学习等。\*推荐系统\*的分类： \*推荐系统\*可以分为基于内容的推荐、基于协同过滤的推荐、基于深度学习的推荐等等。](https://blog.csdn.net/weixin\_41620184/article/details/134989777)
+[推荐\*算法\*岗\*面试题\*收集](https://blog.csdn.net/qq\_50714222/article/details/136421457)
+[qq\\_50714222的博客](https://blog.csdn.net/qq\_50714222)
+03-02![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)
+2870
+[收集一下推荐\*算法\*岗的\*面试题\*\*和\*网上同仁\*面\*试的情况，欢迎大家评论区补充，一起学习！！
+后\*面\*会一直更新，丰富内容，祝愿大家\*面\*试顺利！！！](https://blog.csdn.net/qq\_50714222/article/details/136421457)
+[【开题答辩全过程】以 基于\*python\*的电影\*推荐系统\*为例，包含答辩的问题\*和\*\*答案\*
+最新发布](https://blog.csdn.net/shiji3076/article/details/157838155)
+[shiji3076的博客](https://blog.csdn.net/shiji3076)
+02-07![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)
+529
+[本文介绍了某计算机专业学生的毕业设计答辩过程。该生开发的《基于\*Python\*的电影\*推荐系统\*》采用Django框架\*和\*MySQL数据库，实现基于协同过滤\*算法\*的电影推荐功能。系统包含前台用户模块（电影浏览、收藏评价）\*和\*后台管理模块（用户管理、数据采集）。答辩环节详细讨论了用户权限设计、推荐\*算法\*原理、数据采集方式、技术选型理由等核心问题。评委肯定其项目规划\*和\*技术理解，同时建议优化\*算法\*实现细节\*和\*存储方案。该案例展示了计算机专业毕业设计的典型流程\*和\*常见答辩问题，为同类项目提供了参考范例。](https://blog.csdn.net/shiji3076/article/details/157838155)
+[每天一个\*面\*经系列--\*面\*经19:\*推荐系统\*设计](https://blog.csdn.net/qq\_32100465/article/details/90449842)
+[qq\\_32100465的博客](https://blog.csdn.net/qq\_32100465)
+05-22![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)
+635
+[【设计题】今日头条会根据用户的浏览行为、内容偏好等信息，为每个用户抽象出一个标签化的用户画像，用于内容推荐。用户画像的存储、高并发访问，是\*推荐系统\*的重要环节之一。现在请你给出一个用户画像存储、访问方案，设计的时候请考虑一下几个方\*面\*：
+用户画像如何存储；
+如何保证在线高并发、低延迟地访问；
+机器宕机、负载均衡问题；
+如果用户增长很快，在你的方案下，该如何做扩容。
+...](https://blog.csdn.net/qq\_32100465/article/details/90449842)
+[\*推荐系统\*\*经典\*\*面试题\*，简述什么是wide&deep模型](https://blog.csdn.net/julyedu\_7/article/details/121958899)
+[julyedu\\_7的博客](https://blog.csdn.net/julyedu\_7)
+12-15![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)
+849
+[名词解释
+1.1 Memorization \*和\* Generalization
+Google Wide&Deep 论文中，通篇都是这两个词，必须搞懂是怎么回事！
+这个是从人类的认知学习过程中演化来的。人类的大脑很复杂，它可以记忆 \*(\*memorize\*)\* 下每天发生的事情（麻雀可以飞，鸽子可以飞）然后泛化 \*(\*generalize\*)\* 这些知识到之前没有看到过的东西（有翅膀的动物都能飞）。但是泛化的规则有时候不是特别的准，有时候会出错（有翅膀的动物都能飞吗）。那怎么办那，没关系，记忆 \*(\*memoriza](https://blog.csdn.net/julyedu\_7/article/details/121958899)
+[2022校招\*面试题\*库（\*附\*\*答案\*与\*解析\*）C++篇.rar](https://download.csdn.net/download/maru\_lim/11632642)
+08-28
+[《2022校招\*面试题\*库（\*附\*\*答案\*与\*解析\*）C++篇》是一个针对C++编程语言的全\*面\*\*面\*试准备资源，旨在帮助应聘者在校园招聘\*面\*试中取得成功。这份资料涵盖了C++的基础知识，数据库原理，数据结构与\*算法\*，计算机网络，操作系统...](https://download.csdn.net/download/maru\_lim/11632642)
+[牛客校招\*面试题\*（\*附\*\*答案\*与\*解析\*）c++](https://download.csdn.net/download/t154761957/88135281)
+07-31
+[这个“牛客校招\*面试题\*（\*附\*\*答案\*与\*解析\*）c++”的资源对于准备C++\*面\*试的求职者来说非常有价值，它提供了实战练习\*和\*深入理解C++的机会。通过解答这些题目，应聘者可以检验自己的知识水平，发现不足，并通过\*解析\*学习到更...](https://download.csdn.net/download/t154761957/88135281)
+[24道MySQL高频\*经典\*\*面试题\*（\*附\*\*答案\*）](https://download.csdn.net/download/weixin\_54542328/88488613)
+10-31
+[【MySQL高频\*经典\*\*面试题\*\*解析\*】 1. \\*\\*MySQL中的锁类型\\*\\* - \\*\\*表级锁\\*\\*：锁定整个表，开销小但并发度低，适用于快速读取操作。 - \\*\\*行级锁\\*\\*：锁定单行数据，开销大但并发度高，适合大量写操作。 - \\*\\*页\*面\*锁\\*\\*：...](https://download.csdn.net/download/weixin\_54542328/88488613)
+[汇总版！美团搜索推荐\*算法\*\*面试题\*10道\*(\*含\*答案\*\*)\*](https://blog.csdn.net/m0\_59596990/article/details/136332120)
+[机器学习社区](https://blog.csdn.net/m0\_59596990)
+02-27![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)
+3788
+[\*推荐系统\*的流程主要包含一下几个阶段。会根据内容特性提前建立若干种类型的索引。用户请求时会从各种索引种取出千/万 条item。针对这上千/万条item，进行第一遍打分，再筛选出几百条或者千条。这个阶段的排序模型一般都比较简单，能够过滤掉一些与用户兴趣明显不相关的。得到几百条item后，精排阶段会建立相对精细的模型，根据用户的画像，偏好，上下文，结合业务目标进行排序。一般精排后返回50-100条给到engine侧。engine 侧拿到精排的50条item。](https://blog.csdn.net/m0\_59596990/article/details/136332120)
+[万字长文！\*推荐系统\*岗\*面\*试经验&学习心得](https://blog.csdn.net/abcdefg90876/article/details/103555922)
+[abcdefg90876的博客](https://blog.csdn.net/abcdefg90876)
+12-15![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)
+2008
+[“本文总结了百度，华为，京东，360，vivo等接近20家公司的推荐\*算法\*校招\*面\*试经验\*和\*个人心得，以及若干学习资料\*和\*方法，相信无论是在校生还是从业人员读后都会有所收获～”作者：Taylo...](https://blog.csdn.net/abcdefg90876/article/details/103555922)
+[推荐\*算法\*\*面\*试](https://blog.csdn.net/qq\_43431934/article/details/134126142)
+[qq\\_43431934的博客](https://blog.csdn.net/qq\_43431934)
+10-30![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)
+1327
+[现在的大模型（如GPT-3、BERT等）在\*自然语言处理\*\*和\*其他领域取得了巨大成功，但也\*面\*临挑战，例如计算资源的需求\*和\*模型的可解释性问题。这些大模型的出现增加了\*算法\*工程师处理复杂任务的能力，但也要求\*算法\*工程师具备更多的领域知识、深入了解模型的结构\*和\*原理，以及对实际问题的抽象\*和\*建模能力。在分类问题中使用MSE损失函数可能不太合适，因为它对概率的微小差异不够敏感，而且在分类问题中通常需要使用激活函数（如sigmoid或softmax）将输出映射到概率空间，使得MSE的数学性质不再适用。](https://blog.csdn.net/qq\_43431934/article/details/134126142)
+[太棒了！这是我见过的推荐\*算法\*岗（含实习）\*面\*试真题最全的总结了！](https://blog.csdn.net/m0\_59596990/article/details/136067620)
+[机器学习社区](https://blog.csdn.net/m0\_59596990)
+02-07![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)
+3252
+[学校：悉尼新南威尔士大学专业：计算机类岗位：360推荐\*算法\*岗（实习）](https://blog.csdn.net/m0\_59596990/article/details/136067620)
+[基于协同过滤的旅游\*推荐系统\* 学渣的毕业设计总结](https://devpress.csdn.net/v1/article/detail/118443980)
+[Rain\\_Hpu的博客](https://blog.csdn.net/Rain\_Hpu)
+07-03![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)
+8856
+[我的毕业设计选题是《基于协同过滤的旅游\*推荐系统\*的设计与实现》，用到了\*python\*语言，在pycharm中实现。系统主要包含用户的登录注册、个人信息管理、个性化推荐、景点查找、景点收藏评论\*和\*后台管理六大功能模块。同组的一个女生是电影\*推荐系统\*，不过是用java实现的。
+一、简述
+整个程序是用的B站一个学长的代码，只不过那个代码中没有用到协同过滤的推荐，展示的结果是随机推荐的几个。视频中使用到了VMware虚拟机，\*python\*2，我的是\*python\*3，一开始想着可能不太通用，\*python\*卸了重装了好几回。后来发现](https://devpress.csdn.net/v1/article/detail/118443980)
+[互联网大厂\*面\*试官：\*推荐系统\*最\*经典\*的 排序模型 有哪些？你了解多少？](https://devpress.csdn.net/v1/article/detail/126550218)
+[weixin\\_46838716的博客](https://blog.csdn.net/weixin\_46838716)
+08-27![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)
+5689
+[下一篇文章开始，我会仔细一个个把精排模型梳理清楚都有哪些？他们有啥特点？
+\*面\*试官很在乎你的基础功底的，所以你务必自己理解透了](https://devpress.csdn.net/v1/article/detail/126550218)
+[\*推荐系统\*\*面\*试](https://blog.csdn.net/qq\_24831889/article/details/82873139)
+[爱丹丹的博客](https://blog.csdn.net/qq\_24831889)
+09-27![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)
+7253
+[\*推荐系统\*\*算法\*工程师
+1.推荐\*算法\*公工程师做什么？
+1.1招聘网站能力要求：
+数据分析、数据挖掘能力
+大数据处理技术（spark、Hadoop、）
+扎实的\*算法\*基础：\*机器学习\*与推荐\*算法\*相关的LR、SVM、GBDT、DNN
+丰富的\*Python\*、C开发经验
+项目经验
+1.2工作内容
+数据分析与处理
+用户画像
+个性化推荐
+CTR预估
+销量预测
+2.怎样准备
+2.1基本技能准备
+数据分析与数据挖掘：...](https://blog.csdn.net/qq\_24831889/article/details/82873139)
+[知乎推荐\*算法\*工程师\*面\*经](https://devpress.csdn.net/v1/article/detail/104681907)
+[m0\\_37586850的博客](https://blog.csdn.net/m0\_37586850)
+03-05![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)
+2931
+[前言曾三次迈进知乎的大门，\*面\*试\*算法\*工程师岗位。特整理了一些相关问题供大家研究，并\*附\*上了一些大佬的建议供大家参考。\*面\*试流程1、自我介绍balabala......2、介绍下...](https://devpress.csdn.net/v1/article/detail/104681907)
+[2018作业帮\*面\*试记录](https://blog.csdn.net/u012750779/article/details/80938331)
+[u012750779的博客](https://blog.csdn.net/u012750779)
+07-06![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)
+3350
+[\*面\*试了作业帮的\*推荐系统\*实习，自我感觉是要挂的节奏，在java基础知识等方\*面\*的掌握都不牢固，现记录具体的问题如下：
+惯例的自我介绍
+1、多线程
+2、\*面\*向对象编程：类与类之间的关系
+3、尝试写一个类HashMap的实现怎么写，说说思路
+4、设计模式中选一个熟悉的设计模式，单例模式，写一个完整的演示程序
+5、scrapy的运行机制
+6、scrapy中单线程\*和\*多线程的效率问题
+7、scra...](https://blog.csdn.net/u012750779/article/details/80938331)
+\* [关于我们](//www.csdn.net/company/index.html#about)
+\* [招贤纳士](//www.csdn.net/company/index.html#recruit)
+\* [商务合作](https://fsc-p05.txscrm.com/T8PN8SFII7W)
+\* [寻求报道](//marketing.csdn.net/questions/Q2202181748074189855)
+\* ![](//g.csdnimg.cn/common/csdn-footer/images/tel.png)400-660-0108
+\* ![](//g.csdnimg.cn/common/csdn-footer/images/email.png)[kefu@csdn.net](mailto:webmaster@csdn.net)
+\* ![](//g.csdnimg.cn/common/csdn-footer/images/cs.png)[在线客服](https://csdn.s2.udesk.cn/im\_client/?web\_plugin\_id=29181)
+\* 工作时间 8:30-22:00
+\* ![](//g.csdnimg.cn/common/csdn-footer/images/badge.png)[公安备案号11010502030143](http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010502030143)
+\* [京ICP备19004658号](http://beian.miit.gov.cn/publish/query/indexFirst.action)
+\* [京网文〔2020〕1039-165号](https://csdnimg.cn/release/live\_fe/culture\_license.png)
+\* [经营性网站备案信息](https://csdnimg.cn/cdn/content-toolbar/csdn-ICP.png)
+\* [北京互联网违法和不良信息举报中心](http://www.bjjubao.org/)
+\* [家长监护](https://download.csdn.net/tutelage/home)
+\* [网络110报警服务](https://cyberpolice.mps.gov.cn/)
+\* [中国互联网举报中心](http://www.12377.cn/)
+\* [Chrome商店下载](https://chrome.google.com/webstore/detail/csdn%E5%BC%80%E5%8F%91%E8%80%85%E5%8A%A9%E6%89%8B/kfkdboecolemdjodhmhmcibjocfopejo?hl=zh-CN)
+\* [账号管理规范](https://blog.csdn.net/blogdevteam/article/details/126135357)
+\* [版权与免责声明](https://www.csdn.net/company/index.html#statement)
+\* [版权申诉](https://blog.csdn.net/blogdevteam/article/details/90369522)
+\* [出版物许可证](https://img-home.csdnimg.cn/images/20250103023206.png)
+\* [营业执照](https://img-home.csdnimg.cn/images/20250103023201.png)
+\* ©1999-2026北京创新乐知网络技术有限公司
+[![](https://profile-avatar.csdnimg.cn/default.jpg!1)](https://blog.csdn.net/julyedu\_7)
+[julyedu\\_7](https://blog.csdn.net/julyedu\_7)
+博客等级
+![](https://csdnimg.cn/identity/blog3.png)
+码龄4年
+[: 43
+原创](https://blog.csdn.net/julyedu\_7)
+: 11
+点赞
+: 187
+收藏
+: 22
+粉丝
+关注
+[私信](https://im.csdn.net/chat/julyedu\_7)
+[![](https://i-operation.csdnimg.cn/images/d5d144f1d1904560adf54c48ec13c5b4.png)](https://ai.csdn.net/workbench/wallet?utm\_source=xtai\_slb\_bloglb)
+![](https://kunyu.csdn.net/1.png?p=56&adId=1071043&adBlockFlag=0&a=1071043&c=0&k=推荐系统经典面试题（附答案和解析）&spm=1001.2101.3001.5000&articleId=121798127&d=1&t=3&u=965ca6875d784e7bac3fed9b8f5f6388)
+### 热门文章
+\* [字节跳动（秋招）计算机视觉算法工程师岗面试题分享
+![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)3686](https://blog.csdn.net/julyedu\_7/article/details/122606084)
+\* [如何快速发表一篇SCI论文
+![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)3606](https://blog.csdn.net/julyedu\_7/article/details/126143410)
+\* [百度计算机视觉算法工程师岗位秋招面试题分享
+![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)3105](https://blog.csdn.net/julyedu\_7/article/details/122673058)
+\* [2021机器学习面试必考面试题汇总（附答案详解）
+![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)2914](https://blog.csdn.net/julyedu\_7/article/details/121682555)
+\* [2021年11月7日-地平线视觉算法工程师面试题4道
+![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)2763](https://blog.csdn.net/julyedu\_7/article/details/121556347)
+### 分类专栏
+\* [![](https://i-blog.csdnimg.cn/columns/default/20201014180756757.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+最新名企AI面试题](https://blog.csdn.net/julyedu\_7/category\_11496748.html)39篇
+\* [![](https://i-blog.csdnimg.cn/columns/default/20201014180756925.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+从零起步学AI](https://blog.csdn.net/julyedu\_7/category\_12115857.html)1篇
+上一篇：
+: [带你通俗理解LightGBM](https://blog.csdn.net/julyedu\_7/article/details/121775717)
+下一篇：
+: [机器学习 - - - LR和SVM的联系与区别？](https://blog.csdn.net/julyedu\_7/article/details/121836689)
+### 最新评论
+\* [2021机器学习面试必考面试题汇总（附答案详解）](https://blog.csdn.net/julyedu\_7/article/details/121682555#comments\_28505867)
+[qiao\\_yx:](https://blog.csdn.net/qiao\_yx) 100题
+### 大家在看
+\* [IT疑难杂症诊疗室\\_数据库故障与性能优化](https://blog.csdn.net/bq990914/article/details/159634706)
+\* [Gemini问答记录 - 拉丁方与逆向工程
+![](https://csdnimg.cn/release/blogv2/dist/pc/img/readCountWhite.png)835](https://blog.csdn.net/AI\_Reverse/article/details/159541991)
+\* [循迹避障小车（有完整资料）](https://blog.csdn.net/tenas/article/details/159636469)
+\* [微搭低代码MBA 培训管理系统实战 20——学员分班](https://blog.csdn.net/u012877217/article/details/159632405)
+\* [做TikTok，得先换换脑子：从卖货思维到内容全球化](https://blog.csdn.net/qq\_40906751/article/details/159636681)
+### 最新文章
+\* [2022年8月15日陌陌推荐算法工程师面试题5道|含解](https://blog.csdn.net/julyedu\_7/article/details/128000975)
+\* [学术界or工业界，高校博后转行大厂工程师心得！](https://blog.csdn.net/julyedu\_7/article/details/127999906)
+\* [SHEIN算法工程师面试题7道|含解析](https://blog.csdn.net/julyedu\_7/article/details/127535184)
+[2022年30篇](https://blog.csdn.net/julyedu\_7?type=blog&year=2022&month=11)
+[2021年14篇](https://blog.csdn.net/julyedu\_7?type=blog&year=2021&month=12)
+![]()
+### 目录
+1. [问题1：召回分支的作用是什么？](#t0)
+2. [问题2：如何离线评价召回阶段各种模型算法的好坏？由于没有明确的召回预期值，所以无论rmse还是auc都不知道该怎么做？](#t1)
+3. [问题3：简述Multi-task learning(MLT)多任务学习](#t2)
+4. [问题4：特征选择的方法有哪些?](#t3)
+展开全部![](https://csdnimg.cn/release/blogv2/dist/pc/img/arrowup-line-bot-White.png)
+收起![](https://csdnimg.cn/release/blogv2/dist/pc/img/arrowup-line-top-White.png)
+![]()
+### 目录
+1. [问题1：召回分支的作用是什么？](#t0)
+2. [问题2：如何离线评价召回阶段各种模型算法的好坏？由于没有明确的召回预期值，所以无论rmse还是auc都不知道该怎么做？](#t1)
+3. [问题3：简述Multi-task learning(MLT)多任务学习](#t2)
+4. [问题4：特征选择的方法有哪些?](#t3)
+展开全部![](https://csdnimg.cn/release/blogv2/dist/pc/img/arrowup-line-bot-White.png)
+收起![](https://csdnimg.cn/release/blogv2/dist/pc/img/arrowup-line-top-White.png)
+![]()
+上一篇：
+: [带你通俗理解LightGBM](https://blog.csdn.net/julyedu\_7/article/details/121775717)
+下一篇：
+: [机器学习 - - - LR和SVM的联系与区别？](https://blog.csdn.net/julyedu\_7/article/details/121836689)
+### 分类专栏
+\* [![](https://i-blog.csdnimg.cn/columns/default/20201014180756757.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+最新名企AI面试题](https://blog.csdn.net/julyedu\_7/category\_11496748.html)39篇
+\* [![](https://i-blog.csdnimg.cn/columns/default/20201014180756925.png?x-oss-process=image/resize,m\_fixed,h\_64,w\_64)
+从零起步学AI](https://blog.csdn.net/julyedu\_7/category\_12115857.html)1篇
+展开全部![](https://csdnimg.cn/release/blogv2/dist/pc/img/arrowup-line-bot-White.png)收起![](https://csdnimg.cn/release/blogv2/dist/pc/img/arrowup-line-top-White.png)
+登录后您可以享受以下权益：
+\* 免费复制代码
+\* 和博主大V互动
+\* 下载海量资源
+\* 发动态/写文章/加入社区
+×立即登录
+评论![](https://csdnimg.cn/release/blogv2/dist/pc/img/closeBt.png)
+![](https://csdnimg.cn/release/blogv2/dist/pc/img/commentArrowLeftWhite.png)被折叠的  条评论
+[为什么被折叠?](https://blogdev.blog.csdn.net/article/details/122245662)[![](https://csdnimg.cn/release/blogv2/dist/pc/img/iconPark.png)到【灌水乐园】发言](https://bbs.csdn.net/forums/FreeZone)
+查看更多评论![](https://csdnimg.cn/release/blogv2/dist/pc/img/commentArrowDownWhite.png)
+添加红包
+祝福语
+请填写红包祝福语或标题
+红包数量
+个
+红包个数最小为10个
+红包总金额
+元
+红包金额最低5元
+余额支付
+当前余额3.43元
+[前往充值 >](https://i.csdn.net/#/wallet/balance/recharge)
+需支付：10.00元
+取消确定
+![]()
+成就一亿技术人!
+领取后你会自动成为博主和红包主的粉丝
+[规则](https://blogdev.blog.csdn.net/article/details/128932621)
+![](https://profile-avatar.csdnimg.cn/default.jpg!2)
+hope\\_wisdom
+发出的红包
+实付元
+[使用余额支付](javascript:;)
+![](https://csdnimg.cn/release/blogv2/dist/pc/img/pay-time-out.png)点击重新获取
+![](https://csdnimg.cn/release/blogv2/dist/pc/img/weixin.png)![](https://csdnimg.cn/release/blogv2/dist/pc/img/zhifubao.png)![](https://csdnimg.cn/release/blogv2/dist/pc/img/jingdong.png)扫码支付
+钱包余额0
+![](https://csdnimg.cn/release/blogv2/dist/pc/img/pay-help.png)
+抵扣说明：
+1.余额是钱包充值的虚拟货币，按照1:1的比例进行支付金额的抵扣。 2.余额无法直接购买下载，可以购买VIP、付费专栏及课程。
+[![](https://csdnimg.cn/release/blogv2/dist/pc/img/recharge.png)余额充值](https://i.csdn.net/#/wallet/balance/recharge)
+![]()
+确定取消![](https://csdnimg.cn/release/blogv2/dist/pc/img/closeBt.png)
+举报
+![](https://csdnimg.cn/release/blogv2/dist/pc/img/closeBlack.png)
+选择你想要举报的内容（必选）
+\* 内容涉黄
+\* 政治相关
+\* 内容抄袭
+\* 涉嫌广告
+\* 内容侵权
+\* 侮辱谩骂
+\* 样式问题
+\* 其他
+原文链接（必填）
+请选择具体原因（必选）
+\* 包含不实信息
+\* 涉及个人隐私
+请选择具体原因（必选）
+\* 侮辱谩骂
+\* 诽谤
+请选择具体原因（必选）
+\* 搬家样式
+\* 博文样式
+补充说明（选填）
+取消
+确定
+![](https://g.csdnimg.cn/side-toolbar/3.6/images/mobile.png)
+下载APP
+![](https://g.csdnimg.cn/side-toolbar/3.6/images/qr\_app.png)
+程序员都在用的中文IT技术交流社区
+公众号
+![](https://g.csdnimg.cn/side-toolbar/3.6/images/qr\_wechat.png)
+专业的中文 IT 技术社区，与千万技术人共成长
+视频号
+![](https://g.csdnimg.cn/side-toolbar/3.6/images/qr\_video.png)
+关注【CSDN】视频号，行业资讯、技术分享精彩不断，直播好礼送不停！![](https://g.csdnimg.cn/side-toolbar/3.6/images/customer.png)客服![](https://g.csdnimg.cn/side-toolbar/3.6/images/totop.png)返回顶部

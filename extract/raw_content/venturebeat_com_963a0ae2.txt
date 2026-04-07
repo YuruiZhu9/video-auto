@@ -1,0 +1,139 @@
+# Source URL: https://venturebeat.com/orchestration/anthropic-just-shipped-an-openclaw-killer-called-claude-code-channels/
+# Content Length: 12664 characters
+# Extracted at: 2026-03-23 10:43:06
+#============================================================
+
+
+Anthropic just shipped an OpenClaw killer called Claude Code Channels, letting you message it over Telegram and Discord | VentureBeat
+
+* [Orchestration](/category/orchestration)
+* [Infrastructure](/category/infrastructure)
+* [Data](/category/data)
+* [Security](/category/security)
+More[Newsletters](/newsletters)Featured
+
+Anthropic just shipped an OpenClaw killer called Claude Code Channels, letting you message it over Telegram and Discord
+=======================================================================================================================
+
+[Carl Franzen](/author/carlfranzen)
+March 20, 2026
+
+![]()
+
+
+
+Credit: VentureBeat made with Google Gemini 3.1 Pro Image
+
+
+
+The hit open source autonomous AI agent [OpenClaw](https://venturebeat.com/security/openclaw-agentic-ai-security-risk-ciso-guide) may have just gotten mogged by Anthropic.
+
+Today, [Anthropic announced Claude Code Channels,](https://x.com/trq212/status/2034761016320696565) a way to hook up its own powerful Claude Code AI agentic harness to a human user's Discord or Telegram messaging applications, letting them message Claude Code directly whenever they want while on the go and instruct it to write code for them. Official documentation is [here](https://code.claude.com/docs/en/channels).
+
+This isn't just a new UI; it is a fundamental shift in how developers interact with AI agents, moving from a synchronous "ask-and-wait" model to an asynchronous, autonomous partnership. Previously, Claude Code users were stuck interacting with the agentic harness on the Claude desktop application, terminal or supported developer environment, and Claude mobile app through a somewhat flaky (in my experience) [interconnection setting called Remote Control](https://venturebeat.com/orchestration/anthropic-just-released-a-mobile-version-of-claude-code-called-remote).
+
+Now, Anthropic is offering some of the same core functionality as OpenClaw that drove its rapid adoption among software developers and vibe coders following its release in November 2025 by [Austrian developer Peter Steinberger](https://steipete.me/) (who, ironically, originally called his project "Clawd" in honor of Anthropic's own AI model Claude which powered it initially, until [Anthropic sent him a cease-and-desist](https://www.msn.com/en-us/news/technology/clawdbot-creator-says-anthropic-forced-him-to-rename-the-viral-ai-agent-wasn-t-my-decision/ar-AA1V6kdQ?apiversion=v2&domshim=1&noservercache=1&noservertelemetry=1&batchservertelemetry=1&renderwebcomponents=1&wcseo=1#:~:text=Clawdbot%2C%20the%20viral%20AI%20agent,it%20would%20fit%20the%20branding.) for potential trademark violations. Steinberger was [since hired by Anthropic's rival OpenAI.](https://venturebeat.com/technology/openais-acquisition-of-openclaw-signals-the-beginning-of-the-end-of-the))
+
+Central to OpenClaw's appeal was its capability of allowing users to have a persistent, personal AI worker that they can message 24/7, whenever they feel like, over common messaging apps such as iMessage, Slack, Telegram, WhatsApp and Discord, and have their AI message them back — not just to chat with, but to perform real work for them on its own, from writing, sending and organizing email and files to [creating whole applications](https://youtu.be/ukW5AJaGP9c?si=KmM1CzihV6wFqYLk), [applying for jobs on the user's behalf,](https://medium.com/@lokaesh2000/i-made-openclaw-apply-to-jobs-while-i-watched-a-movie-ead5e3629ce7) to [managing complete ongoing social marketing campaigns.](https://youtu.be/OV5eK91YY68?si=AvQgruFyKCdxZJyb) When the AI finishes a task, it can immediately alert the human user over their preferred messaging platform.
+
+But OpenClaw also came with a high degree of security risk (since it could be given access to a user's hard drive and file system, or other personal information, and run amok) and difficulty for non-technical users, inspiring a wave of offshoots promising greater ease and security, including [NanoClaw](https://venturebeat.com/infrastructure/nanoclaw-and-docker-partner-to-make-sandboxes-the-safest-way-for-enterprises), [KiloClaw](https://venturebeat.com/orchestration/kilo-launches-kiloclaw-allowing-anyone-to-deploy-hosted-openclaw-agents-into) and Nvidia's recently announced [NemoClaw](https://venturebeat.com/technology/nvidia-lets-its-claws-out-nemoclaw-brings-security-scale-to-the-agent).
+
+By giving Claude Code this same basic functionality — the ability for users to message it from popular third-party apps Discord and Telegram, and have it message them back when it finishes a task — Anthropic has effectively countered OpenClaw's appeal and offered something it does not: the Anthropic brand name with its commitment to AI security and safety, and ease of use right out of the box for less technically inclined users.
+
+**Technology: The Bridge of the Model Context Protocol**
+--------------------------------------------------------
+
+At the heart of this update is the Model Context Protocol (MCP) open source [standard that Anthropic introduced back in 2024](https://venturebeat.com/data-infrastructure/anthropic-releases-model-context-protocol-to-standardize-ai-data-integration). Think of MCP as a universal USB-C port for AI: it provides a standardized way for an AI model to connect to external data and tools. In the new "Channels" architecture, an MCP server acts as a two-way bridge.
+
+When a developer starts a Claude Code session with the `--channels` flag, they aren't just opening a chat; they are spinning up a polling service.
+
+Using the Bun runtime—known for its extreme speed in executing JavaScript—Claude Code monitors specific plugins (currently Telegram and Discord).
+
+When a message arrives, it is injected directly into the active session as a `<channel>` event. Claude can then use its internal tools to execute code, run tests, or fix bugs, and reply back to the external platform using a specialized `reply` tool.
+
+The technical achievement here is persistence. Unlike a standard web-chat that times out, a Claude Code session can now run in a background terminal or a persistent server (like a VPS), waiting for a "ping" to spring into action.
+
+**How to set up Claude Code Connectors on Telegram and Discord**
+----------------------------------------------------------------
+
+Setting up these native connectors requires Claude Code v2.1.80 or later and the Bun runtime installed on your desktop PC or Mac. Follow the instructions [here](https://code.claude.com/docs/en/channels) or below.
+
+#### **1. Setting up Telegram**
+
+1. **Create your Bot:** Open [BotFather](https://t.me/BotFather) in Telegram and use the `/newbot` command to generate a unique bot and access token.
+2. **Install the Plugin:** Inside your Claude Code terminal, run: `/plugin install telegram@claude-plugins-official`
+3. **Configure the Token:** Run `/telegram:configure <your-token>` to save your credentials.
+4. **Restart with Channels:** Exit Claude and restart using the channel flag: `claude --channels plugin:telegram@claude-plugins-official`
+5. **Pair your Account:** DM your new bot on Telegram to receive a pairing code, then enter it in your terminal: `/telegram:access pair <code>`
+
+#### **2. Setting up Discord**
+
+1. **Create an Application:** Go to the Discord Developer Portal, create a "New Application," and reset the bot token to copy it.
+2. **Enable Intents:** In the Bot settings, you **must** enable **Message Content Intent** under "Privileged Gateway Intents."
+3. **Install and Configure:** In Claude Code, run `/plugin install discord@claude-plugins-official` followed by `/discord:configure <your-token>`.
+4. **Launch and Pair:** Restart with `claude --channels plugin:discord@claude-plugins-official`. DM your bot on Discord and use the `/discord:access pair <code>` command to finish the link.
+
+**Product: From Desktop to "Everywhere"**
+-----------------------------------------
+
+The immediate practical impact is the democratization of mobile AI coding. Previously, if a developer wanted to check a build status or run a quick fix while away from their desk, they had to rely on complex self-hosted setups like OpenClaw.
+
+With Channels, the setup is native. A developer can create a Telegram bot via BotFather, link it to Claude Code with a `/telegram:configure` command, and "pair" their account with a security code. Once configured, the phone becomes a remote control for the development environment.
+
+The product also introduces a "Fakechat" demo—a local-only chat UI that allows developers to test the "push" logic on their own machine before connecting to external servers. This reflects Anthropic’s cautious, "research preview" approach, ensuring developers understand the flow of events before exposing their terminal to the internet.
+
+**Licensing: Proprietary Power on Open Standards**
+--------------------------------------------------
+
+The licensing implications of this release highlight a growing trend in the AI industry: proprietary engines running on open tracks. Claude Code remains a proprietary product tied to Anthropic’s commercial subscriptions (Pro, Max, and Enterprise).
+
+However, by building on the open-source Model Context Protocol, Anthropic is encouraging a developer ecosystem to build the "connectors" that make their model more useful.
+
+While the core Claude "brain" is closed, the plugins for Telegram and Discord are being hosted on GitHub under official Anthropic repositories, likely allowing for community contributions or forks.
+
+This strategy allows Anthropic to maintain the security and quality of the model while benefiting from the rapid innovation of the open-source community—a direct challenge to the "free" but often fragmented nature of purely open-source agent frameworks.
+
+And because it's built on MCP, the community can now build "Connectors" for Slack or WhatsApp themselves, rather than waiting for Anthropic to ship them.
+
+**Community Reactions: 'The OpenClaw Killer'**
+----------------------------------------------
+
+The response from users, especially AI observers on X, was swift and definitive. The sentiment was best captured by [Ejaaz (@cryptopunk7213)](https://x.com/cryptopunk7213/status/2034767628464513365), who noted that Anthropic’s speed of shipping—incorporating texting, thousands of MCP skills, and autonomous bug-fixing in just four weeks—was "fucking crazy."
+
+For many, this update renders local-first agent frameworks obsolete. BentoBoi ([@BentoBoiNFT](https://x.com/BentoBoiNFT/status/2034775974349246788?s=20)) observed, "Claude just killed OpenClaw with this update. You no longer need to buy a Mac Mini. I say this as someone who owns a one lol," referring to the common practice of developers buying dedicated hardware to run open-source agents like OpenClaw 24/7. By moving this persistence into the Claude Code environment, Anthropic has simplified the "hardware tax" for autonomy.
+
+AI YouTuber [Matthew Berman summarized the shift succinctly](https://x.com/MatthewBerman/status/2034780653712187902?s=20): "They've BUILT OpenClaw."
+
+The consensus among early adopters is that Anthropic has successfully internalized the most desirable features of the open-source movement—multi-channel support and long-term memory—while maintaining the reliability of a tier-one AI provider.
+
+While Anthropic’s Claude has long been a favorite for its reasoning, it remained a "brain in a jar"—a stateless entity that waited for a user to type before it could think. Meanwhile, open-source projects like OpenClaw thrived by offering "always-on" persistence, allowing developers to message their AI from Telegram or Discord to trigger complex workflows.
+
+Now, with Anthropic closing the gap, it's up to the users to choose which approach is best for them.
+
+##### Subscribe to get latest news!
+
+Deep insights for enterprise AI, data, and security leaders
+
+VB DailyAI WeeklyAGI WeeklySecurity WeeklyData Infrastructure WeeklyVB EventsAll of them
+
+By submitting your email, you agree to our [Terms](/terms-of-service) and [Privacy Notice](/privacy-policy).
+
+Get updatesYou're in! Our latest news will be hitting your inbox soon.
+
+More
+----
+
+* [Press Releases](/press-releases)
+* [Contact Us](/contact-2)
+* [Advertise](https://media.venturebeat.com)
+* [Share a News Tip](/contact-2)
+* [Contribute](/guest-posts)
+
+* [Privacy Policy](/privacy-policy)
+* [Terms of Service](/terms-of-service)
+* [Consent Preferences](#)
+* [Do Not Sell or Share My Personal Information](https://app.termly.io/notify/f592675e-4484-4dc9-bb50-462a84720662)
+* [Limit the Use Of My Sensitive Personal Information](https://app.termly.io/notify/f592675e-4484-4dc9-bb50-462a84720662)
+
+© 2026 VentureBeat. All rights reserved.
+

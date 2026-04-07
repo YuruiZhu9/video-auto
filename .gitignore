@@ -1,0 +1,45 @@
+# GitHub token (NEVER commit)
+.github-token
+
+# Credentials & secrets
+**/openclaw.json
+**/*.env
+**/.env*
+**/credentials.json
+**/*secret*
+**/*token*
+**/*.pem
+**/*.key
+
+# Memory & personal notes (may contain sensitive context)
+memory/heartbeat-state.json
+memory/daily-notes-*.md
+memory/**/secret*
+memory/**/password*
+
+# Logs & temp files
+**/*.log
+**/*.log.*
+**/logs/
+**/tmp/
+**/temp/
+extract/raw_content/
+
+# Build artifacts & caches
+node_modules/
+dist/
+.cache/
+__pycache__/
+*.pyc
+.DS_Store
+
+# IDE & editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Large generated files
+reports/**/*.mp4
+reports/**/*.zip
+reports/**/*.pdf

@@ -1,0 +1,152 @@
+# Source URL: https://basicpitch.spotify.com/about
+# Content Length: 11386 characters
+# Extracted at: 2026-03-15 19:43:23
+#============================================================
+
+
+Basic Pitch: An open source MIDI converter from Spotify - About
+
+* [Demo](/)
+* [About](/about)
+* [Github](https://github.com/spotify/basic-pitch)
+
+About Basic Pitch from Spotify
+==============================
+
+Basic Pitch is a lightweight, lightning-fast audio-to-MIDI converter that features pitch bend detection and works on recordings of almost any instrument, including voice. It's brought to you by the researchers and engineers at Spotify's Audio Intelligence Lab.
+
+Try the demo now
+
+Not your average MIDI converter
+-------------------------------
+
+Audio-to-MIDI converters detect the notes being played in a recording and turn them into a kind of digital score, which then allows you to easily manipulate the audio by changing instruments, key, tempo, and more.
+
+Some MIDI converters only work with specific instruments (like piano) or monophonic instruments (like voice). Basic Pitch provides quality MIDI conversions of almost any recorded instrument.
+
+Made for creators
+-----------------
+
+Go from inspiration to production, faster. Hum a tune into your phone, drop the recording in Basic Pitch, and you'll get a very accurate MIDI version that you can then tweak and adjust to perfection in your DAW of choice.
+
+We asked artist-producer Bad Snacks to try Basic Pitch — watch her create a new composition from scratch (14:33).Watch this quick demo on how Basic Pitch works (1:34).
+
+Multitalented, but refreshingly basic
+-------------------------------------
+
+The AI model in Basic Pitch combines a lot of audio processing power in a slim package. And pitch bend detection means you also get more nuanced and expressive MIDI.
+
+#### Versatile
+
+Works on any single instrument recording
+
+#### Polyphonic
+
+Supports instruments that play multiple notes at a time
+
+#### Fast
+
+Runs up to 10x faster than real time on most modern computers
+
+#### Accurate
+
+Uses AI-powered note detection developed at Spotify
+
+#### Pitch Bend Detection
+
+Go crazy with that whammy bar or pitch wheel — Basic Pitch recognizes pitch bends, too
+
+#### Simple
+
+Convert to MIDI using the [online demo](/), then import the file to your DAW
+
+Free and open source
+--------------------
+
+Whether you're a musician, a developer, or both, we'd love to hear what you do with the tech in Basic Pitch!
+
+##### Musicians & Producers
+
+* Get a jump start on your next composition. If you need to convert a recording to MIDI, you can use the [demo](/) version of Basic Pitch right on this website, with no strings attached.
+* Then fine tune your composition in the DAW of your choice, including [Soundtrap](https://www.soundtrap.com), the collaborative, online music studio from Spotify.
+
+##### Developers & Researchers
+
+* Help us improve it! Grab the code on [GitHub](https://github.com/spotify/basic-pitch/) and integrate it into different production workflows.
+* Machine learning and audio researchers can also dive into the code to see how it all works.
+
+Artificial intelligence, human thoughtfulness
+---------------------------------------------
+
+Unlike most ML models, which can be big, burly, and wasteful, Basic Pitch was engineered to do its processing simply and efficiently — with <20 MB peak memory and <17K parameters. So the output is both high-quality and energy-friendly.
+
+Listen to demo tracks
+---------------------
+
+Hear music made using Basic Pitch, including Virgo by artist-producer Bad Snacks. Plus, original compositions by the Basic Pitch team at Spotify.
+
+### Virgo
+
+By [Bad Snacks](https://www.youtube.com/c/badsnacks) (Artist, Beatmaker, Violinist, Vocalist, Producer):
+> “So [the violin part] is the part that I had the most fun with, by a long shot. Because this part was crazy. It starts with this violin solo, and I really just jammed. I wasn't thinking about things that would be easy to track. I just played how I would normally play. […] [Then I threw] it through a whole slew of plugins, because I wanted to hear this solo through so many different synths — and then I couldn't pick which synth that I wanted, so I just made a whole chorus of synths…”
+
+
+
+### Op37 Maximum Shimmer
+
+By [Jan Van Balen](https://jvbalen.github.io/) (Senior Research Scientist, Spotify):
+> “I started from a recording of [Beethoven’s Piano Concerto No. 3, Op. 37](https://commons.wikimedia.org/wiki/File:Beethoven_piano_concerto_3_-_2nd_mvt.ogg). I cut out a few four-bar loops from the “Allegro con brio” opening section, time-stretched them to a slower tempo, and fed the result to Basic Pitch. I used a low Frame Threshold of 0.1 and a slightly higher than default Minimum Note Length of 120 ms, resulting in a bunch of very dense MIDI files. From the most interesting one, I then rendered a kind of twinkly electric piano/bell texture that is lacking the note structure but keeps the harmonic structure of the original excerpt. Finally, I added a very sparse drum groove and a middle section that replaces the twinkly chords with a more minimal arpeggiated EP pattern, hoping to give the whole thing a bit more of a song-like structure.”
+
+
+
+### fruit juice!
+
+By [Hugo Flores García](https://hugofloresgarcia.github.io/) (Summer Intern-Research Scientist, Spotify):
+> “I recorded two guitar tracks, one that plays a recurring phrase, and another one that responds to the phrase with a short guitar solo. To add some color and energy to the tracks, I used Basic Pitch to convert both of my guitar tracks to MIDI, and resynthesized each phrase using a different combination of my own synths (like a wobbly Wurli, a “vocoded” Sawtooth, some swells for the chords, and a vibraphone). To make it groovy, I laid down a simple bassline and 808 beat.”
+
+
+
+### good snacks
+
+By [Ching Sung](https://www.linkedin.com/in/chingsung/) (Senior Product Manager, Spotify) and [Rachel Bittner](http://rachelbittner.weebly.com/) (Research Manager, Spotify):
+> “We started by recording a conversation about snacks we like. We transcribed each of our voice recordings using Basic Pitch, changing some of the MIDI adjustments to get a more accurate transcription. For both voices, we turned down the Model Confidence Threshold, shortened the Minimum Note Length, and adjusted the Minimum/Maximum Pitch to be within each of our speaking ranges. We added the generated MIDI files as extra tracks. Ching’s voice is doubled using a piano sound font, and Rachel’s using a xylophone sound font. We listened through the whole recording a couple of times to find moments where the transcription or words stood out to us, and emphasized those moments with extra/different MIDI instruments.”
+
+
+
+### Alla Tuna
+
+By [Daniel Stoller](https://dans.world/) (Research Scientist, Spotify):
+> “I started from [Paul Werner’s](https://www.jamendo.com/track/1829094/mozart-alla-turca-no-drums) comical interpretation of the well-known Sonata No. 11 in A major by Mozart (also called “Alla Turca”). Due to the repetitive nature of the piece, I decided to only focus on the initial few sections. For this song, Basic Pitch managed to detect many notes correctly, and the estimation errors it did make where musically still sensible (i.e. in-key, in-rhythm), which by accident added its own flair to the resulting music. I split all detected notes into high- and low-pitch and applied the Icecream VST to each, to generate a chiptune-like sound. The lower pitches were set to be a bit more in the background in terms of volume but also timbre, while the higher pitches contained the main melody and was given that typical, piercing chiptune style. I then added a simple drum line using a chiptune-style drum VST, and finished it off by time-aligning and pitch-correcting some notes that were too out of line.”
+
+
+
+### Olives and oranges
+
+By [Juan José Bosch](http://www.juanjobosch.com/) (Research Scientist, Spotify):
+> “How far could I go using only a single instrument recording and Basic Pitch? I tried to find out with a guitar recording from a song I made playing arpeggios, and ran it through Basic Pitch with different parameters to generate different musical elements in MIDI format. I first created a synth by running the transcription with default values, and then a bass by keeping only the lower notes and shifting them down one octave. I added pads by setting the parameters to get fewer long notes and then a simple electric guitar and toy piano by keeping the highest notes from the transcription and shifting them up. Finally, I created a simple percussion track by using the default transcription and mapped it to a percussive virtual instrument… so all the drum strokes you hear are linked to guitar note onsets. For some of the results I scaled note velocities down to get softer sounds from the virtual instruments, and sometimes edited one or two notes. I kept the guitar recording, created a simple arrangement with the rest of the instruments, a bit of mixing, and that’s it!”
+
+
+
+[![]()](http://creativecommons.org/licenses/by/4.0/) Op37 Maximum Shimmer by [Jan Van Balen](https://jvbalen.github.io/), fruit juice! by [Hugo Flores García](https://hugofloresgarcia.github.io/), good snacks by [Ching Sung and Rachel Bittner](basicpitch.io), Alla Tuna by [Daniel Stoller](https://dans.world/), and Olives and oranges by [Juan José Bosch](http://www.juanjobosch.com/) are each licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/). Based on a work at <basicpitch.io>.
+
+More from Spotify's Audio Intelligence Lab
+------------------------------------------
+
+### [Meet Basic Pitch: Spotify's Open Source Audio-to-MIDI Converter](https://engineering.atspotify.com)
+
+Read the Spotify Engineering blog to learn more about how Basic Pitch works.
+
+### [See us at IEEE ICASSP 2022](https://2022.ieeeicassp.org/view_paper.php?PaperNum=4718)
+
+Learn about the research behind Basic Pitch where the team presented their paper, “A Lightweight Instrument-Agnostic Model for Polyphonic Note Transcription and Multipitch Estimation” ([PDF](https://ieeexplore.ieee.org/document/9746549)), at the 2022 IEEE International Conference on Acoustics, Speech and Signal Processing.
+
+### [Pedalboard: Spotify's Audio Effects Library for Python](https://engineering.atspotify.com/2021/09/introducing-pedalboard-spotifys-audio-effects-library-for-python/)
+
+Our researchers built the world's beefiest effects pedal using machine learning and Python. [Say hello to Pedalboard](https://open.spotify.com/episode/2Rgy5wETfn7HC23ZXFH0IZ), an open source framework for adding studio-quality effects to tons of audio files — at a speed and scale that goes far beyond your DAW.
+
+### [Spotify's Audio Intelligence Lab](https://research.atspotify.com/audio-intelligence/)
+
+Visit the Spotify Research site to learn more about what the team does and what else they're working on.
+
+[GitHub](https://github.com/spotify/basic-pitch)[Open Source @ Spotify](https://spotify.github.io/)[Soundtrap](https://www.soundtrap.com/)[@SpotifyEng Twitter](https://twitter.com/spotifyeng)[Spotify R&D LinkedIn](https://www.linkedin.com/showcase/spotify-r&d/)[NerdOut@Spotify Podcast](https://open.spotify.com/show/5eXZwvvxt3K2dxha3BSaAe)[Spotify R&D Engineering](https://engineering.atspotify.com/)[Spotify R&D Research](https://research.atspotify.com/)[Spotify R&D Design](https://spotify.design/)[Life at Spotify](https://www.lifeatspotify.com/)[Made with 💚 at Spotify](https://spotify.github.io/)  
+Copyright © 2022 Spotify AB

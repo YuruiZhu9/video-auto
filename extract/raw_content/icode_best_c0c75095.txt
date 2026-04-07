@@ -1,0 +1,216 @@
+# Source URL: https://icode.best/i/955399378510593
+# Content Length: 10544 characters
+# Extracted at: 2026-04-06 10:46:51
+#============================================================
+
+[Skip to content](https://icode.best/i/955399378510593#content)
+代码编织梦想
+# 太卷！太难！24届算法岗秋招面经(搜广推方向)分享！\\_搜广推算法面经-爱代码爱编程
+Posted on2024-02-26
+分类: [算法](https://icode.best/category/%E7%AE%97%E6%B3%95) [人工智能](https://icode.best/category/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD) [深度学习](https://icode.best/category/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0) [推荐系统](https://icode.best/category/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F) [搜索](https://icode.best/category/%E6%90%9C%E7%B4%A2) [大模型](https://icode.best/category/%E5%A4%A7%E6%A8%A1%E5%9E%8B) [搜广推算法实战&](https://icode.best/category/%E6%90%9C%E5%B9%BF%E6%8E%A8%E7%AE%97%E6%B3%95%E5%AE%9E%E6%88%98%26amp%3B) [搜光推](https://icode.best/category/%E6%90%9C%E5%85%89%E6%8E%A8)
+节前，我们组织了一场算法岗技术&面试讨论会，邀请了一些互联网大厂同学、参加社招和校招面试的同学，针对算法岗技术趋势、大模型落地项目经验分享、新手如何入门算法岗、该如何准备、面试常考点分享等热门话题进行了深入的讨论。
+今天我整理一下算法岗方向面试题，分享给大家，希望对后续找工作的有所帮助。 \*\*喜欢记得点赞、收藏、关注。更多技术交流&面经学习，可以文末加入我们交流群。\*\*
+### 写在前面
+秋招结束一段时间了，从23年7月开始投递到24年1月最后一场面试,经历了近半年的时间。总的来说23年互联网秋招形式不容乐观，各大厂岗位肉眼可见地减少，难度相对往年也有很大提升。
+感谢 \_\*\*机器学习社区\*\*\_ 的邀请，分享我的秋招经历，在社区小伙伴的交流中，让我提前懂得了很多，也提供了很多宝贵的面试题。今天我经合自身经验，分享三点：
+1. 实习真的很重要 我是没打算读博所以实验室的事就做得少一点，挤了时间去实习。每场面试有一大半的时间都在问实习项目，结合一些业务和算法的知识点问而且问得很深。还有就是实习写在简历上的东西一定要都弄明白，不然面试官问深了会很尴尬。
+2. 刷题早点准备，基本感觉除了字节得编程题比较难，其他的都在中等和简单得范围内。leetcodehot100基本可以覆盖。
+3. 算法和开发的方向选择 尽早确定下来。我也面了开发岗但没咋准备，基本都挂了。
+关于简历，笔试，面试细节，以及如何入坑搜广推，后面梳理了再补一补。
+#### 文章目录
+- [写在前面](https://icode.best/i/955399378510593#\_4)
+- [个人情况](https://icode.best/i/955399378510593#\_21)
+- [美团](https://icode.best/i/955399378510593#\_30)
+- [字节](https://icode.best/i/955399378510593#\_106)
+- [阿里](https://icode.best/i/955399378510593#\_228)
+- [拼多多](https://icode.best/i/955399378510593#\_267)
+- [百度](https://icode.best/i/955399378510593#\_309)
+- [快手](https://icode.best/i/955399378510593#\_373)
+- [技术交流](https://icode.best/i/955399378510593#\_464)
+- [用通俗易懂的方式讲解系列](https://icode.best/i/955399378510593#\_473)
+### 个人情况
+c2本top2硕，本科电子信息微电子方向，硕士进了深度学习CV的坑，研究生期间做的比较小众的方向没想读博。一段大厂搜推实习，一段中厂推荐实习，leetcode800+ 基本中等题能ok，八股基本比较熟悉，相关的模型能手动推理。秋招主要投递搜广推和机器学习算法。
+\*\*面试情况\*\*
+大厂基本都投了，面试也基本能拿到
+### 美团
+总共三面
+\_\*\*一面\*\*\_
+1. 实习项目背景难点
+2. xgboost基本原理 在业务中怎么使用 和 RF lgb对比
+3. 深度学习梯度消失和梯度爆炸现象 如何处理
+4. 基本的推荐链路流程
+5. DCN和 DeepFM 的特征交叉有和异同
+6. 推荐算法种多任务学习有哪些 都有什么优化点
+7. 编程题 反转单链表 二叉树的最大深度
+\_\*\*二面\*\*\_
+1. 实习项目中的业务问题 因果推断 模型的选择考虑什么问题 对比学习的基本原理
+2. 推荐的模型发展过程 LR widedeep 多任务 多场景等
+3. PLE详细解释
+4. 是否了解营销场景
+5. 编程题 环形链表入口节点
+\_\*\*三面\*\*\_
+1. 实习背景 实验室项目
+2. 机器学习 交叉熵推导 XGboost LGB 推导
+3. 对比学习一些原理
+4. 编程 最长递增子序列
+### 字节
+\*\*岗位1：头条推荐算法岗\*\*
+\*\*一面\*\*
+1. 自我介绍 项目介绍
+2. 做题 字符串保留K个字符的最小字典序 接雨水1
+3. 交叉熵推导 两种角度 为什么不i用mse做分类
+4. 智力题 投硬币
+5. 项目问题 特征处理 目标融合 问了很多
+\*\*二面\*\*
+1. 自我介绍 项目问题 问得比较深
+2. 特征评估
+3. 过拟合 欠拟合问题 解决方法
+4. loss 有哪些 各有什么优缺点
+5. 编程题 leetcode课程表 累加数
+\*\*三面\*\*
+1. 自我介绍 项目介绍
+2. 遇到什么问题 对项目有没有深入思考
+3. 出了个题 没看懂 大概是排序吧 （面完就感觉挂了）
+\*\*岗位2：Tiktok 推荐算法\*\*
+\*\*一面\*\*
+1. 自我介绍 项目介绍 项目中的小点问得很细
+2. 进程线程 中断
+3. 编程题 AUC实现 二叉搜索树交换错误节点
+\*\*二面\*\*
+1. 自我介绍 项目介绍 比较详细
+2. AUC 线下线上不一致 什么原因怎么解决
+3. GBDT XGBOOST 原理区别
+4. 样本处理 随机负采样会产生什么影响
+5. hashmap
+6. 第N位数 最长连续子数组
+\*\*三面\*\*
+1. 自我介绍 项目
+2. 编程题 旋转数组
+感觉面得还ok结果一周后感谢信
+### 阿里
+\*\*一面\*\*
+1. 自我介绍 项目背景 （实习项目和部门很贴切）
+2. 多模态信息应用于推荐系统
+3. 梯度消失 梯度爆炸 推荐基本模型
+4. 写AUC
+\*\*二面\*\*
+1. 自我介绍 实验室项目和论文
+2. 推导极大似然法
+3. 扔硬币
+### 拼多多
+\*\*一面\*\*
+1. 自我介绍 项目背景
+2. 多模态处理
+3. BN 的原理 训练和推理 Dropout基本原理 训练推理
+4. deepfm 基本原理 优化器
+5. Adam SGD
+\*\*二面\*\*
+1. 自我介绍 项目
+2. 对比学习原理 项目
+3. 岛屿面积
+### 百度
+\*\*一面\*\*
+1. 自我介绍项目
+2. GBDT xgboost
+3. 人脸识别
+4. 多任务模型 发展历程
+5. 部分链表反转
+\*\*二面\*\*
+1. 自我介绍项目
+2. 实验室项目
+3. 推荐系统基本模型
+4. 打家劫舍
+\*\*三面\*\*
+1. 自我介绍 项目
+2. 特征处理 AUC异常处理 线上线下流程
+3. 最短路径
+### 快手
+\*\*一面\*\*
+1. 自我介绍 项目背景 原理
+2. 推荐流程 点击率预估模型
+3. deepfm xdeepfm
+4. 编程题 二叉树分裂做最大积
+5. 模型的线上部署流程
+6. 计算机基本原理 线程 hash这些
+\*\*二面\*\*
+1. 自我介绍项目 项目里的算法 数据处理 流程 比较详细
+2. GBDT xgboost
+3. DCN FM FFM 推导
+4. 交叉熵损失 极大似然法
+5. 正则原理
+6. 特征处理 离散化有什么好处
+7. 智力题 汽车加油最多能跑多远
+8. 编程题 零钱兑换
+\*\*三面\*\*
+1. 自我介绍项目
+2. 对比学习 moco系列
+3. 损失函数有那些
+4. 优缺点
+5. 编程题 连续数组乘积最大值
+### 技术交流
+前沿技术资讯、算法交流、求职内推、算法竞赛、面试交流(校招、社招、实习)等、与 10000+来自港科大、北大、清华、中科院、CMU、腾讯、百度等名校名企开发者互动交流~
+我们建了算法岗面试与技术交流群， 想要进交流群、需要源码&资料、提升技术的同学，可以直接加微信号： \*\*mlc2060\*\*。加的时候备注一下：研究方向 +学校/公司+CSDN，即可。然后就可以拉你进群了。
+> 方式①、微信搜索公众号： \*\*机器学习社区\*\*，后台回复： \*\*技术交流\*\*
+>
+> 方式②、添加微信号： \*\*mlc2060\*\*，备注：技术交流
+### 用通俗易懂的方式讲解系列
+- [用通俗易懂的方式讲解：不用再找了，这是大模型最全的面试题库](https://icode.best/go?go=aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzU5NTk2OTkwL2FydGljbGUvZGV0YWlscy8xMzUyMDA4MzM=)
+- [用通俗易懂的方式讲解：这是我见过的最适合大模型小白的 PyTorch 中文课程](https://icode.best/go?go=aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzU5NTk2OTkwL2FydGljbGUvZGV0YWlscy8xMzUyMzI5NzU=)
+- [用通俗易懂的方式讲解：一文讲透最热的大模型开发框架 LangChain](https://icode.best/go?go=aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzU5NTk2OTkwL2FydGljbGUvZGV0YWlscy8xMzU1NjI1NTk=)
+- [用通俗易懂的方式讲解：基于 LangChain + ChatGLM搭建知识本地库](https://icode.best/go?go=aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzU5NTk2OTkwL2FydGljbGUvZGV0YWlscy8xMzUzMjEwNDQ=)
+- [用通俗易懂的方式讲解：基于大模型的知识问答系统全面总结](https://icode.best/go?go=aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzU5NTk2OTkwL2FydGljbGUvZGV0YWlscy8xMzQ2NTcyMjk=)
+- [用通俗易懂的方式讲解：ChatGLM3 基础模型多轮对话微调](https://icode.best/go?go=aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzU5NTk2OTkwL2FydGljbGUvZGV0YWlscy8xMzQ3NzE0MDA=)
+- [用通俗易懂的方式讲解：最火的大模型训练框架 DeepSpeed 详解来了](https://icode.best/go?go=aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzU5NTk2OTkwL2FydGljbGUvZGV0YWlscy8xMzQ3NzE0MDA=)
+- [用通俗易懂的方式讲解：这应该是最全的大模型训练与微调关键技术梳理](https://icode.best/go?go=aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzU5NTk2OTkwL2FydGljbGUvZGV0YWlscy8xMzUwMzUwOTY=)
+- [用通俗易懂的方式讲解：Stable Diffusion 微调及推理优化实践指南](https://icode.best/go?go=aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzU5NTk2OTkwL2FydGljbGUvZGV0YWlscy8xMzUwMzU5NTc=)
+- [用通俗易懂的方式讲解：大模型训练过程概述](https://icode.best/go?go=aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzU5NTk2OTkwL2FydGljbGUvZGV0YWlscy8xMzUzMTM2NDI=)
+- [用通俗易懂的方式讲解：专补大模型短板的RAG](https://icode.best/go?go=aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzU5NTk2OTkwL2FydGljbGUvZGV0YWlscy8xMzU0MjUzOTA=)
+- [用通俗易懂的方式讲解：大模型LLM Agent在 Text2SQL 应用上的实践](https://icode.best/go?go=aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzU5NTk2OTkwL2FydGljbGUvZGV0YWlscy8xMzU1NDA4MzM=)
+- [用通俗易懂的方式讲解：大模型 LLM RAG在 Text2SQL 上的应用实践](https://icode.best/go?go=aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzU5NTk2OTkwL2FydGljbGUvZGV0YWlscy8xMzU1NDExMjQ=)
+- [用通俗易懂的方式讲解：大模型微调方法总结](https://icode.best/go?go=aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzU5NTk2OTkwL2FydGljbGUvZGV0YWlscy8xMzU1NzY5NTM=)
+- [用通俗易懂的方式讲解：涨知识了，这篇大模型 LangChain 框架与使用示例太棒了](https://icode.best/go?go=aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzU5NTk2OTkwL2FydGljbGUvZGV0YWlscy8xMzU1NjY1NTI=)
+- [用通俗易懂的方式讲解：掌握大模型这些优化技术，优雅地进行大模型的训练和推理！](https://icode.best/go?go=aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzU5NTk2OTkwL2FydGljbGUvZGV0YWlscy8xMzU3MTY4NjE=)
+- [用通俗易懂的方式讲解：九大最热门的开源大模型 Agent 框架来了](https://icode.best/go?go=aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzU5NTk2OTkwL2FydGljbGUvZGV0YWlscy8xMzYwNjM2MTM=)
+版权声明：本文为博主原创文章，遵循 [CC 4.0 BY-SA](https://icode.best/go?go=aHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbGljZW5zZXMvYnktc2EvNC4wLw==) 版权协议，转载请附上原文出处链接和本声明。
+本文链接： [https://blog.csdn.net/m0\\_59596990/article/details/136309127](https://icode.best/go?go=aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzU5NTk2OTkwL2FydGljbGUvZGV0YWlscy8xMzYzMDkxMjc=)
+## [喜提一份 ‘凡尔赛’ 式的搜广推面经！-爱代码爱编程](https://icode.best/i/66196036165220)
+2020-12-11 标签: [编程语言](https://icode.best/tag/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80) [人工智能](https://icode.best/tag/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD) [算法](https://icode.best/tag/%E7%AE%97%E6%B3%95) [机器学习](https://icode.best/tag/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0) [深度学习](https://icode.best/tag/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0)
+前言
+    作者是一名今年参加校招的应届生，更是小编的校友学弟，本文写在校招结束三个月后。
+    希望通过这篇秋招总结帮助到想找搜广推算法岗的后来人。先说一下我个人的情况，非计算机专业本硕985，2个比赛&1篇paper，bat其二+小厂实习经历，最后拿到batk的offer，经过综合考虑签了鹅厂。
+    在这里也欢迎各位从
+[Continue Reading](https://icode.best/i/66196036165220)
+## [腾讯/字节/华为/旷视 2022届实习面经—计算机视觉方向-爱代码爱编程](https://icode.best/i/35518241968174)
+2021-04-25 分类: [面试](https://icode.best/category/%E9%9D%A2%E8%AF%95) [算法](https://icode.best/category/%E7%AE%97%E6%B3%95) [人工智能](https://icode.best/category/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD) [编程语言](https://icode.best/category/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80) [腾讯](https://icode.best/category/%E8%85%BE%E8%AE%AF)
+腾讯/字节/华为/旷视 2022届实习面经—计算机视觉方向
+作为2022届3月毕业的学生，现在开始找实习，主要目的是为之后的秋招积累一些面试经验和工作经验，如果能通过实习转正也算是为秋招找到了一个基础选项。
+本文主要记录了本人在实习面试过程中的经历和心得体会 ，以进行一个自我的总结梳理，同时可能对目前在面试或者即将求职的同学有些帮助~
+个人情况
+[Continue Reading](https://icode.best/i/35518241968174)
+## [【面经&八股】搜广推方向：面试记录（一）-爱代码爱编程](https://icode.best/i/064113302748999)
+2023-11-27 分类: [面试](https://icode.best/category/%E9%9D%A2%E8%AF%95) [职场和发展](https://icode.best/category/%E8%81%8C%E5%9C%BA%E5%92%8C%E5%8F%91%E5%B1%95) [搜广推算法面经](https://icode.best/category/%E6%90%9C%E5%B9%BF%E6%8E%A8%E7%AE%97%E6%B3%95%E9%9D%A2%E7%BB%8F)
+【面经&八股】搜广推方向：面试记录（一）字节跳动
+文章目录
+【面经&八股】搜广推方向：面试记录（一）字节跳动
+1\. 自我介绍
+2\. 项目、科研介绍
+[Continue Reading](https://icode.best/i/064113302748999)
+## [百亿量化私募高薪急招c++！ 春招/校招/社招，21/22-爱代码爱编程](https://icode.best/i/942149377918223)
+2024-04-24 分类: [Java](https://icode.best/category/Java)
+腾讯人力资源培训生暑期实习被捞经历【已oc】
+终于oc啦，来还愿记录一下timeline和面经\[yeah\]📅 oc时间线3.19 投递简历（官网
+Mysql经典面试题
+1\. 如何选择更高效的数据类型？答：1）更小的：一般情况下，应该尽量使用较小的数据类型，更小的数据类
+钉钉 宜搭 二面
+1.自我介绍2.项目介绍3.项目有什么难点吗？r
+[Continue Reading](https://icode.best/i/942149377918223)
+## [算法工程师面试八股（搜广推方向）\\_算法岗八股-爱代码爱编程](https://icode.best/i/526890378586401)
+2023-12-02 分类: [面经](https://icode.best/category/%E9%9D%A2%E7%BB%8F) [Data Structu](https://icode.best/category/Data+Structu) [深度学习](https://icode.best/category/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0) [机器学习](https://icode.best/category/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0) [算法工程师](https://icode.best/category/%E7%AE%97%E6%B3%95%E5%B7%A5%E7%A8%8B%E5%B8%88) [搜索广告推荐](https://icode.best/category/%E6%90%9C%E7%B4%A2%E5%B9%BF%E5%91%8A%E6%8E%A8%E8%8D%90)
+文章目录
+机器学习线性和逻辑回归模型逻辑回归二分类和多分类的损失函数二分类为什么用交叉熵损失而不用MSE损失？偏差与方差Layer Normalization 和 Batch NormalizationSVM数
+[Continue Reading](https://icode.best/i/526890378586401)
+## [《搜广推算法指南》(2024版) 重磅发布！-爱代码爱编程](https://icode.best/i/244836378586413)
+2024-04-04 分类: [面试](https://icode.best/category/%E9%9D%A2%E8%AF%95) [搜索算法](https://icode.best/category/%E6%90%9C%E7%B4%A2%E7%AE%97%E6%B3%95) [算法](https://icode.best/category/%E7%AE%97%E6%B3%95) [推荐系统](https://icode.best/category/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F) [推荐算法](https://icode.best/category/%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95) [大模型](https://icode.best/category/%E5%A4%A7%E6%A8%A1%E5%9E%8B) [搜广推](https://icode.best/category/%E6%90%9C%E5%B9%BF%E6%8E%A8) [搜广推算法实战&](https://icode.best/category/%E6%90%9C%E5%B9%BF%E6%8E%A8%E7%AE%97%E6%B3%95%E5%AE%9E%E6%88%98%26amp%3B)
+节前，我们星球组织了一场算法岗技术&面试讨论会，邀请了一些互联网大厂朋友、参加社招和校招面试的同学，针对算法岗技术趋势、大模型落地项目经验分享、新手如何入门算法岗、该如何准备、面试常考点分享等热门话题进行了深入的讨论
+[Continue Reading](https://icode.best/i/244836378586413)
+[Go to Top](https://icode.best/i/955399378510593# "Go to Top")

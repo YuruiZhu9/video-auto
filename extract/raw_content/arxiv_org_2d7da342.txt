@@ -1,0 +1,943 @@
+# Source URL: https://arxiv.org/search/?query=LLM+agent+reasoning+RAG+transformer&searchtype=all&start=0&order=-announced_date_first
+# Content Length: 76989 characters
+# Extracted at: 2026-03-25 11:48:49
+#============================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Search | arXiv e-print repository
+
+
+
+
+[Skip to main content](#main-container)
+
+[![]()](https://cornell.edu/)
+
+We gratefully acknowledge support from  
+ the Simons Foundation, [member institutions](https://info.arxiv.org/about/ourmembers.html), and all contributors. [Donate](https://info.arxiv.org/about/donate.html)
+
+
+
+
+[![]()](https://arxiv.org/)
+
+
+[Help](https://info.arxiv.org/help) | [Advanced Search](https://arxiv.org/search/advanced)
+
+
+All fields
+Title
+Author
+Abstract
+Comments
+Journal reference
+ACM classification
+MSC classification
+Report number
+arXiv identifier
+DOI
+ORCID
+arXiv author ID
+Help pages
+Full text
+
+
+
+
+Search
+
+
+
+ 
+[Login](https://arxiv.org/login)
+
+
+
+Showing 1–27 of 27 results for all: LLM agent reasoning RAG transformer
+=======================================================================
+
+
+[Search v0.5.6 released 2020-02-24](https://github.com/arXiv/arxiv-search/releases)  
+
+
+Search term or terms
+
+
+Field
+All fieldsTitleAuthor(s)AbstractCommentsJournal referenceACM classificationMSC classificationReport numberarXiv identifierDOIORCIDLicense (URI)arXiv author IDHelp pagesFull text
+
+Search
+
+
+ Show abstracts
+
+ Hide abstracts
+
+
+
+[Advanced Search](/search/advanced?terms-0-term=LLM+agent+reasoning+RAG+transformer&terms-0-field=all&size=50&order=-announced_date_first)
+
+
+
+
+
+All fieldsTitleAuthor(s)AbstractCommentsJournal referenceACM classificationMSC classificationReport numberarXiv identifierDOIORCIDLicense (URI)arXiv author IDHelp pagesFull text
+
+* Show abstracts
+* Hide abstracts
+
+2550100200
+
+results per page.
+
+Sort results by
+Announcement date (newest first)Announcement date (oldest first)Submission date (newest first)Submission date (oldest first)Relevance
+
+
+Go
+
+
+
+
+1. [arXiv:2603.22528](https://arxiv.org/abs/2603.22528)
+    [[pdf](https://arxiv.org/pdf/2603.22528), [ps](https://arxiv.org/ps/2603.22528), [other](https://arxiv.org/format/2603.22528)] 
+   
+   cs.IR
+   cs.AI
+   
+   GraphRAG for Engineering Diagrams: ChatP&ID Enables LLM Interaction with P&IDs
+   
+   Authors:
+   [Achmad Anggawirya Alimin](/search/?searchtype=author&query=Alimin%2C+A+A),
+   [Artur M. Schweidtmann](/search/?searchtype=author&query=Schweidtmann%2C+A+M)
+   
+   Abstract:
+   Large Language Models (LLMs) combined with Retrieval-Augmented Generation (…
+   ▽ More
+   
+   Large Language Models (LLMs) combined with Retrieval-Augmented Generation (RAG) and knowledge graphs offer new opportunities for interacting with engineering diagrams such as Piping and Instrumentation Diagrams (P&IDs). However, directly processing raw images or smart P&ID files with LLMs is often costly, inefficient, and prone to hallucinations. This work introduces ChatP&ID, an agentic framework that enables grounded and cost-effective natural-language interaction with P&IDs using Graph Retrieval-Augmented Generation (GraphRAG), a paradigm we refer to as GraphRAG for engineering diagrams. Smart P&IDs encoded in the DEXPI standard are transformed into structured knowledge graphs, which serve as the basis for graph-based retrieval and reasoning by LLM agents. This approach enables reliable querying of engineering diagrams while significantly reducing computational cost. Benchmarking across commercial LLM APIs (OpenAI, Anthropic) demonstrates that graph-based representations improve accuracy by 18% over raw image inputs and reduce token costs by 85% compared to directly ingesting smart P&ID files. While small open-source models still struggle to interpret knowledge graph formats and structured engineering data, integrating them with VectorRAG and PathRAG improves response accuracy by up to 40%. Notably, GPT-5-mini combined with ContextRAG achieves 91% accuracy at a cost of only $0.004 per task. The resulting ChatP&ID interface enables intuitive natural-language interaction with complex engineering diagrams and lays the groundwork for AI-assisted process engineering tasks such as Hazard and Operability Studies (HAZOP) and multi-agent analysis.
+   △ Less
+   
+   
+   Submitted 23 March, 2026;
+   originally announced March 2026.
+2. [arXiv:2603.11890](https://arxiv.org/abs/2603.11890)
+    [[pdf](https://arxiv.org/pdf/2603.11890), [ps](https://arxiv.org/ps/2603.11890), [other](https://arxiv.org/format/2603.11890)] 
+   
+   cs.SE
+   
+   QUARE: Multi-Agent Negotiation for Balancing Quality Attributes in Requirements Engineering
+   
+   Authors:
+   [Haowei Cheng](/search/?searchtype=author&query=Cheng%2C+H),
+   [Milhan Kim](/search/?searchtype=author&query=Kim%2C+M),
+   [Foutse Khomh](/search/?searchtype=author&query=Khomh%2C+F),
+   [Teeradaj Racharak](/search/?searchtype=author&query=Racharak%2C+T),
+   [Nobukazu Yoshioka](/search/?searchtype=author&query=Yoshioka%2C+N),
+   [Naoyasu Ubayashi](/search/?searchtype=author&query=Ubayashi%2C+N),
+   [Hironori Washizaki](/search/?searchtype=author&query=Washizaki%2C+H)
+   
+   Abstract:
+   …yet automating it remains challenging because multiple, often conflicting quality attributes must be balanced while preserving stakeholder intent. Existing Large-Language-Model (LLM) approaches predominantly rely on monolithic…
+   ▽ More
+   
+   Requirements engineering (RE) is critical to software success, yet automating it remains challenging because multiple, often conflicting quality attributes must be balanced while preserving stakeholder intent. Existing Large-Language-Model (LLM) approaches predominantly rely on monolithic reasoning or implicit aggregation, limiting their ability to systematically surface and resolve cross-quality conflicts. We present QUARE (Quality-Aware Requirements Engineering), a multi-agent framework that formulates requirements analysis as structured negotiation among five quality-specialized agents (Safety, Efficiency, Green, Trustworthiness, and Responsibility), coordinated by a dedicated orchestrator. QUARE introduces a dialectical negotiation protocol that explicitly exposes inter-quality conflicts and resolves them through iterative proposal, critique, and synthesis. Negotiated outcomes are transformed into structurally sound KAOS goal models via topology validation and verified against industry standards through retrieval-augmented generation (RAG). We evaluate QUARE on five case studies drawn from established RE benchmarks (MARE, iReDev) and an industrial autonomous-driving specification, spanning safety-critical, financial, and information-system domains. Results show that QUARE achieves 98.2% compliance coverage (+105% over both baselines), 94.9% semantic preservation (+2.3 percentage points over the best baseline), and high verifiability (4.96/5.0), while generating 25-43% more requirements than existing multi-agent RE frameworks. These findings suggest that effective RE automation depends less on model scale than on principled architectural decomposition, explicit interaction protocols, and automated verification.
+   △ Less
+   
+   
+   Submitted 12 March, 2026;
+   originally announced March 2026.
+3. [arXiv:2603.11798](https://arxiv.org/abs/2603.11798)
+    [[pdf](https://arxiv.org/pdf/2603.11798), [ps](https://arxiv.org/ps/2603.11798), [other](https://arxiv.org/format/2603.11798)] 
+   
+   cs.AI
+   
+   DocSage: An Information Structuring Agent for Multi-Doc Multi-Entity Question Answering
+   
+   Authors:
+   [Teng Lin](/search/?searchtype=author&query=Lin%2C+T),
+   [Yizhang Zhu](/search/?searchtype=author&query=Zhu%2C+Y),
+   [Zhengxuan Zhang](/search/?searchtype=author&query=Zhang%2C+Z),
+   [Yuyu Luo](/search/?searchtype=author&query=Luo%2C+Y),
+   [Nan Tang](/search/?searchtype=author&query=Tang%2C+N)
+   
+   Abstract:
+   …Multi-entity Question Answering inherently demands models to track implicit logic between multiple entities across scattered documents. However, existing Large Language Models (LLMs) and Retrieval-Augmented Generation (…
+   ▽ More
+   
+   Multi-document Multi-entity Question Answering inherently demands models to track implicit logic between multiple entities across scattered documents. However, existing Large Language Models (LLMs) and Retrieval-Augmented Generation (RAG) frameworks suffer from critical limitations: standard RAG's vector similarity-based coarse-grained retrieval often omits critical facts, graph-based RAG fails to efficiently integrate fragmented complex relationship networks, and both lack schema awareness, leading to inadequate cross-document evidence chain construction and inaccurate entity relationship deduction. To address these challenges, we propose DocSage, an end-to-end agentic framework that integrates dynamic schema discovery, structured information extraction, and schema-aware relational reasoning with error guarantees. DocSage operates through three core modules: (1) A schema discovery module dynamically infers query-specific minimal joinable schemas to capture essential entities and relationships; (2) An extraction module transforms unstructured text into semantically coherent relational tables, enhanced by error-aware correction mechanisms to reduce extraction errors; (3) A reasoning module performs multi-hop relational reasoning over structured tables, leveraging schema awareness to efficiently align cross-document entities and aggregate evidence. This agentic design offers three key advantages: precise fact localization via SQL-powered indexing, natural support for cross-document entity joins through relational tables, and mitigated LLM attention diffusion via structured representation. Evaluations on two MDMEQA benchmarks demonstrate that DocSage significantly outperforms state-of-the-art long-context LLMs and RAG systems, achieving more than 27% accuracy improvements respectively.
+   △ Less
+   
+   
+   Submitted 12 March, 2026;
+   originally announced March 2026.
+4. [arXiv:2603.03292](https://arxiv.org/abs/2603.03292)
+    [[pdf](https://arxiv.org/pdf/2603.03292), [ps](https://arxiv.org/ps/2603.03292), [other](https://arxiv.org/format/2603.03292)] 
+   
+   cs.CL
+   cs.AI
+   cs.IR
+   
+   From Conflict to Consensus: Boosting Medical Reasoning via Multi-Round Agentic RAG
+   
+   Authors:
+   [Wenhao Wu](/search/?searchtype=author&query=Wu%2C+W),
+   [Zhentao Tang](/search/?searchtype=author&query=Tang%2C+Z),
+   [Yafu Li](/search/?searchtype=author&query=Li%2C+Y),
+   [Shixiong Kai](/search/?searchtype=author&query=Kai%2C+S),
+   [Mingxuan Yuan](/search/?searchtype=author&query=Yuan%2C+M),
+   [Chunlin Chen](/search/?searchtype=author&query=Chen%2C+C),
+   [Zhi Wang](/search/?searchtype=author&query=Wang%2C+Z)
+   
+   Abstract:
+   Large Language Models (LLMs) exhibit high…
+   ▽ More
+   
+   Large Language Models (LLMs) exhibit high reasoning capacity in medical question-answering, but their tendency to produce hallucinations and outdated knowledge poses critical risks in healthcare fields. While Retrieval-Augmented Generation (RAG) mitigates these issues, existing methods rely on noisy token-level signals and lack the multi-round refinement required for complex reasoning. In the paper, we propose MA-RAG (Multi-Round Agentic RAG), a framework that facilitates test-time scaling for complex medical reasoning by iteratively evolving both external evidence and internal reasoning history within an agentic refinement loop. At each round, the agent transforms semantic conflict among candidate responses into actionable queries to retrieve external evidence, while optimizing history reasoning traces to mitigate long-context degradation. MA-RAG extends the self-consistency principle by leveraging the lack of consistency as a proactive signal for multi-round agentic reasoning and retrieval, and mirrors a boosting mechanism that iteratively minimizes the residual error toward a stable, high-fidelity medical consensus. Extensive evaluations across 7 medical Q&A benchmarks show that MA-RAG consistently surpasses competitive inference-time scaling and RAG baselines, delivering substantial +6.8 points on average accuracy over the backbone model. Our code is available at https://github.com/NJU-RL/MA-RAG.
+   △ Less
+   
+   
+   Submitted 24 March, 2026; v1 submitted 6 February, 2026;
+   originally announced March 2026.
+   
+   Comments:
+   22 pages, 7 figures, 11 tables
+5. [arXiv:2602.00028](https://arxiv.org/abs/2602.00028)
+    [[pdf](https://arxiv.org/pdf/2602.00028), [ps](https://arxiv.org/ps/2602.00028), [other](https://arxiv.org/format/2602.00028)] 
+   
+   cs.LG
+   cs.MM
+   
+   ELLMPEG: An Edge-based Agentic LLM Video Processing Tool
+   
+   Authors:
+   [Zoha Azimi](/search/?searchtype=author&query=Azimi%2C+Z),
+   [Reza Farahani](/search/?searchtype=author&query=Farahani%2C+R),
+   [Radu Prodan](/search/?searchtype=author&query=Prodan%2C+R),
+   [Christian Timmerer](/search/?searchtype=author&query=Timmerer%2C+C)
+   
+   Abstract:
+   Large language models (LLMs), the foundation of generative AI systems like ChatGPT, are…
+   ▽ More
+   
+   Large language models (LLMs), the foundation of generative AI systems like ChatGPT, are transforming many fields and applications, including multimedia, enabling more advanced content generation, analysis, and interaction. However, cloud-based LLM deployments face three key limitations: high computational and energy demands, privacy and reliability risks from remote processing, and recurring API costs. Recent advances in agentic AI, especially in structured reasoning and tool use, offer a better way to exploit open and locally deployed tools and LLMs. This paper presents ELLMPEG, an edge-enabled agentic LLM framework for the automated generation of video-processing commands. ELLMPEG integrates tool-aware Retrieval-Augmented Generation (RAG) with iterative self-reflection to produce and locally verify executable FFmpeg and VVenC commands directly at the edge, eliminating reliance on external cloud APIs. To evaluate ELLMPEG, we collect a dedicated prompt dataset comprising 480 diverse queries covering different categories of FFmpeg and the Versatile Video Codec (VVC) encoder (VVenC) commands. We validate command generation accuracy and evaluate four open-source LLMs based on command validity, tokens generated per second, inference time, and energy efficiency. We also execute the generated commands to assess their runtime correctness and practical applicability. Experimental results show that Qwen2.5, when augmented with the ELLMPEG framework, achieves an average command-generation accuracy of 78 % with zero recurring API cost, outperforming all other open-source models across both the FFmpeg and VVenC datasets.
+   △ Less
+   
+   
+   Submitted 17 January, 2026;
+   originally announced February 2026.
+   
+   Comments:
+   12 pages, 5 tables, 8 Figures, accepted for the MMSys 2026 conference
+6. [arXiv:2601.14053](https://arxiv.org/abs/2601.14053)
+    [[pdf](https://arxiv.org/pdf/2601.14053), [ps](https://arxiv.org/ps/2601.14053), [other](https://arxiv.org/format/2601.14053)] 
+   
+   cs.LG
+   cs.AI
+   cs.CV
+   cs.MA
+   eess.IV
+   
+   LLMOrbit: A Circular Taxonomy of Large Language Models -From Scaling Walls to Agentic AI Systems
+   
+   Authors:
+   [Badri N. Patro](/search/?searchtype=author&query=Patro%2C+B+N),
+   [Vijay S. Agneeswaran](/search/?searchtype=author&query=Agneeswaran%2C+V+S)
+   
+   Abstract:
+   The field of artificial intelligence has undergone a revolution from foundational Transformer architectures to…
+   ▽ More
+   
+   The field of artificial intelligence has undergone a revolution from foundational Transformer architectures to reasoning-capable systems approaching human-level performance. We present LLMOrbit, a comprehensive circular taxonomy navigating the landscape of large language models spanning 2019-2025. This survey examines over 50 models across 15 organizations through eight interconnected orbital dimensions, documenting architectural innovations, training methodologies, and efficiency patterns defining modern LLMs, generative AI, and agentic systems. We identify three critical crises: (1) data scarcity (9-27T tokens depleted by 2026-2028), (2) exponential cost growth ($3M to $300M+ in 5 years), and (3) unsustainable energy consumption (22x increase), establishing the scaling wall limiting brute-force approaches. Our analysis reveals six paradigms breaking this wall: (1) test-time compute (o1, DeepSeek-R1 achieve GPT-4 performance with 10x inference compute), (2) quantization (4-8x compression), (3) distributed edge computing (10x cost reduction), (4) model merging, (5) efficient training (ORPO reduces memory 50%), and (6) small specialized models (Phi-4 14B matches larger models). Three paradigm shifts emerge: (1) post-training gains (RLHF, GRPO, pure RL contribute substantially, DeepSeek-R1 achieving 79.8% MATH), (2) efficiency revolution (MoE routing 18x efficiency, Multi-head Latent Attention 8x KV cache compression enables GPT-4-level performance at <$0.30/M tokens), and (3) democratization (open-source Llama 3 88.6% MMLU surpasses GPT-4 86.4%). We provide insights into techniques (RLHF, PPO, DPO, GRPO, ORPO), trace evolution from passive generation to tool-using agents (ReAct, RAG, multi-agent systems), and analyze post-training innovations.
+   △ Less
+   
+   
+   Submitted 20 January, 2026;
+   originally announced January 2026.
+7. [arXiv:2601.06411](https://arxiv.org/abs/2601.06411)
+    [[pdf](https://arxiv.org/pdf/2601.06411), [ps](https://arxiv.org/ps/2601.06411), [other](https://arxiv.org/format/2601.06411)] 
+   
+   cs.CL
+   
+   Structured Episodic Event Memory
+   
+   Authors:
+   [Zhengxuan Lu](/search/?searchtype=author&query=Lu%2C+Z),
+   [Dongfang Li](/search/?searchtype=author&query=Li%2C+D),
+   [Yukun Shi](/search/?searchtype=author&query=Shi%2C+Y),
+   [Beilun Wang](/search/?searchtype=author&query=Wang%2C+B),
+   [Longyue Wang](/search/?searchtype=author&query=Wang%2C+L),
+   [Baotian Hu](/search/?searchtype=author&query=Hu%2C+B)
+   
+   Abstract:
+   Current approaches to memory in Large Language Models (LLMs) predominantly rely on static Retrieval-Augmented Generation (…
+   ▽ More
+   
+   Current approaches to memory in Large Language Models (LLMs) predominantly rely on static Retrieval-Augmented Generation (RAG), which often results in scattered retrieval and fails to capture the structural dependencies required for complex reasoning. For autonomous agents, these passive and flat architectures lack the cognitive organization necessary to model the dynamic and associative nature of long-term interaction. To address this, we propose Structured Episodic Event Memory (SEEM), a hierarchical framework that synergizes a graph memory layer for relational facts with a dynamic episodic memory layer for narrative progression. Grounded in cognitive frame theory, SEEM transforms interaction streams into structured Episodic Event Frames (EEFs) anchored by precise provenance pointers. Furthermore, we introduce an agentic associative fusion and Reverse Provenance Expansion (RPE) mechanism to reconstruct coherent narrative contexts from fragmented evidence. Experimental results on the LoCoMo and LongMemEval benchmarks demonstrate that SEEM significantly outperforms baselines, enabling agents to maintain superior narrative coherence and logical consistency.
+   △ Less
+   
+   
+   Submitted 10 February, 2026; v1 submitted 9 January, 2026;
+   originally announced January 2026.
+8. [arXiv:2512.16676](https://arxiv.org/abs/2512.16676)
+    [[pdf](https://arxiv.org/pdf/2512.16676), [ps](https://arxiv.org/ps/2512.16676), [other](https://arxiv.org/format/2512.16676)] 
+   
+   cs.LG
+   cs.CL
+   
+   DataFlow: An LLM-Driven Framework for Unified Data Preparation and Workflow Automation in the Era of Data-Centric AI
+   
+   Authors:
+   [Hao Liang](/search/?searchtype=author&query=Liang%2C+H),
+   [Xiaochen Ma](/search/?searchtype=author&query=Ma%2C+X),
+   [Zhou Liu](/search/?searchtype=author&query=Liu%2C+Z),
+   [Zhen Hao Wong](/search/?searchtype=author&query=Wong%2C+Z+H),
+   [Zhengyang Zhao](/search/?searchtype=author&query=Zhao%2C+Z),
+   [Zimo Meng](/search/?searchtype=author&query=Meng%2C+Z),
+   [Runming He](/search/?searchtype=author&query=He%2C+R),
+   [Chengyu Shen](/search/?searchtype=author&query=Shen%2C+C),
+   [Qifeng Cai](/search/?searchtype=author&query=Cai%2C+Q),
+   [Zhaoyang Han](/search/?searchtype=author&query=Han%2C+Z),
+   [Meiyi Qiang](/search/?searchtype=author&query=Qiang%2C+M),
+   [Yalin Feng](/search/?searchtype=author&query=Feng%2C+Y),
+   [Tianyi Bai](/search/?searchtype=author&query=Bai%2C+T),
+   [Zewei Pan](/search/?searchtype=author&query=Pan%2C+Z),
+   [Ziyi Guo](/search/?searchtype=author&query=Guo%2C+Z),
+   [Yizhen Jiang](/search/?searchtype=author&query=Jiang%2C+Y),
+   [Jingwen Deng](/search/?searchtype=author&query=Deng%2C+J),
+   [Qijie You](/search/?searchtype=author&query=You%2C+Q),
+   [Peichao Lai](/search/?searchtype=author&query=Lai%2C+P),
+   [Tianyu Guo](/search/?searchtype=author&query=Guo%2C+T),
+   [Chi Hsu Tsai](/search/?searchtype=author&query=Tsai%2C+C+H),
+   [Hengyi Feng](/search/?searchtype=author&query=Feng%2C+H),
+   [Rui Hu](/search/?searchtype=author&query=Hu%2C+R),
+   [Wenkai Yu](/search/?searchtype=author&query=Yu%2C+W),
+   [Junbo Niu](/search/?searchtype=author&query=Niu%2C+J)
+   , et al. (10 additional authors not shown)
+   
+   Abstract:
+   The rapidly growing demand for high-quality data in Large Language Models (LLMs) has intensified the need for scalable, reliable, and semantically rich data preparation pipelines. However, current practices remain dominated by ad-hoc scripts and loosely specified workflows, which lack principled abstractions, hinder reproducibility, and offer limited support…
+   ▽ More
+   
+   The rapidly growing demand for high-quality data in Large Language Models (LLMs) has intensified the need for scalable, reliable, and semantically rich data preparation pipelines. However, current practices remain dominated by ad-hoc scripts and loosely specified workflows, which lack principled abstractions, hinder reproducibility, and offer limited support for model-in-the-loop data generation. To address these challenges, we present DataFlow, a unified and extensible LLM-driven data preparation framework. DataFlow is designed with system-level abstractions that enable modular, reusable, and composable data transformations, and provides a PyTorch-style pipeline construction API for building debuggable and optimizable dataflows. The framework consists of nearly 200 reusable operators and six domain-general pipelines spanning text, mathematical reasoning, code, Text-to-SQL, agentic RAG, and large-scale knowledge extraction. To further improve usability, we introduce DataFlow-Agent, which automatically translates natural-language specifications into executable pipelines via operator synthesis, pipeline planning, and iterative verification. Across six representative use cases, DataFlow consistently improves downstream LLM performance. Our math, code, and text pipelines outperform curated human datasets and specialized synthetic baselines, achieving up to +3\% execution accuracy in Text-to-SQL over SynSQL, +7\% average improvements on code benchmarks, and 1--3 point gains on MATH, GSM8K, and AIME. Moreover, a unified 10K-sample dataset produced by DataFlow enables base models to surpass counterparts trained on 1M Infinity-Instruct data. These results demonstrate that DataFlow provides a practical and high-performance substrate for reliable, reproducible, and scalable LLM data preparation, and establishes a system-level foundation for future data-centric AI development.
+   △ Less
+   
+   
+   Submitted 18 December, 2025;
+   originally announced December 2025.
+9. [arXiv:2512.05908](https://arxiv.org/abs/2512.05908)
+    [[pdf](https://arxiv.org/pdf/2512.05908), [ps](https://arxiv.org/ps/2512.05908), [other](https://arxiv.org/format/2512.05908)] 
+   
+   cs.SE
+   cs.AI
+   cs.CL
+   cs.IR
+   
+   Natural Language Summarization Enables Multi-Repository Bug Localization by LLMs in Microservice Architectures
+   
+   Authors:
+   [Amirkia Rafiei Oskooei](/search/?searchtype=author&query=Oskooei%2C+A+R),
+   [S. Selcan Yukcu](/search/?searchtype=author&query=Yukcu%2C+S+S),
+   [Mehmet Cevheri Bozoglan](/search/?searchtype=author&query=Bozoglan%2C+M+C),
+   [Mehmet S. Aktas](/search/?searchtype=author&query=Aktas%2C+M+S)
+   
+   Abstract:
+   Bug localization in multi-repository microservice architectures is challenging due to the semantic gap between natural language bug reports and code, LLM context limitations, and the need to first identify the correct repository. We propose reframing this as a natural language…
+   ▽ More
+   
+   Bug localization in multi-repository microservice architectures is challenging due to the semantic gap between natural language bug reports and code, LLM context limitations, and the need to first identify the correct repository. We propose reframing this as a natural language reasoning task by transforming codebases into hierarchical NL summaries and performing NL-to-NL search instead of cross-modal retrieval. Our approach builds context-aware summaries at file, directory, and repository levels, then uses a two-phase search: first routing bug reports to relevant repositories, then performing top-down localization within those repositories. Evaluated on DNext, an industrial system with 46 repositories and 1.1M lines of code, our method achieves Pass@10 of 0.82 and MRR of 0.50, significantly outperforming retrieval baselines and agentic RAG systems like GitHub Copilot and Cursor. This work demonstrates that engineered natural language representations can be more effective than raw source code for scalable bug localization, providing an interpretable repository -> directory -> file search path, which is vital for building trust in enterprise AI tools by providing essential transparency.
+   △ Less
+   
+   
+   Submitted 5 December, 2025;
+   originally announced December 2025.
+   
+   Comments:
+   Accepted at LLM4Code Workshop, ICSE 2026
+   
+   ACM Class:
+   I.2.7; I.2.1; I.2.6; D.2.5
+10. [arXiv:2511.19423](https://arxiv.org/abs/2511.19423)
+     [[pdf](https://arxiv.org/pdf/2511.19423), [ps](https://arxiv.org/ps/2511.19423), [other](https://arxiv.org/format/2511.19423)] 
+    
+    q-bio.QM
+    cs.AI
+    
+    Beyond Protein Language Models: An Agentic LLM Framework for Mechanistic Enzyme Design
+    
+    Authors:
+    [Bruno Jacob](/search/?searchtype=author&query=Jacob%2C+B),
+    [Khushbu Agarwal](/search/?searchtype=author&query=Agarwal%2C+K),
+    [Marcel Baer](/search/?searchtype=author&query=Baer%2C+M),
+    [Peter Rice](/search/?searchtype=author&query=Rice%2C+P),
+    [Simone Raugei](/search/?searchtype=author&query=Raugei%2C+S)
+    
+    Abstract:
+    We present Genie-CAT, a tool-augmented large-language-model (LLM) system designed to accelerate scientific hypothesis generation in protein design. Using metalloproteins (e.g., ferredoxins) as a case study, Genie-CAT integrates four capabilities -- literature-grounded…
+    ▽ More
+    
+    We present Genie-CAT, a tool-augmented large-language-model (LLM) system designed to accelerate scientific hypothesis generation in protein design. Using metalloproteins (e.g., ferredoxins) as a case study, Genie-CAT integrates four capabilities -- literature-grounded reasoning through retrieval-augmented generation (RAG), structural parsing of Protein Data Bank files, electrostatic potential calculations, and machine-learning prediction of redox properties -- into a unified agentic workflow. By coupling natural-language reasoning with data-driven and physics-based computation, the system generates mechanistically interpretable, testable hypotheses linking sequence, structure, and function. In proof-of-concept demonstrations, Genie-CAT autonomously identifies residue-level modifications near [Fe--S] clusters that affect redox tuning, reproducing expert-derived hypotheses in a fraction of the time. The framework highlights how AI agents combining language models with domain-specific tools can bridge symbolic reasoning and numerical simulation, transforming LLMs from conversational assistants into partners for computational discovery.
+    △ Less
+    
+    
+    Submitted 24 November, 2025;
+    originally announced November 2025.
+    
+    Comments:
+    10 pages, 4 figures
+11. [arXiv:2511.14010](https://arxiv.org/abs/2511.14010)
+     [[pdf](https://arxiv.org/pdf/2511.14010), [ps](https://arxiv.org/ps/2511.14010), [other](https://arxiv.org/format/2511.14010)] 
+    
+    cs.CL
+    cs.AI
+    
+    Knowledge-Grounded Agentic Large Language Models for Multi-Hazard Understanding from Reconnaissance Reports
+    
+    Authors:
+    [Chenchen Kuai](/search/?searchtype=author&query=Kuai%2C+C),
+    [Zihao Li](/search/?searchtype=author&query=Li%2C+Z),
+    [Braden Rosen](/search/?searchtype=author&query=Rosen%2C+B),
+    [Stephanie Paal](/search/?searchtype=author&query=Paal%2C+S),
+    [Navid Jafari](/search/?searchtype=author&query=Jafari%2C+N),
+    [Jean-Louis Briaud](/search/?searchtype=author&query=Briaud%2C+J),
+    [Yunlong Zhang](/search/?searchtype=author&query=Zhang%2C+Y),
+    [Youssef M. A. Hashash](/search/?searchtype=author&query=Hashash%2C+Y+M+A),
+    [Yang Zhou](/search/?searchtype=author&query=Zhou%2C+Y)
+    
+    Abstract:
+    …contain critical evidence for understanding multi-hazard interactions, yet their unstructured narratives make systematic knowledge transfer difficult. Large language models (LLMs) offer new potential for analyzing these reports, but often generate unreliable or hallucinated outputs when domain grounding is absent. This study introduces the Mixture-of-Retriev…
+    ▽ More
+    
+    Post-disaster reconnaissance reports contain critical evidence for understanding multi-hazard interactions, yet their unstructured narratives make systematic knowledge transfer difficult. Large language models (LLMs) offer new potential for analyzing these reports, but often generate unreliable or hallucinated outputs when domain grounding is absent. This study introduces the Mixture-of-Retrieval Agentic RAG (MoRA-RAG), a knowledge-grounded LLM framework that transforms reconnaissance reports into a structured foundation for multi-hazard reasoning. The framework integrates a Mixture-of-Retrieval mechanism that dynamically routes queries across hazard-specific databases while using agentic chunking to preserve contextual coherence during retrieval. It also includes a verification loop that assesses evidence sufficiency, refines queries, and initiates targeted searches when information remains incomplete. We construct HazardRecQA by deriving question-answer pairs from GEER reconnaissance reports, which document 90 global events across seven major hazard types. MoRA-RAG achieves up to 94.5 percent accuracy, outperforming zero-shot LLMs by 30 percent and state-of-the-art RAG systems by 10 percent, while reducing hallucinations across diverse LLM architectures. MoRA-RAG also enables open-weight LLMs to achieve performance comparable to proprietary models. It establishes a new paradigm for transforming post-disaster documentation into actionable, trustworthy intelligence for hazard resilience.
+    △ Less
+    
+    
+    Submitted 19 November, 2025; v1 submitted 17 November, 2025;
+    originally announced November 2025.
+    
+    Comments:
+    17 pages, 5 figures
+12. [arXiv:2510.22344](https://arxiv.org/abs/2510.22344)
+     [[pdf](https://arxiv.org/pdf/2510.22344), [ps](https://arxiv.org/ps/2510.22344), [other](https://arxiv.org/format/2510.22344)] 
+    
+    cs.CL
+    cs.AI
+    cs.IR
+    
+    FAIR-RAG: Faithful Adaptive Iterative Refinement for Retrieval-Augmented Generation
+    
+    Authors:
+    [Mohammad Aghajani Asl](/search/?searchtype=author&query=Asl%2C+M+A),
+    [Majid Asgari-Bidhendi](/search/?searchtype=author&query=Asgari-Bidhendi%2C+M),
+    [Behrooz Minaei-Bidgoli](/search/?searchtype=author&query=Minaei-Bidgoli%2C+B)
+    
+    Abstract:
+    While Retrieval-Augmented Generation (RAG) mitigates hallucination and knowledge staleness in Large Language Models (…
+    ▽ More
+    
+    While Retrieval-Augmented Generation (RAG) mitigates hallucination and knowledge staleness in Large Language Models (LLMs), existing frameworks often falter on complex, multi-hop queries that require synthesizing information from disparate sources. Current advanced RAG methods, employing iterative or adaptive strategies, lack a robust mechanism to systematically identify and fill evidence gaps, often propagating noise or failing to gather a comprehensive context. We introduce FAIR-RAG, a novel agentic framework that transforms the standard RAG pipeline into a dynamic, evidence-driven reasoning process. At its core is an Iterative Refinement Cycle governed by a module we term Structured Evidence Assessment (SEA). The SEA acts as an analytical gating mechanism: it deconstructs the initial query into a checklist of required findings and audits the aggregated evidence to identify confirmed facts and, critically, explicit informational gaps. These gaps provide a precise signal to an Adaptive Query Refinement agent, which generates new, targeted sub-queries to retrieve missing information. This cycle repeats until the evidence is verified as sufficient, ensuring a comprehensive context for a final, strictly faithful generation. We conducted experiments on challenging multi-hop QA benchmarks, including HotpotQA, 2WikiMultiHopQA, and MusiQue. In a unified experimental setup, FAIR-RAG significantly outperforms strong baselines. On HotpotQA, it achieves an F1-score of 0.453 -- an absolute improvement of 8.3 points over the strongest iterative baseline -- establishing a new state-of-the-art for this class of methods on these benchmarks. Our work demonstrates that a structured, evidence-driven refinement process with explicit gap analysis is crucial for unlocking reliable and accurate reasoning in advanced RAG systems for complex, knowledge-intensive tasks.
+    △ Less
+    
+    
+    Submitted 25 October, 2025;
+    originally announced October 2025.
+    
+    Comments:
+    30 pages, 5 figures, 5 tables. Keywords: Retrieval-Augmented Generation (RAG), Large Language Models (LLMs), Agentic AI, Multi-hop Question Answering, Faithfulness
+    
+    MSC Class:
+    68T50; 68P20
+    ACM Class:
+    I.2.7; H.3.3
+13. [arXiv:2510.16724](https://arxiv.org/abs/2510.16724)
+     [[pdf](https://arxiv.org/pdf/2510.16724), [ps](https://arxiv.org/ps/2510.16724), [other](https://arxiv.org/format/2510.16724)] 
+    
+    cs.AI
+    cs.CL
+    
+    A Comprehensive Survey on Reinforcement Learning-based Agentic Search: Foundations, Roles, Optimizations, Evaluations, and Applications
+    
+    Authors:
+    [Minhua Lin](/search/?searchtype=author&query=Lin%2C+M),
+    [Zongyu Wu](/search/?searchtype=author&query=Wu%2C+Z),
+    [Zhichao Xu](/search/?searchtype=author&query=Xu%2C+Z),
+    [Hui Liu](/search/?searchtype=author&query=Liu%2C+H),
+    [Xianfeng Tang](/search/?searchtype=author&query=Tang%2C+X),
+    [Qi He](/search/?searchtype=author&query=He%2C+Q),
+    [Charu Aggarwal](/search/?searchtype=author&query=Aggarwal%2C+C),
+    [Hui Liu](/search/?searchtype=author&query=Liu%2C+H),
+    [Xiang Zhang](/search/?searchtype=author&query=Zhang%2C+X),
+    [Suhang Wang](/search/?searchtype=author&query=Wang%2C+S)
+    
+    Abstract:
+    The advent of large language models (LLMs) has…
+    ▽ More
+    
+    The advent of large language models (LLMs) has transformed information access and reasoning through open-ended natural language interaction. However, LLMs remain limited by static knowledge, factual hallucinations, and the inability to retrieve real-time or domain-specific information. Retrieval-Augmented Generation (RAG) mitigates these issues by grounding model outputs in external evidence, but traditional RAG pipelines are often single turn and heuristic, lacking adaptive control over retrieval and reasoning. Recent advances in agentic search address these limitations by enabling LLMs to plan, retrieve, and reflect through multi-step interaction with search environments. Within this paradigm, reinforcement learning (RL) offers a powerful mechanism for adaptive and self-improving search behavior. This survey provides the first comprehensive overview of \emph{RL-based agentic search}, organizing the emerging field along three complementary dimensions: (i) What RL is for (functional roles), (ii) How RL is used (optimization strategies), and (iii) Where RL is applied (scope of optimization). We summarize representative methods, evaluation protocols, and applications, and discuss open challenges and future directions toward building reliable and scalable RL driven agentic search systems. We hope this survey will inspire future research on the integration of RL and agentic search. Our repository is available at https://github.com/ventr1c/Awesome-RL-based-Agentic-Search-Papers.
+    △ Less
+    
+    
+    Submitted 27 October, 2025; v1 submitted 19 October, 2025;
+    originally announced October 2025.
+    
+    Comments:
+    38 pages, 4 figures, 7 tables
+14. [arXiv:2509.00251](https://arxiv.org/abs/2509.00251)
+     [[pdf](https://arxiv.org/pdf/2509.00251), [ps](https://arxiv.org/ps/2509.00251), [other](https://arxiv.org/format/2509.00251)] 
+    
+    cs.AI
+    
+    Instruction-Level Weight Shaping: A Framework for Self-Improving AI Agents
+    
+    Authors:
+    [Rimom Costa](/search/?searchtype=author&query=Costa%2C+R)
+    
+    Abstract:
+    Large language models (LLMs) are fluent but largely static after pre-training; new or shifting knowledge is typically added with retrieval-augmented generation (…
+    ▽ More
+    
+    Large language models (LLMs) are fluent but largely static after pre-training; new or shifting knowledge is typically added with retrieval-augmented generation (RAG) or fine-tuning. RAG raises latency and engineering overhead and often fails to integrate facts; prompt engineering is brittle and can conflict with prior knowledge; fine-tuning is costly and risks catastrophic forgetting. We propose Instruction-Level Weight Shaping (ILWS): curated system instructions act as external, auditable pseudo-parameters updated after each session via reflection and user feedback. A Reflection Engine inspects conversation traces, diagnoses reasoning successes and failures, and proposes typed deltas $ΔK=(ΔS,ΔU,ΔT)$ over instructions, user preferences, and tools. Deltas are version-controlled, evaluated with a sliding window of 1-5 star ratings, auto-repaired on first failure, and rolled back on repeated failure. When an edit budget crosses a threshold, the agent compiles a rating-weighted synthetic set and distills matured instruction-space gains into parameters, converting prompt-space improvements into weight-space without downtime. ILWS makes explicit the low-rank shaping induced by context in transformer blocks, preserves governance, and removes per-call retrieval. In enterprise support it increased throughput 2.4-5.0x and cut audited hallucinations by about 80% versus a frozen baseline. In an Adobe Commerce Cloud proof of concept "L0 Support", it achieved 4-5x more tickets per hour and about 80% lower time per ticket, with autonomous instruction updates and optional tool synthesis. Because ILWS operates at the instruction layer until controlled distillation, it generalizes to dynamic domains (legal, medical, engineering) requiring adaptive reasoning, tool creation, and low-latency deployment.
+    △ Less
+    
+    
+    Submitted 20 December, 2025; v1 submitted 29 August, 2025;
+    originally announced September 2025.
+    
+    Comments:
+    12 pages, 1 figure, 2 tables
+    
+    ACM Class:
+    I.2.7; I.2.6; I.2.11
+15. [arXiv:2508.14063](https://arxiv.org/abs/2508.14063)
+     [[pdf](https://arxiv.org/pdf/2508.14063)] 
+    
+    cs.IR
+    cs.AI
+    
+    A Multi-Agent Approach to Neurological Clinical Reasoning
+    
+    Authors:
+    [Moran Sorka](/search/?searchtype=author&query=Sorka%2C+M),
+    [Alon Gorenshtein](/search/?searchtype=author&query=Gorenshtein%2C+A),
+    [Dvir Aran](/search/?searchtype=author&query=Aran%2C+D),
+    [Shahar Shelly](/search/?searchtype=author&query=Shelly%2C+S)
+    
+    Abstract:
+    Large language models (LLMs) have shown promise in medical domains, but their ability to handle specialized neurological…
+    ▽ More
+    
+    Large language models (LLMs) have shown promise in medical domains, but their ability to handle specialized neurological reasoning requires systematic evaluation. We developed a comprehensive benchmark using 305 questions from Israeli Board Certification Exams in Neurology, classified along three complexity dimensions: factual knowledge depth, clinical concept integration, and reasoning complexity. We evaluated ten LLMs using base models, retrieval-augmented generation (RAG), and a novel multi-agent system. Results showed significant performance variation. OpenAI-o1 achieved the highest base performance (90.9% accuracy), while specialized medical models performed poorly (52.9% for Meditron-70B). RAG provided modest benefits but limited effectiveness on complex reasoning questions. In contrast, our multi-agent framework, decomposing neurological reasoning into specialized cognitive functions including question analysis, knowledge retrieval, answer synthesis, and validation, achieved dramatic improvements, especially for mid-range models. The LLaMA 3.3-70B-based agentic system reached 89.2% accuracy versus 69.5% for its base model, with substantial gains on level 3 complexity questions. The multi-agent approach transformed inconsistent subspecialty performance into uniform excellence, addressing neurological reasoning challenges that persisted with RAG enhancement. We validated our approach using an independent dataset of 155 neurological cases from MedQA. Results confirm that structured multi-agent approaches designed to emulate specialized cognitive processes significantly enhance complex medical reasoning, offering promising directions for AI assistance in challenging clinical contexts.
+    △ Less
+    
+    
+    Submitted 10 August, 2025;
+    originally announced August 2025.
+16. [arXiv:2508.07179](https://arxiv.org/abs/2508.07179)
+     [[pdf](https://arxiv.org/pdf/2508.07179), [ps](https://arxiv.org/ps/2508.07179), [other](https://arxiv.org/format/2508.07179)] 
+    
+    cs.CL
+    cs.AI
+    cs.DB
+    
+    Schema Lineage Extraction at Scale: Multilingual Pipelines, Composite Evaluation, and Language-Model Benchmarks
+    
+    Authors:
+    [Jiaqi Yin](/search/?searchtype=author&query=Yin%2C+J),
+    [Yi-Wei Chen](/search/?searchtype=author&query=Chen%2C+Y),
+    [Meng-Lung Lee](/search/?searchtype=author&query=Lee%2C+M),
+    [Xiya Liu](/search/?searchtype=author&query=Liu%2C+X)
+    
+    Abstract:
+    Enterprise data pipelines, characterized by complex transformations across multiple programming languages, often cause a semantic disconnect between original metadata and downstream data. This "semantic drift" compromises data reproducibility and governance, and impairs the utility of services like retrieval-augmented generation (…
+    ▽ More
+    
+    Enterprise data pipelines, characterized by complex transformations across multiple programming languages, often cause a semantic disconnect between original metadata and downstream data. This "semantic drift" compromises data reproducibility and governance, and impairs the utility of services like retrieval-augmented generation (RAG) and text-to-SQL systems. To address this, a novel framework is proposed for the automated extraction of fine-grained schema lineage from multilingual enterprise pipeline scripts. This method identifies four key components: source schemas, source tables, transformation logic, and aggregation operations, creating a standardized representation of data transformations. For the rigorous evaluation of lineage quality, this paper introduces the Schema Lineage Composite Evaluation (SLiCE), a metric that assesses both structural correctness and semantic fidelity. A new benchmark is also presented, comprising 1,700 manually annotated lineages from real-world industrial scripts. Experiments were conducted with 12 language models, from 1.3B to 32B small language models (SLMs) to large language models (LLMs) like GPT-4o and GPT-4.1. The results demonstrate that the performance of schema lineage extraction scales with model size and the sophistication of prompting techniques. Specially, a 32B open-source model, using a single reasoning trace, can achieve performance comparable to the GPT series under standard prompting. This finding suggests a scalable and economical approach for deploying schema-aware agents in practical applications.
+    △ Less
+    
+    
+    Submitted 10 August, 2025;
+    originally announced August 2025.
+17. [arXiv:2507.05257](https://arxiv.org/abs/2507.05257)
+     [[pdf](https://arxiv.org/pdf/2507.05257), [ps](https://arxiv.org/ps/2507.05257), [other](https://arxiv.org/format/2507.05257)] 
+    
+    cs.CL
+    cs.AI
+    
+    Evaluating Memory in LLM Agents via Incremental Multi-Turn Interactions
+    
+    Authors:
+    [Yuanzhe Hu](/search/?searchtype=author&query=Hu%2C+Y),
+    [Yu Wang](/search/?searchtype=author&query=Wang%2C+Y),
+    [Julian McAuley](/search/?searchtype=author&query=McAuley%2C+J)
+    
+    Abstract:
+    Recent benchmarks for Large Language Model (LLM)…
+    ▽ More
+    
+    Recent benchmarks for Large Language Model (LLM) agents primarily focus on evaluating reasoning, planning, and execution capabilities, while another critical component-memory, encompassing how agents memorize, update, and retrieve long-term information-is under-evaluated due to the lack of benchmarks. We term agents with memory mechanisms as memory agents. In this paper, based on classic theories from memory science and cognitive science, we identify four core competencies essential for memory agents: accurate retrieval, test-time learning, long-range understanding, and selective forgetting. Existing benchmarks either rely on limited context lengths or are tailored for static, long-context settings like book-based QA, which do not reflect the interactive, multi-turn nature of memory agents that incrementally accumulate information. Moreover, no existing benchmarks cover all four competencies. We introduce MemoryAgentBench, a new benchmark specifically designed for memory agents. Our benchmark transforms existing long-context datasets and incorporates newly constructed datasets into a multi-turn format, effectively simulating the incremental information processing characteristic of memory agents. By carefully selecting and curating datasets, our benchmark provides comprehensive coverage of the four core memory competencies outlined above, thereby offering a systematic and challenging testbed for assessing memory quality. We evaluate a diverse set of memory agents, ranging from simple context-based and retrieval-augmented generation (RAG) systems to advanced agents with external memory modules and tool integration. Empirical results reveal that current methods fall short of mastering all four competencies, underscoring the need for further research into comprehensive memory mechanisms for LLM agents.
+    △ Less
+    
+    
+    Submitted 17 March, 2026; v1 submitted 7 July, 2025;
+    originally announced July 2025.
+    
+    Comments:
+    Y. Hu and Y. Wang contribute equally
+18. [arXiv:2506.20415](https://arxiv.org/abs/2506.20415)
+     [[pdf](https://arxiv.org/pdf/2506.20415), [ps](https://arxiv.org/ps/2506.20415), [other](https://arxiv.org/format/2506.20415)] 
+    
+    cs.CR
+    cs.AI
+    cs.MA
+    
+    SV-LLM: An Agentic Approach for SoC Security Verification using Large Language Models
+    
+    Authors:
+    [Dipayan Saha](/search/?searchtype=author&query=Saha%2C+D),
+    [Shams Tarek](/search/?searchtype=author&query=Tarek%2C+S),
+    [Hasan Al Shaikh](/search/?searchtype=author&query=Shaikh%2C+H+A),
+    [Khan Thamid Hasan](/search/?searchtype=author&query=Hasan%2C+K+T),
+    [Pavan Sai Nalluri](/search/?searchtype=author&query=Nalluri%2C+P+S),
+    [Md. Ajoad Hasan](/search/?searchtype=author&query=Hasan%2C+M+A),
+    [Nashmin Alam](/search/?searchtype=author&query=Alam%2C+N),
+    [Jingbo Zhou](/search/?searchtype=author&query=Zhou%2C+J),
+    [Sujan Kumar Saha](/search/?searchtype=author&query=Saha%2C+S+K),
+    [Mark Tehranipoor](/search/?searchtype=author&query=Tehranipoor%2C+M),
+    [Farimah Farahmandi](/search/?searchtype=author&query=Farahmandi%2C+F)
+    
+    Abstract:
+    …verification techniques struggle to keep pace due to significant challenges in automation, scalability, comprehensiveness, and adaptability. The advent of large language models (LLMs), with their remarkable capabilities in natural language understanding, code generation, and advanced…
+    ▽ More
+    
+    Ensuring the security of complex system-on-chips (SoCs) designs is a critical imperative, yet traditional verification techniques struggle to keep pace due to significant challenges in automation, scalability, comprehensiveness, and adaptability. The advent of large language models (LLMs), with their remarkable capabilities in natural language understanding, code generation, and advanced reasoning, presents a new paradigm for tackling these issues. Moving beyond monolithic models, an agentic approach allows for the creation of multi-agent systems where specialized LLMs collaborate to solve complex problems more effectively. Recognizing this opportunity, we introduce SV-LLM, a novel multi-agent assistant system designed to automate and enhance SoC security verification. By integrating specialized agents for tasks like verification question answering, security asset identification, threat modeling, test plan and property generation, vulnerability detection, and simulation-based bug validation, SV-LLM streamlines the workflow. To optimize their performance in these diverse tasks, agents leverage different learning paradigms, such as in-context learning, fine-tuning, and retrieval-augmented generation (RAG). The system aims to reduce manual intervention, improve accuracy, and accelerate security analysis, supporting proactive identification and mitigation of risks early in the design cycle. We demonstrate its potential to transform hardware security practices through illustrative case studies and experiments that showcase its applicability and efficacy.
+    △ Less
+    
+    
+    Submitted 25 June, 2025;
+    originally announced June 2025.
+19. [arXiv:2504.05104](https://arxiv.org/abs/2504.05104)
+     [[pdf](https://arxiv.org/pdf/2504.05104), [other](https://arxiv.org/format/2504.05104)] 
+    
+    cs.CL
+    
+    AI for Climate Finance: Agentic Retrieval and Multi-Step Reasoning for Early Warning System Investments
+    
+    Authors:
+    [Saeid Ario Vaghefi](/search/?searchtype=author&query=Vaghefi%2C+S+A),
+    [Aymane Hachcham](/search/?searchtype=author&query=Hachcham%2C+A),
+    [Veronica Grasso](/search/?searchtype=author&query=Grasso%2C+V),
+    [Jiska Manicus](/search/?searchtype=author&query=Manicus%2C+J),
+    [Nakiete Msemo](/search/?searchtype=author&query=Msemo%2C+N),
+    [Chiara Colesanti Senni](/search/?searchtype=author&query=Senni%2C+C+C),
+    [Markus Leippold](/search/?searchtype=author&query=Leippold%2C+M)
+    
+    Abstract:
+    …for Early Warning Systems (EWS), which lack standardized financial reporting across multilateral development banks (MDBs) and funds. To address this challenge, we introduce an LLM-based…
+    ▽ More
+    
+    Tracking financial investments in climate adaptation is a complex and expertise-intensive task, particularly for Early Warning Systems (EWS), which lack standardized financial reporting across multilateral development banks (MDBs) and funds. To address this challenge, we introduce an LLM-based agentic AI system that integrates contextual retrieval, fine-tuning, and multi-step reasoning to extract relevant financial data, classify investments, and ensure compliance with funding guidelines. Our study focuses on a real-world application: tracking EWS investments in the Climate Risk and Early Warning Systems (CREWS) Fund. We analyze 25 MDB project documents and evaluate multiple AI-driven classification methods, including zero-shot and few-shot learning, fine-tuned transformer-based classifiers, chain-of-thought (CoT) prompting, and an agent-based retrieval-augmented generation (RAG) approach. Our results show that the agent-based RAG approach significantly outperforms other methods, achieving 87\% accuracy, 89\% precision, and 83\% recall. Additionally, we contribute a benchmark dataset and expert-annotated corpus, providing a valuable resource for future research in AI-driven financial tracking and climate finance transparency.
+    △ Less
+    
+    
+    Submitted 28 May, 2025; v1 submitted 7 April, 2025;
+    originally announced April 2025.
+20. [arXiv:2502.20364](https://arxiv.org/abs/2502.20364)
+     [[pdf](https://arxiv.org/pdf/2502.20364), [other](https://arxiv.org/format/2502.20364)] 
+    
+    cs.CL
+    cs.AI
+    
+    Bridging Legal Knowledge and AI: Retrieval-Augmented Generation with Vector Stores, Knowledge Graphs, and Hierarchical Non-negative Matrix Factorization
+    
+    Authors:
+    [Ryan C. Barron](/search/?searchtype=author&query=Barron%2C+R+C),
+    [Maksim E. Eren](/search/?searchtype=author&query=Eren%2C+M+E),
+    [Olga M. Serafimova](/search/?searchtype=author&query=Serafimova%2C+O+M),
+    [Cynthia Matuszek](/search/?searchtype=author&query=Matuszek%2C+C),
+    [Boian S. Alexandrov](/search/?searchtype=author&query=Alexandrov%2C+B+S)
+    
+    Abstract:
+    Agentic Generative AI, powered by Large Language Models (…
+    ▽ More
+    
+    Agentic Generative AI, powered by Large Language Models (LLMs) with Retrieval-Augmented Generation (RAG), Knowledge Graphs (KGs), and Vector Stores (VSs), represents a transformative technology applicable to specialized domains such as legal systems, research, recommender systems, cybersecurity, and global security, including proliferation research. This technology excels at inferring relationships within vast unstructured or semi-structured datasets. The legal domain here comprises complex data characterized by extensive, interrelated, and semi-structured knowledge systems with complex relations. It comprises constitutions, statutes, regulations, and case law. Extracting insights and navigating the intricate networks of legal documents and their relations is crucial for effective legal research. Here, we introduce a generative AI system that integrates RAG, VS, and KG, constructed via Non-Negative Matrix Factorization (NMF), to enhance legal information retrieval and AI reasoning and minimize hallucinations. In the legal system, these technologies empower AI agents to identify and analyze complex connections among cases, statutes, and legal precedents, uncovering hidden relationships and predicting legal trends-challenging tasks that are essential for ensuring justice and improving operational efficiency. Our system employs web scraping techniques to systematically collect legal texts, such as statutes, constitutional provisions, and case law, from publicly accessible platforms like Justia. It bridges the gap between traditional keyword-based searches and contextual understanding by leveraging advanced semantic representations, hierarchical relationships, and latent topic discovery. This framework supports legal document clustering, summarization, and cross-referencing, for scalable, interpretable, and accurate retrieval for semi-structured data while advancing computational law and AI.
+    △ Less
+    
+    
+    Submitted 8 May, 2025; v1 submitted 27 February, 2025;
+    originally announced February 2025.
+    
+    Comments:
+    10 pages, 8 figures, 5 tables
+21. [arXiv:2501.08944](https://arxiv.org/abs/2501.08944)
+     [[pdf](https://arxiv.org/pdf/2501.08944), [other](https://arxiv.org/format/2501.08944)] 
+    
+    cs.MA
+    
+    Physical AI Agents: Integrating Cognitive Intelligence with Real-World Action
+    
+    Authors:
+    [Fouad Bousetouane](/search/?searchtype=author&query=Bousetouane%2C+F)
+    
+    Abstract:
+    Vertical AI Agents are revolutionizing industries by delivering domain-specific intelligence and tailored solutions. However, many sectors, such as manufacturing, healthcare, and logistics, demand AI systems capable of extending their intelligence into the physical world, interacting directly with objects, environments, and dynamic conditions. This need has…
+    ▽ More
+    
+    Vertical AI Agents are revolutionizing industries by delivering domain-specific intelligence and tailored solutions. However, many sectors, such as manufacturing, healthcare, and logistics, demand AI systems capable of extending their intelligence into the physical world, interacting directly with objects, environments, and dynamic conditions. This need has led to the emergence of Physical AI Agents--systems that integrate cognitive reasoning, powered by specialized LLMs, with precise physical actions to perform real-world tasks.
+    This work introduces Physical AI Agents as an evolution of shared principles with Vertical AI Agents, tailored for physical interaction. We propose a modular architecture with three core blocks--perception, cognition, and actuation--offering a scalable framework for diverse industries. Additionally, we present the Physical Retrieval Augmented Generation (Ph-RAG) design pattern, which connects physical intelligence to industry-specific LLMs for real-time decision-making and reporting informed by physical context.
+    Through case studies, we demonstrate how Physical AI Agents and the Ph-RAG framework are transforming industries like autonomous vehicles, warehouse robotics, healthcare, and manufacturing, offering businesses a pathway to integrate embodied AI for operational efficiency and innovation.
+    △ Less
+    
+    
+    Submitted 15 January, 2025;
+    originally announced January 2025.
+    
+    Comments:
+    27 pages, 3 figures
+22. [arXiv:2411.16707](https://arxiv.org/abs/2411.16707)
+     [[pdf](https://arxiv.org/pdf/2411.16707), [other](https://arxiv.org/format/2411.16707)] 
+    
+    cs.CL
+    cs.AI
+    cs.MA
+    eess.SY
+    
+    Enhancing LLMs for Power System Simulations: A Feedback-driven Multi-agent Framework
+    
+    Authors:
+    [Mengshuo Jia](/search/?searchtype=author&query=Jia%2C+M),
+    [Zeyu Cui](/search/?searchtype=author&query=Cui%2C+Z),
+    [Gabriela Hug](/search/?searchtype=author&query=Hug%2C+G)
+    
+    Abstract:
+    The integration of experimental technologies with large language models (LLMs) is…
+    ▽ More
+    
+    The integration of experimental technologies with large language models (LLMs) is transforming scientific research. It positions AI as a versatile research assistant rather than a mere problem-solving tool. In the field of power systems, however, managing simulations -- one of the essential experimental technologies -- remains a challenge for LLMs due to their limited domain-specific knowledge, restricted reasoning capabilities, and imprecise handling of simulation parameters. To address these limitations, this paper proposes a feedback-driven, multi-agent framework. It incorporates three proposed modules: an enhanced retrieval-augmented generation (RAG) module, an improved reasoning module, and a dynamic environmental acting module with an error-feedback mechanism. Validated on 69 diverse tasks from Daline and MATPOWER, this framework achieves success rates of 93.13% and 96.85%, respectively. It significantly outperforms ChatGPT 4o, o1-preview, and the fine-tuned GPT-4o, which all achieved a success rate lower than 30% on complex tasks. Additionally, the proposed framework also supports rapid, cost-effective task execution, completing each simulation in approximately 30 seconds at an average cost of 0.014 USD for tokens. Overall, this adaptable framework lays a foundation for developing intelligent LLM-based assistants for human researchers, facilitating power system research and beyond.
+    △ Less
+    
+    
+    Submitted 19 May, 2025; v1 submitted 21 November, 2024;
+    originally announced November 2024.
+    
+    Comments:
+    16 pages
+23. [arXiv:2410.14594](https://arxiv.org/abs/2410.14594)
+     [[pdf](https://arxiv.org/pdf/2410.14594)] 
+    
+    cs.CL
+    
+    Toolshed: Scale Tool-Equipped Agents with Advanced RAG-Tool Fusion and Tool Knowledge Bases
+    
+    Authors:
+    [Elias Lumer](/search/?searchtype=author&query=Lumer%2C+E),
+    [Vamse Kumar Subbiah](/search/?searchtype=author&query=Subbiah%2C+V+K),
+    [James A. Burke](/search/?searchtype=author&query=Burke%2C+J+A),
+    [Pradeep Honaganahalli Basavaraju](/search/?searchtype=author&query=Basavaraju%2C+P+H),
+    [Austin Huber](/search/?searchtype=author&query=Huber%2C+A)
+    
+    Abstract:
+    Recent advancements in tool-equipped Agents (…
+    ▽ More
+    
+    Recent advancements in tool-equipped Agents (LLMs) have enabled complex tasks like secure database interactions and multi-agent code development. However, scaling tool capacity beyond agent reasoning or model limits remains a challenge. In this paper, we address these challenges by introducing Toolshed Knowledge Bases, a tool knowledge base (vector database) designed to store enhanced tool representations and optimize tool selection for large-scale tool-equipped Agents. Additionally, we propose Advanced RAG-Tool Fusion, a novel ensemble of tool-applied advanced retrieval-augmented generation (RAG) techniques across the pre-retrieval, intra-retrieval, and post-retrieval phases, without requiring model fine-tuning. During pre-retrieval, tool documents are enhanced with key information and stored in the Toolshed Knowledge Base. Intra-retrieval focuses on query planning and transformation to increase retrieval accuracy. Post-retrieval refines the retrieved tool documents and enables self-reflection. Furthermore, by varying both the total number of tools (tool-M) an Agent has access to and the tool selection threshold (top-k), we address trade-offs between retrieval accuracy, agent performance, and token cost. Our approach achieves 46%, 56%, and 47% absolute improvements on the ToolE single-tool, ToolE multi-tool and Seal-Tools benchmark datasets, respectively (Recall@5).
+    △ Less
+    
+    
+    Submitted 22 October, 2024; v1 submitted 18 October, 2024;
+    originally announced October 2024.
+24. [arXiv:2409.18924](https://arxiv.org/abs/2409.18924)
+     [[pdf](https://arxiv.org/pdf/2409.18924)] 
+    
+    cs.CL
+    cs.AI
+    
+    Simulated patient systems powered by large language model-based AI agents offer potential for transforming medical education
+    
+    Authors:
+    [Huizi Yu](/search/?searchtype=author&query=Yu%2C+H),
+    [Jiayan Zhou](/search/?searchtype=author&query=Zhou%2C+J),
+    [Lingyao Li](/search/?searchtype=author&query=Li%2C+L),
+    [Shan Chen](/search/?searchtype=author&query=Chen%2C+S),
+    [Jack Gallifant](/search/?searchtype=author&query=Gallifant%2C+J),
+    [Anye Shi](/search/?searchtype=author&query=Shi%2C+A),
+    [Xiang Li](/search/?searchtype=author&query=Li%2C+X),
+    [Jingxian He](/search/?searchtype=author&query=He%2C+J),
+    [Wenyue Hua](/search/?searchtype=author&query=Hua%2C+W),
+    [Mingyu Jin](/search/?searchtype=author&query=Jin%2C+M),
+    [Guang Chen](/search/?searchtype=author&query=Chen%2C+G),
+    [Yang Zhou](/search/?searchtype=author&query=Zhou%2C+Y),
+    [Zhao Li](/search/?searchtype=author&query=Li%2C+Z),
+    [Trisha Gupte](/search/?searchtype=author&query=Gupte%2C+T),
+    [Ming-Li Chen](/search/?searchtype=author&query=Chen%2C+M),
+    [Zahra Azizi](/search/?searchtype=author&query=Azizi%2C+Z),
+    [Qi Dou](/search/?searchtype=author&query=Dou%2C+Q),
+    [Bryan P. Yan](/search/?searchtype=author&query=Yan%2C+B+P),
+    [Yongfeng Zhang](/search/?searchtype=author&query=Zhang%2C+Y),
+    [Yanqiu Xing](/search/?searchtype=author&query=Xing%2C+Y),
+    [Themistocles L. Danielle S. Bitterman](/search/?searchtype=author&query=Bitterman%2C+T+L+D+S),
+    [Themistocles L. Assimes](/search/?searchtype=author&query=Assimes%2C+T+L),
+    [Xin Ma](/search/?searchtype=author&query=Ma%2C+X),
+    [Lin Lu](/search/?searchtype=author&query=Lu%2C+L),
+    [Lizhou Fan](/search/?searchtype=author&query=Fan%2C+L)
+    
+    Abstract:
+    …research, providing safe, integrative training environments and supporting clinical decision making. Advances in artificial intelligence (AI), especially large language models (LLMs), can enhance simulated patients by replicating medical conditions and doctor patient interactions with high fidelity and at low cost, but effectiveness and trustworthiness remai…
+    ▽ More
+    
+    Background: Simulated patient systems are important in medical education and research, providing safe, integrative training environments and supporting clinical decision making. Advances in artificial intelligence (AI), especially large language models (LLMs), can enhance simulated patients by replicating medical conditions and doctor patient interactions with high fidelity and at low cost, but effectiveness and trustworthiness remain open challenges. Methods: We developed AIPatient, a simulated patient system powered by LLM based AI agents. The system uses a retrieval augmented generation (RAG) framework with six task specific agents for complex reasoning. To improve realism, it is linked to the AIPatient knowledge graph built from de identified real patient data in the MIMIC III intensive care database. Results: We evaluated electronic health record (EHR) based medical question answering (QA), readability, robustness, stability, and user experience. AIPatient reached 94.15 percent QA accuracy when all six agents were enabled, outperforming versions with partial or no agent integration. The knowledge base achieved an F1 score of 0.89. Readability scores showed a median Flesch Reading Ease of 68.77 and a median Flesch Kincaid Grade of 6.4, indicating accessibility for most medical trainees and clinicians. Robustness and stability were supported by non significant variance in repeated trials (analysis of variance F value 0.61, p greater than 0.1; F value 0.78, p greater than 0.1). A user study with medical students showed that AIPatient provides high fidelity, usability, and educational value, comparable to or better than human simulated patients for history taking. Conclusions: LLM based simulated patient systems can deliver accurate, readable, and reliable medical encounters and show strong potential to transform medical education.
+    △ Less
+    
+    
+    Submitted 27 November, 2025; v1 submitted 27 September, 2024;
+    originally announced September 2024.
+    
+    Comments:
+    19 pages, 6 figures, 4 tables
+25. [arXiv:2409.00494](https://arxiv.org/abs/2409.00494)
+     [[pdf](https://arxiv.org/pdf/2409.00494), [other](https://arxiv.org/format/2409.00494)] 
+    
+    cs.AI
+    cs.SE
+    
+    GenAI-powered Multi-Agent Paradigm for Smart Urban Mobility: Opportunities and Challenges for Integrating Large Language Models (LLMs) and Retrieval-Augmented Generation (RAG) with Intelligent Transportation Systems
+    
+    Authors:
+    [Haowen Xu](/search/?searchtype=author&query=Xu%2C+H),
+    [Jinghui Yuan](/search/?searchtype=author&query=Yuan%2C+J),
+    [Anye Zhou](/search/?searchtype=author&query=Zhou%2C+A),
+    [Guanhao Xu](/search/?searchtype=author&query=Xu%2C+G),
+    [Wan Li](/search/?searchtype=author&query=Li%2C+W),
+    [Xuegang Ban](/search/?searchtype=author&query=Ban%2C+X),
+    [Xinyue Ye](/search/?searchtype=author&query=Ye%2C+X)
+    
+    Abstract:
+    Leveraging recent advances in generative AI, multi-agent systems are increasingly being developed to enhance the functionality and efficiency of smart city applications. This paper explores the…
+    ▽ More
+    
+    Leveraging recent advances in generative AI, multi-agent systems are increasingly being developed to enhance the functionality and efficiency of smart city applications. This paper explores the transformative potential of large language models (LLMs) and emerging Retrieval-Augmented Generation (RAG) technologies in Intelligent Transportation Systems (ITS), paving the way for innovative solutions to address critical challenges in urban mobility. We begin by providing a comprehensive overview of the current state-of-the-art in mobility data, ITS, and Connected Vehicles (CV) applications. Building on this review, we discuss the rationale behind RAG and examine the opportunities for integrating these Generative AI (GenAI) technologies into the smart mobility sector. We propose a conceptual framework aimed at developing multi-agent systems capable of intelligently and conversationally delivering smart mobility services to urban commuters, transportation operators, and decision-makers. Our approach seeks to foster an autonomous and intelligent approach that (a) promotes science-based advisory to reduce traffic congestion, accidents, and carbon emissions at multiple scales, (b) facilitates public education and engagement in participatory mobility management, and (c) automates specialized transportation management tasks and the development of critical ITS platforms, such as data analytics and interpretation, knowledge representation, and traffic simulations. By integrating LLM and RAG, our approach seeks to overcome the limitations of traditional rule-based multi-agent systems, which rely on fixed knowledge bases and limited reasoning capabilities. This integration paves the way for a more scalable, intuitive, and automated multi-agent paradigm, driving advancements in ITS and urban mobility.
+    △ Less
+    
+    
+    Submitted 4 September, 2024; v1 submitted 31 August, 2024;
+    originally announced September 2024.
+26. [arXiv:2406.18312](https://arxiv.org/abs/2406.18312)
+     [[pdf](https://arxiv.org/pdf/2406.18312), [other](https://arxiv.org/format/2406.18312)] 
+    
+    cs.CL
+    cs.AI
+    
+    AI-native Memory: A Pathway from LLMs Towards AGI
+    
+    Authors:
+    [Jingbo Shang](/search/?searchtype=author&query=Shang%2C+J),
+    [Zai Zheng](/search/?searchtype=author&query=Zheng%2C+Z),
+    [Jiale Wei](/search/?searchtype=author&query=Wei%2C+J),
+    [Xiang Ying](/search/?searchtype=author&query=Ying%2C+X),
+    [Felix Tao](/search/?searchtype=author&query=Tao%2C+F),
+    [Mindverse Team](/search/?searchtype=author&query=Team%2C+M)
+    
+    Abstract:
+    Large language models (LLMs) have demonstrated the world with the sparks of artificial general intelligence (AGI). One opinion, especially from some startups working on…
+    ▽ More
+    
+    Large language models (LLMs) have demonstrated the world with the sparks of artificial general intelligence (AGI). One opinion, especially from some startups working on LLMs, argues that an LLM with nearly unlimited context length can realize AGI. However, they might be too optimistic about the long-context capability of (existing) LLMs -- (1) Recent literature has shown that their effective context length is significantly smaller than their claimed context length; and (2) Our reasoning-in-a-haystack experiments further demonstrate that simultaneously finding the relevant information from a long context and conducting (simple) reasoning is nearly impossible. In this paper, we envision a pathway from LLMs to AGI through the integration of \emph{memory}. We believe that AGI should be a system where LLMs serve as core processors. In addition to raw data, the memory in this system would store a large number of important conclusions derived from reasoning processes. Compared with retrieval-augmented generation (RAG) that merely processing raw data, this approach not only connects semantically related information closer, but also simplifies complex inferences at the time of querying. As an intermediate stage, the memory will likely be in the form of natural language descriptions, which can be directly consumed by users too. Ultimately, every agent/person should have its own large personal model, a deep neural network model (thus \emph{AI-native}) that parameterizes and compresses all types of memory, even the ones cannot be described by natural languages. Finally, we discuss the significant potential of AI-native memory as the transformative infrastructure for (proactive) engagement, personalization, distribution, and social in the AGI era, as well as the incurred privacy and security challenges with preliminary solutions.
+    △ Less
+    
+    
+    Submitted 28 August, 2024; v1 submitted 26 June, 2024;
+    originally announced June 2024.
+27. [arXiv:2402.12659](https://arxiv.org/abs/2402.12659)
+     [[pdf](https://arxiv.org/pdf/2402.12659), [other](https://arxiv.org/format/2402.12659)] 
+    
+    cs.CL
+    cs.AI
+    cs.CE
+    
+    FinBen: A Holistic Financial Benchmark for Large Language Models
+    
+    Authors:
+    [Qianqian Xie](/search/?searchtype=author&query=Xie%2C+Q),
+    [Weiguang Han](/search/?searchtype=author&query=Han%2C+W),
+    [Zhengyu Chen](/search/?searchtype=author&query=Chen%2C+Z),
+    [Ruoyu Xiang](/search/?searchtype=author&query=Xiang%2C+R),
+    [Xiao Zhang](/search/?searchtype=author&query=Zhang%2C+X),
+    [Yueru He](/search/?searchtype=author&query=He%2C+Y),
+    [Mengxi Xiao](/search/?searchtype=author&query=Xiao%2C+M),
+    [Dong Li](/search/?searchtype=author&query=Li%2C+D),
+    [Yongfu Dai](/search/?searchtype=author&query=Dai%2C+Y),
+    [Duanyu Feng](/search/?searchtype=author&query=Feng%2C+D),
+    [Yijing Xu](/search/?searchtype=author&query=Xu%2C+Y),
+    [Haoqiang Kang](/search/?searchtype=author&query=Kang%2C+H),
+    [Ziyan Kuang](/search/?searchtype=author&query=Kuang%2C+Z),
+    [Chenhan Yuan](/search/?searchtype=author&query=Yuan%2C+C),
+    [Kailai Yang](/search/?searchtype=author&query=Yang%2C+K),
+    [Zheheng Luo](/search/?searchtype=author&query=Luo%2C+Z),
+    [Tianlin Zhang](/search/?searchtype=author&query=Zhang%2C+T),
+    [Zhiwei Liu](/search/?searchtype=author&query=Liu%2C+Z),
+    [Guojun Xiong](/search/?searchtype=author&query=Xiong%2C+G),
+    [Zhiyang Deng](/search/?searchtype=author&query=Deng%2C+Z),
+    [Yuechen Jiang](/search/?searchtype=author&query=Jiang%2C+Y),
+    [Zhiyuan Yao](/search/?searchtype=author&query=Yao%2C+Z),
+    [Haohang Li](/search/?searchtype=author&query=Li%2C+H),
+    [Yangyang Yu](/search/?searchtype=author&query=Yu%2C+Y),
+    [Gang Hu](/search/?searchtype=author&query=Hu%2C+G)
+    , et al. (9 additional authors not shown)
+    
+    Abstract:
+    LLMs have…
+    ▽ More
+    
+    LLMs have transformed NLP and shown promise in various fields, yet their potential in finance is underexplored due to a lack of comprehensive evaluation benchmarks, the rapid development of LLMs, and the complexity of financial tasks. In this paper, we introduce FinBen, the first extensive open-source evaluation benchmark, including 36 datasets spanning 24 financial tasks, covering seven critical aspects: information extraction (IE), textual analysis, question answering (QA), text generation, risk management, forecasting, and decision-making. FinBen offers several key innovations: a broader range of tasks and datasets, the first evaluation of stock trading, novel agent and Retrieval-Augmented Generation (RAG) evaluation, and three novel open-source evaluation datasets for text summarization, question answering, and stock trading. Our evaluation of 15 representative LLMs, including GPT-4, ChatGPT, and the latest Gemini, reveals several key findings: While LLMs excel in IE and textual analysis, they struggle with advanced reasoning and complex tasks like text generation and forecasting. GPT-4 excels in IE and stock trading, while Gemini is better at text generation and forecasting. Instruction-tuned LLMs improve textual analysis but offer limited benefits for complex tasks such as QA. FinBen has been used to host the first financial LLMs shared task at the FinNLP-AgentScen workshop during IJCAI-2024, attracting 12 teams. Their novel solutions outperformed GPT-4, showcasing FinBen's potential to drive innovation in financial LLMs. All datasets, results, and codes are released for the research community: https://github.com/The-FinAI/PIXIU.
+    △ Less
+    
+    
+    Submitted 18 June, 2024; v1 submitted 19 February, 2024;
+    originally announced February 2024.
+    
+    Comments:
+    26 pages, 11 figures
+
+[Search v0.5.6 released 2020-02-24](https://github.com/arXiv/arxiv-search/releases)  
+
+
+
+* [About](https://info.arxiv.org/about)
+* [Help](https://info.arxiv.org/help)
+
+* contact arXivClick here to contact arXiv
+   [Contact](https://info.arxiv.org/help/contact.html)
+* subscribe to arXiv mailingsClick here to subscribe
+   [Subscribe](https://info.arxiv.org/help/subscribe)
+
+
+ 
+
+* [Copyright](https://info.arxiv.org/help/license/index.html)
+* [Privacy Policy](https://info.arxiv.org/help/policies/privacy_policy.html)
+
+* [Web Accessibility Assistance](https://info.arxiv.org/help/web_accessibility.html)
+* [arXiv Operational Status](https://status.arxiv.org)   
+  
+  Get status notifications via
+  [email](https://subscribe.sorryapp.com/24846f03/email/new)
+  or [slack](https://subscribe.sorryapp.com/24846f03/slack/new)
+
+
+ 
+
+
+

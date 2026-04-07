@@ -1,0 +1,343 @@
+# Source URL: https://www.spheron.network/blog/vllm-vs-tensorrt-llm-vs-sglang-benchmarks/
+# Content Length: 23471 characters
+# Extracted at: 2026-03-30 13:36:15
+#============================================================
+
+
+vLLM vs TensorRT-LLM vs SGLang: H100 Benchmarks (2026) | Spheron BlogPricingGPUsResources[Log In](https://app.spheron.ai/login)[Sign Up→](https://app.spheron.ai/signup)[Pricing](/pricing/)GPUs![]()Resources![]()[Log In](https://app.spheron.ai/login)[Sign Up→](https://app.spheron.ai/signup)Comparison
+
+vLLM vs TensorRT-LLM vs SGLang: H100 Benchmarks (2026)
+======================================================
+
+[Back to Blog](/blog/)Written by Mitrasish, Co-founderMar 23, 2026vLLMTensorRT-LLMSGLangLLM InferenceH100GPU BenchmarksInference Engine![]()[X](https://twitter.com/intent/tweet?text=vLLM%20vs%20TensorRT-LLM%20vs%20SGLang%3A%20H100%20Benchmarks%20(2026)&url=https%3A%2F%2Fwww.spheron.network%2Fblog%2Fvllm-vs-tensorrt-llm-vs-sglang-benchmarks)[Discord](https://sphn.wiki/discord)[LinkedIn](https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.spheron.network%2Fblog%2Fvllm-vs-tensorrt-llm-vs-sglang-benchmarks&title=vLLM%20vs%20TensorRT-LLM%20vs%20SGLang%3A%20H100%20Benchmarks%20(2026))Share
+
+You've picked a model. Now you need to decide how to serve it. vLLM, TensorRT-LLM, and SGLang are the three engines that matter for production LLM inference in 2026, and they make very different tradeoffs. We ran all three on the same H100 80GB with Llama 3.3 70B Instruct at FP8 precision. Here is what the numbers actually look like. If you already have vLLM in production and want the multi-GPU deployment guide, see [vLLM Multi-GPU Production Deployment 2026](/blog/vllm-production-deployment-2026/). All three framework deployment guides are available at [Spheron's LLM quick-guides](https://docs.spheron.ai/quick-guides/llms/) if you want to follow along.
+
+TL;DR
+-----
+
+| Engine | Best For | Throughput (50 req) | TTFT p50 (10 req) | Cold Start |
+| --- | --- | --- | --- | --- |
+| vLLM | General use, broad model support | 1,850 tok/s | 120 ms | ~62 sec |
+| TensorRT-LLM | Max throughput, fixed model | 2,100 tok/s | 105 ms | ~28 min |
+| SGLang | Shared-prefix workloads, low latency | 1,920 tok/s | 112 ms | ~58 sec |
+
+* **Use vLLM** if you want the quickest path to production and model-update flexibility.
+* **Use TensorRT-LLM** if you have a single model in long-term production and throughput is paramount.
+* **Use SGLang** if your workload has shared prefixes (chatbots, RAG pipelines, multi-turn conversations).
+
+Test Setup
+----------
+
+### Hardware
+
+We ran all benchmarks on a single [Spheron H100 SXM5 80GB instance](/gpu-rental/h100/) at on-demand rates (see [current pricing](/pricing/)). The instance runs on bare metal with no hypervisor overhead. Host driver 590.48.01 (current stable R590 release). vLLM and SGLang run CUDA 13.0 (cu130) containers; TensorRT-LLM v1.2.0 uses CUDA 13.1.0 (pytorch:25.12-py3). All three containers run without compatibility shims on driver 590. NVLink is present but not used for single-GPU runs.
+
+### Model
+
+We used `meta-llama/Llama-3.3-70B-Instruct` in FP8 precision. Llama 3.3 is the most widely deployed dense 70B instruction-following model and remains the standard benchmark target for inference engine comparisons. Llama 4 (released April 2025) uses a mixture-of-experts architecture with different single-GPU memory characteristics; for Llama 4 deployment on Spheron, see the [Llama 4 Scout & Maverick guide](https://docs.spheron.ai/quick-guides/llms/llama-4-scout). For Llama 3.3 setup details, see [Spheron's Llama 3 guide](https://docs.spheron.ai/quick-guides/llms/llama-3). At FP8, the 70B weights occupy approximately 70GB, which fits on the 80GB H100 with careful tuning. All three frameworks use native FP8 quantization: vLLM via `--quantization fp8` (online dynamic quantization on load), SGLang via `--quantization fp8`, and TensorRT-LLM via `--qformat fp8` in the quantize.py step before compilation, all fully supported on H100 since CUDA 12.0.
+
+Framework versions:
+
+* vLLM v0.18.0
+* TensorRT-LLM v1.2.0
+* SGLang v0.5.9
+
+### Benchmark Methodology
+
+We used an async Python client built on `aiohttp` to generate load. Each run used 200 prompts sampled from a diverse instruction dataset, with average input length of 512 tokens and average output length of 256 tokens (fixed seed 42 for reproducibility). We tested at four concurrency levels: 1, 10, 50, and 100 simultaneous requests. Each concurrency level ran for 3 minutes after a 60-second warm-up period. VRAM was sampled via `nvidia-smi --query-gpu=memory.used` at 1-second intervals; peak is the maximum recorded value during the measurement window.
+
+Benchmark Results
+-----------------
+
+### Throughput (Output Tokens per Second)
+
+| Concurrency | vLLM | TensorRT-LLM | SGLang |
+| --- | --- | --- | --- |
+| 1 req | 120 tok/s | 130 tok/s | 125 tok/s |
+| 10 req | 650 tok/s | 710 tok/s | 680 tok/s |
+| 50 req | 1,850 tok/s | 2,100 tok/s | 1,920 tok/s |
+| 100 req | 2,400 tok/s | 2,780 tok/s | 2,460 tok/s |
+
+TensorRT-LLM leads at every concurrency level once the engine is compiled. The gap is smallest at low concurrency (8% faster than vLLM at 1 request) and largest at 50 concurrent requests (13% faster). SGLang falls between vLLM and TensorRT-LLM at high concurrency. At low concurrency, SGLang's RadixAttention provides marginal throughput gains only when requests share prefixes; our benchmark used unique prompts throughout, so you are seeing the baseline behavior.
+
+### Time to First Token (TTFT, milliseconds)
+
+| Concurrency | vLLM p50 | vLLM p95 | TRT-LLM p50 | TRT-LLM p95 | SGLang p50 | SGLang p95 |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 req | 45 ms | 68 ms | 38 ms | 55 ms | 42 ms | 61 ms |
+| 10 req | 120 ms | 195 ms | 105 ms | 170 ms | 112 ms | 178 ms |
+| 50 req | 380 ms | 720 ms | 340 ms | 620 ms | 360 ms | 680 ms |
+| 100 req | 740 ms | 1,450 ms | 680 ms | 1,280 ms | 710 ms | 1,380 ms |
+
+TTFT is the metric that determines whether your application feels fast. TensorRT-LLM delivers the lowest p50 and p95 at every concurrency level. The p95 gap matters most at high load: at 100 concurrent requests, TensorRT-LLM's p95 TTFT is 1,280 ms versus vLLM's 1,450 ms. That 170 ms difference affects user-perceived responsiveness in interactive applications. SGLang's p95 sits between the other two at all concurrency levels tested here.
+
+### Peak VRAM Usage
+
+| Engine | Idle (model loaded) | Peak at 50 req | Peak at 100 req |
+| --- | --- | --- | --- |
+| vLLM | 71 GB | 76 GB | 78 GB |
+| TensorRT-LLM | 74 GB | 77 GB | 79 GB |
+| SGLang | 72 GB | 75 GB | 78 GB |
+
+VRAM usage is tight across all three frameworks with a 70B FP8 model on an 80GB GPU. TensorRT-LLM's compiled engine takes slightly more idle VRAM (74 GB) than vLLM (71 GB) because the compiled engine stores additional activation buffers. SGLang uses the least VRAM at peak load due to its KV cache management. The difference between frameworks is less than 4 GB, so the headroom for tuning `--max-model-len` is similar across all three. If VRAM is your bottleneck, the engine choice matters less than your `max-model-len` and `gpu-memory-utilization` settings.
+
+### Cold Start Time
+
+| Engine | Time to First Request |
+| --- | --- |
+| vLLM | ~62 seconds |
+| TensorRT-LLM | ~28 minutes (engine compilation) |
+| SGLang | ~58 seconds |
+
+TensorRT-LLM's compilation time is not a flaw: it is a deliberate tradeoff. The 28-minute build runs once per model version, saves the compiled engine to disk, and subsequent starts reuse it (reloading the compiled engine takes about 90 seconds). The problem is your deployment pipeline. If you do blue-green deploys, auto-scaling from zero, or frequent model updates, you need to plan around this. vLLM and SGLang both start in under 90 seconds (dominated by model weight loading from disk), which makes them compatible with auto-scaling policies that spin instances up on demand.
+
+If you want TensorRT-LLM performance without the compile step, the PyTorch backend is available. v1.0 promoted it to stable and made it the default, replacing the older plugin-based backend. Since it is now the default, you can omit `--backend pytorch` entirely or pass it explicitly to `trtllm-serve`; either way it loads HuggingFace weights directly, cutting cold start to roughly 60-90 seconds. The benchmarks above used the compiled TRT engine; the PyTorch backend will have lower peak throughput but removes the compilation barrier entirely.
+
+vLLM
+----
+
+vLLM's core design is PagedAttention: a KV cache memory manager that treats GPU memory like virtual memory pages. This lets vLLM serve many concurrent requests without reserving per-request memory upfront. Combined with continuous batching (dynamically grouping requests as they arrive rather than waiting for a full batch), vLLM achieves high GPU utilization on bursty traffic without manual batching logic. For a deep dive into PagedAttention and all KV cache memory techniques, see [KV Cache Optimization: Serve 10x More Users on the Same GPU](/blog/kv-cache-optimization-guide/).
+
+FP8 on H100 works with a single flag change. No quantization script, no model modification:
+
+bash
+```
+docker run --gpus all \
+  --ipc=host \
+  -p 8000:8000 \
+  -e HUGGING_FACE_HUB_TOKEN=your_token_here \
+  vllm/vllm-openai:v0.18.0-cu130 \
+  --model meta-llama/Llama-3.3-70B-Instruct \
+  --quantization fp8 \
+  --max-model-len 8192 \
+  --gpu-memory-utilization 0.92 \
+  --max-num-seqs 128 \
+  --host 0.0.0.0 \
+  --port 8000
+```
+
+Strengths: widest model support of the three frameworks (hundreds of architectures including multimodal models like [Qwen3-VL](https://docs.spheron.ai/quick-guides/llms/multimodal/qwen3-vl-4b-8b), [Qwen3-Omni](https://docs.spheron.ai/quick-guides/llms/multimodal/qwen3-omni-30b-a3b), [InternVL3](https://docs.spheron.ai/quick-guides/llms/multimodal/internvl3), [LLaVA-Next](https://docs.spheron.ai/quick-guides/llms/multimodal/llava-next), [Pixtral-12B](https://docs.spheron.ai/quick-guides/llms/multimodal/pixtral-12b), and [Baidu ERNIE-4.5-VL](https://docs.spheron.ai/quick-guides/llms/multimodal/baidu-ernie-4-5-vl-28b-a3b), plus popular open-source families like [Qwen3](https://docs.spheron.ai/quick-guides/llms/qwen3), [Gemma 3](https://docs.spheron.ai/quick-guides/llms/gemma-3), [DeepSeek R1 & V3](https://docs.spheron.ai/quick-guides/llms/deepseek-r1/), [Phi-4](https://docs.spheron.ai/quick-guides/llms/phi-4), and [Mistral/Mixtral](https://docs.spheron.ai/quick-guides/llms/mistral-mixtral)), no compilation step, simple deployment, OpenAI-compatible API out of the box. gRPC serving (via `--grpc`) provides an alternative to REST for lower-overhead internal deployments. v0.18.0 removes Ray as a default dependency; install it separately (`pip install ray`) if you use multi-node tensor parallelism. The `--performance-mode throughput` flag (introduced in v0.17.0) pre-tunes settings for batch workloads. The full deployment guide for production setups is at [Spheron's vLLM docs](https://docs.spheron.ai/quick-guides/llms/frameworks/vllm-server).
+
+Limitations: slightly lower peak throughput than TensorRT-LLM at high concurrency, and TTFT p95 is highest of the three at 100 concurrent requests.
+
+For an additional 2-5x latency improvement on top of any of these engines, speculative decoding can be enabled at the serving layer - see the [speculative decoding production guide](/blog/speculative-decoding-production-guide/) for vLLM and SGLang configuration.
+
+TensorRT-LLM
+------------
+
+TensorRT-LLM is NVIDIA's compiler-based approach. Instead of running the model weights through a general-purpose PyTorch runtime, TensorRT-LLM compiles the model into an optimized CUDA kernel graph tailored to your specific GPU, batch size, and sequence length configuration. The result is a compiled engine binary that extracts more hardware efficiency than any runtime-based approach.
+
+The build pipeline for our benchmark:
+
+bash
+```
+# Pull the TensorRT-LLM container
+docker pull nvcr.io/nvidia/tensorrt-llm/release:1.2.0
+
+# Step 1: Quantize HuggingFace weights to FP8 checkpoint (~5 min on H100)
+docker run --gpus all --ipc=host \
+  -v /path/to/model:/models \
+  -v /path/to/engine:/engines \
+  nvcr.io/nvidia/tensorrt-llm/release:1.2.0 \
+  python examples/quantization/quantize.py \
+    --model_dir /models/Llama-3.3-70B-Instruct \
+    --dtype float16 \
+    --qformat fp8 \
+    --kv_cache_dtype fp8 \
+    --output_dir /engines/fp8-checkpoint \
+    --calib_size 512
+
+# Step 2: Build the TRT engine from the FP8 checkpoint (~23 min on H100)
+docker run --gpus all --ipc=host \
+  -v /path/to/engine:/engines \
+  nvcr.io/nvidia/tensorrt-llm/release:1.2.0 \
+  trtllm-build \
+    --checkpoint_dir /engines/fp8-checkpoint \
+    --output_dir /engines/llama70b-engine \
+    --max_batch_size 128 \
+    --max_input_len 8192 \
+    --max_seq_len 10240
+
+# Run the OpenAI-compatible server
+docker run --gpus all --ipc=host -p 8000:8000 \
+  -v /path/to/engine:/engines \
+  nvcr.io/nvidia/tensorrt-llm/release:1.2.0 \
+  trtllm-serve /engines/llama70b-engine --port 8000 --host 0.0.0.0
+```
+
+The v1.2.0 build pipeline requires two steps: first quantize the HuggingFace weights to a TRT-LLM FP8 checkpoint using modelopt's `quantize.py`, then compile with `trtllm-build --checkpoint_dir`. The `trtllm-serve` command (added in v0.15.0) replaced the old `launch_server.py`. The container path is the NGC release registry (`nvcr.io/nvidia/tensorrt-llm/release:1.2.0`), based on `nvcr.io/nvidia/pytorch:25.12-py3` (CUDA 13.1.0). CUDA 13.0 (used by vLLM and SGLang cu130 containers) requires driver 580.65.06 or later on Linux; CUDA 13.1 (used by TRT-LLM 1.2.0) requires driver 590.44.01 or later. The 590.48.01 driver in our setup meets both requirements. Mismatches produce cryptic build errors; verify your driver version before starting.
+
+v1.2.0 added DGX Spark validation (beta) and extended DeepSeek V3.2 support (speculative decoding with MTP>1). DeepSeek V3/R1 support was first added in TensorRT-LLM v0.19.0, with further optimizations across v1.0, v1.1, and v1.2. If you are running DeepSeek on Spheron, see the [Spheron DeepSeek R1 & V3 guide](https://docs.spheron.ai/quick-guides/llms/deepseek-r1/).
+
+Full deployment instructions are at [Spheron's TensorRT-LLM docs](https://docs.spheron.ai/quick-guides/llms/frameworks/tensorrt-llm).
+
+Strengths: highest throughput at every concurrency level, lowest p50 and p95 TTFT, best hardware utilization on fixed configurations. The PyTorch backend (v1.0+) removes the compilation requirement at the cost of some peak throughput. Limitations: compiled engine path requires 28-minute build per model version; narrower model support than vLLM; more complex deployment pipeline for the compiled path.
+
+SGLang
+------
+
+SGLang's primary innovation is RadixAttention: a KV cache management system that stores cached attention activations in a radix tree keyed by the token sequence. When two requests share a common prefix (a system prompt, a document, few-shot examples), SGLang computes the KV cache for that prefix once and reuses it across all requests that share it. In workloads with long shared prefixes, this reduces both TTFT and compute cost significantly.
+
+bash
+```
+docker run --gpus all \
+  --ipc=host \
+  -p 8000:8000 \
+  -e HUGGING_FACE_HUB_TOKEN=your_token_here \
+  lmsysorg/sglang:v0.5.9-cu130-runtime \
+  python -m sglang.launch_server \
+    --model-path meta-llama/Llama-3.3-70B-Instruct \
+    --quantization fp8 \
+    --context-length 8192 \
+    --mem-fraction-static 0.92 \
+    --max-running-requests 128 \
+    --host 0.0.0.0 \
+    --port 8000
+```
+
+SGLang also includes speculative decoding support and a structured output engine for constrained generation (JSON schemas, regex). The structured output implementation is competitive with vLLM's guided decoding. v0.5.9 adds native Anthropic API compatibility alongside the OpenAI-compatible endpoint, useful if your application already targets the Anthropic SDK. The same release integrates TRT-LLM DSA (DeepSeek Sparse Attention) kernels into SGLang's Native Sparse Attention (NSA) backend for DeepSeek V3.2, delivering 3x-5x speedup on Blackwell via `--nsa-prefill-backend trtllm` and `--nsa-decode-backend trtllm`, and extends model support to Qwen3.5, [Kimi-K2.5](/blog/kimi-k2-5-guide/), GLM-5, and MiniMax 2.5. The release also adds LoRA weight loading overlap with computation, reducing TTFT by roughly 78% for LoRA adapter workloads. For a full production setup using these frameworks for multi-adapter serving, see [LoRA multi-adapter serving on GPU cloud](/blog/lora-multi-adapter-serving-gpu-cloud/). For DeepSeek deployment on Spheron, see the [DeepSeek R1 & V3 guide](https://docs.spheron.ai/quick-guides/llms/deepseek-r1/).
+
+Full docs: [Spheron's SGLang guide](https://docs.spheron.ai/quick-guides/llms/frameworks/sglang).
+
+Strengths: best TTFT when shared-prefix caching applies, competitive throughput with vLLM, fast cold start, strong structured output support. Limitations: RadixAttention's benefit disappears for unique-prompt workloads; in our benchmark (all unique prompts), SGLang's throughput advantage over vLLM was minimal.
+
+When to Use Each Engine
+-----------------------
+
+| Condition | Recommended Engine |
+| --- | --- |
+| You need to support many different models | vLLM |
+| You're serving one model in long-term production | TensorRT-LLM |
+| Your workload has shared system prompts or RAG context | SGLang |
+| You need to be online in under 2 minutes from cold | vLLM, SGLang, or TRT-LLM PyTorch backend |
+| You want the absolute highest throughput at 100+ concurrent | TensorRT-LLM |
+| You're experimenting or prototyping | vLLM |
+| Your team has limited DevOps capacity | vLLM |
+| You run multi-turn conversations at scale | SGLang |
+
+Most teams should start with [vLLM](https://docs.spheron.ai/quick-guides/llms/frameworks/vllm-server). It covers the widest model range, has the best documentation, requires no compilation step, and delivers throughput that is competitive for most workloads. Move to [TensorRT-LLM](https://docs.spheron.ai/quick-guides/llms/frameworks/tensorrt-llm) when you have a model that won't change for months and you need to squeeze out every token per second at scale. Move to [SGLang](https://docs.spheron.ai/quick-guides/llms/frameworks/sglang) if you measure TTFT on shared-prefix workloads and find it materially improves user experience. If you want a lighter-weight alternative for smaller models, [llama.cpp](https://docs.spheron.ai/quick-guides/llms/frameworks/llama-cpp), [LMDeploy](https://docs.spheron.ai/quick-guides/llms/frameworks/lmdeploy), and [LocalAI](https://docs.spheron.ai/quick-guides/llms/frameworks/localai) are also available on Spheron instances. For browser-based experimentation without the Docker setup, the [Ollama + Open WebUI guide](https://docs.spheron.ai/quick-guides/llms/frameworks/ollama) covers a simpler path.
+
+Deploy in 5 Minutes on Spheron
+------------------------------
+
+First, provision a [Spheron H100 instance](/gpu-rental/h100/), SSH in, and verify GPU access with `nvidia-smi`. If you're new to Spheron, the [quick-start guide](https://docs.spheron.ai/quick-start) walks through provisioning your first instance and verifying CUDA access. The [Spheron docs overview](https://docs.spheron.ai/overview) covers instance types and getting started. All three framework guides live under the [Spheron LLM quick-guides](https://docs.spheron.ai/quick-guides/llms/) if you need deeper configuration details beyond the commands below.
+
+### vLLM
+
+bash
+```
+# Start the server
+docker run --gpus all --ipc=host -p 8000:8000 \
+  -e HUGGING_FACE_HUB_TOKEN=your_token_here \
+  vllm/vllm-openai:v0.18.0-cu130 \
+  --model meta-llama/Llama-3.3-70B-Instruct \
+  --quantization fp8 \
+  --max-model-len 8192 \
+  --gpu-memory-utilization 0.92 \
+  --host 0.0.0.0 \
+  --port 8000
+
+# Verify the endpoint
+curl http://localhost:8000/v1/models
+```
+
+Full guide: [Spheron vLLM docs](https://docs.spheron.ai/quick-guides/llms/frameworks/vllm-server)
+
+### TensorRT-LLM
+
+Build the engine first (one-time, ~28 min), then start the server. See the build commands in the TensorRT-LLM section above.
+
+bash
+```
+# After building the engine, start the server
+docker run --gpus all --ipc=host -p 8000:8000 \
+  -v /path/to/engine:/engines \
+  nvcr.io/nvidia/tensorrt-llm/release:1.2.0 \
+  trtllm-serve /engines/llama70b-engine --port 8000 --host 0.0.0.0
+
+# Verify
+curl http://localhost:8000/v1/models
+```
+
+Full guide: [Spheron TensorRT-LLM docs](https://docs.spheron.ai/quick-guides/llms/frameworks/tensorrt-llm)
+
+### SGLang
+
+bash
+```
+# Start the server
+docker run --gpus all --ipc=host -p 8000:8000 \
+  -e HUGGING_FACE_HUB_TOKEN=your_token_here \
+  lmsysorg/sglang:v0.5.9-cu130-runtime \
+  python -m sglang.launch_server \
+    --model-path meta-llama/Llama-3.3-70B-Instruct \
+    --quantization fp8 \
+    --context-length 8192 \
+    --mem-fraction-static 0.92 \
+    --host 0.0.0.0 \
+    --port 8000
+
+# Verify
+curl http://localhost:8000/v1/models
+```
+
+Full guide: [Spheron SGLang docs](https://docs.spheron.ai/quick-guides/llms/frameworks/sglang)
+
+---
+
+The choice between these three frameworks comes down to your deployment constraints. If you can absorb a 28-minute compilation step and your model is stable, TensorRT-LLM gives you the best throughput and latency. If you need fast starts and model flexibility, vLLM is the right default. If your workload is built around shared prefixes, SGLang's RadixAttention provides real gains you won't get from the other two.
+
+If you're running multi-node inference at scale, see our [NVIDIA Dynamo disaggregated inference guide](/blog/nvidia-dynamo-disaggregated-inference-guide/) for how to add an orchestration layer above these engines.
+
+> Running inference benchmarks like these requires H100 hardware with full CUDA access. Spheron provides bare-metal H100 instances at $2.01/hr with no virtualization overhead, on-demand provisioning, and no long-term commitment.
+> 
+> [Rent H100 →](/gpu-rental/h100/) | [View all GPU pricing →](/pricing/) | **[Get started on Spheron →](https://app.spheron.ai)**
+
+[Back to all posts](/blog/)
+### Build what's next.
+
+The most cost-effective platform for building, training, and scaling machine learning models-ready when you are.
+
+Rent NowBook a Demo
+
+---
+
+GLOBAL COMPUTE, BROUGHT TO YOU BY
+
+Bare-metal GPU infrastructure for AI teams that need scale, speed, and simplicity.
+
+[Deploy Now](https://app.spheron.ai/signup)[Book a Demo→](https://calendly.com/prashantsphn/new-meeting)Product
+
+* [App](https://app.spheron.ai)
+* [Pricing](/pricing/)
+* [GPU Catalog](/gpu-rental/)
+* [Partners](/partner/)
+* [Changelog](https://docs.spheron.ai/changelog)
+Community
+
+* [Discord](https://sphn.wiki/discord)
+* [X (Twitter)](https://x.com/spheronai)
+* [LinkedIn](https://www.linkedin.com/company/spheron-ai/)
+* [YouTube](https://sphn.wiki/yt)
+* [Telegram](https://sphn.wiki/tg)
+Resources
+
+* [Documentation](https://docs.spheron.ai)
+* [API Reference](https://docs.spheron.ai/api-reference)
+* [Blog](/blog/)
+* [GitHub](https://github.com/spheron-core)
+* [Rent for Gonka.ai](/partner/gonka/)
+GPUs
+
+* [NVIDIA B300](/gpu-rental/b300/)
+* [NVIDIA H100](/gpu-rental/h100/)
+* [NVIDIA B200](/gpu-rental/b200/)
+* [NVIDIA H200](/gpu-rental/h200/)
+* [NVIDIA A100](/gpu-rental/a100/)
+* [NVIDIA GH200](/gpu-rental/gh200/)
+* [NVIDIA L40S](/gpu-rental/l40s/)
+* [RTX 4090](/gpu-rental/rtx-4090/)
+* [RTX 5090](/gpu-rental/rtx-5090/)
+* [RTX PRO 6000](/gpu-rental/rtx-pro-6000/)
+© 2026 SPHERON NETWORK. ALL RIGHTS RESERVED.[Privacy Policy](/privacy/)[Terms & Conditions](/Spheron_Website_Terms_of_Use.pdf)[Contact Us](mailto:info@spheron.network)

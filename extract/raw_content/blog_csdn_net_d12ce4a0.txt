@@ -1,0 +1,1503 @@
+# Source URL: https://blog.csdn.net/2402_84764726/article/details/158284048
+# Content Length: 26828 characters
+# Extracted at: 2026-03-25 21:44:21
+#============================================================
+
+ 
+
+
+
+
+
+国内大模型免费 API 每日额度全攻略：2026 年开发者白嫖指南（附实战代码与避坑手册）\_国内免费模型-CSDN博客
+
+
+
+
+
+
+
+
+国内大模型免费 API 每日额度全攻略：2026 年开发者白嫖指南（附实战代码与避坑手册）
+=============================================
+
+
+原创
+已于 2026-03-07 12:01:17 修改
+·
+8.7k 阅读
+·
+![]()
+![]()
+18
+
+
+·
+![]()
+![]()
+22
+·
+CC 4.0 BY-SA版权
+版权声明：本文为博主原创文章，遵循 [CC 4.0 BY-SA](http://creativecommons.org/licenses/by-sa/4.0/) 版权协议，转载请附上原文出处链接和本声明。
+
+
+
+
+
+文章标签：
+
+[#人工智能](https://so.csdn.net/so/search/s.do?q=%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#大数据](https://so.csdn.net/so/search/s.do?q=%E5%A4%A7%E6%95%B0%E6%8D%AE&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+
+
+
+于 2026-02-22 10:30:54 首次发布
+
+
+
+
+[![]()
+python深度学习人工智能Agent
+专栏收录该内容](https://blog.csdn.net/2402_84764726/category_12974394.html)
+
+251 篇文章
+
+订阅专栏
+
+
+
+
+SmallThinker-3B-Preview一键部署
+
+SmallThinker-3B-preview，这是一个从 Qwen2.5-3b-Instruct 模型微调而来的新模型。
+
+
+国内大模型免费 API 每日额度全攻略：2026 年开发者白嫖指南（附实战代码与避坑手册）
+---------------------------------------------
+
+> **关键词**：大模型、免费 API、每日额度、通义千问、文心一言、Ling Studio、混元、ModelScope、DashScope、API Key、国产大模型、AI 开发、零成本调用
+
+---
+
+### 前言：为什么“每日免费 API”对开发者至关重要？
+
+在人工智能技术快速落地的 2026 年，大型语言模型（LLM）已成为应用开发、智能客服、内容生成、数据分析等场景的核心基础设施。然而，主流商业大模型平台（如 OpenAI、Anthropic）高昂的调用成本，使得个人开发者、学生团队或初创项目难以承担长期使用费用。
+
+幸运的是，**国内多家头部科技企业为推广其大模型生态，推出了“每日自动刷新的免费 API 调用额度”政策**。这意味着，只要完成实名认证，你每天都能获得一定量的免费 Token 或调用次数，无需额外付费即可持续集成高质量 AI 能力。
+
+但问题在于：
+
+* 哪些平台真正提供**每日刷新**的免费 API？
+* 免费额度具体是多少？是否支持主流模型（如 Qwen-Max、ERNIE Bot 4.5）？
+* 如何获取 API Key？调用接口是否兼容 OpenAI 格式？
+* 是否存在隐藏限制或风控策略？
+
+本文将为你**系统梳理 2026 年国内四大真实可用的“每日免费 API”平台**，并提供：
+
+* ✅ 官方政策解读与额度对比
+* ✅ 详细注册与 API Key 获取流程
+* ✅ 可直接运行的 Python 调用示例（含错误处理）
+* ✅ 性能实测数据与适用场景建议
+* ✅ 常见陷阱与避坑指南
+
+无论你是 AI 新手、在校学生，还是独立开发者，本文都将助你**合法、稳定、高效地实现“零成本调用国产大模型”**。
+
+---
+
+### 一、核心结论速览：四大平台每日免费 API 对比
+
+在深入细节前，先看一张**权威对比表**，快速掌握各平台核心信息：
+
+| 平台 | 所属公司 | 每日免费额度 | 是否需 API Key | 实名要求 | 支持模型 | 接口兼容性 | 适合人群 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **魔搭社区（ModelScope）** | 阿里云 | **2000 次调用**（单模型 ≤500 次） | ✅ Bearer Token | 阿里云实名 | Qwen-Max/Plus/Turbo | 类 OpenAI（需适配） | 通用开发者、LangChain 用户 |
+| **百度千帆（QianFan）** | 百度智能云 | **500 次调用**（≈1.6 万 Tokens/天） | ✅ AK/SK 签名 | 百度云实名 | ERNIE Bot 4.5/turbo | 自定义 JSON | 中文任务、插件需求者 |
+| **Ling Studio** | 蚂蚁集团 | **50 万 Tokens** | ✅ Bearer Token | 支付宝/企业实名 | Ling-1T, Ring-1T | **高度兼容 OpenAI** | 高吞吐、长文本场景 |
+| **腾讯混元（HunYuan）** | 腾讯云 | **1–5 万 Tokens**（学生 5 万） | ✅ SecretId/Key | 腾讯云实名 | HunYuan-Large/Standard | 腾讯云 SDK | 腾讯生态用户 |
+
+> 💡 **一句话总结**：
+> 
+> * 追求**高调用次数** → 选 **阿里魔搭**；
+> * 需要**最强中文理解** → 选 **百度文心**；
+> * 要求**最大 Token 量 + OpenAI 兼容** → 选 **蚂蚁 Ling Studio**；
+> * 已在**腾讯云体系** → 用 **混元**。
+
+---
+
+### 二、阿里魔搭社区（ModelScope）：2000 次/天的稳定之选
+
+#### 2.1 平台背景与免费政策
+
+[魔搭社区（ModelScope）](https://modelscope.cn) 是阿里云推出的**模型开放平台**，集成了通义千问（Qwen）系列、语音、视觉等数千个开源与闭源模型。自 2025 年起，平台为所有实名用户开放**每日 2000 次免费 API 调用额度**，成为开发者首选。
+
+##### ✅ 免费额度细则：
+
+* **总量**：2000 次/天（UTC+8 00:00 重置）
+* **单模型上限**：500 次/天（防止单点滥用）
+* **支持模型**：`qwen-max`、`qwen-plus`、`qwen-turbo`、`qwen-vl`（多模态）等
+* **有效期**：长期有效，无试用期限制
+
+> 📌 **注意**：需在模型详情页确认“**支持免费调用**”标签，部分新模型可能暂未纳入。
+
+#### 2.2 获取 API Key 步骤
+
+1. 访问 <https://modelscope.cn>，登录阿里云账号；
+2. 点击右上角头像 → **「个人中心」**；
+3. 左侧菜单选择 **「访问令牌」** → **「创建令牌」**；
+4. 输入名称（如 `dev-free-api`），勾选 **「大模型推理」** 权限；
+5. 复制生成的 **Token**（即 API Key），妥善保存。
+
+> 🔒 **安全提示**：该 Token 具有全局权限，请勿泄露或提交至公共代码库。
+
+#### 2.3 API 调用实战（Python）
+
+魔搭 API 基于 DashScope，接口设计接近 OpenAI，但需注意字段差异。
+
+##### 安装依赖
+
+```
+pip install requests python-dotenv
+
+```
+##### 完整调用脚本（含错误处理）
+
+```
+# qwen_api_demo.py
+import os
+import requests
+from dotenv import load_dotenv
+
+load_dotenv()  # 从 .env 文件加载 API_KEY
+
+API_KEY = os.getenv("MODELSCOPE_API_KEY")
+BASE_URL = "https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation"
+
+def call_qwen(model: str, prompt: str, max_tokens: int = 512) -> str:
+    """
+    调用 Qwen 系列模型
+    
+    Args:
+        model: 模型名称，如 "qwen-max"
+        prompt: 用户输入
+        max_tokens: 最大生成长度
+    
+    Returns:
+        模型回复文本
+    """
+    headers = {
+        "Authorization": f"Bearer {API_KEY}",
+        "Content-Type": "application/json"
+    }
+    
+    payload = {
+        "model": model,
+        "input": {
+            "messages": [{"role": "user", "content": prompt}]
+        },
+        "parameters": {
+            "max_tokens": max_tokens,
+            "temperature": 0.7,
+            "top_p": 0.9
+        }
+    }
+    
+    try:
+        response = requests.post(BASE_URL, headers=headers, json=payload, timeout=30)
+        response.raise_for_status()
+        data = response.json()
+        
+        if "output" in data and "choices" in data["output"]:
+            return data["output"]["choices"][0]["message"]["content"]
+        else:
+            raise ValueError(f"Unexpected response format: {data}")
+            
+    except requests.exceptions.RequestException as e:
+        print(f"网络请求失败: {e}")
+        return None
+    except Exception as e:
+        print(f"解析响应失败: {e}")
+        return None
+
+# 使用示例
+if __name__ == "__main__":
+    result = call_qwen("qwen-max", "用 Python 实现快速排序，并解释时间复杂度。")
+    if result:
+        print("模型回复：\n", result)
+    else:
+        print("调用失败，请检查 API Key 或网络。")
+
+```
+##### `.env` 文件示例
+
+```
+MODELSCOPE_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+```
+> ⚠️ **调试技巧**：
+> 
+> * 若返回 `403 Forbidden`，检查 Token 是否过期或权限不足；
+> * 若返回 `400 Bad Request`，确认 `model` 名称是否正确（区分大小写）；
+> * 使用 `curl` 快速测试：
+>   ```
+>   curl -X POST https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation \
+>     -H "Authorization: Bearer YOUR_API_KEY" \
+>     -H "Content-Type: application/json" \
+>     -d '{
+>       "model": "qwen-max",
+>       "input": {"messages": [{"role": "user", "content": "你好"}]},
+>       "parameters": {"max_tokens": 128}
+>     }'
+>   
+>   ```
+
+#### 2.4 性能与适用场景
+
+| 指标 | 表现 |
+| --- | --- |
+| 首 Token 延迟 | 800–1200 ms |
+| 中文理解 | ⭐⭐⭐⭐⭐（Qwen 系列为中文 SOTA） |
+| 代码生成 | ⭐⭐⭐⭐（支持 80+ 编程语言） |
+| 上下文长度 | 32K（qwen-max） |
+| 流式响应 | ✅ 支持（需设置 `stream: true`） |
+
+> ✅ **推荐场景**：
+> 
+> * LangChain / LlamaIndex 集成
+> * 智能客服对话系统
+> * 技术文档生成与摘要
+
+---
+
+### 三、百度千帆（QianFan）：中文任务专家，500 次/天
+
+#### 3.1 平台特色与免费策略
+
+[百度千帆大模型平台](https://cloud.baidu.com/product/qianfan) 是文心大模型的官方 API 入口。其**每日 500 次免费调用额度**虽低于阿里，但在**中文语义理解、搜索增强、插件调用**方面表现卓越。
+
+##### ✅ 免费额度说明：
+
+* **调用次数**：500 次/天（00:00 重置）
+* **Token 折算**：约 1.6 万 Tokens/天（按平均 32 tokens/次估算）
+* **支持模型**：`ERNIE-Bot-4.5`（旗舰）、`ERNIE-Bot-turbo`（高速）、`ERNIE-Character`（角色扮演）
+
+> 📌 **优势**：集成百度搜索，可实时获取最新信息（需开启 `disable_search: false`）。
+
+#### 3.2 获取 API Key（AK/SK）
+
+百度采用 **Access Key (AK) + Secret Key (SK)** 的签名认证机制：
+
+1. 登录 [百度智能云控制台](https://console.bce.baidu.com/)
+2. 进入 **「千帆大模型」** → **「API 密钥管理」**
+3. 点击 **「创建密钥」**，记录 `Access Key ID` 和 `Secret Access Key`
+4. 在环境变量中配置：
+   ```
+   QIANFAN_ACCESS_KEY=your_ak
+   QIANFAN_SECRET_KEY=your_sk
+   
+   ```
+
+#### 3.3 官方 SDK 调用示例
+
+百度提供 `qianfan` Python SDK，简化签名流程。
+
+##### 安装 SDK
+
+```
+pip install qianfan
+
+```
+##### 调用代码
+
+```
+from qianfan import ChatCompletion
+import os
+
+# 环境变量自动读取 AK/SK
+os.environ["QIANFAN_ACCESS_KEY"] = "your_ak"
+os.environ["QIANFAN_SECRET_KEY"] = "your_sk"
+
+def call_ernie(prompt: str, model: str = "ERNIE-Bot-4.5") -> str:
+    """调用文心大模型"""
+    try:
+        resp = ChatCompletion().do(
+            model=model,
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.7,
+            top_p=0.9,
+            disable_search=False  # 启用联网搜索
+        )
+        return resp["result"]
+    except Exception as e:
+        print(f"调用失败: {e}")
+        return None
+
+# 测试
+print(call_ernie("2026 年春节是几月几日？"))
+
+```
+> 💡 **小贴士**：
+> 
+> * `disable_search=False` 可让模型联网查询最新信息；
+> * 使用 `system` 角色可设定 AI 人设，如 `"你是一位资深 Python 工程师"`。
+
+#### 3.4 适用场景分析
+
+| 场景 | 推荐指数 | 理由 |
+| --- | --- | --- |
+| 实时问答（如节日、新闻） | ⭐⭐⭐⭐⭐ | 联网搜索能力强大 |
+| 中文写作、公文生成 | ⭐⭐⭐⭐ | 符合中文表达习惯 |
+| 代码生成 | ⭐⭐⭐ | 弱于 Qwen/Ling，但够用 |
+| 多轮对话 | ⭐⭐⭐⭐ | 上下文记忆稳定 |
+
+---
+
+### 四、蚂蚁 Ling Studio：50 万 Tokens/天，OpenAI 兼容最佳
+
+#### 4.1 为什么 Ling Studio 是“隐藏王者”？
+
+[Ling Studio](https://ling-studio.antgroup.com) 是蚂蚁集团于 2025 年底推出的**大模型开放平台**，主打 **高性能、高并发、高兼容性**。其**每日 50 万 Tokens 免费额度**为国内最高，且 API 设计**高度兼容 OpenAI**，迁移成本极低。
+
+##### ✅ 核心优势：
+
+* **50 万 Tokens/天**（约 37.5 万中文字符）
+* **OpenAI 格式 90% 兼容**（仅需替换 base\_url 和 api\_key）
+* **首 Token 延迟 < 800ms**
+* 支持 **文件上传、函数调用、自定义角色**
+
+#### 4.2 注册与 API Key 获取
+
+1. 访问 <https://ling-studio.antgroup.com>
+2. 使用支付宝扫码登录（需完成实名）
+3. 进入 **「API 管理」** → **「创建 Key」**
+4. 复制 `API Key`，格式为 `lsk_xxxxxx`
+
+> 📌 **注意**：目前仅对中国大陆用户开放，需绑定大陆手机号。
+
+#### 4.3 OpenAI 兼容调用（零代码修改）
+
+假设你已有 OpenAI 调用代码，只需两处修改：
+
+##### 原 OpenAI 代码
+
+```
+from openai import OpenAI
+client = OpenAI(api_key="sk-...")
+
+```
+##### 修改为 Ling Studio
+
+```
+from openai import OpenAI
+client = OpenAI(
+    api_key="lsk_xxxxxx",  # 替换为 Ling Key
+    base_url="https://ling-studio.antgroup.com/v1"  # 替换 endpoint
+)
+
+```
+##### 完整示例
+
+```
+from openai import OpenAI
+
+client = OpenAI(
+    api_key=os.getenv("LING_API_KEY"),
+    base_url="https://ling-studio.antgroup.com/v1"
+)
+
+response = client.chat.completions.create(
+    model="Ling-1T",
+    messages=[{"role": "user", "content": "解释 Transformer 架构"}],
+    max_tokens=512
+)
+print(response.choices[0].message.content)
+
+```
+> ✅ **优势**：
+> 
+> * 无需学习新接口；
+> * 可直接用于现有 LangChain、LlamaIndex 项目；
+> * 支持 `stream=True` 流式输出。
+
+#### 4.4 性能实测数据
+
+| 模型 | 输入 1K tokens | 输出 512 tokens | 首 Token 延迟 |
+| --- | --- | --- | --- |
+| Ling-1T | 1.2s | 2.8s | 650ms |
+| Ring-1T | 1.8s | 3.5s | 720ms |
+
+> 📊 **结论**：性能接近 GPT-4 Turbo，远超同类国产模型。
+
+---
+
+### 五、腾讯混元（HunYuan）：腾讯云用户的专属福利
+
+#### 5.1 免费额度政策
+
+腾讯混元为**每个服务实例**提供每日免费额度：
+
+* **普通用户**：1 万 Tokens/天
+* **学生认证**：5 万 Tokens/天（需提交学生证）
+
+#### 5.2 调用方式（腾讯云 SDK）
+
+```
+from tencentcloud.common import credential
+from tencentcloud.hunyuan.v20230901 import hunyuan_client, models
+
+cred = credential.Credential("SecretId", "SecretKey")
+client = hunyuan_client.HunyuanClient(cred, "ap-beijing")
+
+req = models.ChatCompletionsRequest()
+req.Messages = [{"Role": "user", "Content": "你好"}]
+req.Model = "hunyuan-standard"
+
+resp = client.ChatCompletions(req)
+print(resp.Choices[0].Message.Content)
+
+```
+> 📌 **适用人群**：已使用腾讯云 CVM、COS 等服务的开发者。
+
+---
+
+### 六、避坑指南：常见问题与解决方案
+
+#### ❓ Q1：调用返回 “403 Forbidden” 怎么办？
+
+* **原因**：API Key 无效、未实名、或 IP 被风控。
+* **解决**：
+  1. 检查 Key 是否复制完整；
+  2. 确认账号已完成实名认证；
+  3. 更换网络环境（避免代理或数据中心 IP）。
+
+#### ❓ Q2：免费额度用完后会收费吗？
+
+* **不会自动扣费**！所有平台均需**手动开通按量付费**才会产生费用。免费额度用尽后，API 将返回 `429 Too Many Requests`。
+
+#### ❓ Q3：能否多个账号叠加使用？
+
+* **可以**，但需注意：
+  + 百度/腾讯限制同一身份证注册多个账号；
+  + 阿里/蚂蚁允许，但建议合理使用，避免触发反爬。
+
+#### ❓ Q4：如何监控当日剩余额度？
+
+* **阿里魔搭**：控制台 → 「用量统计」
+* **百度千帆**：「配额管理」页面
+* **Ling Studio**：API 返回头包含 `X-RateLimit-Remaining`
+
+---
+
+### 七、扩展阅读与资源推荐
+
+1. **官方文档**
+   
+   * [阿里魔搭 API 文档](https://help.aliyun.com/zh/dashscope/developer-reference/)
+   * [百度千帆 SDK 指南](https://cloud.baidu.com/doc/WENXINWORKSHOP/s/Ilkz4z7f2)
+   * [Ling Studio OpenAPI 规范](https://ling-studio.antgroup.com/docs)
+2. **开源工具**
+   
+   * **OpenRouter-China**：聚合国内免费 API 的代理层（GitHub）
+   * **LiteLLM**：统一调用 Qwen/ERNIE/Ling 的轻量库
+3. **进阶教程**
+   
+   * 《使用 LangChain 集成 Qwen-Max 构建 RAG 系统》
+   * 《Ling Studio + Streamlit 快速搭建 AI Web 应用》
+
+---
+
+### 结语：免费不是终点，而是创新的起点
+
+国产大模型的“每日免费 API”政策，不仅降低了 AI 应用的门槛，更体现了中国科技企业推动技术普惠的决心。作为开发者，我们应善用这些资源，在合规前提下大胆创新。
+
+> **记住：真正的“白嫖”，是用免费资源创造出有价值的产品，而非仅仅消耗算力。**
+
+希望本文能成为你探索国产大模型生态的**实用导航图**。如果你在实践中发现新的免费通道或优化技巧，欢迎在评论区分享！让我们共同构建一个更开放、更高效的 AI 开发生态 💡
+
+---
+
+> 📌 **版权声明**：本文所有信息基于 2026 年 2 月官方政策整理，平台规则可能调整，请以官网为准。代码示例可自由使用，转载请注明出处。
+
+![]()
+
+
+
+
+
+
+
+您可能感兴趣的与本文相关的镜像
+
+![]()
+
+SmallThinker-3B-Preview
+
+文本生成
+Ollama
+Qwen
+
+SmallThinker-3B-preview，这是一个从 Qwen2.5-3b-Instruct 模型微调而来的新模型。
+
+
+
+一键部署运行
+
+
+
+
+关注博主即可阅读全文
+![]()
+
+![]()
+确定要放弃本次机会？
+
+福利倒计时
+
+*:*
+
+*:*
+
+
+![]()
+立减 ¥
+
+
+普通VIP年卡可用
+
+[立即使用](https://mall.csdn.net/vip)
+
+
+[![]()
+培风图南以星河揽胜](https://blog.csdn.net/2402_84764726)
+
+[关注](javascript:;)
+关注
+
+
+* ![]()
+  ![]()
+  ![]()
+  18
+  点赞
+* ![]()
+  ![]()
+  踩
+* [![]()
+  ![]()
+  ![]()
+  22](javascript:;)
+  收藏
+  
+  
+  
+  觉得还不错?
+  一键收藏
+  
+  ![]()
+* ![]()
+  知道了
+  
+  [![]()
+  1](#commentBox)
+  评论
+* [![]()
+  分享](javascript:;)
+  复制链接
+  
+  分享到 QQ
+  
+  分享到新浪微博
+  
+  ![]()扫一扫
+* [![]()
+  打赏](javascript:;)
+  打赏
+* ![]()
+  ![]()
+  打赏
+  ![]()
+  举报
+  
+  ![]()
+  举报
+
+专栏目录
+
+
+
+
+![]()
+
+[Openclaw接入飞书，*免费**大模型**API*,开始爽用](https://blog.csdn.net/qq_27246521/article/details/158429504)
+
+[qq\_27246521的博客](https://blog.csdn.net/qq_27246521)
+
+03-06
+![]()
+226
+
+
+
+
+[切换OpenClaw至*免费**额度*。](https://blog.csdn.net/qq_27246521/article/details/158429504)
+
+
+
+
+
+1 条评论
+您还未登录，请先
+登录
+后发表或查看评论
+
+
+[调用Claude 4.5 *API*的*实战**代码*
+热门推荐](https://herosunly.blog.csdn.net/article/details/141899408)
+
+[herosunly的博客](https://blog.csdn.net/herosunly)
+
+09-04
+![]()
+22万+
+
+
+
+
+[本文主要介绍了调用Claude 3.5 *API*的*实战**代码*，希望对学习大语言*模型*的同学们有所帮助。
+文章目录
+1. 前言
+2. *实战**代码*](https://herosunly.blog.csdn.net/article/details/141899408)
+
+
+
+[*免费**大模型**API*调用汇总](https://blog.csdn.net/qq_16067891/article/details/147874674)
+
+[大聪明的博客](https://blog.csdn.net/qq_16067891)
+
+05-11
+![]()
+8227
+
+
+
+
+[更多详细配置和*代码*示例可参考各平台官方文档（如。](https://blog.csdn.net/qq_16067891/article/details/147874674)
+
+
+
+
+[*2026* *大模型* *API* *免费**额度*汇总清单（建议收藏）](https://devpress.csdn.net/v1/article/detail/158925835)
+
+[weixin\_55062269的博客](https://blog.csdn.net/weixin_55062269)
+
+03-11
+![]()
+765
+
+
+
+
+[最近大家在玩OpenClaw，都知道这个东西特别消耗 Token。我们现在也是处于了解和尝试的阶段，感觉也无需投入太多成本，我这边最近在使用时也都是去找的一些*免费*token过来用的。下面我整合了*2026* *大模型* *API* *免费**额度*汇总清单，大家可以有需要的话可以去对应的平台获取*免费**额度*去使用。](https://devpress.csdn.net/v1/article/detail/158925835)
+
+
+
+[*2026*最新*免费**白嫖*全网最强AI*大模型*谷歌Gemini 3的6种方法，你值得体验](https://devpress.csdn.net/v1/article/detail/158044304)
+
+[猫头虎技术团队：授渔优于赠鱼，兴趣引领智慧，探索之乐尤显珍贵。商务合作+：Libin9iOak ，万粉变现+：CSDNWF，猫头虎承诺每年免费为100名C站创作者做账号流量诊断服务！全网搜：猫头虎技术团队，点击文章底部名片或直接私信我一切皆可谈，快找虎哥！](https://blog.csdn.net/qq_44866828)
+
+02-13
+![]()
+6万+
+
+
+
+
+[*2026*最新*免费**白嫖*全网最强AI*大模型*谷歌Gemini 3的6种方法，你值得体验](https://devpress.csdn.net/v1/article/detail/158044304)
+
+
+
+[TensorFlow相关组件的安装](https://devpress.csdn.net/v1/article/detail/135495433)
+
+[AAI666666的博客](https://blog.csdn.net/AAI666666)
+
+01-11
+![]()
+3112
+
+
+
+
+[TensorFlow相关组件的安装](https://devpress.csdn.net/v1/article/detail/135495433)
+
+
+
+[2025*年*最新*免费**大模型**API*调用汇总](https://qingshangeo.blog.csdn.net/article/details/150356600)
+
+[上海青山不语网络的博客](https://blog.csdn.net/m0_71468492)
+
+08-13
+![]()
+4988
+
+
+
+
+[若项目进入稳定运行阶段，建议选择白山云科技的付费服务或阿里云/腾讯云/华为云的企业级*API*服务，以获得更高的服务保障*与*技术支持。](https://qingshangeo.blog.csdn.net/article/details/150356600)
+
+
+
+[巧用云平台*API*实现开源*模型**免费*调用的*实战*教程](https://herosunly.blog.csdn.net/article/details/148792774)
+
+[herosunly的博客](https://blog.csdn.net/herosunly)
+
+06-20
+![]()
+3万+
+
+
+
+
+[今天给大家带来的是巧用云平台*API*实现开源*模型*调用，希望能对同学们有所帮助。
+文章目录
+1. 前言
+2. *实战*教程](https://herosunly.blog.csdn.net/article/details/148792774)
+
+
+
+[2025*年*主流*大模型**API**免费*调用*指南*：从入门到*实战*](https://blog.csdn.net/mac99/article/details/154110206)
+
+[mac99的博客](https://blog.csdn.net/mac99)
+
+02-24
+![]()
+755
+
+
+
+
+[本文为*开发者*提供了2025*年*主流*大模型**API*的*免费*调用*实战**指南*。重点介绍了以白山云智算平台为代表的*国内*平台，其提供高额*免费*体验金和兼容OpenAI的*API*，是快速入门和原型开发的首选。同时，文章也涵盖了开源社区、国际平台的选择策略，并分享了*API*调用优化、错误处理及构建智能*代码*助手等核心*实战*技巧，帮助读者零成本高效集成AI能力。](https://blog.csdn.net/mac99/article/details/154110206)
+
+
+
+[魔搭社区*免费**API**实战*：5分钟搞定Dify*与*DeepSeek-R1*模型*对接（*附*Python*代码*）](https://blog.csdn.net/eee77/article/details/154969078)
+
+[eee77的博客](https://blog.csdn.net/eee77)
+
+02-16
+![]()
+901
+
+
+
+
+[本文详细介绍了如何利用魔搭社区提供的*免费**API*，在5分钟内完成Dify平台*与*DeepSeek-R1*模型*的对接。通过OpenAI-*API*兼容接口，*开发者*可以快速实现*模型*推理*API*的调用，并*附*有完整的Python*代码*示例，帮助用户轻松上手。](https://blog.csdn.net/eee77/article/details/154969078)
+
+
+
+[【*人工智能*开发】基于*API*调用的*大模型*应用：电商智能客服系统构建*与*性能优化全流程解析](https://download.csdn.net/download/weixin_47560078/92217551)
+
+10-28
+
+
+
+[重点介绍了OpenAI、Anthropic、阿里通义、深度求索、百度文心等*国内*外主流*大模型**API*平台的选择*与*使用方法，并以Python为例演示了通过官方SDK或requests库进行*API*调用的具体*代码*实现。文章还结合电商智能客服的*实战*...](https://download.csdn.net/download/weixin_47560078/92217551)
+
+
+
+[九款*国内**免费**大模型*，前三款强烈推荐！](https://devpress.csdn.net/v1/article/detail/138460808)
+
+[xiangxueerfei的博客](https://blog.csdn.net/xiangxueerfei)
+
+05-05
+![]()
+2万+
+
+
+
+
+[等多个领域展现其强大的多模态能力。此外，智谱清言还具备语音交互功能，使得用户*与*AI的互动更加自然和高效。](https://devpress.csdn.net/v1/article/detail/138460808)
+
+
+
+[2025最新*免费*的*大模型*和*免费*的*大模型**API*有哪些？（202508更新）](https://libin9ioak.blog.csdn.net/article/details/150160853)
+
+[猫头虎技术团队：授渔优于赠鱼，兴趣引领智慧，探索之乐尤显珍贵。商务合作+：Libin9iOak ，万粉变现+：CSDNWF，猫头虎承诺每年免费为100名C站创作者做账号流量诊断服务！全网搜：猫头虎技术团队，点击文章底部名片或直接私信我一切皆可谈，快找虎哥！](https://blog.csdn.net/qq_44866828)
+
+08-10
+![]()
+1万+
+
+
+
+
+[本文汇总了2025*年**国内*外*免费**大模型*及*API*资源，涵盖讯飞星火、百度千帆、腾讯混元、字节扣子等*国内*平台，以及Google Gemini、Cloudflare Workers AI、Mistral等国外服务。这些平台提供轻量级至高性能的*模型*调用，支持文本生成、自然语言处理等任务，多数设有*免费**额度*（如请求数、Token限制）。*开发者*可通过开源工具simple-one-*api*统一调用多平台*模型*。建议*开发者*选择字节扣子、硅基流动进行测试；研究者使用Google Gemini等高性能*API*；爱好者从讯飞星火等](https://libin9ioak.blog.csdn.net/article/details/150160853)
+
+
+
+[*免费*的参数量比较大的*大模型**API*](https://blog.csdn.net/weixin_44162814/article/details/158381200)
+
+[weixin\_44162814的博客](https://blog.csdn.net/weixin_44162814)
+
+02-25
+![]()
+2548
+
+
+
+
+[本文整理了当前可*免费*使用的*大模型**API*资源，包括*国内*外主流平台和开源方案。主要内容分为三类：1）云厂商提供的*免费**额度*（如阿里通义、百度ERNIE等），适合中文场景开发；2）国际平台（OpenRouter、z.ai等）提供的开源*模型**API*；3）开源*模型*本地部署方案（如LLaMA3）。文章对比了不同方案的*模型*规模、适用场景，并提醒注意*免费*限制、性能差异等问题。这些资源可帮助*开发者*低成本进行AI应用测试和原型开发。](https://blog.csdn.net/weixin_44162814/article/details/158381200)
+
+
+
+[使用 ollama 部署本地*模型*，零基础入门到精通，非常详细收藏我这一篇就够了](https://blog.csdn.net/m0_65555479/article/details/141216341)
+
+[m0\_65555479的博客](https://blog.csdn.net/m0_65555479)
+
+08-15
+![]()
+3425
+
+
+
+
+[在本地启动并运行大型语言*模型*。运行Llama 2，Code Llama和其他*模型*。自定义并创建您自己的。](https://blog.csdn.net/m0_65555479/article/details/141216341)
+
+
+
+[【Gradio系列】使用 Gradio 快速构建对话式 AI 应用
+最新发布](https://zwzhangyu.blog.csdn.net/article/details/159395139)
+
+[发现问题，面对问题，分析问题，解决问题，总结问题](https://blog.csdn.net/Octopus21)
+
+03-23
+![]()
+313
+
+
+
+
+[本文介绍了一个基于Gradio框架的AI智能助手实现方案。该方案通过Gradio的ChatInterface组件快速构建聊天界面，核心功能由chat\_stream函数实现：该函数会整理用户输入和历史对话记录，调用*大模型**API*进行流式响应，实现类似ChatGPT的实时对话效果。系统采用Qwen-plus*模型*作为基础，并预设了友好专业的AI角色设定。整个方案仅需少量*代码*即可完成前后端开发，展现了Gradio在快速构建AI应用方面的优势。](https://zwzhangyu.blog.csdn.net/article/details/159395139)
+
+
+
+[【文献阅读】MINT：让AI“学会”蛋白质对话的语言，开启相互作用预测新时代](https://devpress.csdn.net/v1/article/detail/159283300)
+
+[weixin\_42038527的博客](https://blog.csdn.net/weixin_42038527)
+
+03-20
+![]()
+350
+
+
+
+
+[不再满足于看懂单个蛋白质，新一代蛋白质语言*模型*MINT通过跨链注意力机制，直接从海量序列中学习蛋白质之间如何“握手”*与*“交谈”，在抗体设计、癌症突变解读、病毒免疫逃逸预测等领域大放异彩。](https://devpress.csdn.net/v1/article/detail/159283300)
+
+
+
+[Figo神经网络几何优化：基于深度学习发现复杂参数空间中的最优测量几何](https://figocheung.blog.csdn.net/article/details/159285961)
+
+[在科技赋能新时代，共同探索基础理论和宇宙未知。](https://blog.csdn.net/Figo_Cheung)
+
+03-20
+![]()
+1157
+
+
+
+
+[我们提出了一种新颖的神经网络几何优化方法，用于发现复杂参数空间中的最优测量几何。我们的方法成功地将量子Fisher信息几何*与*深度学习相结合，在多个量子系统和应用中实现了优越的性能。
+关键创新包括保持几何对称性的等变神经网络架构、维持流形约束的黎曼优化算法，以及基于量子Cramér-Rao界的几何感知损失函数。实验结果证明了收敛速度提升3-5倍，达到理论最优值的95%以上。](https://figocheung.blog.csdn.net/article/details/159285961)
+
+
+
+
+
+
+
+
+
+
+[![]()](https://blog.csdn.net/2402_84764726)
+
+[培风图南以星河揽胜](https://blog.csdn.net/2402_84764726)
+
+
+博客等级
+
+![]()
+
+码龄2年
+
+
+
+![]()
+新星创作者: Java技术领域
+
+![]()
+优质创作者: 后端开发、人工智能技术领域
+
+
+[2316
+原创](https://blog.csdn.net/2402_84764726)
+
+3万+
+点赞
+
+2万+
+收藏
+
+1万+
+粉丝
+
+
+关注
+
+[私信](https://im.csdn.net/chat/2402_84764726)
+
+
+
+[![]()](https://ai.csdn.net/workbench/wallet?utm_source=xtai_slb_bloglb)
+
+![]()
+
+
+### TA的精选
+
+* [新
+  国家金融监督管理总局地市级分支局计算机岗之日常运维：从基础到进阶的全面解析](https://blog.csdn.net/2402_84764726/article/details/159414842)
+  
+  90 阅读
+* [新
+  金管局地市级计算机岗面试通关秘籍：官方话术体系构建与实战应用（万字深度指南）](https://blog.csdn.net/2402_84764726/article/details/159414771)
+  
+  81 阅读
+* [热
+  期末考试专项突破之过滤器（Filter）工作原理与应用场景详解](https://blog.csdn.net/2402_84764726/article/details/151313886)
+  
+  56782 阅读
+* [热
+  今日本科计科要闻速递：技术分享与学习指南（C语言、Java、SQL、数据结构、Spring Boot、Maven、DataGrip）](https://blog.csdn.net/2402_84764726/article/details/149508285)
+  
+  9884 阅读
+* [热
+  《中国近现代史纲要时间线梳理》](https://blog.csdn.net/2402_84764726/article/details/147891120)
+  
+  6764 阅读
+
+[查看更多 ![]()](https://blog.csdn.net/2402_84764726?type=blog)
+
+
+
+### 大家在看
+
+* [Macmini M4 openclaw第一集：使用ollama和omlx架构对比
+  ![]()
+  629](https://blog.csdn.net/weixin_44626085/article/details/159320991)
+* [Context Hub实战指南：让AI编程助手告别“幻觉代码“的工程解决方案
+  ![]()
+  242](https://blog.csdn.net/aiauto/article/details/159461488)
+* [多物理场耦合仿真-主题026-压电耦合分析](https://blog.csdn.net/2401_87715305/article/details/159475749)
+* [【PAT甲级真题】- Speech Patterns (25)](https://blog.csdn.net/ppparaneciym/article/details/159475736)
+* [GitAgent实战解析：用Docker思想解决AI Agent框架碎片化问题，降低80%迁移成本
+  ![]()
+  642](https://blog.csdn.net/aiauto/article/details/159381684)
+
+
+### TA的创作历程
+
+2026
+
+
+
+[03月
+247篇](https://blog.csdn.net/2402_84764726?type=blog&year=2026&month=03)
+
+[02月
+280篇](https://blog.csdn.net/2402_84764726?type=blog&year=2026&month=02)
+
+[01月
+271篇](https://blog.csdn.net/2402_84764726?type=blog&year=2026&month=01)
+
+
+
+
+
+历年创作
+
+
+
+[2025年
+1518篇](https://blog.csdn.net/2402_84764726?type=blog&year=2025&month=12)
+
+
+
+
+
+
+
+### 分类专栏
+
+* [![]()
+  善灵驿站](https://blog.csdn.net/2402_84764726/category_13139301.html)
+  10篇
+* [![]()
+  澄心观道](https://blog.csdn.net/2402_84764726/category_13140225.html)
+  27篇
+* [![]()
+  匠身颐和](https://blog.csdn.net/2402_84764726/category_13139484.html)
+  7篇
+* [![]()
+  解忧杂谈](https://blog.csdn.net/2402_84764726/category_12973531.html)
+  74篇
+* [![]()
+  琐碎灵犀](https://blog.csdn.net/2402_84764726/category_13041624.html)
+  54篇
+* [![]()
+  要闻速递](https://blog.csdn.net/2402_84764726/category_12994821.html)
+  16篇
+* [![]()
+  计算机血性决斗场](https://blog.csdn.net/2402_84764726/category_13096590.html)
+  18篇
+* [![]()
+  计算机版密室逃脱](https://blog.csdn.net/2402_84764726/category_13096812.html)
+  8篇
+* [![]()
+  陪虚幻女友学计算机](https://blog.csdn.net/2402_84764726/category_13095023.html)
+  27篇
+* [![]()
+  金融监管局计算机岗](https://blog.csdn.net/2402_84764726/category_13137524.html)
+  41篇
+* [![]()
+  大数据金融监督管理](https://blog.csdn.net/2402_84764726/category_13140608.html)
+  2篇
+* [![]()
+  护网攻防信息安全技术](https://blog.csdn.net/2402_84764726/category_13052727.html)
+  13篇
+* [![]()
+  计算机网络协议与安全](https://blog.csdn.net/2402_84764726/category_13140607.html)
+  34篇
+* [![]()
+  数据结构与算法Leetcode](https://blog.csdn.net/2402_84764726/category_12974465.html)
+  159篇
+* [![]()
+  小中大型数据库原理与应用](https://blog.csdn.net/2402_84764726/category_12989533.html)
+  124篇
+* [![]()
+  数据挖掘游戏策划问卷stata](https://blog.csdn.net/2402_84764726/category_12962551.html)
+  15篇
+* [![]()
+  数电C语言计组汇编体系结构](https://blog.csdn.net/2402_84764726/category_12953424.html)
+  90篇
+* [![]()
+  高数线代概率论离数期末考研](https://blog.csdn.net/2402_84764726/category_12955041.html)
+  218篇
+* [![]()
+  大学期末四六级金融考研英语](https://blog.csdn.net/2402_84764726/category_12953040.html)
+  196篇
+* [![]()
+  马原思修史纲毛中特新思想时政](https://blog.csdn.net/2402_84764726/category_12963986.html)
+  39篇
+* [![]()
+  软件工程管理设计模式测试运维](https://blog.csdn.net/2402_84764726/category_13053578.html)
+  45篇
+* [![]()
+  java基础全栈Web面试项目进阶](https://blog.csdn.net/2402_84764726/category_12998605.html)
+  872篇
+* [![]()
+  python深度学习人工智能Agent](https://blog.csdn.net/2402_84764726/category_12974394.html)
+  251篇
+* [![]()
+  Linux操作系统物联网嵌入式开发](https://blog.csdn.net/2402_84764726/category_13140646.html)
+  2篇
+
+展开全部 ![]()
+收起 ![]()
+
+
+上一篇：
+
+[Agent实习模拟面试之LobsterAI：从桌面级智能体到多模态任务理解的深度解析](https://blog.csdn.net/2402_84764726/article/details/158283584)
+
+
+下一篇：
+
+[企业级 Agent 开发中的 Token 成本归属与 API Key 管理：从工程规范到安全合规的完整实践指南](https://blog.csdn.net/2402_84764726/article/details/158284137)
+
+
+
+官方同款运行环境
+
+SmallThinker-3B-Preview
+
+SmallThinker-3B-preview，这是一个从 Qwen2.5-3b-Instruct 模型微调而来的新模型。
+
+文本生成
+Ollama
+Qwen
+SmallThinker-3B-Preview
+
+
+![]()显存大小
+
+24GB
+
+
+![]()CPU
+
+10核心
+
+
+![]()内存
+
+120GB
+
+
+![]()系统盘/数据盘
+
+40GB
+
+
+
+一键部署
+
+无需本地环境部署，可直接运行
+
+
+
+![]()
+
+· AI 阅读助手
+
+
+
+
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+
+
+官方同款运行环境
+
+SmallThinker-3B-Preview
+
+SmallThinker-3B-preview，这是一个从 Qwen2.5-3b-Instruct 模型微调而来的新模型。
+
+文本生成
+Ollama
+Qwen
+SmallThinker-3B-Preview
+
+
+![]()显存大小
+
+24GB
+
+
+![]()CPU
+
+10核心
+
+
+![]()内存
+
+120GB
+
+
+![]()系统盘/数据盘
+
+40GB
+
+
+
+一键部署
+
+无需本地环境部署，可直接运行
+
+
+
+![]()
+
+· AI 阅读助手
+
+
+
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+![]()
+
+上一篇：
+
+[Agent实习模拟面试之LobsterAI：从桌面级智能体到多模态任务理解的深度解析](https://blog.csdn.net/2402_84764726/article/details/158283584)
+
+
+下一篇：
+
+[企业级 Agent 开发中的 Token 成本归属与 API Key 管理：从工程规范到安全合规的完整实践指南](https://blog.csdn.net/2402_84764726/article/details/158284137)
+
+
+
+### 分类专栏
+
+* [![]()
+  善灵驿站](https://blog.csdn.net/2402_84764726/category_13139301.html)
+  10篇
+* [![]()
+  澄心观道](https://blog.csdn.net/2402_84764726/category_13140225.html)
+  27篇
+* [![]()
+  匠身颐和](https://blog.csdn.net/2402_84764726/category_13139484.html)
+  7篇
+* [![]()
+  解忧杂谈](https://blog.csdn.net/2402_84764726/category_12973531.html)
+  74篇
+* [![]()
+  琐碎灵犀](https://blog.csdn.net/2402_84764726/category_13041624.html)
+  54篇
+* [![]()
+  要闻速递](https://blog.csdn.net/2402_84764726/category_12994821.html)
+  16篇
+* [![]()
+  计算机血性决斗场](https://blog.csdn.net/2402_84764726/category_13096590.html)
+  18篇
+* [![]()
+  计算机版密室逃脱](https://blog.csdn.net/2402_84764726/category_13096812.html)
+  8篇
+* [![]()
+  陪虚幻女友学计算机](https://blog.csdn.net/2402_84764726/category_13095023.html)
+  27篇
+* [![]()
+  金融监管局计算机岗](https://blog.csdn.net/2402_84764726/category_13137524.html)
+  41篇
+* [![]()
+  大数据金融监督管理](https://blog.csdn.net/2402_84764726/category_13140608.html)
+  2篇
+* [![]()
+  护网攻防信息安全技术](https://blog.csdn.net/2402_84764726/category_13052727.html)
+  13篇
+* [![]()
+  计算机网络协议与安全](https://blog.csdn.net/2402_84764726/category_13140607.html)
+  34篇
+* [![]()
+  数据结构与算法Leetcode](https://blog.csdn.net/2402_84764726/category_12974465.html)
+  159篇
+* [![]()
+  小中大型数据库原理与应用](https://blog.csdn.net/2402_84764726/category_12989533.html)
+  124篇
+* [![]()
+  数据挖掘游戏策划问卷stata](https://blog.csdn.net/2402_84764726/category_12962551.html)
+  15篇
+* [![]()
+  数电C语言计组汇编体系结构](https://blog.csdn.net/2402_84764726/category_12953424.html)
+  90篇
+* [![]()
+  高数线代概率论离数期末考研](https://blog.csdn.net/2402_84764726/category_12955041.html)
+  218篇
+* [![]()
+  大学期末四六级金融考研英语](https://blog.csdn.net/2402_84764726/category_12953040.html)
+  196篇
+* [![]()
+  马原思修史纲毛中特新思想时政](https://blog.csdn.net/2402_84764726/category_12963986.html)
+  39篇
+* [![]()
+  软件工程管理设计模式测试运维](https://blog.csdn.net/2402_84764726/category_13053578.html)
+  45篇
+* [![]()
+  java基础全栈Web面试项目进阶](https://blog.csdn.net/2402_84764726/category_12998605.html)
+  872篇
+* [![]()
+  python深度学习人工智能Agent](https://blog.csdn.net/2402_84764726/category_12974394.html)
+  251篇
+* [![]()
+  Linux操作系统物联网嵌入式开发](https://blog.csdn.net/2402_84764726/category_13140646.html)
+  2篇
+
+展开全部 ![]()
+收起 ![]()
+
+
+
+
+
+
+### 目录
+
+
+
+
+
+
+
+
+
+
+
+
+
+评论 1
+![]()
+
+![]()被折叠的  条评论
+[为什么被折叠?](https://blogdev.blog.csdn.net/article/details/122245662)
+[![]()到【灌水乐园】发言](https://bbs.csdn.net/forums/FreeZone)
+
+
+查看更多评论![]()
+
+
+
+添加红包
+
+
+祝福语
+
+
+请填写红包祝福语或标题
+
+
+红包数量
+
+个
+
+红包个数最小为10个
+
+
+红包总金额
+
+元
+
+红包金额最低5元
+
+
+余额支付
+当前余额3.43元
+[前往充值 >](https://i.csdn.net/#/wallet/balance/recharge)
+
+
+需支付：10.00元
+
+取消
+确定
+
+
+
+
+![]()
+下一步
+
+![]()
+知道了
+
+
+
+![]()
+成就一亿技术人!
+
+
+
+领取后你会自动成为博主和红包主的粉丝
+规则
+
+
+
+![]()
+hope\_wisdom 发出的红包
+
+
+
+
+
+
+
+
+
+打赏作者![]()
+
+[![]()](https://blog.csdn.net/2402_84764726)
+
+培风图南以星河揽胜
+
+你的鼓励将是我创作的最大动力
+
+
+
+
+¥1
+¥2
+¥4
+¥6
+¥10
+¥20
+
+扫码支付：¥1
+
+![]()
+获取中
+
+
+![]()
+![]()
+扫码支付
+
+
+
+您的余额不足，请更换扫码支付或[充值](https://i.csdn.net/#/wallet/balance/recharge?utm_source=RewardVip)
+
+打赏作者
+
+
+
+
+实付元
+[使用余额支付](javascript:;)
+![]()
+点击重新获取
+
+
+![]()![]()![]()扫码支付
+
+
+
+
+钱包余额
+0
+![]()
+
+抵扣说明：
+
+1.余额是钱包充值的虚拟货币，按照1:1的比例进行支付金额的抵扣。  
+ 2.余额无法直接购买下载，可以购买VIP、付费专栏及课程。
+
+
+
+
+
+[![]()余额充值](https://i.csdn.net/#/wallet/balance/recharge)
+
+![]()
+
+
+
+
+
+

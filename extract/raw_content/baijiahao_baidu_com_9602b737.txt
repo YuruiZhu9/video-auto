@@ -1,0 +1,947 @@
+# Source URL: https://baijiahao.baidu.com/s?id=1860094880712045272
+# Content Length: 11461 characters
+# Extracted at: 2026-03-22 05:02:08
+#============================================================
+
+
+“懒人”自媒体终极方案：部署OpenClaw，实现内容创作无人值守[![]()](https://www.baidu.com)[百度首页](https://www.baidu.com)登录[![]()搜索](//www.baidu.com/s?rsv_dl=selectedsearch&wd=)![]()复制“懒人”自媒体终极方案：部署OpenClaw，实现内容创作无人值守[![]()](https://author.baidu.com/home?from=bjh_article&app_id=1719572899529709)[科技观察日志](https://author.baidu.com/home?from=bjh_article&app_id=1719572899529709)2026-03-19 20:51湖北关注AI导读2026年自媒体创作革命：一句话指令，AI自动生成+排版+同步草稿箱，7×24小时高效运转的OpenClaw智能体，让内容生产效率提升90%。内容由AI智能生成![]()有用![]()
+
+在2026年的AI技术浪潮中，OpenClaw凭借"自然语言驱动+全流程自动化+多工具集成"的核心优势，已成为自媒体创作者提升内容生产效率的革命性工具。本指南将带领您从零开始构建专属的自媒体文案智能体，实现"一句话指令→AI自动生成→自动排版→同步草稿箱"的全流程自动化创作。通过阿里云/本地部署、多Agent架构搭建、内容创作Skill集成和提示词优化，您将拥有一个7×24小时运行的AI助手，大幅降低自媒体创作的时间成本和学习门槛。
+
+![]()
+
+**一、环境准备与OpenClaw部署**
+
+选择适合您的部署方式，根据使用场景和需求决定：
+
+- 云部署：适合需要7×24小时在线、自动发文、无人值守的用户
+
+- 优势：稳定高效、无需本地硬件、一键部署、云服务集成
+
+- 适合人群：自媒体个人创作者、小型团队、远程办公者
+
+- 本地部署：适合对数据隐私要求高、测试环境或需要完全控制AI的用户
+
+- 优势：数据完全本地化、无网络依赖、配置灵活
+
+- 适合人群：内容敏感型创作者、企业级用户、技术爱好者
+
+![]()
+
+**二、多智能体架构搭建**
+
+**1. 创建主Agent和子Agent**
+
+搭建"主Agent+子Agent"协作架构，实现任务分配与内容创作的分工：
+
+创建主Agent（任务分配）
+
+openclaw agents add media-manager
+
+创建子Agent（微信公众号文案）
+
+openclaw agents add media-wechat
+
+创建子Agent（小红书文案）
+
+openclaw agents add media-xhs
+
+查看Agent列表
+
+openclaw agents list
+
+**2. 定义Agent职责与权限**
+
+为不同Agent分配差异化权限和职责，确保安全与高效：
+
+主Agent配置（全权限）
+
+openclaw config set skills.permission-manager.agents.media-manager.permissions '["file:read", "file:write", "api:call", "monitor(view"]'
+
+微信公众号Agent配置（内容生成+API调用）
+
+openclaw config set skills.permission-manager.agents.media-wechat.permissions '["file:read", "api:call:bailian"]'
+
+小红书Agent配置（内容生成+API调用）
+
+openclaw config set skills.permission-manager.agents媒体-xhs.permissions '["file:read", "api:call:bailian"]'
+
+重启网关
+
+openclaw gateway restart
+
+**3. SOUL.md行为准则配置**
+
+为每个Agent创建SOUL.md文件，定义其行为准则：
+
+媒体管理器
+
+基本原则
+
+- 你是我的自媒体内容创作主管
+
+- 负责接收用户指令、拆解任务、分配资源
+
+- 监控子Agent执行状态，整合最终结果
+
+- 使用简洁专业的工作汇报风格
+
+行为边界
+
+- 未经确认不执行危险的Shell命令
+
+- 不主动访问用户未授权的目录
+
+- 不直接生成内容，只负责任务分配
+
+风格
+
+- 像一位高效的工作伙伴
+
+- 回答简明扼要，重点突出
+
+- 使用项目管理术语，但不过于技术化
+
+微信公众号文案Agent
+
+基本原则
+
+- 你是我的微信公众号内容创作专家
+
+- 专注于撰写高质量、符合平台调性的公众号文章
+
+- 自动完成内容生成、排版优化和草稿箱同步
+
+行为边界
+
+- 仅在授权目录内读写文件
+
+- 不直接访问微信公众号API，通过专用Skill接口调用
+
+- 内容创作时需遵循原创性原则
+
+- 不主动修改其他Agent生成的内容
+
+风格
+
+- 写作风格：专业而不失亲和力
+
+- 结构要求：分点论述，有清晰的标题层级
+
+- 排版规范：使用Markdown语法，符合公众号转换标准
+
+- 关键词：每篇文章包含3-5个相关关键词
+
+小红书文案Agent
+
+基本原则
+
+- 你是我的小红书内容创作专家
+
+- 专注于撰写符合小红书平台调性的短文案
+
+- 自动完成内容生成、标签优化和草稿箱同步
+
+行为边界
+
+- 仅在授权目录内读写文件
+
+- 不直接访问小红书API，通过专用Skill接口调用
+
+- 内容创作时需使用口语化表达
+
+- 自动添加热门话题标签
+
+风格
+
+- 写作风格：亲切自然，口语化表达
+
+- 标题要求：使用感叹号和表情符号，吸引眼球
+
+- 标签规则：每篇笔记添加5-8个相关话题标签（#开头）
+
+- 长度限制：控制在1000字以内，段落简短
+
+**4. Skill安装与配置**
+
+安装内容创作核心Skill，扩展OpenClaw的能力：
+
+安装微信公众号Skill
+
+clawhub install wechat-api
+
+安装小红书Skill
+
+clawhub install xhs自动发图文
+
+安装内容生成Skill
+
+clawhub install content generator
+
+安装排版优化Skill
+
+clawhub install markdown-to-html
+
+验证Skill安装
+
+clawhub list
+
+Skill配置：为Skill创建配置文件，设置平台API凭证：
+
+配置微信公众号Skill
+
+cd ~/.openclaw/skills/wechat-api
+
+nano config.yaml
+
+添加以下内容（替换为你的凭证）
+
+appid: "你的公众号AppID"
+
+appsecret: "你的公众号AppSecret"
+
+token: "你的公众号Token"
+
+encodingAESKey: "你的公众号EncodingAESKey"
+
+配置小红书Skill
+
+cd ~/.openclaw/skills/xhs自动发图文
+
+nano config.yaml
+
+添加以下内容（替换为你的凭证）
+
+client\_id: "你的小红书ClientID"
+
+client\_secret: "你的小红书ClientSecret"
+
+cookie: "你的小红书Cookie"
+
+![]()
+
+**三、内容创作Skill深度配置**
+
+**1. 微信公众号Skill高级配置**
+
+微信公众号Skill需要更复杂的配置，包括API调用和内容格式规范：
+
+安装微信公众号Skill
+
+openclaw skills install wechat-property
+
+配置公众号API
+
+cd ~/.openclaw/skills/wechat-property
+
+nano config.yaml
+
+添加以下内容（替换为你的凭证）
+
+appid: "你的公众号AppID"
+
+appsecret: "你的公众号AppSecret"
+
+token: "你的公众号Token"
+
+encodingAESKey: "你的公众号EncodingAESKey"
+
+设置排版模板
+
+template\_path: "~-/.openclaw媒体/templates/wechat.md"
+
+设置草稿箱同步参数
+
+draft\_folder: "~-/.openclaw/media/drafts/wechat"
+
+autoupload: true
+
+草稿箱同步配置：确保OpenClaw有权调用微信公众号API：
+
+创建IP白名单
+
+cd ~/.openclaw
+
+nano ip-allow.list
+
+添加服务器公网IP和常用设备IP
+
+120.xxx.xxx.xxx
+
+192.168.1.100
+
+重启网关
+
+openclaw gateway restart
+
+**2. 小红书Skill高级配置**
+
+小红书Skill需要Cookie登录和内容风格适配：
+
+安装小红书Skill
+
+openclaw skills install xiaohongshu-publisher
+
+激活小红书Skill
+
+在OpenClaw聊天界面发送指令：/new xiaohongshu
+
+登录小红书账号
+
+在聊天界面发送指令："使用小红书技能，用cookie登录"
+
+复制浏览器开发者工具中的Cookie值发送给OpenClaw
+
+配置小红书Skill
+
+cd ~/.openclaw/skills/xiaohongshu-publisher
+
+nano config.yaml
+
+添加以下内容
+
+domain: "AI工具测评" # 账号垂直领域
+
+publish\_times: ["10:00", "14:00", "18:00"] # 高流量时段发布
+
+tag WhiteList: ["#AI工具", "#自媒体干货", "#效率提升"] # 推荐标签
+
+min\_length: 500 # 最低字数
+
+max\_length: 1000 # 最高字数
+
+image\_ratio: 3:4 # 图片比例要求
+
+image\_size\_limit: 10485760 # 图片大小限制（10MB）
+
+**3. 排版优化Skill配置**
+
+为确保内容在不同平台上的排版效果，配置排版Skill：
+
+安装排版优化Skill
+
+clawhub install markdown-to-html-pro
+
+配置Markdown转HTML参数
+
+cd ~/.openclaw/skills/markdown-to-html-pro
+
+nano config.yaml
+
+添加以下内容
+
+templates:
+
+wechat:
+
+file: "~-/.openclaw/media/templates/wechat.html"
+
+title\_tag: "h2"
+
+list\_type: "有序列表"
+
+image\_size: "自动调整"
+
+xiaohongshu:
+
+file: "~-/.openclaw/media/templates/xiaohongshu.html"
+
+title\_tag: "h1"
+
+list\_type: "无序列表"
+
+image\_size: "3:4比例"
+
+![]()
+
+**四、提示词优化与内容创作**
+
+**1. 提示词结构优化**
+
+提示词是内容创作质量的核心，需精心设计：
+
+微信公众号提示词模板
+
+角色设定
+
+- 你是一位有5年经验的公众号内容创作者
+
+- 擅长将复杂技术概念转化为通俗易懂的内容
+
+- 了解公众号平台的算法和用户阅读习惯
+
+内容要求
+
+- 标题：吸引眼球，包含关键词，控制在20-30字
+
+- 结构：引言→核心观点→案例分析→总结，使用h1-h3标题层级
+
+- 内容：专业但不晦涩，每段不超过80字
+
+- 格式：使用Markdown语法，包含图片位置标记
+
+示例输出
+
+标题: "2026年自媒体人必备的AI工具：效率提升90%"
+
+正文
+
+AI助手如何改变自媒体创作
+
+一、创作痛点
+
+- 灵感枯竭
+
+- 内容同质化
+
+- 排版费时费力
+
+二、OpenClaw解决方案
+
+1. 内容创作：AI自动生成文章初稿
+
+2. 排版优化：自动转换为公众号格式
+
+3. 草稿箱同步：一键保存至后台
+
+三、实际应用案例
+
+- 某科技博主使用后，日更时间从2小时缩短至15分钟
+
+- 某生活博主使用后，粉丝互动率提升了40%
+
+四、如何开始
+
+1. 部署OpenClaw环境
+
+2. 创建内容创作Agent
+
+3. 优化提示词，定义内容风格
+
+**2. 平台适配提示词**
+
+为不同平台设计专属提示词，确保内容符合平台调性：
+
+小红书提示词模板
+
+角色设定
+
+- 你是一位有3年经验的小红书内容创作者
+
+- 擅长撰写亲切自然、口语化的短文案
+
+- 了解小红书平台的热门话题和用户偏好
+
+内容要求
+
+- 标题：使用感叹号和表情符号，控制在20字以内
+
+- 内容：每段不超过3行，使用简短句子
+
+- 标签：每篇笔记添加5-8个相关话题标签
+
+- 语气：亲切自然，像朋友聊天一样
+
+示例输出
+
+"使用AI助手后，我每天能多写3篇笔记！✨
+
+这可不是吹牛，而是OpenClaw给我的真实体验！
+
+它能自动生成文案、自动配图、自动排版，
+
+我现在只需要点点按钮，就能轻松完成创作！
+
+AI助手 #自媒体干货 #效率工具 #内容创作 #OpenClaw"
+
+**3. 提示词动态优化**
+
+通过用户反馈持续优化提示词，提升内容质量：
+
+创建反馈收集Skill
+
+cd ~/.openclaw/skills
+
+git clone https://github.com/openclaw/feedback-collector.git
+
+配置反馈收集
+
+cd feedback-collector
+
+nano config.yaml
+
+添加以下内容
+
+target skills: ["wechat-property", "xiaohongshu-publisher"]
+
+feedback\_path: "~-/.openclaw/media feedback"
+
+update\_threshold: 5 # 当收到5条相似反馈时自动更新提示词
+
+![]()
+
+**五、测试与优化**
+
+**1. 功能测试**
+
+全面测试自媒体文案智能体的核心功能：
+
+测试微信公众号内容生成
+
+在OpenClaw聊天界面发送指令：
+
+"生成一篇关于'自媒体AI工具'的公众号文章，包含以下要素：
+
+- 标题吸引人，包含关键词
+
+- 分点论述，使用h1-h3标题层级
+
+- 每段不超过80字
+
+- 包含3-5个相关关键词
+
+- 生成草稿并同步至公众号后台"
+
+验证公众号草稿箱
+
+登录微信公众平台，进入'内容管理'→'草稿箱'
+
+确认文章已成功生成并上传
+
+测试小红书内容生成
+
+在OpenClaw聊天界面发送指令：
+
+"生成一篇关于'AI工具测评'的小红书笔记，包含以下要素：
+
+- 使用感叹号和表情符号的吸引人标题
+
+- 亲切自然的口语化表达
+
+- 每段不超过3行
+
+- 添加5-8个相关话题标签
+
+- 生成草稿并同步至小红书后台"
+
+验证小红书草稿箱
+
+登录小红书APP，进入'我的'→'笔记'→'草稿'
+
+确认笔记已成功生成并上传
+
+**2. 效果评估与优化**
+
+通过多维度评估内容质量，持续优化：
+
+查看生成内容
+
+cd ~/.openclaw/media/output
+
+cat wechatArticle.md
+
+cat xiaohongshuNote.md
+
+评估标准
+
+- 创意性：内容是否新颖，有无独特见解
+
+- 结构合理性：是否符合平台要求的格式
+
+- 关键词密度：是否自然融入关键词
+
+- 阅读体验：段落长度是否适中，是否易于阅读
+
+- API调用成功率：是否成功同步至草稿箱
+
+基于评估结果优化提示词
+
+cd ~/.openclaw/media/prompts
+
+nano wechat prompt.md # 修改微信公众号提示词
+
+nano xiaohongshu prompt.md # 修改小红书提示词
+
+**3. 常见问题排查**
+
+部署过程中可能遇到的问题及解决方案：
+
+1. 端口被占用
+
+- 解决方案：执行lsof -i:18789（macOS/Linux）或netstat -ano | findstr "18789"（Windows），终止占用进程后重启服务
+
+2. API调用失败
+
+- 检查日志：tail -n 100 /root/.openclaw/logs/openclaw.log
+
+- 常见错误：API密钥错误、IP未在白名单、模型调用额度耗尽
+
+- 解决方案：核对API密钥、更新IP白名单、检查模型调用额度
+
+3. 内容生成质量不佳
+
+- 检查提示词：确保提示词清晰明确，包含足够细节
+
+- 调整模型参数：修改config.yaml中的temperature（0.2-0.8）和maxTokens（500-2000）
+
+- 尝试不同模型：OpenClaw支持多种大模型，可切换为智谱AI、MiniMax等
+
+4. 草稿箱同步失败
+
+- 检查API凭证：确保微信公众号和小红书的API凭证有效
+
+- 验证网络连接：执行ping api.weixin.qq.com和ping api.xiaohongshu.com
+
+- 更新Skill：执行openclaw skills update wechat-property和openclaw skills update xiaohongshu-publisher
+
+![]()
+
+**六、自动化工作流搭建**
+
+**1. 定时任务配置**
+
+设置定时任务，实现7×24小时自动创作：
+
+在SOUL.md中添加定时任务配置
+
+cd ~/.openclaw sskills/wechat-property
+
+nano SOUL.md
+
+添加以下内容
+
+Heartbeat
+
+每日公众号内容创作
+
+- 每天早上9:00，自动生成一篇公众号文章
+
+- 每天下午15:00，自动生成一篇公众号文章
+
+- 每天晚上21:00，自动生成一篇公众号文章
+
+在SOUL.md中添加定时任务配置
+
+cd ~/.openclaw sskills/xiaohongshu-publisher
+
+nano SOUL.md
+
+添加以下内容
+
+Heartbeat
+
+每日小红书内容创作
+
+- 每天早上8:00，自动生成一篇小红书笔记
+
+- 每天中午12:00，自动生成一篇小红书笔记
+
+- 每天晚上19:00，自动生成一篇小红书笔记
+
+**2. 多平台内容适配**
+
+创建内容适配Skill，实现一次创作多平台适配：
+
+创建内容适配Skill目录
+
+mkdir -p ~/.openclaw sskills/content-adapter/{scripts(output)}
+
+cd ~/.openclaw sskills/content-adapter
+
+创建SKILL.md文件
+
+nano SKILL.md
+
+添加以下内容
+
+内容适配Skill
+
+描述
+
+将通用内容适配为不同平台的格式要求，包括微信公众号和小红书。
+
+使用场景
+
+- 当收到"生成多平台内容"指令时
+
+- 当需要批量修改已有内容格式时
+
+- 当进行内容风格迁移时
+
+参数
+
+- platform: "目标平台"（可选：wechat, xiaohongshu）
+
+- source: "源内容文件路径"
+
+- output: "输出文件路径"（可选）
+
+- override: "是否覆盖已有文件"（可选，默认：false）
+
+示例
+
+用户指令：生成多平台内容，平台=wechat,xiaohongshu
+
+输入：原始文章.md
+
+输出：适配后的微信公众号文章.md和小红书笔记.md
+
+**3. 交互界面优化**
+
+配置友好的交互界面，提升使用体验：
+
+配置Web控制台
+
+cd ~/.openclaw
+
+nano openclaw.json
+
+修改界面相关配置
+
+"interface":
+
+{
+
+"language": "zh-CN",
+
+"theme": "dark", # 深色主题，适合夜间创作
+
+"font\_size": "14px",
+
+"response\_format": "markdown", # 以Markdown格式显示内容
+
+"highlight\_position": "both", # 同时高亮问题和回答
+
+"show\_time": true, # 显示消息时间
+
+"show Agent": true, # 显示回复的Agent
+
+"show origin": true # 显示回复来源
+
+}
+
+![]()
+
+**七、安全与维护**
+
+**1. 安全加固**
+
+实施全面的安全加固措施，保护数据隐私：
+
+启用双重认证
+
+openclaw security 2fa on
+
+设置API调用限额
+
+openclaw config set model.aliyun limit daily 2000
+
+openclaw config set model.aliyun limit hourly 300
+
+启用敏感操作审批
+
+openclaw security approval add "草稿箱同步"
+
+openclaw security approval add "内容发布"
+
+**2. 日常维护**
+
+建立定期维护机制，确保系统稳定运行：
+
+每周更新Skill
+
+crontab -e
+
+添加以下内容（每周一上午10点自动更新Skill）
+
+0 10 \* \* 1爪web update all skills
+
+每月重启网关
+
+crontab -e
+
+添加以下内容（每月1号凌晨2点自动重启网关）
+
+0 2 1 \* \*爪web restart gateway
+
+**3. 成本控制**
+
+合理控制API调用成本，避免超额使用：
+
+查看API调用情况
+
+openclaw logs --filter "model call"
+
+设置预算提醒
+
+在SOUL.md中添加：
+
+预算管理
+
+当月API调用接近限额时
+
+- 自动发送提醒至微信
+
+- 建议降低内容生成频率
+
+- 推荐使用本地模型（如可用）
+
+![]()
+
+**八、进阶应用与扩展**
+
+**1. 多Agent协同创作**
+
+实现多个Agent协同创作，提升内容质量：
+
+创建内容评审Agent
+
+openclaw agents add content-reviewer
+
+配置内容评审Agent的SOUL.md
+
+cd ~/.openclaw agents/content-reviewer
+
+nano SOUL.md
+
+添加以下内容
+
+Heartbeat
+
+每日内容审核
+
+- 每天早上10:00，审核前一天生成的公众号文章
+
+- 每天下午16:00，审核前一天生成的小红书笔记
+
+- 每周日20:00，生成本周内容质量报告
+
+审核标准
+
+- 创意性：内容是否新颖，有无独特见解
+
+- 结构合理性：是否符合平台要求的格式
+
+- 关键词密度：是否自然融入关键词
+
+- 阅读体验：段落长度是否适中，是否易于阅读
+
+**2. 用户数据分析集成**
+
+将用户数据分析集成到内容创作中，提高内容相关性：
+
+安装用户分析Skill
+
+clawhub install user析
+
+配置用户分析Skill
+
+cd ~/.openclaw skills/user析
+
+nano config.yaml
+
+添加以下内容
+
+analysis Platforms:
+
+wechat:
+
+access\_token: "你的微信公众号Access Token"
+
+xiaohongshu:
+
+cookie: "你的小红书Cookie"
+
+baidu:
+
+api\_key: "你的百度统计API Key"
+
+设置内容创作Agent调用用户分析Skill
+
+cd ~/.openclaw agents/media-wechat
+
+nano SOUL.md
+
+添加以下内容
+
+内容创作前
+
+- 调用用户析Skill，分析目标用户画像
+
+- 根据用户偏好调整内容风格和关键词
+
+**3. 自主学习与进化**
+
+让Agent具备自主学习能力，持续提升内容质量：
+
+安装自主学习Skill
+
+clawhub install self-improving-agent
+
+配置自主学习Skill
+
+cd ~/.openclaw skills/self-improving-agent
+
+nano config.yaml
+
+添加以下内容
+
+learning Platforms:
+
+- "微信公众号"
+
+- "小红书"
+
+- "知乎"
+
+- "头条号"
+
+设置内容创作Agent调用自主学习Skill
+
+cd ~/.openclaw agents/media-wechat
+
+nano SOUL.md
+
+添加以下内容
+
+每周学习
+
+- 分析平台上热门文章
+
+- 学习优秀内容的创作技巧
+
+- 更新内容创作提示词
+
+![]()
+
+**九、总结与最佳实践**
+
+通过OpenClaw构建自媒体文案智能体，您将获得以下核心能力：
+
+1. 内容创作自动化：从灵感激发到文案生成，全程AI辅助
+
+2. 多平台适配：一次创作，多平台适配，节省重复劳动
+
+3. 7×24小时运行：无需人工值守，定时生成内容
+
+4. 数据安全保障：通过权限隔离、沙箱环境和安全加固保护隐私
+
+5. 持续优化能力：通过用户反馈和自主学习，不断提升内容质量
+
+最佳实践建议：
+
+- 提示词是关键：投入足够时间优化提示词，明确内容风格、格式和创作原则
+
+- 安全优先：在享受便利的同时，务必实施安全加固措施，保护API密钥和内容数据
+
+- 定期维护：建立Skill更新和系统维护机制，确保长期稳定运行
+
+- 成本控制：合理设置API调用限额，避免超额使用产生额外费用
+
+- 持续优化：通过用户反馈和数据分析，不断调整内容创作策略
+
+OpenClaw自媒体文案智能体将彻底改变您的内容创作方式，从"灵感枯竭→绞尽脑汁→反复修改"的低效循环，转变为"一句话指令→AI自动生成→自动排版→同步草稿箱"的高效创作体验。通过这一工具，您可以将更多精力投入到内容选题、用户互动和数据分析等高价值环节，实现自媒体创作效率的质的飞跃。
+
+记住，AI是助手而非替代。在享受自动化便利的同时，保持对内容质量的把关和原创性的追求，才是自媒体创作的长久之道。
+
+作者声明：作品含AI生成内容举报/反馈![]()0![]()0![]()收藏![]()分享![]()微信好友![]()新浪微博![]()复制链接![]()![]()扫码分享至微信[设为首页](//www.baidu.com/cache/sethelp/index.html)© Baidu [使用百度前必读](//www.baidu.com/duty/) 京ICP证030173号 ![]()[京公网安备11000002000001号](http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11000002000001)

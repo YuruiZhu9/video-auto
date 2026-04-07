@@ -1,0 +1,1509 @@
+# Source URL: https://blog.csdn.net/weixin_44644621/article/details/119821387
+# Content Length: 25233 characters
+# Extracted at: 2026-03-31 10:21:44
+#============================================================
+
+ 
+
+
+
+
+
+大厂面试机器学习算法（5）推荐系统算法：从wide&deep说起\_大厂推荐系统使用什么方法-CSDN博客
+
+
+
+
+
+
+
+
+大厂面试机器学习算法（5）推荐系统算法：从wide&deep说起
+================================
+
+
+原创
+已于 2023-08-07 14:35:04 修改
+·
+1.7k 阅读
+·
+![]()
+![]()
+1
+
+
+·
+![]()
+![]()
+7
+·
+CC 4.0 BY-SA版权
+版权声明：本文为博主原创文章，遵循 [CC 4.0 BY-SA](http://creativecommons.org/licenses/by-sa/4.0/) 版权协议，转载请附上原文出处链接和本声明。
+
+
+
+
+
+文章标签：
+
+[#机器学习](https://so.csdn.net/so/search/s.do?q=%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#推荐系统](https://so.csdn.net/so/search/s.do?q=%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#面试](https://so.csdn.net/so/search/s.do?q=%E9%9D%A2%E8%AF%95&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#算法](https://so.csdn.net/so/search/s.do?q=%E7%AE%97%E6%B3%95&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+[#推荐算法](https://so.csdn.net/so/search/s.do?q=%E6%8E%A8%E8%8D%90%E7%AE%97%E6%B3%95&t=all&o=vip&s=&l=&f=&viparticle=&from_tracking_code=tag_word&from_code=app_blog_art)
+
+
+
+于 2021-08-20 13:36:15 首次发布
+
+
+
+
+[![]()
+数据分析与机器学习
+专栏收录该内容](https://blog.csdn.net/weixin_44644621/category_10831024.html)
+
+23 篇文章
+
+订阅专栏
+
+
+
+
+#### 文章目录
+
+* [FM](#FM_3)
+* + [背景](#_7)
+  + [特征组合](#_26)
+  + [Challenge&解决方案](#Challenge_32)
+* [Wide&Deep Model](#WideDeep_Model_49)
+* + [背景](#_52)
+  + [解决方案](#_56)
+* [DeepFM](#DeepFM_93)
+* + [背景](#_96)
+  + [解决方案](#_99)
+* [DeepCross](#DeepCross_114)
+* + [背景](#_117)
+  + [解决方案](#_119)
+* [xDeepFM](#xDeepFM_131)
+* + [背景](#_134)
+  + [解决方案](#_137)
+* [DeepFEFM](#DeepFEFM_159)
+* + [背景](#_161)
+  + [解决方案](#_164)
+* [AutoInt](#AutoInt_173)
+* + [背景](#_176)
+  + [解决方案](#_185)
+* [AutoDis](#AutoDis_202)
+* + [背景](#_204)
+  + [解决方案](#_216)
+
+  
+ 在计算广告和推荐系统中，CTR预估（click-through rate）是非常重要的一个环节，以根据CTR预估的点击率判断是否推荐。
+  
+ 在进行CTR预估时，除了单特征外，往往要对特征进行组合。FM算法就是特征组合的常用做法之一。
+
+FM
+--
+
+问题描述：如何解决利用多阶特征中遇到的**稀疏**矩阵问题  
+ 论文：[Rendle S. Factorization machines[C]//2010 IEEE International conference on data mining. IEEE, 2010: 995-1000.](https://www.csie.ntu.edu.tw/~b97053/paper/Rendle2010FM.pdf)
+
+### 背景
+
+以广告分类问题为例，根据用户与广告位的一些特征，来预测用户是否会点击广告：  
+ ![]()  
+ clicked是分类值，表明用户有没有点击该广告。1表示点击，0表示未点击。而country,day,ad\_type则是对应的特征。对于这种categorical特征，一般都是进行one-hot编码处理。
+
+将上面的数据进行one-hot编码以后，就变成了下面这样 ：  
+ ![]()  
+ Feature fields：Country=USA和Country=China是Feature field1，Day=26/11/15、Day=1/7/14和Day=19/2/15是Feature field2，Ad\_type=Movie和Ad\_type=Game是Feature field3。  
+ 因为是categorical特征，所以经过one-hot编码以后，不可避免的样本的数据就变得很稀疏。由此可见，数据的稀疏性，是我们在实际应用场景中面临的一个非常常见的挑战与问题。  
+ ![]()
+
+再看一个典型的电影评分的例子，为了预测不同用户对不同电影的评分，我们使用以下5种（5-filled）特征
+
+1. 当前用户信息，可以理解为用户ID，如下图蓝框所示。
+2. 当前预测电影的评分信息，可以理解为电影ID。
+3. 当前用户对其他电影的评分特征。
+4. 时间，对应评分的日期
+5. 用户最近评分过的一步电影  
+    ![]()
+
+### 特征组合
+
+普通的线性模型，我们都是将各个特征独立考虑的，并没有考虑到特征与特征之间的相互关系。但实际上，大量的特征之间是有关联的。最简单的以电商为例，一般女性用户看化妆品服装之类的广告比较多，而男性更青睐各种球类装备。那很明显，女性这个特征与化妆品类服装类商品有很大的关联性，男性这个特征与球类装备的关联性更为密切。如果我们能将这些有关联的特征找出来，显然是很有意义的。  
+ ![]()  
+ 与线性模型相比，FM的模型就多了后面特征组合的部分。
+
+### Challenge&解决方案
+
+由于特征过于稀疏，满足
+x
+i
+,
+x
+j
+x\_i,x\_j
+xi​,xj​同时不为0的情况很少，导致
+w
+i
+j
+w\_{ij}
+wij​无法通过训练得出。  
+ 为了求出
+w
+i
+j
+w\_{ij}
+wij​，对每一个特征分量
+x
+i
+x\_i
+xi​引入辅助向量
+v
+i
+=
+(
+v
+i
+1
+,
+v
+i
+2
+.
+.
+.
+v
+i
+k
+)
+v\_i=(v\_{i1},v\_{i2}...v\_{ik})
+vi​=(vi1​,vi2​...vik​)，其维度k<<n。然后用
+v
+i
+v
+j
+T
+v\_iv\_j^T
+vi​vjT​对
+w
+i
+j
+w\_{ij}
+wij​进行求解。  
+ ![]()![]()  
+ ![]()  
+ 通过化简，可以使用SGD对参数进行求解。
+
+* 为什么拆分成
+  v
+  i
+  v\_i
+  vi​有效？
+  
+  1. 从数据量上来说原来是
+     n
+     ∗
+     n
+     n\*n
+     n∗n的参数量，现在是
+     n
+     ∗
+     k
+     n\*k
+     n∗k的参数量，k<<n。时间复杂度可以化简为O(kn)（k是自己设定的，如16、32）；
+  2. 特征之间可以相互影响，即使之间没有直接组合的例子，也可以通过迭代优化寻找潜在的关系。  
+      例子： 以电影评分为例，我们要估计用户A和电影ST的关系w(A&ST)以更好地预测y，但从已有的训练样本来看，这两者并没有共现，因此学习出来的w(A&ST)=0。而实际上，A和ST应该是存在某种联系的，从用户角度来看，A和B都看过SW，而B还看过ST，说明A也可能喜欢ST。而通过向量v来表示用户和电影，任意两两之间的交互都会影响v的更新，从前面举的例子就可以看过，A和B看过SW，这样的交互关系就会导致v(ST)的学习更新。即，参数因子化使得
+     x
+     h
+     x
+     i
+     x\_h x\_i
+     xh​xi​​的参数和
+     x
+     h
+     x
+     j
+     x\_hx\_j
+     xh​xj​ 的参数不再相互独立，因为有了
+     x
+     h
+     x\_h
+     xh​特征关联。因此我们可以在样本系数的情况下相对合理地估计FM的二次项参数。
+  3. V和W之间的关系？=>分解机的由来
+* 多阶特征交叉  
+   ![]()  
+   由于三重特征的交叉往往没有意义，而且会过于稀疏，因此我们一般情况下只会使用d=2的情况。
+
+Wide&Deep Model
+---------------
+
+问题描述：在推荐系统中如何确保命中的准确性和泛化性  
+ 论文：[Wide & Deep Learning for Recommender Systems](https://arxiv.org/pdf/1606.07792.pdf)
+
+### 背景
+
+1. wide模型（以LR为代表）以高维特征（一阶原始特征+二阶叉乘特征等）作为输入，利用交叉特征可以高效的实现**记忆能力**（即“记忆” 历史数据中曾共同出现过的特征对），达到**精准**的目的。但是容易过拟合，无法捕捉训练数据中没有出现过的特征对，模型泛化能力较差。
+2. DNN通过将高维特征embedding到低维特征，确保了模型的**泛化能力**（在损失一定表达能力的前提下），但会推荐出很多无关内容，准确性不能得到保证。  
+    Challenge：如何满足既要又要的问题？
+
+### 解决方案
+
+![]()  
+ **Wide部分**  
+ 基础的线性模型，表示为
+y
+=
+w
+T
+[
+x
+,
+ϕ
+(
+x
+)
+]
++
+b
+y=w^T[x,\phi(x) ]+b
+y=wT[x,ϕ(x)]+b。x和
+ϕ
+(
+x
+)
+\phi(x)
+ϕ(x)表示sparse基础特征和叉乘特征（**只采用sparse特征，如果dense特征要参与叉乘可以进行分桶离散化操作**）。交叉特征可以捕捉到特征间的交互，起到添加非线性的作用。交叉特征可表示为：  
+ ![]()  
+ **Deep部分**  
+ 前馈网络模型。**sparse特征**（如ID）首先转换为低维稠密向量（维度通常O(10)~O(100)），然后**和dense特征一起**作为网络输入。  
+ 向量随机初始化，经过最小化损失函数训练模型。激活函数采用Relu。前馈部分表示如下：  
+ ![]()  
+ 其中，Deep部分包含一个**Embedding Layer**：由于用于CTR的输入一般是极其稀疏的。因此需要重新设计网络结构。具体实现中为，在第一层隐含层之前，引入一个嵌入层来完成将高维稀疏向量压缩到低维稠密向量。  
+ ![]()  
+ 假设我们的k=5，首先，对于输入的一条记录，同一个field 只有一个位置是1，那么在由输入得到dense vector的过程中，输入层只有一个神经元起作用，得到的dense vector其实就是输入层到embedding层该神经元相连的五条线的权重，即vi1，vi2，vi3，vi4，vi5。这五个值组合起来就是我们在FM中所提到的Vi。在FM部分和DNN部分，这一块是共享权重的，对同一个特征来说，得到的Vi是相同的。
+
+**联合模型**  
+ Wide和Deep部分的输出通过加权方式合并到一起，并通过logistic loss function进行最终输出。  
+ ![]()  
+ \*联合训练vs集成训练：
+
+* 联合训练时模型误差会同时反馈到wide和deep部分，同时进行参数更新； 集成训练是每个模型单独训练，在infer阶段将结果汇合；
+* 集成训练的每个模型都足够好才有利于后面的汇合，会因此每个模型的model；
+* size相对较大；而联合训练的wide只需要做一小部分特征叉乘弥补deep的不足，而不需要一个full-size的wide model。
+
+**损失函数**  
+ logistic loss：  
+ 
+L
+=
+−
+1
+N
+∑
+(
+y
+~
+,
+y
+)
+∈
+D
+(
+y
+l
+o
+g
+y
+^
++
+(
+1
+−
+y
+)
+l
+o
+g
+(
+1
+−
+y
+^
+)
+)
+L = -\frac{1}{N}\sum\_{(\tilde{y},y)\in D}(ylog\hat{y}+(1-y)log(1-\hat{y}))
+L=−N1​(y~​,y)∈D∑​(ylogy^​+(1−y)log(1−y^​))
+
+**实验结果**  
+ 实验场景：Google play商店的APP推荐，这里的wide&deep对应精排模型。  
+ ![]()
+
+* dense特征被CDF归一到[0,1]
+* sparse特征会有一个过滤阈值，至少在训练集中出现m词才会被加入
+* sparse特征被映射到32维Embedding，和原始dense特征共1200为作为NN输入
+* wide部分只用了一组叉乘特征，即被推荐的APP×用户下载的APP
+* 模型线上更新时采用“热启动”，即使用上次的Embedding和模型参数进行初始化。
+
+实验结果：  
+ ![]()
+
+DeepFM
+------
+
+问题描述：如何根据原始数据进行自动的融合低阶和高阶的特征  
+ 论文：[DeepFM: A Factorization-Machine based Neural Network for CTR Prediction](https://arxiv.org/pdf/1703.04247.pdf)
+
+### 背景
+
+1. Wide&Deep 模型需要手工的设计wide部分的特征来确保模型的准确性，我们能否通过机器自动的学习这部分特征=>FM
+2. 在上述的基础上，我们可以使得FM Layer和我们的DNN部分共享相同的特征输入
+
+### 解决方案
+
+![]()  
+ FM部分的详细结构如下：  
+ **数值型特征不参与特征交叉**。因为特征交叉的操作是在两个embedding向量间进行的。但如果通过分桶操作把连续性特征离散化再加入embedding层，就可以参与交叉。  
+ ![]()  
+ FM的输出公式：  
+ ![]()  
+ Deep部分：  
+ ![]()  
+ 优点：
+
+1. DeepFM模型包含FM和DNN两部分，FM模型可以抽取low-order特征，DNN可以抽取high-order特征。无**需Wide&Deep模型人工特征工程**。
+2. 由于输入仅为原始特征，而且**FM和DNN共享输入向量特征**，DeepFM模型训练**速度很快**。
+3. 不同field特征长度不同，但dense embedding的输出维度相同；
+4. 利用FM模型的隐特征向量V作为DNN网络权重初始化来获得子网络输出向量；
+
+DeepCross
+---------
+
+问题描述：如果利用特征bit之间的高阶叉乘特征  
+ 论文：[Deep & Cross Network for Ad Click Predictions](https://arxiv.org/pdf/1708.05123.pdf)
+
+### 背景
+
+**Wide&Deep 仍然需要人工地设计特征叉乘**。面对高维稀疏的特征空间、大量的可组合方式，基于人工先验知识虽然可以缓解一部分压力，但仍需要不小的人力和尝试成本，并且很有可能遗漏一些重要的交叉特征。**FM可以自动组合特征，但也仅限于二阶叉乘**。能否告别人工组合特征，并且自动学习高阶的特征组合呢？Deep & Cross 即是对此的一个尝试。
+
+### 解决方案
+
+![]()  
+ cross:  
+ ![]()  
+ （reference: [向量点乘、叉乘与矩阵点乘、叉乘](https://blog.csdn.net/XIAOSHUCONG/article/details/115717893)）  
+ 三维向量叉乘公式：  
+ ![]()
+
+1. 有限高阶：叉乘阶数由网络深度决定
+   L
+   c
+   =
+   >
+   L
+   c
+   +
+   1
+   L\_c=>L\_c+1
+   Lc​=>Lc​+1
+2. 自动叉乘：Cross输出包含了原始特征从一阶（即本身）到
+   L
+   c
+   +
+   1
+   L\_c+1
+   Lc​+1阶的所有叉乘组合，而模型参数量仅仅随输入维度呈线性增长
+   2
+   ∗
+   d
+   ∗
+   L
+   c
+   2\*d\*L\_c
+   2∗d∗Lc​
+3. 参数共享：不同叉乘项对应的权重不同，但并非每个叉乘组合对应独立的权重（指数数量级）， 通过参数共享，Cross有效降低了参数量。此外，参数共享还使得模型有更强的泛化性和鲁棒性。例如，如果独立训练权重，当训练集中
+   x
+   i
+   ≠
+   0
+   &
+   x
+   j
+   ≠
+   0
+   x\_i \neq 0 \& x\_j \neq 0
+   xi​=0&xj​=0这个叉乘特征没有出现 ，对应权重肯定是零，而参数共享则不会，类似地，数据集中的一些噪声可以由大部分正常样本来纠正权重参数的学习。类似于FM中V的设计。
+
+xDeepFM
+-------
+
+问题描述：如何利用特征field之间的高阶叉乘特征  
+ 论文：[xDeepFM: Combining Explicit and Implicit Feature Interactions for Recommender Systems](https://arxiv.org/abs/1803.05170)
+
+### 背景
+
+1. Deep Cross最大的问题在于他没有field的概念，实际我们操作特征融合可能更关心的是field级别的融合和叉乘。
+2. 在DeepFM中，我们都将每个field映射到了相同的维度，在这篇文章中也一样。
+
+### 解决方案
+
+xDeepFM=Linear+CIN+Plain DNN  
+ ![]()  
+ **Field Embedding:**
+
+> If the field is univalent, the feature embedding is used as the field embedding. Take the above instance as an example, the embedding of feature male is taken as the embedding of field gender. If the field is multivalent, the sum of feature embedding is used as the field embedding.
+
+推荐领域主要关注sparse特征，通常用one-hot表示。  
+ 如果某field只有一个特征，则直接用该特征的embedding表示；  
+ 如果某field有多个特征，则用这些特征的embedding之和表示field embedding。
+
+**CIN:Compressed Interaction Network**  
+ ![]()  
+ 其中，
+X
+0
+∈
+R
+m
+∗
+d
+X^0∈R^{m\*d}
+X0∈Rm∗d，表示m个field，每个向量d维；
+X
+l
+∈
+R
+H
+l
+∗
+d
+X^l∈R^{H\_l\*d}
+Xl∈RHl​∗d，表示第l层有
+H
+l
+H\_l
+Hl​个向量，每个d维。  
+ 具体实现可参考下面的这个公式，CIN第k层的输出有
+H
+k
+H\_k
+Hk​个维度为D的特征向量。每个特征向量表示前k-1层和第0层**向量两两之间**的Hadamard乘积加权求和。  
+ （Hadamard积：<a1,b1,c1>·<a2,b2,c2>=<a1a2,b1b2,c1c2>）  
+ ![]()  
+ 上式的X均为**一行**，即 l 层第一行与0层第一行， l 层第一行与0层第二行… l 层第
+H
+l
+H\_l
+Hl​行与0层第m行加权求和，求出l+1层的某一行。
+
+优势是什么？CIN与DCN中Cross层的设计动机是相似的，Cross层的input也是前一层与输出层。至于为什么这么搞，CIN 保持了DCN的优点：有限高阶、自动叉乘、参数共享。  
+ CIN和DCN的区别：
+
+1. Cross是bit-wise的，而CIN 是vector-wise的；
+2. CIN将每一阶的特征都作为了输出
+
+DeepFEFM
+--------
+
+论文：<https://arxiv.org/abs/2009.09931>
+
+### 背景
+
+FM模型的feature interactions
+=
+v
+i
+T
+v
+j
+x
+i
+x
+j
+=v\_i^Tv\_jx\_ix\_j
+=viT​vj​xi​xj​，其中
+v
+i
+、
+v
+j
+v\_i、v\_j
+vi​、vj​对应于feature
+x
+i
+、
+x
+j
+x\_i、x\_j
+xi​、xj​，而没有利用field信息；  
+ FFM（Field-Awared Factorization Machine）加入了field的考量，feature interactions
+=
+v
+i
+,
+F
+(
+j
+)
+T
+v
+j
+,
+F
+(
+i
+)
+x
+i
+x
+j
+=v^T\_{i,F(j)}v\_{j,F(i)}x\_ix\_j
+=vi,F(j)T​vj,F(i)​xi​xj​，但造成了参数量巨大，complexity过高的缺点。
+
+### 解决方案
+
+DeepFEFM（Field-Embedded Factorization Machine）构造feature interaction=
+v
+i
+T
+W
+F
+(
+i
+)
+,
+F
+(
+j
+)
+v
+j
+x
+i
+x
+j
+v^T\_i W\_{F(i),F(j)}v\_jx\_ix\_j
+viT​WF(i),F(j)​vj​xi​xj​，其中
+W
+F
+(
+i
+)
+,
+F
+(
+j
+)
+W\_{F(i),F(j)}
+WF(i),F(j)​是一个对称矩阵，学习field i、j之间的关系。
+
+其模型结构与DeepFM基本类似，主要区别在于DeepFM的feature interaction=
+v
+i
+T
+v
+j
+x
+i
+x
+j
+v^T\_i v\_jx\_ix\_j
+viT​vj​xi​xj​，其中i、j直接表示field维度；另外DeepFM的DNN输入只使用了单个feature embedding，而DeepFEFM将feature interaction也加入DNN的input，从而提高模型表现。原文内容是：
+
+> The DNN part of DeepFM takes input only the input feature embeddings, but we additionally also input FEFM generated interaction embeddings. Our ablation studies in Section 4 show that these FEFM interaction embeddings are key to the lift in performance achieved by DeepFEFM.  
+>  ![]()
+
+AutoInt
+-------
+
+论文：[AutoInt: Automatic Feature Interaction Learning via Self-Attentive Neural Networks](https://arxiv.org/abs/1810.11921)
+
+### 背景
+
+DeepFM，Deep cross network，xDeepFM等深度学习推荐算法旨在构造高阶交叉特征上，但是这些方法有一些缺陷：
+
+* fully-connected neural networks 抽取的高阶特征在学习multiplicative feature interactions上是inefficient的；
+* 隐式学习特征交叉的方式缺乏可解释性。
+
+论文的贡献在于：  
+ 提出利用**Multi-head Self-Attention** 机制**显式学习高维特征交叉**的一种方法，提高了**可解释性**。  
+ 基于**self-attentive** neural network提出一种新的方法，可**自动学习**高维特征交叉，有效提升了CTR预估的**准确率**。
+
+### 解决方案
+
+**模型结构**  
+ ![]()  
+ **Input Layer**  
+ x = [x1; x2; …; xM]，其中M表示总共的feature fields的数目，xi表示第i个特征。  
+ 如果xi是离散的，就是one-hot向量，如果是连续的，就是一个scalar。  
+ **Embedding**  
+ ![]()  
+ 离散型特征的embedding是一个矩阵，而连续型特征的embedding是一个向量。  
+ **Interacting Layer**  
+ 这一层使用了multi-head attention，
+α
+m
+,
+k
+(
+h
+)
+\alpha\_{m,k}^{(h)}
+αm,k(h)​表示attention head *h*下，特征*m*和特征*k*的相似权重：  
+ ![]()  
+ ![]()  
+ **Output Layer**  
+ ![]()  
+ **Training**  
+ ![]()
+
+AutoDis
+-------
+
+[论文见这里](https://arxiv.org/pdf/2012.08986.pdf)
+
+### 背景
+
+ctr算法主要由两部分构成：feature embedding和feature interaction。目前为止，前几种算法的重点集中在了特征的interaction方面，本文重点对embedding方法进行了改进。
+
+神经网络输入特征分为category型和numerical型，对category型特征，一般使用label coding（将类别映射为整数）后embedding look-up的方法（将稀疏的one-hot向量乘以矩阵转化为稠密向量）；对于numerical特征，有如下几种方法：  
+ ![]()
+
+1. no embedding：直接使用数值本身，问题：low capacity（文中的capacity可理解为每个特征最终被embedding出的维度）；
+2. field embedding：对属于同一个field的多个数值型特征，使用同一个向量进行embedding，问题：intra-field feature线性相关，丢失部分表达力，也是low capacity的；  
+    （On the contrary，一种naive思想是对同一个field中每个特征分别设置embedding向量，问题在于huge parameters and insufficient training for low-frequency features.）
+3. discretization+embedding look-up：先使用其他方法（如分箱）对连续型特征离散化，再使用category型特征的embedding方法，问题：两部分割裂，不能保证离散方法对该问题的合理性；
+4. 本文提出的端到端的AutoDis方法：使用meta-embedding，使离散化结果可以根据训练目标调整，端到端训练。
+
+### 解决方案
+
+AutoDis可以分为三个模块：
+
+**一、训练meta-embedding**  
+ 为每个field训练一个meta-embedding：
+M
+E
+∈
+R
+H
+×
+d
+ME\in{R^{H×d}}
+ME∈RH×d，field内的所有feature共享该
+M
+E
+ME
+ME，  
+ 该field中特征可被离散化为
+H
+H
+H个bucket，每行是一种embedding结果，最终目标为d维向量。
+
+**二、Automatic Discretization**  
+ 首先使用automatic discretization函数
+d
+j
+A
+u
+t
+o
+(
+⋅
+)
+d\_j^{Auto(·)}
+djAuto(⋅)​将x转化为
+x
+~
+\tilde{x}
+x~：  
+ ![]()  
+ 再用softmax将
+x
+~
+\tilde{x}
+x~转化为
+x
+^
+\hat{x}
+x^，这里
+x
+^
+h
+\hat{x}^h
+x^h表示x被离散化到第h个bucket的概率：  
+ ![]()  
+ **三、Aggregation function**  
+ 可以选择max、top-k sum、weighted-average等方法，根据
+x
+^
+\hat{x}
+x^和
+M
+E
+ME
+ME对最终向量表示进行计算，如选择
+x
+^
+h
+\hat{x}^h
+x^h最大值对应
+M
+E
+ME
+ME的行，或对top-k个行加权求和等。
+
+**效果对比**  
+ 设一个field有m个feature，使用离散化方法可分为4个类别，目标向量d维。  
+ ![]()  
+ 可以看出：
+
+1. field embedding和no embedding所需的参数最少，但capacity受限（表示的维度小，或field内部具有强相关性）；
+2. independent embedding和discretization+embedding的参数成倍数级增长，而AutoDis由于整个field共享ME，不会因为过大feature数量和embedding维度而参数爆炸；
+3. discretization+embedding的离散化与DNN训练分离，不能保证离散化方法和结果对问题本身的合理性。
+
+参考资料：  
+ https://www.jianshu.com/p/152ae633fb00  
+ https://www.jianshu.com/p/6f1c2643d31b  
+ https://blog.csdn.net/weixin\_45459911/article/details/106917001
+
+
+
+
+
+
+
+![]()
+确定要放弃本次机会？
+
+福利倒计时
+
+*:*
+
+*:*
+
+
+![]()
+立减 ¥
+
+
+普通VIP年卡可用
+
+[立即使用](https://mall.csdn.net/vip)
+
+
+[![]()
+我是女生，我不做程序媛](https://blog.csdn.net/weixin_44644621)
+
+[关注](javascript:;)
+关注
+
+
+* ![]()
+  ![]()
+  ![]()
+  1
+  点赞
+* ![]()
+  ![]()
+  踩
+* [![]()
+  ![]()
+  ![]()
+  7](javascript:;)
+  收藏
+  
+  
+  
+  觉得还不错?
+  一键收藏
+  
+  ![]()
+* ![]()
+  知道了
+  
+  [![]()
+  0](#commentBox)
+  评论
+* [![]()
+  分享](javascript:;)
+  复制链接
+  
+  分享到 QQ
+  
+  分享到新浪微博
+  
+  ![]()扫一扫
+* ![]()
+  ![]()
+  举报
+  
+  ![]()
+  举报
+
+专栏目录
+
+
+
+
+![]()
+
+[常用的几种*推荐**算法*介绍](https://zhangleyang.blog.csdn.net/article/details/135395507)
+
+[leyang0910的博客](https://blog.csdn.net/leyang0910)
+
+01-10
+![]()
+7579
+
+
+
+
+[UserCF：*推荐*那些和他有共同兴趣爱好的用户喜欢的物品；ItemCF：*推荐*那些和他之前喜欢的物品类似的物品；根据用户*推荐*重点是反应和用户兴趣相似的小群体的热点，根据物品*推荐*着重与用户过去的历史兴趣，即：UserCF是某个群体内的物品热门程度；ItemCF是反应本人的兴趣爱好，更加个性化。](https://zhangleyang.blog.csdn.net/article/details/135395507)
+
+
+
+
+
+参与评论
+您还未登录，请先
+登录
+后发表或查看评论
+
+
+[搜索*推荐系统*专栏简介：搜索*推荐*全流程讲解（召回粗排精排重排混排）、系统架构、常见问题、*算法*项目实战总结、技术细节以及项目实战（含码源）](https://blog.csdn.net/sinat_39620217/article/details/130029104)
+
+[丨汀、的博客](https://blog.csdn.net/sinat_39620217)
+
+04-12
+![]()
+1万+
+
+
+
+
+[*推荐系统*[八]*算法*实践总结V1：腾讯音乐全民K歌*推荐系统*架构及粗排设计*推荐系统*[八]*算法*实践总结V2：排序学习框架*(*特征提取标签获取方式*)*以及京东*推荐**算法*精排技术实战*推荐系统*[八]*算法*实践总结V3：重排在快手短视频*推荐系统*中的应用and手淘信息流多兴趣多目标重排技术*推荐系统*[八]*算法*实践总结V4：混排*算法*在淘宝信息流第四代混排调控框架实战，提升*推荐*实时性捕捉实时兴趣。](https://blog.csdn.net/sinat_39620217/article/details/130029104)
+
+
+
+[*推荐**算法*教程（个人总结）](https://blog.csdn.net/qq_16064553/article/details/139185382)
+
+[年糕的博客](https://blog.csdn.net/qq_16064553)
+
+05-24
+![]()
+8202
+
+
+
+
+[*推荐**算法*是现代*推荐系统*的核心，通过分析用户行为和偏好，向用户*推荐*个性化的内容或产品。本文详细介绍了协同过滤、基于内容的*推荐*、矩阵分解和深度学习*推荐*模型的基本原理、具体实现、优劣势及应用实例。通过这些*算法*的学习和应用，可以有效提高*推荐系统*的性能和用户满意度。](https://blog.csdn.net/qq_16064553/article/details/139185382)
+
+
+
+
+[【主要*推荐**算法*概览，包括召回与排序】](https://blog.csdn.net/m0_48086806/article/details/136914225)
+
+[m0\_48086806的博客](https://blog.csdn.net/m0_48086806)
+
+06-13
+![]()
+6428
+
+
+
+
+[【主要*推荐**算法*概览，包括召回与排序】](https://blog.csdn.net/m0_48086806/article/details/136914225)
+
+
+
+[常用的*推荐**算法*](https://devpress.csdn.net/v1/article/detail/136635976)
+
+[m0\_54187478的博客](https://blog.csdn.net/m0_54187478)
+
+03-11
+![]()
+4146
+
+
+
+
+[*推荐系统*在帮助用户发现可能感兴趣的产品、服务或信息方面发挥着重要作用。](https://devpress.csdn.net/v1/article/detail/136635976)
+
+
+
+[*推荐**算法*详解](https://devpress.csdn.net/v1/article/detail/138730573)
+
+[暴力扬](https://blog.csdn.net/L6666688888)
+
+05-11
+![]()
+7288
+
+
+
+
+[*推荐**算法*是个性化信息服务的核心，包括基于内容的*方法*侧重于分析物品属性、协同过滤技术通过用户或物品的相似性进行*推荐*、混合系统结合多种*推荐*策略以提高准确性、知识驱动*方法*利用语义理解用户需求、基于模型的*方法*运用*机器学习*构建*推荐*模型、深度学习技术处理复杂数据关系、图*算法*挖掘用户和物品间的复杂交互、时间序列分析考虑用户行为的时效性、上下文感知*推荐*考虑用户实时环境、强化学习优化*推荐*策略以及多臂老虎机和序列*推荐**算法*平衡探索与利用，共同构建了现代*推荐系统*的强大架构。](https://devpress.csdn.net/v1/article/detail/138730573)
+
+
+
+[*推荐系统**算法*实践：基于协同过滤与矩阵分解的实战项目](https://wenku.csdn.net/doc/1zk2z34sy3)
+
+
+
+
+[描述虽简略为“*推荐系统* *推荐系统**算法*实践”，但恰恰凸显了本项目的双重属性：既是对*推荐系统*基础范式（如协同过滤、内容*推荐*、混合*推荐*）的系统梳理，更是对主流*算法*从数学原理到Python工程化实现的完整闭环训练。...](https://wenku.csdn.net/doc/1zk2z34sy3)
+
+
+
+[2021年第二季度*大厂*AI*面试*真题汇编：覆盖ML/DL/CV/NLP/*推荐系统*及数据结构*算法*共121题（含解析）](https://wenku.csdn.net/doc/55yqbaqma1)
+
+
+
+
+[该资料并非泛泛而谈的概念罗列，而是以121道精选真题为骨架，深度融合*机器学习*（ML）、深度学习（DL）、计算机视觉（CV）、自然语言处理（NLP）、*推荐系统*（RS）五大主干方向，并精准锚定SVM（支持向量机）、XGBoost...](https://wenku.csdn.net/doc/55yqbaqma1)
+
+
+
+[【*推荐**算法*】精排模型总结](https://blog.csdn.net/m0_48086806/article/details/139663361)
+
+[m0\_48086806的博客](https://blog.csdn.net/m0_48086806)
+
+06-14
+![]()
+3736
+
+
+
+
+[【*推荐**算法*】精排模型总结](https://blog.csdn.net/m0_48086806/article/details/139663361)
+
+
+
+[阿里移动*推荐**算法*竞赛实战解析：*算法*实现、特征工程与模型优化](https://wenku.csdn.net/doc/ugo5gp4zh7)
+
+
+
+
+[在“*机器学习*”层面，竞赛广泛采用集成学习（XGBoost/LightGBM）作为强基线排序模型，但更前沿方案普遍转向深度学习架构：Wide & Deep实现记忆与泛化的统一；DeepFM融合高阶特征交互与低阶线性建模；DCN引入交叉网络...](https://wenku.csdn.net/doc/ugo5gp4zh7)
+
+
+
+[*推荐**算法*（一）--基本介绍
+热门推荐](https://devpress.csdn.net/v1/article/detail/85414969)
+
+[工作笔记](https://blog.csdn.net/App_12062011)
+
+12-30
+![]()
+4万+
+
+
+
+
+[&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;nbsp;&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;nbsp; &amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;nbsp;&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;nbsp;&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;nbsp; &am](https://devpress.csdn.net/v1/article/detail/85414969)
+
+
+
+[数据分析之*推荐**算法*](https://huahuaboy.blog.csdn.net/article/details/129191331)
+
+[IT菜鸟](https://blog.csdn.net/m0_37605642)
+
+02-23
+![]()
+4123
+
+
+
+
+[*推荐**算法*是计算机专业中的一种*算法*，通过一些数学*算法*，推测出用户可能喜欢的东西，目前应用*推荐**算法*比较好的地方主要是网络，其中淘宝做的比较好。所谓*推荐**算法*就是利用用户的一些行为，通过一些数学*算法*，推测出用户可能喜欢的东西。SVD*(*Singular ValueDecomposition*)*的想法是根据已有的评分情况，分析出评分者对各个物品因子的喜好程度，以及各个物品对于这些因子的包含程度，最后再反过来根据分析结果预测评分。通过SVD的方式可以找出影响评分的显示因子和隐藏因子，这样更多有意义的关联关系就会被发现出来。](https://huahuaboy.blog.csdn.net/article/details/129191331)
+
+
+
+[*推荐系统*的几种常用*算法*总结](https://devpress.csdn.net/v1/article/detail/101343117)
+
+[Vensmallzeng的博客](https://blog.csdn.net/Vensmallzeng)
+
+09-25
+![]()
+3万+
+
+
+
+
+[尊敬的读者您好：笔者很高兴自己的文章能被阅读，但原创与编辑均不易，所以转载请必须注明本文出处并附上本文地址超链接以及博主博客地址：https*:*//blog.csdn.net/vensmallzeng。若觉得本文对您有益处还请帮忙点个赞鼓励一下，笔者在此感谢每一位读者，如需联系笔者，请记下邮箱：zengzenghe@gmail.com，谢谢合作！
+之前也做过一些关于*推荐系统*的项目...](https://devpress.csdn.net/v1/article/detail/101343117)
+
+
+
+[*推荐系统**算法*详解](https://devpress.csdn.net/v1/article/detail/130913917)
+
+[weixin\_46351593的博客](https://blog.csdn.net/weixin_46351593)
+
+05-28
+![]()
+4042
+
+
+
+
+[*推荐系统*、基于内容、基于用户、协同过滤、矩阵分解、LFM](https://devpress.csdn.net/v1/article/detail/130913917)
+
+
+
+[【人工智能】*推荐系统**算法*](https://devpress.csdn.net/v1/article/detail/121776868)
+
+[柠檬小帽的博客 - 计算机全栈体系](https://blog.csdn.net/sgsgkxkx)
+
+12-07
+![]()
+2万+
+
+
+
+
+[*推荐系统**算法*详解
+一、常用*推荐**算法*分类
+1. 基于人口统计学的*推荐**算法*
+基于人口统计学的*推荐*机制*(*Demographic-based Recommendation*)*是一种最易于实现的*推荐**方法*，它只是简单的根据系统用户的基本信息发现用户的相关程度，然后将相似用户喜爱的其他物品*推荐*给当前用户
+对于没有明确含义的用户信息*(*比如登录时间、地域等上下文信息*)*，可以通过聚类等手段，给用户打上分类标签
+对于特定标签的用户，又可以根据预设的规则*(*知识*)*或者模型，*推荐*出对应的物品
+用户信息标签化的过程一般又称为用户画像*(*](https://devpress.csdn.net/v1/article/detail/121776868)
+
+
+
+[经典*推荐**算法*（基于内容的*推荐**算法*）](https://blog.csdn.net/weixin_52593484/article/details/127191477)
+
+[weixin\_52593484的博客](https://blog.csdn.net/weixin_52593484)
+
+10-08
+![]()
+2万+
+
+
+
+
+[基于内容的*推荐**算法*简介](https://blog.csdn.net/weixin_52593484/article/details/127191477)
+
+
+
+[常见的智能*推荐**算法*（总结）](https://devpress.csdn.net/v1/article/detail/129427584)
+
+[qq\_16032927的博客](https://blog.csdn.net/qq_16032927)
+
+03-10
+![]()
+1万+
+
+
+
+
+[本文主要总结智能*推荐**算法*](https://devpress.csdn.net/v1/article/detail/129427584)
+
+
+
+[*机器学习*：*推荐**算法*
+最新发布](https://blog.csdn.net/weixin_74622880/article/details/147428468)
+
+[weixin\_74622880的博客](https://blog.csdn.net/weixin_74622880)
+
+04-22
+![]()
+1370
+
+
+
+
+[要求：了解*推荐**算法*的基本概念掌握*推荐**算法*的类别掌握基于协调过滤的*推荐**算法*了解其他常见的*推荐**算法*。](https://blog.csdn.net/weixin_74622880/article/details/147428468)
+
+
+
+[*推荐**算法*介绍](https://blog.csdn.net/qq_41447150/article/details/109701131)
+
+[qq\_41447150的博客](https://blog.csdn.net/qq_41447150)
+
+08-02
+![]()
+5176
+
+
+
+
+[一.*推荐**算法*
+基于内容、基于协同过滤、混合*推荐**算法*。
+二.详细介绍
+1.基于内容
+根据用户之前的行为内容数据，找到相关的内容进行*推荐*。
+解决的问题：用户冷启动。
+2.基于协同过滤
+2.1基于模型的协同过滤
+常见的*算法*：回归、矩阵分解、关联规则、分类、聚类、神经网络、图模型、隐语义模型。
+2.2基于聚类的协同过滤
+（1）分类：基于划分（Partition-based methods）、基于密度（Density-based methods）、层次聚类。
+（2）*算法*：K-Means、DBSCAN、BIRCH。
+（](https://blog.csdn.net/qq_41447150/article/details/109701131)
+
+
+
+
+
+
+[![]()](https://blog.csdn.net/weixin_44644621)
+
+[我是女生，我不做程序媛](https://blog.csdn.net/weixin_44644621)
+
+
+博客等级
+
+![]()
+
+码龄7年
+
+
+
+[56
+原创](https://blog.csdn.net/weixin_44644621)
+
+177
+点赞
+
+1184
+收藏
+
+136
+粉丝
+
+
+关注
+
+[私信](https://im.csdn.net/chat/weixin_44644621)
+
+
+
+[![]()](https://ai.csdn.net/workbench/wallet?utm_source=xtai_slb_bloglb)
+
+![]()
+
+
+### 热门文章
+
+* [Dataframe取特定的行/列&按行/列遍历数据的值\_python处理Excel入门
+  ![]()
+  23327](https://blog.csdn.net/weixin_44644621/article/details/113916512)
+* [使用Eclipse创建最简单的JavaWeb网页项目
+  ![]()
+  20297](https://blog.csdn.net/weixin_44644621/article/details/113822319)
+* [熵权法计算权重原理&python实现
+  ![]()
+  13693](https://blog.csdn.net/weixin_44644621/article/details/114038354)
+* [粒子群算法原理|python实现|参数调优
+  ![]()
+  11581](https://blog.csdn.net/weixin_44644621/article/details/115357432)
+* [python中import用法|如何调用不同.py文件|连环import报错
+  ![]()
+  6536](https://blog.csdn.net/weixin_44644621/article/details/116901372)
+
+
+### 分类专栏
+
+* [![]()
+  计算机基础](https://blog.csdn.net/weixin_44644621/category_11440010.html)
+  4篇
+* [![]()
+  数据分析与机器学习](https://blog.csdn.net/weixin_44644621/category_10831024.html)
+  23篇
+* [![]()
+  Python](https://blog.csdn.net/weixin_44644621/category_10821643.html)
+  10篇
+* [![]()
+  nlp](https://blog.csdn.net/weixin_44644621/category_12186051.html)
+  3篇
+* [![]()
+  区块链](https://blog.csdn.net/weixin_44644621/category_10982565.html)
+  1篇
+* [![]()
+  Spark](https://blog.csdn.net/weixin_44644621/category_11400165.html)
+  3篇
+* [![]()
+  markdown](https://blog.csdn.net/weixin_44644621/category_11949458.html)
+  1篇
+* [![]()
+  大数据](https://blog.csdn.net/weixin_44644621/category_11438435.html)
+  1篇
+* [![]()
+  数据库](https://blog.csdn.net/weixin_44644621/category_10809878.html)
+  7篇
+* [![]()
+  JavaWeb](https://blog.csdn.net/weixin_44644621/category_10811641.html)
+  8篇
+
+展开全部 ![]()
+收起 ![]()
+
+
+上一篇：
+
+[大厂面试机器学习算法（4）提升树模型：GDBT、XGBoost、LightGBM（未完待续）](https://blog.csdn.net/weixin_44644621/article/details/119821269)
+
+
+下一篇：
+
+[机器学习零散笔记：一些概念和注意](https://blog.csdn.net/weixin_44644621/article/details/119952579)
+
+
+
+### 大家在看
+
+* [【Agents】自定义子代理进阶：后台执行](https://blog.csdn.net/Rabbit_QL/article/details/159677889)
+* [新型电力系统应该用什么数据库？——时序数据库选型与落地实战
+  ![]()
+  9870](https://blog.csdn.net/2302_78391795/article/details/159580506)
+* [昇腾910B2上跑Qwen3.5-27B：国产算力体验
+  ![]()
+  429](https://blog.csdn.net/qq_30089667/article/details/159630602)
+* [四核A53+双核R5+FPGA+射频ADC：XCZU47DR的异构计算哲学](https://blog.csdn.net/shsubsbsh/article/details/159678061)
+* [化学成分限定MSC培养基的设计思路与应用解析（Solallis体系）【曼博生物】
+  ![]()
+  295](https://blog.csdn.net/MineBio/article/details/159648669)
+
+
+### 最新文章
+
+* [ChineseBERT使用指北](https://blog.csdn.net/weixin_44644621/article/details/131212392)
+* [GNN图神经网络](https://blog.csdn.net/weixin_44644621/article/details/130614521)
+* [BatchNormalization和LayerNormalization的理解、适用范围、PyTorch代码示例](https://blog.csdn.net/weixin_44644621/article/details/130371599)
+
+
+[2023年9篇](https://blog.csdn.net/weixin_44644621?type=blog&year=2023&month=06)
+[2022年8篇](https://blog.csdn.net/weixin_44644621?type=blog&year=2022&month=08)
+[2021年41篇](https://blog.csdn.net/weixin_44644621?type=blog&year=2021&month=12)
+
+
+
+![]()
+
+
+
+![]()
+
+· AI 阅读助手
+
+
+
+
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+
+
+![]()
+
+
+![]()
+
+· AI 阅读助手
+
+
+
+
+
+### 目录
+
+
+
+展开全部 ![]()
+
+收起 ![]()
+
+
+
+
+![]()
+
+上一篇：
+
+[大厂面试机器学习算法（4）提升树模型：GDBT、XGBoost、LightGBM（未完待续）](https://blog.csdn.net/weixin_44644621/article/details/119821269)
+
+
+下一篇：
+
+[机器学习零散笔记：一些概念和注意](https://blog.csdn.net/weixin_44644621/article/details/119952579)
+
+
+
+### 分类专栏
+
+* [![]()
+  计算机基础](https://blog.csdn.net/weixin_44644621/category_11440010.html)
+  4篇
+* [![]()
+  数据分析与机器学习](https://blog.csdn.net/weixin_44644621/category_10831024.html)
+  23篇
+* [![]()
+  Python](https://blog.csdn.net/weixin_44644621/category_10821643.html)
+  10篇
+* [![]()
+  nlp](https://blog.csdn.net/weixin_44644621/category_12186051.html)
+  3篇
+* [![]()
+  区块链](https://blog.csdn.net/weixin_44644621/category_10982565.html)
+  1篇
+* [![]()
+  Spark](https://blog.csdn.net/weixin_44644621/category_11400165.html)
+  3篇
+* [![]()
+  markdown](https://blog.csdn.net/weixin_44644621/category_11949458.html)
+  1篇
+* [![]()
+  大数据](https://blog.csdn.net/weixin_44644621/category_11438435.html)
+  1篇
+* [![]()
+  数据库](https://blog.csdn.net/weixin_44644621/category_10809878.html)
+  7篇
+* [![]()
+  JavaWeb](https://blog.csdn.net/weixin_44644621/category_10811641.html)
+  8篇
+
+展开全部 ![]()
+收起 ![]()
+
+
+
+
+
+
+### 目录
+
+
+
+
+
+
+
+
+
+
+
+
+
+评论
+![]()
+
+![]()被折叠的  条评论
+[为什么被折叠?](https://blogdev.blog.csdn.net/article/details/122245662)
+[![]()到【灌水乐园】发言](https://bbs.csdn.net/forums/FreeZone)
+
+
+查看更多评论![]()
+
+
+
+添加红包
+
+
+祝福语
+
+
+请填写红包祝福语或标题
+
+
+红包数量
+
+个
+
+红包个数最小为10个
+
+
+红包总金额
+
+元
+
+红包金额最低5元
+
+
+余额支付
+当前余额3.43元
+[前往充值 >](https://i.csdn.net/#/wallet/balance/recharge)
+
+
+需支付：10.00元
+
+取消
+确定
+
+
+
+
+![]()
+下一步
+
+![]()
+知道了
+
+
+
+![]()
+成就一亿技术人!
+
+
+
+领取后你会自动成为博主和红包主的粉丝
+规则
+
+
+
+![]()
+hope\_wisdom 发出的红包
+
+
+
+
+
+
+
+
+
+实付元
+[使用余额支付](javascript:;)
+![]()
+点击重新获取
+
+
+![]()![]()![]()扫码支付
+
+
+
+
+钱包余额
+0
+![]()
+
+抵扣说明：
+
+1.余额是钱包充值的虚拟货币，按照1:1的比例进行支付金额的抵扣。  
+ 2.余额无法直接购买下载，可以购买VIP、付费专栏及课程。
+
+
+
+
+
+[![]()余额充值](https://i.csdn.net/#/wallet/balance/recharge)
+
+![]()
+
+
+
+
+
+

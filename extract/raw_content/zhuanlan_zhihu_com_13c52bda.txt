@@ -1,0 +1,126 @@
+# Source URL: https://zhuanlan.zhihu.com/p/2020824187212669404
+# Content Length: 10057 characters
+# Extracted at: 2026-03-29 22:39:04
+#============================================================
+
+![](https://zhuanlan.zhihu.com/p/2020824187212669404)
+![OpenClaw 2026.3.24 发布：新版本功能解读与实用分析](https://pic1.zhimg.com/v2-d93864b27c25e8008fb16d9660dcb70a\_720w.jpg?source=172ae18b)
+\*\*前言\*\*
+OpenClaw 于 2026 年 3 月 25 日发布了最新版本 2026.3.24（构建号 cff6dc9）。本文基于与 AI 助手 [Aro](https://zhida.zhihu.com/search?content\_id=272097830&content\_type=Article&match\_order=1&q=Aro&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ3ODYyMzQsInEiOiJBcm8iLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNzIwOTc4MzAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.V193a6vOSUwNq7IahiQwmnATkEvcQ74P3vC5S6rPjs4&zhida\_source=entity) 的一次对话，整理该版本的核心变化，并分析这些更新对普通用户实际意味着什么。
+\*\*一、平台兼容增强\*\*
+[Gateway](https://zhida.zhihu.com/search?content\_id=272097830&content\_type=Article&match\_order=1&q=Gateway&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ3ODYyMzQsInEiOiJHYXRld2F5IiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjcyMDk3ODMwLCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.Rv0ACRMku-8nvxcDNlHMJIAhfJl7JVsgrIh-mIrX4BE&zhida\_source=entity) 新增 [OpenAI](https://zhida.zhihu.com/search?content\_id=272097830&content\_type=Article&match\_order=1&q=OpenAI&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ3ODYyMzQsInEiOiJPcGVuQUkiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNzIwOTc4MzAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.urVAi4-TPtj6OkI7klIdiEFBYH-AmfIvAepibqi5iQ0&zhida\_source=entity) 兼容端点
+本次更新为 Gateway 新增了 /v1/models 和 /v1/embeddings 两个端点。这一改动显著提升了与第三方向量数据库和 RAG（检索增强生成）场景的兼容性。
+实际意义： 如果你运营的知识库产品（如 [MarketGenius AI](https://zhida.zhihu.com/search?content\_id=272097830&content\_type=Article&match\_order=1&q=MarketGenius+AI&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ3ODYyMzQsInEiOiJNYXJrZXRHZW5pdXMgQUkiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNzIwOTc4MzAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.XJEh8l2K1kROEfHBug5hg78bCUeeXCLos9AikR3KTYY&zhida\_source=entity)）需要接入向量检索，或者使用其他兼容 OpenAI API 的工具，配置流程会更加顺畅。对普通用户而言，这个改动目前感知不强，但为未来的扩展场景打下了基础。
+[Microsoft Teams](https://zhida.zhihu.com/search?content\_id=272097830&content\_type=Article&match\_order=1&q=Microsoft+Teams&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ3ODYyMzQsInEiOiJNaWNyb3NvZnQgVGVhbXMiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNzIwOTc4MzAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.L7SPpl-SBWpDf-kd1dDNnRFJNw-kfRYiQwznhVqe-ag&zhida\_source=entity) 深度集成
+新版本迁移至 Microsoft Teams 官方 SDK，并加入了多项 AI Agent 最佳实践：
+· 流式 1:1 回复
+· 欢迎卡片与提示语
+· 用户反馈机制
+· 打字指示器和 AI 标签
+· 实际意义： 面向企业协作场景，如果你不使用 Teams，可以忽略。
+\*\*二、技能系统大幅优化\*\*
+一键安装依赖
+这是本次更新中最实用的改进之一。
+旧流程： 安装技能 → 报错了说缺某个库 → 用户自行排查 → 装好了再试 → 可能还缺别的 → 循环
+新流程： 安装技能 → 自动检测缺失依赖 → 直接提示一键安装 → 完成
+以 coding-agent 技能为例，它依赖 codex 或 claude CLI。之前装完发现跑不起来，现在会直接告诉你缺什么、怎么装。
+技能状态分级更清晰
+技能现在有了明确的状态分类：
+| | |
+| --- | --- |
+| 状态 | 含义 |
+| ✓ Ready | 可直接使用 |
+| △ Needs Setup | 需要配置或安装依赖 |
+| ✗ Disabled | 已禁用 |
+在控制面板中，技能卡片会显示具体需要的配置项、API Key 填写入口、文档链接等。
+\*\*三、容器与\*\* \*\*CLI 改进\*\*
+新增 --container 参数
+现在可以通过 openclaw --container 直接在运行中的 [Docker](https://zhida.zhihu.com/search?content\_id=272097830&content\_type=Article&match\_order=1&q=Docker&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ3ODYyMzQsInEiOiJEb2NrZXIiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNzIwOTc4MzAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.CNM6svP4XCpU3uJyD-eXImkJol\_dAk0wYSEKhEwPd8c&zhida\_source=entity) 或 [Podman](https://zhida.zhihu.com/search?content\_id=272097830&content\_type=Article&match\_order=1&q=Podman&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ3ODYyMzQsInEiOiJQb2RtYW4iLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNzIwOTc4MzAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.WDKTVSOHtJNGBAaXvshWuPJjYkE7eFGXWUo6udJW-mU&zhida\_source=entity) 容器内操作 OpenClaw。对于在服务器上使用容器部署的用户，管理工作会更方便。
+实际意义： 本地 Mac mini 用户暂时用不上，但如果你考虑将 OpenClaw 部署到云端，这个功能会很有用。
+[Node](https://zhida.zhihu.com/search?content\_id=272097830&content\_type=Article&match\_order=1&q=Node&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzQ3ODYyMzQsInEiOiJOb2RlIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjcyMDk3ODMwLCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.F6ULx\_-pABVAOkXJvcuXtMrx\_9AVMSzLHBlISUoU\_Gc&zhida\_source=entity) 版本兼容修复
+新版本将支持的 Node 最低版本从 22.22.0 调整为 22.14+，同时继续推荐 Node 24。这解决了因 Node 版本过旧导致升级失败的问题。
+\*\*四、重要修复\*\*
+| | |
+| --- | --- |
+| 修复内容 | 影响 |
+| Docker 全新安装不再假死 | 容器部署用户受益 |
+| Gateway 重启后 session 正确恢复 | 所有用户都受益 |
+| WhatsApp 群组消息回声彻底抑制 | WhatsApp 用户受益 |
+| 消息路由正确传递到 Telegram 话题/线程 | Telegram 用户受益 |
+其中 Gateway 重启 session 恢复机制对普通用户影响最直观：之前如果 Mac mini 断电或重启，与 AI 助手的对话可能会丢失。现在重启后会通过心跳机制唤醒之前的 session，对话上下文尽量恢复，而非直接断掉。
+\*\*五、对现有用户的影响评估\*\*
+结合我的实际情况（我使用 Mac mini 部署，以飞书为主要沟通渠道），以下是各功能的实际价值评估：
+| | |
+| --- | --- |
+| 功能 | 对普通用户的价值 |
+| OpenAI 兼容端点 | ⭐⭐ 待 RAG 场景时用到 |
+| Teams 集成 | ⭐ 用不上 |
+| 技能一键安装 | ⭐⭐⭐ 最实用的新功能 |
+| Gateway session 恢复 | ⭐⭐⭐ 最实用的新功能 |
+| Docker/容器支持 | ⭐ 服务器部署时用到 |
+总结：技能安装体验改善 \+ Gateway 重启恢复是本次更新对普通用户最有价值的两个改进。
+其他更新主要面向平台级能力和未来扩展场景。
+\*\*结语\*\*
+OpenClaw 2026.3.24 是一个以体验打磨和兼容性提升为主的大版本。虽然没有颠覆性的新功能，但技能系统的人机交互和 session 恢复机制的完善，直接提升了日常使用体验。如果你正在使用 OpenClaw 作为个人 AI 助手，建议保持更新以获得更好的稳定性。
+发布于 2026-03-26 23:39・北京
+[AI技术](https://www.zhihu.com/topic/20106982)
+[AI应用](https://www.zhihu.com/topic/21528523)
+[多知识任务还在排队做？腾讯ima同步处理省时间\\
+\\
+查看详情微信文件一键转存至腾讯ima知识库，让你想用的时候随时都能用，还能对知识库里的文件进行深层次解析哦 查看详情\\
+\\
+ima的广告](https://ima.qq.com/download/?webFrom=10000435&channel=10000435&cb=https%3A%2F%2Fsugar.zhihu.com%2Fplutus\_adreaper\_callback%3Fsi%3Dc3186f5b-78d6-495b-85f9-5a8f1a92b8ca%26os%3D3%26zid%3D1629%26zaid%3D3665261%26zcid%3D3621071%26cid%3D3621071%26event%3D\_\_EVENTTYPE\_\_%26value%3D\_\_EVENTVALUE\_\_%26ts%3D\_\_TIMESTAMP\_\_%26cts%3D\_\_TS\_\_%26mh%3D\_\_MEMBERHASHID\_\_%26adv%3D703838%26ocg%3D4%26cp%3D2500%26ocs%3D1%26aic%3D0%26atp%3D0%26ct%3D2%26ed%3DGiBNJgVzfCMmUW9XFyEvRA8xBGxJICwkOhh0FlwxKw1fY0gnWzUoISkY6onvXKClOvM%3D&spu=biz%3D0%26ci%3D3621071%26si%3D3eddaae9-a091-4eb9-af43-1c7c10985520%26ts%3D1774613436%26zid%3D1629)
+​赞同​​添加评论​收藏​喜欢
+​分享
+​申请转载​
+​
+暂无评论
+关于作者
+[![智享副业ai](https://pic1.zhimg.com/v2-cc465bd41c42f8ce8d075f66fce29412\_l.jpg?source=172ae18b)](https://www.zhihu.com/people/2-70-52-85-39)
+[智享副业ai](https://www.zhihu.com/people/2-70-52-85-39)
+AI副业探索者 \| 分享AI工具变现心得
+[回答](https://www.zhihu.com/people/2-70-52-85-39/answers) [文章](https://www.zhihu.com/people/2-70-52-85-39/posts) [关注者](https://www.zhihu.com/people/2-70-52-85-39/followers)
+​关注他​发私信
+大家都在搜
+换一换
+[伊朗局势491 万](https://www.zhihu.com/search?q=%E4%BC%8A%E6%9C%97%E5%B1%80%E5%8A%BF&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[南京教师因发表过激言语被停职403 万](https://www.zhihu.com/search?q=%E5%8D%97%E4%BA%AC%E6%95%99%E5%B8%88%E5%9B%A0%E5%8F%91%E8%A1%A8%E8%BF%87%E6%BF%80%E8%A8%80%E8%AF%AD%E8%A2%AB%E5%81%9C%E8%81%8C&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[张雪峰因心源性猝死去世359 万](https://www.zhihu.com/search?q=%E5%BC%A0%E9%9B%AA%E5%B3%B0%E5%9B%A0%E5%BF%83%E6%BA%90%E6%80%A7%E7%8C%9D%E6%AD%BB%E5%8E%BB%E4%B8%96&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[为什么速效救心丸可能无法有效急救猝死344 万](https://www.zhihu.com/search?q=%E4%B8%BA%E4%BB%80%E4%B9%88%E9%80%9F%E6%95%88%E6%95%91%E5%BF%83%E4%B8%B8%E5%8F%AF%E8%83%BD%E6%97%A0%E6%B3%95%E6%9C%89%E6%95%88%E6%80%A5%E6%95%91%E7%8C%9D%E6%AD%BB&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[罗技短视频组被扣除全部绩效336 万](https://www.zhihu.com/search?q=%E7%BD%97%E6%8A%80%E7%9F%AD%E8%A7%86%E9%A2%91%E7%BB%84%E8%A2%AB%E6%89%A3%E9%99%A4%E5%85%A8%E9%83%A8%E7%BB%A9%E6%95%88&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 新
+[日本东京发生持刀伤人事件致 2 死328 万](https://www.zhihu.com/search?q=%E6%97%A5%E6%9C%AC%E4%B8%9C%E4%BA%AC%E5%8F%91%E7%94%9F%E6%8C%81%E5%88%80%E4%BC%A4%E4%BA%BA%E4%BA%8B%E4%BB%B6%E8%87%B4+2+%E6%AD%BB&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[罗技广告侮辱消费者314 万](https://www.zhihu.com/search?q=%E7%BD%97%E6%8A%80%E5%B9%BF%E5%91%8A%E4%BE%AE%E8%BE%B1%E6%B6%88%E8%B4%B9%E8%80%85&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[美以袭击伊朗313 万](https://www.zhihu.com/search?q=%E7%BE%8E%E4%BB%A5%E8%A2%AD%E5%87%BB%E4%BC%8A%E6%9C%97&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content) 热
+[如何看待吴柳芳退役费全给家里买房凑首付307 万](https://www.zhihu.com/search?q=%E5%A6%82%E4%BD%95%E7%9C%8B%E5%BE%85%E5%90%B4%E6%9F%B3%E8%8A%B3%E9%80%80%E5%BD%B9%E8%B4%B9%E5%85%A8%E7%BB%99%E5%AE%B6%E9%87%8C%E4%B9%B0%E6%88%BF%E5%87%91%E9%A6%96%E4%BB%98&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+[OpenAI 关停 AI视频生成平台 Sora300 万](https://www.zhihu.com/search?q=OpenAI+%E5%85%B3%E5%81%9C+AI%E8%A7%86%E9%A2%91%E7%94%9F%E6%88%90%E5%B9%B3%E5%8F%B0+Sora&search\_source=Trending&utm\_content=search\_hot&utm\_medium=organic&utm\_source=zhihu&type=content)
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码

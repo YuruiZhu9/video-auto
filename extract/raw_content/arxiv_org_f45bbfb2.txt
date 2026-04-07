@@ -1,0 +1,97 @@
+# Source URL: https://arxiv.org/abs/2603.00638
+# Content Length: 7837 characters
+# Extracted at: 2026-03-05 19:33:09
+#============================================================
+
+# Computer Science > Information Retrieval
+\*\*arXiv:2603.00638\*\* (cs)
+\[Submitted on 28 Feb 2026\]
+# Title:RAIE: Region-Aware Incremental Preference Editing with LoRA for LLM-based Recommendation
+Authors: [Jin Zeng](https://arxiv.org/search/cs?searchtype=author&query=Zeng,+J), [Yupeng Qi](https://arxiv.org/search/cs?searchtype=author&query=Qi,+Y), [Hui Li](https://arxiv.org/search/cs?searchtype=author&query=Li,+H), [Chengming Li](https://arxiv.org/search/cs?searchtype=author&query=Li,+C), [Ziyu Lyu](https://arxiv.org/search/cs?searchtype=author&query=Lyu,+Z), [Lixin Cui](https://arxiv.org/search/cs?searchtype=author&query=Cui,+L), [Lu Bai](https://arxiv.org/search/cs?searchtype=author&query=Bai,+L)
+View a PDF of the paper titled RAIE: Region-Aware Incremental Preference Editing with LoRA for LLM-based Recommendation, by Jin Zeng and 6 other authors
+[View PDF](https://arxiv.org/pdf/2603.00638) [HTML (experimental)](https://arxiv.org/html/2603.00638v1)
+> Abstract:Large language models (LLMs) are increasingly adopted as the backbone of recommender systems. However, user-item interactions in real-world scenarios are non-stationary, making preference drift over time inevitable. Existing model update strategies mainly rely on global fine-tuning or pointwise editing, but they face two fundamental challenges: (i) imbalanced update granularity, where global updates perturb behaviors unrelated to the target while pointwise edits fail to capture broader preference shifts; (ii) unstable incremental updates, where repeated edits interfere with prior adaptations, leading to catastrophic forgetting and inconsistent recommendations. To address these issues, we propose Region-Aware Incremental Editing (RAIE), a plug-in framework that freezes the backbone model and performs region-level updates. RAIE first constructs semantically coherent preference regions via spherical k-means in the representation space. It then assigns incoming sequences to regions via confidence-aware gating and performs three localized edit operations - Update, Expand, and Add - to dynamically revise the affected region. Each region is equipped with a dedicated Low-Rank Adaptation (LoRA) module, which is trained only on the region's updated data. During inference, RAIE routes each user sequence to its corresponding region and activates the region-specific adapter for prediction. Experiments on two benchmark datasets under a time-sliced protocol that segments data into Set-up (S), Finetune (F), and Test (T) show that RAIE significantly outperforms state-of-the-art baselines while effectively mitigating forgetting. These results demonstrate that region-aware editing offers an accurate and scalable mechanism for continual adaptation in dynamic recommendation scenarios. Our code is available at [this https URL](https://github.com/fengaogao/RAIE).
+| | |
+| --- | --- |
+| Subjects: | Information Retrieval (cs.IR); Machine Learning (cs.LG) |
+| Cite as: | [arXiv:2603.00638](https://arxiv.org/abs/2603.00638) \[cs.IR\] |
+| | (or [arXiv:2603.00638v1](https://arxiv.org/abs/2603.00638v1) \[cs.IR\] for this version) |
+| | [https://doi.org/10.48550/arXiv.2603.00638](https://doi.org/10.48550/arXiv.2603.00638)  
+Focus to learn more  
+arXiv-issued DOI via DataCite (pending registration) |
+## Submission history
+From: Jin Zeng \[ [view email](https://arxiv.org/show-email/0cb18a46/2603.00638)\]
+\*\*\[v1\]\*\*
+Sat, 28 Feb 2026 13:12:38 UTC (4,869 KB)
+Full-text links:
+## Access Paper:
+View a PDF of the paper titled RAIE: Region-Aware Incremental Preference Editing with LoRA for LLM-based Recommendation, by Jin Zeng and 6 other authors
+- [View PDF](https://arxiv.org/pdf/2603.00638)
+- [HTML (experimental)](https://arxiv.org/html/2603.00638v1)
+- [TeX Source](https://arxiv.org/src/2603.00638)
+[view license](http://arxiv.org/licenses/nonexclusive-distrib/1.0/ "Rights to this article")
+Current browse context:
+cs.IR
+[< prev](https://arxiv.org/prevnext?id=2603.00638&function=prev&context=cs.IR "previous in cs.IR (accesskey p)")  \|  [next >](https://arxiv.org/prevnext?id=2603.00638&function=next&context=cs.IR "next in cs.IR (accesskey n)")
+[new](https://arxiv.org/list/cs.IR/new) \| [recent](https://arxiv.org/list/cs.IR/recent) \| [2026-03](https://arxiv.org/list/cs.IR/2026-03)
+Change to browse by:
+[cs](https://arxiv.org/abs/2603.00638?context=cs)
+[cs.LG](https://arxiv.org/abs/2603.00638?context=cs.LG)
+### References & Citations
+- [NASA ADS](https://ui.adsabs.harvard.edu/abs/arXiv:2603.00638)
+- [Google Scholar](https://scholar.google.com/scholar\_lookup?arxiv\_id=2603.00638)
+- [Semantic Scholar](https://api.semanticscholar.org/arXiv:2603.00638)
+export BibTeX citation
+### Bookmark
+[![BibSonomy logo](https://arxiv.org/static/browse/0.3.4/images/icons/social/bibsonomy.png)](http://www.bibsonomy.org/BibtexHandler?requTask=upload&url=https://arxiv.org/abs/2603.00638&description=RAIE:%20Region-Aware%20Incremental%20Preference%20Editing%20with%20LoRA%20for%20LLM-based%20Recommendation "Bookmark on BibSonomy") [![Reddit logo](https://arxiv.org/static/browse/0.3.4/images/icons/social/reddit.png)](https://reddit.com/submit?url=https://arxiv.org/abs/2603.00638&title=RAIE:%20Region-Aware%20Incremental%20Preference%20Editing%20with%20LoRA%20for%20LLM-based%20Recommendation "Bookmark on Reddit")
+Bibliographic Tools
+# Bibliographic and Citation Tools
+Bibliographic Explorer Toggle
+Bibliographic Explorer \_( [What is the Explorer?](https://info.arxiv.org/labs/showcase.html#arxiv-bibliographic-explorer))\_
+Connected Papers Toggle
+Connected Papers \_( [What is Connected Papers?](https://www.connectedpapers.com/about))\_
+Litmaps Toggle
+Litmaps \_( [What is Litmaps?](https://www.litmaps.co/))\_
+scite.ai Toggle
+scite Smart Citations \_( [What are Smart Citations?](https://www.scite.ai/))\_
+Code, Data, Media
+# Code, Data and Media Associated with this Article
+alphaXiv Toggle
+alphaXiv \_( [What is alphaXiv?](https://alphaxiv.org/))\_
+Links to Code Toggle
+CatalyzeX Code Finder for Papers \_( [What is CatalyzeX?](https://www.catalyzex.com/))\_
+DagsHub Toggle
+DagsHub \_( [What is DagsHub?](https://dagshub.com/))\_
+GotitPub Toggle
+Gotit.pub \_( [What is GotitPub?](http://gotit.pub/faq))\_
+Huggingface Toggle
+Hugging Face \_( [What is Huggingface?](https://huggingface.co/huggingface))\_
+Links to Code Toggle
+Papers with Code \_( [What is Papers with Code?](https://paperswithcode.com/))\_
+ScienceCast Toggle
+ScienceCast \_( [What is ScienceCast?](https://sciencecast.org/welcome))\_
+Demos
+# Demos
+Replicate Toggle
+Replicate \_( [What is Replicate?](https://replicate.com/docs/arxiv/about))\_
+Spaces Toggle
+Hugging Face Spaces \_( [What is Spaces?](https://huggingface.co/docs/hub/spaces))\_
+Spaces Toggle
+TXYZ.AI \_( [What is TXYZ.AI?](https://txyz.ai/))\_
+Related Papers
+# Recommenders and Search Tools
+Link to Influence Flower
+Influence Flower \_( [What are Influence Flowers?](https://influencemap.cmlab.dev/))\_
+Core recommender toggle
+CORE Recommender \_( [What is CORE?](https://core.ac.uk/services/recommender))\_
+- Author
+- Venue
+- Institution
+- Topic
+About arXivLabs
+# arXivLabs: experimental projects with community collaborators
+arXivLabs is a framework that allows collaborators to develop and share new arXiv features directly on our website.
+Both individuals and organizations that work with arXivLabs have embraced and accepted our values of openness, community, excellence, and user data privacy. arXiv is committed to these values and only works with partners that adhere to them.
+Have an idea for a project that will add value for arXiv's community? [\*\*Learn more about arXivLabs\*\*](https://info.arxiv.org/labs/index.html).
+[Which authors of this paper are endorsers?](https://arxiv.org/auth/show-endorsers/2603.00638) \|
+Disable MathJax ( [What is MathJax?](https://info.arxiv.org/help/mathjax.html))

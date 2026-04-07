@@ -1,0 +1,454 @@
+# Source URL: https://developer.nvidia.com/blog/introducing-nemotron-3-super-an-open-hybrid-mamba-transformer-moe-for-agentic-reasoning/
+# Content Length: 30754 characters
+# Extracted at: 2026-04-01 12:03:44
+#============================================================
+
+
+
+
+
+
+Introducing Nemotron 3 Super: An Open Hybrid Mamba-Transformer MoE for Agentic Reasoning | NVIDIA Technical Blog
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[![]()](/)
+[DEVELOPER](/)
+
+* [Home](/)
+* [Blog](/blog)
+* [Forums](https://forums.developer.nvidia.com/)
+* [Docs](https://docs.nvidia.com/)
+* [Downloads](https://developer.nvidia.com/downloads)
+* [Training](https://www.nvidia.com/en-us/training/)
+
+
+
+* [Join](https://developer.nvidia.com/login)
+
+
+
+[Technical Blog](https://developer.nvidia.com/blog)
+
+
+
+
+
+
+[Subscribe](https://developer.nvidia.com/email-signup)
+
+
+
+
+
+
+
+[Related Resources](#main-content-end)
+
+[Agentic AI / Generative AI](https://developer.nvidia.com/blog/category/generative-ai/)
+
+
+English日本語中文
+
+Introducing Nemotron 3 Super: An Open Hybrid Mamba-Transformer MoE for Agentic Reasoning
+========================================================================================
+
+![]()
+Mar 11, 2026
+
+By [Chris Alexiuk](https://developer.nvidia.com/blog/author/chrisalexiuk/) and [Chintan Patel](https://developer.nvidia.com/blog/author/cpatel/) 
+  
+Like 
+
+[Discuss (0)](#entry-content-comments)
+
+
+
+
+
+
+
+
+* [L](https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fdeveloper.nvidia.com%2Fblog%2Fintroducing-nemotron-3-super-an-open-hybrid-mamba-transformer-moe-for-agentic-reasoning%2F)
+* [T](https://twitter.com/intent/tweet?text=Introducing+Nemotron+3+Super%3A+An+Open+Hybrid+Mamba-Transformer+MoE+for+Agentic+Reasoning+%7C+NVIDIA+Technical+Blog+https%3A%2F%2Fdeveloper.nvidia.com%2Fblog%2Fintroducing-nemotron-3-super-an-open-hybrid-mamba-transformer-moe-for-agentic-reasoning%2F)
+* [F](https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdeveloper.nvidia.com%2Fblog%2Fintroducing-nemotron-3-super-an-open-hybrid-mamba-transformer-moe-for-agentic-reasoning%2F)
+* [R](https://www.reddit.com/submit?url=https%3A%2F%2Fdeveloper.nvidia.com%2Fblog%2Fintroducing-nemotron-3-super-an-open-hybrid-mamba-transformer-moe-for-agentic-reasoning%2F&title=Introducing+Nemotron+3+Super%3A+An+Open+Hybrid+Mamba-Transformer+MoE+for+Agentic+Reasoning+%7C+NVIDIA+Technical+Blog)
+* [E](mailto:?subject=I'd like to share a link with you&body=https%3A%2F%2Fdeveloper.nvidia.com%2Fblog%2Fintroducing-nemotron-3-super-an-open-hybrid-mamba-transformer-moe-for-agentic-reasoning%2F)
+
+Agentic AI systems need models with the specialized depth to solve dense technical problems autonomously. They must excel at [reasoning](https://www.nvidia.com/en-us/glossary/ai-reasoning/), coding, and long-context analysis, while remaining efficient enough to run continuously at scale.
+
+[Multi-agent systems](https://www.nvidia.com/en-us/glossary/multi-agent-systems/) generate up to 15x the [tokens](https://blogs.nvidia.com/blog/ai-tokens-explained/) of standard chats, re-sending history, tool outputs, and reasoning steps at every turn. Over long tasks, this “context explosion” causes goal drift, where agents gradually lose alignment with the original objective. And using massive reasoning models for every sub-task—the “thinking tax”—makes multi-agent applications too expensive and sluggish for practical use.
+
+Today, we are releasing [Nemotron 3 Super](https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-FP8) to address these limitations. The new Super model is a 120B total, 12B active-parameter model that delivers maximum compute efficiency and accuracy for complex multi-agent applications such as software development and cybersecurity triaging. This model follows [the introduction of Nemotron 3 Nano](https://developer.nvidia.com/blog/inside-nvidia-nemotron-3-techniques-tools-and-data-that-make-it-efficient-and-accurate/) in December.
+
+Super addresses the “thinking tax” with its hybrid mixture-of-experts ([MoE](https://www.nvidia.com/en-us/glossary/mixture-of-experts/)) architecture. It delivers over 5x throughput than the previous Nemotron Super. This model tackles the “context explosion” with a native 1M-token context window that gives agents long-term memory for aligned, high-accuracy reasoning. The model is fully open with open weights, datasets, and recipes so developers can easily customize, optimize, and deploy it on their own [infrastructure](https://www.nvidia.com/en-us/glossary/ai-infrastructure/).
+
+**What makes Nemotron 3 Super different**
+-----------------------------------------
+
+Nemotron 3 Super isn’t just a bigger Nano. It introduces architectural innovations that allow the model to mitigate some of the typical efficiency-accuracy tradeoffs for high-capacity reasoning models:
+
+* **Latent MoE** that calls 4x as many expert specialists for the same inference cost, by compressing tokens before they reach the experts.
+* **Multi-token prediction (MTP)** that predicts multiple future tokens in one forward pass, dramatically reducing generation time for long sequences and enabling built-in speculative decoding.
+* **Hybrid Mamba-Transformer** backbone integrating Mamba layers for sequence efficiency with Transformer layers for precision reasoning, delivering higher throughput with 4x improved memory and compute efficiency.
+* **Native NVFP4 pretraining** optimized for NVIDIA Blackwell, significantly cutting memory requirements and speeding up inference by 4x on NVIDIA B200 compared to FP8 on NVIDIA H100, while maintaining accuracy.
+* **Multi-environment reinforcement-learning (RL)** post-trained with [RL](https://www.nvidia.com/en-us/glossary/reinforcement-learning/) across 21 environment configurations using NVIDIA [NeMo Gym](https://docs.nvidia.com/nemo/gym/latest/index.html) and NVIDIA [NeMo RL](https://docs.nvidia.com/nemo/rl/latest/index.html), trained with more than 1.2 million environment rollouts.
+
+These advantages come together to create a model that is well suited for long-running autonomous agents. On [PinchBench](https://pinchbench.com/?score=best)—a new benchmark for determining how well LLM models perform as the brain of an OpenClaw agent—Nemotron 3 Super scores 85.6% across the full test suite, making it the best open model in its class.
+
+**See it in action**
+--------------------
+
+If you want to go hands on with Nemotron 3 Super, follow the tutorial video below. This will walk you through how to use the model from [build.nvidia.com](http://build.nvidia.com) to OpenCode.
+
+
+
+
+
+*Video 1. A tutorial walkthrough of Nemotron 3 Super*
+
+**Diving deep into the architecture**
+-------------------------------------
+
+### **Hybrid Mamba-Transformer MoE backbone**
+
+Super builds on the same hybrid philosophy as Nano but at a fundamentally different scale. The backbone interleaves three layer types:
+
+**Mamba-2 layers** handle the majority of sequence processing. State space models (SSMs) provide linear-time complexity with respect to sequence length, which is what makes the 1M-token context window practical rather than theoretical. When an agent needs to reason over an entire codebase, a long conversation history, or a stack of retrieved documents, Mamba layers keep the memory footprint manageable.
+
+**Transformer attention layers** are interleaved at key depths. Pure SSMs can struggle with precise associative recall—the kind of task where you need to find one specific fact buried in a long context. The attention layers preserve this capability, ensuring that Super maintains high-fidelity retrieval even when the “needle” sits in the middle of a haystack of conflicting information.
+
+**MoE layers** scale effective parameter count without the cost of dense computation. Only a subset of experts activates per token, keeping latency low and throughput high—critical when many agents are running concurrently in a shared deployment.
+
+![]()
+
+
+*Figure 1. A layer pattern diagram showing repeating blocks of Mamba-2/MoE pairs interleaved with attention layers*
+
+### **Latent MoE**
+
+Standard MoE architectures route tokens directly from the model’s full hidden dimension to the experts. As models grow, this routing layer becomes a bottleneck—it increases compute costs and limits how many experts you can practically deploy.
+
+Super introduces latent MoE: Before routing decisions are made, token embeddings are projected into a compressed, low-rank latent space. Expert computation happens in this smaller dimension, and results are projected back to the full model dimension afterward.
+
+Why this matters in practice:
+
+**More experts, same cost.** By compressing tokens before they reach the experts, latent MoE enables the model to consult 4x as many experts for the exact same computational cost as running one.
+
+**Finer-grained specialization.** With more experts available, the model can afford highly specialized routing—for example, activating distinct experts for Python syntax versus SQL logic—that are only activated when strictly necessary. This granularity is especially valuable in agentic settings where a single conversation may span tool calls, code generation, data analysis, and conversational reasoning within a few turns.
+
+![]()
+
+
+*Figure 2. Side-by-side comparison of standard MoE vs. latent MoE architectures*
+
+### **Multi-token prediction (MTP)**
+
+Standard [language models](https://www.nvidia.com/en-us/glossary/large-language-models/) are trained to predict one token at a time—a fundamentally myopic objective. Super is trained with MTP, where specialized prediction heads forecast several future tokens simultaneously from each position.
+
+This has two concrete benefits:
+
+**Stronger reasoning during training.** Predicting multiple future tokens forces the model to internalize longer-range structure and logical dependencies. Rather than learning to guess plausible next words, the model must learn to anticipate coherent sequences. This produces measurable gains on chain-of-thought tasks where each step must follow logically from the last.
+
+**Built-in speculative decoding at inference.** By predicting multiple future tokens simultaneously in one forward pass, MTP dramatically reduces the time required to generate long sequences. The MTP heads provide draft predictions that can be verified in parallel, enabling up to 3x wall-clock speedups for structured generation tasks like code and tool calls—without requiring a separate draft model.
+
+Both benefits stem from the same design decision. Unlike architectures that train independent prediction heads per offset, Super uses a shared-weight design across all MTP heads. This keeps the parameter overhead minimal while improving training stability—the heads learn to agree on coherent continuations rather than diverging into offset-specific shortcuts. The same weight sharing also makes the speculative drafts more consistent at longer draft lengths, which is where independently trained heads typically degrade.
+
+### **Native NVFP4 pretraining**
+
+Most quantized models start as full-precision and get compressed after training, which inevitably introduces accuracy loss. Super takes a different approach: The majority of floating-point multiply-accumulate operations during pretraining run in [NVFP4,](https://developer.nvidia.com/blog/introducing-nvfp4-for-efficient-and-accurate-low-precision-inference/) the NVIDIA 4-bit floating-point format. Optimized for Blackwell, this significantly cuts memory requirements and speeds up inference compared to FP8, while maintaining accuracy.
+
+Training natively in reduced precision means the model learns to be accurate *within* the constraints of 4-bit arithmetic from the very first gradient update. The result is a model that is mathematically stable and accurate despite running on a significantly reduced memory footprint.
+
+**How we trained Nemotron 3 Super**
+-----------------------------------
+
+Nemotron 3 Super is trained in three sequential phases, each building on the last. [Pretraining](https://huggingface.co/collections/nvidia/nemotron-pre-training-datasets) establishes broad world knowledge and language understanding at scale. Supervised fine-tuning shapes the model’s behavior across the task types it will encounter in deployment. Reinforcement learning then refines that behavior against verifiable outcomes across diverse agentic environments.
+
+### **Pretraining**
+
+Super is pretrained on 25 trillion tokens using NVFP4, the NVIDIA 4-bit floating-point format optimized for NVIDIA Blackwell. Rather than quantizing a full-precision model after the fact, Super trains natively in reduced precision from the first gradient update—meaning the model learns to be accurate within the constraints of 4-bit arithmetic throughout pretraining, not just at inference. The pretraining corpus spans 10 trillion unique curated tokens, with the model seeing 25 trillion total tokens across the run, including additional compute focused on reasoning and coding.
+
+### **Supervised fine-tuning**
+
+Before reinforcement learning, Super undergoes supervised fine-tuning on about 7 million SFT samples. They’re drawn from a broader post-training corpus of 40 million samples, which cover reasoning, instruction following, coding, safety, and multi-step agent tasks. This stage establishes the behavioral foundation that RL then refines. The model learns the format and structure of correct responses across task types, giving the subsequent RL phase a stable starting point rather than optimizing from a raw pretrained checkpoint.
+
+### **Multi-environment reinforcement learning**
+
+To align Super with real agentic behavior, the model is post-trained using reinforcement learning across diverse environments in [NeMo Gym,](https://docs.nvidia.com/nemo/gym/0.1.0/about/index.html) the NVIDIA open source library for building and scaling RL training environments. These environments evaluate the model’s ability to perform sequences of actions—generating correct tool calls, writing functional code, producing multi-part plans that satisfy verifiable criteria—not just providing satisfying single-turn responses. These trajectories form the core training data to run reinforcement learning at scale with the [NeMo RL](https://docs.nvidia.com/nemo/rl/latest/index.html) open library.
+
+This trajectory-based reinforcement produces a model that behaves reliably under multi-step workflows, reduces reasoning drift, and handles the kinds of structured operations common in agentic pipelines.
+
+**Benchmarking Nemotron 3 Super**
+---------------------------------
+
+Nemotron 3 Super achieves leading accuracy across a number of important agentic benchmarks while maintaining incredible throughput.
+
+![]()
+
+
+*Figure 3. A chart comparing Nemotron 3 Super accuracy on key benchmarks against similarly sized open models.*
+
+### **The “Super + Nano” deployment pattern**
+
+Nemotron 3 Nano is an excellent choice for achieving high accuracy in executing targeted, individual steps within an agentic workflow. However, when multi-agent applications escalate to complex, multi-step activities, they require a high-capacity model for superior planning and reasoning.  Think of a computer use agent that needs to make decisions between different modalities of tools in order to, say, create a presentation with 10 high-quality slides.
+
+Nemotron 3 Super is ideal in this use. For instance, in software development, simple merge requests can be addressed by Nemotron 3 Nano while complex coding tasks that require deeper understanding of the code base can be handled by Nemotron 3 Super. And expert-level coding tasks can be addressed by proprietary models.
+
+**Building with Super’s open resources**
+----------------------------------------
+
+[Nemotron 3 Super](https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-FP8) is fully open—weights, datasets, and recipes—so developers can easily customize, optimize, and deploy the model on their own infrastructure for maximum privacy and security.
+
+### **Model weights**
+
+Full parameter checkpoints for Nemotron 3 Super are available on [Hugging Face](https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-FP8) and through [NVIDIA NIM](https://build.nvidia.com/nvidia/nemotron-3-super-120b-a12b). The [NVIDIA Nemotron Open Model License](https://www.nvidia.com/en-us/agreements/enterprise-software/nvidia-nemotron-open-model-license/) gives enterprises the flexibility to maintain data control and deploy anywhere.
+
+### **End-to-end training and evaluation recipe**s
+
+We are releasing the complete training and evaluation recipe for Nemotron 3 Super, covering the full pipeline from pretraining through alignment. This enables developers to reproduce Super’s training, adapt the recipe for domain-specific variants, or use it as a starting point for their own hybrid architecture research.
+
+### **Deployment cookbooks**
+
+We’ve built [ready-to-use cookbooks](https://github.com/NVIDIA-NeMo/Nemotron/tree/main/usage-cookbook/Nemotron-3-Super) for major inference engines, each with configuration templates, performance tuning guidance, and reference scripts:
+
+* [vLLM Cookbook](https://github.com/NVIDIA-NeMo/Nemotron/blob/main/usage-cookbook/Nemotron-3-Super/vllm_cookbook.ipynb): High-throughput continuous batching and streaming for Super.
+* [SGLang Cookbook](https://github.com/NVIDIA-NeMo/Nemotron/blob/main/usage-cookbook/Nemotron-3-Super/sglang_cookbook.ipynb): Fast, lightweight inference optimized for multi-agent tool-calling workloads.
+* [NVIDIA TensorRT LLM Cookbook](https://github.com/NVIDIA-NeMo/Nemotron/blob/main/usage-cookbook/Nemotron-3-Super/trtllm_cookbook.ipynb): Fully optimized TensorRT LLM engines with latent MoE kernels for production-grade, low-latency deployment.
+
+### **Fine-tuning cookbooks**
+
+Explore our Nemotron 3 Super customization cookbooks to efficiently fine-tune for your domain (LoRA/SFT) or advance its agentic reasoning capabilities (GRPO/DAPO):
+
+* [LoRA SFT on Nemotron 3 Super](https://github.com/NVIDIA-NeMo/Nemotron/tree/main/usage-cookbook/Nemotron-3-Super/lora-text2sql) using NVIDIA [NeMo Megatron-Bridge](https://github.com/NVIDIA-NeMo/Megatron-Bridge)
+* [LoRA SFT on Nemotron 3 Super](https://github.com/NVIDIA-NeMo/Nemotron/tree/main/usage-cookbook/Nemotron-3-Super/lora-text2sql) using NVIDIA [NeMo Automodel](https://github.com/NVIDIA-NeMo/Automodel)
+* [GRPO/DAPO on Nemotron 3 Super](https://github.com/NVIDIA-NeMo/Nemotron/tree/main/usage-cookbook/Nemotron-3-Super/grpo-dapo) using [NeMo RL](https://github.com/NVIDIA-NeMo/RL)
+
+### **Open datasets**
+
+Nemotron 3 Super is built on a fully open, end-to-end data pipeline that spans pretraining, post-training, and interactive reinforcement learning—giving developers reproducible building blocks for agentic AI.
+
+* [Pretraining corpora](https://huggingface.co/collections/nvidia/nemotron-pre-training-datasets): 10 trillion curated tokens, trained over 25 trillion total seen tokens, plus an additional 10 billion tokens focused on reasoning and 15 million coding problems. All aggressively deduplicated and quality-filtered to maximize signal-to-noise.
+* [Post-training datasets](https://huggingface.co/collections/nvidia/nemotron-post-training-v3): 40 million new supervised and alignment samples, covering reasoning, instruction following, coding, safety, and multi-step agent tasks across supervised fine-tuning, preference data, and RL trajectories (about 7 million used directly for SFT)
+* [RL tasks and environments](https://huggingface.co/collections/nvidia/nemo-gym): Interactive RL across 21 environment configurations and 37 datasets (~10 of which are being released) including software engineer-style agent training and tool-augmented search/planning tasks—moving beyond static text into dynamic, verifiable execution workflows and generating ~1.2 million environment rollouts during training.
+
+### **Open training and evaluation infrastructure**
+
+NVIDIA publishes development techniques and tools, giving researchers and enterprises the flexibility to customize Nemotron 3 Super or build their own reasoning models. All recipes integrate with the Nemotron GitHub repository, [NeMo Gym](https://docs.nvidia.com/nemo/gym/latest/index.html), [NeMo RL](https://docs.nvidia.com/nemo/rl/latest/index.html), [NVIDIA NeMo Data Designer](https://nvidia-nemo.github.io/DataDesigner/latest/), [NVIDIA NeMo Curator](https://docs.nvidia.com/nemo/curator/latest/), and [NVIDIA NeMo Evaluator](https://docs.nvidia.com/nemo/evaluator/latest/)—providing a complete, reproducible pipeline from data to deployment.
+
+All Nemotron models are released with an open evaluation approach, including a published [evaluation recipe](https://github.com/NVIDIA-NeMo/Nemotron/blob/main/docs/nemotron/super3/evaluate.md) that enables anyone to rerun and inspect the full evaluation pipeline from Nemotron 3 Super.
+
+**Get started**
+---------------
+
+Nemotron 3 Super is live now. Available across leading inference platforms and packaged as NVIDIA NIM, Super can run anywhere from the workstation to the cloud. Try it on [Perplexity](https://www.perplexity.ai/) with a Pro subscription or through API, [OpenRouter](https://openrouter.ai/nvidia/nemotron-3-super-120b-a12b:free), or [build.nvidia.com](https://build.nvidia.com/nvidia/nemotron-3-super-120b-a12b).
+
+Download the weights from [Hugging Face](https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-FP8), launch an optimized instance through NVIDIA NIM, fine-tune with [Unsloth](https://unsloth.ai/docs/models/nemotron-3-super), or start with the cookbooks to get running in minutes.
+
+Super is also available through [Baseten](https://www.baseten.co/library/nvidia-nemotron-super/), [Cloudflare](https://developers.cloudflare.com/changelog/post/2026-03-11-nemotron-3-super-workers-ai/), [Coreweave](https://wandb.ai/site/inference-model/cw_nvidia_nemotron-3-super-120b-a12b/), [DeepInfra](https://deepinfra.com/nvidia/NVIDIA-Nemotron-3-Super-120B-A12B), [Fireworks AI,](https://app.fireworks.ai/models/fireworks/nvidia-nemotron-3-super-120b-a12b-fp8) [FriendliAI,](https://friendli.ai/blog/nvidia-nemotron-3-super) [Google Cloud](https://console.cloud.google.com/vertex-ai/publishers/nvidia/model-garden/nemotron-3-super?pli=1), [Inference.net](http://inference.net/blog/nemotron-finetuning), [Lightning AI](https://lightning.ai/models/lightning-ai-nvidia-nemotron-3-super-120b), [Modal,](https://modal.com/docs/examples/nemotron_inference) [Nebius](https://tokenfactory.nebius.com/playground?models=nvidia/nemotron-3-super-120b-a12b), and [Together AI](http://www.together.ai/blog/nvidia-nemotron-3-super).
+
+Check out our [GitHub repository](https://github.com/NVIDIA-NeMo/Nemotron/tree/main/usage-cookbook/Nemotron-3-Super) which has getting started instructions for platforms like OpenCode, OpenHands, and OpenClaw.
+
+For the full technical details, read the [Nemotron 3 Super technical report](https://research.nvidia.com/labs/nemotron/files/NVIDIA-Nemotron-3-Super-Technical-Report.pdf).
+
+*Stay up-to-date on* [*NVIDIA Nemotron*](https://www.nvidia.com/en-us/ai-data-science/foundation-models/nemotron/) *by subscribing to* [*NVIDIA news*](https://www.nvidia.com/en-us/ai-data-science/generative-ai/news/) *and following NVIDIA AI on* [*LinkedIn*](https://www.linkedin.com/showcase/nvidia-ai/posts/?feedView=all)*,* [*X*](https://x.com/NVIDIAAIDev)*,* [*Discord*](https://discord.com/invite/nvidiadeveloper)*, and* [*YouTube*](https://www.youtube.com/@NVIDIADeveloper)*.* *Visit the* [*Nemotron developer page*](https://developer.nvidia.com/nemotron) *for resources to get started. Explore open Nemotron models and datasets on* [*Hugging Face*](https://huggingface.co/collections/nvidia/nvidia-nemotron-v3) *and* [*Blueprints*](https://build.nvidia.com/blueprints) *on* [*build.nvidia.com*](http://build.nvidia.com). *And* *engage with* [*Nemotron livestreams*](https://www.youtube.com/playlist?list=PL5B692fm6--vEL0FwctKghCpyEnBGAQJA)*,* [*tutorials*](https://www.youtube.com/playlist?list=PL5B692fm6--vdRKB14FImVi7MTJ77zjn4)*, and the developer community on the* [*NVIDIA forum*](https://forums.developer.nvidia.com/c/ai-data-science/nvidia-nemotron/669) *and* [*Discord*](https://discord.com/invite/nvidiadeveloper)*.*
+
+
+[Discuss (0)](#entry-content-comments)
+
+  
+Like 
+
+
+Tags
+----
+
+
+[Agentic AI / Generative AI](https://developer.nvidia.com/blog/category/generative-ai/) | [General](https://developer.nvidia.com/blog/recent-posts/?industry=General) | [NeMo](https://developer.nvidia.com/blog/recent-posts/?products=NeMo) | [Nemotron](https://developer.nvidia.com/blog/recent-posts/?products=Nemotron) | [NIM](https://developer.nvidia.com/blog/recent-posts/?products=NIM) | [TensorRT-LLM](https://developer.nvidia.com/blog/recent-posts/?products=TensorRT-LLM) | [Intermediate Technical](https://developer.nvidia.com/blog/recent-posts/?learning_levels=Intermediate+Technical) | [News](https://developer.nvidia.com/blog/recent-posts/?content_types=News) | [featured](https://developer.nvidia.com/blog/tag/featured/) | [LLM Benchmarking](https://developer.nvidia.com/blog/tag/llm-benchmarking/) | [LLM Techniques](https://developer.nvidia.com/blog/tag/llm-techniques/) | [LLMs](https://developer.nvidia.com/blog/tag/large-language-models/) | [Machine Learning & Artificial Intelligence](https://developer.nvidia.com/blog/tag/machine-learning-and-artificial-intelligence/) | [Mixture of Experts (MoE)](https://developer.nvidia.com/blog/tag/mixture-of-experts-moe/) | [NVFP4](https://developer.nvidia.com/blog/tag/nvfp4/) | [Reinforcement Learning](https://developer.nvidia.com/blog/tag/reinforcement-learning/) 
+
+About the Authors
+-----------------
+
+
+![]()
+
+**About Chris Alexiuk**
+  
+
+Chris Alexiuk is a deep learning developer advocate at NVIDIA, working on creating technical assets that help developers use the incredible suite of AI tools available at NVIDIA. Chris comes from a machine learning and data science background, and he is obsessed with everything and anything about large language models.
+[View all posts by Chris Alexiuk](https://developer.nvidia.com/blog/author/chrisalexiuk/)
+
+
+
+![]()
+
+**About Chintan Patel**
+  
+
+Chintan Patel is a senior product manager at NVIDIA focused on bringing GPU-accelerated solutions to the HPC community. He leads the management and offering of the HPC application containers on the NVIDIA GPU Cloud registry. Prior to NVIDIA, he held product management, marketing and engineering positions at Micrel, Inc. He holds an MBA from Santa Clara University and a bachelor's degree in electrical engineering and computer science from UC Berkeley.
+[View all posts by Chintan Patel](https://developer.nvidia.com/blog/author/cpatel/)
+
+
+
+
+
+Comments
+--------
+
+
+
+
+
+
+
+
+Related posts
+-------------
+
+![]()
+
+### Inside NVIDIA Nemotron 3: Techniques, Tools, and Data That Make It Efficient and Accurate
+
+
+
+[Inside NVIDIA Nemotron 3: Techniques, Tools, and Data That Make It Efficient and Accurate](https://developer.nvidia.com/blog/inside-nvidia-nemotron-3-techniques-tools-and-data-that-make-it-efficient-and-accurate/)
+
+
+![]()
+
+### Develop Specialized AI Agents with New NVIDIA Nemotron Vision, RAG, and Guardrail Models
+
+
+
+[Develop Specialized AI Agents with New NVIDIA Nemotron Vision, RAG, and Guardrail Models](https://developer.nvidia.com/blog/develop-specialized-ai-agents-with-new-nvidia-nemotron-vision-rag-and-guardrail-models/)
+
+
+![]()
+
+### Build More Accurate and Efficient AI Agents with the New NVIDIA Llama Nemotron Super v1.5
+
+
+
+[Build More Accurate and Efficient AI Agents with the New NVIDIA Llama Nemotron Super v1.5](https://developer.nvidia.com/blog/build-more-accurate-and-efficient-ai-agents-with-the-new-nvidia-llama-nemotron-super-v1-5/)
+
+
+![]()
+
+### Advancing Agentic AI with NVIDIA Nemotron Open Reasoning Models
+
+
+
+[Advancing Agentic AI with NVIDIA Nemotron Open Reasoning Models](https://developer.nvidia.com/blog/advancing-agentic-ai-with-nvidia-nemotron-open-reasoning-models/)
+
+
+![]()
+
+### Llama Nemotron Models Accelerate Agentic AI Workflows with Accuracy and Efficiency
+
+
+
+[Llama Nemotron Models Accelerate Agentic AI Workflows with Accuracy and Efficiency](https://developer.nvidia.com/blog/llama-nemotron-models-accelerate-agentic-ai-workflows-with-accuracy-and-efficiency/)
+
+
+
+Related posts
+-------------
+
+![]()
+
+### Maximize AI Infrastructure Throughput by Consolidating Underutilized GPU Workloads
+
+
+
+[Maximize AI Infrastructure Throughput by Consolidating Underutilized GPU Workloads](https://developer.nvidia.com/blog/maximize-ai-infrastructure-throughput-by-consolidating-underutilized-gpu-workloads/)
+
+
+![]()
+
+### How Centralized Radar Processing on NVIDIA DRIVE Enables Safer, Smarter Level 4 Autonomy
+
+
+
+[How Centralized Radar Processing on NVIDIA DRIVE Enables Safer, Smarter Level 4 Autonomy](https://developer.nvidia.com/blog/how-centralized-radar-processing-on-nvidia-drive-enables-safer-smarter-level-4-autonomy/)
+
+
+![]()
+
+### Designing Protein Binders Using the Generative Model Proteina-Complexa
+
+
+
+[Designing Protein Binders Using the Generative Model Proteina-Complexa](https://developer.nvidia.com/blog/designing-protein-binders-using-the-generative-model-proteina-complexa/)
+
+
+![]()
+
+### How to Build Deep Agents for Enterprise Search with NVIDIA AI-Q and LangChain
+
+
+
+[How to Build Deep Agents for Enterprise Search with NVIDIA AI-Q and LangChain](https://developer.nvidia.com/blog/how-to-build-deep-agents-for-enterprise-search-with-nvidia-ai-q-and-langchain/)
+
+
+![]()
+
+### Introducing NVIDIA BlueField-4-Powered CMX Context Memory Storage Platform for the Next Frontier of AI
+
+
+
+[Introducing NVIDIA BlueField-4-Powered CMX Context Memory Storage Platform for the Next Frontier of AI](https://developer.nvidia.com/blog/introducing-nvidia-bluefield-4-powered-inference-context-memory-storage-platform-for-the-next-frontier-of-ai/)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+![]()![]()
+
+
+![]()![]()
+
+
+
+
+* [L](https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fdeveloper.nvidia.com%2Fblog%2Fintroducing-nemotron-3-super-an-open-hybrid-mamba-transformer-moe-for-agentic-reasoning%2F)
+* [T](https://twitter.com/intent/tweet?text=Introducing+Nemotron+3+Super%3A+An+Open+Hybrid+Mamba-Transformer+MoE+for+Agentic+Reasoning+%7C+NVIDIA+Technical+Blog+https%3A%2F%2Fdeveloper.nvidia.com%2Fblog%2Fintroducing-nemotron-3-super-an-open-hybrid-mamba-transformer-moe-for-agentic-reasoning%2F)
+* [F](https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdeveloper.nvidia.com%2Fblog%2Fintroducing-nemotron-3-super-an-open-hybrid-mamba-transformer-moe-for-agentic-reasoning%2F)
+* [R](https://www.reddit.com/submit?url=https%3A%2F%2Fdeveloper.nvidia.com%2Fblog%2Fintroducing-nemotron-3-super-an-open-hybrid-mamba-transformer-moe-for-agentic-reasoning%2F&title=Introducing+Nemotron+3+Super%3A+An+Open+Hybrid+Mamba-Transformer+MoE+for+Agentic+Reasoning+%7C+NVIDIA+Technical+Blog)
+* [E](mailto:?subject=I'd like to share a link with you&body=https%3A%2F%2Fdeveloper.nvidia.com%2Fblog%2Fintroducing-nemotron-3-super-an-open-hybrid-mamba-transformer-moe-for-agentic-reasoning%2F)
+
+
+

@@ -1,0 +1,373 @@
+# Source URL: https://www.promptingguide.ai/applications/coding
+# Content Length: 14924 characters
+# Extracted at: 2026-03-18 09:07:34
+#============================================================
+
+
+Generating Code | Prompt Engineering Guide 🚀 Learn to build apps with Claude Code! Use **PROMPTING** for 20% off [Enroll now →](https://academy.dair.ai/courses/build-apps-with-claude-code)[Prompt Engineering Guide](/)🎓 Courses[AboutAbout](/about)[GitHubGitHub (opens in a new tab)](https://github.com/dair-ai/Prompt-Engineering-Guide)[DiscordDiscord (opens in a new tab)](https://discord.gg/YbMT8k6GfX)[✨ Services](/services)
+
+* [Prompt Engineering](/)
+* [Introduction](/introduction)
+  + [LLM Settings](/introduction/settings)
+  + [Basics of Prompting](/introduction/basics)
+  + [Prompt Elements](/introduction/elements)
+  + [General Tips for Designing Prompts](/introduction/tips)
+  + [Examples of Prompts](/introduction/examples)
+* [Prompting Techniques](/techniques)
+  + [Zero-shot Prompting](/techniques/zeroshot)
+  + [Few-shot Prompting](/techniques/fewshot)
+  + [Chain-of-Thought Prompting](/techniques/cot)
+  + [Meta Prompting](/techniques/meta-prompting)
+  + [Self-Consistency](/techniques/consistency)
+  + [Generate Knowledge Prompting](/techniques/knowledge)
+  + [Prompt Chaining](/techniques/prompt_chaining)
+  + [Tree of Thoughts](/techniques/tot)
+  + [Retrieval Augmented Generation](/techniques/rag)
+  + [Automatic Reasoning and Tool-use](/techniques/art)
+  + [Automatic Prompt Engineer](/techniques/ape)
+  + [Active-Prompt](/techniques/activeprompt)
+  + [Directional Stimulus Prompting](/techniques/dsp)
+  + [Program-Aided Language Models](/techniques/pal)
+  + [ReAct](/techniques/react)
+  + [Reflexion](/techniques/reflexion)
+  + [Multimodal CoT](/techniques/multimodalcot)
+  + [Graph Prompting](/techniques/graph)
+* [AI Agents](/agents)
+  + [Introduction to Agents](/agents/introduction)
+  + [Agent Components](/agents/components)
+  + [AI Workflows vs AI Agents](/agents/ai-workflows-vs-ai-agents)
+  + [Context Engineering for AI Agents](/agents/context-engineering)
+  + [Context Engineering Deep Dive](/agents/context-engineering-deep-dive)
+  + [Function Calling](/agents/function-calling)
+  + [Deep Agents](/agents/deep-agents)
+* Guides
+  + [Optimizing Prompts](/guides/optimizing-prompts)
+  + [OpenAI Deep Research](/guides/deep-research)
+  + [Reasoning LLMs](/guides/reasoning-llms)
+  + [4o Image Generation](/guides/4o-image-generation)
+  + [Context Engineering Guide](/guides/context-engineering-guide)
+* [Applications](/applications)
+  + [Fine-tuning GPT-4o](/applications/finetuning-gpt4o)
+  + [Function Calling](/applications/function_calling)
+  + [Context Caching with LLMs](/applications/context-caching)
+  + [Generating Data](/applications/generating)
+  + [Generating Synthetic Dataset for RAG](/applications/synthetic_rag)
+  + [Tackling Generated Datasets Diversity](/applications/generating_textbooks)
+  + [Generating Code](/applications/coding)
+  + [Graduate Job Classification Case Study](/applications/workplace_casestudy)
+  + [Prompt Function](/applications/pf)
+* [Prompt Hub](/prompts)
+  + [Classification](/prompts/classification)
+    - [Sentiment Classification](/prompts/classification/sentiment)
+    - [Few-Shot Sentiment Classification](/prompts/classification/sentiment-fewshot)
+  + [Coding](/prompts/coding)
+    - [Generate Code Snippet](/prompts/coding/code-snippet)
+    - [Generate MySQL Query](/prompts/coding/mysql-query)
+    - [Draw TiKZ Diagram](/prompts/coding/tikz)
+  + [Creativity](/prompts/creativity)
+    - [Rhymes](/prompts/creativity/rhymes)
+    - [Infinite Primes](/prompts/creativity/infinite-primes)
+    - [Interdisciplinary](/prompts/creativity/interdisciplinary)
+    - [Inventing New Words](/prompts/creativity/new-words)
+  + [Evaluation](/prompts/evaluation)
+    - [Evaluate Plato's Dialogue](/prompts/evaluation/plato-dialogue)
+  + [Information Extraction](/prompts/information-extraction)
+    - [Extract Model Names](/prompts/information-extraction/extract-models)
+  + [Image Generation](/prompts/image-generation)
+    - [Draw a Person Using Alphabet](/prompts/image-generation/alphabet-person)
+  + [Mathematics](/prompts/mathematics)
+    - [Evaluating Composite Functions](/prompts/mathematics/composite-functions)
+    - [Adding Odd Numbers](/prompts/mathematics/odd-numbers)
+  + [Question Answering](/prompts/question-answering)
+    - [Closed Domain Question Answering](/prompts/question-answering/closed-domain)
+    - [Open Domain Question Answering](/prompts/question-answering/open-domain)
+    - [Science Question Answering](/prompts/question-answering/science-qa)
+  + [Reasoning](/prompts/reasoning)
+    - [Indirect Reasoning](/prompts/reasoning/indirect-reasoning)
+    - [Physical Reasoning](/prompts/reasoning/physical-reasoning)
+  + [Text Summarization](/prompts/text-summarization)
+    - [Explain A Concept](/prompts/text-summarization/explain-concept)
+  + [Truthfulness](/prompts/truthfulness)
+    - [Hallucination Identification](/prompts/truthfulness/identify-hallucination)
+  + [Adversarial Prompting](/prompts/adversarial-prompting)
+    - [Prompt Injection](/prompts/adversarial-prompting/prompt-injection)
+    - [Prompt Leaking](/prompts/adversarial-prompting/prompt-leaking)
+    - [Jailbreaking](/prompts/adversarial-prompting/jailbreaking-llms)
+* [Models](/models)
+  + [ChatGPT](/models/chatgpt)
+  + [Claude 3](/models/claude-3)
+  + [Code Llama](/models/code-llama)
+  + [Flan](/models/flan)
+  + [Gemini](/models/gemini)
+  + [Gemini Advanced](/models/gemini-advanced)
+  + [Gemini 1.5 Pro](/models/gemini-pro)
+  + [Gemma](/models/gemma)
+  + [GPT-4](/models/gpt-4)
+  + [Grok-1](/models/grok-1)
+  + [Kimi K2.5](/models/kimi-k2.5)
+  + [LLaMA](/models/llama)
+  + [Llama 3](/models/llama-3)
+  + [Mistral 7B](/models/mistral-7b)
+  + [Mistral Large](/models/mistral-large)
+  + [Mixtral](/models/mixtral)
+  + [Mixtral 8x22B](/models/mixtral-8x22b)
+  + [OLMo](/models/olmo)
+  + [Phi-2](/models/phi-2)
+  + [Sora](/models/sora)
+  + [LLM Collection](/models/collection)
+* [Risks & Misuses](/risks)
+  + [Adversarial Prompting](/risks/adversarial)
+  + [Factuality](/risks/factuality)
+  + [Biases](/risks/biases)
+* [LLM Research Findings](/research)
+  + [LLM Agents](/research/llm-agents)
+  + [RAG for LLMs](/research/rag)
+  + [LLM Reasoning](/research/llm-reasoning)
+  + [RAG Faithfulness](/research/rag-faithfulness)
+  + [LLM In-Context Recall](/research/llm-recall)
+  + [RAG Reduces Hallucination](/research/rag_hallucinations)
+  + [Synthetic Data](/research/synthetic_data)
+  + [ThoughtSculpt](/research/thoughtsculpt)
+  + [Infini-Attention](/research/infini-attention)
+  + [LM-Guided CoT](/research/guided-cot)
+  + [Trustworthiness in LLMs](/research/trustworthiness-in-llms)
+  + [LLM Tokenization](/research/llm-tokenization)
+  + [What is Groq?](/research/groq)
+* [Papers](/papers)
+* [Tools](/tools)
+* [Notebooks](/notebooks)
+* [Datasets](/datasets)
+* [Additional Readings](/readings)
+* [Services](/services)
+EnglishLight
+
+On This Page
+
+* [Basic Example](#basic-example)
+* [Turn Comments Into Code](#turn-comments-into-code)
+* [Complete Functions or Next Line](#complete-functions-or-next-line)
+* [MySQL Query Generation](#mysql-query-generation)
+* [Explain Code](#explain-code)
+* [Editing Code](#editing-code)
+* [Debugging Code](#debugging-code)
+* [Best practices](#best-practices)
+
+[Question? Give us feedback → (opens in a new tab)](https://github.com/dair-ai/Prompt-Engineering-Guide/issues/new?title=Feedback%20for%20%E2%80%9CGenerating%20Code%E2%80%9D&labels=feedback)[Edit this page](https://github.com/dair-ai/Prompt-Engineering-Guide/tree/main/pages/applications/coding.en.mdx)[Applications](/applications)Generating CodeCopy page
+
+Generating Code
+===============
+
+
+⚠️
+
+This section is under development.
+
+LLMs like ChatGPT are very effective at code generation. In this section, we will cover many examples of how to use ChatGPT for code generation.
+
+The OpenAI's Playground (Chat Mode) and the `gpt-3.5-turbo` model are used for all examples below.
+
+As with all chat models from OpenAI, you can use a `System Message` to define the behavior and format of the responses. We will use the following System Message for the prompt examples:
+
+```
+You are a helpful code assistant that can teach a junior developer how to code. Your language of choice is Python. Don't explain the code, just generate the code block itself.
+```
+
+Basic Example
+-------------
+
+The `User Message` will then be the prompt itself with the instruction of the specific code you want the model to generate. Below is a snapshot of the first basic prompt for code generation. Note that the final code was generated by the `Assistant`.
+
+![]()
+
+Here is the prompt if you want to try it yourself:
+
+```
+Write code that asks the user for their name and say "Hello"
+```
+
+Turn Comments Into Code
+-----------------------
+
+You can also use the code generation capabilities of these LLMs to generate code from comments alone. Let's look at another example that passes the instructions as a comment block:
+
+*Prompt:*
+
+```
+"""
+1. Create a list of movies
+2. Create a list of ratings for these movies
+3. Combine them to make a json object of 10 movies with their ratings.
+"""
+```
+
+*Output:*
+
+```
+movies = ["The Shawshank Redemption", "The Godfather", "The Dark Knight", "Schindler's List", "Pulp Fiction", "The Lord of the Rings: The Return of the King", "Forrest Gump", "Star Wars: Episode V - The Empire Strikes Back", "Inception", "The Silence of the Lambs"]
+ 
+ratings = [9.3, 9.2, 9.0, 8.9, 8.9, 8.9, 8.8, 8.7, 8.7, 8.6]
+ 
+movie_ratings = {}
+ 
+for i in range(len(movies)):
+    movie_ratings[movies[i]] = ratings[i]
+ 
+json_object = json.dumps(movie_ratings, indent=4)
+ 
+print(json_object)
+```
+
+The generated code looks like working code. However, the output doesn't contain an important `import` statement, i.e., `import json`. While these models generate working code, you must pay close attention to small details like this and always make sure to test your code.
+
+Complete Functions or Next Line
+-------------------------------
+
+These LLMs have also been incorporated into tools like GitHub Copilot which makes them useful for developers. One useful feature is the ability of the model to complete functions.
+
+*Prompt:*
+
+```
+# function to multiply two numbers and add 75 to it
+ 
+def multiply(
+```
+
+*Output:*
+
+```
+a, b):
+    result = a * b
+    result += 75
+    return result
+```
+
+MySQL Query Generation
+----------------------
+
+Besides the basic code generation example above, you can use the model to generate useful code that could be used in other aspects of programming like creating and testing MySQL queries.
+
+Let's say you have a dataset with some information which you can include as part of the prompt and then instruct it to generate a specific query. For example:
+
+```
+"""
+Table departments, columns = [DepartmentId, DepartmentName]
+Table students, columns = [DepartmentId, StudentId, StudentName]
+Create a MySQL query for all students in the Computer Science department
+"""
+```
+
+*Output:*
+
+```
+SELECT students.StudentId, students.StudentName
+FROM students
+INNER JOIN departments
+ON students.DepartmentId = departments.DepartmentId
+WHERE departments.DepartmentName = 'Computer Science';
+```
+
+The model generates a query! However, in this example we made up the database so we don't have a database to test the generated query. If you are testing this example, it could be useful to have this database created. Fortunately, you can use ChatGPT to generate this for you as well. One approach is using a modified version of the prompt above with slightly different instructions to generate a database schema:
+
+```
+Table departments, columns = [DepartmentId, DepartmentName]
+Table students, columns = [DepartmentId, StudentId, StudentName]
+Create a valid database schema with the above tables and columns
+```
+
+The model generated the following schema:
+
+```
+CREATE TABLE departments (
+  DepartmentId INT PRIMARY KEY,
+  DepartmentName VARCHAR(50)
+);
+
+CREATE TABLE students (
+  DepartmentId INT,
+  StudentId INT PRIMARY KEY,
+  StudentName VARCHAR(50),
+  FOREIGN KEY (DepartmentId) REFERENCES departments(DepartmentId)
+);
+```
+
+You can create a temporary database using something like [sqliteonline.com (opens in a new tab)](https://sqliteonline.com/).
+
+You will also need dummy data to test if the original generated query was valid. Let's use ChatGPT for this too! The prompt could look something like the following:
+
+```
+CREATE TABLE departments (
+  DepartmentId INT PRIMARY KEY,
+  DepartmentName VARCHAR(50)
+);
+
+CREATE TABLE students (
+  DepartmentId INT,
+  StudentId INT PRIMARY KEY,
+  StudentName VARCHAR(50),
+  FOREIGN KEY (DepartmentId) REFERENCES departments(DepartmentId)
+);
+
+Given the database schema above, generate valid insert statements include 4 rows for each table.
+```
+
+The output with the insert statements:
+
+```
+INSERT INTO departments (DepartmentId, DepartmentName)
+VALUES (1, 'Computer Science'), (2, 'Mathematics'), (3, 'Physics'), (4, 'Biology');
+
+INSERT INTO students (DepartmentId, StudentId, StudentName)
+VALUES (1, 101, 'John Doe'), (1, 102, 'Jane Doe'), (2, 201, 'Alice Smith'), (2, 202, 'Bob Johnson');
+```
+
+Now that you have the database and the dummy data, you can test the original query. Based on the dummy data, the result should be two rows with `Jane Doe` and `John Doe`.
+
+Explain Code
+------------
+
+If you are learning to program in a certain language, it might be useful to prompt the model to explain certain bits of code. Let's reuse the query generated above and ask the model to explain it.
+
+If you are using the same System Message from before, be careful of how you are instructing the model. For example, if we use the following example, the model will complain that it is a code assistant in Python but it still provides an explanation. Sometimes the model refuses to generate what you are instructing because it's designed to follow the System Message.
+
+*Prompt:*
+
+```
+SELECT students.StudentId, students.StudentName
+FROM students
+INNER JOIN departments
+ON students.DepartmentId = departments.DepartmentId
+WHERE departments.DepartmentName = 'Computer Science';
+
+Explain the above SQL statement.
+```
+
+*Output:*
+
+```
+Sorry, as a code assistant in Python, I cannot generate SQL code. However, I can explain the purpose of the SQL statement provided. 
+
+This SQL statement selects the `StudentId` and `StudentName` columns from the `students` table, where the `DepartmentName` column in the `departments` table is equal to 'Computer Science'. To achieve this, the statement performs an inner join on the `DepartmentId` column between the `students` and `departments` tables. 
+
+In simpler terms, it is selecting the names and IDs of students who are enrolled in the Computer Science department.
+```
+
+Editing Code
+------------
+
+Example coming soon!
+
+Debugging Code
+--------------
+
+Example coming soon!
+
+Best practices
+--------------
+
+Coming soon!
+
+[Tackling Generated Datasets Diversity](/applications/generating_textbooks)[Graduate Job Classification Case Study](/applications/workplace_casestudy)EnglishLight
+
+---
+
+Copyright © 2026 DAIR.AI

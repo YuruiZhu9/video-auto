@@ -1,0 +1,256 @@
+# Source URL: https://zhuanlan.zhihu.com/p/1912934680564596879
+# Content Length: 11473 characters
+# Extracted at: 2026-03-31 09:21:44
+#============================================================
+
+![](https://zhuanlan.zhihu.com/p/1912934680564596879)
+![【MoE】【Qwen3】【1】彻底搞懂Qwen3底层源码](https://pic1.zhimg.com/v2-e758d19b44d20c60e91c2fd96509b00e\_720w.jpg?source=172ae18b)
+## 前言
+前面我们详细讲解了[deepseek MoE](https://zhida.zhihu.com/search?content\_id=258496430&content\_type=Article&match\_order=1&q=deepseek+MoE&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTI5MDEsInEiOiJkZWVwc2VlayBNb0UiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTg0OTY0MzAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.6P3i2x-prv\_U6EjI41gwYm0rA21VZowsDc3PkfcUE9Y&zhida\_source=entity)的具体代码实现细节，同时指出了Deepseek MoE存在的缺陷和不足。
+而[Qwen3 MoE](https://zhida.zhihu.com/search?content\_id=258496430&content\_type=Article&match\_order=1&q=Qwen3+MoE&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTI5MDEsInEiOiJRd2VuMyBNb0UiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNTg0OTY0MzAsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.fe3fIrbLkH68u\_E0VJDIsS0I8VByKGaY0c-5lPM1\_9k&zhida\_source=entity)作为近期的重大新闻，本文也讲解一下Qwen3的具体实现，顺便探讨该模型与DeepSeekMoE模型的区别。
+本文将讲解Qwen3的核心模块即[Qwen3MoeSparseMoeBlock](https://zhida.zhihu.com/search?content\_id=258496430&content\_type=Article&match\_order=1&q=Qwen3MoeSparseMoeBlock&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzUwOTI5MDEsInEiOiJRd2VuM01vZVNwYXJzZU1vZUJsb2NrIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjU4NDk2NDMwLCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.APWqjMJyU23OAhIuwXehB9k3WRvl-Y6pLWg3heRav34&zhida\_source=entity)类的代码实现和形状推理
+## 代码地址
+Qwen3 MoE开源的模型权重有： \*\*Qwen3-30B-A3B\*\* 和 \*\*Qwen3-235B-A22B\*\* ，其他模型并不是MoE架构的模型
+模型： [Qwen/Qwen3-30B-A3B · Hugging Face](https://link.zhihu.com/?target=https%3A//huggingface.co/Qwen/Qwen3-30B-A3B) 和 [Qwen/Qwen3-235B-A22B · Hugging Face](https://link.zhihu.com/?target=https%3A//huggingface.co/Qwen/Qwen3-235B-A22B)
+能够在 [Qwen](https://link.zhihu.com/?target=https%3A//chat.qwen.ai/) 网站里进行对话：
+![](https://pic4.zhimg.com/v2-5c58be70421d29394ef7f4c83e7319d1\_1440w.jpg)
+modeling代码：该代码并不在模型权重仓库中，而是上传到了transformers中，可以在transformers看到。 [transformers/src/transformers/models/qwen3\\_moe at main · huggingface/transformers](https://link.zhihu.com/?target=https%3A//github.com/huggingface/transformers/tree/main/src/transformers/models/qwen3\_moe)
+![](https://pica.zhimg.com/v2-e5c20a1bfeaea59262923a80d34f225a\_1440w.jpg)
+可以看到里面没有modeling.py文件和configuration.py文件
+## Qwen3MoeSparseMoeBlock
+```text
+class Qwen3MoeSparseMoeBlock(nn.Module):
+def \_\_init\_\_(self, config):
+super().\_\_init\_\_()
+self.num\_experts = config.num\_experts
+self.top\_k = config.num\_experts\_per\_tok
+self.norm\_topk\_prob = config.norm\_topk\_prob
+# gating
+self.gate = nn.Linear(config.hidden\_size, config.num\_experts, bias=False)
+self.experts = nn.ModuleList(
+[Qwen3MoeMLP(config, intermediate\_size=config.moe\_intermediate\_size) for \_ in range(self.num\_experts)]
+)
+def forward(self, hidden\_states: torch.Tensor) -> torch.Tensor:
+""" """
+batch\_size, sequence\_length, hidden\_dim = hidden\_states.shape
+hidden\_states = hidden\_states.view(-1, hidden\_dim) # hidden\_states: (batch \* sequence\_length, hidden\_dim)
+router\_logits = self.gate(hidden\_states) # router\_logits: (batch \* sequence\_length, n\_experts)
+routing\_weights = F.softmax(router\_logits, dim=1, dtype=torch.float)
+routing\_weights, selected\_experts = torch.topk(routing\_weights, self.top\_k, dim=-1) # routing\_weights, selected\_experts:(batch \* sequence\_length, topk)
+if self.norm\_topk\_prob: # only diff with mixtral sparse moe block!
+routing\_weights /= routing\_weights.sum(dim=-1, keepdim=True)
+# we cast back to the input dtype
+routing\_weights = routing\_weights.to(hidden\_states.dtype)
+final\_hidden\_states = torch.zeros(
+(batch\_size \* sequence\_length, hidden\_dim), dtype=hidden\_states.dtype, device=hidden\_states.device
+)
+# One hot encode the selected experts to create an expert mask
+# this will be used to easily index which expert is going to be sollicitated
+expert\_mask = torch.nn.functional.one\_hot(selected\_experts, num\_classes=self.num\_experts).permute(2, 1, 0) # expert\_mask:(num\_experts, topk, batch \* sequence\_length) 各个专家 选择的topk token
+# Loop over all available experts in the model and perform the computation on each expert
+for expert\_idx in range(self.num\_experts):
+expert\_layer = self.experts[expert\_idx]
+idx, top\_x = torch.where(expert\_mask[expert\_idx]) # idx, top\_x:(selected\_token\_num) 第expert\_idx个专家选择token的位置（topk中第idx行的第top\_x个token）
+# Index the correct hidden states and compute the expert hidden state for
+# the current expert. We need to make sure to multiply the output hidden
+# states by `routing\_weights` on the corresponding tokens (top-1 and top-2)
+# hidden\_states: (batch \* sequence\_length, hidden\_dim)
+current\_state = hidden\_states[None, top\_x].reshape(-1, hidden\_dim) # current\_state:(selected\_token\_num, hidden\_dim) 专家i选择的token
+current\_hidden\_states = expert\_layer(current\_state) \* routing\_weights[top\_x, idx, None] # current\_hidden\_states:(selected\_token\_num, hidden\_dim)\*(selected\_token\_num,1)=(selected\_token\_num, hidden\_dim) 专家i对选择的token的输出结果（乘以token路由权重）
+# However `index\_add\_` only support torch tensors for indexing so we'll use
+# the `top\_x` tensor here.
+final\_hidden\_states.index\_add\_(0, top\_x, current\_hidden\_states.to(hidden\_states.dtype)) # final\_hidden\_states:(batch\_size \* sequence\_length, hidden\_dim)
+final\_hidden\_states = final\_hidden\_states.reshape(batch\_size, sequence\_length, hidden\_dim) # final\_hidden\_states:(batch\_size, sequence\_length, hidden\_dim) 最终经过各个专家输出的结果
+return final\_hidden\_states, router\_logits
+# final\_hidden\_states:(batch\_size, sequence\_length, hidden\_dim)
+# router\_logits：(batch \* sequence\_length, n\_experts)
+```
+### one\\_hot
+```text
+expert\_mask = torch.nn.functional.one\_hot(selected\_experts, num\_classes=self.num\_experts).permute(2, 1, 0)
+```
+这段代码主要完成了对选中专家的独热编码转换以及维度重排
+### 独热编码部分
+```text
+torch.nn.functional.one\_hot(selected\_experts, num\_classes=self.num\_experts)
+```
+- \*\*功能\*\*：把`selected\_experts`里的每个专家索引转换为独热编码向量。
+- \*\*输入条件\*\*：
+- `selected\_experts`是一个二维张量，其形状为`[batch \* sequence\_length, topk]`，里面存储的是专家的索引。
+- `num\_classes`设定了独热编码向量的维度，也就是专家的总数。
+- \*\*输出情况\*\*：输出的是一个三维张量，形状为`[batch \* sequence\_length, topk, num\_experts]`。
+### 维度重排部分
+```text
+.permute(2, 1, 0)
+```
+- \*\*功能\*\*：将张量的维度顺序重新排列，从`[batch \* sequence\_length, topk, num\_experts]`变为`[num\_experts, topk, batch \* sequence\_length]`。
+### 具体例子
+下面通过一个具体例子来说明，这里假设：
+- `batch\_size = 2`
+- `sequence\_length = 3`
+- `topk = 2`（即每个token选择2个专家）
+- `num\_experts = 4`（专家的总数为4）
+\*\*1\. 输入数据\*\*
+```text
+# 形状为 [batch\_size \* sequence\_length, topk] = [6, 2]
+selected\_experts = torch.tensor([\
+[0, 2], # 第1个token选择专家0和专家2\
+[1, 3], # 第2个token选择专家1和专家3\
+[0, 1], # 第3个token选择专家0和专家1\
+[2, 3], # 第4个token选择专家2和专家3\
+[1, 2], # 第5个token选择专家1和专家2\
+[3, 0] # 第6个token选择专家3和专家0\
+])
+```
+\*\*2\. 执行独热编码后的结果\*\*
+```text
+one\_hot = torch.nn.functional.one\_hot(selected\_experts, num\_classes=4)
+# one\_hot的形状为 [6, 2, 4]
+# 具体内容如下：
+[\
+# token1\
+[[1, 0, 0, 0], # 专家0的独热编码\
+[0, 0, 1, 0]], # 专家2的独热编码\
+\
+# token2\
+[[0, 1, 0, 0], # 专家1的独热编码\
+[0, 0, 0, 1]], # 专家3的独热编码\
+\
+# token3\
+[[1, 0, 0, 0], # 专家0的独热编码\
+[0, 1, 0, 0]], # 专家1的独热编码\
+\
+# token4\
+[[0, 0, 1, 0], # 专家2的独热编码\
+[0, 0, 0, 1]], # 专家3的独热编码\
+\
+# token5\
+[[0, 1, 0, 0], # 专家1的独热编码\
+[0, 0, 1, 0]], # 专家2的独热编码\
+\
+# token6\
+[[0, 0, 0, 1], # 专家3的独热编码\
+[1, 0, 0, 0]] # 专家0的独热编码\
+]
+```
+\*\*3\. 进行维度重排后的结果\*\*
+```text
+expert\_mask = one\_hot.permute(2, 1, 0)
+# expert\_mask的形状为 [4, 2, 6]
+# 具体内容如下：
+[\
+# 专家0\
+[[1, 0, 1, 0, 0, 0], # 第1次选择专家时（token1、3被选中）\
+[0, 0, 0, 0, 0, 1]], # 第2次选择专家时（token6被选中）\
+\
+# 专家1\
+[[0, 1, 0, 0, 1, 0], # 第1次选择专家时（token2、5被选中）\
+[0, 0, 1, 0, 0, 0]], # 第2次选择专家时（token3被选中）\
+\
+# 专家2\
+[[0, 0, 0, 1, 0, 0], # 第1次选择专家时（token4被选中）\
+[1, 0, 0, 0, 1, 0]], # 第2次选择专家时（token1、5被选中）\
+\
+# 专家3\
+[[0, 0, 0, 0, 0, 1], # 第1次选择专家时（token6被选中）\
+[0, 1, 0, 1, 0, 0]] # 第2次选择专家时（token2、4被选中）\
+]
+```
+因此，上面，expert\\_mask的形状为：(num\\_experts, topk, batch \\* sequence\\_length)
+这段代码实现了两个关键操作：一是将专家索引转换为独热编码，二是对维度进行重排，从而得到一个按专家组织的掩码矩阵。这个掩码矩阵在后续的计算中可以用来高效地聚合或路由数据。
+### torch.where
+```text
+for expert\_idx in range(self.num\_experts):
+expert\_layer = self.experts[expert\_idx]
+idx, top\_x = torch.where(expert\_mask[expert\_idx])
+```
+注意：expert\\_mask：(num\\_experts, topk, batch \\* sequence\\_length)
+### 具体例子
+假设我们已经有了之前例子中的`expert\_mask`，形状为`[4, 2, 6]`，只分析expert\\_id=0的情况。
+````text
+expert\_idx = 0
+expert\_mask[0] =
+[[1, 0, 1, 0, 0, 0], # 第1次选择专家时（token1、3被选中）\
+[0, 0, 0, 0, 0, 1]] # 第2次选择专家时（token6被选中）
+对于给定的 `expert\_mask` 张量，执行 `idx, top\_x = torch.where(expert\_mask[0])` 后：
+1. `expert\_mask[0]` 的值：
+```python
+tensor([[1, 0, 1, 0, 0, 0],\
+[0, 0, 0, 0, 0, 1]])
+````
+1. `torch.where` 的作用：返回非零元素（即值为 `1` 的位置）的坐标。
+• 第一个返回值 `idx` 是行索引。
+• 第二个返回值 `top\_x` 是列索引。
+2. 非零元素的位置： • `(0, 0)` → 第 0 行，第 0 列
+• `(0, 2)` → 第 0 行，第 2 列
+• `(1, 5)` → 第 1 行，第 5 列
+3. 最终结果：
+idx = tensor(\[0, 0, 1\]) # 行索引 top\\_x = tensor(\[0, 2, 5\]) # 列索引
+解释：`idx` 和 `top\_x` 中的对应元素组合起来，表示 `expert\_mask[0]` 中所有值为 `1` 的位置。例如： • `idx[0]=0` 和 `top\_x[0]=0` → 对应 `expert\_mask[0][0, 0] = 1`
+• `idx[1]=0` 和 `top\_x[1]=2` → 对应 `expert\_mask[0][0, 2] = 1`
+• `idx[2]=1` 和 `top\_x[2]=5` → 对应 `expert\_mask[0][1, 5] = 1`
+这里可以方便的索引哪些句子里哪个token选择了专家i，即第 idx 个句子里的第 top\\_x 个token选择了专家i。 因此，idx, top\\_x的形状为：(selected\\_token\\_num)
+### hidden\\_states\[None, top\\_x\]
+在代码
+```text
+current\_state = hidden\_states[None, top\_x].reshape(-1, hidden\_dim)
+```
+中，`None` 的作用是 增加一个空维度，目的是让索引操作更灵活。我们通过一个具体例子来说明它的作用：
+\* \* \*
+假设数据如下：
+1. `hidden\_states` 的维度是 `(batch \* sequence\_length, hidden\_dim)`（这里 `batch \* sequence\_length = 4`，`hidden\_dim` 是2）：
+hidden\\_states = torch.tensor(\[ \[1, 2\], # token 0 \[3, 4\], # token 1 \[5, 6\], # token 2 \[7, 8\], # token 3 \])
+2. `top\_x` 是选中的 token 索引，假设为：
+top\\_x = torch.tensor(\[0, 2, 3\]) # 选中第 0、2、3 个 token
+\* \* \*
+执行 `hidden\_states[None, top\_x]`： • `None` 在第一个维度插入一个空维度，将 `hidden\_states` 从 `(4, 2)` 变为 `(1, 4, 2)`。
+• 然后用 `top\_x` 索引第二个维度（即 token 维度），结果是一个三维张量：
+```text
+hidden\_states[None, top\_x].shape = (1, 3, 2)
+```
+实际值为：
+点击 [【MoE】【Qwen3】【1】彻底搞懂Qwen3底层源码](https://link.zhihu.com/?target=https%3A//www.guyuehome.com/detail%3Fid%3D1924781347858087937) 查看全文
+发布于 2025-06-06 22:01・湖北
+[大模型](https://www.zhihu.com/topic/25402720)
+​赞同 5​​1 条评论​31 ​1
+​分享
+​申请转载​
+​
+暂无评论
+关于作者
+[![古月居](https://pic1.zhimg.com/v2-358c960c937bab7eded52851c4dabd58\_l.jpg?source=172ae18b)](https://www.zhihu.com/people/89-23-79-26-70)
+[古月居](https://www.zhihu.com/people/89-23-79-26-70)
+ROS机器人开发者社区，帮你从零入门ROS机器人开发
+[回答](https://www.zhihu.com/people/89-23-79-26-70/answers) [文章](https://www.zhihu.com/people/89-23-79-26-70/posts) [关注者](https://www.zhihu.com/people/89-23-79-26-70/followers)
+​关注他​发私信
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码

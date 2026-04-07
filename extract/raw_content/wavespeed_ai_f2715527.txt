@@ -1,0 +1,276 @@
+# Source URL: https://wavespeed.ai/blog/posts/claude-code-leaked-source-hidden-features/
+# Content Length: 21730 characters
+# Extracted at: 2026-04-04 01:04:16
+#============================================================
+
+
+ Claude Code Leaked Source: BUDDY, KAIROS & Every Hidden Feature Inside | WaveSpeedAI Blog      
+       [![]()](https://wavespeed.ai)      [Explore](https://wavespeed.ai/models)   [Pricing](https://wavespeed.ai/pricing)   [Enterprise](https://wavespeed.ai/enterprise)     Resources       [Studio](https://wavespeed.ai/studio) [Affiliate](https://wavespeed.ai/static/affiliate) [Download App](https://wavespeed.ai/landing/desktop) [Inspiration](https://wavespeed.ai/inspiration) [Doc](https://wavespeed.ai/docs) [Blog](/blog/) [Contact Sales](https://wavespeed.ai/enterprise#contact-us) [Be a Creator](https://wavespeed.ai/static/collaborator) [Support](https://wavespeed.ai/user/support) [Github](https://github.com/WaveSpeedAI)                   English  Deutsch  Español  Français  Português  Русский  Indonesian  日本語  한국어  简体中文  繁體中文                     [Explore](https://wavespeed.ai/models)   [Pricing](https://wavespeed.ai/pricing)   [Enterprise](https://wavespeed.ai/enterprise)     Resources      [Studio](https://wavespeed.ai/studio) [Download App](https://wavespeed.ai/landing/desktop) [Doc](https://wavespeed.ai/docs) [Contact Sales](https://wavespeed.ai/enterprise#contact-us) [Support](https://wavespeed.ai/user/support) [Affiliate](https://wavespeed.ai/static/affiliate) [Inspiration](https://wavespeed.ai/inspiration) [Blog](/blog/) [Be a Creator](https://wavespeed.ai/static/collaborator) [Github](https://github.com/WaveSpeedAI)                 English  Deutsch  Español  Français  Português  Русский  Indonesian  日本語  한국어  简体中文  繁體中文                  [← Blog](/blog/)     
+
+Claude Code Leaked Source: BUDDY, KAIROS & Every Hidden Feature Inside
+======================================================================
+
+Anthropic's Claude Code leaked via npm on March 31, 2026. AI pet BUDDY, always-on KAIROS, Undercover Mode — everything hidden inside the 512K-line codebase, explained.
+
+ Apr 1, 2026  11 min read      ![]() 
+
+Something odd crossed my feed last week. A researcher named Chaofan Shou posted on X that he’d downloaded **[Claude Code’s entire source code](https://github.com/instructkr/claw-code)** — not by exploiting anything, but because a single file wasn’t excluded from the npm package. By the time I saw the thread, mirrors had already spread across GitHub.
+
+*I’m Dora. I spent the next few evenings going through what got shared. This is what I found.*
+
+How One .map File Exposed 512,000 Lines of Code
+-----------------------------------------------
+
+**Source maps are meant to help developers debug minified code. ​**They’re a development artifact — a mapping between the compressed bundle that ships and the original source files that built it. Bun, the runtime Claude Code uses instead of Node, generates them by default.
+
+The problem: **Claude Code’s ​`.npmignore`**​**​ didn’t exclude the ​`.map`**​**​ file.** So when version 2.1.88 landed on npm, it carried `main.js.map` along with it — and that file contained the full reconstructed source.
+
+Chaofan Shou noticed. He wrote a short script, pulled `src.zip` directly from Anthropic’s R2 bucket, and posted the download link on X. It wasn’t a hack. There was no exploitation, no credential theft, no sophisticated attack. Just a config gap that anyone with curiosity and a terminal could have found.
+
+Anthropic patched the package quickly. But GitHub mirrors had already spread. As of this writing, archived versions of the [Claude Code npm package](https://www.npmjs.com/package/@anthropic-ai/claude-code) remain publicly documented, and the community reverse-engineering threads are thorough.
+
+![]()
+
+The scale of what got out: 512,000 lines of code across roughly 1,900 files. The main component alone — `main.tsx` — runs to 785KB. That’s a real product, not a prototype.
+
+BUDDY — The AI Pet Anthropic Was Hiding for April Fools’
+--------------------------------------------------------
+
+This is the one that traveled fastest on social media, and honestly, I get why.
+
+Buried inside the leaked source is a complete implementation of something called BUDDY — a virtual companion system for ​[Claude Code users](https://www.reddit.com/r/ClaudeAI/comments/1s8lkkm/i_dug_through_claude_codes_leaked_source_and/)​. I’ll list out what the code describes, because the specifics are what make it interesting.
+
+**18 species, including:**
+
+* duck, dragon, axolotl, capybara, mushroom, ghost — and about a dozen more
+
+**Rarity tiers:**
+
+* Common through Legendary (1% drop rate), with shiny variants on top of that
+
+**5 stats per buddy:**
+
+* DEBUGGING / PATIENCE / CHAOS / WISDOM / SNARK
+
+**How it works under the hood:** The species a user gets isn’t random at runtime — it’s deterministically generated from a hash of their `userId`. Meaning: the same user always hatches the same buddy. Claude writes the name and personality text on first hatch. The buddy then lives in a speech bubble next to the input box.
+
+There are also cosmetic hats. I don’t know what to do with that information.
+
+According to comments inside the leaked source — and I want to be clear this is from unverified internal notes, *not* from any official Anthropic announcement — a teaser was planned for ​**April 1–7**​, with a full launch targeted for​**​ May 2026**​. Anthropic hasn’t confirmed any of this publicly.
+
+Whether BUDDY ever ships as described is genuinely unclear. What’s not unclear is that a meaningful amount of engineering went into it. The deterministic species generation alone is a thoughtful design choice — it means users can share their buddy identity without it being purely randomized.
+
+It’s a light feature. But it’s also a signal that someone inside Anthropic was thinking hard about what “working alongside Claude” could feel like over time.
+
+KAIROS — The Always-On Claude Nobody Announced
+----------------------------------------------
+
+![]()
+
+BUDDY got the attention. KAIROS is the one I keep thinking about.
+
+The leaked source describes KAIROS as a persistent assistant that doesn’t wait to be asked. It watches, logs, and acts. It maintains append-only daily logs of what it observes. It can trigger proactive actions based on those observations — not just respond to them. At night, it runs a “dreaming” process to consolidate and prune its own memory.
+
+None of this is available in the external builds. KAIROS is gated behind an internal feature flag that doesn’t exist in the public npm package. There’s no way to enable it as a user today.
+
+But the architecture is real, and it sketches out something significantly different from how Claude Code currently works. Right now, Claude Code is reactive — you give it a task, it runs. KAIROS as described would be proactive — a background layer that builds context about your work over time, then acts on it without prompting.
+
+Whether this is aspirational system design, an internal experiment, or a preview of a coming product direction, I genuinely can’t say. The [Anthropic research blog](https://www.anthropic.com/research) hasn’t mentioned KAIROS by name.
+
+What I can say is that an always-on, self-logging, memory-consolidating AI assistant raises real questions about what “agentic” means in practice. The feature gating here feels intentional — not just “not ready yet,” but “not ready to explain yet.”
+
+ULTRAPLAN, Coordinator Mode & 17 More Unreleased Tools
+------------------------------------------------------
+
+The feature flag system in Claude Code is more extensive than I expected. The leaked source documents 108 gated modules that don’t appear in the public package. A few stood out:
+
+**ULTRAPLAN** offloads the planning phase of a task to Claude Opus running in the cloud — for up to 30 minutes. You can monitor and approve the plan from a browser interface before execution starts. For long, complex tasks where getting the plan wrong is expensive, this is a meaningful capability.
+
+**Coordinator Mode** introduces a multi-agent layer: one Claude instance manages multiple parallel worker agents through a mailbox system. Each worker handles its own subtask; the coordinator routes work and reconciles results. This isn’t multi-threading — it’s closer to a small team of agents working in parallel with shared coordination.
+
+Then there’s a list that reads a bit like a product roadmap someone forgot to hide:
+
+* `VOICE_MODE` — voice interaction with Claude Code
+* `WEB_BROWSER_TOOL` — browser access from within the CLI
+* `DAEMON` — a background process mode
+* `AGENT_TRIGGERS` — automated event-based agent activation
+
+Each of these exists in the codebase with real implementation logic, not just placeholder stubs. They’re not finished in the way that shipped features are finished — but they’re not theoretical either.
+
+The [Claude Code documentation](https://docs.anthropic.com/en/docs/claude-code) doesn’t acknowledge any of these. That gap is interesting in itself.
+
+![]()
+
+Undercover Mode — The Detail That Made Everyone Uncomfortable
+-------------------------------------------------------------
+
+I’ve thought about how to write this section for a while. I’m going to describe what the source shows and let you form your own view.
+
+The leaked code contains a check for `USER_TYPE === 'ant'` — a flag that identifies Anthropic employees. When that flag is true and the user is working in a public repository, the system automatically enters what the code calls “undercover mode.”
+
+In undercover mode:
+
+* A system prompt is injected instructing Claude to “not blow your cover” and to “NEVER mention you are an AI”
+* `Co-Authored-By` lines — the commit metadata that identifies AI involvement — are stripped from git output
+* Internal codenames are hidden from responses
+* There is no force-off switch in the user-facing interface
+
+The system prompt wording, as documented in the community analysis from [Kuberwastaken’s Claude Code README breakdown](https://github.com/Kuberwastaken/claude-code), reads close to verbatim in the leaked source.
+
+![]()
+
+The stated intent seems to be privacy for Anthropic employees — letting them work on public projects without advertising their affiliation or triggering questions about whether Anthropic is AI-assisted. That’s a reasonable concern in principle.
+
+The implementation raises a different set of questions. Stripping `Co-Authored-By` metadata removes a signal that some developers explicitly use to track AI involvement in their codebases. The “never mention you are an AI” instruction is unambiguous.
+
+Whether this crosses a line depends on how you think about disclosure norms in collaborative software development. I’m not going to tell you what to conclude. But I noticed it, and I think it’s worth knowing.
+
+What the Claude Code Architecture Actually Looks Like Inside
+------------------------------------------------------------
+
+Setting aside the unreleased features, the leaked source offers a clear picture of what’s actually running when you use Claude Code today.
+
+**The runtime and renderer:** Claude Code runs on Bun, not Node — a deliberate choice for performance and startup speed. The terminal UI is built with React and [Ink](https://github.com/vadimdemedes/ink), a library that lets you build CLI interfaces using React components. That combination is unusual but coherent.
+
+![]()
+
+**The Query Engine:** One component spans roughly 46,000 lines. It handles context management, compression, and tool orchestration. Three-layer context compression is real — the system actively manages what stays in the context window and what gets pruned, which matters at the token scale these workflows operate at.
+
+**The tool system:** 40+ tools, each self-contained with its own schema, permission check, and execution logic. Permissions aren’t a single global gate — they’re per-tool and granular. The architecture here is closer to a plugin system than a monolith.
+
+**Telemetry:** The leaked source shows telemetry that tracks things like frustration signals (inferred from behavior patterns) and how often users hit the “continue” button. That’s not unusual for a product team, but it’s more specific than most users probably assume.
+
+The irony that keeps coming back to me: Undercover Mode exists in part to prevent Anthropic’s internal usage from being visible externally. And then the entire source shipped in a .map file.
+
+What This Means for Teams Building on AI APIs
+---------------------------------------------
+
+I work with teams that are building AI-assisted tools, and a few things in the claude code architecture stood out as practically useful observations.
+
+**This is not a weekend project.**
+
+**Claude Code** at version 2.1.88 is a serious engineering artifact. 512,000 lines, a custom context compression system, granular per-tool permissions, a multi-agent coordinator, feature flag infrastructure for 108+ gated modules. If you’re planning to build something comparable from scratch, you’re looking at a multi-year effort with a real team. That’s not discouraging — it’s just accurate scope-setting.
+
+**Feature flags are product infrastructure, not a workaround.**
+
+The way ​**BUDDY, KAIROS, ULTRAPLAN**​, and the rest are gated is instructive. Each is a real implementation behind a flag — not a stub, not a mockup. This lets the team iterate internally without shipping to users, test with employees in production, and roll out selectively. If you’re building AI-powered tools and not using feature flags this way, the architecture here is a useful reference point.
+
+**Multi-model access changes what’s possible.**
+
+ULTRAPLAN offloading to Opus for planning, workers running in parallel under Coordinator Mode — the architecture implies that different models handle different parts of a workflow based on what they’re good at. For teams using the [Anthropic API](https://docs.anthropic.com/en/api/getting-started), this kind of model routing isn’t a future concept. The primitives are already available.
+
+![]()
+
+The leaked source isn’t a blueprint you should copy. But as a window into how a production-grade agentic CLI actually gets built, it’s more informative than any conference talk.
+
+FAQ
+---
+
+**Is the Claude Code leaked source still available to read?**
+
+Anthropic patched the npm package quickly, but GitHub mirrors and archived versions spread before the patch landed. Community analysis threads — including detailed breakdowns of BUDDY, KAIROS, and Undercover Mode — remain accessible through public repositories. The leaked source itself is no longer directly downloadable from Anthropic’s infrastructure.
+
+**Does the leaked source expose any user data or model weights?**
+
+No. This was a source code leak, not a data breach. No user data, no conversation history, no model weights. The exposure was the product’s internal implementation — how Claude Code is built, not what users have done with it.
+
+**When will BUDDY actually launch?**
+
+Unknown. The leaked source includes internal comments suggesting a teaser for April 1–7 and a full launch target in May 2026 — but these are unverified notes from internal code, not official announcements. Anthropic hasn’t confirmed any public timeline for BUDDY. Treat those dates as aspirational, not commitments.
+
+*What I keep coming back to is the gap between what’s shipped and what’s being built. The public product is a capable coding assistant. The internal version is something significantly more ambient — an agent that watches, remembers, plans, and occasionally pretends not to be an AI. That gap is either a roadmap or a caution, depending on where you sit.*
+
+**Previous posts:**
+
+* [DeepSeek V4 GPU & VRAM Requirements](https://wavespeed.ai/blog/posts/deepseek-v4-gpu-vram-requirements/)
+* [DeepSeek V4 Cost per Million Tokens](https://wavespeed.ai/blog/posts/deepseek-v4-cost-per-million-tokens/)
+* [MaxClaw vs OpenClaw: Agent Framework Comparison](https://wavespeed.ai/blog/posts/maxclaw-vs-openclaw/)
+* [MaxClaw Use Cases: What You Can Actually Build](https://wavespeed.ai/blog/posts/maxclaw-use-cases/)
+* [GPT-5.4 vs GPT-5.3: What Changed](https://wavespeed.ai/blog/posts/blog-gpt-5-4-vs-gpt-5-3/)
+
+   Share     
+
+Related Articles
+----------------
+
+[![]()
+### Claude Code Agent Harness Architecture: Key Insights from the Leak
+
+2026-04-03](/blog/posts/claude-code-agent-harness-architecture/)[![]()
+### Claude Code Undercover Mode: What the Leaked Source Actually Reveals
+
+2026-04-03](/blog/posts/claude-code-undercover-mode-leaked-source/)[![]()
+### Claude Mythos API & Pricing: What Builders Need to Know Before Launch
+
+2026-04-03](/blog/posts/claude-mythos-api-pricing/)[![]()
+### GLM-5V-Turbo: What Developers Should Know in 2026
+
+2026-04-03](/blog/posts/glm-5v-turbo-developers-2026/)[![]()
+### WAN 2.7 vs Seedance 2.0 vs Sora 2 vs Veo 3.1 Fast: Image-to-Video Comparison
+
+2026-04-03](/blog/posts/wan-2-7-vs-seedance-2-vs-sora-2-vs-veo-3-1-fast-image-to-video-comparison/)[![]()
+### What Is Google Gemma 4? Architecture, Benchmarks, and Why It Matters
+
+2026-04-03](/blog/posts/what-is-google-gemma-4/)  
+
+On this page
+
+[How One .map File Exposed 512,000 Lines of Code](#how-one-map-file-exposed-512000-lines-of-code)[BUDDY — The AI Pet Anthropic Was Hiding for April Fools’](#buddy--the-ai-pet-anthropic-was-hiding-for-april-fools)[KAIROS — The Always-On Claude Nobody Announced](#kairos--the-always-on-claude-nobody-announced)[ULTRAPLAN, Coordinator Mode & 17 More Unreleased Tools](#ultraplan-coordinator-mode--17-more-unreleased-tools)[Undercover Mode — The Detail That Made Everyone Uncomfortable](#undercover-mode--the-detail-that-made-everyone-uncomfortable)[What the Claude Code Architecture Actually Looks Like Inside](#what-the-claude-code-architecture-actually-looks-like-inside)[What This Means for Teams Building on AI APIs](#what-this-means-for-teams-building-on-ai-apis)[FAQ](#faq)    
+
+AI Generators
+
+  [AI Image Generator
+
+Nano Banana, Seedream & more](https://wavespeed.ai/image-generator)   [AI Video Generator
+
+Wan, Seedance, Kling & more](https://wavespeed.ai/video-generator)  
+
+Free & Fast
+
+    
+
+Latest Models
+
+  [Seedance 2.0 Fast
+
+Image To Video](https://wavespeed.ai/models/bytedance/seedance-2.0-fast/image-to-video)  [Seedance 2.0 Fast
+
+Text To Video](https://wavespeed.ai/models/bytedance/seedance-2.0-fast/text-to-video)  [Seedance 2.0
+
+Image To Video](https://wavespeed.ai/models/bytedance/seedance-2.0/image-to-video)  [Seedance 2.0
+
+Text To Video](https://wavespeed.ai/models/bytedance/seedance-2.0/text-to-video)    [View all new models](https://wavespeed.ai/models/recently-added)            
+
+Ready to Experience Lightning-Fast AI Generation?
+-------------------------------------------------
+
+  [Start Creating](https://wavespeed.ai/image-generator)    [Explore Models](https://wavespeed.ai/models)   [API Documentation](https://wavespeed.ai/docs)          [![]()](https://wavespeed.ai)   [All Services Online](https://status.wavespeed.ai/)       
+
+Learn More
+----------
+
+ [Home](https://wavespeed.ai) [Explore](https://wavespeed.ai/models) [Pricing](https://wavespeed.ai/pricing) [Enterprise](https://wavespeed.ai/enterprise) [About Us](https://wavespeed.ai/about)   
+
+Legal
+-----
+
+ [Terms of Service](https://wavespeed.ai/static/terms) [Privacy Policy](https://wavespeed.ai/static/privacy)     
+
+Resources
+---------
+
+ [Image Generator](https://wavespeed.ai/image-generator) [Video Generator](https://wavespeed.ai/video-generator) [Avatar Generator](https://wavespeed.ai/avatar-generator) [Audio Generator](https://wavespeed.ai/audio-generator) [Download App](https://wavespeed.ai/landing/desktop) [Studio](https://wavespeed.ai/studio) [Doc](https://wavespeed.ai/docs) [Inspiration](https://wavespeed.ai/inspiration) [Blog](https://wavespeed.ai/blog/) [Contact Sales](https://wavespeed.ai/enterprise#contact-us) [Support](https://wavespeed.ai/user/support) [Affiliate](https://wavespeed.ai/static/affiliate)    
+
+Models
+------
+
+ [Qwen Image 2](https://wavespeed.ai/models) [Grok](https://wavespeed.ai/models) [Seedance 1.5 Pro](https://wavespeed.ai/models) [Wan 2.6](https://wavespeed.ai/collections/wan-2.6) [Kling O3](https://wavespeed.ai/models) [OpenAI](https://wavespeed.ai/models) [Wan 2.5](https://wavespeed.ai/collections/wan-2-5) [Seedream AI](https://wavespeed.ai/models) [Wan 2.2](https://wavespeed.ai/models) [Dreamina AI](https://wavespeed.ai/models) [Seedance Video](https://wavespeed.ai/models)     [Flux Image](https://wavespeed.ai/models) [Minimax Hailuo](https://wavespeed.ai/models) [Kling](https://wavespeed.ai/models) [Google](https://wavespeed.ai/models) [Flux Kontext](https://wavespeed.ai/models) [Runwayml AI](https://wavespeed.ai/models) [Wan 2.1 Video](https://wavespeed.ai/models) [Hunyuan](https://wavespeed.ai/models) [Vidu](https://wavespeed.ai/models) [Qwen AI](https://wavespeed.ai/models) [Pixverse AI](https://wavespeed.ai/models)   
+
+Tools
+-----
+
+ [Image Generator](https://wavespeed.ai/image-generator) [Video Generator](https://wavespeed.ai/video-generator) [Content Detection](https://wavespeed.ai/models) [Motion Control](https://wavespeed.ai/models) [Swap Anything](https://wavespeed.ai/models) [Audio for Video](https://wavespeed.ai/models) [Video Edit](https://wavespeed.ai/models) [LoRA Generation](https://wavespeed.ai/models) [Generate Music](https://wavespeed.ai/models) [3D Creation](https://wavespeed.ai/models)     [Avatar Lipsync](https://wavespeed.ai/models) [Training Tools](https://wavespeed.ai/models) [Enhance Videos](https://wavespeed.ai/models) [Image Editing](https://wavespeed.ai/models) [Upscale Image](https://wavespeed.ai/models) [Speech Generation](https://wavespeed.ai/models) [Remove Anything](https://wavespeed.ai/models) [First & Last Frame](https://wavespeed.ai/models) [Ultra Selection](https://wavespeed.ai/models) [Best Video Models](https://wavespeed.ai/models)    
+
+© 2026 WAVESPEED
+
+            TOP   

@@ -1,0 +1,369 @@
+# Source URL: https://www.techtarget.com/searchsecurity/tip/Security-risks-of-AI-generated-code-and-how-to-manage-them
+# Content Length: 21727 characters
+# Extracted at: 2026-04-05 09:06:29
+#============================================================
+
+
+
+
+
+
+
+
+
+
+
+
+Security risks of AI-generated code and how to manage them | TechTarget
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[Search Security](https://www.techtarget.com/)
+
+Search the TechTarget Network
+
+
+
+[Login](https://www.techtarget.com/login)
+[Register](https://www.techtarget.com/register)
+
+[Informa TechTarget](https://www.informatechtarget.com/)
+[Explore the Network](#)
+
+* [Dark Reading](https://www.darkreading.com/)
+* [Cybersecurity Dive](https://www.cybersecuritydive.com/)
+* [CIO](https://www.techtarget.com/searchcio/)
+* [Enterprise AI](https://www.techtarget.com/searchenterpriseai/)
+* [ComputerWeekly](https://www.computerweekly.com/)
+
+[An Informa TechTarget Publication](https://www.informatechtarget.com/)
+[Explore our brands](https://www.informatechtarget.com/our-brands)
+
+* [Search Security](https://www.techtarget.com/searchsecurity/)
+* + [Analytics & Automation](https://www.techtarget.com/searchsecurity/resources/Security-analytics-and-automation)
+  + [Application & Platform Security](https://www.techtarget.com/searchsecurity/resources/Application-and-platform-security)
+  + [Cloud Security](https://www.techtarget.com/searchsecurity/resources/Cloud-security)
+  + [Compliance](https://www.techtarget.com/searchsecurity/resources/Compliance)
+  + [Data Security & Privacy](https://www.techtarget.com/searchsecurity/resources/Data-security-and-privacy)
+  + [More Topics](#)
+    - [IAM](https://www.techtarget.com/searchsecurity/resources/Identity-and-access-management)
+    - [Network Security](https://www.techtarget.com/searchsecurity/resources/Network-security)
+    - [Operations & Management](https://www.techtarget.com/searchsecurity/resources/Security-operations-and-management)
+    - [Risk Management](https://www.techtarget.com/searchsecurity/resources/Risk-management)
+    - [Security Careers & Certifications](https://www.techtarget.com/searchsecurity/resources/Careers-and-certifications)
+    - [Threat Detection & Response](https://www.techtarget.com/searchsecurity/resources/Threat-detection-and-response)
+    - [Threats & Vulnerabilities](https://www.techtarget.com/searchsecurity/resources/Threats-and-vulnerabilities)
+  [Other Content](#)
+  + [News](https://www.techtarget.com/news/)
+  + [Features](https://www.techtarget.com/searchsecurity/features)
+  + [Tips](https://www.techtarget.com/searchsecurity/tips)
+  + [Webinars](https://www.techtarget.com/searchsecurity/webinars)
+  + [Sponsored Sites](https://www.techtarget.com/searchsecurity/sponsored_communities)
+  + [More](#)
+    - [Answers](https://www.techtarget.com/searchsecurity/answers)
+    - [Conference Guides](https://www.techtarget.com/searchsecurity/guides)
+    - [Definitions](https://www.techtarget.com/searchsecurity/definitions)
+    - [Opinions](https://www.techtarget.com/searchsecurity/opinions)
+    - [Podcasts](https://www.techtarget.com/searchsecurity/podcasts)
+    - [Quizzes](https://www.techtarget.com/searchsecurity/quizzes)
+    - [Tech Accelerators](https://www.techtarget.com/searchsecurity/techaccelerators)
+    - [Tutorials](https://www.techtarget.com/searchsecurity/tutorials)
+    - [Videos](https://www.techtarget.com/searchsecurity/videos)
+
+* Follow:
+
+
+
+
+* [Home](https://www.techtarget.com/searchsecurity/)
+* [Application and platform security](https://www.techtarget.com/searchsecurity/resources/Application-and-platform-security)
+
+
+![]()
+
+Getty Images/iStockphoto
+
+
+
+[Tip](https://www.techtarget.com/searchsecurity/tips)
+
+Security risks of AI-generated code and how to manage them
+==========================================================
+
+Application security teams are understandably worried about how developers use GenAI and LLMs to create code. But it's not all doom and gloom; GenAI can help secure code, too.
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+* Share this item with your network:
+
+
+
+![]()
+
+By
+
+* [Colin Domoney](https://www.techtarget.com/contributor/Colin-Domoney)
+
+Published: 29 May 2025
+
+
+ 
+
+Large language model-based coding assistants, such as GitHub Copilot and Amazon CodeWhisperer, have revolutionized the software development landscape. These AI tools dramatically boost productivity by generating boilerplate code, suggesting complex algorithms and explaining unfamiliar codebases. In fact, [research](https://www.publicissapient.com/insights/guide-to-ai-assisted-software-development) by digital consultancy Publicis Sapient found teams can see up to a 50% reduction in network engineering time using AI-generated code.
+
+
+However, as [AI content generators](https://www.techtarget.com/whatis/feature/AI-content-generators-to-explore) become embedded in development workflows, security concerns emerge. Consider the following:
+
+* Does AI-generated code introduce new vulnerabilities?
+* Can security teams trust code that developers might not fully understand?
+* How do teams maintain security oversight when code creation becomes increasingly automated?
+
+Let's explore AI-generated code security risks for DevSecOps teams and how application security (AppSec) teams can ensure the code used doesn't introduce vulnerabilities.
+
+The security risks of AI-generated coding assistants
+----------------------------------------------------
+
+In February 2025, Andrej Karpathy, a former research scientist and founding member of OpenAI, described a "new kind of coding … where you fully give in to the vibes, embrace exponentials and forget that the code even exists." This tongue-in-cheek statement on *[vibe coding](https://www.techtarget.com/searchapparchitecture/opinion/My-first-attempt-at-vibe-coding)* resulted in a flurry of [comments](https://www.resilientcyber.io/p/vibe-coding-conundrums) from cybersecurity professionals [expressing concerns](https://www.reversinglabs.com/blog/vibe-coding-what-autonomous-code-means-for-appsec) at the potential [rise in vulnerable software](https://www.techtarget.com/searchsecurity/tip/Vibe-coding-security-risks-and-how-to-mitigate-them) due to unchecked use of coding assistants based on large language models (LLMs).
+
+Five security risks of using AI-generated code include the following.
+
+### Code based on public domain training
+
+The foremost security risk of AI-generated code is that coding assistants have been trained on codebases in the public domain, many of which contain vulnerable code. Without any guardrails, they reproduce vulnerable code in new applications. A recent academic paper found that at least 48% of AI-generated code suggestions [contained vulnerabilities](https://www.darkreading.com/application-security/will-ai-code-generators-overcome-their-insecurities-2025).
+
+### Code generated without considering security
+
+AI-generated coding tools do not understand security intent and reproduce code that appears correct based on prevalence in the training data set. This is analogous to copy-pasting code from developer forums and expecting it to be secure.
+
+### Code could use deprecated or vulnerable dependencies
+
+A related concern is that coding assistants might ingest vulnerable or deprecated dependencies into new projects in their attempts to solve coding tasks. Left ungoverned, this can lead to significant supply chain vulnerabilities.
+
+### Code used is assumed to be vetted and secure
+
+Another risk is that developers could become [overconfident in AI-generated code](https://www.theserverside.com/tip/The-case-against-vibe-coding). Many developers mistakenly assume that AI code suggestions are vetted and secure. A [Snyk survey](https://snyk.io/blog/2024-open-source-security-report-slowing-progress-and-new-challenges-for/) revealed that nearly 80% of developers and practitioners said they thought AI-generated code was more secure -- a dangerous trend.
+
+Remember that AI-generated code is only as good as its training data and input prompts. LLMs have a knowledge cutoff and lack awareness of new and emergent vulnerability patterns. Similarly, if a prompt fails to specify a security requirement, the generated code might lack [basic security controls](https://www.techtarget.com/searchsecurity/feature/Types-of-cybersecurity-controls-and-how-to-place-them) or protections.
+
+### Code could use another company's IP or code base illegally
+
+Coding assistants present significant intellectual property (IP) and data privacy concerns. Coding assistants might generate large chunks of licensed open source code verbatim, which leads to IP contamination in the new codebase. Some tools protect against the reuse of large chunks of public domain code, but AI can suggest copyrighted code or proprietary algorithms without such protection. To get useful suggestions, developers might prompt these tools with proprietary code or confidential logic. That input could be stored or later used in model training, potentially leaking secrets.
+
+
+The security benefits of AI-generated coding assistants
+-------------------------------------------------------
+
+Many of the AI-generated code security risks are self-evident, leading to industry speculation about a crisis in the software industry. The benefits are significant too, however, and might outweigh the downsides.
+
+### Reduced development time
+
+AI pair-programming with coding assistants can speed up development by handling boilerplate code, potentially reducing human error. Developers can generate code for repetitive tasks quickly, freeing time to focus on security-critical logic. Simply reducing the cognitive load on developers to produce repetitive or error-prone code can result in significantly less vulnerable code.
+
+### Providing security suggestions
+
+AI models trained on vast code corpora might recall secure coding techniques that a developer could overlook. For instance, users can prompt ChatGPT to include security features, such as input validation, proper authentication or [rate limiting](https://www.techtarget.com/searchsecurity/feature/Implement-API-rate-limiting-to-reduce-attack-surfaces), in its code suggestions. ChatGPT can also recognize vulnerabilities when asked -- for example, a developer can tell ChatGPT to review code for SQL injection or other flaws, and it attempts to identify issues and suggest fixes. This on-demand security expertise can help developers catch common mistakes earlier in the software development lifecycle.
+
+### Security reviews
+
+Probably the biggest impact coding assistants can have on the [security posture](https://www.techtarget.com/searchsecurity/definition/security-posture) of new codebases is to use their ability to parse these codebases and act as an expert reviewer or a second pair of eyes. By prompting an assistant -- preferably a different one than used to generate the code -- with a security perspective, this kind of AI-driven code review augments a security professional's efforts by quickly covering a lot of ground.
+
+AI coding platforms are evolving to prioritize security. GitHub Copilot, for example, introduced an [AI-based vulnerability filtering system](https://www.techtarget.com/searchsoftwarequality/news/366614786/GitHub-Copilot-Autofix-expands-as-AI-snags-software-delivery) that blocks insecure code patterns. At the same time, the [Cursor AI](https://www.techtarget.com/searchenterpriseai/tutorial/Get-started-with-Cursor-AI-A-step-by-step-tutorial) editor can integrate with security scanners, such as Aikido Security, to flag issues as code is written, highlighting vulnerabilities or leaked secrets within the integrated development environment (IDE) itself.
+
+
+Best practices for secure adoption of coding assistants
+-------------------------------------------------------
+
+Follow these best practices to ensure the secure use of code assistants:
+
+* **Treat AI suggestions as unreviewed code.** Never assume AI-generated code is secure. Treat it with the same scrutiny as a snippet from an unknown developer. Before merging, always perform code reviews, [linting](https://www.techtarget.com/searchsoftwarequality/tip/Understanding-code-linting-techniques-and-tools) and security testing on AI-written code. In practice, this means running static application security testing (SAST) tools, dependency checks and manual review on any code from Copilot or ChatGPT, just as with any human-written code.
+* **Maintain human oversight and judgment.** Use AI as an assistant, not a replacement. Make sure developers remain in the loop, understanding and vetting what the AI code generator produces. Encourage a culture of skepticism.
+* **Use AI *deliberately* for security.** Turn the tool's strengths into an advantage for AppSec. For example, prompt the AI to focus on security, such as "Explain any security implications of this code" or "Generate this function using secure coding practices (input validation, error handling, etc.)." Remember that any AI output is a starting point; the development team must vet and integrate it correctly.
+* **Enable and embrace security features.** Take advantage of the AI tool's built-in safeguards. For example, if using Copilot, enable the vulnerability filtering and license blocking options to automatically reduce risky suggestions.
+* **Integrate security scanning in the workflow.** Augment AI coding with automated security tests in the DevSecOps pipeline. For instance, use IDE plugins or continuous integration pipelines that run static analysis on new code contributions -- this will flag insecure patterns, whether written by a human or AI. Some modern setups integrate AI and SAST; for example, the Cursor IDE's integration with Aikido Security can scan code in real time for secrets and vulnerabilities as it's being written.
+* **Establish policies for AI use.** [Organizations should develop clear guidelines](https://www.techtarget.com/searchsecurity/tip/How-to-craft-a-generative-AI-security-policy-that-works) that outline how developers can use AI code tools. Define what types of data can and cannot be shared in prompts to prevent leakage of crown-jewel secrets.
+
+By recognizing both the benefits and the risks of AI code generation, developers and security professionals can strike a balance. Tools such as Copilot, ChatGPT and Cursor can boost productivity and even enhance security through quick access to best practices and automated checks. But without the proper checks and mindset, they can just as easily introduce new vulnerabilities.
+
+In summary, AI coding tools can improve AppSec, but only if they are integrated with strong DevSecOps practices. Pair the AI's speed with human oversight and automated security checks to ensure nothing critical slips through.
+
+*Colin Domoney is a software security consultant who evangelizes DevSecOps and helps developers secure their software. He previously worked for Veracode and 42Crunch and authored a book on API security. He is currently a CTO and co-founder, and an independent security consultant.*
+
+
+
+
+
+#### Dig Deeper on Application and platform security
+
+* [![]()
+  ##### Vibe coding security risks and how to mitigate them
+  
+  ![]()
+  
+  By: Matthew Smith](https://www.techtarget.com/searchsecurity/tip/Vibe-coding-security-risks-and-how-to-mitigate-them)
+* [![]()
+  ##### Self-service tools - Snyk: The unbearable weight of full-stack ownership
+  
+  ![]()
+  
+  By: Adrian Bridgwater](https://www.computerweekly.com/blog/CW-Developer-Network/Self-service-tools-Synk-The-unbearable-weight-of-full-stack-ownership)
+* [![]()
+  ##### Vibe coding: What IT leaders need to know
+  
+  ![]()
+  
+  By: Alanna Moss](https://www.techtarget.com/searchcio/feature/Vibe-coding-What-IT-leaders-need-to-know)
+* [![]()
+  ##### Software engineering limited by lack of full automation
+  
+  ![]()
+  
+  By: Cliff Saran](https://www.computerweekly.com/news/366632218/Software-engineering-limited-by-lack-of-full-automation)
+
+
+
+
+
+
+Sponsored News
+
+* [How advanced AI-powered digital assistants can improve physician documentation](https://www.techtarget.com/searchhealthit/Oracle-Healthcare/How-advanced-AI-powered-digital-assistants-can-improve-physician-documentation)
+  –Oracle Healthcare
+* [Health Care IT Trends To Watch in 2026: The Year AI Becomes a Care Partner](https://www.techtarget.com/revcyclemanagement/GreenwayHealth/Health-Care-IT-Trends-To-Watch-in-2026-The-Year-AI-Becomes-a-Care-Partner)
+  –Greenway Health
+* [Autonomous coding: The future of the revenue cycle](https://www.techtarget.com/revcyclemanagement/Solventum/Autonomous-coding-The-future-of-the-revenue-cycle)
+  –Solventum
+* [See More](https://www.techtarget.com/searchsecurity/sponsored_communities)
+
+
+Related Content
+
+* [GitHub Copilot replicating vulnerabilities, insecure ...](https://www.techtarget.com/searchsecurity/news/366571117/GitHub-Copilot-replicating-vulnerabilities-insecure-code)
+  – Search Security
+* [News brief: Safeguards emerge to address security for...](https://www.techtarget.com/searchsecurity/news/366629863/News-brief-Safeguards-emerge-to-address-security-for-AI)
+  – Search Security
+* [New Nvidia, GitHub AI coding assistants expand devs' ...](https://www.techtarget.com/searchsoftwarequality/news/366571641/New-Nvidia-GitHub-AI-coding-assistants-expand-devs-options)
+  – Search Software Quality
+
+
+
+
+
+
+
+
+Latest TechTarget resources
+
+* [CIO](#)
+* [Enterprise AI](#)
+* [Computer Weekly](#)
+
+
+
+[Search CIO](https://www.techtarget.com/searchcio/)
+
+* [Weekly news roundup: Oracle layoffs, geopolitical risks and Claude Code leak](https://www.techtarget.com/searchcio/feature/Weekly-news-roundup-Oracle-layoffs-geopolitical-risks-and-Claude-Code-leak)
+  
+  Stay up to date with the latest U.S. tech news, IPOs and executive moves shaping the industry each week.
+* [CIOs must now model war as an enterprise risk](https://www.techtarget.com/searchcio/feature/CIOs-must-now-model-war-as-an-enterprise-risk)
+  
+  In the wake of the Iran-backed hacktivist attacks on Stryker, CIOs rethink enterprise risk models to account for different ...
+* [How Axis Communications navigates global AI regulation](https://www.techtarget.com/searchcio/feature/How-axis-communications-navigates-global-ai-regulation)
+  
+  As AI rules evolve, compliance grows more complex. CIO Jonas Hansson encourages IT leaders to assess data risk and track vendor ...
+
+[Search Enterprise AI](https://www.techtarget.com/searchenterpriseai/)
+
+* [Managing drift in AI models and data](https://www.techtarget.com/searchenterpriseai/tip/How-to-identify-and-manage-AI-model-drift)
+  
+  The training data and algorithms used to build AI models have a shelf life. Detecting and correcting model drift ensures that ...
+* [Overcome roadblocks to GenAI adoption and unlock ROI](https://www.techtarget.com/searchenterpriseai/feature/Overcome-roadblocks-to-GenAI-adoption-and-unlock-ROI)
+  
+  GenAI deployments can fall prey to unrealistic goals, misguided pilots, job loss fears, hidden costs and lack of trust. ...
+* [Open source AI: What it means for enterprise innovation](https://www.techtarget.com/searchenterpriseai/feature/Open-source-AI-What-it-means-for-enterprise-innovation)
+  
+  Open source AI is transforming enterprise innovation with greater flexibility and control, but organizations must address ...
+
+[ComputerWeekly.com](https://www.computerweekly.com/)
+
+* [Identity and AI: Questions of data security, trust and control](https://www.computerweekly.com/opinion/Identity-and-AI-Questions-of-data-security-trust-and-control)
+  
+  The Computer Weekly Security Think Tank considers the intersection of AI and IAM. In this article, learn how AI-driven IAM ...
+* [Wilson Connectivity, Autonomous Systems team for in-building wireless service](https://www.computerweekly.com/news/366641102/Wilson-Connectivity-Autonomous-Systems-team-for-in-building-wireless-service)
+  
+  Joint development brings AI-ready, automated monitoring and real-time service assurance to indoor distributed antenna system and ...
+* [North America drives video telematics market to 22 million units by 2030](https://www.computerweekly.com/news/366641036/North-America-drives-video-telematics-market-to-22-million-units-by-2030)
+  
+  Study from M2M/IoT market research firm finds installed base of active video telematics systems growing at a steady clip driven ...
+
+
+
+
+* [About Us](https://www.informatechtarget.com/editorial/)
+* [Editorial Ethics Policy](https://www.techtarget.com/techtarget-editorial-ethics-policy)
+* [Meet The Editors](https://www.techtarget.com/editorial-contacts)
+* [Contact Us](https://www.informatechtarget.com/contact-us/)
+* [Videos](https://www.techtarget.com/searchsecurity/videos)
+* [Photo Stories](https://www.techtarget.com/searchsecurity/photostories)
+
+* [Definitions](https://www.techtarget.com/searchsecurity/definitions)
+* [Guides](https://www.techtarget.com/searchsecurity/guides)
+* [Advertisers](https://www.informatechtarget.com/for-advertisers/)
+* [Partner with Us](https://www.informatechtarget.com/partner-with-us/)
+* [Media Kit](https://www.informatechtarget.com/wp-content/uploads/2023/09/TechTarget-Media-Kit-Handout-with-product-descriptions.pdf)
+
+* [Corporate Site](https://www.informatechtarget.com/)
+* [Contributors](https://www.techtarget.com/searchsecurity/contributors)
+* [Reprints](https://licensing.ygsgroup.com/ygspublishersolutions/)
+* [Events](https://www.brighttalk.com/summits)
+* [E-Products](https://www.techtarget.com/searchsecurity/eproducts)
+
+
+[©2026 TechTarget](https://www.informatechtarget.com/terms-of-use), Inc. d/b/a Informa TechTarget.
+All Rights Reserved.   
+
+  
+
+[Privacy Policy](https://www.informatechtarget.com/privacy-policy/)
+
+  
+
+[Cookie Preferences](#) 
+  
+
+
+[Cookie Preferences](#) 
+  
+
+
+[Do Not Sell or Share My Personal Information](https://techtarget.zendesk.com/hc/en-us/requests/new?ticket_form_id=360004852434)
+
+
+
+
+
+
+
+
+
+Close
+
+
+
+

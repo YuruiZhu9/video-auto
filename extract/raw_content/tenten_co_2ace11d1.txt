@@ -1,0 +1,354 @@
+# Source URL: https://tenten.co/openclaw/zh-Hans/docs/whats-new/march-2026
+# Content Length: 12471 characters
+# Extracted at: 2026-03-28 22:34:50
+#============================================================
+
+
+2026 年 3 月最新消息 | OpenClaw MasterClass
+
+
+[跳到主要内容](#__docusaurus_skipToContent_fallback)[![]()![]()**OpenClaw MasterClass**](/openclaw/zh-Hans/)[MasterClass](#)
+
+* [课程总览](/openclaw/zh-Hans/docs/masterclass/overview)* [模块 1: 基础架构](/openclaw/zh-Hans/docs/masterclass/module-01-foundations)* [模块 2: Gateway](/openclaw/zh-Hans/docs/masterclass/module-02-gateway)* [模块 3: Skills 系统](/openclaw/zh-Hans/docs/masterclass/module-03-skills-system)* [模块 4: ClawHub](/openclaw/zh-Hans/docs/masterclass/module-04-clawhub)* [模块 5: 记忆系统](/openclaw/zh-Hans/docs/masterclass/module-05-memory)* [模块 6: 自动化](/openclaw/zh-Hans/docs/masterclass/module-06-automation)* [模块 7: 浏览器](/openclaw/zh-Hans/docs/masterclass/module-07-browser)* [模块 8: 多 Agent](/openclaw/zh-Hans/docs/masterclass/module-08-multi-agent)* [模块 9: 安全性](/openclaw/zh-Hans/docs/masterclass/module-09-security)* [模块 10: 部署](/openclaw/zh-Hans/docs/masterclass/module-10-production)* [模块 11: 语音 & Canvas](/openclaw/zh-Hans/docs/masterclass/module-11-voice-canvas)* [模块 12: 企业级](/openclaw/zh-Hans/docs/masterclass/module-12-enterprise)
+[Top 50 Skills](/openclaw/zh-Hans/docs/top-50-skills/overview)[资源](#)
+
+* [资源目录](/openclaw/zh-Hans/docs/resources/official-links)* [学习路线图](/openclaw/zh-Hans/docs/resources/learning-path)* [API Key 指南](/openclaw/zh-Hans/docs/resources/api-keys-guide)* [生态系统工具](/openclaw/zh-Hans/docs/resources/tools-ecosystem)
+[社区](/openclaw/zh-Hans/docs/communities/top-10)[Reddit](#)
+
+* [讨论技巧](/openclaw/zh-Hans/docs/reddit/discussion-hacks)* [Top 30 Showcase](/openclaw/zh-Hans/docs/reddit/top-30-showcases)
+[最新动态](/openclaw/zh-Hans/docs/whats-new/march-2026)[博客](/openclaw/zh-Hans/blog)[简体中文](#)
+
+* [繁體中文](/openclaw/docs/whats-new/march-2026)* [English](/openclaw/en/docs/whats-new/march-2026)* [日本語](/openclaw/ja/docs/whats-new/march-2026)* [简体中文](/openclaw/zh-Hans/docs/whats-new/march-2026)* [한국어](/openclaw/ko/docs/whats-new/march-2026)
+⌘K
+
+* [OpenClaw 是什么？完整介绍](/openclaw/zh-Hans/docs/intro)* [快速开始](/openclaw/zh-Hans/docs/getting-started/installation)
+    + [安装指南](/openclaw/zh-Hans/docs/getting-started/installation)+ [首次配置](/openclaw/zh-Hans/docs/getting-started/first-setup)+ [连接通信平台](/openclaw/zh-Hans/docs/getting-started/connect-channels)+ [选择 AI 模型](/openclaw/zh-Hans/docs/getting-started/choose-llm)+ [SOUL.md 人格配置](/openclaw/zh-Hans/docs/getting-started/soul-md-config)* [MasterClass 课程](/openclaw/zh-Hans/docs/masterclass/overview)* [Top 50 必装 Skills](/openclaw/zh-Hans/docs/top-50-skills/overview)* [资源中心](/openclaw/zh-Hans/docs/resources/official-links)* [社区指南](/openclaw/zh-Hans/docs/communities/top-10)* [Reddit](/openclaw/zh-Hans/docs/reddit/discussion-hacks)* [架构与 API](/openclaw/zh-Hans/docs/architecture/overview)* [安全性](/openclaw/zh-Hans/docs/security/best-practices)* [故障排除](/openclaw/zh-Hans/docs/troubleshooting/common-issues)* [最新消息](/openclaw/zh-Hans/docs/whats-new/march-2026)
+                      + [2026 年 3 月最新消息](/openclaw/zh-Hans/docs/whats-new/march-2026)* [术语表](/openclaw/zh-Hans/docs/glossary)* [常见问题 FAQ](/openclaw/zh-Hans/docs/faq)* [排名方法论](/openclaw/zh-Hans/docs/methodology)
+
+* * 最新消息* 2026 年 3 月最新消息
+本页总览
+
+2026 年 3 月最新消息
+==============
+
+本篇整理了截至 2026 年 3 月 20 日，OpenClaw 生态系统中的重大更新与变化。
+
+信息来源
+
+本文整合了官方公告、GitHub releases、Reddit 社区讨论、以及安全研究报告等多方来源。标示为"社区回报"的内容尚未获得官方正式确认。
+
+
+---
+
+执行摘要[​](#执行摘要)
+--------------
+
+2026 年第一季度对 OpenClaw 来说是安全意识觉醒的季度。CVE-2026-25253 的披露、Bitdefender 的安全审计报告、以及 ClawHavoc 事件的余波，促使社区和核心团队将安全性提升为最高优先事项。同时，Nvidia 和 Tencent 等科技巨头开始投入 OpenClaw 生态系统，为平台带来了新的发展动力。
+
+### 本月关键数字[​](#本月关键数字)
+
+| 指标 数值| GitHub Stars 250,000+| ClawHub 技能数 13,000+| 已知暴露实例（Bitdefender） 135,000| 已确认被黑实例 30,000+| ClawHavoc 恶意技能（已移除） 2,400+ | | | | | | | | | | | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | | |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+
+---
+
+官方变更[​](#官方变更)
+--------------
+
+### 1. CVE-2026-25253 修补[​](#1-cve-2026-25253-修补)
+
+**影响程度：Critical（CVSS 9.8）**
+
+Gateway 远程代码执行漏洞已在最新版本中修补。此漏洞影响 v3.x 之前的所有版本，允许攻击者通过暴露的 18789 端口执行任意代码。
+
+```
+# 检查你的版本  
+openclaw --version  
+  
+# 升级到最新版本  
+npm install -g @openclaw/cli@latest  
+  
+# 验证修补状态  
+openclaw doctor --security  
+
+```
+
+立即移动
+
+如果你的 OpenClaw 版本低于最新修补版本，请**立即升级**。此漏洞正被积极利用中。
+
+### 2. ClawHub VirusTotal 整合[​](#2-clawhub-virustotal-整合)
+
+ClawHavoc 事件后，ClawHub 平台新增了 VirusTotal 扫描整合。所有新上传的技能都会自动经过 VirusTotal 扫描，并在技能页面显示扫描结果。
+
+**新增 CLI 命令：**
+
+```
+# 查看技能的 VirusTotal 扫描结果  
+openclaw skill virustotal <skill-name>  
+  
+# 举报可疑技能  
+openclaw skill report <skill-name> --reason "描述可疑行为"  
+
+```
+### 3. Gateway 默认安全强化[​](#3-gateway-默认安全强化)
+
+新版本的 OpenClaw 在 `openclaw init` 时，默认配置已改为更安全的设置：
+
+| 配置项 旧默认 新默认| `gateway.bind` `0.0.0.0` **`127.0.0.1`**| `gateway.auth.enabled` `false` **`true`**| `gateway.auth.token` 无 **自动生成**| `execution.engine` `docker` **`podman`**（如已安装） | | | | | | | | | | | | | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | | | |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+
+### 4. 技能签名验证机制（Beta）[​](#4-技能签名验证机制beta)
+
+核心团队推出了技能签名验证的 Beta 版本。经过验证的技能开发者可以对其技能进行数字签名，用户安装时会自动验证签名。
+
+```
+# 只安装已签名的技能  
+openclaw skill install --signed-only <skill-name>  
+  
+# 查看技能签名状态  
+openclaw skill info <skill-name> | grep signature  
+
+```
+### 5. 记忆系统 v2 预览[​](#5-记忆系统-v2-预览)
+
+记忆系统的重大重构正在进行中。v2 版本预计将引入：
+
+* 向量化记忆搜索（取代纯文本匹配）
+* 记忆分层（公开 / 私密 / 敏感）
+* 自动脱敏功能
+* 跨 Agent 共享记忆（opt-in）
+
+目前可通过 flag 启用预览：
+
+```
+openclaw start --experimental-memory-v2  
+
+```
+
+---
+
+生态系统动态[​](#生态系统动态)
+------------------
+
+### 6. Nvidia 推出 OpenClaw 加速方案[​](#6-nvidia-推出-openclaw-加速方案)
+
+Nvidia 在 GTC 2026 上宣布为 OpenClaw 提供 GPU 加速支持（NemoClaw 项目），主要用于：
+
+* 本地 LLM 推理加速（搭配 Ollama + CUDA）
+* browser-use 技能的 GPU 渲染
+* 语音识别（Whisper）加速
+* 未来的向量记忆搜索
+
+```
+# 启用 Nvidia GPU 支持  
+openclaw config set execution.gpu.enabled true  
+openclaw config set execution.gpu.runtime nvidia  
+
+```
+### 7. Tencent 开源 OpenClaw 中文生态套件[​](#7-tencent-开源-openclaw-中文生态套件)
+
+Tencent 开源了一系列针对中文用户的 OpenClaw 工具：
+
+* **微信官方 Adapter** — 不再需要社区维护的 WeChatFerry
+* **中文语音识别模型** — 比 Whisper 更准确的中文 STT
+* **中文 SOUL.md 模板** — 针对中文语境优化的人格配置
+* **飞书（Lark）Adapter** — 企业级通讯平台支持
+
+中国大陆用户注意
+
+由于国企合规要求，部分中国国有企业对 OpenClaw 的使用有限制。请确认你所在组织的 AI 工具使用政策后再进行部署。
+
+### 8. Composio MCP 大规模更新[​](#8-composio-mcp-大规模更新)
+
+Composio 平台新增了 50+ 个 MCP connector，包括：
+
+* Reddit OAuth（读写）
+* Notion Database API
+* Linear（项目管理）
+* Figma（设计文件读取）
+* Airtable（数据库）
+
+---
+
+安全公告[​](#安全公告)
+--------------
+
+### 9. Bitdefender 审计报告[​](#9-bitdefender-审计报告)
+
+Bitdefender 于 2026 年初发布了 OpenClaw 安全审计报告，主要发现：
+
+| 发现 严重性 状态| 135,000 个公开可访问的实例 Critical 持续监控| Gateway API 未认证比例 > 60% Critical 新版已改善| Docker root daemon 使用比例 > 70% High 持续推广 Podman| 未更新版本（含已知漏洞）> 40% High 推送更新通知| 技能安装前审查比例 < 10% Medium 新增 VirusTotal | | | | | | | | | | | | | | | | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | | | |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+
+### 10. ClawHavoc 事件后续[​](#10-clawhavoc-事件后续)
+
+ClawHavoc 事件的后续处理进度：
+
+* **恶意技能清除**：2,400+ 个恶意技能已全数从 ClawHub 移除
+* **受影响用户通知**：已通知所有安装过恶意技能的用户
+* **API Key 泄露**：估计数千个 API key 被窃取，建议所有用户轮换
+* **改进措施**：VirusTotal 扫描、技能签名、加强审查流程
+
+如果你在 2025 年 10 月至 2026 年 1 月间安装过不熟悉的技能
+
+请立即：
+
+1. 执行 `openclaw skill list` 检查已安装技能
+2. 移除任何可疑技能
+3. 轮换所有 API key
+4. 检查 LLM 提供商账单是否有异常
+
+
+### 11. 18789 端口扫描持续增加[​](#11-18789-端口扫描持续增加)
+
+安全研究者报告，针对 18789 端口的网络扫描活动在 CVE-2026-25253 披露后大幅增加。Shodan 上的扫描结果显示：
+
+* 2025 年 12 月：80,000 个暴露实例
+* 2026 年 1 月：120,000 个暴露实例
+* 2026 年 2 月：135,000 个暴露实例
+* 趋势：持续增加中
+
+---
+
+破坏性变更（Breaking Changes）[​](#破坏性变更breaking-changes)
+--------------------------------------------------
+
+### 12. gateway.yaml 格式变更[​](#12-gatewayyaml-格式变更)
+
+v3.2.0 起，`gateway.yaml` 的格式有以下变更：
+
+```
+# 旧格式（v3.1.x 及之前）  
+gateway:  
+  host: "0.0.0.0"  
+  port: 18789  
+  
+# 新格式（v3.2.0+）  
+gateway:  
+  bind: "127.0.0.1"    # "host" 改为 "bind"  
+  port: 18789  
+  auth:                  # 新增认证区块  
+    enabled: true  
+    token: "..."  
+
+```
+
+```
+# 自动迁移  
+openclaw migrate  
+
+```
+### 13. Skill manifest 格式 v2[​](#13-skill-manifest-格式-v2)
+
+技能的 `manifest.yaml` 格式更新，新增了权限声明区块：
+
+```
+# 新格式要求  
+name: my-skill  
+version: 2.0.0  
+manifest_version: 2       # 新增：必须为 2  
+permissions:               # 新增：必须明确声明权限  
+  network:  
+    enabled: true  
+    domains: ["api.example.com"]  
+  filesystem:  
+    enabled: false  
+  shell:  
+    enabled: false  
+  environment:  
+    enabled: false  
+
+```
+
+使用旧格式的技能会收到警告，并在未来版本中停止支持。
+
+---
+
+社区回报的变化[​](#社区回报的变化)
+--------------------
+
+以下是由社区成员回报，尚未经过官方正式确认的变化。
+
+### 14. 多 Agent 协作改进[​](#14-多-agent-协作改进)
+
+社区回报在最新版本中，多 Agent 协作（通过 Discord 或 Matrix 通讯）的稳定性有显著改善：
+
+* Agent 之间的消息延迟降低 40%
+* 记忆共享机制更可靠
+* 任务分配冲突的处理更智能
+
+### 15. 本地 LLM 性能提升[​](#15-本地-llm-性能提升)
+
+使用 Ollama 搭配本地模型的用户回报，v3.2.0 中的 LLM Router 优化带来了明显的性能提升：
+
+* 首次响应时间降低 25%
+* 上下文窗口管理更高效
+* 对 Llama 3.3 和 Qwen 2.5 系列模型的支持更好
+
+---
+
+时间线[​](#时间线)
+------------
+
+| 日期 事件| 2025 年 10 月 ClawHavoc 事件开始（恶意技能植入 ClawHub）| 2025 年 12 月 ClawHavoc 被发现并开始清除| 2026 年 1 月初 CVE-2026-25253 被披露| 2026 年 1 月中 CVE-2026-25253 修补版本发布| 2026 年 1 月底 ClawHub VirusTotal 整合上线| 2026 年 2 月初 Bitdefender 安全审计报告发布| 2026 年 2 月中 Gateway 默认安全强化；Peter Steinberger 加入 OpenAI| 2026 年 2 月底 Nvidia GTC 2026 发布 NemoClaw GPU 加速方案| 2026 年 3 月初 Tencent 中文生态套件开源；微信整合发布| 2026 年 3 月中 技能签名验证 Beta 发布| 2026 年 3 月中 记忆系统 v2 预览开放 | | | | | | | | | | | | | | | | | | | | | | | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | | |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+
+---
+
+建议移动[​](#建议移动)
+--------------
+
+根据本月的更新，我们建议所有 OpenClaw 用户：
+
+### 立即移动（今天）[​](#立即移动今天)
+
+1. **升级到最新版本** — 修补 CVE-2026-25253
+2. **确认 Gateway 绑定到 `127.0.0.1`** — 不是 `0.0.0.0`
+3. **启用 Gateway 认证** — 配置 auth token
+4. **轮换所有 API key** — 尤其是 ClawHavoc 期间使用过的
+
+### 本周完成[​](#本周完成)
+
+1. **审查已安装的技能** — 移除不需要或可疑的技能
+2. **切换到 Podman rootless** — 如果仍在使用 Docker
+3. **配置防火墙规则** — 封堵 18789 的外部访问
+
+### 本月完成[​](#本月完成)
+
+1. **阅读安全性最佳实践** — [完整指南](/openclaw/zh-Hans/docs/security/best-practices)
+2. **建立技能审查流程** — [技能审计清单](/openclaw/zh-Hans/docs/security/skill-audit-checklist)
+3. **尝试新功能** — 记忆系统 v2 预览、技能签名验证
+
+---
+
+延伸阅读[​](#延伸阅读)
+--------------
+
+* [安全性最佳实践](/openclaw/zh-Hans/docs/security/best-practices) — 完整安全指南
+* [威胁模型分析](/openclaw/zh-Hans/docs/security/threat-model) — 了解所有攻击向量
+* [架构概览](/openclaw/zh-Hans/docs/architecture/overview) — 了解最新的架构变更
+* [FAQ](/openclaw/zh-Hans/docs/faq) — 常见问题解答
+[编辑此页](https://github.com/tenten/openclaw-masterclass/tree/main/docs/whats-new/march-2026.md)[上一页常见问题排解](/openclaw/zh-Hans/docs/troubleshooting/common-issues)[下一页术语表](/openclaw/zh-Hans/docs/glossary)
+
+* [执行摘要](#执行摘要)
+  + [本月关键数字](#本月关键数字)* [官方变更](#官方变更)
+    + [1. CVE-2026-25253 修补](#1-cve-2026-25253-修补)+ [2. ClawHub VirusTotal 整合](#2-clawhub-virustotal-整合)+ [3. Gateway 默认安全强化](#3-gateway-默认安全强化)+ [4. 技能签名验证机制（Beta）](#4-技能签名验证机制beta)+ [5. 记忆系统 v2 预览](#5-记忆系统-v2-预览)* [生态系统动态](#生态系统动态)
+      + [6. Nvidia 推出 OpenClaw 加速方案](#6-nvidia-推出-openclaw-加速方案)+ [7. Tencent 开源 OpenClaw 中文生态套件](#7-tencent-开源-openclaw-中文生态套件)+ [8. Composio MCP 大规模更新](#8-composio-mcp-大规模更新)* [安全公告](#安全公告)
+        + [9. Bitdefender 审计报告](#9-bitdefender-审计报告)+ [10. ClawHavoc 事件后续](#10-clawhavoc-事件后续)+ [11. 18789 端口扫描持续增加](#11-18789-端口扫描持续增加)* [破坏性变更（Breaking Changes）](#破坏性变更breaking-changes)
+          + [12. gateway.yaml 格式变更](#12-gatewayyaml-格式变更)+ [13. Skill manifest 格式 v2](#13-skill-manifest-格式-v2)* [社区回报的变化](#社区回报的变化)
+            + [14. 多 Agent 协作改进](#14-多-agent-协作改进)+ [15. 本地 LLM 性能提升](#15-本地-llm-性能提升)* [时间线](#时间线)* [建议移动](#建议移动)
+                + [立即移动（今天）](#立即移动今天)+ [本周完成](#本周完成)+ [本月完成](#本月完成)* [延伸阅读](#延伸阅读)
+学习
+
+* [快速开始](/openclaw/zh-Hans/docs/getting-started/installation)* [MasterClass 课程](/openclaw/zh-Hans/docs/masterclass/overview)* [Top 50 Skills](/openclaw/zh-Hans/docs/top-50-skills/overview)* [FAQ](/openclaw/zh-Hans/docs/faq)
+社区
+
+* [官方 Discord](https://discord.gg/openclaw)* [Reddit r/openclaw](https://reddit.com/r/openclaw)* [GitHub Discussions](https://github.com/openclaw/openclaw/discussions)* [X / Twitter](https://x.com/openclaw)
+资源
+
+* [博客](/openclaw/zh-Hans/blog)* [安全指南](/openclaw/zh-Hans/docs/security/best-practices)* [API 参考](/openclaw/zh-Hans/docs/architecture/api-reference)* [GitHub](https://github.com/openclaw/openclaw)
+更多
+
+* [术语表](/openclaw/zh-Hans/docs/glossary)* [排名方法论](/openclaw/zh-Hans/docs/methodology)* [最新变更](/openclaw/zh-Hans/docs/whats-new/march-2026)
+Copyright © 2026 OpenClaw MasterClass. 以 MIT 许可证发布。本站为社区驱动的学习资源，非 OpenClaw 官方网站。

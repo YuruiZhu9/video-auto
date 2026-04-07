@@ -1,0 +1,474 @@
+# Source URL: https://www.appinn.com/openclaw-2026-3-22/
+# Content Length: 10006 characters
+# Extracted at: 2026-03-30 22:32:52
+#============================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+时隔11天，OpenClaw 2026.3.23 发布，内置 ClawHub 插件/技能市场 - 小众软件
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[![]()](https://www.appinn.com)
+
+
+
+
+ 
+
+[![]()](https://www.aipyaipy.com/?appinn_com)
+
+* [首页](https://www.appinn.com)
+* [AI](https://www.appinn.com/category/ai/)
+* [Android](https://www.appinn.com/category/android/)
+* [iOS](https://www.appinn.com/category/ios/)
+  + [iPhone](https://www.appinn.com/category/ios/iphone/)
+  + [iPad](https://www.appinn.com/category/ios/ipad/)
+* [macOS](https://www.appinn.com/category/mac/)
+* [Windows](https://www.appinn.com/category/windows/)
+* [Chrome](https://www.appinn.com/category/chrome/)
+* [Web](https://www.appinn.com/category/online-tools/)
+* [精选](https://www.appinn.com/category/featured/)
+* [More](https://meta.appinn.net)
+  + [讨论分享](https://meta.appinn.net)
+  + [ChatGPT 指南](https://www.appinn.com/chatgpt-guides/)
+  + [提交新发现](https://meta.appinn.net/c/faxian)
+  + [提问 & 回答](https://meta.appinn.net/c/wen-ti-qiu-zhu)
+  + [我最喜爱](https://love.appinn.com)
+  + [Games](https://www.appinn.com/category/games/)
+  + [国际域名注册](https://hellohostnet.com/domain.html)
+
+
+
+
+
+[Home](https://www.appinn.com)[AI](https://www.appinn.com/category/ai/) 
+
+时隔11天，OpenClaw 2026.3.23 发布，内置 ClawHub 插件/技能市场
+==============================================
+
+[AI](https://www.appinn.com/category/ai/)
+ 2026/03/23
+ [青小蛙](https://www.appinn.com/author/qingwa/)
+[4](https://www.appinn.com/openclaw-2026-3-22/#meta-discussion)
+
+
+
+2026.3.24 更新：刚刚 **Openclaw 2026.3.23** 发布了，解决了昨天的离谱问题，控制台可以打开了…
+
+在 OpenClaw 昨天发布的 2026.3.22 版本中，开发者（也可能是AI）忘记把控制台打包进去，导致一群人升级后没有控制台了。实在是太草台了。 ​​​
+
+![]()
+
+另外不要怪任何开发者，这个开源社区可能是目前地球上最激进的社区，你完全不知道这些讨论的、发布的、提交问题的家伙，到底是人，还是 AI…
+
+---
+
+OpenClaw 经历了爆火以来的第一次长时间暂停更新，长达10天未更新。要知道此前最低都要2日更新一次。今天终于发布了新版本：「本次版本更新内容非常庞大，需要单独列出目录。」
+
+![]()
+
+目录
+--
+
+* [OpenClaw 更新方式](#open-claw-更新方式)
+* [重要更新](#重要更新)
+  + [Clawhub 官方插件市场](#clawhub-官方插件市场)
+  + [浏览器/Chrome MCP：删除了浏览器扩展](#浏览器-chrome-mcp：删除了浏览器扩展)
+  + [图片生成（删除了 nano-banana-pro）](#图片生成（删除了-nano-banana-pro）)
+  + [新的插件 SDK 对外接口](#新的插件-sdk-对外接口)
+  + [新的消息工具入口](#新的消息工具入口)
+  + [官方新  Matrix 插件](#官方新-matrix-插件)
+  + [继续移除 clawdbot、moltbot 等信息](#继续移除-clawdbot、moltbot-等信息)
+  + [过滤系统变量](#过滤系统变量)
+  + [Gateway/usage](#gateway-usage)
+* [值得关注的变化](#值得关注的变化)
+  + [ClawHub 技能](#claw-hub-技能)
+  + [添加 Claude 插件市场](#添加-claude-插件市场)
+  + [/plugins 和 /plugin 命令](#plugins-和-plugin-命令)
+  + [尝鲜版本](#尝鲜版本)
+  + [从 Codex、Claude、Cursor 导入](#从-codex、-claude、-cursor-导入)
+  + [OpenAI 默认 gpt-5.4 模型](#open-ai-默认-gpt-5-4-模型)
+  + [随便问问功能](#随便问问功能)
+  + [远程 SSH 操作](#远程-ssh-操作)
+  + [多浏览器支持](#多浏览器支持)
+  + [Web 搜索（Exa / Tavily / Firecrawl）](#web-搜索（-exa-tavily-firecrawl）)
+  + [Control UI（界面）](#control-ui（界面）)
+  + [Telegram](#telegram)
+  + [Feishu / 飞书](#feishu-飞书)
+  + [MiniMax / Grok / GLM 等模型更新](#mini-max-grok-glm-等模型更新)
+
+OpenClaw 更新方式
+-------------
+
+可以通过以下安装命令来更新 OpenClaw（没错，就是安装命令，也是更新命令）
+
+```
+
+curl -fsSL https://openclaw.ai/install.sh | bash
+
+```
+
+![]()
+
+重要更新
+----
+
+### Clawhub 官方插件市场
+
+OpenClaw 将 ClawHub 的插件市场集成到了主程序之中，未来只需要使用：
+
+```
+
+openclaw plugins install <package>
+
+```
+
+就能安装来自来自 ClawHub 的插件了，当 ClawHub 没有 <package> 时，才去 npm 搜索。
+
+### 浏览器/Chrome MCP：删除了浏览器扩展
+
+使用修复命令，完成迁移：
+
+```
+
+openclaw doctor --fix
+
+```
+
+新版本移除了 relay 扩展，变成了 `existing-session` / `user` 方式。
+
+`existing-session` 使用已经存在的浏览器会话，再也不用像以前那样需要点一下 `relay` 按钮才能使用浏览器了。
+
+`user` 则是单独的一个浏览器配置 profile。
+
+### 图片生成（删除了 nano-banana-pro）
+
+图片生成变成核心工具了（`image_generate`），删除了旧的 nano-banana-pro 文档和示例。
+
+### 新的插件 SDK 对外接口
+
+针对第三方插件，未来需要使用统一的 SDK 接口：`openclaw/plugin-sdk/*`
+
+原来的 `openclaw/extension-api` 不再使用，开发者需要注意
+
+### 新的消息工具入口
+
+删除了原来的消息发现机制：
+
+```
+listActions  
+getCapabilities  
+getToolSchema
+```
+
+强制统一入口：
+
+```
+
+ChannelMessageActionAdapter.describeMessageTool(...)
+
+```
+### 官方新  Matrix 插件
+
+Matrix 用户可以使用 `openclaw doctor --fix` 来完成自动迁移。
+
+### 继续移除 clawdbot、moltbot 等信息
+
+### 过滤系统变量
+
+exec 环境不再默认继承宿主的关键环境变量，尤其是构建和运行时相关变量。
+
+OpenClaw 会“过滤一批变量”，不再自动带进去。
+
+### Gateway/usage
+
+统计用量时把“已重置或已删除的会话”也算进去，避免使用量被低估。
+
+另外，还有很多的安全相关更新。
+
+值得关注的变化
+-------
+
+### ClawHub 技能
+
+通过 `openclaw skills search|install|update` 命令来直接搜索、安装、更新 skill
+
+### 添加 Claude 插件市场
+
+支持 Claude 插件市场，不再局限一个生态。
+
+### /plugins 和 /plugin 命令
+
+新增两个命令，可以在聊天里直接查看和开关插件。
+
+### 尝鲜版本
+
+使用 `openclaw update --tag main` 直接从 GitHub main 安装，方便尝鲜或用未发布版本。
+
+### 从 Codex、Claude、Cursor 导入
+
+现在可以直接导入 Codex / Claude / Cursor 的“整套配置包（bundle）”，里面的功能会自动变成 OpenClaw 的 skills，并自动套用默认设置。
+
+### OpenAI 默认 gpt-5.4 模型
+
+### 随便问问功能
+
+使用 `/btw` 命令可以临时问一句问题，不影响当前对话上下文。
+
+### 远程 SSH 操作
+
+Agent 可以连接远程 SSH 机器，并在那台机器上继续执行操作。
+
+### 多浏览器支持
+
+通过指定浏览器的 userDataDir，让 OpenClaw 连接到 Brave、Edge 等不同 Chromium 浏览器的用户环境。
+
+### **Web 搜索（Exa / Tavily / Firecrawl）**
+
+内置更多搜索能力，查资料更强。
+
+### Control UI（界面）
+
+UI 有改进（圆角、usage 页面、聊天体验更好）。
+
+但是青小蛙的界面在升级之后坏了，还没修好 😭
+
+### **Telegram**
+
+自动给聊天命名（更智能整理对话）。
+
+### **Feishu** / 飞书
+
+> 支持更复杂交互卡片和 reasoning 展示。
+
+### **MiniMax / Grok / GLM 等模型更新**
+
+> 更多模型支持，选择更多。
+
+---
+
+更多可以见官网：<https://github.com/openclaw/openclaw/releases/tag/v2026.3.22>
+
+
+
+### 分享
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### 相关
+
+* [![]()](https://www.appinn.com/winx-dvd-ripper-platinum-and-winxvideo-ai/) 
+  
+  [【限时免费】价值 89.9 美元的 DVD 转 MP4 神器＋AI 影片图片强化工具限时送](https://www.appinn.com/winx-dvd-ripper-platinum-and-winxvideo-ai/)
+  
+  2025/06/23
+   [4](https://www.appinn.com/winx-dvd-ripper-platinum-and-winxvideo-ai/#comments)
+* [![]()](https://www.appinn.com/elmo-chat/) 
+  
+  [Elmo Chat – 快速总结网站内容、在线视频，与 PDF 聊天、翻译等，免费 Chrome 扩展](https://www.appinn.com/elmo-chat/)
+  
+  2024/05/11
+   [4](https://www.appinn.com/elmo-chat/#comments)
+* [![]()](https://www.appinn.com/scribble-diffusion/) 
+  
+  [Scribble Diffusion – AI 画画，将手绘草稿转换为图片，基于 ControlNet，太搞笑了](https://www.appinn.com/scribble-diffusion/)
+  
+  2023/03/18
+   [4](https://www.appinn.com/scribble-diffusion/#comments)
+* [![]()](https://www.appinn.com/chad-ide/) 
+  
+  [Chad IDE – 已被硅谷认可：当 AI 工作的时候，人类去摸鱼。](https://www.appinn.com/chad-ide/)
+  
+  2025/11/30
+   [3](https://www.appinn.com/chad-ide/#comments)
+  [OpenClaw](https://www.appinn.com/tag/openclaw/)
+
+[4 条评论，点击查看](https://meta.appinn.net/t/topic/83043) 
+
+
+来这里看看
+-----
+
+[![]()](https://www.appinn.com/inxunoffice-263/)
+[![]()](https://www.jiaotuai.cn/?ref=appinn)
+### 最近的热门内容
+
+* [![]()](https://www.appinn.com/onetab/) 
+  
+  [Chrome 省内存、省电扩展 OneTab 更新，解决升级后内容丢失的情况](https://www.appinn.com/onetab/)
+  
+   3 月 10, 2026
+   7
+* [![]()](https://www.appinn.com/nodewarden/) 
+  
+  [NodeWarden – 把 Bitwarden 搬上 Cloudflare Workers，彻底告别服务器](https://www.appinn.com/nodewarden/)
+  
+   2 月 22, 2026
+   21
+* [![]()](https://www.appinn.com/asicai-mining-machine-era-gpu-obsolete/) 
+  
+  [AI 正在“矿机化”：成本降 10 倍，GPU 会被淘汰吗？](https://www.appinn.com/asicai-mining-machine-era-gpu-obsolete/)
+  
+   2 月 23, 2026
+   32
+* [![]()](https://www.appinn.com/karakeep-0-31-0/) 
+  
+  [Karakeep 0.31.0 更新：阅读进度同步、LLM OCR、更强导入与移动端高亮](https://www.appinn.com/karakeep-0-31-0/)
+  
+   2 月 23, 2026
+   0
+* [![]()](https://www.appinn.com/molili-openclaw-cn/) 
+  
+  [Molili：当贝推出中文版 OpenClaw，不看教程都能用[Windows/macOS]](https://www.appinn.com/molili-openclaw-cn/)
+  
+   3 月 23, 2026
+   0
+### 分类
+
+* [Android](https://www.appinn.com/category/android/)
+* [Apple Watch](https://www.appinn.com/category/apple-watch/)
+* [AR](https://www.appinn.com/category/ar/)
+* [AutoHotKey](https://www.appinn.com/category/autohotkey/)
+* [Blog](https://www.appinn.com/category/blog/)
+* [Chrome](https://www.appinn.com/category/chrome/)
+* [Firefox](https://www.appinn.com/category/firefox/)
+* [Google](https://www.appinn.com/category/google/)
+* [iOS](https://www.appinn.com/category/ios/)
+* [iPad](https://www.appinn.com/category/ios/ipad/)
+* [iPhone](https://www.appinn.com/category/ios/iphone/)
+* [linux](https://www.appinn.com/category/linux/)
+* [macOS](https://www.appinn.com/category/mac/)
+* [Video](https://www.appinn.com/category/video/)
+* [VR](https://www.appinn.com/category/vr/)
+* [VS Code](https://www.appinn.com/category/vs-code/)
+* [Windows](https://www.appinn.com/category/windows/)
+* [业界消息](https://www.appinn.com/category/it-news/)
+* [修照片](https://www.appinn.com/category/%e4%bf%ae%e7%85%a7%e7%89%87/)
+* [办公软件](https://www.appinn.com/category/office/)
+* [团购](https://www.appinn.com/category/group-get/)
+* [在线应用](https://www.appinn.com/category/online-tools/)
+* [媒体工具](https://www.appinn.com/category/pic/)
+* [安全工具](https://www.appinn.com/category/safetools/)
+* [实用工具](https://www.appinn.com/category/tools/)
+* [我最喜爱](https://www.appinn.com/category/softlist/)
+* [手机应用](https://www.appinn.com/category/mobile/)
+* [拍照](https://www.appinn.com/category/pic/%e6%8b%8d%e7%85%a7/)
+* [拍视频](https://www.appinn.com/category/pic/%e6%8b%8d%e8%a7%86%e9%a2%91/)
+* [智能硬件](https://www.appinn.com/category/smart-hardware/)
+* [桌面工具](https://www.appinn.com/category/desktop/)
+* [每日发现](https://www.appinn.com/category/faxian/)
+* [游戏](https://www.appinn.com/category/games/)
+* [电脑技巧](https://www.appinn.com/category/pcskill/)
+* [看视频](https://www.appinn.com/category/pic/%e7%9c%8b%e8%a7%86%e9%a2%91/)
+* [私藏](https://www.appinn.com/category/%e7%a7%81%e8%97%8f/)
+* [管理工具](https://www.appinn.com/category/manage/)
+* [精选](https://www.appinn.com/category/featured/)
+* [系统工具](https://www.appinn.com/category/system/)
+* [网络工具](https://www.appinn.com/category/net/)
+* [美化主题](https://www.appinn.com/category/systemthemes/)
+* [评测](https://www.appinn.com/category/review/)
+* [趣味软件](https://www.appinn.com/category/interesting/)
+* [问答](https://www.appinn.com/category/question-and-answers/)
+* [音乐](https://www.appinn.com/category/pic/%e9%9f%b3%e4%b9%90/)
+[![]()](https://www.appinn.com/pixpin/)
+
+
+
+### 关于
+
+[关于我们](http://www.appinn.com/about/)  
+[联系我们](http://www.appinn.com/contact/)  
+[继续讨论](https://meta.appinn.net/)
+
+ 
+### 分享
+
+[发布](https://meta.appinn.net/c/faxian/10)
+
+提交软件、应用、服务，也可以是数码产品
+
+[提问](https://meta.appinn.net/c/wen-ti-qiu-zhu/7)
+
+找软件、找应用、提问题。
+
+ 
+### 关注我们
+
+
+从这里关注我们：[Mastodon](https://m.cmx.im/@appinn) | [Bluesky](https://bsky.app/profile/appinn.bsky.social)｜[Discord](https://discord.gg/CqMWU6um)
+
+### 版权声明
+
+小众软件版权所有。未授权媒体、微信公众号不得使用我方内容。个人自媒体可署名、保留原始链接的情况下转载。
+
+ 
+
+
+C
+
+[小众软件](https://www.appinn.com/) Copyright © 2026.
+本站 CDN、云存储由 [又拍云](https://console.upyun.com/register/?invite=BJw4ZqBSw) 赞助提供
+
+
+
+
+
+
+
+
+
+
+
+
+

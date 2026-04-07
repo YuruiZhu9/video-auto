@@ -1,0 +1,109 @@
+# Source URL: https://developers.googleblog.com/en/gemini-2-5-video-understanding/
+# Content Length: 12915 characters
+# Extracted at: 2026-04-06 12:08:54
+#============================================================
+
+[DeepMind](https://developers.googleblog.com/en/search/?product\_categories=DeepMind) / [Gemini](https://developers.googleblog.com/en/search/?product\_categories=Gemini) / [Google AI Studio](https://developers.googleblog.com/en/search/?product\_categories=Google+AI+Studio)
+# Advancing the frontier of video understanding with Gemini 2.5
+MAY 9, 2025
+[Anirudh Baddepudi](https://developers.googleblog.com/en/search/?author=Anirudh+Baddepudi) Product Manager
+[Antoine Yang](https://developers.googleblog.com/en/search/?author=Antoine+Yang) Research Scientist
+[Mario Lučić](https://developers.googleblog.com/en/search/?author=Mario+Lu%C4%8Di%C4%87) Research Scientist
+Share
+- [Facebook](https://www.facebook.com/sharer/sharer.php?u=https://developers.googleblog.com/en/gemini-2-5-video-understanding/ "Share on Facebook")
+- [Twitter](https://twitter.com/intent/tweet?text=https://developers.googleblog.com/en/gemini-2-5-video-understanding/ "Share on Twitter")
+- [LinkedIn](https://www.linkedin.com/shareArticle?url=https://developers.googleblog.com/en/gemini-2-5-video-understanding/&mini=true "Share on LinkedIn")
+- [Mail](mailto:name@example.com?subject=Check%20out%20this%20site&body=Check%20out%20https://developers.googleblog.com/en/gemini-2-5-video-understanding/ "Send via Email")
+- [Get shareable link](https://developers.googleblog.com/en/gemini-2-5-video-understanding/# "Get shareable link")
+![2.5Pro\_VideoUnderstanding](https://storage.googleapis.com/gweb-developer-goog-blog-assets/images/2.5Pro\_Wagtial\_RD2-V01.original.jpg)
+We recently launched two new models in our Gemini family: [Gemini 2.5 Pro Preview (05/06)](https://developers.googleblog.com/en/gemini-2-5-pro-io-improved-coding-performance/) and [Gemini 2.5 Flash (04/17)](https://blog.google/products/gemini/gemini-2-5-flash-preview/). These models mark a major leap in video understanding. Gemini 2.5 Pro achieves state-of-the-art performance on key video understanding benchmarks, surpassing recent models like GPT 4.1 under comparable testing conditions (same prompt and video frames).
+Furthermore, it rivals specialized fine-tuned models on several challenging benchmarks (e.g. YouCook2 dense captioning and QVHighlights moment retrieval). For cost-sensitive applications, Gemini 2.5 Flash provides a highly competitive alternative.
+![Advancing the frontier of video understanding with Gemini 2.5](https://storage.googleapis.com/gweb-developer-goog-blog-assets/images/Gemini\_2-5\_Video\_Blogpost\_V04.original.jpg)
+Evaluation of Gemini 2.5 vs. prior models on video understanding benchmarks.
+Performance is measured by string-match accuracy for multiple-choice VideoQA, LLM-based accuracy for EgoTempo, R1@0.5 for QVHighlights and CIDEr for YouCook2.
+\\*Videos were processed at 1fps and linearly subsampled to a maximum of 256 frames, except for 1H-VideoQA (7200 frames).
+## Combining video and code with Gemini 2.5
+Gemini 2.5 is the first time a natively multimodal model can use audio-visual information seamlessly with code and other data formats. To illustrate the power of Gemini 2.5's video understanding capabilities, we showcase some of the use cases that we’ve been most excited about below.
+### \*\*Transforming videos into interactive applications\*\*
+Gemini 2.5 Pro unlocks new possibilities for transforming videos into interactive applications. [Video To Learning App](https://aistudio.google.com/u/1/apps/bundled/video-to-learning-app?showPreview=true), a Google AI Studio starter app, uses Gemini 2.5 to make learning from video content more effective and engaging.
+First, the model sees a YouTube URL along with a text prompt that explains how it should analyze the video. Gemini 2.5 Pro analyzes the video and crafts a detailed spec for a learning application which reinforces key ideas in the video.
+The generated spec is then sent directly back to Gemini 2.5 Pro to generate the code for the application, as illustrated in the vision correction simulator application below. Gemini 2.5 Flash can achieve similar results, offering a glimpse into novel video use cases in domains such as education and interactive content creation.
+Sorry, your browser doesn't support playback for this video
+[Video to interactive application in Google AI Studio](https://aistudio.google.com/u/1/apps/bundled/video-to-learning-app?showPreview=true)
+### \*\*Creating animations from video with p5.js\*\*
+Gemini 2.5 Pro unlocks exciting creative possibilities, such as the ability to generate dynamic animations from videos with a single prompt. This capability opens up new avenues for use cases such as automated content generation and creating accessible video summaries.
+For example, when given our [video](https://www.youtube.com/watch?v=hIIlJt8JERI) on [Project Astra](https://deepmind.google/technologies/project-astra/) along with the prompt ' \_Create an animation in p5.js covering the different landmarks seen in this video.\_', Gemini 2.5 Pro analyzes the footage and produces a corresponding [p5.js](https://p5js.org/) animation. The animation visualizes the landmarks identified by Gemini 2.5 Pro \_in the same temporal order as in the video\_.
+Sorry, your browser doesn't support playback for this video
+[Video to p5.js animation with Gemini 2.5 Pro (view full output in Google AI Studio)](https://aistudio.google.com/app/prompts?state=%7B%22ids%22%3A%5B%221OYHnrJJL9E7saLHiTyq84hijfmUIAFwp%22%5D%2C%22action%22%3A%22open%22%2C%22userId%22%3A%22104305237695166985387%22%2C%22resourceKeys%22%3A%7B%7D%7D&usp=drive\_link)
+### \*\*Retrieving and describing moments from video\*\*
+Gemini 2.5 Pro excels at identifying specific moments within videos using audio-visual cues with significantly higher accuracy than previous video processing systems. For example, in this 10-minute [video](https://www.youtube.com/watch?v=dwgmfSOZNoQ) of the Google Cloud Next '25 opening keynote, it accurately identifies 16 distinct segments related to product presentations, using both audio and visual cues from the video to do so.
+Sorry, your browser doesn't support playback for this video
+[Moment retrieval with Gemini 2.5 Pro (view full output in Google AI Studio)](https://aistudio.google.com/app/prompts?state=%7B%22ids%22%3A%5B%221dVX3EipkCCVldyBi-wJqHwKiL1IHkNhy%22%5D%2C%22action%22%3A%22open%22%2C%22userId%22%3A%22104305237695166985387%22%2C%22resourceKeys%22%3A%7B%7D%7D&usp=drive\_link)
+### \*\*Temporal reasoning\*\*
+With its advanced moment retrieval capabilities, Gemini 2.5 Pro is also able to solve nuanced temporal reasoning problems such as counting. In this example, Gemini successfully counts 17 distinct occurrences where the main character uses their phone in the project Astra [video](https://www.youtube.com/watch?v=hIIlJt8JERI).
+Sorry, your browser doesn't support playback for this video
+[Temporal counting with Gemini 2.5 Pro (view full output in Google AI Studio)](https://aistudio.google.com/app/prompts?state=%7B%22ids%22%3A%5B%221KFKSRXq4aZVDggdlo8rFsKxORXQflCOF%22%5D%2C%22action%22%3A%22open%22%2C%22userId%22%3A%22104305237695166985387%22%2C%22resourceKeys%22%3A%7B%7D%7D&usp=drive\_link)
+## Building with Gemini 2.5 video understanding
+Video understanding in Gemini 2.5 Flash and Pro are available in [Google AI Studio](http://aistudio.google.com/), the [Gemini API](https://ai.google.dev/gemini-api/docs/video-understanding), and [Vertex AI](https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/video-understanding). Support for YouTube videos is available via the [Gemini API](https://ai.google.dev/gemini-api/docs/video-understanding) and [Google AI Studio](http://aistudio.google.com/), enabling anyone to build applications with access to billions of videos.
+The [Gemini API](https://ai.google.dev/gemini-api/docs/video-understanding) now offers a 'low' [media resolution parameter](https://ai.google.dev/api/generate-content#MediaResolution) enabling Gemini 2.5 Pro to process ~6 hours of video with 2 million token context. This provides for a more cost-effective setting with competitive video understanding performance (e.g., 84.7% vs 85.2% accuracy on VideoMME) for many long video understanding use cases.
+We are inspired by the innovative video applications already emerging from the community and can’t wait to see what you build!
+\* \* \*
+### \*\*Acknowledgements\*\*
+A big shoutout to \*\*Aaron Wade\*\* for creating [Video To Learning App](https://aistudio.google.com/u/1/apps/bundled/video-to-learning-app?showPreview=true) and for the Vision Correction simulator example showcased in the blogpost.
+We thank \*\*Sergi Caelles\*\*, \*\*Boyu Wang\*\* and \*\*Saarthak Khanna\*\* for their contributions on the evaluations presented above, \*\*Angeliki Lazaridou\*\* for inspiring some demo examples, and the entire Gemini video understanding team for the work culminating in this release. Finally, we would like to thank the video understanding leads \*\*Mario Lučić, Shuo-yiin Chang,\*\* and \*\*Paul Natsev,\*\* and overall multimodal understanding lead \*\*Jean-Baptiste Alayrac.\*\*
+posted in:
+- [DeepMind](https://developers.googleblog.com/en/search/?product\_categories=DeepMind)
+- [Gemini](https://developers.googleblog.com/en/search/?product\_categories=Gemini)
+- [Google AI Studio](https://developers.googleblog.com/en/search/?product\_categories=Google+AI+Studio)
+- [AI](https://developers.googleblog.com/en/search/?technology\_categories=AI)
+- [Announcements](https://developers.googleblog.com/en/search/?content\_type\_categories=Announcements)
+- [Industry Trends](https://developers.googleblog.com/en/search/?content\_type\_categories=Industry+Trends)
+- [Gemini API](https://developers.googleblog.com/en/search/?tag=Gemini%20API)
+- [Gemini 2.5 Pro](https://developers.googleblog.com/en/search/?tag=Gemini%202.5%20Pro)
+- [multimodal AI](https://developers.googleblog.com/en/search/?tag=multimodal%20AI)
+- [Learn](https://developers.googleblog.com/en/search/?tag=Learn)
+- [Developer Tools](https://developers.googleblog.com/en/search/?tag=Developer%20Tools)
+- [Gemini 2.5](https://developers.googleblog.com/en/search/?tag=Gemini%202.5)
+- [Video understanding](https://developers.googleblog.com/en/search/?tag=Video%20understanding)
+- [code generation](https://developers.googleblog.com/en/search/?tag=code%20generation)
+- [Gemini 2.5 Flash](https://developers.googleblog.com/en/search/?tag=Gemini%202.5%20Flash)
+[Previous](https://developers.googleblog.com/en/fully-reimagined-ai-first-google-colab/) Previous
+Next [Next](https://developers.googleblog.com/en/gemini-2-5-models-now-support-implicit-caching/)
+Related Posts
+[![Announcing the Colab MCP Server: Connect Any AI Agent to Google Colab](https://storage.googleapis.com/gweb-developer-goog-blog-assets/images/Gemini\_Generated\_Image\_ie7raiie7ra.2e16d0ba.fill-800x400.jpg)\\
+\\
+CloudHow-To GuidesAnnouncements\\
+\\
+Announcing the Colab MCP Server: Connect Any AI Agent to Google Colab\\
+\\
+MARCH 17, 2026](https://developers.googleblog.com/en/announcing-the-colab-mcp-server-connect-any-ai-agent-to-google-colab/) [![Developer’s Guide to AI Agent Protocols](https://storage.googleapis.com/gweb-developer-goog-blog-assets/images/agent\_protocol\_banner.2e16d0ba.fill-800x400.png)\\
+\\
+AICloudAnnouncementsBest Practices\\
+\\
+Developer’s Guide to AI Agent Protocols\\
+\\
+MARCH 18, 2026](https://developers.googleblog.com/en/developers-guide-to-ai-agent-protocols/) [![Closing the knowledge gap with agent skills](https://storage.googleapis.com/gweb-developer-goog-blog-assets/images/Gemini\_API\_Skills\_Banner\_v2.2e16d0ba.fill-800x400.png)\\
+\\
+AIBest Practices\\
+\\
+Closing the knowledge gap with agent skills\\
+\\
+MARCH 25, 2026](https://developers.googleblog.com/en/closing-the-knowledge-gap-with-agent-skills/) [![Turn creative prompts into interactive XR experiences with Gemini](https://storage.googleapis.com/gweb-developer-goog-blog-assets/images/Gemini\_Generated\_Image\_gasezsgasez.2e16d0ba.fill-800x400.png)\\
+\\
+GeminiWebAITutorialsHow-To Guides\\
+\\
+Turn creative prompts into interactive XR experiences with Gemini\\
+\\
+FEB. 19, 2026](https://developers.googleblog.com/en/turn-creative-prompts-into-interactive-xr-experiences-with-gemini/) [![Jump to play: Building with Gemini & MediaPipe](https://storage.googleapis.com/gweb-developer-goog-blog-assets/images/jump\_to\_play\_banner.2e16d0ba.fill-800x400.png)\\
+\\
+MobileWebCase StudiesHow-To Guides\\
+\\
+Jump to play: Building with Gemini & MediaPipe\\
+\\
+MARCH 24, 2026](https://developers.googleblog.com/en/jump-to-play-building-with-gemini-mediapipe/) [![How we built the Google I/O 2026 Save the Date experience](https://storage.googleapis.com/gweb-developer-goog-blog-assets/images/mbu-svd-hero.2e16d0ba.fill-800x400.png)\\
+\\
+GeminiGoogle AI StudioAIEvents\\
+\\
+How we built the Google I/O 2026 Save the Date experience\\
+\\
+MARCH 3, 2026](https://developers.googleblog.com/en/how-we-built-the-google-io-2026-save-the-date-experience/)

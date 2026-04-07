@@ -1,0 +1,246 @@
+# Source URL: https://cloud.tencent.com/developer/article/2430505
+# Content Length: 7236 characters
+# Extracted at: 2026-04-06 10:45:52
+#============================================================
+
+
+腾讯实习 | 推荐算法面经(已OC)-腾讯云开发者社区-腾讯云[张小磊](/developer/user/6034539)
+
+腾讯实习 | 推荐算法面经(已OC)
+------------------
+
+关注作者[*腾讯云*](/?from=20060&from_column=20060)[*开发者社区*](/developer)[文档](/document/product?from=20702&from_column=20702)[建议反馈](/voc/?from=20703&from_column=20703)[控制台](https://console.cloud.tencent.com?from=20063&from_column=20063)登录/注册[首页](/developer)学习活动专区圈层工具[MCP广场![]()](/developer/mcp)文章/答案/技术大牛搜索搜索关闭发布张小磊[社区首页](/developer) >[专栏](/developer/column) >腾讯实习 | 推荐算法面经(已OC)
+
+腾讯实习 | 推荐算法面经(已OC)
+==================
+
+![]()张小磊关注发布于 2024-06-21 16:42:27发布于 2024-06-21 16:42:271.3K0举报文章被收录于专栏：[机器学习与推荐算法](/developer/column/79777)机器学习与推荐算法
+#### **时间线:**
+
+5.29 投简历 约面
+5.30 一面 结束后10分钟约2面
+5.31 二面
+6.5 过了一个周末到周二还是二面链接 就去催了下 然后当天转为hr面
+6.7 约hr面
+6.10 本来hr面定在6.10端午节当天 然后他们那边失误了 可能忘记是端午节了 鸽了我
+6.11 hr打电话表示抱歉工作失误，重新约了下午的hr面 面完 云证录用评估
+6.14 下午oc
+
+#### **本人BG：**
+
+本科双非，top2硕
+
+无论文，有算法竞赛经历，无实习，有两段科研经历(CV方向)但没有paper，机器学习和深度学习、算法数据结构基础还可以，推荐算法是3月之后跟着下面这个链接学的，顺便做了个相关的项目。
+
+FunRec (datawhalechina.github.io)
+
+leetcode大概300不到，再加上以前打比赛刷了些题，算法题感觉问题不大。
+
+#### **一面：40min问题+20min算法**
+
+自我介绍
+
+LR的损失函数 手推梯度（刚开始比较紧张 写错了一点感觉
+
+了解哪些精排算法（交叉类、wide&deep类、序列模型、多任务都说了几个
+
+知道正则化吗(L1，L2
+
+他们分别有什么优势（稀疏化、防过拟合、平滑函数
+
+知道FTRL吗（这个大概知道，公式里面有一项控制参数，有一项是L1正则化
+
+FTRL的优势（我只知道稀疏性
+
+知道在线学习吗（我说不太了解 然后面试官很耐心的给我讲了下 我就反应过来说这样FTRL就方便控制参数
+
+问项目
+
+youtubeDNN论文看过吗
+
+youtubeDNN训练和服务（训练是sampled SoftMax 服务是生成user vector后和item vector做ANN
+
+ANN用的什么框架（faiss
+
+问faiss候选集多大（我说全量数据
+
+然后问我数据量有多大（我如实回答 面试官觉得我的数据太小了 这个没办法 github上的项目对于这种大厂来说都是玩具
+
+正样本和负样本怎么构造的（正样本和负样本都说了一下
+
+GBDT+LR介绍
+
+GBDT更适合哪类特征（dense feature
+
+如果数据中出现缺失值怎么处理（我说了两个想法 一个是用其它未缺失的特征做ANN取前k个的平均 第二个是用一个简单的网络去预测这个缺失值 但是面试官教了个更好的想法
+
+之前做的是CV 问我为什么不试试大模型（我说我刚转方向 先尝试一下搜广推
+
+**算法题：**
+
+(面试官看我有算法竞赛奖 说那你一定写的很快吧 我说好久不参加了 我尽力
+
+LC215找到数组中第K大的元素
+
+我第一反应建大小为K的小根堆 然后依次入堆 留下来堆顶就是 然后手撕了一下堆 复杂度nlogk 写出来后面试官问我知道快排吗 我突然反应过来 又把快排那个思路写了一遍 这个更快
+
+**反问**
+
+#### **二面：40min问题+20min算法**
+
+没有自我介绍 上来就是项目 一串问题
+
+项目里写了itemcf和usercf 问具体是怎么算的（倒排表优化，累积相似的的时候再根据用户活跃度之类的信息reweight一下
+
+倒排表面对很大的数据有什么问题（我说时间太高 内存上也不好存和计算
+
+有什么解决思路（我说这时候考虑把相似度换成ANN的相似度
+
+问我用的什么ANN（faiss
+
+问我ANN里面是怎么解决维度太大的问题（我用LSH的想法解释了一下，先降维，然后只考虑邻域的向量缩小候选集
+
+怎么评估模型（topk命中 NDCG AUC
+
+auc怎么算（先说了一下roc 然后说了两种算auc的公式
+
+哪些特征适合交叉网络 哪些适合GBDT这类（我脑抽说反了 最后悔的一集
+
+YoutubeDNN正负样本怎么构造的（正样本和负样本都说了一下
+
+（还有些问题记不得了
+
+说一下你知道的优化器（全梯度下降 SGD BGD Momentum Adagrad RMSprop Adam我全介绍了一编 硬拖时间
+
+**算法题：**
+
+（同样看到我有算法竞赛 面试官问我的奖大概是什么水平 我给他解释了一下什么是信息学奥赛 ACM 蓝桥杯大概的难度等级之类的
+
+LC20 有效的括号
+
+这个比较水 三个cnt变量统计 碰到右括号如果cnt=0就是false 遍历完之后 如果cnt不全为0也false 否则true
+
+LC61旋转链表
+
+我刚开始说reverse（1，k）reverse（k+1,n) 然后reverse（1,n）。这个可行但是O(2n) ，面试官说这个不是最快的，然后我反应过来就说可以直接从尾巴拿出来头插法插入k次。这个O(k) 写出来跑了几个样例没问题结束
+
+**反问**
+
+后面聊了一下 问我有没有offer 对公司有什么意向 介绍了一下他们组做什么
+
+#### **hr面：20min**
+
+主要是聊天，问问家庭状况、平时爱好、怎么缓解压力、实习能不能稳定之类的，基本没有什么压力
+
+#### **总结**
+
+其实还有一些问题不记得了，两次技术面试都是时长一个小时左右，40分钟问题+20分钟算法。我两次算法写的都比较快就早结束10分钟。三位面试官人都很好，引导式的面试，解答之后如果他觉得有更好的思路也会告诉你，给的反馈很及时。刚开始还紧张，聊了几分钟就不紧张了。
+
+总的来说找实习之路还是比较顺利的，也不枉自己这短时间的努力。学习之路任重而道远，目前自己懂的也只是皮毛，希望自己能够快快成长。同时也非常感谢几位学长和好朋友的帮助，让自己少走了一些弯路，也对相关的实习有了很大的了解，感恩
+
+本文参与 [腾讯云自媒体同步曝光计划](/developer/support-plan)，分享自微信公众号。原始发表：2024-06-20，如有侵权请联系 [cloudcommunity@tencent.com](mailto:cloudcommunity@tencent.com) 删除[推荐算法](/developer/tag/17480)[模型](/developer/tag/17381)[数据](/developer/tag/17440)[算法](/developer/tag/17460)[腾讯](/developer/tag/17464)
+
+本文分享自 机器学习与推荐算法 微信公众号，前往查看
+
+如有侵权，请联系 [cloudcommunity@tencent.com](mailto:cloudcommunity@tencent.com) 删除。
+
+本文参与 [腾讯云自媒体同步曝光计划](/developer/support-plan)  ，欢迎热爱写作的你一起参与！
+
+[推荐算法](/developer/tag/17480)[模型](/developer/tag/17381)[数据](/developer/tag/17440)[算法](/developer/tag/17460)[腾讯](/developer/tag/17464)评论登录后参与评论0 条评论热度最新登录 后参与评论推荐阅读目录
+
+* 时间线:
+
+* 本人BG：
+
+* 一面：40min问题+20min算法
+
+* 二面：40min问题+20min算法
+
+* hr面：20min
+
+* 总结
+相关产品与服务腾讯云 TI 平台腾讯云 TI 平台（TencentCloud TI Platform）是基于腾讯先进 AI 能力和多年技术经验，面向开发者、政企提供的全栈式人工智能开发服务平台，致力于打通包含从数据获取、数据处理、算法构建、模型训练、模型评估、模型部署、到 AI 应用开发的产业 + AI 落地全流程链路，帮助用户快速创建和部署 AI 应用，管理全周期 AI 解决方案，从而助力政企单位加速数字化转型并促进 AI 行业生态共建。腾讯云 TI 平台系列产品支持公有云访问、私有化部署以及专属云部署。[产品介绍](https://cloud.tencent.com/product/ti?from=21341&from_column=21341)[2026采购季 | AI焕新·智启新局](https://cloud.tencent.com/act/pro/featured-202604?from=21344&from_column=21344)领券
+
+* ### 社区
+  
+  + [技术文章](/developer/column)
+  + [技术问答](/developer/ask)
+  + [技术沙龙](/developer/salon)
+  + [技术视频](/developer/video)
+  + [学习中心](/developer/learning)
+  + [技术百科](/developer/techpedia)
+  + [技术专区](/developer/zone/list)
+* ### 活动
+  
+  + [自媒体同步曝光计划](/developer/support-plan)
+  + [邀请作者入驻](/developer/support-plan-invitation)
+  + [自荐上首页](/developer/article/1535830)
+  + [技术竞赛](/developer/competition)
+* ### 圈层
+  
+  + [腾讯云最具价值专家](/tvp)
+  + [腾讯云架构师技术同盟](/developer/program/tm)
+  + [腾讯云创作之星](/developer/program/tci)
+  + [腾讯云TDP](/developer/program/tdp)
+* ### 关于
+  
+  + [社区规范](/developer/article/1006434)
+  + [免责声明](/developer/article/1006435)
+  + [联系我们](mailto:cloudcommunity@tencent.com)
+  + [友情链接](/developer/friendlink)
+  + [MCP广场开源版权声明](/developer/article/2537547)
+### 腾讯云开发者
+
+![]()
+
+扫码关注腾讯云开发者
+
+领取腾讯云代金券
+
+### 热门产品
+
+* [域名注册](/product/domain?from=20064&from_column=20064)
+* [云服务器](/product/cvm?from=20064&from_column=20064)
+* [区块链服务](/product/tbaas?from=20064&from_column=20064)
+* [消息队列](/product/message-queue-catalog?from=20064&from_column=20064)
+* [网络加速](/product/ecdn?from=20064&from_column=20064)
+* [云数据库](/product/tencentdb-catalog?from=20064&from_column=20064)
+* [域名解析](/product/dns?from=20064&from_column=20064)
+* [云存储](/product/cos?from=20064&from_column=20064)
+* [视频直播](/product/css?from=20064&from_column=20064)
+### 热门推荐
+
+* [人脸识别](/product/facerecognition?from=20064&from_column=20064)
+* [腾讯会议](/product/tm?from=20064&from_column=20064)
+* [企业云](/act/pro/enterprise2022?from=20064&from_column=20064)
+* [CDN加速](/product/cdn?from=20064&from_column=20064)
+* [视频通话](/product/trtc?from=20064&from_column=20064)
+* [图像分析](/product/imagerecognition?from=20064&from_column=20064)
+* [MySQL 数据库](/product/cdb?from=20064&from_column=20064)
+* [SSL 证书](/product/ssl?from=20064&from_column=20064)
+* [语音识别](/product/asr?from=20064&from_column=20064)
+### 更多推荐
+
+* [数据安全](/solution/data_protection?from=20064&from_column=20064)
+* [负载均衡](/product/clb?from=20064&from_column=20064)
+* [短信](/product/sms?from=20064&from_column=20064)
+* [文字识别](/product/ocr?from=20064&from_column=20064)
+* [云点播](/product/vod?from=20064&from_column=20064)
+* [大数据](/product/bigdata-class?from=20064&from_column=20064)
+* [小程序开发](/solution/la?from=20064&from_column=20064)
+* [网站监控](/product/tcop?from=20064&from_column=20064)
+* [数据迁移](/product/cdm?from=20064&from_column=20064)
+
+Copyright © 2013 - 2026 Tencent Cloud. All Rights Reserved. 腾讯云 版权所有
+
+[深圳市腾讯计算机系统有限公司](https://qcloudimg.tencent-cloud.cn/raw/986376a919726e0c35e96b311f54184d.jpg) ICP备案/许可证号：[粤B2-20090059](https://beian.miit.gov.cn/#/Integrated/index)![]()[粤公网安备44030502008569号](https://beian.mps.gov.cn/#/query/webSearch?code=44030502008569)
+
+[腾讯云计算（北京）有限责任公司](https://qcloudimg.tencent-cloud.cn/raw/a2390663ee4a95ceeead8fdc34d4b207.jpg) 京ICP证150476号 |  [京ICP备11018762号](https://beian.miit.gov.cn/#/Integrated/index)
+
+[问题归档](/developer/ask/archives.html)[专栏文章](/developer/column/archives.html)[快讯文章归档](/developer/news/archives.html)[关键词归档](/developer/information/all.html)[开发者手册归档](/developer/devdocs/archives.html)[开发者手册 Section 归档](/developer/devdocs/sections_p1.html)
+
+Copyright © 2013 - 2026 Tencent Cloud.
+
+All Rights Reserved. 腾讯云 版权所有
+
+登录 后参与评论000推荐

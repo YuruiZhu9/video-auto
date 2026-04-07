@@ -1,0 +1,240 @@
+# Source URL: https://ragen-ai.github.io/
+# Content Length: 9697 characters
+# Extracted at: 2026-03-31 08:04:25
+#============================================================
+
+
+ RAGEN - RL Agent  
+🎉 **News:** We release RAGEN-V2!  
+[Read more →](/v2/)     [![]() **RAGEN**](#hero)   
+
+   * [More Research](#)   [VAGEN](https://vagen-ai.github.io/) [MindCube](https://mind-cube.github.io/) [Embodied Agent Interface](https://embodied-agent-interface.github.io/)
+* [MLL Lab](https://www.mll.lab.northwestern.edu/)
+       [News We released RAGEN v2 Open /v2 →](/v2/)   ![]()
+
+RAGEN
+=====
+
+Training Agents by Reinforcing Reasoning
+
+LLM Agents + Multi-turn Reinforcement Learning   
+ to train LLM reasoning agents in interactive, stochastic environments.   
+ [Announcing **VAGEN** for VLM Agents >](https://vagen-ai.github.io/)
+
+ [Get Started      1.4k      105](https://github.com/RAGEN-AI/RAGEN)     [Paper](https://arxiv.org/abs/2504.20073)   [Documentation](https://ragen-doc.readthedocs.io/)   [tl;dr](https://x.com/wzihanw/status/1915052871474712858)   [Logs](https://api.wandb.ai/links/zihanwang-ai-northwestern-university/a8er8l7b)   [Collaborate with us →](https://mll-lab-nu.github.io/joinus/)     ![]()
+
+Comparison between RAGEN and existing LLM training methods.
+
+   
+
+[Zihan Wang](https://zihanwang314.github.io/)\*1,
+[Kangrui Wang](https://jameskrw.github.io/)\*1,
+[Qineng Wang](https://qinengwang-aiden.github.io/)\*1,
+[Pingyue Zhang](https://williamzhangsjtu.github.io/)\*1,
+[Linjie Li](https://scholar.google.com/citations?user=WR875gYAAAAJ&hl=en)\*2
+
+[Zhengyuan Yang](https://zyang-ur.github.io/)4,
+Xing Jin6,
+[Kefan Yu](https://www.linkedin.com/in/kefan-yu-22723a25b/en/)1,
+[Minh Nhat Nguyen](https://www.linkedin.com/in/menhguin/?originalSubdomain=sg)7,
+Licheng Liu1,
+[Eli Gottlieb](https://www.linkedin.com/in/eli-gottlieb1/)1,
+
+[Yiping Lu](https://2prime.github.io/)1,
+[Kyunghyun Cho](https://kyunghyuncho.me/)5,
+[Jiajun Wu](https://jiajunwu.com/)3,
+[Li Fei-Fei](https://profiles.stanford.edu/fei-fei-li)3,
+[Lijuan Wang](https://www.microsoft.com/en-us/research/people/lijuanw/)4,
+[Yejin Choi](https://homes.cs.washington.edu/~yejin/)3,
+[Manling Li](https://limanling.github.io/)1
+
+\* Equal Contribution
+
+1 Northwestern University   
+2 University of Washington   
+3 Stanford University   
+4 Microsoft   
+  
+ 5 New York University   
+6 University of British Columbia   
+7 Singapore Management University
+
+    
+
+StarPO (**S**tate-**T**hinking-**A**ction-**R**eward **P**olicy **O**ptimization)
+---------------------------------------------------------------------------------
+
+     📋 
+#### Initial State
+
+             🧠 
+#### Reasoning
+
+        ⚡ 
+#### Action
+
+        🏆 
+#### Reward
+
+              Repeat      ![]()
+
+The StarPO (State-Thinking-Action-Reward Policy Optimization) framework with two interleaved stages: **rollout stage** and **update stage**.
+
+     
+### MDP Formulation
+
+-  
+
+We formulate agent-environment interactions as Markov Decision Processes (MDPs) where states and actions are token sequences, allowing LLMs to reason over environment dynamics.
+
+  State \(s\_t\) token sequence           Action \(a\_t\)   State \(s\_{t+1}\) new token sequence  
+
+At time \(t\), state \(s\_t\) transitions to the next state through action \(a\_t\) following a transition function \(P(s\_{t+1} | s\_t, a\_t)\). The policy \(\pi(a\_t | s\_t)\) generates actions given the trajectory history. The objective is to maximize expected cumulative rewards \(\mathbb{E}\_\pi[\sum\_t \gamma^t r\_t]\) across multiple interaction turns.
+
+   
+### StarPO: Reinforcing Reasoning via Trajectory-Level Optimization
+
+-  
+
+StarPO is a general RL framework for optimizing entire multi-turn interaction trajectories for LLM agents. The algorithm alternates between two phases:
+
+ 
+#### Rollout Stage: Reasoning-Interaction Trajectories
+
+Given an initial Sokoban puzzle state, the LLM generates multiple solving trajectories. At each step, the model receives the puzzle state and generates a reasoning-guided action to push boxes to goal positions:
+
+ `<think>I need to push the box ($) to the goal (.) which is directly to the right.</think><ans> Right </ans>` 
+
+The environment receives the action and returns the next state with the box pushed to the goal.
+
+   🤖 
+I need to push the box ($) to the goal (.) which is directly to the right. To do this, I need to move right and push the box.
+ 
+Right
+   🌐 
+#####  
+#\_@\*#  
+#####  
+  
+Box pushed to goal position. State updated.
+   ▶️ Replay Interaction    
+#### Update Stage: Multi-turn Trajectory Optimization
+
+After generating trajectories, we train LLMs to optimize expected rewards. Instead of step-by-step optimization, StarPO optimizes entire trajectories using importance sampling. This approach enables long-horizon reasoning while maintaining computational efficiency.
+
+#### StarPO supports multiple optimization strategies:
+
+ PPO GRPO   
+
+**PPO (Proximal Policy Optimization):**
+
+ \[J\_{\text{PPO}}(\theta) = \frac{1}{G} \sum\_{i=1}^G \frac{1}{|\tau\_i|} \sum\_{t=1}^{|\tau\_i|} \min \left( \frac{\pi\_\theta(a\_t|s\_t)}{\pi\_{\text{old}}(a\_t|s\_t)} A\_{i,t}, \text{clip}\left(\frac{\pi\_\theta(a\_t|s\_t)}{\pi\_{\text{old}}(a\_t|s\_t)}, 1-\epsilon, 1+\epsilon\right) A\_{i,t} \right)\]   
+
+**GRPO (Group Relative Policy Optimization):**
+
+ \[\hat{A}\_{i,t} = \frac{R(\tau\_i) - \text{mean}(\{R(\tau\_1), \ldots, R(\tau\_G)\})}{\text{std}(\{R(\tau\_1), \ldots, R(\tau\_G)\})}\] \[J\_{\text{GRPO}}(\theta) = \frac{1}{G} \sum\_{i=1}^G \frac{1}{|\tau\_i|} \sum\_{t=1}^{|\tau\_i|} \min \left( \frac{\pi\_\theta(a\_t|s\_t)}{\pi\_{\text{old}}(a\_t|s\_t)} \hat{A}\_{i,t}, \text{clip}\left(\frac{\pi\_\theta(a\_t|s\_t)}{\pi\_{\text{old}}(a\_t|s\_t)}, 1-\epsilon, 1+\epsilon\right) \hat{A}\_{i,t} \right)\]    
+
+Rollout and update stages interleave in StarPO, enabling both online and offline learning.
+
+         
+
+Findings
+--------
+
+  
+### Finding 1: Single-turn RL may not be directly adapted to Multi-turn agent RL
+
+-  
+
+Vanilla adaptations from single-turn methods like PPO and GRPO achieve early gains in agent settings but often collapse. A critic in PPO may delay instability, but would not prevent reasoning degradation, highlighting the need for specialized stabilization in agent settings.
+
+   
+### Finding 2: Model collapse in agent RL is reflected as "Echo Trap" over training
+
+-  
+
+We find that early-stage agent respond with diverse symbolic reasoning, but collapse into deterministic, repetitive templates after training. Models converge to fixed phrasing, indicating that RL may reinforce superficial patterns instead of general reasoning and forms an "Echo Trap" that hinders long-term generalization.
+
+   
+### Finding 3: Collapse follows similar dynamics and can be anticipated by indicators
+
+-  
+
+Reward standard deviation and entropy often fluctuate before performance degrades, while gradient norm spikes typically mark the point of irreversible collapse. These metrics provide early indicators and motivate the need for stabilization strategies.
+
+   
+### Finding 4: Filtering low-variance trajectories improves stability and efficiency
+
+-  
+
+Training on high-variance prompts delays or eliminates collapse in multi-turn RL. StarPO-S improves performance and reduces update steps by discarding low-information rollouts, especially under PPO. This aligns with active learning principles, where uncertain examples offer the most informative learning signals.
+
+   
+### Finding 5: Task diversity, action budget, and rollout frequency affect data quality
+
+-  
+
+Diverse task instances enable better policy contrast and generalization across environments.
+Moderate action budgets provide enough planning space and avoid the noise introduced by overly long sequences. Up-to-date rollouts ensure optimization targets remain aligned with current policy behavior.
+
+   
+### Finding 6: Reasoning fails to emerge without meticulous reward design
+
+-  
+While symbolic reasoning can emerge in simple, single-turn tasks under weak supervision, it fails to persist in multi-turn environments without the reward design explicitly encouraging interpretable intermediate reasoning steps. We observe that even with structured prompts, reasoning gradually decays during training if the reward signal focuses only on final outcomes. This suggests that without meticulous reward shaping, agents may tend to collapse into shortcut behaviors that bypass reasoning altogether.
+       
+
+RAGEN Trajectory Examples
+-------------------------
+
+Explore agent trajectories across different tasks. View state transitions, LLM-generated actions, and the decision-making process.
+
+   Model:  Qwen2.5-0.5B-Instruct  Task:    Trajectory:           
+
+Loading trajectory data...
+
+         Step 1 of 5                   
+### State
+
+  ![]()  
+
+State description will appear here. This represents the environment's current state at the selected step.
+
+   
+### LLM Response
+
+ 
+#### Reasoning:
+
+Let me think about the current state...
+
+  
+#### Action:
+
+move\_pawn('e2', 'e4')
+           
+
+Citation
+--------
+
+If you find RAGEN useful in your research, we would appreciate it if you consider citing our work:
+
+          
+```
+@misc{ragen,
+      title={RAGEN: Understanding Self-Evolution in LLM Agents via Multi-Turn Reinforcement Learning}, 
+      author={Zihan Wang and Kangrui Wang and Qineng Wang and Pingyue Zhang and Linjie Li and Zhengyuan Yang and Xing Jin and Kefan Yu and Minh Nhat Nguyen and Licheng Liu and Eli Gottlieb and Yiping Lu and Kyunghyun Cho and Jiajun Wu and Li Fei-Fei and Lijuan Wang and Yejin Choi and Manling Li},
+      year={2025},
+      eprint={2504.20073},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2504.20073}, 
+}
+```
+      
+
+Copyright © 2025 - All right reserved by [MLL Lab](https://mll-lab-nu.github.io)
+
+Website maintained by [MLL Lab](https://mll-lab-nu.github.io)
+
+  

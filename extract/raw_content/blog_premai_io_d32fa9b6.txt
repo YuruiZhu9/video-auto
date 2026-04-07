@@ -1,0 +1,566 @@
+# Source URL: https://blog.premai.io/speculative-decoding-2-3x-faster-llm-inference-2026/
+# Content Length: 26197 characters
+# Extracted at: 2026-03-31 06:47:00
+#============================================================
+
+
+
+
+Speculative Decoding: 2-3x Faster LLM Inference (2026)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[![]()](https://blog.premai.io)
+
+
+
+
+* [Homepage](https://www.premai.io/)
+* [All Articles](https://blog.premai.io/)
+* [Resources](https://docs.premai.io/)
+
+[Sign in](#/portal/signin)
+[Subscribe](#/portal/signup)
+
+
+
+
+By [Arnav Jalan](/author/arnav/)
+—
+17 Mar 2026
+
+Speculative Decoding: 2-3x Faster LLM Inference (2026)
+======================================================
+
+How speculative decoding works, draft model selection, EAGLE3 vs Medusa, acceptance rate math, vLLM and SGLang setup. Real benchmarks from Llama 3.1 on H100s.
+
+![]()
+
+
+Every token an LLM generates requires a full forward pass through the entire model. Load billions of weights from GPU memory, compute the next token, append it, repeat. For a 70B parameter model generating 500 tokens, that is 500 sequential full-model passes. No amount of GPU compute helps because each pass depends on the previous token.
+
+This is the memory bandwidth problem. Modern GPUs are underutilized during LLM inference. The GPU compute units are waiting for weights to load from memory, not running out of arithmetic capacity. Roofline analysis shows LLM inference clustering at arithmetic intensity near 1 FLOP per byte, which places it deep in the memory-bound region, roughly two orders of magnitude below the compute-bound ridge point. The GPU sits mostly idle, waiting on data.
+
+Speculative decoding exploits this waste. If you are paying the memory bandwidth cost per step anyway, you might as well verify several tokens per load rather than one. That is the entire idea.
+
+Google introduced speculative decoding in a 2022 paper and has since deployed it in AI Overviews, where it enables faster responses at unchanged quality. The original paper demonstrated 2-3x improvements on translation and summarization. In 2025 and 2026, the technique went from research experiment to production standard, now built into vLLM, SGLang, TensorRT-LLM, and most serious serving frameworks.
+
+---
+
+How Draft-Then-Verify Actually Works
+------------------------------------
+
+Speculative decoding pairs two models:
+
+**Draft model:** A smaller, fast model that proposes multiple tokens ahead. It runs sequentially but completes in a fraction of the time because it is much smaller.
+
+**Target model:** Your full LLM. Instead of generating one token per forward pass, it verifies all draft tokens in a single parallel pass.
+
+The verification step is the key insight. The target model can check whether multiple draft tokens are consistent with its own probability distribution in one forward pass, because transformers naturally compute attention over all positions in parallel. This is not an approximation. The math guarantees that accepted tokens follow exactly the same distribution as if the target model had generated them autoregressively.
+
+Walk through a concrete example. Say you are running Llama 3.1-70B and the user asked "What is the capital of France?"
+
+1. Draft model generates 5 tokens: "The", "capital", "of", "France", "is"
+2. Target model runs one forward pass, checking all 5 tokens in parallel
+3. The first 5 all pass verification (easy factual completion, high confidence tokens)
+4. Target model also generates the bonus token: "Paris"
+5. Six tokens produced. One target model forward pass instead of six.
+
+When draft tokens get rejected, the process falls back cleanly. The target model samples a correct replacement token at the first rejection point and the next draft cycle begins from there. No quality is lost because rejections trigger standard sampling from the target model's distribution.
+
+The speedup math depends entirely on acceptance rate. If the draft model's proposals are accepted 80% of the time, you generate far more tokens per target model pass than if acceptance is 40%.
+
+---
+
+The Acceptance Rate: What It Actually Means
+-------------------------------------------
+
+Acceptance rate (α) is the probability that a single draft token gets accepted by the target model. It is the single most important number for predicting your actual speedup.
+
+Expected acceptance length (τ) is the average number of draft tokens accepted per round. It relates to α approximately as:
+
+```
+τ = (1 - α^(γ+1)) / (1 - α)
+
+```
+
+Where γ is the number of draft tokens proposed per round (speculation length). In practice:
+
+| Acceptance rate (α) | Speculation length (γ) | Expected tokens per pass |
+| --- | --- | --- |
+| 0.5 | 5 | ~2.0 |
+| 0.6 | 5 | ~2.4 |
+| 0.7 | 5 | ~2.9 |
+| 0.8 | 5 | ~3.8 |
+| 0.8 | 8 | ~4.5 |
+| 0.9 | 8 | ~6.1 |
+
+At α = 0.6-0.8, which is the realistic range with off-the-shelf EAGLE3 draft models on general queries, you see 2-3x speedup. At α below 0.5, speculative decoding can actually hurt performance because you waste cycles proposing and verifying tokens that mostly get rejected.
+
+The acceptance rate varies significantly by task type. Predictable completions like code with clear patterns, formal writing, or structured data typically yield α in the 0.75-0.85 range. Creative writing, open-ended generation, or highly domain-specific content drops α to 0.5-0.65 unless the draft model was trained on similar data.
+
+---
+
+Draft Model Approaches: Which One to Use
+----------------------------------------
+
+There are four main approaches to speculative decoding in production, each with different tradeoffs.
+
+### 1. External Draft Model (Classic Speculative Decoding)
+
+A separate smaller model from the same family proposes tokens. Llama 3.2 1B as draft for Llama 3.3 70B. Llama 3.1 8B as draft for Llama 3.1 405B.
+
+**Pros:** Simple setup. Pre-trained draft models exist for major model families. No training required.
+
+**Cons:** Two separate model weights loaded into GPU memory. The draft model still needs memory bandwidth to run, which partially offsets the savings. At larger batch sizes, this overhead outweighs the benefit.
+
+Best for: Low-request-rate deployments, single-request latency optimization, teams that cannot train custom draft models.
+
+### 2. EAGLE-Style Draft Head (State of the Art)
+
+EAGLE (and its successors EAGLE-2 and EAGLE-3) trains a small auxiliary model that reuses the target model's own intermediate representations. The draft head sees the target model's hidden states, which contain far richer information than the token sequence alone.
+
+EAGLE-3 specifically adds "training-time test": it fuses hidden states from multiple intermediate layers, not just the final layer before the LM head. This significantly improves acceptance rates compared to earlier approaches.
+
+The draft head shares the target model's KV cache. There is no second full-model load. Memory overhead is minimal: a few hundred million parameters on top of your existing model, not a second full model.
+
+**Pros:** Substantially higher acceptance rates than external draft models on most tasks (0.75-0.85 range). Lower memory overhead. Output distribution is mathematically identical to standard decoding.
+
+**Cons:** Requires a trained EAGLE3 draft head specific to your target model. Pre-trained heads exist for Llama 3.3-70B, Llama 3.1-8B, Qwen3, and a few others. Fine-tuning one for a custom model requires additional compute.
+
+Best for: Production deployments where you need consistent 2-3x speedups. Currently the industry standard approach.
+
+### 3. N-gram / Prompt Lookup Decoding
+
+Scans recent context for repeated n-gram patterns. If the last few tokens appeared earlier in the context, the tokens that followed them become draft candidates.
+
+No model training, no extra memory, trivially fast to implement. Works especially well when the output repeats phrases from the input, such as code completion, document editing, or structured extraction where output format mirrors input.
+
+**Pros:** Zero overhead, no extra model, instant speedup on applicable tasks.
+
+**Cons:** Useless for generation that does not repeat from context. Inconsistent speedups depending on input type.
+
+Best for: Coding assistants, document summarization, structured output tasks.
+
+### 4. Self-Speculative Decoding (LayerSkip)
+
+The model speculates using its own early layers, skipping the remaining layers for draft generation. The full model then verifies. No second model required.
+
+**Pros:** Single model, no extra memory.
+
+**Cons:** Acceptance rates are generally lower than EAGLE-based approaches because early layers have less predictive information. Implementation requires models specifically trained with LayerSkip.
+
+Best for: Memory-constrained environments where loading even a small second model is not possible.
+
+---
+
+Real Benchmark Numbers
+----------------------
+
+These are measured results, not theoretical maxima.
+
+**vLLM with EAGLE3, Llama 3.3-70B-Instruct on 4x A100s:**
+
+* Baseline (no speculative decoding): ~18 tokens/sec
+* With EAGLE3, γ=3: ~42 tokens/sec
+* Speedup: ~2.3x at low request rates (1-5 concurrent)
+
+**vLLM with external draft model, Llama 3.1-70B with 1B draft on single H100:**
+
+* Speedup at batch size 1: 2.31x (AMD MI300X benchmark, vLLM v0.6.7)
+* Speedup at batch size 8: 1.4x
+* Speedup at batch size 32+: near baseline or worse
+
+**vLLM with Llama 3.1-405B + 8B draft on 4x AMD MI300X:**
+
+* 405B + 8B draft: 1.8x speedup
+* 405B + 3B draft: 1.5x speedup
+* 405B + 1B draft: 1.2x speedup (insufficient draft quality)
+
+**Red Hat Speculators (EAGLE-based) on math reasoning tasks:**
+
+* Qwen3-32B on 2x A100: 2.7x speedup
+* Llama 3.3-70B on 4x A100: 2.5x speedup
+* Llama 4 Maverick on 8x B200: 2.0x speedup
+* Selected math tasks: >4x in some cases
+
+**SGLang with SpecForge, Llama 4 Maverick on MT-Bench:**
+
+* 2.18x speedup in low-latency regime
+
+The pattern across all benchmarks: speculative decoding delivers 2-3x at low concurrency (1-10 simultaneous requests) and diminishing returns above that. At very high batch sizes (32+), you are often better off without it.
+
+---
+
+When Speculative Decoding Helps (and When It Doesn't)
+-----------------------------------------------------
+
+The two conditions that determine whether speculative decoding helps your workload:
+
+**1. Inference must be memory-bound, not compute-bound.** This is almost always true at batch size 1-4 on large models. As batch size grows, the GPU starts becoming compute-bound and the memory bandwidth advantage shrinks. For high-throughput batch inference, continuous batching and paged attention often matter more.
+
+**2. The draft model must have good acceptance rates on your actual queries.** Generic draft models trained on ShareGPT do well on conversational tasks and general Q&A. They underperform on domain-specific outputs: medical terminology, legal boilerplate, specialized code, or any content the draft model has not seen patterns of.
+
+### Use it when:
+
+* Serving interactive, latency-sensitive applications (chatbots, coding assistants, copilots)
+* Running at low to moderate concurrency (under 20 simultaneous requests)
+* Your model is 13B+ parameters (smaller models see less benefit because they are already fast)
+* Queries produce predictable completions (the acceptance rate will be naturally high)
+
+### Skip it or measure carefully when:
+
+* High-throughput batch processing is the goal (continuous batching handles this better)
+* Running at very high concurrency (40+ simultaneous requests)
+* Your outputs are highly creative or domain-specific without a matching draft model
+* You are already running quantized small models where memory bandwidth savings are reduced
+* The target model is compute-bound due to very short outputs (< 50 tokens per request)
+
+---
+
+vLLM: Complete Setup
+--------------------
+
+vLLM added EAGLE3 support in version 0.8.5. Version 0.9.1 added CUDA graph support and speculative decoding metrics.
+
+### External draft model (classic speculative decoding)
+
+```
+vllm serve meta-llama/Llama-3.1-70B-Instruct \
+  --speculative-model meta-llama/Llama-3.2-1B-Instruct \
+  --num-speculative-tokens 5 \
+  --max-model-len 8192 \
+  -tp 2
+
+```
+### EAGLE3 with a pre-trained draft head
+
+```
+VLLM_USE_V1=1 vllm serve meta-llama/Llama-3.3-70B-Instruct \
+  --seed 42 \
+  -tp 4 \
+  --speculative-config '{
+    "model": "yuhuili/EAGLE3-LLaMA3.3-Instruct-70B",
+    "num_speculative_tokens": 3,
+    "method": "eagle3",
+    "draft_tensor_parallel_size": 1
+  }'
+
+```
+
+For Llama 3.1-8B with EAGLE3:
+
+```
+VLLM_USE_V1=1 VLLM_LOGGING_LEVEL=DEBUG \
+vllm serve meta-llama/Llama-3.1-8B-Instruct \
+  --max-model-len 8192 \
+  -tp 1 \
+  --speculative-config '{
+    "method": "eagle3",
+    "model": "path/to/eagle3-draft-head",
+    "num_speculative_tokens": 5,
+    "draft_tensor_parallel_size": 1
+  }'
+
+```
+### N-gram / prompt lookup (zero extra memory)
+
+```
+vllm serve meta-llama/Llama-3.1-70B-Instruct \
+  --speculative-model [ngram] \
+  --num-speculative-tokens 5 \
+  --ngram-prompt-lookup-max 4 \
+  -tp 2
+
+```
+### Monitoring acceptance rate in vLLM
+
+vLLM 0.9.1+ exposes speculative decoding metrics including draft acceptance rate, per-position acceptance rates, and mean acceptance length. Enable with:
+
+```
+--enable-prefix-caching  # improves draft acceptance for repeated prefixes
+
+```
+
+Query metrics via the OpenMetrics endpoint at `/metrics`. Watch `vllm:spec_decode_draft_acceptance_rate` and `vllm:spec_decode_efficiency`. If acceptance rate drops below 0.5 in production, consider disabling speculative decoding for that traffic type or switching to n-gram lookup.
+
+---
+
+SGLang Setup
+------------
+
+SGLang's speculative decoding implementation performs particularly well at moderate concurrency. The SpecForge framework, open-sourced by the LMSYS team, handles EAGLE3 training specifically for SGLang deployment.
+
+### Basic EAGLE3 configuration in SGLang
+
+```
+import sglang as sgl
+
+# Launch server with speculative decoding
+runtime = sgl.Runtime(
+    model_path="meta-llama/Llama-3.1-70B-Instruct",
+    speculative_model="yuhuili/EAGLE3-LLaMA3.3-Instruct-70B",
+    num_speculative_tokens=5,
+    speculative_draft_model_context_len=4096,
+    tp_size=4,
+)
+
+```
+
+Or via the CLI:
+
+```
+python -m sglang.launch_server \
+  --model-path meta-llama/Llama-3.1-70B-Instruct \
+  --speculative-algo EAGLE \
+  --speculative-draft-model-path yuhuili/EAGLE3-LLaMA3.3-Instruct-70B \
+  --speculative-num-steps 5 \
+  --speculative-eagle-topk 8 \
+  --speculative-num-draft-tokens 10 \
+  --tp 4
+
+```
+### Benchmark before deploying
+
+SGLang provides a `bench_speculative` script that runs throughput benchmarks across different `num_speculative_tokens` values and reports the optimal configuration for your hardware. Run this on a sample of your actual production queries, not synthetic data.
+
+```
+python -m sglang.bench_speculative \
+  --model meta-llama/Llama-3.1-70B-Instruct \
+  --speculative-model yuhuili/EAGLE3-LLaMA3.3-Instruct-70B \
+  --num-prompts 500 \
+  --request-rate 2.0
+
+```
+
+The output shows tokens/sec and mean acceptance length at each speculation depth. Use the configuration that maximizes tokens/sec, not acceptance length. These do not always agree.
+
+---
+
+Optimizing Acceptance Rate for Your Workload
+--------------------------------------------
+
+Out-of-the-box EAGLE3 models trained on ShareGPT reach 0.6-0.8 acceptance rates on general conversational tasks. For specialized domains, that drops to 0.4-0.6, which reduces speedup significantly and can make speculative decoding net negative at higher concurrency.
+
+Two paths to improve acceptance rates:
+
+### Option 1: Fine-tune an existing draft model on domain data
+
+Take a pre-trained EAGLE3 draft head and continue training on examples from your domain. Using SpecForge (SGLang's training framework) or the official EAGLE3 training scripts, this requires roughly 1,000-5,000 domain-specific examples and several hours of training on 2-4 A100s.
+
+Typical acceptance rate gains: +0.10 to +0.20 on domain-specific queries, which translates to 0.3-0.8x additional speedup on top of the base improvement.
+
+For teams running [custom fine-tuned models](https://blog.premai.io/enterprise-ai-fine-tuning-from-dataset-to-production-model/) on specialized enterprise data, this is the right approach. The draft model needs to predict outputs in the style and vocabulary of your fine-tuned target, not generic chat outputs.
+
+### Option 2: Train a draft head from scratch
+
+When fine-tuning an existing draft head is not sufficient, train a new EAGLE3 head specifically for your target model using SpecForge:
+
+```
+# Step 1: Build training data cache from your model's own outputs
+python scripts/build_eagle3_dataset_cache.py \
+  --target-model-path your-finetuned-model \
+  --draft-model-config ./configs/llama3-8B-eagle3.json \
+  --train-data-path ./data/domain_train.jsonl \
+  --cache-dir ./cache \
+  --chat-template llama3 \
+  --max-length 2048
+
+# Step 2: Train the draft head
+export NUM_GPUS=4
+torchrun \
+  --standalone \
+  --nproc_per_node $NUM_GPUS \
+  scripts/train_eagle3_sgl_online.py \
+  --target-model-path your-finetuned-model \
+  --model-path your-finetuned-model \
+  --draft-model-config ./configs/llama3-8B-eagle3.json \
+  --train-data-path ./data/domain_train.jsonl \
+  --tp-size $NUM_GPUS \
+  --output-dir ./outputs \
+  --num-epochs 10 \
+  --batch-size 1 \
+  --learning-rate 5e-5 \
+  --max-length 2048 \
+  --total-steps 800000
+
+```
+
+The draft head generates its own training data by running the target model on your training examples. It learns to predict the specific output patterns of your fine-tuned model, not generic patterns. This is why acceptance rates on domain-specific tasks are higher with custom-trained heads than with general-purpose ones.
+
+Training cost: approximately 1-2 GPU-days on 4x A100s for a Llama 3.1-8B-scale draft head.
+
+---
+
+Framework Comparison
+--------------------
+
+|  | vLLM | SGLang | TensorRT-LLM |
+| --- | --- | --- | --- |
+| EAGLE3 support | v0.8.5+ | Native | EAGLE1+2, EAGLE3 in Pytorch backend |
+| N-gram lookup | Yes | Yes | Yes |
+| External draft model | Yes | Yes | Yes |
+| Speculative metrics | v0.9.1+ | Built-in | Limited |
+| Tree decoding | Not currently | Yes (bench only) | Partial |
+| Draft training tools | None built-in | SpecForge | TensorRT-Model-Optimizer |
+| Best concurrency range | Low-medium | Low-medium | Low (latency-focused) |
+
+vLLM is the easiest starting point. SGLang has marginally better performance at moderate concurrency and a better draft model training story via SpecForge. TensorRT-LLM makes sense if you are already in the NVIDIA ecosystem and running on H100/H200/B200 hardware.
+
+---
+
+Combining Speculative Decoding with Other Optimizations
+-------------------------------------------------------
+
+Speculative decoding stacks with most other inference optimizations:
+
+**Quantization + speculative decoding:** Works well. The AMD MI300X benchmarks showed 3.6x total improvement when combining FP8 quantization with speculative decoding on Llama 3.1-405B. Quantization reduces the memory bandwidth cost per pass, which means the target model runs faster. Speculative decoding then further reduces the number of target model passes needed. The effects are multiplicative, not additive.
+
+**Continuous batching + speculative decoding:** Works but with diminishing returns on the speculative side. At batch size 8+, speculative decoding contributes less and continuous batching does most of the throughput work. Below batch size 4, speculative decoding dominates.
+
+**Prefix caching + speculative decoding:** Enable prefix caching when possible. Shared prefixes across requests improve the acceptance rate because the KV cache contains context the draft model has effectively already "seen."
+
+**Tensor parallelism and speculative decoding:** Using TP=2 or TP=4 alongside speculative decoding generally improves throughput because each target model forward pass is faster. Under very high concurrency (40+ requests), higher γ values can cause latency spikes. Tune `num_speculative_tokens` downward if you see latency degradation at peak load.
+
+For teams running [self-hosted inference infrastructure](https://blog.premai.io/enterprise-ai-doesnt-need-enterprise-hardware/), speculative decoding is one of the highest-return optimizations to implement before considering hardware upgrades. A 2x latency improvement costs nothing beyond the draft model and configuration time.
+
+---
+
+Production Checklist
+--------------------
+
+Before enabling speculative decoding in production:
+
+**Measure acceptance rate on your actual query distribution.** Use the vLLM or SGLang metrics endpoints during a staging run with real traffic. If acceptance rate is below 0.55, the benefit is likely marginal or negative at your typical batch size.
+
+**Test at your production concurrency level, not batch size 1.** Most benchmarks are measured at low request rates. Run your benchmark at 2x your expected peak concurrency to confirm performance holds.
+
+**Check for latency tail behavior.** P99 latency can spike under high concurrency with speculative decoding enabled because rejected draft batches occasionally require two target model passes. Monitor P99 alongside median latency.
+
+**Version-pin your speculative decoding configuration.** The EAGLE3 draft model must match the target model. If you update your base model, you need to update or retrain the draft head. Mismatched versions produce lower acceptance rates and may produce subtly incorrect outputs.
+
+**Disable for very short outputs.** For requests that consistently produce under 50 tokens, speculative decoding overhead often washes out the gains. Use request-level routing if your API serves a mix of short and long generation requests.
+
+---
+
+Speculative Decoding and Fine-Tuned Models
+------------------------------------------
+
+A common scenario for enterprise teams: you fine-tuned a base model on domain data and want to run speculative decoding. The off-the-shelf EAGLE3 draft head for Llama 3.3-70B was trained to predict standard instruction-tuned outputs. Your fine-tuned model generates in a different style and vocabulary.
+
+The result: acceptance rates drop, sometimes significantly. A fine-tuned model for, say, legal document generation will produce output patterns the generic draft model has not learned to anticipate.
+
+Two options:
+
+1. Keep the generic draft head and accept lower speedups (often still 1.5-2x, worthwhile)
+2. Train a domain-specific draft head as described above
+
+The second option is the right answer for any production deployment where inference latency is a meaningful cost. [Building production-ready AI pipelines](https://blog.premai.io/build-production-ready-ai-models/) with fine-tuned models increasingly includes a custom draft model as part of the deployment artifact.
+
+One practical consideration for regulated industries: because speculative decoding is mathematically lossless (accepted tokens follow the exact target distribution), it does not affect model behavior audits or evaluation results. [LLM evaluation benchmarks](https://blog.premai.io/llm-reliability-why-evaluation-matters-how-to-master-it/) run identically with or without speculative decoding enabled. This matters if your deployment needs to demonstrate that inference behavior matches your evaluated baseline.
+
+---
+
+FAQ
+---
+
+**Does speculative decoding change the model outputs?**
+
+No. Accepted tokens follow the exact same probability distribution as standard autoregressive decoding. The output quality, measured by any metric, is identical to running the target model without speculative decoding. This is a mathematical guarantee, not an approximation.
+
+**Which is better: EAGLE3 or an external draft model?**
+
+EAGLE3 generally wins on acceptance rate and memory efficiency because it reuses the target model's own representations. An external draft model requires loading a second full model into GPU memory and sees lower acceptance rates on most tasks. Use EAGLE3 if a pre-trained head exists for your target model.
+
+**What acceptance rate do I need to see a meaningful speedup?**
+
+At α = 0.6 with γ = 5, you get roughly 2-2.4x speedup in the single-request case. Below α = 0.5, the overhead starts outweighing the gains, especially at batch sizes above 4. Measure first, then decide.
+
+**Does speculative decoding work with structured outputs (JSON, XML)?**
+
+Yes. In some cases, structured output generation sees higher acceptance rates because constrained decoding produces very predictable token sequences. The draft model learns to predict the schema tokens confidently. Measure on your actual schemas.
+
+**How does batch size affect speculative decoding?**
+
+Batch size is the most important variable after acceptance rate. Speculative decoding is most effective at batch size 1-4. At batch size 8, expect 1.3-1.6x instead of 2-3x. At batch size 32+, the improvement is often negligible because the GPU is no longer memory-bound. For high-throughput batch workloads, prioritize continuous batching and quantization first.
+
+**What are the EAGLE3 draft heads available today?**
+
+Pre-trained EAGLE3 draft heads are available on HuggingFace for Llama 3.3-70B, Llama 3.1-8B, and some Qwen3 variants. The SpecForge project covers Llama 4 Scout and Llama 4 Maverick. Coverage is expanding as more teams train and release heads. Check `yuhuili/EAGLE3-*` on HuggingFace for the current list.
+
+**Can I use speculative decoding with mixture-of-experts models like DeepSeek?**
+
+Yes. DeepSeek-V3 includes a native multi-token prediction (MTP) module that functions as a built-in draft head. Utility-driven speculative decoding methods designed specifically for MoE architectures are also being developed. The SpecForge framework supports MoE architectures.
+
+
+[Previous issue
+#### Best Embedding Models for RAG (2026): Ranked by MTEB Score, Cost, and Self-Hosting](/best-embedding-models-for-rag-2026-ranked-by-mteb-score-cost-and-self-hosting/)
+
+
+[Next issue 
+
+
+#### GraphRAG Implementation Guide: Entity Extraction, Query Routing & When It Beats Vector RAG (2026)](/graphrag-implementation-guide-entity-extraction-query-routing-when-it-beats-vector-rag-2026/)
+
+
+
+
+
+### Subscribe to Prem AI
+
+Don’t miss out on the latest issues. Sign up now to get access to the library of members-only issues.
+[[email protected]
+
+Subscribe](#/portal/signup)
+
+
+
+Prem AI © 2026
+
+* [Sign up](#/portal/)
+
+[Powered by Ghost](https://ghost.org/)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

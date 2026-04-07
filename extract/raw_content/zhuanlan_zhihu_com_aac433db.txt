@@ -1,0 +1,215 @@
+# Source URL: https://zhuanlan.zhihu.com/p/2021692620536050223
+# Content Length: 17952 characters
+# Extracted at: 2026-04-06 05:03:34
+#============================================================
+
+![](https://zhuanlan.zhihu.com/p/2021692620536050223)
+![2026 OpenClaw（小龙虾）全攻略：从入门安装到深度解析，一篇吃透全网最火 AI Agent](https://pica.zhimg.com/v2-747c6560cba6eadef199ee5e3bbaaef8\_720w.jpg?source=172ae18b)
+### 开篇：一夜爆火的“小龙虾”，到底是什么？
+2026年开年，整个AI圈都掀起了“养龙虾”的热潮。这只名为 \*\*OpenClaw\*\* 的开源AI Agent框架，从诞生起就刷新了[GitHub](https://zhida.zhihu.com/search?content\_id=272201244&content\_type=Article&match\_order=1&q=GitHub&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzU1OTU4MTIsInEiOiJHaXRIdWIiLCJ6aGlkYV9zb3VyY2UiOiJlbnRpdHkiLCJjb250ZW50X2lkIjoyNzIyMDEyNDQsImNvbnRlbnRfdHlwZSI6IkFydGljbGUiLCJtYXRjaF9vcmRlciI6MSwiemRfdG9rZW4iOm51bGx9.hvSJP7C-3fOpZwJpy2bNwf36NfjeXv7QiIP5sGBferc&zhida\_source=entity)的增长纪录——短短数月斩获超31万星标，登顶GitHub历史第一，超越了前端框架[React](https://zhida.zhihu.com/search?content\_id=272201244&content\_type=Article&match\_order=1&q=React&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzU1OTU4MTIsInEiOiJSZWFjdCIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI3MjIwMTI0NCwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.R8EhPAFTlrp8djZ8WAyMDI\_YiCatxQ6BjNwssQshcBM&zhida\_source=entity) 13年的积累，成为有史以来增速最猛的开源项目之一。
+它的开发者、奥地利独立程序员[Peter Steinberger](https://zhida.zhihu.com/search?content\_id=272201244&content\_type=Article&match\_order=1&q=Peter+Steinberger&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzU1OTU4MTIsInEiOiJQZXRlciBTdGVpbmJlcmdlciIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI3MjIwMTI0NCwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.B40w3Jeyt0m89yAD-uIb\_3epXYZ-fGNDQg32DTIGRjk&zhida\_source=entity)给它贴了一个最精准的标签： \*\*真正会干活的AI\*\*。
+和[ChatGPT](https://zhida.zhihu.com/search?content\_id=272201244&content\_type=Article&match\_order=1&q=ChatGPT&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzU1OTU4MTIsInEiOiJDaGF0R1BUIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjcyMjAxMjQ0LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.Z2QAym1rZB7l7AV6MvfO0UUGe-Dg-cGz75otKxYgjcw&zhida\_source=entity)这类纯对话式AI工具完全不同，OpenClaw就像给AI装上了“眼睛和双手”：它能7×24小时在你的设备上不间断运行，能自主操控浏览器、编写代码、读写文件、执行系统命令，甚至能在你休息的时候，主动把你交代的任务全部完成。它不再是被动等待指令的“聊天机器人”，而是真正能自主工作、自我迭代的“数字员工”。
+就连投入数万美元深度使用的开发者AlexFinn，都凭借它实现了超1万美元的月经常性收入，而这一切的起点，只是Peter在职业倦怠期，用一小时敲出来的一个“玩票”原型。
+![](https://pic1.zhimg.com/v2-a4aacfe0002fda148aa70731be33b9d0\_1440w.jpg)
+\_图注：OpenClaw核心工作架构，一图看懂“小龙虾”如何帮你完成任务\_
+### 一、核心颠覆：OpenClaw凭什么甩开传统AI工具？
+传统AI工具的核心硬伤，就是永远的“被动性”——你不发话，它就永远闲着。而OpenClaw的爆火，正是因为它用三大核心能力，彻底打破了这个局限。
+![](https://pic3.zhimg.com/v2-258eea6ae7bbb6ad34a1ecbee2526a74\_1440w.jpg)
+\_图注：传统AI助手与OpenClaw的核心差异，前者仅能封闭对话，后者可直接操控本地系统完成任务\_
+### 1\. 能自我迭代的长期记忆能力
+OpenClaw会永久记住你的所有对话记录、使用偏好、目标需求和工作习惯。你告诉它偏好用哪种方式编程、你的时区与生活习惯，它会完整留存并持续适配，每一次交互都让它更贴合你的需求，越用越“懂你”。甚至当你问它“怎么才能保证你不再漏掉细节”，它会自主为自己搭建一套全新的记忆系统。
+### 2\. 能主动出击的自主工作模式
+最具颠覆性的，是它无需人工触发的主动工作能力。AlexFinn的真实案例堪称经典：他的OpenClaw在Twitter上刷到Elon Musk为最佳文章设置100万美元奖励的消息后，竟自主为他的SaaS产品开发了一套文章写作功能。等他次日醒来，相关代码已全部完成，审核后直接上线，这一功能最终为他带来了超1万美元的月收入，全流程都在他休息时自动完成。
+### 3\. 无上限的全维度定制能力
+作为完全开源的框架，你可以按需修改OpenClaw的任意行为，更关键的是它具备自我定制、自我改造的能力。同时它支持30+消息平台对接，从Telegram、Discord到国内的微信、企业微信、飞书、钉钉，都能无缝接入，你用日常通讯工具就能直接给它下发指令。
+而在部署方式上， \*\*本地部署远比云端VPS部署更具优势\*\*，这也是社区公认的避坑核心：
+| 对比维度 | 本地部署 | 云端VPS部署 |
+| --- | --- | --- |
+| 上手难度 | 一行命令完成安装，零门槛 | 需配置服务器、网络规则、安全设置，步骤繁琐 |
+| 数据安全 | 数据全程不离开你的设备，零泄露风险 | 需额外配置防火墙、加密通信，仍有泄露隐患 |
+| 功能完整性 | 100%发挥全部能力，支持本地应用操控、剪贴板访问、桌面交互 | 仅能发挥约20%的能力，核心进阶功能无法使用 |
+| 操作直观性 | 屏幕实时查看操作过程，可视化程度拉满 | 仅能通过浏览器远程终端查看，操作门槛高 |
+更惊喜的是，运行OpenClaw完全不需要高价硬件，旧笔记本、50美元的树莓派、吃灰的台式机都能完美运行，官方更推荐“先用现有设备跑，再按需渐进升级”，普通用户用Mac mini就能满足几乎所有需求。
+### 二、保姆级上手：OpenClaw安装部署全指南（含微信直连教程）
+OpenClaw的安装难度被社区过度夸大，实际基础部署仅需3个核心步骤，就能完成“孵化”；想要实现微信内直接操控，也有3种成熟方案可选，照着做就能成功。
+### （一）基础安装：三分钟完成本地部署
+### 步骤一：一行命令完成核心安装
+首先访问OpenClaw官方网站：openclaw.ai，下滑找到【Quick Start】板块，复制对应系统的安装命令：
+- \*\*macOS / Linux系统\*\*：打开终端，输入命令 curl -fsSL [https://openclaw.ai/install.sh](https://link.zhihu.com/?target=https%3A//openclaw.ai/install.sh) \| bash npm i -g openclaw
+若遇到权限报错，在命令前加`sudo`即可。
+- \*\*Windows系统\*\*：以管理员身份打开PowerShell，输入命令 iwr -useb [https://openclaw.ai/install.ps1](https://link.zhihu.com/?target=https%3A//openclaw.ai/install.ps1) \| iex
+回车后等待自动安装完成，全程无需额外操作。
+### 步骤二：选择并配置AI大模型
+安装完成后，OpenClaw会自动引导初始配置，核心是选择AI模型提供商，目前三大主流选项按需选择即可：
+1. \*\*[Anthropic Claude Opus 4.6](https://zhida.zhihu.com/search?content\_id=272201244&content\_type=Article&match\_order=1&q=Anthropic+Claude+Opus+4.6&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzU1OTU4MTIsInEiOiJBbnRocm9waWMgQ2xhdWRlIE9wdXMgNC42IiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjcyMjAxMjQ0LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.wpnRhExFGtstAPttvk7jgrGqiTF8-qS8bcgdqNrQHz0&zhida\_source=entity)\*\*：性能天花板，针对AI Agent任务做了专属优化，推理能力最强，对话体验最自然，缺点是成本较高，月均使用约200美元；
+2. \*\*[OpenAI 系列模型](https://zhida.zhihu.com/search?content\_id=272201244&content\_type=Article&match\_order=1&q=OpenAI+%E7%B3%BB%E5%88%97%E6%A8%A1%E5%9E%8B&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzU1OTU4MTIsInEiOiJPcGVuQUkg57O75YiX5qih5Z6LIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjcyMjAxMjQ0LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.gcunEX8-TDJPjAUd0aZhlxSA0uMbY5GX4kD8JGQvV0E&zhida\_source=entity)\*\*：性价比之选，若已有ChatGPT订阅可直接联动使用，模型能力强劲，仅对话自然度略逊于Claude；
+3. \*\*[Minimax](https://zhida.zhihu.com/search?content\_id=272201244&content\_type=Article&match\_order=1&q=Minimax&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzU1OTU4MTIsInEiOiJNaW5pbWF4IiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjcyMjAxMjQ0LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.9Gil-v3ZnAKZpe-vAe1zFKz6zdV7LDQyWjl1449WOY4&zhida\_source=entity)\*\*：入门经济型选择，月均使用成本仅10美元左右，能满足基础需求，预算有限的新手首选。
+> 避坑关键：复制API token时，建议先粘贴到记事本，确认为单行格式、无换行符或格式错误后，再粘贴到OpenClaw中，这是90%用户配置失败的核心原因。
+### 步骤三：配置消息交互通道
+OpenClaw无需专属APP，可直接对接日常通讯工具。官方首推 \*\*Telegram\*\*，支持线程化和分块显示，交互体验最接近真人沟通，且OpenClaw会提供分步引导，跟着操作即可完成对接。
+完成以上三步，你的OpenClaw就已“孵化”成功，可正常开启使用！
+### （二）进阶玩法：微信直连OpenClaw，手机就能随时指挥AI干活
+2026年3月腾讯正式推出微信「[ClawBot](https://zhida.zhihu.com/search?content\_id=272201244&content\_type=Article&match\_order=1&q=ClawBot&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzU1OTU4MTIsInEiOiJDbGF3Qm90IiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjcyMjAxMjQ0LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.Kj2IfRgQFgpIO5Z5no5aYcGbmSXeQ7xmia8EW1iDpCk&zhida\_source=entity)」插件，支持直接接入OpenClaw，相当于把专属AI助理直接装进了微信里。这里提供3种成熟部署方案，任选其一即可实现。
+![](https://pic2.zhimg.com/v2-8b95925af2852c01607306c2a5950983\_1440w.jpg)
+\_图注：OpenClaw腾讯云部署架构，支持微信、QQ、企业微信、飞书等国内主流平台一键接入\_
+### 方案一：本地电脑安装（零成本，新手首选）
+这是最灵活、零成本的方案，适合只想体验、不想购买服务器的用户，核心解决Windows环境下的安装BUG，照着做100%成功：
+1. 完成上文基础安装步骤，确保OpenClaw在本地正常运行；
+2. 提前下载Git工具（地址： [https://git-scm.com/install/），并在系统环境变量中添加npm的安装路径；](https://link.zhihu.com/?target=https%3A//git-scm.com/install/%25EF%25BC%2589%25EF%25BC%258C%25E5%25B9%25B6%25E5%259C%25A8%25E7%25B3%25BB%25E7%25BB%259F%25E7%258E%25AF%25E5%25A2%2583%25E5%258F%2598%25E9%2587%258F%25E4%25B8%25AD%25E6%25B7%25BB%25E5%258A%25A0npm%25E7%259A%2584%25E5%25AE%2589%25E8%25A3%2585%25E8%25B7%25AF%25E5%25BE%2584%25EF%25BC%259B)
+3. 打开Git Bash窗口，输入命令安装微信插件： npx -y @tencent-weixin/openclaw-weixin-cli@latest install
+4. 等待插件安装完成，页面会弹出微信绑定二维码，手机微信扫码即可完成绑定；
+5. 重启OpenClaw网关，输入命令： openclaw gateway --port 18789
+6. 输入命令生成控制台链接，可查看微信通道状态： openclaw dashboard --no-open
+完成后，你就能直接在微信里给OpenClaw下发指令，让它远程操控你的电脑创建文件、整理资料、执行自动化任务。
+### 方案二：[腾讯云Lighthouse部署](https://zhida.zhihu.com/search?content\_id=272201244&content\_type=Article&match\_order=1&q=%E8%85%BE%E8%AE%AF%E4%BA%91Lighthouse%E9%83%A8%E7%BD%B2&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzU1OTU4MTIsInEiOiLohb7orq\_kupFMaWdodGhvdXNl6YOo572yIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MjcyMjAxMjQ0LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.W2LqO\_2u3IA1A05nl6xrEXlNCJi27lebPfK94xt6gjM&zhida\_source=entity)（云端24小时在线）
+适合需要AI全天候在线、不想本地电脑一直开机的用户，腾讯云提供了OpenClaw专属镜像，一键部署零门槛：
+1. 访问腾讯云OpenClaw专属通道： [https://cloud.tencent.com/act/pro/openclaw，购买OpenClaw专属轻量服务器，系统会自动完成环境与OpenClaw部署；](https://link.zhihu.com/?target=https%3A//cloud.tencent.com/act/pro/openclaw%25EF%25BC%258C%25E8%25B4%25AD%25E4%25B9%25B0OpenClaw%25E4%25B8%2593%25E5%25B1%259E%25E8%25BD%25BB%25E9%2587%258F%25E6%259C%258D%25E5%258A%25A1%25E5%2599%25A8%25EF%25BC%258C%25E7%25B3%25BB%25E7%25BB%259F%25E4%25BC%259A%25E8%2587%25AA%25E5%258A%25A8%25E5%25AE%258C%25E6%2588%2590%25E7%258E%25AF%25E5%25A2%2583%25E4%25B8%258EOpenClaw%25E9%2583%25A8%25E7%25BD%25B2%25EF%25BC%259B)
+2. 购买腾讯云Code Plan，获取大模型API密钥，在服务器控制台完成模型配置；
+3. 在实例通道配置中，选择微信接入，扫码完成绑定；
+4. 将微信更新至最新版本（安卓8.0.69及以上），微信内即可出现ClawBot功能，AI助理启用完成。
+### 方案三：[QClaw](https://zhida.zhihu.com/search?content\_id=272201244&content\_type=Article&match\_order=1&q=QClaw&zd\_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzU1OTU4MTIsInEiOiJRQ2xhdyIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjI3MjIwMTI0NCwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.4hfRdJ-3sp7B1k7nFgVu7GvqEMwMw4Mu7V5GmOJoegM&zhida\_source=entity)一键安装（懒人专属）
+腾讯官方推出的一键安装包，地址： [https://qclaw.qq.com/，自动配置环境，无需手动敲命令，打开即用，同时支持Mac&Windows系统，内置国产优质大模型，可直接关联微信，零配置实现远程操控。缺点是灵活性较低，部分权限会受到限制。](https://link.zhihu.com/?target=https%3A//qclaw.qq.com/%25EF%25BC%258C%25E8%2587%25AA%25E5%258A%25A8%25E9%2585%258D%25E7%25BD%25AE%25E7%258E%25AF%25E5%25A2%2583%25EF%25BC%258C%25E6%2597%25A0%25E9%259C%2580%25E6%2589%258B%25E5%258A%25A8%25E6%2595%25B2%25E5%2591%25BD%25E4%25BB%25A4%25EF%25BC%258C%25E6%2589%2593%25E5%25BC%2580%25E5%258D%25B3%25E7%2594%25A8%25EF%25BC%258C%25E5%2590%258C%25E6%2597%25B6%25E6%2594%25AF%25E6%258C%2581Mac%26Windows%25E7%25B3%25BB%25E7%25BB%259F%25EF%25BC%258C%25E5%2586%2585%25E7%25BD%25AE%25E5%259B%25BD%25E4%25BA%25A7%25E4%25BC%2598%25E8%25B4%25A8%25E5%25A4%25A7%25E6%25A8%25A1%25E5%259E%258B%25EF%25BC%258C%25E5%258F%25AF%25E7%259B%25B4%25E6%258E%25A5%25E5%2585%25B3%25E8%2581%2594%25E5%25BE%25AE%25E4%25BF%25A1%25EF%25BC%258C%25E9%259B%25B6%25E9%2585%258D%25E7%25BD%25AE%25E5%25AE%259E%25E7%258E%25B0%25E8%25BF%259C%25E7%25A8%258B%25E6%2593%258D%25E6%258E%25A7%25E3%2580%2582%25E7%25BC%25BA%25E7%2582%25B9%25E6%2598%25AF%25E7%2581%25B5%25E6%25B4%25BB%25E6%2580%25A7%25E8%25BE%2583%25E4%25BD%258E%25EF%25BC%258C%25E9%2583%25A8%25E5%2588%2586%25E6%259D%2583%25E9%2599%2590%25E4%25BC%259A%25E5%258F%2597%25E5%2588%25B0%25E9%2599%2590%25E5%2588%25B6%25E3%2580%2582)
+### 三、重磅更新：2026.3.28版本全解析，安全与能力双升级
+2026年3月29日，OpenClaw正式推送 \*\*2026.3.28最新版本\*\*，4天爆更上百项重要更新，不仅底层能力全面升级，更补上了最核心的安全短板，是所有用户都建议升级的重量级版本。
+本次更新最核心的亮点，就是新增了 \*\*高危操作弹窗拦截功能\*\*，插件系统加入`requireApproval`异步拦截功能，OpenClaw在执行高危操作前，会自动暂停并向用户申请审批，彻底解决AI误操作风险，同时官方同步推出了Skill Vetter安全检查工具，可对第三方技能做全维度安全审计。
+### （一）核心破坏性变更（升级必看）
+1. \*\*通义千问（Qwen）认证方式全面迁移\*\*：移除已弃用的qwen-portal-auth OAuth集成，必须迁移至Model Studio，使用API Key认证，执行命令`openclaw onboard --auth-choice modelstudio-api-key`即可完成配置；
+2. \*\*旧配置自动迁移取消\*\*：超过两个月的旧配置不再自动迁移，旧版配置键将直接触发验证失败，不再自动重写，升级后建议执行`openclaw doctor`检查配置。
+### （二）最重磅的功能更新
+1. \*\*xAI/Grok能力全面升级\*\*：全面切换到Responses API，原生内置x\\_search网页搜索功能，开箱即用无需手动配置，从普通模型提供商升级为具备完整搜索能力的AI助手，体验直逼Claude/GPT；
+2. \*\*MiniMax新增图像生成能力\*\*：新增image-01图像生成模型，完美支持文生图、图生图编辑，可自由控制宽高比，同时精简模型目录，仅保留M2.7主流模型；
+3. \*\*ACP跨平台能力增强\*\*：Discord、iMessage等平台支持当前对话ACP绑定，输入`/acp spawn codex --bind here`即可把当前聊天直接变成Codex支撑的工作区，无需另开子线程；
+4. \*\*安全性全面升级\*\*：控制界面敏感配置默认隐藏，不再自动暴露密钥，同时优化了沙箱策略，进一步限制AI的高危操作权限。
+### （三）一键升级命令
+```text
+# 升级到最新版本
+npm install -g openclaw@latest
+# 验证版本
+openclaw --version
+# 检查并修复配置
+openclaw doctor --fix
+```
+### 四、深度解密：OpenClaw的架构原理与安全避坑指南
+很多人只知道“小龙虾”能干活，却不知道它到底是怎么工作的，也忽略了它背后的安全风险。这部分我们从底层拆解它的架构，同时给你最全的避坑指南。
+### （一）OpenClaw的核心架构与工作原理
+OpenClaw本身并不是一个新的大模型，而是架设在用户和大模型之间的智能体中间件，它的架构可以简化为三大核心模块：
+![](https://pic2.zhimg.com/v2-c81e78d208aef7ecfb8442eb3df5d055\_1440w.jpg)
+\_图注：OpenClaw核心架构拆解，分为交互渠道、核心网关、执行技能、本地记忆库与AI模型层五大模块\_
+1. \*\*左侧：通道与控制接口\*\* 负责对接所有外部平台，支持30+消息平台（微信、Telegram、飞书等），把来自不同平台的消息统一化处理，同时提供Web UI、CLI命令行、macOS应用等多种控制方式，让你能随时随地操控AI。
+2. \*\*中间：网关Gateway（系统核心）\*\* 基于WebSocket Server实现，是整个系统的“大脑中枢”，负责消息路由、会话管理、模型路由和访问控制，所有消息和指令都必须通过它流转，确保不同会话、不同平台的指令都能精准分发。
+3. \*\*右侧：智能体运行时\*\* 这是OpenClaw真正“干活”的部分，基于ReAct循环实现，核心做三件事：
+- 上下文组装：把对话历史、系统提示词、技能列表、记忆等信息拼接好发给大模型；
+- 大模型调用：让模型阅读上下文推理，决定下一步动作；
+- 工具执行：执行模型给出的命令，再把结果反馈回模型，循环往复直到任务完成。
+它的核心工作流程，本质上就是大模型不断调用工具、获取结果的循环。以“打开桌面A文件，回答问题并把答案写入B文件”为例，它的工作流程如下：
+![](https://pic3.zhimg.com/v2-d7ddac739114b18d26cdcc51553305cc\_1440w.jpg)
+\_图注：OpenClaw任务执行时序流程图，完整展示从用户发起到任务完成的全链路\_
+1. 接收任务，把系统提示词+用户指令发给大模型，模型请求调用“读取文件”工具；
+2. OpenClaw解析请求，完成A文件读取，把结果+历史信息再次发给大模型；
+3. 大模型基于文件内容生成答案，请求调用“写文件”工具，把答案写入B文件；
+4. OpenClaw完成写入，把执行结果反馈给大模型；
+5. 大模型确认任务完成，向用户返回最终结果。
+无论任务多复杂，OpenClaw都是通过这样的多轮迭代，自主完成全流程操作。
+### （二）OpenClaw的核心“巧思”设计
+它能有“活人感”，离不开这几个独特的设计：
+1. \*\*个性化灵魂设计\*\*：通过SOUL.md（行为规范）、USER.md（用户信息）文件，让AI始终保持稳定的行为模式，持续对用户形成稳定认知；
+2. \*\*技能Skills系统\*\*：每个技能都是一套打包好的工作流，支持用户自由创建、分享，能无限拓展OpenClaw的能力边界；
+3. \*\*长短双记忆机制\*\*：长期记忆保存关键事实和决策，短期记忆以日记形式按天存储，同时提供记忆搜索工具，解决上下文窗口限制问题；
+4. \*\*心跳HeartBeat机制\*\*：默认每隔30分钟，自动向大模型发送指令，检查是否有任务需要完成，这也是它能实现24小时自主工作的核心，更是“活人感”的关键来源。
+### （三）必须重视的安全风险与避坑指南
+OpenClaw能操控你的整个电脑，权限极高，安全问题必须放在第一位，这里总结了核心风险与避坑方案：
+1. \*\*模型幻觉导致的误操作风险\*\*
+- 风险：大模型可能因上下文过长忘记你的限制要求，出现误删文件、乱执行命令的情况，已有用户出现AI批量删除邮件、无法手动中止的情况；
+- 避坑：务必升级到3.28最新版本，开启高危操作审批功能；优先安装在闲置设备，而非工作主力机；给AI划清操作边界，不要授予全盘读写权限。
+1. \*\*第三方技能的恶意代码风险\*\*
+- 风险：官方ClawHub曾出现同一用户上传300多个恶意Skills，伪装成金融分析、自动更新工具，实则偷偷下载恶意文件、窃取数据；
+- 避坑：安装任何Skills前，必须使用官方Skill Vetter工具做安全检查；不要安装来源不明的第三方技能，优先使用官方认证的技能。
+1. \*\*数据与API密钥泄露风险\*\*
+- 风险：恶意插件、技能可能读取你的环境变量、API密钥，甚至记忆文件，导致API被盗刷、隐私数据泄露；
+- 避坑：定期检查API用量，设置API额度上限；不要在配置文件中明文存储密钥；开启插件白名单，禁止未知插件自动加载。
+### 五、创始人访谈精华：AI时代，我们该如何与Agent共生？
+OpenClaw爆火后，创始人Peter Steinberger的万字访谈，不仅讲透了这个项目的前世今生，更给了所有身处AI浪潮中的人，最清醒的认知和建议。
+![](https://pic3.zhimg.com/v2-84f32370d5feb95228bf1bf90a962b94\_1440w.jpg)
+\_左图：OpenClaw创始人Peter Steinberger工作照；右图：Peter Steinberger访谈现场照\_
+### 1\. 一夜爆火的项目，始于一小时的“玩票”
+这个席卷全球的项目，起点根本不是宏大的商业蓝图，而是Peter一个最简单的需求：“我想要一个能通过手机随时给电脑发指令、让AI帮我做事的工具，它不存在，那我就自己做出来。”
+他只用了一个小时，就完成了项目原型——把WhatsApp和Claude Code CLI连在一起，做了一个能通过聊天窗口直接让AI操作电脑终端的工具。而真正让他意识到这个项目的潜力，是一次旅行中的意外：他随手发了一条语音问“这家餐厅怎么样”，没做过任何语音功能开发的AI，竟自主完成了语音格式转换、语音转文字、餐厅信息检索，最终给出了完整的分析报告。
+那一刻他明白，自己做的不是一个简单的指令工具，而是一个真正能自主思考、主动解决问题的Agent。而这个项目，也让经历了三年职业倦怠的他，重新找回了对编程的热爱。
+### 2\. 别再问“AI会不会让我失业”，它早就在改写游戏规则
+Peter直言，编程的手艺未来确实会变得像织毛衣一样，人们做这件事更多是因为热爱，而非生存必须。但这绝不意味着建设者会被替代——AI能替代的，从来都是重复的、机械的、无差别的代码搬运工作，却永远替代不了“想清楚要做什么”的人。
+OpenClaw把编程的门槛降到了史无前例的低：有完全不懂技术的设计公司老板，靠它做了25个支撑业务的小型Web服务；无数从没写过代码的人，通过它提交了人生中第一个PR。以前你要花几年学习语法和框架才能做出工具，现在你只要能清晰说出需求，AI就能帮你搞定所有技术细节。
+“你不要再把自己看成iOS工程师、前端工程师、后端工程师，你要改变心态，你是一个建设者。AI时代，最不值钱的是‘会干活的能力’，最值钱的是‘知道干什么的判断力’。”
+### 3\. 用好AI的核心：做它的指挥者，不是等答案的学生
+Peter分享了自己使用AI的工作方式：几乎不打字，全靠语音输入提需求；不写冗长的prompt，信奉“短prompt胜过长prompt”；同时运行4-10个Agent并行工作，自己只做决策和引导。
+他说，用好AI就像领导带团队。你得知道它擅长什么，分配好工作，说清验收标准，及时纠正偏差，而不是事无巨细替它思考，更不是等着它替你思考。
+“你把它当工具，它就只能帮你做点杂活；你把它当团队、当伙伴，它就能成为你的外挂大脑，帮你完成以前想都不敢想的事。”
+### 4\. 面对AI的狂欢，最难得的是清醒
+项目爆火后，顶级VC争相开出几亿几十亿的估值，Meta和OpenAI争相招揽，可Peter从始至终最在意的只有一件事：项目必须保持开源。他不想再开一次公司，不想陷入CEO的繁杂事务，更不想为了赚钱，把开源项目变成闭源的商业产品。
+面对“AI要毁灭人类”的恐慌，他直言这不过是“最精致的垃圾”，那些耸人听闻的截图，大多是人类在背后指挥AI发布的，根本不是AI的自主意识。“AI心理症是真实存在的，太多人要么把AI神话成无所不能的神，要么把AI妖魔化成要毁灭人类的怪物，却唯独没有看清它到底是什么。”
+### 六、资源合集与新手入门建议
+### （一）新手入门核心建议
+1. \*\*先体验，再升级\*\*：先用手头的闲置设备安装体验，不要一开始就投入高价硬件，等熟悉后再按需升级；
+2. \*\*先小任务，再复杂流程\*\*：先从创建文件、检索信息、简单自动化任务开始，逐步搭建复杂工作流，不要一上来就给AI高权限的复杂任务；
+3. \*\*安全永远第一\*\*：务必升级到最新版本，开启高危操作审批，不装来源不明的技能，定期备份配置和文件；
+4. \*\*把AI当伙伴，不是工具\*\*：多和它交互，让它熟悉你的习惯和需求，它的能力会随着你的使用持续迭代，越用越贴合你的需求。
+AI时代确实有太多的不确定性，有狂欢，有恐慌，有一夜爆火的神话，也有被替代的焦虑。但就像Peter用一小时的原型撬动了一个时代，真正能穿越浪潮的，从来不是对技术的恐惧，也不是对风口的盲从，而是始终保持对世界的好奇，保持创造的热情，想清楚自己要做什么，然后把AI变成你的伙伴，一步一步把心里的东西做出来。
+\*\*—————————————————————————————————————————\*\*
+![](https://pic2.zhimg.com/v2-f5ef9a07cb4efb433f4a6104ffcd9a2f\_1440w.jpg)
+## 1.OpenClaw应用班
+教你快速熟练使用OpenClaw各类实操功能，提升办公实操效率、节省大量工作时间。在弄懂OpenClaw底层运行逻辑与核心原理的同时，全方位熟练掌握高阶使用技巧。课程还会手把手教你依托OpenClaw玩转轻创业、解锁多元副业赛道，稳定增收，月入过万不是梦！心动不如行动，赶快来吧~
+📩咨询又不收费，咨询也没损失，不逼自己一把都不知道潜力有多大！ 🌟🌟🌟🌟🌟🌟🌟🌟 【立即后台咨询】搞定OpenClaw应用难题！欢迎评论区互动提问
+## 2.Agent系统班（基础+进阶）
+教你快速上手智能Agent主流搭建与调度玩法，精通各类AI智能体自动化运营工具，赋能办公创作、智能执行、流程自动化等场景，极大提升工作产出效率。同时系统教学利用AI智能体项目深耕副业变现，打造自动创收渠道，月入过万不是梦！心动不如行动，赶快来吧~
+## 3.人工智能顶会论文辅导（全球科研论文辅导顶尖团队）
+### 关于如何报名人工智能顶会论文辅导请后台私信我
+### 3.1 简介
+计算机领域顶会论文，CCF，SCI，EI，专利竞赛软著等1v1论文辅导！ 👇【立即咨询】一站式服务，短期快速投稿
+💥个性化的指导和顶尖的科研团队支持，助您攀登科研高峰
+对于计算机专业的硕博生来说，拥有一篇人工智能科研论文及专利软著竞赛是保研考研留学深造以及找工作的关键门票！！！
+🏃无论您是想申请研究生、博士生，还是渴望赴海外留学，或是立志进入大厂的核心岗位，一篇高质量的SCI/CCF论文是关键所在！我们的团队充满热情和专业知识，致力于为您提供卓越的科研指导和论文辅导服务。
+⚠️处在导师放养的困境，无人指导 ⚠️缺乏创意、缺乏写作技巧，或是面临论文课题无从下手 ⚠️毕业要求高，毕业求职压力大 ⚠️论文课题无从下手，熬夜失眠狂脱发
+🎓QS50专业博士团队，为你的科研保驾护航！
+📍QS前50科研学者/博士/博士后/大厂算法研究员 📍一站式全流程论文服务，点亮您的学术之路。 📍顶会主席、审稿人、期刊编辑协同助阵，增大中稿概率 📍全过程陪伴至录取，不中可售后退费！
+⚠️特别提示：个人信息严格保密，保证论文唯一性，不dai写！❌❌❌ 📩咨询又不收费，咨询也没损失，不逼自己一把都不知道潜力有多大！ 🌟🌟🌟🌟🌟🌟🌟🌟 【立即后台咨询】搞定论文难题！欢迎评论区互动提问⚠️特别提示：个人信息严格保密，保证论文唯一性，不dai写！❌❌❌ 📩咨询又不收费，咨询也没损失，不逼自己一把都不知道潜力有多大！ 🌟🌟🌟🌟🌟🌟🌟🌟 【立即后台咨询】搞定论文难题！欢迎评论区互动提问
+编辑于 2026-03-29 09:03・广东
+​赞同 4​​添加评论​2 ​喜欢
+​分享
+​申请转载​
+​
+暂无评论
+关于作者
+[![DFCED](https://picx.zhimg.com/v2-5831c6560312d3272ab03ead582441d7\_l.jpg?source=172ae18b)](https://www.zhihu.com/people/dfced)
+[DFCED](https://www.zhihu.com/people/dfced)
+[回答](https://www.zhihu.com/people/dfced/answers) [文章](https://www.zhihu.com/people/dfced/posts) [关注者](https://www.zhihu.com/people/dfced/followers)
+​关注他​发私信
+\_想来知乎工作？请发送邮件到 jobs@zhihu.com\_
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
+打开知乎App
+在「我的页」右上角打开扫一扫
+其他扫码方式：微信
+下载知乎App
+无障碍模式
+验证码登录
+密码登录
+[开通机构号](https://zhuanlan.zhihu.com/org/signup)
+获取短信验证码
+获取语音验证码
+登录/注册
+其他方式登录
+未注册手机验证后自动登录，注册即代表同意 [《知乎协议》](https://www.zhihu.com/term/zhihu-terms) [《隐私保护指引》](https://www.zhihu.com/term/privacy)
+扫码下载知乎 App
+关闭二维码
