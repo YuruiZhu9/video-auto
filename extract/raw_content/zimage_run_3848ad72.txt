@@ -1,362 +1,242 @@
 # Source URL: https://zimage.run/zh/blog/moss-tts-complete-guide
-# Content Length: 8018 characters
-# Extracted at: 2026-03-25 19:38:00
+# Content Length: 8505 characters
+# Extracted at: 2026-04-07 21:14:00
 #============================================================
 
-
-MOSS-TTS完整指南：下一代开源文本转语音模型（2026） | 博客[Z-Image](/zh)
-
-
-* [去水印](https://sora2watermarkremover.net)
-* [价格](/zh/pricing)
-* [博客](/zh/blog)
-[博客](/zh/blog)[MOSS-TTS完整指南：下一代开源文本转语音模型（2026）](/zh/blog/moss-tts-complete-guide)
-
-MOSS-TTS完整指南：下一代开源文本转语音模型（2026）
-===============================
-
- 2026/02/21
-
-目录
---
-
+MOSS-TTS完整指南：下一代开源文本转语音模型（2026） | 博客
+[Z-Image](/zh)
+\* [去水印](https://sora2watermarkremover.net)
+\* [价格](/zh/pricing)
+\* [博客](/zh/blog)
+[博客](/zh/blog)
+[MOSS-TTS完整指南：下一代开源文本转语音模型（2026）](/zh/blog/moss-tts-complete-guide)
+# MOSS-TTS完整指南：下一代开源文本转语音模型（2026）
+2026/02/21
+## 目录
 [MOSS-TTS完整指南：下一代开源文本转语音模型（2026）](#moss-tts完整指南下一代开源文本转语音模型2026)[引言](#引言)[什么是MOSS-TTS？](#什么是moss-tts)[MOSS-TTS技术规格与参数详解](#moss-tts技术规格与参数详解)[模型变体对比](#模型变体对比)[核心技术：MOSS-TTS-Tokenizer-12Hz](#核心技术moss-tts-tokenizer-12hz)[MOSS-TTS硬件要求](#moss-tts硬件要求)[GPU和VRAM要求](#gpu和vram要求)[推荐GPU硬件](#推荐gpu硬件)[系统要求](#系统要求)[性能优化技巧](#性能优化技巧)[MOSS-TTS五大核心功能](#moss-tts五大核心功能)[1. 自然语言语音设计](#1-自然语言语音设计)[2. 3秒语音克隆](#2-3秒语音克隆)[3. 超低延迟流式传输](#3-超低延迟流式传输)[4. 多语言支持（10种语言）](#4-多语言支持10种语言)[5. 49+种高质量音色](#5-49种高质量音色)[MOSS-TTS性能基准](#moss-tts性能基准)[多语言词错误率（WER）](#多语言词错误率wer)[说话人相似度分数](#说话人相似度分数)[长文本生成稳定性](#长文本生成稳定性)[MOSS-TTS安装与快速开始](#moss-tts安装与快速开始)[安装步骤](#安装步骤)[从PyPI安装](#从pypi安装)[可选：安装FlashAttention 2以优化性能](#可选安装flashattention-2以优化性能)[基本使用示例](#基本使用示例)[加载模型](#加载模型)[使用自定义音色生成语音](#使用自定义音色生成语音)[保存音频](#保存音频)[语音克隆示例](#语音克隆示例)[加载用于语音克隆的基础模型](#加载用于语音克隆的基础模型)[从3秒音频样本克隆声音](#从3秒音频样本克隆声音)[MOSS-TTS实际应用场景](#moss-tts实际应用场景)[内容创作和媒体制作](#内容创作和媒体制作)[对话式AI和虚拟助手](#对话式ai和虚拟助手)[无障碍解决方案](#无障碍解决方案)[游戏和娱乐](#游戏和娱乐)[MOSS-TTS与竞品对比](#moss-tts与竞品对比)[全面对比表](#全面对比表)[MOSS-TTS的关键优势](#moss-tts的关键优势)[MOSS-TTS常见问题解答](#moss-tts常见问题解答)[我可以商业使用MOSS-TTS吗？](#我可以商业使用moss-tts吗)[1.7B和0.6B模型有什么区别？](#17b和06b模型有什么区别)[我需要多少VRAM？](#我需要多少vram)[我可以微调MOSS-TTS吗？](#我可以微调moss-tts吗)[总结](#总结)[资源和链接](#资源和链接)
-
-MOSS-TTS完整指南：下一代开源文本转语音模型（2026）
-===============================
-
-引言
---
-
+# MOSS-TTS完整指南：下一代开源文本转语音模型（2026）
+## 引言
 2026年2月，OpenMOSS团队发布了MOSS-TTS，这是开源TTS领域的重要 additions。如果你想了解它的技术规格、硬件要求以及如何实际使用它，本综合指南将为你提供所需的一切信息。
-
-![]()
-
-什么是MOSS-TTS？
-------------
-
+![](https://files.zimage.run/uploads/1771669921103-8cb761ab-46fb-4150-bd29-5e082a69c7f3.webp)
+## 什么是MOSS-TTS？
 MOSS-TTS是一个开源文本转语音模型，专为需要高质量、多语言语音生成的开发者设计，同时不受授权限制。该模型采用Apache 2.0许可证发布，可与商业解决方案竞争，同时保持完全的可定制性。
-
 模型提供两个主要变体：
-
-* **1.7B参数模型**：功能完整，质量最佳，需要6-8GB VRAM
-* **0.6B参数模型**：轻量级替代方案，质量不错，需要4-6GB VRAM
-
+\* \*\*1.7B参数模型\*\*：功能完整，质量最佳，需要6-8GB VRAM
+\* \*\*0.6B参数模型\*\*：轻量级替代方案，质量不错，需要4-6GB VRAM
 两个版本均可在Hugging Face和GitHub上找到，模型大小分别约为4.54GB和2.52GB。
-
-MOSS-TTS技术规格与参数详解
------------------
-
+## MOSS-TTS技术规格与参数详解
 ### 模型变体对比
-
 | 方面 | 1.7B模型 | 0.6B模型 |
 | --- | --- | --- |
-| **参数数量** | 17亿 | 6亿 |
-| **存储大小** | 4.54 GB | 2.52 GB |
-| **所需VRAM** | 6-8 GB | 4-6 GB |
-| **性能表现** | 峰值质量 | 均衡效率 |
-| **适用场景** | 生产环境、高质量 | 演示、资源受限 |
-
-![]()
-
+| \*\*参数数量\*\* | 17亿 | 6亿 |
+| \*\*存储大小\*\* | 4.54 GB | 2.52 GB |
+| \*\*所需VRAM\*\* | 6-8 GB | 4-6 GB |
+| \*\*性能表现\*\* | 峰值质量 | 均衡效率 |
+| \*\*适用场景\*\* | 生产环境、高质量 | 演示、资源受限 |
+![](https://files.zimage.run/uploads/moss-tts-architecture.png)
 ### 核心技术：MOSS-TTS-Tokenizer-12Hz
-
 MOSS-TTS使用自研的分词器，能在压缩语音的同时保留音频质量。以下是关键指标：
-
-* **STOI**：0.96（可懂度几乎完美）
-* **UTMOS**：4.16（听起来自然）
-* **说话人相似度**：0.789（保留语音特征）
-* **PESQ宽带**：3.21
-* **PESQ窄带**：3.68
-
+\* \*\*STOI\*\*：0.96（可懂度几乎完美）
+\* \*\*UTMOS\*\*：4.16（听起来自然）
+\* \*\*说话人相似度\*\*：0.789（保留语音特征）
+\* \*\*PESQ宽带\*\*：3.21
+\* \*\*PESQ窄带\*\*：3.68
 简单来说：压缩后的音频质量与原始音频几乎没有区别。压缩过程中没有丢失重要信息。
-
-MOSS-TTS硬件要求
-------------
-
+## MOSS-TTS硬件要求
 ### GPU和VRAM要求
-
-**MOSS-TTS-1.7B模型：**
-
-* 最低VRAM：6 GB
-* 推荐VRAM：8 GB
-* 最优VRAM：12+ GB
-
-**MOSS-TTS-0.6B模型：**
-
-* 最低VRAM：4 GB
-* 推荐VRAM：6 GB
-* 最优VRAM：8+ GB
-
+\*\*MOSS-TTS-1.7B模型：\*\*
+\* 最低VRAM：6 GB
+\* 推荐VRAM：8 GB
+\* 最优VRAM：12+ GB
+\*\*MOSS-TTS-0.6B模型：\*\*
+\* 最低VRAM：4 GB
+\* 推荐VRAM：6 GB
+\* 最优VRAM：8+ GB
 ### 推荐GPU硬件
-
-* **入门级**：NVIDIA GTX 1070或同等产品（8 GB VRAM）
-* **中端**：NVIDIA RTX 3060或更高（12 GB VRAM）
-* **生产环境**：NVIDIA RTX 4080或A100（16+ GB VRAM）
-
+\* \*\*入门级\*\*：NVIDIA GTX 1070或同等产品（8 GB VRAM）
+\* \*\*中端\*\*：NVIDIA RTX 3060或更高（12 GB VRAM）
+\* \*\*生产环境\*\*：NVIDIA RTX 4080或A100（16+ GB VRAM）
 ### 系统要求
-
-* **Python**：3.8或更高版本
-* **CUDA**：支持CUDA的兼容GPU
-* **存储**：3-5 GB用于模型权重
-* **系统内存**：推荐16+ GB RAM
-
-![]()
-
+\* \*\*Python\*\*：3.8或更高版本
+\* \*\*CUDA\*\*：支持CUDA的兼容GPU
+\* \*\*存储\*\*：3-5 GB用于模型权重
+\* \*\*系统内存\*\*：推荐16+ GB RAM
+![](https://files.zimage.run/uploads/moss-tts-performance-benchmarks.png)
 ### 性能优化技巧
-
 为了减少GPU内存使用并提高性能：
-
-* **FlashAttention 2**：推荐用于以torch.float16或torch.bfloat16加载的模型
-* **量化**：GPTQ-Int8可以将内存占用减少50-70%
-* **批处理**：针对您的硬件优化批量大小
-
-MOSS-TTS五大核心功能
---------------
-
+\* \*\*FlashAttention 2\*\*：推荐用于以torch.float16或torch.bfloat16加载的模型
+\* \*\*量化\*\*：GPTQ-Int8可以将内存占用减少50-70%
+\* \*\*批处理\*\*：针对您的硬件优化批量大小
+## MOSS-TTS五大核心功能
 ### 1. 自然语言语音设计
-
 使用自然语言描述创建自定义声音。您可以指定：
-
-* **音色特征**："深沉的男声"或"明亮的女声"
-* **韵律控制**："慢速强调说话"或"快节奏充满活力的表达"
-* **情感基调**："温暖友好"或"专业权威"
-* **角色属性**："年轻科技爱好者"或"经验丰富的叙述者"
-
+\* \*\*音色特征\*\*："深沉的男声"或"明亮的女声"
+\* \*\*韵律控制\*\*："慢速强调说话"或"快节奏充满活力的表达"
+\* \*\*情感基调\*\*："温暖友好"或"专业权威"
+\* \*\*角色属性\*\*："年轻科技爱好者"或"经验丰富的叙述者"
 ### 2. 3秒语音克隆
-
 MOSS-TTS-VC-Flash支持仅需3秒音频输入的快速语音克隆：
-
-* 克隆任何声音用于个性化应用
-* 在所有内容中保持一致的声音
-* 为失去语言能力的个人创建声音
-* 跨多种语言进行内容本地化
-
+\* 克隆任何声音用于个性化应用
+\* 在所有内容中保持一致的声音
+\* 为失去语言能力的个人创建声音
+\* 跨多种语言进行内容本地化
 ### 3. 超低延迟流式传输
-
 双轨流式架构实现：
-
-* **首包延迟**：低至97毫秒
-* **端到端合成延迟**：实时应用中低于100毫秒
-* 适合对话式AI、实时翻译和交互式语音应用
-
+\* \*\*首包延迟\*\*：低至97毫秒
+\* \*\*端到端合成延迟\*\*：实时应用中低于100毫秒
+\* 适合对话式AI、实时翻译和交互式语音应用
 ### 4. 多语言支持（10种语言）
-
 MOSS-TTS支持10种主流语言，质量达到母语水平：
-
-1. **中文** - 普通话和多种方言
-2. **英语** - 美式、英式和国际变体
-3. **日语（日本語）** - 自然的韵律和语调
-4. **韩语（한국어）** - 准确的发音和节奏
-5. **德语（Deutsch）** - 精确的发音
-6. **法语（Français）** - 地道的口音和连读
-7. **俄语（Русский）** - 复杂的语音处理
-8. **葡萄牙语（Português）** - 巴西和欧洲变体
-9. **西班牙语（Español）** - 拉丁美洲和欧洲西班牙语
-10. **意大利语（Italiano）** - 地区口音支持
-
+1. \*\*中文\*\* - 普通话和多种方言
+2. \*\*英语\*\* - 美式、英式和国际变体
+3. \*\*日语（日本語）\*\* - 自然的韵律和语调
+4. \*\*韩语（한국어）\*\* - 准确的发音和节奏
+5. \*\*德语（Deutsch）\*\* - 精确的发音
+6. \*\*法语（Français）\*\* - 地道的口音和连读
+7. \*\*俄语（Русский）\*\* - 复杂的语音处理
+8. \*\*葡萄牙语（Português）\*\* - 巴西和欧洲变体
+9. \*\*西班牙语（Español）\*\* - 拉丁美洲和欧洲西班牙语
+10. \*\*意大利语（Italiano）\*\* - 地区口音支持
 ### 5. 49+种高质量音色
-
 MOSS-TTS提供超过49种专业制作的音色：
-
-* **性别多样性**：男性、女性和中性声音
-* **年龄范围**：从年轻成人到老年说话者
-* **角色特征**：专业、休闲、充满活力、平静、权威
-* **情感范围**：快乐、悲伤、愤怒、中性、兴奋
-* **地区特征**：各种口音和说话风格
-
-MOSS-TTS性能基准
-------------
-
+\* \*\*性别多样性\*\*：男性、女性和中性声音
+\* \*\*年龄范围\*\*：从年轻成人到老年说话者
+\* \*\*角色特征\*\*：专业、休闲、充满活力、平静、权威
+\* \*\*情感范围\*\*：快乐、悲伤、愤怒、中性、兴奋
+\* \*\*地区特征\*\*：各种口音和说话风格
+## MOSS-TTS性能基准
 ### 多语言词错误率（WER）
-
 MOSS-TTS在多种语言上实现了最先进的性能：
-
 | 语言 | MOSS-TTS WER | 性能表现 |
 | --- | --- | --- |
-| **平均（10种语言）** | 1.835% | 业界最佳 |
-| **英语** | 有竞争力 | 母语级别 |
-| **中文** | 行业领先 | 卓越准确度 |
-| **意大利语** | 同类最佳 | 异常出色 |
-| **法语** | 优于竞品 | 超越对手 |
-
+| \*\*平均（10种语言）\*\* | 1.835% | 业界最佳 |
+| \*\*英语\*\* | 有竞争力 | 母语级别 |
+| \*\*中文\*\* | 行业领先 | 卓越准确度 |
+| \*\*意大利语\*\* | 同类最佳 | 异常出色 |
+| \*\*法语\*\* | 优于竞品 | 超越对手 |
 ### 说话人相似度分数
-
-* **10种语言平均**：0.789
-* **超越**：MiniMax和ElevenLabs
-* **跨语言适应性**：异常出色
-
+\* \*\*10种语言平均\*\*：0.789
+\* \*\*超越\*\*：MiniMax和ElevenLabs
+\* \*\*跨语言适应性\*\*：异常出色
 ### 长文本生成稳定性
-
-* 能够合成10分钟以上自然流畅的语音
-* 长音频上无质量下降
-* 保持一致的说话人特征
-
-MOSS-TTS安装与快速开始
----------------
-
+\* 能够合成10分钟以上自然流畅的语音
+\* 长音频上无质量下降
+\* 保持一致的说话人特征
+## MOSS-TTS安装与快速开始
 ### 安装步骤
-
 ```
 # 从PyPI安装
 pip install -U moss-tts
-
 # 可选：安装FlashAttention 2以优化性能
 pip install -U flash-attn --no-build-isolation
-
 ```
 ### 基本使用示例
-
 ```
-from moss_tts import MOSS_TTSModel
+from moss\_tts import MOSS\_TTSModel
 import soundfile as sf
-
 # 加载模型
-model = MOSS_TTSModel.from_pretrained("OpenMOSS-Team/MOSS-TTS-1.7B-CustomVoice")
-
+model = MOSS\_TTSModel.from\_pretrained("OpenMOSS-Team/MOSS-TTS-1.7B-CustomVoice")
 # 使用自定义音色生成语音
-wavs, sr = model.generate_custom_voice(
-    text="你好，这是MOSS-TTS在说话。",
-    language="Chinese",
-    speaker="Xiaoming"
+wavs, sr = model.generate\_custom\_voice(
+text="你好，这是MOSS-TTS在说话。",
+language="Chinese",
+speaker="Xiaoming"
 )
-
 # 保存音频
 sf.write("output.wav", wavs[0], sr)
-
 ```
 ### 语音克隆示例
-
 ```
-from moss_tts import MOSS_TTSModel
-
+from moss\_tts import MOSS\_TTSModel
 # 加载用于语音克隆的基础模型
-model = MOSS_TTSModel.from_pretrained("OpenMOSS-Team/MOSS-TTS-1.7B-Base")
-
+model = MOSS\_TTSModel.from\_pretrained("OpenMOSS-Team/MOSS-TTS-1.7B-Base")
 # 从3秒音频样本克隆声音
-wavs, sr = model.generate_voice_clone(
-    text="您的文本内容",
-    voice_sample_path="voice_sample.wav",
-    language="Chinese"
+wavs, sr = model.generate\_voice\_clone(
+text="您的文本内容",
+voice\_sample\_path="voice\_sample.wav",
+language="Chinese"
 )
-
 ```
-
-MOSS-TTS实际应用场景
---------------
-
+## MOSS-TTS实际应用场景
 ### 内容创作和媒体制作
-
-* **有声书叙述**：角色对话的多种声音
-* **播客制作**：跨集的一致声音
-* **视频配音**：多语言内容本地化
-* **在线教育**：多语言的引人入胜的教育内容
-
+\* \*\*有声书叙述\*\*：角色对话的多种声音
+\* \*\*播客制作\*\*：跨集的一致声音
+\* \*\*视频配音\*\*：多语言内容本地化
+\* \*\*在线教育\*\*：多语言的引人入胜的教育内容
 ### 对话式AI和虚拟助手
-
-* **客户服务机器人**：自然的自动化支持
-* **语音助手**：个性化语音交互
-* **交互式IVR系统**：增强的呼叫者体验
-* **智能家居设备**：多语言语音控制
-
+\* \*\*客户服务机器人\*\*：自然的自动化支持
+\* \*\*语音助手\*\*：个性化语音交互
+\* \*\*交互式IVR系统\*\*：增强的呼叫者体验
+\* \*\*智能家居设备\*\*：多语言语音控制
 ### 无障碍解决方案
-
-* **屏幕阅读器**：为视障用户增强无障碍访问
-* **沟通辅助**：为语言障碍人士恢复语音
-* **语言学习**：使用母语级声音进行发音练习
-* **翻译服务**：实时多语言翻译，使用自然声音
-
+\* \*\*屏幕阅读器\*\*：为视障用户增强无障碍访问
+\* \*\*沟通辅助\*\*：为语言障碍人士恢复语音
+\* \*\*语言学习\*\*：使用母语级声音进行发音练习
+\* \*\*翻译服务\*\*：实时多语言翻译，使用自然声音
 ### 游戏和娱乐
-
-* **角色声音**：动态NPC对话生成
-* **互动叙事**：自适应叙事体验
-* **虚拟影响者**：跨平台的一致品牌声音
-* **元宇宙应用**：逼真的虚拟形象声音
-
-MOSS-TTS与竞品对比
--------------
-
+\* \*\*角色声音\*\*：动态NPC对话生成
+\* \*\*互动叙事\*\*：自适应叙事体验
+\* \*\*虚拟影响者\*\*：跨平台的一致品牌声音
+\* \*\*元宇宙应用\*\*：逼真的虚拟形象声音
+## MOSS-TTS与竞品对比
 ### 全面对比表
-
 | 功能 | MOSS-TTS | GPT-4o Audio | ElevenLabs |
 | --- | --- | --- | --- |
-| **开源** | ✅ Apache 2.0 | ❌ 专有 | ❌ 专有 |
-| **语言** | 10种主流语言 | 多语言 | 5000+种声音 |
-| **音色** | 49+种专业音色 | 多种声音 | 5000+种声音 |
-| **语音克隆** | 3秒快速克隆 | 可用 | 高质量克隆 |
-| **首包延迟** | 97毫秒 | 低 | 可变 |
-| **WER性能** | 最先进 | 有竞争力 | 良好 |
-| **定价** | 免费（自托管） | $0.015/分钟 | 高级定价 |
-| **情感控制** | 自然语言指令 | 情感控制功能 | 无与伦比的深度 |
-
+| \*\*开源\*\* | ✅ Apache 2.0 | ❌ 专有 | ❌ 专有 |
+| \*\*语言\*\* | 10种主流语言 | 多语言 | 5000+种声音 |
+| \*\*音色\*\* | 49+种专业音色 | 多种声音 | 5000+种声音 |
+| \*\*语音克隆\*\* | 3秒快速克隆 | 可用 | 高质量克隆 |
+| \*\*首包延迟\*\* | 97毫秒 | 低 | 可变 |
+| \*\*WER性能\*\* | 最先进 | 有竞争力 | 良好 |
+| \*\*定价\*\* | 免费（自托管） | $0.015/分钟 | 高级定价 |
+| \*\*情感控制\*\* | 自然语言指令 | 情感控制功能 | 无与伦比的深度 |
 ### MOSS-TTS的关键优势
-
-**1. 成本效益**
-
-* 开源模型消除授权费用
-* 自托管选项实现完全成本控制
-* API定价与商业替代方案具有竞争力
-
-**2. 多语言卓越性**
-
-* 跨多种语言的优异WER分数
-* 竞品无法匹敌的广泛中文方言支持
-* 多语言内容的自然代码切换
-
-**3. 定制自由度**
-
-* 完全模型访问权限用于微调
-* 无限制的语音克隆
-* 自定义应用的集成灵活性
-
-**4. 低延迟性能**
-
-* 97ms首包延迟，适用于实时应用
-* 流式生成，适合交互式体验
-* 专为对话式AI用例优化
-
-MOSS-TTS常见问题解答
---------------
-
+\*\*1. 成本效益\*\*
+\* 开源模型消除授权费用
+\* 自托管选项实现完全成本控制
+\* API定价与商业替代方案具有竞争力
+\*\*2. 多语言卓越性\*\*
+\* 跨多种语言的优异WER分数
+\* 竞品无法匹敌的广泛中文方言支持
+\* 多语言内容的自然代码切换
+\*\*3. 定制自由度\*\*
+\* 完全模型访问权限用于微调
+\* 无限制的语音克隆
+\* 自定义应用的集成灵活性
+\*\*4. 低延迟性能\*\*
+\* 97ms首包延迟，适用于实时应用
+\* 流式生成，适合交互式体验
+\* 专为对话式AI用例优化
+## MOSS-TTS常见问题解答
 ### 我可以商业使用MOSS-TTS吗？
-
 可以！MOSS-TTS采用Apache 2.0许可证发布，允许商业使用。您可以在商业应用中使用它，无需授权费用。
-
 ### 1.7B和0.6B模型有什么区别？
-
 1.7B模型提供峰值性能和质量，而0.6B模型更轻量级，适合资源受限的环境。根据您的硬件能力和质量要求进行选择。
-
 ### 我需要多少VRAM？
-
-* **0.6B模型**：最低4-6 GB VRAM
-* **1.7B模型**：最低6-8 GB VRAM
-* **推荐**：12+ GB以获得最优性能
-
+\* \*\*0.6B模型\*\*：最低4-6 GB VRAM
+\* \*\*1.7B模型\*\*：最低6-8 GB VRAM
+\* \*\*推荐\*\*：12+ GB以获得最优性能
 ### 我可以微调MOSS-TTS吗？
-
 可以！MOSS-TTS的开源性质允许在自定义数据集上进行微调。这使您能够为特定用例或语言创建专门的模型。
-
-总结
---
-
+## 总结
 MOSS-TTS代表了开源文本转语音技术的重要里程碑。凭借其卓越的多语言性能、广泛的音色选项、超低延迟和强大的语音克隆能力，它为专有解决方案提供了令人信服的替代方案。
-
 该模型在Apache 2.0许可证下的开源性质使最先进的TTS技术民主化，使开发人员、研究人员和企业能够在没有授权限制的情况下构建创新的语音应用。
-
 无论您是创建有声书、构建对话式AI还是开发无障碍解决方案，MOSS-TTS都提供了成功所需的工具和灵活性。
-
-资源和链接
------
-
-* **官方GitHub**：[OpenMOSS/MOSS-TTS](https://github.com/OpenMOSS/MOSS-TTS)
-* **Hugging Face模型**：[OpenMOSS-Team/MOSS-TTS](https://huggingface.co/OpenMOSS-Team/MOSS-TTS)
-* **许可证**：Apache 2.0
-* **社区**：[GitHub讨论](https://github.com/OpenMOSS/MOSS-TTS/discussions)
-
+## 资源和链接
+\* \*\*官方GitHub\*\*：[OpenMOSS/MOSS-TTS](https://github.com/OpenMOSS/MOSS-TTS)
+\* \*\*Hugging Face模型\*\*：[OpenMOSS-Team/MOSS-TTS](https://huggingface.co/OpenMOSS-Team/MOSS-TTS)
+\* \*\*许可证\*\*：Apache 2.0
+\* \*\*社区\*\*：[GitHub讨论](https://github.com/OpenMOSS/MOSS-TTS/discussions)
 Z-Image Team
-
 [Z-Image](/zh)
-
 Z-Image 完全免费的 AI 图片生成器，无需登录即可无限使用。提供主流 Z-Image Turbo AIO模型和丰富 LoRA 风格库。
-
-AI图片[AI图片生成器](/zh)[AI图片编辑器](/zh/ai-image-editor)[图片放大](/zh/image-upscaler)[AI扩图](/zh/uncrop)[换脸](/zh/ai-face-swap)AI视频[AI 视频生成器](/zh/ai-video-generator)[Wan2.2 社区版](/zh/ai-video-generator?model=wan-2-2&generationMode=image-to-video)[LTX-2.3 AI视频生成器](/zh/ltx-2-3)[LTX-2 AI视频生成器](/zh/ltx-2)Link[Sora Watermark Remover](https://sora2watermarkremover.net)[HuggingFace Mirror](https://aifasthub.com)[VibeVoice](https://vibevoice.info)[VoxCPM](https://voxcpm.net)[Github Proxy](https://githubproxy.cc)[Pixeldrainbypass](https://pixeldrainbypass.org)[Powered by Z-Image](https://github.com/z-image)中文© 2024 [Z-Image](/), All rights reserved[隐私政策](/zh/privacy-policy)[服务条款](/zh/terms-of-service)[AI Wrapper Disclaimer](/zh/ai-wrapper-disclaimer)[Open Source Attribution](/zh/open-source-attribution)
+AI图片
+[AI图片生成器](/zh)[AI图片编辑器](/zh/ai-image-editor)[图片放大](/zh/image-upscaler)[AI扩图](/zh/uncrop)[换脸](/zh/ai-face-swap)
+AI视频
+[AI 视频生成器](/zh/ai-video-generator)[Wan2.2 社区版](/zh/ai-video-generator?model=wan-2-2&generationMode=image-to-video)[AI视频换脸](/zh/video-face-swap)[AI动作控制](/zh/motion-control)[AI视频换头](/zh/video-head-swap)[LTX-2.3 AI视频生成器](/zh/ltx-2-3)[LTX-2 AI视频生成器](/zh/ltx-2)
+Link
+[Sora Watermark Remover](https://sora2watermarkremover.net)[HuggingFace Mirror](https://aifasthub.com)[VibeVoice](https://vibevoice.info)[VoxCPM](https://voxcpm.net)[Github Proxy](https://githubproxy.cc)[Pixeldrainbypass](https://pixeldrainbypass.org)
+[Powered by Z-Image](https://github.com/z-image)中文
+© 2024[Z-Image](/), All rights reserved
+[隐私政策](/zh/privacy-policy)[服务条款](/zh/terms-of-service)[AI Wrapper Disclaimer](/zh/ai-wrapper-disclaimer)[Open Source Attribution](/zh/open-source-attribution)
+MOSS-TTS完整指南：下一代开源文本转语音模型（2026） | 博客

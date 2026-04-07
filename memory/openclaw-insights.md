@@ -913,3 +913,72 @@ clawhub install skill-vetter
 
 ---
 *更新于 2026-04-06*
+
+## 2026-04-07 配置周刊要点（本期头条：三个 Critical CVE 紧急预警！）
+
+### 三个 Critical CVE 紧急预警（2026-04）
+- **CVE-2026-33579**（CVSS 9.9）：/pair approve 权限提升，影响 < v2026.3.28
+- **CVE-2026-32917**（CVSS 9.8）：iMessage 附件暂存流程远程命令注入，影响 < v2026.3.13
+- **CVE-2026-32916**（CVSS 9.4）：插件子代理路由授权绕过，影响 v2026.3.7~v2026.3.11
+- OpenCVE 共计 20 个 CVE（Critical 3 / High 8 / Medium 8 / Low 1）
+
+### v2026.4.2（2026-04-03 最新版）
+- Task Flow 核心功能恢复 + `openclaw flows list|show|cancel`
+- GLM-5.1 / GLM-5v-turbo 正式支持
+- xAI 插件 x_search 迁移（breaking change）
+- CVE-2026-34511（Medium 5.3）修复
+
+### Docker Agent Sandbox 安全配置（官方推荐）
+- `OPENCLAW_SANDBOX=1` 开启 AI 工具隔离
+- 容器非 root 运行（node UID 1000）
+- `gateway.bind: "loopback"` 本机访问
+- 定期清理 /tmp/openclaw/ 和过期 JSONL
+
+### Cron 定时任务新增功能
+- `--tz "Asia/Shanghai"` 精确时区支持
+- `--model` / `--thinking` 逐任务覆盖
+- `--light-context` 节省 token
+- `--tools` 参数限制工具权限
+- `--agent <name>` 多智能体路由
+
+### 本周必做
+```bash
+openclaw update && openclaw doctor --security
+```
+
+---
+
+## 2026-04-08 配置周刊要点（本期头条：版本落后+安全目录权限问题）
+
+### v2026.4.5（2026-04-06 最新版，npm 2026.4.5）
+- **内置 video_generate / music_generate 工具**：无需插件，智能体直接调用
+- **Memory/Dreaming 实验功能**：/dreaming 命令 + 三阶段（light/deep/REM）+ Dreams UI，--experimental-memory-v2 开启
+- **Control UI 多语言**：新增简体中文/繁体中文/日语等12种语言
+- **新增 Provider**：Qwen / Fireworks AI / StepFun / MiniMax TTS / Ollama Web Search / MiniMax Search
+- **Breaking Changes**：旧别名移除（talk.voiceId / talk.apiKey / sandbox.perSession 等），需 doctor --fix 迁移
+- **Amazon Bedrock Mantle**：新增支持
+
+### ⚠️ 系统版本落后
+- npm 最新：2026.4.5（2026-04-06）
+- 系统安装：2026.3.3（落后 2 个大版本，2026-04-07 发现）
+- 必做：openclaw update && openclaw doctor --fix && openclaw gateway restart
+
+### 🔴 安全审计 Critical 项（2026-04-07 发现）
+- **CRITICAL：/root/.openclaw mode=777（world-writable）**
+  - 修复：chmod 700 /root/.openclaw && chmod 700 /root/.openclaw/agents && chmod 700 /root/.openclaw/sessions
+  - 同机器其他进程可篡改 OpenClaw 状态文件
+
+### Anthropic 封禁后续（2026-04-04 生效）
+- Claude订阅不再覆盖第三方工具
+- 补偿截止4月17日前：等额积分+全额退款+30%用量折扣
+- 建议切换 MiniMax/DeepSeek/GLM
+
+### 本周必做
+```bash
+openclaw update && openclaw doctor --fix && openclaw gateway restart
+chmod 700 /root/.openclaw /root/.openclaw/agents /root/.openclaw/sessions
+openclaw doctor --security
+```
+
+---
+*更新于 2026-04-08*

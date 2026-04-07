@@ -1,16 +1,16 @@
 {
-  "lastCheck": 1744000020000,
-  "checkTime": "2026-04-07T13:07:00+08:00",
+  "lastCheck": 1744037400000,
+  "checkTime": "2026-04-07T23:50:00+08:00",
   "totalJobs": 35,
   "allOk": false,
   "issuesFound": [
     {
-      "jobId": "7ebcc7f2-91e7-4892-ab60-7cf62cdb606f",
-      "name": "豆瓣高分书籍推荐Agent",
-      "issue": "error - 12:00运行失败",
-      "action": "已触发重新运行，恢复running状态",
-      "note": "任务执行期偶发error，重新触发后恢复"
+      "jobId": "d4a0ebf8-49bf-4e73-b225-91eacbfca493",
+      "name": "免费语音克隆方案Agent",
+      "issue": "error - 连续4次失败（19:30/20:30/21:30/22:30），23:17重触发仍失败",
+      "action": "停止反复重触，转为记录+上报用户",
+      "note": "该任务今晚反复失败，建议检查任务prompt或任务内容是否存在持续性问题，可能需要明天手动修复"
     }
   ],
-  "notes": "13:07检查：豆瓣高分书籍推荐Agent 12:00报错，已补救恢复；Git push origin仍待用户确认解封GitHub Secret Scanning"
+  "notes": "23:50检查：免费语音克隆方案Agent连续失败4次，不再反复触发；其他34个任务今日全部正常。OpenClaw配置专家已自动恢复"
 }
