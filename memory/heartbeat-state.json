@@ -1,16 +1,21 @@
 {
-  "lastCheck": 1744037400000,
-  "checkTime": "2026-04-07T23:50:00+08:00",
+  "lastCheck": 1744056300000,
+  "checkTime": "2026-04-08T06:55:00+08:00",
   "totalJobs": 35,
   "allOk": false,
   "issuesFound": [
     {
       "jobId": "d4a0ebf8-49bf-4e73-b225-91eacbfca493",
       "name": "免费语音克隆方案Agent",
-      "issue": "error - 连续4次失败（19:30/20:30/21:30/22:30），23:17重触发仍失败",
-      "action": "停止反复重触，转为记录+上报用户",
-      "note": "该任务今晚反复失败，建议检查任务prompt或任务内容是否存在持续性问题，可能需要明天手动修复"
+      "issue": "already-running（锁住，无法触发）",
+      "action": "今早6:55 exec仍报already-running，需人工介入或等待锁释放"
+    },
+    {
+      "jobId": "1280bc4a-6791-4a8e-8c1b-436744c601c2",
+      "name": "Git仓库每日自动同步",
+      "issue": "running（锁住，exec loop检测）",
+      "action": "exec触发被拦截，等待锁释放"
     }
   ],
-  "notes": "23:50检查：免费语音克隆方案Agent连续失败4次，不再反复触发；其他34个任务今日全部正常。OpenClaw配置专家已自动恢复"
+  "notes": "06:55检查：两个任务锁在running状态无法触发，建议白天人工检查"
 }

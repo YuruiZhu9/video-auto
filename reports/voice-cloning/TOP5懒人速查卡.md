@@ -103,11 +103,48 @@ python infer-web.py
 
 ---
 
-## 硬件速查
+## 硬件速查（2026-04-08 更新）
 
 | 显存 | 可跑方案 |
 |------|---------|
 | 4GB | CosyVoice3, F5-TTS, RVC V3, Qwen3-TTS oQ8 |
-| 8GB | ChatTTS v2, GPT-SoVITS, Fish Speech |
-| 12GB+ | Qwen3-TTS 1.7B, LongCat 3.5B |
-| Apple M1+ | LongCat MLX（0.4GB）|
+| 8GB | ChatTTS v2, GPT-SoVITS, Fish Speech, KaniTTS2 |
+| 12GB+ | Qwen3-TTS 1.7B, LongCat 3.5B, Higgs Audio V2.5 |
+| Apple M1+ | LongCat MLX（0.4GB可跑！）|
+| 无GPU / CPU | Kokoro-82M, Pocket TTS, NeuTTS Air |
+
+---
+
+## 🎯 场景一句话推荐（2026-04-08 更新版）
+
+| 场景 | 首推 | 备选 | 核心指标 |
+|------|------|------|---------|
+| 中文即时克隆 | CosyVoice3 RL | Qwen3-TTS 1.7B | CER 0.71 / 97ms |
+| 英文即时克隆 | Qwen3-TTS 1.7B | Dia2-2B | WER 1.24 / Apache 2.0 |
+| 声音相似度最高 | LongCat-AudioDiT 3.5B | CosyVoice3 RL | SIM 0.818 |
+| 实时变声/直播 | RVC V3 (ASIO 90ms) | F5-TTS | RTF 0.15 |
+| 多语言出海 | LEMAS-TTS (10语言) | Fish Speech (80+) | CC BY 4.0 |
+| 中文情感配音 | CosyVoice3 Instruct | Xiaomi MiMo-V2-TTS | 18种方言 |
+| Apple Mac 本地 | LongCat-AudioDiT MLX 4bit | KaniTTS2 | 0.4GB VRAM |
+| 超低延迟 | Voxtral TTS (90ms) | Orpheus TTS (25ms) | 90ms / 25ms |
+| 商用免费可商 | F5-TTS / RVC / CosyVoice3 | — | MIT / Apache 2.0 |
+| 少样本微调 | GPT-SoVITS v4 (1分钟) | RVC V3 (10分钟) | SIM高保真 |
+| 超长音频生成 | TADA (700秒上下文) | VibeVoice (90分钟) | RTF 0.09 |
+
+---
+
+## 🆕 本周新增（2026-04-07/08）
+
+- **LongCat-AudioDiT MLX量化版** → Apple Silicon原生支持，0.4B参数即可运行（MacBook Air可用！）
+- **Qwen3-TTS CustomVoice oQ8** → 0.5B参数 GGUF量化，移动端可跑
+- **Dia2-2B** → Nari Labs，HuggingFace新收录，Apache 2.0，英文对话TTS
+- **LEMAS-Edit** → IDEA研究院，语音编辑能力
+
+## Benchmark 最终版（Seed-TTS 测试集）
+
+| 模型 | 中文 CER↓ | 英文 WER↓ | SIM↑ | 延迟 |
+|------|---------|---------|------|------|
+| CosyVoice3 RL | **0.71** | 1.45 | — | 150ms |
+| Qwen3-TTS 1.7B | 0.77 | **1.24** | 0.89 | **97ms** |
+| LongCat-AudioDiT 3.5B | 1.09 | 1.50 | **0.818** | — |
+| TADA | — | — | 4.18/5.0 | RTF 0.09 |
