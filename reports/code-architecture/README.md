@@ -39,6 +39,7 @@
 
 - [模型服务化架构与推理优化实战](知识点/模型服务化架构与推理优化实战.md) ⭐ 新增 - Triton/Ray Serve/vLLM 推理服务器 / 批量推理 vs 串行推理 QPS 对比 / 模型版本管理 + A/B 灰度路由 / 三级降级策略（模型→缓存→规则兜底）/ 在线学习架构（Ray Serve 增量更新）/ 推荐系统模型服务化完整架构图 / 框架对比（Triton vs Ray Serve vs vLLM vs TF Serving）/ 上线检查清单 12 项：四类日志设计（审计/算法/行为/异常）/ Prometheus + Grafana 完整指标体系 / OpenTelemetry 全链路追踪实现 / 推荐系统 SLO 设定与错误预算告警 / Grafana 看板核心面板 + 告警规则 YAML
 
+- [数据质量监控与 ML 流水线可靠性实战](知识点/数据质量监控与ML流水线可靠性实战.md) ⭐ 新增 - 推荐系统数据质量六维度 / DataQualityChecker 质量门禁 / 训练-服务 Skew 检测 + PSI / 标签质量监控 / Pipeline 断点续传 + 重试
 - [向量数据库架构实战](知识点/向量数据库架构实战.md) ⭐ 新增 - ANN 索引算法（HNSW/IVF-Flat/IVF-PQ/DiskANN）深度对比与选型决策树 / 四大向量数据库（Milvus/Qdrant/Weaviate/Pinecone）横向对比 / 完整 Milvus Python SDK v2 实现（创建Collection/ANN搜索/混合搜索/批量插入）/ 多路召回引擎架构（策略模式 + 并行召回）/ 训练-服务一致性 Skew 问题解决（EmbeddingService 统一）/ 离线+在线双链路同步 / 常见生产坑（OOM/维度不匹配/Filtering失效）
 - [API 安全与身份认证实战](知识点/API安全与身份认证实战.md) ⭐ 新增 - JWT 签发/验签/安全 Checklist / RBAC 权限模型 Python+TS 双实现 / API 安全十大最佳实践（限流/脱敏/CORS/SQL注入/XSS/CSRF/审计日志）/ OAuth2 微信登录完整流程 / 推荐系统专项安全防护（越权/重放/限流）/ 安全架构总览图
 - [GraphQL 推荐系统 API 实战](知识点/GraphQL推荐系统API实战：灵活查询与BFF网关.md) ⭐ 新增 - REST vs GraphQL 核心对比（Over-fetching/Under-fetching/N+1问题）/ 推荐系统 GraphQL Schema 完整设计（Item/UserProfile/RecommendResult类型 + Strawberry）/ Query/Mutation 完整实现（批量推荐/行为记录/反馈）/ **DataLoader 批量加载器**（解决 N+1 问题的核心，批量合并 N 次 DB 查询 → 1 次）/ Relay Cursor 分页（稳定游标 vs 不稳定页码）/ GraphQL BFF 网关架构（FastAPI + gRPC 后端混合部署）/ 限流中间件 / 查询复杂度分析器（防止滥用）/ 生产检查清单 10 项 / 与 REST/gRPC 混合架构图
@@ -81,6 +82,16 @@
 - **学习资源**：Refactoring Guru、SourceMaking
 
 ## 📅 更新日志
+
+- 2026-04-07 PM ⭐ 新增《数据质量监控与 ML 流水线可靠性实战》
+  - 数据质量六维度：准确性/完整性/一致性/时效性/唯一性/有效性
+  - **数据质量检查框架**：DataQualityChecker 完整实现（缺失率/异常值/数据延迟/量级突变/重复记录五大检查 + 质量门禁流水线）
+  - **训练-服务一致性 Skew 检测**：FeatureSignature 签名体系 + PSI 指标 + 告警阈值；Skew 是推荐系统最隐蔽的慢性病（训练和推理特征分布不一致，模型学到错误规律）
+  - **标签质量监控**：LabelQualityMonitor（CTR / Position Bias 去偏 / 覆盖率 / 新颖度）+ 异常检测
+  - **Pipeline 可靠性**：PipelineScheduler 带断点续传的实现（checkpoint / 自动重试 / 指数退避 / 流水线失败分级告警）
+  - 推荐系统数据质量全景监控架构图（数据源层 → 质量检查层 → 告警层 → Grafana 仪表盘）
+  - 每日检查清单（7 项指标 + 阈值 + 应对措施）+ 上线前检查（特征一致性/标签质量/冷启动/数据泄漏）
+  - 五大常见误区：只监控模型不监控数据 / Skew 等效果差才查 / 缺失值直接填充 / Pipeline 无断点 / 只看点击不看其他信号
 
 - 2026-04-06 PM ⭐ 新增《Repository 模式与数据访问层实战》
   - 连接领域逻辑与持久化存储的桥梁 / 核心接口设计（IUserProfileRepository/IItemRepository/IBehaviorRepository） / dataclass 领域对象 vs ORM Model 对比 / PostgreSQL + Redis 双实现完整代码（MySQL 实现 vs Redis 缓存实现） / 依赖注入容器 + FastAPI 集成 / TypeScript NestJS + TypeORM 完整实现 / Unit of Work 模式（原子操作 + 事务回滚，推荐系统记录行为三步原子化实战） / 单元测试（Mock Repository + 验证无 N+1） / 三大常见误区（业务逻辑混入/表对Repository/全走ORM） / Repository 决策树 / 与六边形架构/Clean Architecture/DI容器/CQRS 关联图

@@ -1,6 +1,163 @@
 # 迭代日志 (Changelog)
 
-## v2.4.0 — 2026-04-06（多实例管理 · 实时监控 · 智能告警）✅ 本次完成
+## v2.5.0 — 2026-04-07（自然语言任务解析器 NL Interpreter）🆕 本次完成
+
+> 主题：**移动端核心体验 — 一句话说清楚要什么，NL Interpreter 自动解析 + 执行**
+
+---
+
+### 完成项
+
+#### 1. NL Interpreter 核心 `core/nl_interpreter.py` 🆕
+
+**意图识别（13 种意图全覆盖）**
+- `Intent` 枚举：trigger_report / trigger_scan / trigger_analysis / trigger_fetch / trigger_search / send_message / ask_question / query_status / query_task / query_history / cancel_task / pause_schedule / resume_schedule
+- 多层级解析：精确匹配（置信度 0.95）→ 模糊匹配（关键词重叠度 0.5+）→ 问号推断（0.7）
+- 零代码扩展：新增意图只需往 `INTENT_PATTERNS` 字典添加关键词
+
+**参数抽取**
+- Agent 映射：`info-fetcher` / `tech-analyst` / `market-insight` / `quick-report`
+- 时间词解析：现在/今天/明天/后天/下周，自动解析为 `datetime`
+- 技术关键词提取：大模型/RAG/Agent/MoE 等 30+ 关键词自动识别
+- 通知渠道推断：`发钉钉` / `只通知我` 等口语识别
+
+**Urgency 紧急度识别**
+- `ASAP`：立刻/马上/立即/十万火急
+- `HIGH`：尽快/快点
+- `LOW`：有空/慢慢来/不急
+- 影响任务优先级和推送表情
+
+**NLExecutor — 解析结果执行器**
+- 意图 → 执行动作一体化（execute 接口）
+- `ASK_QUESTION` → 自动 spawn agent 回答
+- `QUERY_STATUS` → 格式化状态输出
+- `UNKNOWN`（置信度 < 0.4）→ 友好提示，不乱执行
+
+**内置模式库**
+```python
+INTENT_PATTERNS   # 意图关键词（中文全覆盖）
+AGENT_KEYWORDS    # Agent 别名映射
+URGENCY_PATTERNS  # 紧急度关键词
+TIME_PATTERNS     # 时间词正则 + 解析函数
+```
+
+---
+
+#### 2. NL 路由 `handlers/nl_routes.py` 🆕
+
+| 方法 | 路径 | 说明 |
+|------|------|------|
+| POST | `/api/v1/nl` | 自然语言 → 自动解析执行 |
+| POST | `/api/v1/nl/preview` | 预览解析结果（不执行）|
+| GET | `/api/v1/nl/intents` | 列出支持的 13 种意图及示例 |
+| POST | `/api/v1/nl/batch` | 批量自然语言解析 |
+
+**POST /api/v1/nl 示例**
+```bash
+curl -X POST http://localhost:18789/api/v1/nl \
+  -H "Content-Type: application/json" \
+  -d '{"text": "帮我查一下今天有啥AI新闻", "channel": "dingtalk"}'
+
+# 返回
+{
+  "success": true,
+  "intent": "trigger_fetch",
+  "task_id": "nl-20260407-xxx",
+  "message": "收到！正在执行「trigger_fetch」\n📋 任务ID: nl-20260407-xxx\n⏱ 完成后我会通知你~"
+}
+```
+
+---
+
+### 典型使用场景
+
+#### 场景 1：手机快捷指令 + NL
+```
+用户说："Hey Siri，帮我查AI新闻"
+       ↓
+快捷指令 → POST /api/v1/nl → {"text": "帮我查AI新闻"}
+       ↓
+NL Interpreter 识别为 trigger_fetch，置信度 0.95
+       ↓
+TaskManager 自动 spawn info-fetcher
+       ↓
+完成后钉钉推送 ✅
+```
+
+#### 场景 2：微信/Telegram 文字输入
+```
+用户发消息："生成今日简报"
+       ↓
+Telegram/WeChat Handler → NL Interpreter
+       ↓
+识别为 trigger_report，scope=daily
+       ↓
+执行 quick-report 模板，钉钉通知
+```
+
+#### 场景 3：预览解析（调试/开发）
+```bash
+# 不执行，只看解析结果
+curl -X POST http://localhost:18789/api/v1/nl/preview \
+  -d '{"text": "帮我分析一下RAG的技术趋势"}'
+
+# 返回
+{
+  "intent": "trigger_analysis",
+  "confidence": 0.95,
+  "agent": "tech-analyst",
+  "params": {"topics": ["RAG", "检索增强"], "scope": "technical"},
+  "urgency": "normal"
+}
+```
+
+---
+
+### 架构图（v2.5.0 新增 NL 层）
+
+```
+                    ┌─────────────────────────────┐
+                    │    NL Interpreter (新增)     │
+                    │  ┌──────────────────────┐   │
+                    │  │  Intent Recognition  │   │
+                    │  │  精确/模糊/语义三层   │   │
+                    │  └──────────┬───────────┘   │
+                    │  ┌──────────▼───────────┐   │
+                    │  │   Parameter Extraction│  │
+                    │  │  Agent/Time/Urgency  │   │
+                    │  └──────────┬───────────┘   │
+                    └──────────────┼───────────────┘
+                                   │ ParsedIntent
+                    ┌──────────────▼───────────────┐
+                    │      NL Executor              │
+                    │  execute() → 意图路由          │
+                    │  ASK_QUESTION → spawn agent  │
+                    │  QUERY_STATUS → format output │
+                    │  TRIGGER_* → TaskManager     │
+                    └──────────────────────────────┘
+```
+
+---
+
+### 代码变更
+
+| 文件 | 变更 |
+|------|------|
+| `core/nl_interpreter.py` | 新增 ~400 行，NL 解析引擎 |
+| `handlers/nl_routes.py` | 新增 ~150 行，REST API |
+| `server.py` | 注入 NL 模块 + 注册路由 |
+
+---
+
+### 后续迭代方向
+
+- v2.6.0：LLM 驱动的深度语义解析（GPT-4o / GLM-4 增强）
+- v2.6.0：对话式多轮任务（上下文记忆）
+- v2.7.0：Plugin 系统（自定义意图 + 参数 schema）
+
+---
+
+## v2.4.0 — 2026-04-06（多实例管理 · 实时监控 · 智能告警）✅
 
 > 主题：**分布式 OpenClaw 集群管理 — 多实例路由 + 全维度监控 + 智能告警**
 

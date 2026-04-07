@@ -2,7 +2,7 @@
 
 > 轻量级 · 安全 · 随时可达 — 用手机/平板/Siri 随时控制服务器上的 OpenClaw
 
-**当前版本：v2.4.0** | 2026-04-06 更新
+**当前版本：v2.5.0** | 2026-04-07 更新
 
 ---
 
@@ -16,7 +16,23 @@ Telegram  ──→  Bot 命令   ──→  clawctl API  ──→  OpenClaw Ag
 定时触发  ──→  Cron Job   ──→  clawctl API  ──→  OpenClaw Agent
 Webhook   ──→  任意事件   ──→  clawctl API  ──→  OpenClaw Agent
 手机浏览器 ──→ Web Admin  ──→  clawctl API  ──→  OpenClaw Agent（实时推送）
+自然语言  ──→  NL Parser  ──→  clawctl API  ──→  OpenClaw Agent（v2.5 新增）
 ```
+
+### v2.5.0 新增：🎙 自然语言任务接口
+
+**一句话控制 OpenClaw，无需记住命令格式：**
+
+```bash
+curl -X POST http://localhost:18789/api/v1/nl \
+  -H "Content-Type: application/json" \
+  -d '{"text": "帮我查一下今天有啥AI新闻"}'
+
+# → 自动识别为 trigger_fetch，spawn info-fetcher，钉钉通知结果
+# → {"success": true, "intent": "trigger_fetch", "task_id": "nl-xxx", "message": "收到！..."}
+```
+
+支持 13 种意图：**生成报告 / 资讯抓取 / 技术分析 / 全量扫描 / 系统状态 / 任务查询 / 历史记录 / 取消任务 / 暂停定时 / 恢复定时 / 发送消息 / 自由提问 / 搜索查询**
 
 ### 新版本亮点（v2.4.0）
 - 🏢 **多实例管理** — 注册多个 OpenClaw 实例，三种路由策略（轮询/最低负载/主备），熔断器自动故障转移

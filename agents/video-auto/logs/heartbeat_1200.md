@@ -1,14 +1,15 @@
-# Video-Auto Heartbeat — 2026-04-06 12:00
+# video-auto Heartbeat Log — 2026-04-07 12:09
 
-## 状态：HEARTBEAT_OK（无任务）
+## 执行状态：✅ 无任务（HEARTBEAT_OK）
 
 ## 检查结果
-- `topic.txt`: ❌ 不存在
-- `material.md`: ❌ 不存在
-- `input/` 目录为空
-
-## 执行动作
-无任务，跳过全部流水线。
+- 输入目录：`/workspace/agents/video-auto/input/`
+- 目录内容：**空**（无 `topic.txt` 或 `material.md`）
+- 执行动作：无（静默跳过）
 
 ## 下次触发
-下次 cron（18:00）继续检查。
+- 定时任务：每日上午 12:00 / 下午 18:00
+- 触发条件：input 目录存在 `topic.txt` + `material.md` 时自动执行
+
+---
+_由 video-auto Agent 自动生成_

@@ -212,6 +212,20 @@ def build_app(cfg: Config):
         except ImportError as e:
             logger.warning(f"⚠️ 流式路由注册失败: {e}")
 
+    # ── NL 自然语言路由注册 ──────────────────────────────────────
+    try:
+        from clawctl.core.nl_interpreter import NLInterpreter, NLExecutor
+        from clawctl.handlers.nl_routes import get_nl_blueprint, init_nl_routes
+
+        interpreter = NLInterpreter(templates=template_loader.list())
+        nl_executor = NLExecutor(task_manager, client, notify_mgr)
+        init_nl_routes(nl_executor, interpreter)
+        nl_bp = get_nl_blueprint()
+        app.register_blueprint(nl_bp)
+        logger.info("🎙 自然语言路由已注册 (/api/v1/nl/*) — 一句话说清楚要什么")
+    except ImportError as e:
+        logger.warning(f"⚠️ NL路由注册失败: {e}")
+
     # ── 多实例管理器 (v2.4.0) ───────────────────────────────────
     try:
         from core.multi_instance import init_multi_instance_manager, get_multi_instance_manager

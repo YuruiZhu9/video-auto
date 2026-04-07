@@ -7,6 +7,10 @@ from .scheduler import Scheduler
 from .template_loader import TemplateLoader
 from .database import TaskDatabase, TaskRecord
 from .task_dag import TaskDAG, DAGManager, NodeStatus, get_dag_manager
+from .nl_interpreter import (
+    NLInterpreter, NLExecutor, Intent, Urgency, ParsedIntent,
+    get_nl_interpreter, get_nl_executor,
+)
 
 __all__ = [
     "OpenClawClient",
@@ -17,4 +21,6 @@ __all__ = [
     "TemplateLoader",
     "TaskDatabase", "TaskRecord",
     "TaskDAG", "DAGManager", "NodeStatus", "get_dag_manager",
+    "NLInterpreter", "NLExecutor", "Intent", "Urgency", "ParsedIntent",
+    "get_nl_interpreter", "get_nl_executor",
 ]

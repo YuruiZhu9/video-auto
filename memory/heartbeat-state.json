@@ -1,8 +1,16 @@
 {
-  "lastCheck": 1743998185000,
-  "checkTime": "2026-04-07T10:23:00+08:00",
+  "lastCheck": 1744000020000,
+  "checkTime": "2026-04-07T13:07:00+08:00",
   "totalJobs": 35,
-  "allOk": true,
-  "issuesFound": [],
-  "notes": "10:23检查：所有35个定时任务状态正常，无error任务"
+  "allOk": false,
+  "issuesFound": [
+    {
+      "jobId": "7ebcc7f2-91e7-4892-ab60-7cf62cdb606f",
+      "name": "豆瓣高分书籍推荐Agent",
+      "issue": "error - 12:00运行失败",
+      "action": "已触发重新运行，恢复running状态",
+      "note": "任务执行期偶发error，重新触发后恢复"
+    }
+  ],
+  "notes": "13:07检查：豆瓣高分书籍推荐Agent 12:00报错，已补救恢复；Git push origin仍待用户确认解封GitHub Secret Scanning"
 }
