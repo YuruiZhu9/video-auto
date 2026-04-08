@@ -1,3 +1,32 @@
+## 2026-04-08
+
+### 大模型 / LLM
+- 更新：**Claude Opus 4.6** — 登顶LMSYS Chatbot Arena榜首，超越GPT-5.4和Gemini 3.1 Pro（2026-04-07更新）
+- 更新：**DeepSeek V4** — 确认基于华为昇腾（Ascend）AI芯片开发，阿里/字节/腾讯各下数十万片订单
+- 更新：**Qwen3.6-Plus** — 登顶OpenRouter全球大模型调用量周榜第一，单日调用突破1万亿Token
+- 更新：**Gemini 2.5** → **Gemini 4**（支持离线多模态处理，新增Nano Banana语音控制）
+- 新增：**Grok 5**（xAI）— 将挑战《英雄联盟》冠军Faker人机对战
+- 新增：**Project Prometheus**（贝索斯新实验室）— 聚焦物理世界AI，招募前OpenAI联合创始人
+
+### AI Agent / 机器人 / 硬件
+- 新增：**Boston Dynamics New Atlas**（现代CES 2026）— 现代收购后首次迭代新品
+- 新增：**NeoClaw**（新石器无人车）— 大模型赋能无人配送，"一句话管理车队"
+- 新增：**MemPalace**（开源）— AI基准测试首个满分记忆宫殿系统
+- 新增：**有道宝库**（网易有道）— 首个AI知识库产品，全格式文档+对话式获取
+
+### AI开发框架
+- 新增：**AgenticPay**（Berkeley/SafeRL-Lab）— 多智能体LLM谈判系统，110+任务基准
+- 新增：**FIPO**（阿里通义实验室）— Future-KL机制优化大模型推理关键Token识别
+- 新增：**CompactRAG**（arXiv 2602.05728）— 高效多跳RAG，无论跳数仅调用2次LLM
+
+### 推荐系统
+- 新增：**DyTopo**（arXiv 2602.06039）— 多智能体动态拓扑路由，4个基准平均+6.2%提升
+- 新增：**Agentic-R**（arXiv 2601.11888）— 首个面向智能体检索的专用检索器
+- 新增：**Multi-Agent Subgraph Recommendation**（arXiv 2601.22209）— 多智能体推荐框架
+
+### 商业产品
+- 新增：**Donut Browser**（AI原生浏览器，145票）、**Mercury Edit 2**（自然语言视频剪辑，168票）、**OpenRouter Model Fusion**（多模型路由，127票）、**Sleek Analytics**（无代码AI BI，273票）、**Google Vids 2.0**（AI视频创作，405票）
+
 ## 2026-04-06
 
 ### 大模型 / LLM
