@@ -323,6 +323,19 @@ async def lifespan(app: FastAPI):
     set_metrics_collector(_monitor)
     logger.info("✅ 系统监控指标收集器已启动")
 
+    # ─── v2.5.0 新增：NL 自然语言解析路由 ─────────────────────────
+    set_nl_components(
+        task_mgr=_task_mgr,
+        notify_mgr=_notify_mgr,
+        gateway_client=_gateway_client,
+        auth_mgr=_auth_mgr,
+        llm_api_key=os.getenv("GLM_API_KEY", ""),
+    )
+    logger.info(
+        f"✅ NL 自然语言解析路由已注册 "
+        f"(LLM增强: {'已启用' if os.getenv('GLM_API_KEY') else '未启用（规则模式）'})"
+    )
+
     # ─── 模板热加载初始化 ────────────────────────────────────────
     global _template_watcher
     yaml_path = os.getenv("TEMPLATES_YAML", str(ROOT.parent / "templates.yaml"))
@@ -451,17 +464,23 @@ from fastapi_server.routers.instances import router as instances_router
 from fastapi_server.routers.webhooks import router as webhooks_router
 from fastapi_server.routers.monitor import router as monitor_router
 
+# ─── v2.5.0 新增：NL 自然语言解析路由 ──────────────────────────
+from handlers.nl_routes import router as nl_router, set_components as set_nl_components
+
 app = FastAPI(
     title="OpenClaw Control API",
-    description="OpenClaw 跨设备控制服务 API v1.5.0 | 多实例管理 · Webhook回调 · 实时监控",
-    version="1.5.0",
+    description="OpenClaw 跨设备控制服务 API v2.5.0 | 多实例管理 · Webhook回调 · 实时监控 · 自然语言控制",
+    version="2.5.0",
     lifespan=lifespan,
 )
 
-# 注册新路由（v1.5.0）
+# 注册路由（v1.5.0）
 app.include_router(instances_router)
 app.include_router(webhooks_router)
 app.include_router(monitor_router)
+
+# 注册路由（v2.5.0）：NL 自然语言解析
+app.include_router(nl_router)
 
 app.add_middleware(
     CORSMiddleware,

@@ -2,7 +2,7 @@
 
 > 轻量级 · 安全 · 随时可达 — 用手机/平板/Siri 随时控制服务器上的 OpenClaw
 
-**当前版本：v2.5.0** | 2026-04-07 更新
+**当前版本：v2.6.0** | 2026-04-08 更新
 
 ---
 
@@ -19,29 +19,42 @@ Webhook   ──→  任意事件   ──→  clawctl API  ──→  OpenClaw 
 自然语言  ──→  NL Parser  ──→  clawctl API  ──→  OpenClaw Agent（v2.5 新增）
 ```
 
-### v2.5.0 新增：🎙 自然语言任务接口
+### v2.6.0 新增：🎙 自然语言任务接口（完整实现）
 
 **一句话控制 OpenClaw，无需记住命令格式：**
 
 ```bash
-curl -X POST http://localhost:18789/api/v1/nl \
+# 方式一：POST（推荐）
+curl -X POST http://localhost:8081/api/v1/nl \
   -H "Content-Type: application/json" \
-  -d '{"text": "帮我查一下今天有啥AI新闻"}'
+  -H "Authorization: Bearer sk-oc-execute-xxx" \
+  -d '{"text": "帮我查一下今天有啥AI新闻", "channel": "dingtalk"}'
+
+# 方式二：快捷指令 GET（直接在 Siri/快捷指令中调用）
+http://localhost:8081/api/v1/nl/cmd?q=生成今日技术简报&channel=dingtalk&api_key=sk-xxx
 
 # → 自动识别为 trigger_fetch，spawn info-fetcher，钉钉通知结果
 # → {"success": true, "intent": "trigger_fetch", "task_id": "nl-xxx", "message": "收到！..."}
 ```
 
+**5 个 NL 端点**：
+- `POST /api/v1/nl` — 自然语言 → 自动解析执行
+- `POST /api/v1/nl/preview` — 预览解析结果（不执行）
+- `GET /api/v1/nl/intents` — 列出支持的 13 种意图及示例
+- `POST /api/v1/nl/batch` — 批量自然语言解析
+- `GET /api/v1/nl/cmd` — 快捷指令专用 GET 入口
+```
+
 支持 13 种意图：**生成报告 / 资讯抓取 / 技术分析 / 全量扫描 / 系统状态 / 任务查询 / 历史记录 / 取消任务 / 暂停定时 / 恢复定时 / 发送消息 / 自由提问 / 搜索查询**
 
-### 新版本亮点（v2.4.0）
+### 新版本亮点（v2.6.0）
 - 🏢 **多实例管理** — 注册多个 OpenClaw 实例，三种路由策略（轮询/最低负载/主备），熔断器自动故障转移
 - 📊 **实时监控** — CPU/内存/磁盘/OpenClaw指标/P95延迟，5秒采集，1小时滑动窗口，SSE 实时推送
 - 🚨 **智能告警** — 可配置阈值规则（gt/lt/gte/lte/eq），分级告警（info/warning/critical），冷却防抖，多通道通知
 - 💬 **微信订阅号接入** — 文字/语音消息自动识别，14个快捷命令，客服消息主动推送
 - 🎤 **全平台语音控制** — Whisper API / 本地 Whisper 多后端，唤醒词检测，TTS 语音播报
 - 🌊 **流式执行** — SSE 实时推送任务输出，Web Admin v3 日志面板实时可见
-- 🧠 **自然语言** — 一句话说清楚要什么，NL Interpreter 自动解析 + 执行
+- 🧠 **自然语言（v2.6 完整版）** — NL Routes HTTP 接口层完整实现，5 个端点，快捷指令 GET 入口
 - 🔀 **DAG 任务编排** — 多步骤任务自动串联，支持并行/串行/分支
 - 🪝 **Webhook 回调** — 任务完成/失败自动回调（签名验证+重试）
 - 📱 **PWA 移动端** — 可安装到主屏幕，底部 Tab 导航，实时日志
@@ -52,21 +65,28 @@ curl -X POST http://localhost:18789/api/v1/nl \
 ## 快速开始
 
 ```bash
-# 1. 安装依赖
-cd /workspace/reports/oc-cross-device/code
-pip install fastapi uvicorn apscheduler pyyaml requests httpx aiosqlite
+# 1. 安装依赖（使用 /app/.venv 虚拟环境）
+cd /workspace/reports/oc-cross-device/代码实现
+/app/.venv/bin/pip install -r fastapi_server/requirements.txt
 
-# 2. 配置（复制并编辑）
-cp config.yaml.example config.yaml
-# 编辑 config.yaml 填入 API Key 和钉钉 Webhook
+# 2. 配置环境变量
+export OPENCLAW_URL=http://localhost:18789
+export OPENCLAW_TOKEN=your_token_here
+export DINGTALK_WEBHOOK=https://oapi.dingtalk.com/robot/send?access_token=xxx
 
-# 3. 启动服务
-python server.py
+# 3. 启动服务（FastAPI，推荐）
+/app/.venv/bin/python -m fastapi_server.main --port 8081
 
-# 4. 打开 Web 管理界面
-open http://localhost:18790
-# 或使用移动端优化版
-open http://localhost:18790/web_admin/index_v2.html
+# 4. Web 管理界面
+open http://localhost:8081/admin/
+# 移动端优化版
+open http://localhost:8081/admin/index_v2.html
+
+# 5. 自然语言测试
+curl -X POST http://localhost:8081/api/v1/nl \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer admin" \
+  -d '{"text": "帮我查一下今天有啥AI新闻", "channel": "dingtalk"}'
 ```
 
 # 4. Docker 部署

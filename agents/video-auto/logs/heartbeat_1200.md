@@ -1,15 +1,20 @@
-# video-auto Heartbeat Log — 2026-04-07 12:09
+# Video-Auto Heartbeat Log — 2026-04-08 12:09
 
-## 执行状态：✅ 无任务（HEARTBEAT_OK）
+## 执行状态：✅ 无任务（静默）
 
 ## 检查结果
-- 输入目录：`/workspace/agents/video-auto/input/`
-- 目录内容：**空**（无 `topic.txt` 或 `material.md`）
-- 执行动作：无（静默跳过）
+
+| 检查项 | 状态 | 详情 |
+|--------|------|------|
+| input/ 目录 | ✅ 存在 | 空目录，无待处理任务 |
+| topic.txt | ❌ 不存在 | — |
+| material.md | ❌ 不存在 | — |
+
+## 结论
+
+**12:00 定时触发，无待处理任务。** input/ 目录为空，Agent 进入静默状态。
 
 ## 下次触发
-- 定时任务：每日上午 12:00 / 下午 18:00
-- 触发条件：input 目录存在 `topic.txt` + `material.md` 时自动执行
 
----
-_由 video-auto Agent 自动生成_
+- 等待用户向 `/workspace/agents/video-auto/input/` 投放任务文件
+- 下次 heartbeat 时重新检查

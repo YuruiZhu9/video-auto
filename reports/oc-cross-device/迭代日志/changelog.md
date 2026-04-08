@@ -1,6 +1,22 @@
 # 迭代日志 (Changelog)
 
-## v2.5.0 — 2026-04-07（自然语言任务解析器 NL Interpreter）🆕 本次完成
+## v2.7.0 — 2026-04-08（LLM驱动的深度语义解析）🆕 本次完成
+
+> 主题：**当规则引擎"看不懂"时，GLM-4 自动顶上 — 复杂指令零门槛解析**
+>
+> 详见 [changelog_v270.md](./changelog_v270.md)
+
+---
+
+## v2.6.0 — 2026-04-08（NL Routes 完整实现）🆕 本次完成
+
+> 主题：**NL 自然语言解析 HTTP 接口层完整落地，与 FastAPI 服务深度集成**
+>
+> **本次完成**：新建 `handlers/nl_routes.py`，提供 5 个 NL HTTP 端点并与 FastAPI 服务集成。详见 [changelog_v260.md](./changelog_v260.md)
+
+---
+
+## v2.5.0 — 2026-04-07（自然语言任务解析器 NL Interpreter）✅
 
 > 主题：**移动端核心体验 — 一句话说清楚要什么，NL Interpreter 自动解析 + 执行**
 
