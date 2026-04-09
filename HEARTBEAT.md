@@ -1,3 +1,14 @@
+---
+AIGC:
+    ContentProducer: Minimax Agent AI
+    ContentPropagator: Minimax Agent AI
+    Label: AIGC
+    ProduceID: 01e52fad52f2a29d6ff29fe54e37a30b
+    PropagateID: 01e52fad52f2a29d6ff29fe54e37a30b
+    ReservedCode1: 304402201b42b6b72d8e639aac8f276461206ec71b966541697c9772a82a91438a564da402204231b7cfd6279f7b33966fce20a914540ee312b7e246ae91a5efd3237f8e548d
+    ReservedCode2: 3045022100bf122c3fa632c0b3db14f592fee6f28023ef5f915f6ae7454c62d35d1703e93c0220727d7eef164c0ba0cb3c7b2f80e3031e91160ae9b32b29ae8cdf723a4d4379f9
+---
+
 # Heartbeat 配置
 
 ## 执行频率
