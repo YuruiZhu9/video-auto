@@ -1,3 +1,14 @@
+---
+AIGC:
+    ContentProducer: Minimax Agent AI
+    ContentPropagator: Minimax Agent AI
+    Label: AIGC
+    ProduceID: 71de58f45f61707f09ef702e99c0249b
+    PropagateID: 71de58f45f61707f09ef702e99c0249b
+    ReservedCode1: 3045022100e0138d9a086d0b27276452c9a0c1c2fe08238f9b82c09b1b240c5f48ba146b9f02207bbd478b1068ff8dd512d6e8ea7bbd99191ec20951bd987157cdffe576b4c88c
+    ReservedCode2: 30460221009c439616919d678a6104dddfd8807117fcad1484d26eed29d94ac10f6993b43d022100dece1900064b3df5dd97c78c2376bc27a370334b59fc91681043a841b649c34d
+---
+
 # Workspace 全景分析报告
 
 > 🤖 由小M 整理 | 最后更新：2026-04-09
