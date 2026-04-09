@@ -226,6 +226,17 @@ def build_app(cfg: Config):
     except ImportError as e:
         logger.warning(f"⚠️ NL路由注册失败: {e}")
 
+    # ── 快捷指令路由 (v2.8.0) ───────────────────────────────────
+    try:
+        from clawctl.handlers.shortcuts_routes import shortcuts_bp, init_shortcuts_routes
+        # 注入 NL Executor，使快捷指令能直接执行自然语言命令
+        if 'nl_executor' in dir():
+            init_shortcuts_routes(nl_executor)
+        app.register_blueprint(shortcuts_bp)
+        logger.info("📱 快捷指令路由已注册 (/api/v1/shortcuts/*) — iOS/Android 快捷指令集成")
+    except ImportError as e:
+        logger.warning(f"⚠️ 快捷指令路由注册失败: {e}")
+
     # ── 多实例管理器 (v2.4.0) ───────────────────────────────────
     try:
         from core.multi_instance import init_multi_instance_manager, get_multi_instance_manager

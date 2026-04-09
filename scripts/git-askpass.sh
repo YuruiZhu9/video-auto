@@ -1,2 +1,0 @@
-#!/bin/bash
-echo "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"

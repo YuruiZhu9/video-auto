@@ -1,5 +1,151 @@
 # 迭代日志 (Changelog)
 
+## v2.8.0 — 2026-04-09（iOS/Android 快捷指令深度集成）🆕 本次完成
+
+> 主题：**手机上一句话，OpenClaw 立刻执行 — iOS 快捷指令 × Siri 语音触发**
+
+---
+
+### 核心能力：移动端零门槛控制
+
+**为什么需要快捷指令集成？**
+
+现有控制方式的体验断层：
+- ✅ Web 界面：功能完整，但需要打开浏览器
+- ✅ 钉钉：适合聊天，复杂操作繁琐
+- ❌ 随手执行："Hey Siri，帮我生成今日简报" — 无法实现
+
+**v2.8.0 解决的核心问题：**
+- 用户对 Siri 说 **"AI简报"** → 触发 OpenClaw 执行任务 → 钉钉收到结果
+- 全程无需打开任何 App，无需打字
+- 固定任务一键导入 iOS 快捷指令 App
+
+---
+
+### 新增文件
+
+#### `handlers/shortcuts.py` 🆕 (~280行)
+
+**快捷指令模板系统 + clawctl:// URL Scheme 解析**
+
+| 功能 | 说明 |
+|------|------|
+| 13 个预设快捷指令模板 | 覆盖日常任务、快速查询、个性化分析三类 |
+| `ShortcutTemplate` 数据类 | 模板定义（名称/图标/颜色/URL/标签） |
+| iOS Shortcut URL 生成器 | `generate_ios_url_scheme()` 直接生成 iOS 可用 URL |
+| clawctl:// URL 解析 | 支持 `clawctl://run`、`message`、`status`、`schedule` |
+| 快捷指令库导出 | JSON/iOS 两种格式，支持前端/App 直接使用 |
+
+**预设模板一览：**
+
+```
+📋 日常任务（5个）
+  - 📋 生成今日简报      🌐 AI热点新闻
+  - 🔬 技术前沿扫描      📊 市场动态洞察
+  - 🚀 全面信息扫描
+
+⚡ 快速操作（3个）
+  - 💡 查看系统状态      📜 最近任务记录
+  - ⏳ 待处理任务
+
+🎯 个性化分析（5个）
+  - 🎯 推荐系统深度分析  🧠 大模型最新进展
+  - 💼 推荐算法就业市场  📚 本周论文速递
+```
+
+#### `handlers/shortcuts_routes.py` 🆕 (~270行)
+
+**FastAPI/Flask HTTP 路由 — 快捷指令专用端点**
+
+| 方法 | 路径 | 说明 |
+|------|------|------|
+| GET | `/api/v1/shortcuts` | **快捷指令库主端点**（iOS"获取内容"动作用） |
+| GET | `/api/v1/shortcuts/library` | 导出完整库 JSON（支持 format=ios） |
+| GET | `/api/v1/shortcuts/mobile` | 移动端专用格式（intent_filter） |
+| GET | `/api/v1/shortcuts/{id}` | 单个快捷指令详情 |
+| POST | `/api/v1/shortcuts/parse` | 解析 clawctl:// URL |
+| **GET** | **`/api/v1/shortcuts/cmd`** | **🚀 核心端点（iOS 快捷指令专用）** |
+| GET | `/api/v1/shortcuts/share/{id}` | 生成分享链接 |
+
+**GET /shortcuts/cmd 响应示例：**
+```json
+{
+  "success": true,
+  "intent": "trigger_report",
+  "confidence": 0.95,
+  "agent": "tech-analyst",
+  "task_id": "nl-20260409-abc12345",
+  "message": "✅ 收到！正在执行「trigger_report」\n📋 任务ID: nl-20260409-abc12345\n⏱ 完成后我会通知你~"
+}
+```
+
+#### `快捷指令集成/iOS-Shortcuts集成指南.md` 🆕
+
+**完整的 iOS 快捷指令集成文档：**
+- 3 步快速配置指南
+- 13 个预设快捷指令导入说明
+- Siri 语音触发配置
+- clawctl:// URL Scheme 协议规范
+- 常见错误排查表
+- 安全配置建议
+
+---
+
+### 实现细节
+
+#### iOS 快捷指令 URL 格式
+
+```
+# 标准格式（iOS 快捷指令"获取内容"动作）
+GET https://your-server/api/v1/shortcuts/cmd?q=生成今日技术简报&channel=dingtalk
+
+# 模板 ID 格式（精确匹配预设快捷指令）
+GET https://your-server/api/v1/shortcuts/cmd?template=quick_report&channel=dingtalk
+
+# 解析模式（只解析不执行，用于调试）
+GET https://your-server/api/v1/shortcuts/cmd?q=生成AI新闻&intent_only=true
+```
+
+#### NL Executor 集成
+
+```python
+# shortcuts_routes.py — 快捷指令 → NL Executor
+if _nl_executor is None:
+    return {"success": True, "note": "NL Routes 未启动"}
+
+result = _nl_executor.execute(nl_text, channel=channel)
+return jsonify(result)
+```
+
+#### server.py 注册
+
+```python
+# 在 NL Routes 注册后追加
+from clawctl.handlers.shortcuts_routes import shortcuts_bp, init_shortcuts_routes
+init_shortcuts_routes(nl_executor)  # 注入 NL Executor
+app.register_blueprint(shortcuts_bp)
+logger.info("📱 快捷指令路由已注册 (/api/v1/shortcuts/*) — iOS/Android 快捷指令集成")
+```
+
+---
+
+### Phase 3 进度总览
+
+| 功能 | 状态 | 备注 |
+|------|------|------|
+| 多平台支持（钉钉） | ✅ | `dingtalk_handler.py` 完整 |
+| 多平台支持（Telegram） | ✅ | `telegram_bot.py` 283行 |
+| 多平台支持（微信） | ✅ | `wechat_handler.py` 639行 |
+| 自然语言解析 | ✅ | `nl_interpreter.py` + `nl_routes.py` |
+| LLM 增强解析 | ✅ | `llm_resolver.py` (v2.7.0) |
+| **快捷指令集成** | **✅ 本次** | **v2.8.0** |
+| 语音控制 | ✅ | `voice_handler.py` 535行 + `voice_routes.py` 216行 |
+| SSE 实时推送 | ✅ | `sse_handler.py` 313行 |
+| DAG 任务流 | ✅ | `task_dag.py` |
+| iOS App / 小程序 | 🔲 规划中 | 需原生开发 |
+
+---
+
 ## v2.7.0 — 2026-04-08（LLM驱动的深度语义解析）🆕 本次完成
 
 > 主题：**当规则引擎"看不懂"时，GLM-4 自动顶上 — 复杂指令零门槛解析**

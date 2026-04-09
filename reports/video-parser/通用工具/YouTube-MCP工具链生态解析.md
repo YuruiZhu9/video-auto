@@ -1,65 +1,114 @@
-# YouTube数据获取MCP生态 — yt-mcp / yt-dlp-mcp / mcp-youtube
+# 通用工具类 — YouTube MCP 工具链生态
+
+> 更新时间：2026-04-09 | 维护者：视频解析方法总结Agent
 
 ## 核心工具/API
 
-### 1. yt-mcp（YouTube Data API方案）
-- **数据源**：YouTube Data API v3（官方API）
-- **字幕获取**：`youtube-transcript-api` Python包
-- **环境变量**：`YOUTUBE_API_KEY`（必需）
+### 1. yt-mcp（YouTube Data API 官方方案）
+- **功能**：YouTube 官方 API 封装，支持字幕/元数据/频道分析/互动率
+- **授权**：需要 Google Cloud API Key
+- **优点**：官方数据源，稳定性高
+- **缺点**：有配额限制（每日 10,000 单位）
 
-### 2. yt-dlp-mcp / mcp-youtube（yt-dlp方案）
-- **数据源**：yt-dlp（第三方解析，绕过API限制）
-- **能力**：下载视频/音频/字幕/元数据
-- **平台覆盖**：YouTube、Facebook、TikTok等
+### 2. mcp-youtube（yt-dlp 后端，最推荐）
+- **功能**：基于 yt-dlp，绕过 API 配额限制，支持 TikTok/抖音/B站等
+- **授权**：无需 API Key
+- **优点**：支持平台最广，字幕提取能力强
+- **缺点**：非官方，数据完整性依赖 yt-dlp 维护
 
-### 3. yt-subs-mcp
-- **专精**：仅字幕提取
-- **轻量**：最小化MCP服务器
+### 3. yt-subs-mcp（最轻量字幕专用）
+- **功能**：仅专注于字幕提取，最小依赖
+- **授权**：无需 API Key
+- **优点**：安装简单，资源占用低
+- **缺点**：功能单一，无元数据
 
-## yt-mcp 支持工具列表
+### 4. video-research-mcp（生产级全功能套件）
+- **功能**：45 工具 + 17 命令 + 7 Skills + 7 子 Agent
+- **亮点**：视频理解 + 多源研究 + 网页搜索三合一
+- **适用**：Claude Code 深度集成，复杂研究任务
 
-| 工具 | 功能 |
-|------|------|
-| `getVideoDetails` | 批量获取视频元数据（标题/时长/统计） |
-| `searchVideos` | 关键词搜索视频 |
-| `getTranscripts` | 批量获取字幕（带时间戳） |
-| `getRelatedVideos` | 获取推荐视频 |
-| `getChannelStatistics` | 频道统计数据 |
-| `getChannelTopVideos` | 频道热门视频 |
-| `getVideoEngagementRatio` | 互动率计算 |
-| `getTrendingVideos` | 热门视频（按地区/类别） |
-| `compareVideos` | 跨视频对比 |
-| `getPlaylistDetails/Videos` | 播放列表信息 |
+### 5. youtube-video-summarizer-mcp
+- **功能**：YouTube 视频摘要 + 关键信息提取
+- **输出**：标题/描述/字幕摘要/TLDR/Twitter 风格钩子
+- **适用**：快速了解视频核心内容
 
-## 步骤流程（yt-mcp）
-1. 配置 `YOUTUBE_API_KEY` 环境变量
-2. 配置 `mcpServers.youtube` 指向 `npx yt-mcp`
-3. AI助手自动调用工具获取YouTube数据
-4. 字幕+元数据→后续LLM分析
+## 步骤流程
+
+### 安装与配置
+```bash
+# Claude Desktop 配置示例（mcp-youtube）
+# ~/.claude_desktop_config.json 或 settings.json
+{
+  "mcpServers": {
+    "mcp-youtube": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-youtube-transcript"]
+    },
+    "video-research-mcp": {
+      "command": "pip",
+      "args": ["install", "video-research-mcp"]
+    }
+  }
+}
+```
+
+### 典型使用流程（mcp-youtube）
+```
+1. 用户输入 YouTube 视频 URL
+2. MCP Server 调用 yt-dlp 提取字幕 + 元数据
+3. 字幕文本注入 LLM 对话上下文
+4. LLM 生成摘要/回答问题/提取关键信息
+```
+
+### 批量频道分析流程
+```python
+# 使用 yt-mcp 批量获取频道数据
+channel_id = "UCxxxxx"
+videos = yt_mcp.get_channel_videos(channel_id, max_results=50)
+for video in videos:
+    transcript = mcp_youtube.get_transcript(video['id'])
+    summary = llm.summarize(transcript)
+```
 
 ## 适用场景
-- **批量YouTube频道/视频分析**（舆情监控、竞品分析）
-- **自动字幕提取**（无API Key限制版用mcp-youtube）
-- **视频元数据采集**（标题/描述/标签/统计数据）
-- **播放列表批量解析**（课程内容整理）
-- **热门趋势分析**（按地区/类别）
+
+- **批量 YouTube 频道舆情监控**：自动化采集 + 摘要
+- **内容创作者竞品分析**：批量抓取同类视频结构
+- **研究视频素材收集**：自动化字幕提取 + 翻译
+- **视频知识库构建**：字幕 + 元数据 → 向量数据库
+- **AI 训练数据采集**：大规模无版权问题视频字幕收集
 
 ## 避坑指南
-- **YouTube Data API配额限制**：免费版每日1万单位，大批量需申请配额提升
-- **字幕可用性**：并非所有视频都有字幕，自动回退机制很重要
-- **mcp-youtube依赖yt-dlp**：在中国大陆可能需代理
-- **OAuth可选**：私人播放列表需配置OAuth（端口3000）
 
-## 选型建议
-```
-需要官方数据/频道分析 → yt-mcp（YouTube Data API）
-需要字幕+绕过API限制 → mcp-youtube（yt-dlp）
-只需要字幕提取 → yt-subs-mcp（最轻量）
-需要多平台（TikTok等）→ yt-dlp-mcp
-```
+### API 配额
+- yt-mcp（官方）有严格配额，大批量使用选 mcp-youtube
+- YouTube Data API 配额可申请提升，但需信用卡验证
+
+### 字幕可用性
+- 并非所有视频都有字幕，无字幕视频需 Whisper 转录
+- 某些视频字幕是自动生成（ASR），准确率偏低
+
+### 合规性
+- 提取内容仅供个人研究/学习，商用需注意版权
+- 遵守 YouTube 服务条款，避免高频请求封禁 IP
+
+### 地区限制
+- 部分视频有地区限制，yt-dlp 可通过代理绕过
+- 国内 B 站/抖音视频需特定 yt-dlp 配方
+
+## 工具对比
+
+| 工具 | 字幕提取 | 元数据 | 频道分析 | 无需 API Key | 平台覆盖 |
+|------|---------|--------|---------|------------|---------|
+| yt-mcp | ✅ | ✅ | ✅ | ❌ | 仅 YouTube |
+| mcp-youtube | ✅ | ✅ | ✅ | ✅ | YouTube/TikTok/B站 |
+| yt-subs-mcp | ✅ | ❌ | ❌ | ✅ | YouTube |
+| video-research-mcp | ✅ | ✅ | ✅ | ✅ | YouTube + 网页搜索 |
+| youtube-summarizer | ✅（摘要） | ✅ | ❌ | ✅ | 仅 YouTube |
 
 ## 参考链接
-- yt-mcp：https://github.com/space-cadet/yt-mcp
-- yt-dlp-mcp：https://github.com/kevinwatt/yt-dlp-mcp
-- mcp-youtube：https://github.com/anaisbetts/mcp-youtube
-- yt-subs-mcp：https://github.com/jvsteiner/yt-subs-mcp
+
+- mcp-youtube：https://github.com/modelcontextprotocol/servers
+- video-research-mcp：https://pypi.org/project/video-research-mcp/
+- yt-mcp：https://github.com/isaac-mcfadyen/yt-mcp
+- YouTube MCP 生态：https://mcpworld.com / https://lobehub.com

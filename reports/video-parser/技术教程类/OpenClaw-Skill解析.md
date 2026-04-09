@@ -1,90 +1,139 @@
-# 技术教程类视频 - OpenClaw Skill解析
+# 技术教程类 - OpenClaw 内置 Skill 解析
 
-## 核心工具/API
-
-| 工具 | 功能描述 | 路径/命令 |
-|------|----------|----------|
-| **videos_understand** | 内置LLM视频理解，支持批量分析 | 工具直接调用 |
-| **summarize** | YouTube/B站直解析，提取字幕/摘要 | `summarize "<url>" --youtube auto` |
-| **openai-whisper** | 本地Whisper CLI转录，无需API Key | `whisper audio.mp3 --model medium` |
-| **openai-whisper-api** | OpenAI Whisper API转录（需Key） | `transcribe.sh audio.m4a --json` |
-| **video-frames** | ffmpeg关键帧提取，截图分析 | `frame.sh video.mp4 --time HH:MM:SS` |
-| **yt-dlp** | 音视频下载，支持1800+网站 | `/app/.venv/bin/yt-dlp <url>` |
+> 适合对象：技术教程、操作演示类视频，需要提取语音/字幕/关键步骤
 
 ---
 
-## 步骤流程
+## 方法一：summarize 命令（推荐 · 一键搞定）
 
-### 方案A：一站式LLM理解（推荐⭐⭐⭐）
-```
-1. 获取视频URL或本地路径
-2. 调用 videos_understand(video_url=url, prompt="提取技术教程的关键步骤、代码片段、命令要点")
-3. LLM输出结构化技术要点
-```
+### 核心工具
+- **工具**：summarize（OpenClaw 内置 Skill，`summarize.sh`）
+- **说明**：快速总结 URL、YouTube 视频、本地文件，支持字幕提取和 AI 总结
+- **安装**：`brew install steipete/tap/summarize`
 
-### 方案B：字幕转录 + LLM分析（适合长视频）
+### 步骤流程
 ```
-1. yt-dlp -x --audio-format mp3 <video-url>    # 提取音频
-2. whisper audio.mp3 --model medium --output_format srt  # 生成字幕
-3. videos_understand(video_file="audio.srt", prompt="按技术步骤整理要点")  # LLM分析
-```
-
-### 方案C：关键帧 + 图像分析（适合GUI操作教程）
-```
-1. frame.sh tutorial.mp4 --time 00:02:00 --out frame1.jpg   # 提取关键帧
-2. frame.sh tutorial.mp4 --time 00:05:30 --out frame2.jpg
-3. images_understand(images=[{file:"frame1.jpg", prompt:"描述界面和操作"}])
-4. 汇总所有截图分析结果
+1. 确定视频 URL（如 YouTube 链接）
+2. 一键执行：summarize "https://youtu.be/xxx" --youtube auto
+3. 等待 AI 自动完成字幕提取 + 总结
+4. 如需纯字幕：加 --extract-only 参数
+5. 输出 txt/srt 格式的字幕稿
 ```
 
-### 方案D：summarize CLI（最快）
-```
-summarize "https://youtu.be/xxxx" --youtube auto --extract-only
-summarize "https://youtu.be/xxxx" --youtube auto --length medium
-```
+### 适用场景
+- YouTube / B站 等平台教程视频
+- 需要快速了解视频讲了什么
+- 只需要文字记录，不需要视频帧
+
+### 避坑指南
+- ⚠️ 字幕依赖平台是否开放字幕接口，部分视频可能失败
+- ⚠️ 长视频（>1小时）总结较长，建议加 `--length short` 限制长度
+- ⚠️ 设置 `ANTHROPIC_API_KEY` / `OPENAI_API_KEY` / `GEMINI_API_KEY` 环境变量
 
 ---
 
-## 适用场景
+## 方法二：video-frames Skill（FFmpeg 驱动）
 
-- **编程教学**：Python/JS/AI框架教学视频，提取代码片段和命令
-- **工具使用**：OpenClaw Skill开发、CLI工具教程
-- **GUI操作演示**：截图 + 语音双通道分析
-- **长课程**：分段转录 + 分段理解
-- **无字幕视频**：whisper强制转录
+### 核心工具
+- **工具**：FFmpeg（OpenClaw 内置 Skill）
+- **Skill 路径**：`/app/openclaw/skills/video-frames/SKILL.md`
+- **说明**：按帧号或时间戳提取视频中的单帧图片
+
+### 步骤流程
+```
+1. 确认 ffmpeg 已安装（系统依赖）
+2. 提取第一帧（缩略图）：frame.sh video.mp4 --out /tmp/frame.jpg
+3. 指定时间戳截取：frame.sh video.mp4 --time 00:00:10 --out /tmp/frame-10s.jpg
+4. 获取视频信息：ffmpeg -i video.mp4（查看总时长/帧率/分辨率）
+```
+
+### 适用场景
+- 需要视频关键画面的截图
+- 生成视频封面/缩略图
+- 截取某个具体时间点展示的操作画面
+
+### 避坑指南
+- ⚠️ 时间格式：使用 `--time HH:MM:SS` 标准格式
+- ⚠️ 分享用途用 `.jpg`，高清用途用 `.png`
+- ⚠️ 若要批量提取帧，参考 `video-frames-skill`（clawhub 安装版）
 
 ---
 
-## 避坑指南
+## 方法三：openai-whisper Skill（本地语音转文字）
 
-### 问题1：视频无法访问/被平台限流
-**解决方案**：
-- 使用 `yt-dlp --list-subs <url>` 先检查字幕 availability
-- 设置UA或Cookie：`yt-dlp --user-agent "..." --cookies-from-browser chrome`
-- fallback到 `summarize` 的 Apify 模式：`--youtube auto`（需 APIFY_API_TOKEN）
+### 核心工具
+- **工具**：Whisper CLI（OpenAI 开源模型）
+- **Skill 路径**：`/app/openclaw/skills/openai-whisper/SKILL.md`
+- **说明**：本地离线将视频/音频转录为文字
 
-### 问题2：whisper转录速度慢
-**解决方案**：
-- 小模型加速：`--model tiny`（最快）或 `--model base`（平衡）
-- GPU优先：确保CUDA可用，`nvidia-smi` 检查
-- 分段处理：先 `yt-dlp` 分段下载，再逐段转录
+### 步骤流程
+```
+1. 从视频提取音频：ffmpeg -i video.mp4 -vn -acodec pcm_s16le audio.wav
+2. 选择模型并转录：
+   - whisper audio.wav --model medium --output_format txt --output_dir .
+   - whisper audio.wav --model base --output_format srt --output_dir .
+3. 得到 .txt（纯文字稿）或 .srt（带时间轴字幕）
+```
 
-### 问题3：videos_understand 有时长限制
-**解决方案**：
-- 超过限制时，先用 `whisper` 转文字，再用 LLM 分析文字稿
-- 或截取视频精华片段：`ffmpeg -ss 00:10:00 -i video.mp4 -t 00:05:00 -c copy clip.mp4`
+### 模型选择建议
+| 模型 | 速度 | 准确率 | 适用场景 |
+|------|------|--------|---------|
+| tiny | 最快 | 一般 | 快速预览 |
+| base | 快 | 尚可 | 普通英语/中文 |
+| small | 中等 | 较好 | 日常内容 |
+| medium | 慢 | 高 | 专业术语 |
+| large | 最慢 | 最高 | 高要求场景 |
 
-### 问题4：技术教程含大量代码，字幕识别不准
-**解决方案**：
-- 使用 `openai-whisper-api` 的 `--prompt` 参数注入上下文：`--prompt "Python, PyTorch, OpenAI API, Hugging Face"`
-- 或在 `videos_understand` prompt 中明确要求"精确转录代码片段"
+### 适用场景
+- 无字幕的教程视频本地转录
+- 会议录音/播客转文字
+- 需要带时间轴的字幕文件（用于视频剪辑）
+
+### 避坑指南
+- ⚠️ 首次运行自动下载模型到 `~/.cache/whisper`，需留足空间
+- ⚠️ 中文视频推荐 medium 以上模型，小模型中文识别差
+- ⚠️ 音频质量差会导致识别率大幅下降，先预处理降噪
+
+---
+
+## 方法四：summarize --extract-only（字幕提取专用）
+
+### 核心工具
+- **工具**：summarize + yt-dlp
+- **说明**：不调用 AI，直接提取平台字幕文本
+
+### 步骤流程
+```
+1. 提取 YouTube 字幕：summarize "https://youtu.be/xxx" --youtube auto --extract-only
+2. 提取 B站 字幕：summarize "https://www.bilibili.com/video/xxx" --extract-only
+3. 输出纯字幕文本文件
+```
+
+### 适用场景
+- 只需要字幕文本，不需要 AI 总结
+- 后续自行用 LLM 处理字幕
+- 大批量提取积累语料库
+
+### 避坑指南
+- ⚠️ 仅限有字幕的视频，无字幕视频返回空
+- ⚠️ 部分视频有硬字幕（烧录在画面中）无法提取，需用 Whisper
+
+---
+
+## 方法对比
+
+| 方法 | 速度 | 字幕质量 | 帧提取 | 总结 | 推荐指数 |
+|------|------|---------|--------|------|---------|
+| summarize | 快 | 依赖平台 | ❌ | ✅ | ⭐⭐⭐⭐⭐ |
+| video-frames | 快 | ❌ | ✅ | ❌ | ⭐⭐⭐⭐ |
+| whisper | 慢 | 高（本地） | ❌ | ❌ | ⭐⭐⭐⭐ |
+| summarize --extract | 快 | 中 | ❌ | ❌ | ⭐⭐⭐ |
 
 ---
 
 ## 参考链接
-
-- OpenClaw Skill - video-frames: `/app/openclaw/skills/video-frames/SKILL.md`
-- OpenClaw Skill - whisper: `/app/openclaw/skills/openai-whisper/SKILL.md`
-- OpenClaw Skill - summarize: `/app/openclaw/skills/summarize/SKILL.md`
-- yt-dlp 文档: `https://github.com/yt-dlp/yt-dlp`
-- Whisper 论文: `https://openai.com/research/whisper`
+- OpenClaw summarize Skill：`/app/openclaw/skills/summarize/SKILL.md`
+- OpenClaw video-frames Skill：`/app/openclaw/skills/video-frames/SKILL.md`
+- OpenClaw whisper Skill：`/app/openclaw/skills/openai-whisper/SKILL.md`
+- summarize 官方文档：https://summarize.sh
+- Whisper GitHub：https://github.com/openai/whisper
