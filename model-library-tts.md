@@ -3,10 +3,10 @@ AIGC:
     ContentProducer: Minimax Agent AI
     ContentPropagator: Minimax Agent AI
     Label: AIGC
-    ProduceID: 9eca94ff056f86664115ab83809e5ee7
-    PropagateID: 9eca94ff056f86664115ab83809e5ee7
-    ReservedCode1: 30450220335386e12d3493888f3e4c0abc9b3bd2d36806e8dbb57ffcb0a57c3a0e68f0a3022100b797d51c530861f9477daed24784d67175af484d9ef9354425a8a4fc9a2ecde7
-    ReservedCode2: 3046022100c222abfb07b87179c1d9cfe6c502be6a63a7e6a9442fa568a01ab1bf22839bed022100b35dda4d10b47a9aa2315ed07fa3270040692dc676e8cd373eae652532470a2a
+    ProduceID: a9b3d5b1d5e0c8a87b928eeeac7bc132
+    PropagateID: a9b3d5b1d5e0c8a87b928eeeac7bc132
+    ReservedCode1: 304402205c97d6486d870eca9ba67d559e05ee9c61a00b157dc5a3e6206a9ced8d8d0915022060e343ead9009cb3528d4f361becf2290f173fd5d17bfc537f22c842a7f07fb7
+    ReservedCode2: 304402201e1cf22987901dc4e49d44cef3eb7373c550225ee66ad5a540337d49e719f1ca02206dc17acf81d68999c45645931b62bb2b3a0c4185d2fcd07d0f4b91438b8f16d5
 ---
 
 # 🤖 TTS 模型库
@@ -184,6 +184,60 @@ def tts(text: str, voice: str = "zf_xiaobei"):
 ---
 
 > 🤍 **综合评价**：Kokoro 是目前最值得关注的轻量级 TTS 选手。在 82M 参数的极小体积下实现了与 467M XTTS 正面对抗甚至胜出的质量，加上 Apache 2.0 商用许可，对个人开发者和小型团队来说是性价比最高的选择。中文支持随 v1.1-zh 版本大幅改善，但中英混合场景仍有提升空间，适合中文为主或英文为主的应用。
+
+---
+
+---
+
+## 📦 Voxcpm2（OpenBMB / 面壁智能）⭐ 新收录
+
+**Voxcpm2** 是面壁智能开源的 2B 参数 TTS 模型，采用无分词器扩散自回归架构，支持 30 种语言和 9 种中国方言，输出 48kHz CD 音质。
+
+| 指标 | 数值 |
+|------|------|
+| 参数量 | **2B** |
+| 架构 | 无分词器扩散自回归 |
+| 采样率 | 48kHz |
+| 语言支持 | 30 种语言 + 9 种中国方言 |
+| 训练数据 | 236 万小时多语言语音 |
+| 许可 | **免费可商用（开源）** |
+
+### 🎯 核心能力
+
+| 能力 | 说明 |
+|------|------|
+| 🎤 **Ultimate Cloning** | 提供参考音频+转写文本，还原每一处声音细节 |
+| 🎨 **Voice Design** | 纯文字描述凭空创造全新声音 |
+| 🎭 **情感/语速控制** | 在保留参考音色的同时调节情感表达 |
+| ⚡ **实时推理** | RTX 4090 上 RTF ≈ 0.3 |
+
+### 🔗 资源链接
+
+- **GitHub**: https://github.com/OpenBMB/VoxCPM
+- **ModelScope**: https://www.modelscope.cn/models/OpenBMB/VoxCPM2
+- **官网**: https://voxcpm.com/zh/
+
+### 🛠️ 调用方式
+
+```bash
+# ModelScope（推荐）
+pip install modelscope
+python -c "from modelscope import snapshot_download; snapshot_download('OpenBMB/VoxCPM2')"
+
+# 本地推理：Ollama 社区模型 / ModelScope 本地部署
+# API平台：硅基流动等国内推理平台陆续接入中
+```
+
+### 📌 与 Kokoro 的定位差异
+
+| 维度 | Kokoro-82M | Voxcpm2 |
+|------|-----------|---------|
+| 参数量 | 82M | 2B |
+| 克隆质量 | 需额外 voice.pt | 参考音频直接克隆 |
+| 语言 | 8种语言 | 30种语言 + 9种方言 |
+| 实时性 | ★★★★★ | ★★★★ |
+| 开源程度 | Apache 2.0 | MIT/开源 |
+| 中文支持 | 需 v1.1-zh | 原生支持方言 |
 
 ---
 

@@ -29,6 +29,13 @@ curl -s -X POST "https://api.bochaai.com/v1/web-search" \
 
 ---
 
+## TTS 语音合成模型
+
+> 完整收录见 `/workspace/model-library-tts.md`，包含 Kokoro-82M 和 Voxcpm2 等开源模型详细评测。
+> Voxcpm2 已收录至 model-library-tts.md（2026-04-09）。
+
+---
+
 ## 免费 AI API（注册即用，长期免费）
 
 ### 文本生成

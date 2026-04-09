@@ -1,3 +1,14 @@
+---
+AIGC:
+    ContentProducer: Minimax Agent AI
+    ContentPropagator: Minimax Agent AI
+    Label: AIGC
+    ProduceID: 5b7408e8db81b0ab2addc425d108e8ac
+    PropagateID: 5b7408e8db81b0ab2addc425d108e8ac
+    ReservedCode1: 3045022100eb1f9bbd7b89e0f8aa97a4d2654fca25b2bcc08d1bfa8055f8dc3e3dace9a9d102204a6a26d214c1e2329d34331f329a160ea4ee709323818728875a98d7cff5d88c
+    ReservedCode2: 3045022100f1f18499ccaed0decd0b174dce543c4a561dc975d1d53d1a4df48a86f63f7f940220231ce2c0d5cbfc1fd826061109b821534039b171850e2672a8392ba381183143
+---
+
 # 工作区全景分析报告
 
 > 小M的工作空间 · 最后更新：2026-04-03 11:30
