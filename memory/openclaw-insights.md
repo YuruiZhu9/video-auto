@@ -982,3 +982,39 @@ openclaw doctor --security
 
 ---
 *更新于 2026-04-08*
+
+## 2026-04-09 配置周刊要点（本期头条：npm 落后6个版本！）
+
+### npm 最新版：v2026.4.9（今日 beta）/ v2026.4.8（稳定版）
+- v2026.4.8, v2026.4.7-1, v2026.4.7, v2026.4.5, v2026.4.2, v2026.4.1, v2026.3.31 连续发布
+- **系统当前 v2026.3.3，落后 6 个版本！** 立即 `npm install -g openclaw@latest`
+
+### 60秒安全加固基线（官方文档新增）
+- gateway.bind: "loopback" + token 认证
+- tools.profile: "messaging" + deny automation/runtime/fs/sessions_spawn/sessions_send
+- 文件权限 700（当前 ~/.openclaw 是 777，Critical！）
+- dmPolicy: "pairing" + requireMention: true
+
+### Cron 新参数（v2026.3.31+）
+- `--stagger 30s`：指定错开窗口，避免整点负载尖峰
+- `--light-context`：跳过工作区引导文件，节省 token
+- `--tools exec,read`：按任务限制工具权限
+- `--agent <name>`：多智能体路由
+- Gmail PubSub Webhook 集成
+
+### SubAgent 嵌套深度（官方文档）
+- maxSpawnDepth 默认 1，最大 5，建议 2
+- maxChildrenPerAgent 默认 5，maxConcurrent 默认 8
+- archiveAfterMinutes 默认 60
+
+### 安全 Critical 检查
+- fs.state_dir.perms_world_writable（当前 ~/.openclaw mode=777）
+- gateway.bind_no_auth
+- gateway.tailscale_funnel
+- 立即：openclaw security audit --deep --fix
+
+### ClawHub TOP 5（2026-04）
+- self-improving-agent: 495k★ | gog: 316k★ | Summarize: 153k★ | Tavily: 145k★ | Github: 98k★
+
+---
+*更新于 2026-04-09*
