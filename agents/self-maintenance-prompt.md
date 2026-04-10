@@ -63,6 +63,33 @@ self-maintenance/
     └── ...
 ```
 
+## 复杂项目 Agent 子目录模式说明
+
+**适用范围：** 当 Agent 任务规模较大、需要多个文件（AGENTS.md/HEARTBEAT.md/子目录/执行记录等）时，使用子目录模式而非单一 `*-prompt.md` 文件。
+
+**识别标准：** 满足以下任一条件的 Agent 应使用子目录：
+- 需要 HEARTBEAT.md 定期检查
+- 需要多个辅助文件（代码库/文档/状态文件）
+- 任务执行逻辑复杂，超出单文件 prompt 承载能力
+
+**命名规范：**
+```
+agents/<project-name>/
+├── AGENTS.md           # 核心 Agent 描述（必选）
+├── HEARTBEAT.md        # 心跳检查逻辑（可选）
+├── README.md           # 项目说明（可选）
+├── 执行记录.md          # 执行日志（可选）
+└── <其他文件>           # 按需添加
+```
+
+**已有子目录的 Agent：**
+- `video-auto/`：视频自动化工作流（312行 AGENTS.md + HEARTBEAT.md）
+- `model-library/`：模型库索引目录（分类文件 + 索引）
+- `voice-cloning/`：语音克隆资源库（59行 prompt + 执行记录.md）
+- `self-maintenance/`：Agent 自我维护体系（版本历史 + 问题记录 + 优化建议）
+
+**迁移指南：** 已有 `*-prompt.md` 的 Agent 如需升级为子目录模式，保留原 prompt 改名为 `AGENTS.md` 存入子目录，并创建 `HEARTBEAT.md`（如需心跳）。
+
 ## 修改记录格式
 
 ```markdown

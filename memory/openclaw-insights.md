@@ -1018,3 +1018,27 @@ openclaw doctor --security
 
 ---
 *更新于 2026-04-09*
+
+## 2026-04-10 配置周刊要点（本期头条：6天7版本密集发布！）
+
+### 密集发布周：v2026.4.5～v2026.4.9（04-06～04-09）
+- v2026.4.9（04-09）：Memory/Dreaming增强，多项安全修复
+- v2026.4.8（04-08）：修复 npm 安装后 Telegram/Slack/Matrix 启动时 dist/extensions/*/src/* 文件无法加载的严重问题（强烈推荐升级！）
+- v2026.4.7（04-08）：🆕 openclaw infer CLI + memory-wiki 完整回归 + Webhook 入口插件 + 可插拔压缩提供者
+- v2026.4.7-1（04-08）：小补丁
+- v2026.4.6（04-07）：修复 Dreaming 重复摄入、OAuth 401（Claude API 端点变更）、Windows 插件 ESM 加载
+- v2026.4.5（04-06）：内置 video_generate/music_generate + ComfyUI 集成 + 13 种语言 UI
+
+### Anthropic 封禁后续
+- 补偿截止日期：2026年4月17日（剩余约7天）
+- 补偿：等额积分 + 全额退款 + 30% 用量折扣
+
+### 本周必做
+```bash
+npm install -g openclaw@latest && openclaw doctor --fix && openclaw gateway restart
+chmod 700 /root/.openclaw /root/.openclaw/agents /root/.openclaw/sessions
+openclaw doctor --security
+```
+
+---
+*更新于 2026-04-10*
