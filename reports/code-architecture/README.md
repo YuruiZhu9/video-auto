@@ -6,6 +6,8 @@
 
 ### 快速入门
 
+- [数据库选型与推荐系统全链路实战](知识点/数据库选型与推荐系统全链路实战.md) ⭐ 新增 - MySQL/PG + ClickHouse + Redis + Milvus 四大数据库选型决策树 / Repository 模式 + 连接池完整 Python 实现（参数化查询防注入 / JSON 虚拟列 / batch_find 防 N+1）/ ClickHouse 行为日志表设计 + 物化视图自动聚合 CTR / Redis 四大经典用法（推荐结果缓存 / 行为序列 / Bloom Filter 去重 / 分布式锁）/ Milvus HNSW 索引 + 混合检索（向量+L2距离+类目加权）完整 SDK 代码 / 全链路存储架构图 / 选型决策速查表 / 四大生产避坑（MySQL全表扫描 / Redis缓存雪崩 / Milvus OOM / ClickHouse合并风暴）
+
 - [架构评估体系：量化判断代码好坏](知识点/架构评估体系：量化判断代码好坏.md) ⭐ 新增 - 四大核心度量维度（圈复杂度/耦合度/内聚度/架构熵）/ Python 完整 CCN 计算代码（ast.NodeVisitor 反例正例对比）/ 耦合度分析（不稳定指数 I = Ce/(Ca+Ce)）/ LCOM 内聚度计算器 / 架构熵监控仪表盘（熵值 = 综合加权评分，趋势比绝对值重要）/ 推荐系统专项评估清单（召回层/排序层/架构层/可测试性四维）/ 推荐系统各层打分雷达图（A/B/C/D/F 五级评价）/ SonarQube/radon/lizard 等工具推荐 / 健康度雷达图综合评分公式 / 六大常见误区（追求完美分数/只看单一指标/只测一次/指标至上）
 
 - [渐进式重构实战：在业务压力下安全改善代码](知识点/渐进式重构实战：在业务压力下安全改善代码.md) ⭐ 新增 - 渐进式 vs 传统重构对比表（风险/中断/协作/可回滚性四维）/ 三原则（Baby Steps/始终可运行/保险网）/ 完整演进路线图（诊断→基础设施→分层隔离→设计模式→微服务拆分五阶段）/ **实战案例**：3000行上帝函数 → 分层架构六步走（FeatureFlag → 配置层 → Repository → 领域逻辑 → DI容器 → 监控门禁） / SQL注入/圈复杂度67/无测试/硬编码四大坏味道全诊断 / Repository 模式（MySQL参数化查询/aiomysql异步池/接口抽象） / 领域层零依赖设计 / DI容器 + 应用层UseCase组装 / 健康度自动门禁（回退率>30%自动熔断新逻辑） / 安全检查清单（重构前/中/后必查项）/ 四大常见陷阱详解
@@ -87,6 +89,15 @@
 - **学习资源**：Refactoring Guru、SourceMaking
 
 ## 📅 更新日志
+
+- 2026-04-10 PM ⭐ 新增《数据库选型与推荐系统全链路实战》
+  - MySQL / PostgreSQL + ClickHouse + Redis + Milvus 选型决策树（5 个问题快速定位）
+  - **Repository 模式完整 Python 实现**：连接池 + 参数化查询防注入 + batch_find 防 N+1 + JSON 虚拟列
+  - **ClickHouse 行为日志设计**：MergeTree 表 + 物化视图自动聚合 CTR + 批量写入技巧（防合并风暴）
+  - **Redis 四大经典用法**：推荐结果缓存（TTL 5min）/ 行为序列（LPUSH+LTRIM）/ Bloom Filter 去重 / 分布式锁防缓存击穿
+  - **Milvus 全链路 SDK**：HNSW 索引创建 + insert_embeddings（每晚 ETL）+ search_similar_items + 混合检索（向量+L2+类目加权）
+  - 全链路存储架构图（Flask → Redis/MySQL/Milvus → 精排 → ClickHouse）
+  - 选型速查表（用途/规模/延迟/查询类型四维对比）+ 四大生产避坑详解
 
 - 2026-04-09 PM ⭐ 新增《架构评估体系：量化判断代码好坏》
   - 四大核心度量维度：圈复杂度（CCN）/ 耦合度（不稳定指数 I）/ 内聚度（LCOM）/ 架构熵

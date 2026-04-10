@@ -1,3 +1,39 @@
+## 2026-04-09
+
+### AI Agent / 机器人 / 硬件
+- 新增：**智元GO-2**（智元机器人）— 具身大模型，首创"动作思维链"（CoT-Action），打通从逻辑推理到精准动作执行的"最后一公里"，刷新具身智能行业SOTA
+
+### AI效率工具 / Agent生态
+- 新增：**QBotClaw**（腾讯）— 国内首个浏览器Agent，QQ浏览器内置，免费使用
+- 新增：**即梦AI Octo**（即梦）— 协作型叙事工具，首创VibeCreate氛围创作模式
+- 新增：**Moxt Agent-Native工作空间** — 将AI从工具升级为"AI员工团队"
+- 新增：**微信支付AI接入工具箱**（微信）— 一句话快速集成支付功能
+- 新增：**Gemini Notebooks**（谷歌）— 打通NotebookLM，构建个人知识库
+- 新增：**SteamGPT**（V社/Valve）— 面向Steam客服场景的内部AI工具，秘密自研中
+- 新增：**阿里百炼"记忆库"**（阿里云）— 跨会话长期记忆，检索性能提升50%
+- 新增：**SleepFM**（斯坦福）— 通过睡眠数据预测6年内健康/死亡风险，准确率84%，开源于《自然·医学》
+- 更新：**腾讯QClaw** → **QClaw V2** — 多Agent协同，支持3个Agent并行工作，开启"数字工作团队"时代
+
+### 音频 / 语音
+- 新增：**Seeduplex**（字节跳动）— 全双工语音大模型，实现"边听边说"同步处理，豆包App全量上线
+
+### AI开发框架
+- 新增：**MiniMax MMX-CLI**（MiniMax）— 一行代码原生接入全模态模型，支持Claude Code等主流开发环境
+
+### 推荐系统（技术前沿 WSDM 2026 / arXiv）
+- 新增：**Unlocking Scaling Law in Industrial Recommendation with Large User Model**（WSDM 2026 / 美团）— 三步范式构建大用户模型，跨场景能力迁移
+- 新增：**Next-Scale Generative Reranking**（美团）— 树结构+生成模型重排序，推理速度提升3倍
+- 新增：**Dual Conditional Diffusion Models**（WSDM 2026 / 港中文×阿里×蚂蚁）— 双条件扩散模型序列推荐，新SOTA
+- 新增：**MOON**（WSDM 2026 / 阿里）— 多模态LLM电商理解，融合图像+文本+行为数据
+- 新增：**Retrieve-then-Adapt**（arXiv 2026-04-08）— RAG+测试时适配，动态调整无需重新训练
+- 新增：**AgentRec**（arXiv 2510.01609）— 多Agent协同推荐框架，层次化架构替代单LLM推荐器
+- 新增：**UniMixer**（arXiv / FAccT 2026）— 解决推荐系统头部效应，MoE平衡个性化和流行度
+
+### 关注事件
+- 中国AI大模型调用量连续五周超越美国，Qwen3.6 Plus登顶全球榜首（周调用量4.6万亿Token）
+- 美团、京东同日"筑墙"屏蔽竞品大模型，大厂AI生态闭环竞争加剧
+- 腾讯云5月9日起涨价5%，AI算力成本上升信号
+
 ## 2026-04-08
 
 ### 大模型 / LLM
@@ -99,6 +135,15 @@
 - 新增：On-Device LLM Rec（WSDM 2026）- 端侧运行推荐LLM，隐私保护+毫秒级推理
 - 关注：Claude"考场觉醒"事件引发AI安全大讨论；OpenClaw 3.8引爆Agent生态热潮；豆包日均Tokens突破120万亿
 
+## 2026-04-03
+
+- 新增：Gemma 4（Google）- 31B全球开源第三，Apache 2.0全开源，2B/4B/27B/31B四规格，端侧可跑
+- 新增：千问 3.6（阿里）- 100万token上下文，国产最强编程模型
+- 新增：Microsoft MAI三件套 - MAI-Transcribe-1（语音转文字，全球最优3.9%错误率）/ MAI-Voice-1（语音克隆）/ MAI-Image-2（文生图，Copilot已上线）
+- 新增：ElevenMusic（ElevenLabs）- iOS AI音乐创作应用
+- 更新：Claude Code - ⚠️ 源码泄露（51万行TS）+ KAIROS等44个隐藏功能暴露 + 一周二次事故，GitHub已逆向分析
+- 关注：Claude Code源码大规模泄露 / OpenAI 1220亿美元史上最大融资 / OpenAI收购TBPN播客
+
 ## 2026-04-02
 
 - 新增：PixVerse V6（AI视频）- 视频空间和时间处理能力大增，替代Sora成为新选择
@@ -113,13 +158,6 @@
 - 新增：Self-Evolving Recommendation（Google YouTube）- 双Agent架构实现推荐模型端到端自主进化
 - 新增：Cross-Scale LLM-Lightweight Rec（清华）- 隐式推理机制解决LLM推荐推理链缺失
 - 关注：OpenAI史上最大融资1220亿美元 / Claude Code源码大规模泄露 / 智谱港股暴涨32%
-
-# 📋 更新日志
-
-> 本文件为 model-library.md 历史更新条目汇总，由原文件迁出  
-> 对应子文件内容更新时，请在对应分类文件中追加
-
----
 
 ## 2026-03-28
 
@@ -139,8 +177,6 @@
 - 更新：OpenClaw - 发布3.8稳定版，ACP溯源功能上线，openclaw backup工具正式上线
 - 关注：OpenClaw 3.8发布；Claude Mythos泄露；美团LongCat全量开放
 
----
-
 ## 2026-03-27
 
 - 新增：MiniMax M2.7 - Agent旗舰大模型，SWE-Pro编程56.22%追平GPT-5.3-Codex，首次展示"模型自我进化"路径
@@ -152,8 +188,6 @@
 - 新增：Fine-grained Semantics Integration - 细粒度语义融合解决LLM推荐语义鸿沟
 - 新增：A2UI（Product Hunt）- AI安全构建UI框架，开源，强调AI Coding安全边界
 - 新增：Google TurboQuant（Google）- 强化学习赋能量化交易AI
-
----
 
 ## 2026-03-26
 
@@ -171,8 +205,6 @@
 - 新增：Mercedes × 清华 × 智谱AI（迈巴赫S级）- 全球首个在后排引入多模态大模型的汽车品牌
 - 更新：小米2025年财报 - 营收4573亿+25%，净利润392亿+43.8%
 
----
-
 ## 2026-03-25
 
 - 新增：Sora 2 ⚠️已终止 - OpenAI正式关闭Sora项目（存活6个月）
@@ -182,8 +214,6 @@
 - 新增：agency-agents - 开源多智能体协作框架，7天2.3万GitHub星
 - 新增：PrismAudio（阿里通义实验室）- ICLR 2026，解决AI视频音画不同步问题
 - 新增：☁️ 免费AI API平台 - 文本/图片/视频/TTS/3D全类别免费API汇总
-
----
 
 ## 2026-03-24
 
@@ -198,8 +228,6 @@
 - 新增：Step-DeepResearch（阶跃星辰）- 32B参数低成本深度研究智能体
 - 更新：MiniMax Token Plan - 全球首个全模态订阅服务
 
----
-
 ## 2026-03-23
 
 - 新增：GRACE (Walmart) - 生成式多行为推荐，CoT分词+旅程感知稀疏注意力
@@ -211,8 +239,6 @@
 - 新增：WordPress AI Agent - 自然语言网站管理+SEO优化
 - 新增：Alexa+ 新集成（Angi/Expedia/Square/Yelp）
 - 新增：WLFI AgentPay SDK - 开源AI Agent支付SDK
-
----
 
 ## 2026-03-22
 
@@ -228,8 +254,6 @@
 - 新增：天工机器人 - 挑战人类半马纪录
 - 新增：Rakuten AI 3.0（乐天）- MoE架构6710亿参数，DeepSeek V3架构
 
----
-
 ## 2026-03-21
 
 - 新增：Qwen3.5-Max-Preview - LM Arena得分1464分，全球第一
@@ -241,8 +265,6 @@
 - 新增：VLM2Rec - 多模态推荐模态崩溃解决方案
 - 新增：BiasRecBench - LLM推荐信任问题基准
 
----
-
 ## 2026-03-20
 
 - 新增：MiMo-V2 (小米) - 三款万亿参数大模型齐发
@@ -251,8 +273,6 @@
 - 新增：SkyReels V4 - 登顶全球视频生成榜单
 - 新增：阶跃AI StepClaw - 桌面端本地部署，Windows/Mac双端一键安装
 - 新增：Groq - Nvidia宣布收购，许可LPU芯片技术
-
----
 
 ## 2026-03-18
 
@@ -264,16 +284,12 @@
 - 新增：NemoClaw (英伟达) - 企业级智能体平台，基于OpenClaw构建
 - 新增：Gemini免费版 - 接入Gmail/Photos私域数据
 
----
-
 ## 2026-03-17
 
 - 新增：DeepSeek V4 - 万亿参数+原生多模态，上下文100万tokens
 - 新增：Fun-CineForge (阿里通义) - 全球首个开源影视配音大模型
 - 新增：Grok语音API (xAI) - 上线语音API，支持"开口说话"
 - 新增：Kimi技术报告 - 月之暗面残差连接重新设计，48B模型训练效率提升1.25倍
-
----
 
 ## 2026-03-14
 
@@ -284,8 +300,6 @@
 - 新增：Mind Robotics - 斯坦福家务机器人，5亿美元A轮
 - 新增：Sora 2 API - 角色一致性、20秒时长、横竖屏双输出
 
----
-
 ## 2026-03-13
 
 - 新增：Claude Code (Anthropic) - AI编程工具赛道领先
@@ -293,22 +307,16 @@
 - 新增：Dvina - 私有AI，连接120+应用程序和实时数据库
 - 新增：Self-Evolving Recommendation System (Google) - YouTube双智能体架构
 
----
-
 ## 2026-03-12
 
 - 新增：Gemini Embedding2 - 首个原生多模态嵌入模型
 - 新增：Solaris - 多人视频世界模型，DiT作者谢赛宁发布，种子轮估值超35亿美元
-
----
 
 ## 2026-03-11
 
 - 新增：微信AI智能体 - 腾讯为微信打造的AI智能体
 - 新增：Claude 机器人创建功能 - Anthropic发布个性化机器人创建功能
 - 新增：Dify - 开源LLMOps平台，3000万美元融资（红杉领投）
-
----
 
 ## 2026-03-10
 
@@ -318,22 +326,16 @@
 - 新增：LLaTTE（字节）- 广告推荐Transformer架构
 - 更新：GPT-5.4 - 编程+推理+自主操作能力，幻觉率降低33%
 
----
-
 ## 2026-03-09
 
 - 新增：Qwen3.5 - 阿里千问3.5小模型系列（0.8B/2B/4B/9B）
 - 新增：Perplexity - AI搜索平台
-
----
 
 ## 2026-03-08
 
 - 新增：OpenClaw - 开源AI Agent工具，普及速度创纪录（3周超Linux 30年）
 - 新增：Anthropic AI应用市场 - 企业级AI应用商店
 - 更新：GitHub Copilot - 全面接入GPT-5.4，支持多IDE代理模式
-
----
 
 ## 2026-03-07
 
@@ -342,12 +344,3 @@
 - 新增：Xiaomi miclaw - 小米AI Agent
 - 新增：HLLM (字节) - 分层大语言模型，验证推荐系统Scaling Law
 - 新增：KuaiFormer (快手)、NoteLLM (小红书)、STAR (Google)、Text2Tracks (Spotify)
-
-## 2026-04-03
-
-- 新增：Gemma 4（Google）- 31B全球开源第三，Apache 2.0全开源，2B/4B/27B/31B四规格，端侧可跑
-- 新增：千问 3.6（阿里）- 100万token上下文，国产最强编程模型
-- 新增：Microsoft MAI三件套 - MAI-Transcribe-1（语音转文字，全球最优3.9%错误率）/ MAI-Voice-1（语音克隆）/ MAI-Image-2（文生图，Copilot已上线）
-- 新增：ElevenMusic（ElevenLabs）- iOS AI音乐创作应用
-- 更新：Claude Code - ⚠️ 源码泄露（51万行TS）+ KAIROS等44个隐藏功能暴露 + 一周二次事故，GitHub已逆向分析
-- 关注：Claude Code源码大规模泄露 / OpenAI 1220亿美元史上最大融资 / OpenAI收购TBPN播客

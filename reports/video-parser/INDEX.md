@@ -1,7 +1,8 @@
 # 视频解析方法总结索引
 
-> 最近更新：2026-04-06 第五周更新
-> 新增：WayinVideo AI Clipping Skill（四大能力合一）、VideoARM子Agent编排架构、大模型视频理解能力横向对比2026、Video Summary多平台Skill
+> 最近更新：2026-04-10 第十周更新（上午+下午场）
+> 新增：AutoGaze/CurveStream/UFVideo（CVPR 2026）、AgentVista/MovieTeller（AAAI 2026）、VideoRAG/Vimo（KDD 2026）
+> 下午新增：视频解析推荐系统应用专题、Snipd播客工具解析、视频标签自动化Pipeline教程
 > 维护Agent：视频解析方法总结Agent
 
 ---
@@ -23,8 +24,17 @@
 | **summarize快速摘要** | summarize CLI | 有字幕/URL视频 | ⭐ | 快速获取摘要 |
 | **FFmpeg帧提取+OCR** | ffmpeg + images_understand | 代码演示/GUI操作 | ⭐⭐ | 提取画面中的文字/代码 |
 | **BibiGPT深度总结** | BibiGPT / BiliNote | B站/多平台 | ⭐ | 专业视频总结工具 |
+| **AutoClip高光提取** | AutoClip + FFmpeg + LLM | 短视频/自媒体/高光剪辑 | ⭐⭐ | YouTube+B站自动高光切片 |
+| **DeepSeek VL本地分析** | FFmpeg + DeepSeek-VL2 + Ollama | 隐私敏感/离线/批量处理 | ⭐⭐⭐ | 100%本地，零API成本 |
+| **VideoSeek AI总结** | VideoSeek Cloud API | 多平台快速摘要 | ⭐ | YouTube/B站/抖音/小红书+思维导图 |
 | **n8n自动化工作流** | n8n + YouTube API + LLM | 批量处理/定时监控 | ⭐⭐⭐ | 全自动视频→结构化笔记 |
 | **Video Summary Skill** | 多平台统一入口 | B站/小红书/抖音/YouTube | ⭐ | 多平台快速摘要 |
+| **AutoGaze** | AutoGaze + ViT/MLLM | 超长4K/高清视频 | ⭐⭐ | Token压缩4x-100x，加速19x（CVPR 2026）|
+| **CurveStream** | CurveStream + MLLM | 实时流/监控/直播 | ⭐⭐ | 无训练流式理解，曲率感知内存管理（CVPR 2026）|
+| **VideoRAG / Vimo** | HKUDS VideoRAG | 超长视频（100h+） | ⭐⭐⭐ | 知识图谱+多模态RAG，单卡处理数百小时（KDD 2026）|
+| **UFVideo** | UFVideo 统一框架 | 多任务视频理解 | ⭐⭐ | 4类任务统一（QA+分割+引用+定位，CVPR 2026）|
+| **Snipd** | Snipd APP | 播客/YouTube视频 | ⭐⭐ | AI精华捕捉+智能问答+YouTube导入，适合技术演讲快速摄入 |
+| **视频标签Pipeline** | yt-dlp+Whisper+FFmpeg+VL+FAISS | 推荐系统视频特征 | ⭐⭐⭐ | 完整Python代码，从视频到推荐系统标签/向量入库 |
 
 ---
 
@@ -43,8 +53,13 @@
 ├─ 理解视频画面内容 → video-vision Skill（FFmpeg帧+Vision AI）
 ├─ 截取代码/文字画面 → FFmpeg帧提取 → images_understand OCR
 ├─ 视频附带字幕/文稿 → yt-dlp --write-auto-sub / summarize
-├─ 多平台（B站/抖音/小红书）快速摘要 → Video Summary Skill
+├─ 多平台（B站/抖音/小红书）快速摘要 → Video Summary Skill / VideoSeek AI
+├─ 自媒体/短视频高光剪辑 → AutoClip（开源免费）/ WayinVideo
+├─ 本地离线分析（隐私敏感）→ DeepSeek VL2 + FFmpeg（零成本）
 └─ 搜索视频中某个内容点 → Gemini Embedding 2 多模态RAG
+├─ 播客/技术演讲快速摄入精华 → Snipd（最佳体验）/ BibiGPT
+├─ 构建推荐系统视频特征 → 视频标签自动化Pipeline（通用方法类/视频解析推荐系统应用专题）
+└─ 超长视频+知识库检索 → VideoRAG/Vimo（KDD 2026，100h+支持）
 ```
 
 ---
@@ -104,7 +119,10 @@ video-parser/
 │   ├── ICLR-2026-视频理解前沿方法.md
 │   ├── Qwen3-VL视频理解能力对比与应用.md
 │   ├── BibiGPT-BiliNote解析.md
-│   └── 豆包视频理解解析.md
+│   ├── 豆包视频理解解析.md
+│   ├── AgentVista-多模态智能体视频评测基准解析.md  # 🆕 第十周·上午
+│   ├── MovieTeller-电影视频结构化摘要生成解析.md    # 🆕 第十周·上午
+│   └── Snipd-AI播客精华提取工具解析.md             # 🆕 第十周·下午
 │
 ├── 开源项目演示类/
 │   ├── FFmpeg命令行.md
@@ -125,12 +143,24 @@ video-parser/
 
 └── 通用方法类/
     ├── 视频RAG语义搜索方案.md                    # 🆕 第三周
-    └── 视频解析Agent工作流编排.md                 # 🆕 第六周
+    ├── 视频解析Agent工作流编排.md                 # 🆕 第六周
+    ├── 视频解析推荐系统应用专题.md                # 🆕 第十周·下午
+    └── 视频标签自动化生成Pipeline教程.md         # 🆕 第十周·下午
 ```
 
 ---
 
 ## 更新日志
+
+### 2026-04-10 第七周新增（补充）
+- **通用工具/NVIDIA-AI-Blueprint视频搜索与总结解析.md** — 企业级视频搜索+总结，VILA+Llama Nemotron+Nemo Retriever RAG，NVIDIA Metropolis平台，PB级视频亚秒检索
+- **通用工具/Time-R1视频时序定位模型解析.md** — 强化学习后训练视频时序定位，仅2.5K数据刷新SOTA，支持自然语言查询定位视频片段
+- **通用工具/Uni-MoE统一多模态MoE模型视频理解解析.md** — MoE架构统一多模态LLM，稀疏激活高效处理视频+语音+文本，企业多模态知识库首选
+
+### 2026-04-10 第七周新增
+- **技术教程类/VideoSeek-AI多平台视频总结解析.md** — 多平台（YouTube/B站/抖音/小红书）视频总结+思维导图，内置浏览器插件
+- **通用工具/AutoClip-AI视频剪辑高光提取解析.md** — 开源AI视频高光切片，Docker一键部署，支持YouTube+B站双平台
+- **通用工具/DeepSeek-VL2-FFmpeg本地视频分析解析.md** — 100%本地运行，FFmpeg帧提取+DeepSeek VL2视觉分析，零API成本
 
 ### 2026-04-06 第六周新增
 - **通用工具/智源Emu3-统一多模态视频理解解析.md** — BAAI Nature 2025正刊，next-token统一图像+视频+文本，国产可本地部署

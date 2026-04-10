@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>clawctl v3 — OpenClaw 控制台</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+  <style>
+    :root {
+      --bg: #0f172a; --bg2: #1e293b; --bg3: #334155;
+      --accent: #6366f1; --accent2: #818cf8;
+      --success: #22c55e; --warning: #f59e0b; --danger: #ef4444;
+      --text: #f1f5f9; --text2: #94a3b8; --text3: #64748b;
+      --radius: 12px; --shadow: 0 4px 24px rgba(0,0,0,.4);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+    #root { min-height: 100vh; }
+    .topbar { position: sticky; top: 0; z-index: 100; background: rgba(15,23,42,.92); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,.06); padding: 0 16px; height: 56px; display: flex; align-items: center; gap: 16px; }
+    .topbar-logo { font-size: 18px; font-weight: 700; color: var(--accent2); letter-spacing: -.5px; flex-shrink: 0; }
+    .topbar-logo span { color: var(--text2); font-weight: 400; }
+    .topbar-nav { display: flex; gap: 4px; flex: 1; overflow-x: auto; }
+    .nav-btn { padding: 6px 14px; border-radius: 8px; border: none; cursor: pointer; font-size: 13px; background: transparent; color: var(--text2); transition: all .2s; white-space: nowrap; }
+    .nav-btn:hover { background: var(--bg2); color: var(--text); }
+    .nav-btn.active { background: var(--accent); color: #fff; }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); display: inline-block; margin-right: 4px; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+    .topbar-right { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--text3); }
+    .main { max-width: 1200px; margin: 0 auto; padding: 16px; }
+    .card { background: var(--bg2); border-radius: var(--radius); border: 1px solid rgba(255,255,255,.05); overflow: hidden; margin-bottom: 16px; }
+    .card-header { padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,.05); display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; }
+    .card-body { padding: 16px 18px; }
+    .quick-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+    .quick-btn { padding: 14px 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,.08); background: var(--bg3); cursor: pointer; color: var(--text); display: flex; flex-direction: column; align-items: center; gap: 6px; transition: all .2s; font-size: 12px; }
+    .quick-btn:hover { border-color: var(--accent); background: rgba(99,102,241,.1); transform: translateY(-1px); }
+    .quick-btn .emoji { font-size: 22px; }
+    .quick-btn .label { font-weight: 500; }
+    .nl-input-row { display: flex; gap: 10px; margin-bottom: 14px; }
+    .nl-input { flex: 1; padding: 14px 16px; border-radius: var(--radius); border: 1px solid rgba(255,255,255,.1); background: var(--bg3); color: var(--text); font-size: 15px; outline: none; transition: border-color .2s; }
+    .nl-input:focus { border-color: var(--accent); }
+    .nl-input::placeholder { color: var(--text3); }
+    .send-btn { padding: 14px 24px; border-radius: var(--radius); border: none; background: var(--accent); color: #fff; cursor: pointer; font-size: 14px; font-weight: 600; white-space: nowrap; transition: background .2s; }
+    .send-btn:hover { background: var(--accent2); }
+    .send-btn:disabled { opacity: .5; cursor: not-allowed; }
+    .send-btn.small { padding: 8px 16px; font-size: 12px; background: var(--bg3); }
+    .parse-result { background: var(--bg3); border-radius: 10px; padding: 14px; font-size: 13px; }
+    .parse-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-right: 8px; margin-bottom: 8px; }
+    .badge-trigger { background: rgba(34,197,94,.15); color: var(--success); }
+    .badge-query { background: rgba(99,102,241,.15); color: var(--accent2); }
+    .badge-cmd { background: rgba(245,158,11,.15); color: var(--warning); }
+    .parse-tag { display: inline-flex; padding: 3px 10px; border-radius: 6px; background: rgba(255,255,255,.06); font-size: 12px; color: var(--text2); margin-right: 6px; margin-bottom: 4px; }
+    .task-item { padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,.04); display: flex; align-items: flex-start; gap: 12px; }
+    .task-item:last-child { border-bottom: none; }
+    .task-status-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+    .dot-running { background: var(--accent); animation: pulse 1s infinite; }
+    .dot-success { background: var(--success); }
+    .dot-failed { background: var(--danger); }
+    .dot-pending { background: var(--text3); }
+    .task-info { flex: 1; min-width: 0; }
+    .task-name { font-size: 14px; font-weight: 500; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .task-meta { font-size: 12px; color: var(--text2); }
+    .task-channel { font-size: 11px; padding: 2px 8px; border-radius: 4px; background: rgba(99,102,241,.15); color: var(--accent2); }
+    .metric-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+    .metric-card { background: var(--bg3); border-radius: 10px; padding: 16px; }
+    .metric-label { font-size: 12px; color: var(--text2); margin-bottom: 6px; }
+    .metric-value { font-size: 28px; font-weight: 700; }
+    .metric-sub { font-size: 11px; color: var(--text3); margin-top: 4px; }
+    .chart-container { height: 200px; margin-top: 16px; }
+    .plugin-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+    .plugin-card { background: var(--bg3); border-radius: 10px; padding: 16px; border: 1px solid rgba(255,255,255,.06); }
+    .plugin-name { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+    .plugin-desc { font-size: 12px; color: var(--text2); margin-bottom: 10px; line-height: 1.5; }
+    .plugin-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+    .plugin-tag { padding: 2px 8px; border-radius: 4px; background: rgba(99,102,241,.12); color: var(--accent2); font-size: 11px; }
+    .toggle { width: 36px; height: 20px; border-radius: 10px; background: var(--bg); border: 1px solid rgba(255,255,255,.1); cursor: pointer; position: relative; transition: background .2s; display: inline-block; }
+    .toggle.on { background: var(--success); border-color: var(--success); }
+    .toggle::after { content: ''; position: absolute; width: 14px; height: 14px; border-radius: 50%; background: #fff; top: 2px; left: 2px; transition: left .2s; }
+    .toggle.on::after { left: 18px; }
+    .toast-container { position: fixed; bottom: 80px; right: 16px; z-index: 999; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
+    .toast { padding: 12px 18px; border-radius: 10px; background: var(--bg2); border: 1px solid rgba(255,255,255,.12); box-shadow: var(--shadow); font-size: 13px; animation: slideIn .3s ease; max-width: 300px; pointer-events: all; }
+    .toast.success { border-color: var(--success); }
+    .toast.error { border-color: var(--danger); }
+    @keyframes slideIn { from{transform:translateX(120%);opacity:0} to{transform:translateX(0);opacity:1} }
+    .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(15,23,42,.96); backdrop-filter: blur(12px); border-top: 1px solid rgba(255,255,255,.06); padding: 10px 16px; display: flex; gap: 6px; z-index: 90; }
+    .bottom-btn { flex: 1; padding: 10px 4px; border-radius: 10px; border: 1px solid rgba(255,255,255,.08); background: var(--bg2); color: var(--text2); font-size: 11px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; transition: all .2s; }
+    .bottom-btn:hover, .bottom-btn.active { background: rgba(99,102,241,.15); border-color: var(--accent); color: var(--accent2); }
+    .bottom-btn .emoji { font-size: 18px; }
+    @media (max-width: 640px) { .main { padding-bottom: 88px; } .topbar-nav { display: none; } }
+  </style>
+</head>
+<body>
+<div id="root">Loading...</div>
+<script type="text/babel">
+const { useState, useEffect, useCallback, useRef } = React;
+
+const API = '/api/v1';
+
+const $ = (sel) => document.querySelector(sel);
+const toast = (() => {
+  let _id = 0;
+  return (msg, type='default', duration=3500) => {
+    let c = $('.toast-container');
+    if (!c) { c = document.createElement('div'); c.className = 'toast-container'; document.body.appendChild(c); }
+    const el = document.createElement('div');
+    el.className = `toast ${type}`;
+    el.textContent = msg;
+    c.appendChild(el);
+    setTimeout(() => el.style.opacity = '0', duration - 300);
+    setTimeout(() => el.remove(), duration);
+  };
+})();
+
+const apiFetch = (path, opts = {}) => fetch(API + path, {
+  headers: { 'Content-Type': 'application/json', ...(opts.headers || {}) },
+  ...opts,
+}).then(r => r.json()).catch(e => ({ error: e.message }));
+
+// ── 任务视图 ──────────────────────────────────────────────────────────────────
+function TasksView() {
+  const [tasks, setTasks] = useState([]);
+  const [nl, setNl] = useState('');
+  const [parsed, setParsed] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const QUICK = [
+    { e: '📋', l: '今日简报', n: '生成今日AI资讯简报', tmpl: 'report' },
+    { e: '🔬', l: '技术扫描', n: '执行技术前沿分析', tmpl: 'tech' },
+    { e: '💼', l: '商业洞察', n: '分析AI商业机会', tmpl: 'biz' },
+    { e: '🚀', l: '全量扫描', n: '执行全量信息抓取', tmpl: 'scan' },
+    { e: '💡', l: '系统状态', n: '__status__', tmpl: 'status' },
+    { e: '📜', l: '任务列表', n: '__list__', tmpl: 'list' },
+  ];
+
+  const refresh = useCallback(() => apiFetch('/tasks?limit=15').then(d => setTasks(Array.isArray(d) ? d : [])), []);
+  useEffect(() => { refresh(); const t = setInterval(refresh, 8000); return () => clearInterval(t); }, [refresh]);
+
+  const doQuick = (q) => {
+    if (q.n === '__status__') { apiFetch('/status').then(d => toast(JSON.stringify(d, null, 2))); return; }
+    if (q.n === '__list__') { apiFetch('/tasks?limit=8').then(d => { const lines = (Array.isArray(d)?d:[]).map(t=>`• [${t.status||'?'}] ${t.name||t.task||'?'}`).join('\n'); toast(lines||'暂无任务'); }); return; }
+    setLoading(true);
+    apiFetch('/nl', { method:'POST', body: JSON.stringify({text: q.n, channel:'dingtalk'}) }).then(d => { setLoading(false); toast('✅ 已提交: '+(d.message||d.intent||'OK'), 'success'); refresh(); });
+  };
+
+  const doSend = () => { if (!nl.trim()) return; setLoading(true); apiFetch('/nl', { method:'POST', body: JSON.stringify({text:nl, channel:'dingtalk'}) }).then(d => { setLoading(false); setParsed(d); toast('✅ '+(d.message||d.intent||'OK'), 'success'); refresh(); }); };
+  const doPreview = () => { if (!nl.trim()) return; apiFetch('/nl/preview', { method:'POST', body: JSON.stringify({text:nl}) }).then(d => setParsed(d)); };
+
+  const dot = s => ({running:'dot-running',success:'dot-success',failed:'dot-failed',pending:'dot-pending',completed:'dot-success',error:'dot-failed'}[s]||'dot-pending');
+
+  return (
+    <div>
+      <div className="card">
+        <div className="card-header">🎙 自然语言控制</div>
+        <div className="card-body">
+          <div className="nl-input-row">
+            <input className="nl-input" placeholder="输入指令：帮我查AI新闻 / 生成今日简报 / 查看系统状态" value={nl} onChange={e=>setNl(e.target.value)} onKeyDown={e=>e.key==='Enter'&&doSend()} />
+            <button className="send-btn" onClick={doSend} disabled={loading}>{loading?'⏳':'发送'}</button>
+          </div>
+          {nl.trim() && <button className="send-btn small" style={{marginBottom:12}} onClick={doPreview}>👁 预览解析</button>}
+          {parsed && (
+            <div className="parse-result">
+              <span className={`parse-badge ${(parsed.intent||'').startsWith('trigger')?'badge-trigger':(parsed.intent||'').startsWith('query')?'badge-query':'badge-cmd'}`}>
+                {parsed.confidence ? `🎯 ${(parsed.confidence*100).toFixed(0)}%` : ''} {parsed.intent || parsed.Intent || '?'}
+              </span>
+              {parsed.agent && <span className="parse-tag">🤖 {parsed.agent}</span>}
+              {parsed.urgency && <span className="parse-tag">⏱ {parsed.urgency}</span>}
+              {parsed.channel && <span className="parse-tag">📲 {parsed.channel}</span>}
+              {parsed.message && <p style={{marginTop:8,color:'var(--text2)',fontSize:12}}>{parsed.message}</p>}
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="card">
+        <div className="card-header">⚡ 快捷任务</div>
+        <div className="card-body">
+          <div className="quick-grid">
+            {QUICK.map(a => <button key={a.l} className="quick-btn" onClick={()=>doQuick(a)}><span className="emoji">{a.e}</span><span className="label">{a.l}</span></button>)}
+          </div>
+        </div>
+      </div>
+
+      <div className="card">
+        <div className="card-header">📋 最近任务 <button onClick={refresh} style={{marginLeft:'auto',background:'var(--bg3)',border:'none',color:'var(--text2)',padding:'4px 10px',borderRadius:6,cursor:'pointer',fontSize:12}}>🔄</button></div>
+        <div className="card-body" style={{padding:'4px 18px'}}>
+          {tasks.length === 0 && <p style={{color:'var(--text3)',textAlign:'center',padding:20,fontSize:13}}>暂无任务记录</p>}
+          {tasks.map(t => (
+            <div key={t.id||t.task_id||Math.random()} className="task-item">
+              <span className={`task-status-dot ${dot(t.status)}`} />
+              <div className="task-info">
+                <div className="task-name">{t.name||t.task||t.id||'?'}</div>
+                <div className="task-meta">{t.created||t.created_at||''}</div>
+              </div>
+              <span className="task-channel">{t.channel||'dingtalk'}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── 监控视图 ──────────────────────────────────────────────────────────────────
+function MonitorView() {
+  const [snap, setSnap] = useState({});
+  const chartRef = useRef(null);
+  const chartInst = useRef(null);
+
+  useEffect(() => {
+    apiFetch('/monitor/snapshot').then(d => { if (!d.error) setSnap(d); });
+    const t = setInterval(() => apiFetch('/monitor/snapshot').then(d => { if (!d.error) setSnap(d); }), 5000);
+    return () => clearInterval(t);
+  }, []);
+
+  useEffect(() => {
+    if (!chartRef.current) return;
+    if (!chartInst.current) chartInst.current = echarts.init(chartRef.current);
+    const c = chartInst.current;
+    const cpu = snap.cpu_percent || 0, mem = snap.memory_percent || 0;
+    c.setOption({
+      series: [
+        { type:'gauge', center:['25%','60%'], startAngle:200, endAngle:-20, min:0, max:100, splitNumber:5,
+          itemStyle:{color:'#6366f1'}, progress:{show:true,width:14}, pointer:{show:false},
+          axisLine:{lineStyle:{width:14, color:[[1,'#1e293b']]}}, axisTick:{show:false}, splitLine:{show:false},
+          axisLabel:{show:false}, title:{show:false},
+          detail:{fontSize:20,fontWeight:700,color:'#f1f5f9',offsetCenter:[0,'10%'],formatter:v=>v.toFixed(0)+'%'},
+          data:[{value:cpu}], radius:'80%',
+        },
+        { type:'gauge', center:['75%','60%'], startAngle:200, endAngle:-20, min:0, max:100, splitNumber:5,
+          itemStyle:{color:'#f59e0b'}, progress:{show:true,width:14}, pointer:{show:false},
+          axisLine:{lineStyle:{width:14, color:[[1,'#1e293b']]}}, axisTick:{show:false}, splitLine:{show:false},
+          axisLabel:{show:false}, title:{show:false},
+          detail:{fontSize:20,fontWeight:700,color:'#f1f5f9',offsetCenter:[0,'10%'],formatter:v=>v.toFixed(0)+'%'},
+          data:[{value:mem}], radius:'80%',
+        },
+      ]
+    });
+    return () => c.resize();
+  }, [snap]);
+
+  const [alerts, setAlerts] = useState([]);
+  useEffect(() => { apiFetch('/monitor/alerts/active').then(d => setAlerts(Array.isArray(d)?d:[])); }, []);
+
+  const M = ({l,v,c,s}) => <div className="metric-card"><div className="metric-label">{l}</div><div className="metric-value" style={{color:c||'var(--text)'}}>{v??'—'}</div>{s&&<div className="metric-sub">{s}</div>}</div>;
+
+  return (
+    <div>
+      <div className="card">
+        <div className="card-header">📊 系统概览 <span style={{marginLeft:'auto',fontSize:11,color:'var(--text3)',fontWeight:400}}>5秒刷新</span></div>
+        <div className="card-body">
+          <div className="metric-grid">
+            <M l="CPU 使用率" v={snap.cpu_percent?snap.cpu_percent.toFixed(1)+'%':'—'} c="var(--accent2)" />
+            <M l="内存使用率" v={snap.memory_percent?snap.memory_percent.toFixed(1)+'%':'—'} c="var(--warning)" />
+            <M l="活跃任务" v={snap.active_tasks??'—'} c="var(--success)" />
+            <M l="WS 客户端" v={snap.ws_clients??'—'} c="var(--accent)" />
+          </div>
+          <div style={{display:'flex',gap:8,marginTop:16}}>
+            <span style={{fontSize:12,color:'var(--accent2)',margin:'auto 0'}}>⚡ CPU</span>
+            <div ref={chartRef} className="chart-container" style={{flex:1,height:200}} />
+            <span style={{fontSize:12,color:'var(--warning)',margin:'auto 0'}}>🧠 内存</span>
+          </div>
+        </div>
+      </div>
+      <div className="card">
+        <div className="card-header">🚨 活跃告警</div>
+        <div className="card-body">
+          {alerts.length === 0 && <p style={{color:'var(--success)',fontSize:13}}>✅ 系统正常，无活跃告警</p>}
+          {alerts.map(a => (
+            <div key={a.id||a.rule_id} className="task-item">
+              <span style={{fontSize:16}}>⚠️</span>
+              <div className="task-info">
+                <div className="task-name">{a.name||a.metric}</div>
+                <div className="task-meta">{a.severity} · 阈值: {a.threshold} · 当前: {typeof a.current_value === 'number' ? a.current_value.toFixed(1) : a.current_value}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="card">
+        <div className="card-header">🖥 OpenClaw 状态</div>
+        <div className="card-body">
+          <pre style={{fontSize:12,color:'var(--text2)',whiteSpace:'pre-wrap',lineHeight:1.7}}>{JSON.stringify(snap.openclaw||snap, null, 2)}</pre>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── DAG 视图 ──────────────────────────────────────────────────────────────────
+function DAGView() {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current; if (!el) return;
+    const ctx = el.getContext('2d');
+    const W = el.width = el.offsetWidth; const H = el.height = 260;
+    const nodes = [
+      { id:'n1', label:'📥 信息抓取', x:60, y:108, col:'#6366f1', w:110, h:44 },
+      { id:'n2', label:'🔬 技术分析', x:250, y:40,  col:'#22c55e', w:110, h:44 },
+      { id:'n3', label:'💼 商业洞察', x:250, y:172, col:'#f59e0b', w:110, h:44 },
+      { id:'n4', label:'📲 钉钉通知', x:440, y:108, col:'#3b82f6', w:110, h:44 },
+    ];
+    const edges = [['n1','n2'],['n1','n3'],['n2','n4'],['n3','n4']];
+    ctx.clearRect(0,0,W,H);
+    edges.forEach(([a,b]) => {
+      const na=nodes.find(n=>n.id===a), nb=nodes.find(n=>n.id===b);
+      ctx.beginPath(); ctx.moveTo(na.x+na.w, na.y+na.h/2); ctx.lineTo(nb.x, nb.y+nb.h/2);
+      ctx.strokeStyle='rgba(99,102,241,.35)'; ctx.lineWidth=2; ctx.setLineDash([6,4]); ctx.stroke(); ctx.setLineDash([]);
+      const mx=(na.x+na.w+nb.x)/2, my=(na.y+na.h/2+nb.y+nb.h/2)/2;
+      ctx.beginPath(); ctx.arc(mx,my,4,0,Math.PI*2); ctx.fillStyle='rgba(99,102,241,.7)'; ctx.fill();
+    });
+    nodes.forEach(n => {
+      ctx.fillStyle=n.col+'33';
+      ctx.beginPath(); ctx.roundRect(n.x,n.y,n.w,n.h,8);
+      ctx.fill(); ctx.strokeStyle=n.col+'bb'; ctx.lineWidth=1.5; ctx.stroke();
+      ctx.fillStyle='#f1f5f9'; ctx.font='bold 13px -apple-system,sans-serif'; ctx.textAlign='center';
+      ctx.fillText(n.label, n.x+n.w/2, n.y+n.h/2+5);
+    });
+  }, []);
+
+  return (
+    <div className="card">
+      <div className="card-header">🔀 DAG 任务流（当前编排）</div>
+      <div className="card-body">
+        <div style={{display:'flex',gap:16,flexWrap:'wrap',marginBottom:12,fontSize:12,color:'var(--text2)'}}>
+          {[['#6366f1','信息抓取'],['#22c55e','技术分析'],['#f59e0b','商业洞察'],['#3b82f6','钉钉通知']].map(([c,n]) => (
+            <span key={n} style={{display:'flex',alignItems:'center',gap:6}}><span style={{width:10,height:10,borderRadius:3,background:c,display:'inline-block'}}/>{n}</span>
+          ))}
+        </div>
+        <canvas ref={ref} style={{width:'100%',height:260,background:'var(--bg)',borderRadius:8}} />
+        <div style={{marginTop:12,display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(180px,1fr))',gap:10}}>
+          {['并行执行','自动路由','失败重试','结果聚合'].map(f => (
+            <div key={f} style={{padding:'10px 14px',background:'var(--bg3)',borderRadius:8,fontSize:12,display:'flex',alignItems:'center',gap:8}}>
+              <span style={{color:'var(--success)'}}>✅</span> {f}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── 插件视图 ──────────────────────────────────────────────────────────────────
+function PluginsView() {
+  const [plugins, setPlugins] = useState([]);
+  useEffect(() => { apiFetch('/plugins').then(d => setPlugins(Array.isArray(d)?d:[])); }, []);
+  const builtins = plugins.filter(p => !p.id.includes('job') && !p.id.includes('stock'));
+  const MARKET = [
+    { id:'job-hunter', n:'求职助手', d:'自动抓取 Boss直聘/猎聘岗位，一键生成简历匹配报告', i:['找工作','职位搜索','简历匹配'] },
+    { id:'stock-watcher', n:'股票盯盘', d:'监控自选股异动，钉钉推送告警', i:['设置告警','涨跌提醒','持仓分析'] },
+    { id:'meeting-notes', n:'会议纪要', d:'接入会议，AI 自动生成结构化会议纪要', i:['会议纪要','会议总结','行动项'] },
+    { id:'dev-ops', n:'运维助手', d:'服务器健康检查、日志分析、异常告警自动化', i:['健康检查','日志分析','故障诊断'] },
+  ];
+
+  const install = async (pkg) => {
+    const r = await apiFetch('/plugins', { method:'POST', body: JSON.stringify({
+      id: pkg.id, name: pkg.n, description: pkg.d,
+      intents: pkg.i.map(name => ({ intent: name.replace(/\s+/g,'_').toLowerCase(), keywords:[name], handler:'' })),
+    })});
+    if (r.success) { toast('✅ ' + pkg.n + ' 安装成功', 'success'); setPlugins(p => [...p, {id: pkg.id, name: pkg.n, description: pkg.d, intents: pkg.i, enabled:true}]); }
+    else toast('❌ 安装失败: ' + (r.error||'未知错误'), 'error');
+  };
+
+  return (
+    <div>
+      <div className="card">
+        <div className="card-header">🔌 已安装插件 <span style={{marginLeft:'auto',fontSize:11,color:'var(--text3)',fontWeight:400}}>{plugins.length} 个</span></div>
+        <div className="card-body">
+          {plugins.length === 0 && <p style={{color:'var(--text3)',fontSize:13,marginBottom:12}}>暂无已安装插件，从下方市场安装~</p>}
+          <div className="plugin-grid">
+            {plugins.map(p => (
+              <div key={p.id} className="plugin-card">
+                <div className="plugin-name">🧩 {p.name}</div>
+                <div className="plugin-desc">{p.description||p.name}</div>
+                <div className="plugin-tags">{(p.intents||[]).map(i=><span key={i.intent||i} className="plugin-tag">💡 {i.intent||i}</span>)}</div>
+                <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginTop:8}}>
+                  <span style={{fontSize:11,color:p.enabled?'var(--success)':'var(--text3)'}}>{p.enabled?'✅ 已启用':'⏸ 已禁用'}</span>
+                  <div className={`toggle ${p.enabled?'on':''}`} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="card">
+        <div className="card-header">🛒 插件市场</div>
+        <div className="card-body">
+          <div className="plugin-grid">
+            {MARKET.map(pkg => (
+              <div key={pkg.id} className="plugin-card">
+                <div className="plugin-name">🚀 {pkg.n}</div>
+                <div className="plugin-desc">{pkg.d}</div>
+                <div className="plugin-tags">{pkg.i.map(i=><span key={i} className="plugin-tag">{i}</span>)}</div>
+                <button className="send-btn small" style={{marginTop:8}} onClick={()=>install(pkg)}>安装</button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── App ──────────────────────────────────────────────────────────────────────
+function App() {
+  const [tab, setTab] = useState('tasks');
+  const [status, setStatus] = useState({});
+
+  useEffect(() => {
+    apiFetch('/status').then(d => setStatus(d||{}));
+    const t = setInterval(() => apiFetch('/status').then(d => setStatus(d||{})), 10000);
+    return () => clearInterval(t);
+  }, []);
+
+  const TABS = [['tasks','⚡','任务'],['monitor','📊','监控'],['dag','🔀','流程'],['plugins','🔌','插件']];
+
+  return (
+    <div>
+      <div className="topbar">
+        <div className="topbar-logo">clawctl <span>v2.9</span></div>
+        <div className="topbar-nav">{TABS.map(([id,emoji,label])=><button key={id} className={`nav-btn ${tab===id?'active':''}`} onClick={()=>setTab(id)}>{emoji} {label}</button>)}</div>
+        <div className="topbar-right"><span className="status-dot" />{status.active_tasks??0} 活跃 · {status.ws_clients??0} WS</div>
+      </div>
+      <div className="main">{tab==='tasks'?<TasksView/>:tab==='monitor'?<MonitorView/>:tab==='dag'?<DAGView/>:<PluginsView/>}</div>
+      <div className="bottom-bar">{TABS.map(([id,emoji,label])=><button key={id} className={`bottom-btn ${tab===id?'active':''}`} onClick={()=>setTab(id)}><span className="emoji">{emoji}</span>{label}</button>)}</div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);

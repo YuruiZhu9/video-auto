@@ -1,5 +1,48 @@
 # 迭代日志 (Changelog)
 
+## v2.9.0 — 2026-04-10（FastAPI 原生层 + Plugin 系统 + Web Admin v3）🆕 本次完成
+
+> 主题：**FastAPI 完整异步化 + 插件生态 + React SPA 控制台 — 打造可持续演进的开放平台**
+>
+> 详见 [changelog_v290.md](./changelog_v290.md)
+
+---
+
+### 核心升级
+
+**FastAPI Server（新建 `clawctl/fastapi_main.py`）：**
+- 全链路 async/await，告别 Flask 同步阻塞
+- 原生 WebSocket + SSE 双通道，实时推送更稳定
+- 自动 OpenAPI 文档（访问 `/docs`）
+- Pydantic 自动参数校验 + 类型提示
+- Lifespan 生命周期管理（启动初始化/关闭清理）
+
+**Plugin 系统（新建 `core/plugin_manager.py`）：**
+- 用户通过 API 动态注册自定义意图 + handler
+- 内置 4 个快捷命令插件（status/list/help/ping）
+- 插件市场 4 款插件可一键安装（job-hunter/stock-watcher/meeting-notes/dev-ops）
+- NL Interpreter 插件扩展（`core/nl_plugin_ext.py`）
+
+**Web Admin v3（新建 `web_admin/v3/index.html`）：**
+- React 18 SPA，移动端优先
+- 4 个 Tab：⚡任务 / 📊监控 / 🔀DAG / 🔌插件
+- ECharts 仪表盘实时 CPU/内存
+- Canvas DAG 流程图可视化
+- PWA 支持（添加至主屏幕）
+
+**启动方式：**
+```bash
+cd /workspace/reports/oc-cross-device/code
+/app/.venv/bin/pip install -r fastapi_requirements.txt
+OPENCLAW_API_KEY=xxx /app/.venv/bin/python clawctl/fastapi_main.py --port 8081
+# 访问
+open http://localhost:8081/admin_v3/
+open http://localhost:8081/docs   # OpenAPI 文档
+open http://localhost:8081/ws    # WebSocket 端点
+```
+
+---
+
 ## v2.8.0 — 2026-04-09（iOS/Android 快捷指令深度集成）🆕 本次完成
 
 > 主题：**手机上一句话，OpenClaw 立刻执行 — iOS 快捷指令 × Siri 语音触发**

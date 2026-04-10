@@ -23,6 +23,7 @@
 
 | 模型/工具 | 核心能力 | 适用场景 | 替代方案 | 更新时间 |
 |-----------|----------|----------|----------|----------|
+| **Seeduplex**（字节跳动）🆕 | 全双工语音大模型，实现"边听边说"同步处理，豆包App已全量上线；原生全双工交互，实时自然对话体验 | 实时语音对话、AI助手、智能客服、语音交互应用 | GPT-4o Voice、Gemini Live、MAI-Voice-1 | 2026-04-09 |
 | **MAI-Transcribe-1**（微软）| 微软自研语音转文字，25种语言词错率3.8%，超越Whisper-large-v3；去年9月与OpenAI重签合同后微软获独立研发AGI权利的成果之一 | 语音转文字、字幕生成、会议记录 | Whisper、Deepgram | 2026-04-04 |
 | **MAI-Voice-1**（微软）| 微软自研文本转语音，1秒生成60秒自然语音，支持数秒音频克隆，与MAI-Transcribe-1形成完整语音AI矩阵 | 语音合成、虚拟主播、语音克隆 | ElevenLabs、OpenAI Voice Engine | 2026-04-04 |
 | Noiz Easter Voice | Product Hunt April 2026 冠军（41,460票），Voice AI爆发验证，垂直场景机会大 | 专业语音AI、医疗/法律/金融记录、方言AI助手 | Lightning V3、VoiceOS | 2026-04-04 |
