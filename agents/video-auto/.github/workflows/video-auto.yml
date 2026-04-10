@@ -1,0 +1,197 @@
+name: 🎬 video-auto CI/CD
+
+on:
+  # 每次 push 到 main 分支自动触发
+  push:
+    branches: [main]
+  # 定时触发：每天 UTC 8:00（北京时间 16:00）
+  schedule:
+    - cron: '0 8 * * *'
+  # 支持手动触发（GitHub Actions → Run workflow）
+  workflow_dispatch:
+    inputs:
+      topic:
+        description: '视频主题（可选，不填则使用上次配置）'
+        required: false
+        type: string
+
+env:
+  PYTHON_VERSION: '3.11'
+  NODE_VERSION: '20'
+
+jobs:
+  # ── Job 1: 准备环境 ─────────────────────────────────────────────────────
+  setup:
+    name: 环境准备
+    runs-on: ubuntu-latest
+    outputs:
+      timestamp: ${{ steps.time.outputs.timestamp }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: 安装 Python 依赖
+        run: |
+          pip install -q whisper-ctranslate2 openai moviepy pydub Pillow
+
+      - name: 记录触发时间
+        id: time
+        run: echo "timestamp=$(date -u '+%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_OUTPUT
+
+      - name: 上报触发事件
+        run: |
+          echo "## 🚀 video-auto Pipeline 触发" >> $GITHUB_STEP_SUMMARY
+          echo "- 触发时间：${{ steps.time.outputs.timestamp }}" >> $GITHUB_STEP_SUMMARY
+          echo "- 触发来源：${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- 分支：${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+
+  # ── Job 2: 代码同步（仅定时/手动触发时）─────────────────────────────────
+  sync:
+    name: 同步最新代码
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 设置 Git
+        run: |
+          git config --local user.name "video-auto-bot"
+          git config --local user.email "video-auto@agents.ai"
+
+      - name: 尝试拉取最新代码
+        run: |
+          git pull origin main --rebase || echo "拉取失败（无 remote 或冲突），跳过"
+
+  # ── Job 3: 视频生成流水线 ───────────────────────────────────────────────
+  generate:
+    name: 生成视频
+    runs-on: ubuntu-latest
+    needs: [setup]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Set up Node.js（OpenClaw CLI）
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: 安装依赖
+        run: |
+          npm install -g openclaw 2>/dev/null || echo "OpenClaw 安装跳过（已在 server）"
+          pip install -q whisper-ctranslate2 openai moviepy pydub Pillow requests
+
+      - name: 安装 FFmpeg（GitHub Actions Ubuntu 内置 ffmpeg）
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: 准备输出目录
+        run: mkdir -p video/ slides/ audio/ content/ && ls -la
+
+      - name: 读取视频主题
+        id: topic
+        run: |
+          if [[ -n "${{ github.event.inputs.topic }}" ]]; then
+            echo "topic=${{ github.event.inputs.topic }}" >> $GITHUB_OUTPUT
+          elif [[ -f "input/topic.txt" ]]; then
+            echo "topic=$(cat input/topic.txt)" >> $GITHUB_OUTPUT
+          else
+            echo "topic=AI技术本周动态" >> $GITHUB_OUTPUT
+          fi
+
+      - name: 执行视频生成流水线
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GLM_API_KEY: ${{ secrets.GLM_API_KEY }}
+          FISH_AUDIO_KEY: ${{ secrets.FISH_AUDIO_KEY }}
+          HYREAL_API_KEY: ${{ secrets.HYREAL_API_KEY }}
+          VIDEO_TOPIC: ${{ steps.topic.outputs.topic }}
+        run: |
+          echo "## 📹 视频生成开始" >> $GITHUB_STEP_SUMMARY
+          echo "主题：${{ steps.topic.outputs.topic }}" >> $GITHUB_STEP_SUMMARY
+          echo "```" >> $GITHUB_STEP_SUMMARY
+          bash push_auto.sh --auto --topic "$VIDEO_TOPIC" 2>&1 | tee $GITHUB_STEP_SUMMARY
+          echo "```" >> $GITHUB_STEP_SUMMARY
+
+      - name: 上传视频产物
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: video-output-${{ github.run_number }}
+          path: |
+            video/*.mp4
+            slides/*.html
+            audio/*.mp3
+          retention-days: 7
+
+      - name: 上传日志
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pipeline-logs
+          path: |
+            logs/*.md
+            logs/*.json
+          retention-days: 14
+
+  # ── Job 4: GitHub Push（可选）────────────────────────────────────────────
+  push-to-repo:
+    name: 推送更新到 GitHub
+    runs-on: ubuntu-latest
+    needs: [generate]
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 配置 Git
+        run: |
+          git config --local user.name "video-auto-bot"
+          git config --local user.email "video-auto@agents.ai"
+
+      - name: 添加 remote（如果需要）
+        run: |
+          if [[ $(git remote get-url origin 2>/dev/null) == *"github.com"* ]]; then
+            echo "Remote origin 已配置"
+          else
+            echo "请在 Secrets 中配置 GIT_REPO_URL"
+          fi
+
+      - name: 提交更新
+        run: |
+          git add video/ slides/ audio/ content/ logs/
+          if git diff --staged --quiet; then
+            echo "没有新文件，无需推送"
+          else
+            git commit -m "🤖 Auto generate $(date '+%Y-%m-%d %H:%M')"
+            git push origin main || echo "推送失败，请检查 git credentials"
+          fi
+
+  # ── Job 5: 完成报告 ──────────────────────────────────────────────────────
+  report:
+    name: 完成报告
+    runs-on: ubuntu-latest
+    needs: [setup, generate]
+    if: always()
+    steps:
+      - name: 生成报告
+        run: |
+          echo "## ✅ video-auto Pipeline 执行完成" >> $GITHUB_STEP_SUMMARY
+          echo "- 流水线 ID：${{ github.run_id }}" >> $GITHUB_STEP_SUMMARY
+          echo "- 执行时间：${{ needs.setup.outputs.timestamp }}" >> $GITHUB_STEP_SUMMARY
+          echo "- 视频产物：见 Job generate 的 artifact" >> $GITHUB_STEP_SUMMARY
+          echo "- 日志产物：见 Job generate 的 logs artifact" >> $GITHUB_STEP_SUMMARY
