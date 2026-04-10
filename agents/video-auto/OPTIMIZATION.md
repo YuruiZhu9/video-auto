@@ -27,6 +27,19 @@
 
 ---
 
+## ✅ 新增优化（2026-04-10）
+
+| 优化项 | 实现文件 | 状态 | 说明 |
+|--------|----------|------|------|
+| **Whisper 字幕准确率** | `video/whisper_subtitle.py` | ✅ 已上线 | 支持 OpenAI Whisper API + 本地 whisper-ctranslate2，与 scene_detector.py SRT 格式完全兼容 |
+| **视频交叉淡化过渡** | `video/video_transitions.py` | ✅ 已上线 | FFmpeg xfade > moviepy > Python fallback 三级降级，0.5s fade |
+| **GitHub Actions CI/CD** | `.github/workflows/video-auto.yml` | ✅ 已上线 | push main 触发 + 每天 UTC 8:00 定时触发 |
+| **全自动推送脚本** | `push_auto.sh` | ✅ 已上线 | 支持 --auto --topic --skip-whisper --skip-transition 等参数 |
+
+**本次 commit：** `2fca1e7` — [优化-1] Whisper字幕 + [优化-2] 交叉淡化 + [优化-3] GitHub Actions
+
+---
+
 ## 🔧 技术方案调整
 
 ### 视频合成（已变更）
