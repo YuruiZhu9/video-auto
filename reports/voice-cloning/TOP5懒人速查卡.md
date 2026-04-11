@@ -1,4 +1,4 @@
-# 免费语音克隆 TOP5 懒人速查卡（2026-04-07更新）
+# 免费语音克隆 TOP5 懒人速查卡（2026-04-11更新）
 
 ## 🥇 CosyVoice 3.0 — 中文首选
 ```
@@ -62,6 +62,26 @@ audio = chat.speak("[laugh]你好啊，[uv_break]好久不见！")
 - ✅ 笑声/停顿/情绪精细控制
 - ✅ 对话场景自然
 - ⚠️ 情感控制需参考音频微调
+
+---
+
+## 🆕 VoxCPM2 — 方言发烧友首选（2026-04-11 新增）
+```
+pip install voxcpm
+
+from voxcpm import VoxCPM
+model = VoxCPM.from_pretrained("openbmb/VoxCPM2")
+audio = model.generate(
+    text="今天天气好巴适哦！",
+    dialect="Sichuan"  # 四川话
+)
+```
+- ✅ **9种中国方言**（四川/粤语/吴语/东北/河南/陕西/山东/天津/闽南）
+- ✅ 48kHz CD音质（全场最高之一）
+- ✅ Tokenizer-Free 架构（无量化误差）
+- ✅ Apache 2.0 许可（可商用）
+- ✅ 终极克隆（高保真重放，保留全部情感细节）
+- ⚠️ 2B参数，推荐 RTX 4090+
 
 ---
 

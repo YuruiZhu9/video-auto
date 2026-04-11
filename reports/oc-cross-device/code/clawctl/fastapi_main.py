@@ -24,8 +24,8 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, JSONResponse
 
 # ── 路径配置 ──────────────────────────────────────────────────────────────────
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
-sys.path.insert(0, str(BASE_DIR / "clawctl"))
+BASE_DIR = Path(__file__).resolve().parent.parent  # /workspace/reports/oc-cross-device/code
+sys.path.insert(0, str(BASE_DIR))
 
 from core.client import OpenClawClient
 from core.task import TaskManager
@@ -367,6 +367,18 @@ class PluginRegister(BaseModel):
     intents: list[dict] = []  # [{intent: str, keywords: list[str], handler: str}]
 
 
+class ScheduleCreate(BaseModel):
+    """创建定时任务的请求模型"""
+    name: str = Field(..., description="任务名称")
+    template_id: str = Field(..., description="模板 ID")
+    cron_expr: str = Field(..., description="Cron 表达式，如 0 9 * * *")
+    timezone: str = Field(default="Asia/Shanghai", description="时区")
+    enabled: bool = Field(default=True, description="是否启用")
+    notify_on_complete: bool = Field(default=True, description="完成后通知")
+    notify_channel: str = Field(default="dingtalk", description="通知渠道")
+    params: dict = Field(default_factory=dict, description="模板参数覆盖")
+
+
 @app.get("/api/v1/health")
 async def health():
     """健康检查"""
@@ -484,7 +496,9 @@ async def nl_cmd(
 
 @app.get("/api/v1/templates", response_model=list)
 async def list_templates():
-    return state.template_loader.list_templates() if state.template_loader else []
+    if not state.template_loader:
+        return []
+    return [{"id": tid, **tpl} for tid, tpl in state.template_loader.list().items()]
 
 
 @app.post("/api/v1/templates/{name}/execute", response_model=dict)
@@ -505,28 +519,79 @@ async def execute_template(name: str, channel: str = Query("dingtalk")):
 async def list_schedules():
     if not state.scheduler:
         return []
-    jobs = []
-    for job in state.scheduler.jobs:
-        jobs.append({
-            "id": getattr(job, "id", "?"),
-            "name": getattr(job, "name", "?"),
-            "next_run": str(job.next_run_time) if job.next_run_time else None,
-        })
-    return jobs
+    return state.scheduler.list_jobs()
 
 
 @app.post("/api/v1/schedules/{schedule_id}/trigger")
 async def trigger_schedule(schedule_id: str):
     """立即触发定时任务"""
-    triggered = False
-    for job in (state.scheduler.jobs or []):
-        if getattr(job, "id", "") == schedule_id:
-            state.scheduler.run_job_now(job)
-            triggered = True
-            break
-    if not triggered:
+    job = state.scheduler.get_job(schedule_id) if state.scheduler else None
+    if not job:
         raise HTTPException(404, "Schedule not found")
+    state.scheduler.trigger_now(schedule_id)
     return {"schedule_id": schedule_id, "status": "triggered"}
+
+
+@app.post("/api/v1/schedules")
+async def create_schedule(body: ScheduleCreate):
+    """创建新的定时任务"""
+    if not state.scheduler:
+        raise HTTPException(503, "Scheduler not available")
+    try:
+        import uuid
+        job_id = str(uuid.uuid4())[:8]
+        state.scheduler.add_job(
+            name=body.name,
+            template_id=body.template_id,
+            cron_expr=body.cron_expr,
+            timezone=body.timezone,
+            enabled=body.enabled,
+            notify_on_complete=body.notify_on_complete,
+            notify_channel=body.notify_channel,
+            params=body.params,
+            job_id=body.name,
+        )
+        return {"success": True, "job_id": body.name}
+    except Exception as e:
+        raise HTTPException(400, str(e))
+
+
+@app.delete("/api/v1/schedules/{schedule_id}")
+async def delete_schedule(schedule_id: str):
+    """删除定时任务"""
+    if not state.scheduler:
+        raise HTTPException(503, "Scheduler not available")
+    removed = state.scheduler.remove_job(schedule_id)
+    if not removed:
+        raise HTTPException(404, "Schedule not found")
+    return {"success": True, "schedule_id": schedule_id}
+
+
+@app.patch("/api/v1/schedules/{schedule_id}/toggle")
+async def toggle_schedule(schedule_id: str):
+    """切换定时任务启用状态"""
+    if not state.scheduler:
+        raise HTTPException(503, "Scheduler not available")
+    job = state.scheduler.get_job(schedule_id)
+    if not job:
+        raise HTTPException(404, "Schedule not found")
+    if job.enabled:
+        state.scheduler.pause_job(schedule_id)
+    else:
+        state.scheduler.resume_job(schedule_id)
+    job = state.scheduler.get_job(schedule_id)
+    return {"schedule_id": schedule_id, "enabled": job.enabled if job else False}
+
+
+@app.get("/api/v1/templates/{template_id}")
+async def get_template(template_id: str):
+    """获取指定模板详情"""
+    if not state.template_loader:
+        raise HTTPException(503, "Template loader not available")
+    tpl = state.template_loader.get(template_id)
+    if not tpl:
+        raise HTTPException(404, "Template not found")
+    return {"id": template_id, **tpl}
 
 
 # ── Plugin 系统 ────────────────────────────────────────────────────────────────

@@ -13,6 +13,7 @@
 |------|----------|-------------|------|----------|
 | **AI视频直接理解** | videos_understand | 任意视频 | ⭐ | 多模态语义理解+画面分析 |
 | **Gemini 2.5 Pro** | Gemini API | 长视频/行业分享 | ⭐⭐ | VideoMME 85.2%超越人类，原生多模态 |
+| **Google Gemma 4** | Transformers/Ollama/HF | 短视频/本地/移动端 | ⭐ | 全系列60秒视频理解，Apache 2.0免费商用，E2B/E4B原生ASR（CVPR 2026新品）|
 | **Gemini 2.5 Flash** | Gemini API | 中长视频/批量处理 | ⭐⭐ | 性价比最优，支持~6h |
 | **Claude 3.7 Sonnet Extended** | Anthropic API | 编程教程/代码演示 | ⭐⭐⭐ | 超长思维链，深度推理 |
 | **WayinVideo AI Clipping** | WayinVideo API | 多类型视频 | ⭐ | AI剪辑+时刻搜索+摘要+转录 |
@@ -187,3 +188,12 @@ video-parser/
 ### 2026-04-03 第二周新增
 - 技术教程类/视频结构化解析Prompt工程进阶.md
 - 通用工具/多模态RAG视频语义检索全链路方案.md
+
+### 2026-04-11 第十二周新增（下午场）
+- **通用工具/Google-Gemma-4-视频理解模型解析.md** — Google DeepMind 2026年4月2日发布，全系列60秒视频理解，Apache 2.0免费商用，E2B/E4B原生ASR，AIME 2026数学89.2%
+
+### 2026-04-11 第十一周新增
+- **技术教程类/YouTube-to-Knowledge-Doc-Skill解析.md** — YouTube转MECE结构知识框架文档，yt-dlp字幕提取+Notion同步+可点击时间戳，来源追溯
+- **技术教程类/Langbase-Video-Wisdom-Extraction-Tool解析.md** — Langbase SDK + 8个专业AI Pipes（问答/摘要/金句/高光/社媒），Next.js全栈实现
+- **技术教程类/AI视频摘要四层技术架构完全指南.md** — ASR→分段→LLM→时间戳四层架构详解，Whisper/GPT-4o/Claude/Gemini性能基准+Python代码
+- **行业分享类/LLMVS-CVPR2025视频摘要方法解析.md** — CVPR 2025论文，Local-to-Global两阶段关键帧选择，M-LLM+LLM中间层嵌入架构

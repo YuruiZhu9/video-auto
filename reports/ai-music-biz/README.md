@@ -135,8 +135,10 @@ ai-music-biz/
 
 | 日期 | 内容 |
 |------|------|
-| 2026-04-02 | TapToTab论文深度解析（YOLO琴颈检测+Fourier音频分析）；Tabbers.ai发现（吉他手视频+TAB叠加赛道）；MediaPipe API 2025+重大变化；Remusic/La Touche Musicale/Lamucal新入局；技术Demo路线图更新 |
-| 2026-04-01 | 全量更新：扒谱工具全景图（含TabMaker/Audio Jam等新品）+ 视频→吉他谱确认为唯一蓝海 + 技术验证计划 |
+| 2026-04-11 | Songscription吉他模型已上线（带手指位置标注）；Songsterr AI全面推出YouTube→多层吉他TAB；竞品格局重估；窗口从12月缩短至6月；行动路线图修订 |
+| 2026-04-10 | Songscription融资/TabMaker搅局/TART框架/国内窗口分析 |
+| 2026-04-02 | TapToTab论文深度解析（YOLO琴颈检测+Fourier音频分析）；Tabbers.ai发现；MediaPipe API 2025+重大变化；技术Demo路线图更新 |
+| 2026-04-01 | 全量更新：扒谱工具全景图 + 视频→吉他谱确认为唯一蓝海 + 技术验证计划 |
 | 2026-03-30 | 深度报告：Tabtify竞品分析 + 准确率天花板发现 + 自制扒谱训练数据方案 |
 | 2026-03-28 | 综合报告：60+竞品对比 + 商业模式完整设计 |
 | 2026-03-26 | 首次调研：AI音乐商机全景 + 四大赛道分析 |

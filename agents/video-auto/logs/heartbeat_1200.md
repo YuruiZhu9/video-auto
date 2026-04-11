@@ -1,21 +1,18 @@
-# Video-Auto Heartbeat Log — 2026-04-10 12:10 (中午12点定时任务)
+# Video-Auto Heartbeat Log — 2026-04-11 12:08
 
-## 执行时间
-- 触发时间：2026-04-10 12:10 (Asia/Shanghai)
-- 执行结果：**无任务**
+## 执行状态：✅ 无任务（跳过）
 
 ## 检查结果
-- `input/` 目录状态：存在（空目录）
-- `input/topic.txt`：❌ 不存在
-- `input/material.md`：❌ 不存在
+
+- **时间：** 2026-04-11 12:08 (Asia/Shanghai)
+- **检查路径：** `/workspace/agents/video-auto/input/`
+- **topic.txt：** ❌ 不存在
+- **material.md：** ❌ 不存在
 
 ## 结论
-**HEARTBEAT_OK** — 无待处理视频生成任务，流水线未触发。
 
-## 下一步
-等待用户通过钉钉发送任务指令，格式：
-```
-主题：xxx
-音频：/path/to/audio.wav（可选）
-文本材料：xxx（可选）
-```
+input 目录为空，无待处理任务。Agent 静默退出，不做任何操作。
+
+## 下次调度
+
+等待下次 cron 触发或用户手动提交任务。

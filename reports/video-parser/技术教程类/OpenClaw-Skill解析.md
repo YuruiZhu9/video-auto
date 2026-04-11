@@ -2,96 +2,99 @@
 
 ## 核心工具/API
 
-- **summarize（OpenClaw Skill）**
-  - 功能：URL/YouTube/本地文件 summarization + 字幕提取
+- **summarize（Skill）**：OpenClaw 内置视频/URL 总结工具，支持 YouTube 自动字幕提取
+  - 功能：快速提取视频核心内容，生成结构化摘要
   - 依赖：`summarize` CLI（brew 安装）
-  - 模型支持：OpenAI GPT / Anthropic Claude / Google Gemini / xAI
-  - YouTube 字幕：支持自动 fallback（Apify token）
+  - 支持模型：OpenAI / Anthropic / xAI / Google Gemini
+- **videos_understand（内置工具）**：多模态视频理解，支持批量分析
+  - 功能：直接理解视频内容，返回结构化文本描述
+  - 支持最长 10 个视频并行分析
+- **audios_understand（内置工具）**：音频内容分析
+  - 功能：提取音频中的语音、背景音、音乐等元素
+- **video-frames（Skill）**：FFmpeg 关键帧提取
+  - 功能：从视频中抽取单帧或指定时间点的画面
+  - 依赖：FFmpeg
 
-- **video-frames（OpenClaw Skill）**
-  - 功能：从视频提取单帧/缩略图
-  - 依赖：`ffmpeg`
-  - 支持时间戳指定、帧索引指定
-
-- **videos_understand（OpenClaw 内置工具）**
-  - 功能：多模态 LLM 视频理解
-  - 支持：视频文件路径 / URL
-  - 最大10个视频并发分析
+---
 
 ## 步骤流程
 
-### 方案A：YouTube 技术教程（summarize）
-```bash
-# 快速总结
-summarize "https://youtu.be/VIDEO_ID" --youtube auto
+### 方案一：summarize Skill（YouTube 教程类）
 
-# 仅提取字幕/转写（不总结）
-summarize "https://youtu.be/VIDEO_ID" --youtube auto --extract-only
-
-# 指定长度
-summarize "https://youtu.be/VIDEO_ID" --youtube auto --length long
-
-# 本地 PDF/文件
-summarize "/path/to/slides.pdf" --model google/gemini-3-flash-preview
+```
+1. 确定视频 URL（YouTube / 通用链接）
+2. 调用 summarize CLI：
+   summarize "https://youtu.be/xxxx" --youtube auto --extract-only
+   （--extract-only 仅提取字幕，不做总结，适合长视频）
+3. 如需深度理解：
+   summarize "https://youtu.be/xxxx" --youtube auto --length long
+4. 输出：时间戳 + 字幕文本 / 结构化摘要
 ```
 
-### 方案B：本地视频帧提取（video-frames）
-```bash
-# 提取第一帧
-{baseDir}/scripts/frame.sh /path/to/video.mp4 --out /tmp/frame.jpg
+### 方案二：videos_understand（本地/URL 教程类）
 
-# 指定时间戳
-{baseDir}/scripts/frame.sh /path/to/video.mp4 --time 00:05:30 --out /tmp/frame-5min.jpg
-
-# 按帧索引提取
-{baseDir}/scripts/frame.sh /path/to/video.mp4 --index 0 --out /tmp/frame0.png
+```
+1. 获取视频文件或 URL
+2. 构造分析 prompt（如"请提取这个技术教程视频的核心知识点、步骤和代码片段"）
+3. 调用 videos_understand：
+   videos_understand([{
+     file: "video.mp4",
+     prompt: "作为技术教程分析师，请提取：1) 主题 2) 核心知识点列表 3) 操作步骤 4) 代码/命令"
+   }])
+4. AI 返回结构化分析结果
 ```
 
-### 方案C：本地视频深度理解（videos_understand）
-```python
-# OpenClaw 内置工具调用
-videos_understand(
-  videos_info=[
-    {
-      "file": "/path/to/video.mp4",
-      "prompt": "请详细描述这个技术教程视频的核心内容、关键步骤和代码要点"
-    }
-  ]
-)
+### 方案三：video-frames + images_understand（需精细视觉分析）
+
 ```
+1. 用 FFmpeg 按时间间隔抽帧：
+   ffmpeg -i video.mp4 -vf "fps=1/30" frames/%04d.jpg
+   （每30秒抽一帧）
+2. 批量调用 images_understand 分析关键帧：
+   images_understand([{
+     file: "frames/0001.jpg",
+     prompt: "这段视频在讲什么？列出关键操作步骤"
+   }])
+3. 汇总各帧分析结果，生成完整教程解析
+```
+
+---
 
 ## 适用场景
 
-- ✅ YouTube 技术教程/课程视频
-- ✅ 技术分享会议录像
-- ✅ 开源项目 README 配套视频
-- ✅ API 文档演示视频
-- ✅ 工具使用教程（SaaS / CLI / 框架）
+- ✅ 技术教程类视频（编程教学、软件操作、工具使用）
+- ✅ 知识分享类视频（概念讲解、原理说明）
+- ✅ 有字幕/配音的教学视频
+- ✅ 需要提取代码片段、操作步骤的教程
+- ✅ 快速了解视频核心内容（5分钟内判断是否值得深入）
+
+---
 
 ## 避坑指南
 
-- **坑1：YouTube 无字幕**
-  - 解决：设置 `APIFY_API_TOKEN` 作为 fallback，summarize 会自动切换
-  - 注意：部分视频确实无字幕（直播回放、老视频），需手动转写
+### ⚠️ 坑1：YouTube 自动字幕质量不稳定
+- **问题**：自动字幕可能有错别字、时间轴不准
+- **解决**：优先选择有官方字幕的视频；结合 `audios_understand` 验证关键术语
 
-- **坑2：视频太长被截断**
-  - 解决：summarize 默认有输出 token 限制，长视频先 `--extract-only` 获取完整内容
-  - 再分段发送给 LLM 分析
+### ⚠️ 坑2：长视频超 Token 限制
+- **问题**：超过模型上下文窗口时，内容被截断
+- **解决**：
+  - 用 `--extract-only` 提取字幕文本，手动分段
+  - 分时间段多次调用 `videos_understand`
 
-- **坑3：ffmpeg 未安装**
-  - 解决：macOS `brew install ffmpeg`，Linux `apt install ffmpeg`
-  - OpenClaw 会提示安装，但手动安装更可控
+### ⚠️ 坑3：summarize CLI 模型配置缺失
+- **问题**：未配置 API Key 时默认模型可能不支持中文
+- **解决**：配置 `~/.summarize/config.json`，指定 `google/gemini-3-flash-preview`（免费额度大，支持中文）
 
-- **坑4：视频格式不支持**
-  - 解决：FFmpeg 支持几乎所有格式；videos_understand 支持 mp4/webm/avi
-  - .mkv 等特殊格式用 FFmpeg 转码：`ffmpeg -i input.mkv -c copy output.mp4`
+### ⚠️ 坑4：FFmpeg 抽帧内存占用高
+- **问题**：高分辨率视频大量抽帧会导致内存溢出
+- **解决**：先用 `-vf scale=1280:720` 降分辨率再抽帧；控制帧率 `fps=1/60`
 
-- **坑5：API Key 未设置**
-  - 解决：设置环境变量 `OPENAI_API_KEY` / `ANTHROPIC_API_KEY` / `GEMINI_API_KEY`
-  - 或配置 `~/.summarize/config.json`
+---
 
 ## 参考链接
 
-- OpenClaw summarize Skill：https://summarize.sh
-- OpenClaw video-frames Skill：https://ffmpeg.org
-- OpenClaw videos_understand：内置工具（无需安装）
+- OpenClaw summarize Skill：`/app/openclaw/skills/summarize/SKILL.md`
+- OpenClaw video-frames Skill：`/app/openclaw/skills/video-frames/SKILL.md`
+- Whisper API 文档：https://developers.openai.com/api/docs/guides/speech-to-text
+- GPT-4o-transcribe 指南：https://help.apiyi.com/gpt-4o-transcribe-apiyi-free-trial.html

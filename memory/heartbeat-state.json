@@ -1,10 +1,139 @@
 {
-  "lastCheck": 1744289040000,
-  "checkedAt": "2026-04-10 23:44 CST",
-  "summary": "所有cron任务状态正常，无问题任务",
-  "issuesFound": [],
-  "notes": [
-    "夜间时段，所有35个定时任务无异常",
-    "晚间20:00 AI协作视频制作Agent 已恢复正常running"
+    "lastCheck": 1744331340000,
+    "checkedAt": "2026-04-11 07:09 CST",
+    "summary": "所有定时任务状态正常，无异常",
+    "issuesFound": [],
+    "notes": [
+        "共32个定时任务，全部ok",
+        "最近运行：LeetCode刷题助手 7:00 AM（9分钟前），video-auto-早6点 6:00 AM（1小时前）",
+        "下一批：LeetCode刷题助手 7:00（已运行），小红书7:30 AM（21分钟后），LlamaFactory论文 8:00 AM（51分钟后）"
+    ]
+}
+,{
+  "lastCheck": 1744352520000, "checkedAt": "2026-04-11 09:42 CST",
+  "checkedAt": "2026-04-11 08:09 CST",
+  "summary": "发现1个持续失败任务",
+  "issuesFound": [
+    {
+      "jobId": "f040a62b-b27f-40dd-8e5b-c35f80728afb",
+      "name": "LlamaFactory论文资源 - 每周六",
+      "issue": "error (9m ago), cron run重试也失败(exit 1)",
+      "action": "连续失败，暂停重试，上报用户"
+    }
   ]
+}
+,{
+  "lastCheck": 1744359000000,
+  "checkedAt": "2026-04-11 11:50 CST",
+  "summary": "所有定时任务状态正常，无异常",
+  "issuesFound": []
+}
+,{
+  "lastCheck": 1744364400000,
+  "checkedAt": "2026-04-11 12:20 CST",
+  "summary": "发现3个任务失败，cron run本身也报错(exit1)，疑似平台问题",
+  "issuesFound": [
+    {
+      "jobId": "7513ccb9-81d1-4876-acb8-59d09947b896",
+      "name": "视频解析方法总结Agent",
+      "issue": "error, cron run exit1",
+      "action": "暂停重试"
+    },
+    {
+      "jobId": "04ddab4d-77b2-4610-96e5-6f7ffde1bbbb",
+      "name": "开源大模型技术追踪Agent",
+      "issue": "error, cron run exit1",
+      "action": "暂停重试"
+    }
+  ],
+  "platformIssue": "openclaw cron run 命令报错exit1，三任务受影响，可能是gateway/SIGUSR1重启信号问题"
+}
+,{
+  "lastCheck": 1744368360000,
+  "checkedAt": "2026-04-11 13:16 CST",
+  "summary": "2任务持续error，cron run平台问题未解决，不重复上报",
+  "issuesFound": [
+    {
+      "jobId": "7513ccb9-81d1-4876-acb8-59d09947b896",
+      "name": "视频解析方法总结Agent",
+      "issue": "error 56m ago",
+      "action": "等待gateway重启后自动恢复"
+    },
+    {
+      "jobId": "04ddab4d-77b2-4610-96e5-6f7ffde1bbbb",
+      "name": "开源大模型技术追踪Agent",
+      "issue": "error 55m ago",
+      "action": "等待gateway重启后自动恢复"
+    }
+  ]
+}
+,{
+  "lastCheck": 1744373160000,
+  "checkedAt": "2026-04-11 14:46 CST",
+  "summary": "cron run触发机制平台级超时，已通知用户",
+  "issuesFound": [
+    {
+      "jobId": "7513ccb9-81d1-4876-acb8-59d09947b896",
+      "name": "视频解析方法总结Agent",
+      "issue": "error + cron run超时",
+      "action": "暂停，等待gateway恢复"
+    },
+    {
+      "jobId": "04ddab4d-77b2-4610-96e5-6f7ffde1bbbb",
+      "name": "开源大模型技术追踪Agent",
+      "issue": "error + cron run超时",
+      "action": "暂停，等待gateway恢复"
+    }
+  ],
+  "platformIssue": "cron run超时，gateway 127.0.0.1:18789 无响应，可能是隔离执行环境负载高或scheduler队列积压"
+}
+,{"lastCheck": 1744375740000,"checkedAt":"2026-04-11 14:49 CST","summary":"2任务持续error+running，平台问题已知，等待恢复","issuesFound":[{"jobId":"7513ccb9-81d1-4876-acb8-59d09947b896","name":"视频解析方法总结Agent","issue":"running状态（2h前触发后进入running未退出）","action":"监控中"},{"jobId":"04ddab4d-77b2-4610-96e5-6f7ffde1bbbb","name":"开源大模型技术追踪Agent","issue":"error（2h ago）","action":"持续监控中"}]}
+,{
+  "lastCheck": 1744375140000,
+  "checkedAt": "2026-04-11 15:19 CST",
+  "summary": "2个任务仍error（cron run平台问题未解），LlamaFactory已自动恢复ok",
+  "issuesFound": [
+    {"jobId":"7513ccb9","name":"视频解析方法总结Agent","issue":"error 2次","action":"暂停重试"},
+    {"jobId":"04ddab4d","name":"开源大模型技术追踪Agent","issue":"error 2次","action":"暂停重试"}
+  ]
+}
+,{
+  "lastCheck": 1744370940000,
+  "checkedAt": "2026-04-11 15:49 CST",
+  "summary": "2个错误任务状态未变(已知问题)，LlamaFactory已恢复ok",
+  "issuesFound": [
+    {
+      "jobId": "7513ccb9-81d1-4876-acb8-59d09947b896",
+      "name": "视频解析方法总结Agent",
+      "issue": "error(1h ago), cron run平台问题不重试",
+      "action": "已上报用户"
+    },
+    {
+      "jobId": "04ddab4d-77b2-4610-96e5-6f7ffde1bbbb",
+      "name": "开源大模型技术追踪Agent",
+      "issue": "error(3h ago), cron run平台问题不重试",
+      "action": "已上报用户"
+    }
+  ],
+  "notes": "LlamaFactory论文已恢复ok；其余30个任务正常"
+}
+,{
+  "lastCheck": 1744382340000,
+  "checkedAt": "2026-04-11 17:19 CST",
+  "summary": "2任务持续错误满3次心跳，cron run平台问题仍未恢复",
+  "issuesFound": [
+    {
+      "jobId": "7513ccb9-81d1-4876-acb8-59d09947b896",
+      "name": "视频解析方法总结Agent",
+      "issue": "error（持续3次心跳）",
+      "action": "已上报"
+    },
+    {
+      "jobId": "04ddab4d-77b2-4610-96e5-6f7ffde1bbbb",
+      "name": "开源大模型技术追踪Agent",
+      "issue": "error（持续3次心跳）",
+      "action": "已上报"
+    }
+  ],
+  "platformIssue": "openclaw cron run 仍报exit1，LlamaFactory自动恢复（ok），但其余2任务无法通过cron run重试"
 }

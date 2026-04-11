@@ -9,6 +9,8 @@
 
 | 模型 | 核心能力 | 适用场景 | 替代方案 | 更新时间 |
 |------|----------|----------|----------|----------|----------|
+| **Muse Spark**（Meta）🆕 | Meta新一代AI助手核心模型，发布后Meta AI应用排名从第57位**跃升至App Store第5名**，产品表现验证模型能力；Meta AI在社交场景的深度整合（WhatsApp/Instagram/Facebook）形成独特优势 | AI助手、社交场景AI、对话搜索、图像生成 | ChatGPT、Gemini、Kimi | 2026-04-11 |
+| **Muse Spark**（Meta）🆕 | Meta新一代AI助手核心模型，发布后Meta AI应用排名从第57位**跃升至App Store第5名**，产品表现验证模型能力；Meta AI在社交场景的深度整合（WhatsApp/Instagram/Facebook）形成独特优势 | AI助手、社交场景AI、对话搜索、图像生成 | ChatGPT、Gemini、Kimi | 2026-04-11 |
 | **Meta Llama 4** | 4000亿参数 / 170亿激活 / MoE架构 / 128专家模块 / Apache 2.0完全免费可商用；支持千万级Token超长上下文（Scout版）；支持AI编程等垂直场景深度微调，企业可完全绕开闭源授权体系自建AI基础设施 | AI编程、通用推理、企业私有化部署、研究 | GPT-5.4、Claude 4、Qwen | 2026-04-04 |
 | Claude Mythos（Anthropic）| 新一代超强模型，泄露文件显示性能目标超越Opus，已在秘密测试中，引发AI安全讨论 | 通用对话、高难度推理、AI Agent开发 | GPT-5.4、Claude Opus | 2026-03-28 |
 | LongCat（美团）| 美团自研大模型，已持续投入三年，全量开放，进攻本地生活AI入口 | 本地生活推荐、AI助手、智能客服 | 通义、Kimi | 2026-03-28 |

@@ -1,105 +1,64 @@
-# 技术教程类 - FFmpeg 关键帧提取解析方案
+# 技术教程类 - FFmpeg 关键帧提取解析
 
 ## 核心工具/API
 
-- **FFmpeg**
-  - 官网：https://ffmpeg.org
-  - 类型：开源 CLI 工具（C 语言编写）
-  - 功能：视频解码、帧提取、转码、剪辑
-  - 特点：跨平台，零依赖，功能最全
+- **FFmpeg**：开源视频处理工具，命令行操作
+  - 抽帧：`ffmpeg -i input.mp4 -frames:v 1 output.jpg`
+  - 按时间抽帧：`ffmpeg -ss 00:01:30 -i input.mp4 -frames:v 1 output.jpg`
+  - 按帧号抽帧：`ffmpeg -i input.mp4 -vf "select=eq(n\,100)" -vframes 1 output.jpg`
+  - 批量等间隔抽帧：`ffmpeg -i input.mp4 -vf "fps=1/60" frames/%04d.jpg`
+- **OpenCV (cv2)**：Python 视觉库，支持内容感知抽帧
+  - 帧差法（shot boundary detection）
+  - 颜色直方图法
+  - SIFT/ORB 特征匹配
+- **MediaInfo**：视频元数据提取（时长、编码、分辨率）
+- **shot-scene-detect**：Python 开源镜头检测库
 
-- **OpenCV（Python）**
-  - 文档：https://docs.opencv.org/
-  - 功能：视频读取、帧处理、关键帧检测
-  - 配合 FFmpeg 使用效果最佳
-
-- **keyframe-scout（PyPI）**
-  - PyPI：https://pypi.org/project/keyframe-scout/
-  - 功能：专为 VLM/LLM 优化的智能关键帧提取
-  - 特点：自适应算法，自动选择最有信息量的帧
-
-- **image_synthesize + videos_understand（OpenClaw 内置）**
-  - 功能：帧图 → 多模态 LLM 分析 → 结构化输出
+---
 
 ## 步骤流程
 
-### 方案A：FFmpeg 基础帧提取
-```bash
-# 提取第 N 帧（精确）
-ffmpeg -i video.mp4 -vf "select=eq(n\,300)" -vframes 1 frame.jpg
+### 流程一：FFmpeg 等间隔抽帧（最常用）
 
-# 等间隔提取（每10秒一帧）
-ffmpeg -i video.mp4 -vf "fps=0.1" frames/%04d.jpg
+```
+1. 安装 FFmpeg（如未安装）
+   # macOS
+   brew install ffmpeg
+   # Linux
+   sudo apt install ffmpeg
 
-# 提取所有关键帧（I帧）
-ffmpeg -i video.mp4 -vf "select='eq(pict_type,PICT_TYPE_I)'" \
-  -vsync vfr frames/keyframe_%04d.jpg
+2. 提取第一帧（封面）
+   ffmpeg -hide_banner -loglevel error -y \
+     -i video.mp4 -vf "select=eq(n\,0)" -vframes 1 cover.jpg
 
-# 从关键帧列表提取（更精确）
-ffprobe -select_streams v:0 -show_frames video.mp4 \
-  | grep pkt_pts_time \
-  | grep -B1 "key_frame=1" > keyframes.txt
+3. 按时间点抽帧（示例：10s, 30s, 1m, 2m）
+   for t in 10 30 60 120; do
+     ffmpeg -ss $t -i video.mp4 -frames:v 1 frame_${t}s.jpg
+   done
+
+4. 等间隔批量抽帧（每30秒一帧）
+   ffmpeg -i video.mp4 -vf "fps=1/30" frames/%04d.jpg
+
+5. 降采样后批量抽帧（节省存储）
+   ffmpeg -i video.mp4 -vf "scale=1280:720,fps=1/60" frames/%04d.jpg
 ```
 
-### 方案B：FFmpeg + Python 关键帧提取
-```python
-import subprocess
-import re
+### 流程二：OpenCV 智能关键帧提取
 
-def get_keyframe_times(video_path):
-    """用 ffprobe 获取所有关键帧时间戳"""
-    cmd = [
-        "ffprobe", "-v", "error", "-select_streams", "v:0",
-        "-show_frames", "-show_entries", "frame=pkt_pts_time,key_frame",
-        video_path
-    ]
-    result = subprocess.run(cmd, capture_output=True, text=True)
-    
-    times = []
-    lines = result.stdout.strip().split("\n")
-    for i, line in enumerate(lines):
-        if "key_frame=1" in line:
-            # 找前面一行的时间戳
-            for j in range(i-1, -1, -1):
-                if "pkt_pts_time=" in lines[j]:
-                    time = lines[j].split("=")[1]
-                    times.append(float(time))
-                    break
-    return times
-
-def extract_keyframes(video_path, output_dir="keyframes/"):
-    """提取视频所有关键帧"""
-    times = get_keyframe_times(video_path)
-    
-    import os
-    os.makedirs(output_dir, exist_ok=True)
-    
-    for i, t in enumerate(times):
-        ts = f"{int(t//3600):02d}:{(int(t%3600)//60):02d}:{t%60:.3f}"
-        out = f"{output_dir}kf_{i:04d}_{ts.replace(':','-')}.jpg"
-        subprocess.run([
-            "ffmpeg", "-ss", ts, "-i", video_path,
-            "-vframes", "1", "-q:v", "2", out
-        ], check=True)
-    
-    return times
-
-extract_keyframes("/path/to/video.mp4")
-```
-
-### 方案C：OpenCV 智能关键帧提取
 ```python
 import cv2
 import numpy as np
 
-def extract_smart_keyframes(video_path, max_frames=20, threshold=30):
-    """基于帧间差异的智能关键帧提取"""
+def extract_keyframes(video_path, num_frames=10, threshold=30.0):
     cap = cv2.VideoCapture(video_path)
+    total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    fps = cap.get(cv2.CAP_PROP_FPS)
     
     prev_frame = None
     keyframes = []
-    frame_idx = 0
+    scores = []
     
+    frame_idx = 0
     while True:
         ret, frame = cap.read()
         if not ret:
@@ -108,81 +67,94 @@ def extract_smart_keyframes(video_path, max_frames=20, threshold=30):
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         
         if prev_frame is not None:
+            # 计算帧差分（场景切换检测）
             diff = cv2.absdiff(gray, prev_frame)
-            mean_diff = diff.mean()
-            
-            if mean_diff > threshold:
-                keyframes.append((frame_idx, frame.copy()))
+            score = np.mean(diff)
+            scores.append((frame_idx, score))
         
         prev_frame = gray
         frame_idx += 1
-        
-        # 限制最大帧数
-        if len(keyframes) >= max_frames:
-            break
     
     cap.release()
-    return keyframes
+    
+    # 选择变化最大的 N 个帧
+    scores.sort(key=lambda x: x[1], reverse=True)
+    keyframe_indices = [s[0] for s in scores[:num_frames]]
+    
+    return sorted(keyframe_indices)
 
-# 保存关键帧
-keyframes = extract_smart_keyframes("video.mp4", max_frames=15)
-for idx, frame in keyframes:
-    cv2.imwrite(f"keyframes/frame_{idx:04d}.jpg", frame)
+# 使用示例
+keyframes = extract_keyframes("tutorial.mp4", num_frames=8)
+print(f"关键帧位置：{keyframes}")
 ```
 
-### 方案D：keyframe-scout 智能提取
+### 流程三：镜头边界检测（shot-scene-detect）
+
 ```bash
-pip install keyframe-scout
+pip install scenedetect
 
-# 基本用法（为 VLM 优化）
-keyframe-scout /path/to/video.mp4 --output-dir ./frames --max-frames 10
+# 探测镜头边界
+scenedetect detect-content input.mp4 -o scenes/
 
-# 指定策略
-keyframe-scout /path/to/video.mp4 \
-  --strategy scene_change \
-  --output-dir ./frames
+# 提取每个镜头第一帧
+scenedetect detect-content input.mp4 -o frames/ \
+  --df 25 export-images
 
-# 配合时间戳输出
-keyframe-scout /path/to/video.mp4 \
-  --output-dir ./frames \
-  --json-metadata metadata.json
+# 与 AI 结合：分析每个镜头
+for frame in frames/*.jpg; do
+  images_understand([{"file": "$frame", "prompt": "描述这个画面的内容"}])
+done
 ```
+
+---
 
 ## 适用场景
 
-- ✅ 技术教程：需要截取代码演示画面
-- ✅ 架构图/流程图展示的章节识别
-- ✅ PPT 类演示视频的幻灯片提取
-- ✅ 视频摘要生成（选代表帧）
-- ✅ 多模态 LLM 分析前的预处理
-- ✅ 开源项目 demo 视频关键操作提取
+- ✅ 教程视频需要提取操作界面截图
+- ✅ 需要按场景/章节分割长视频
+- ✅ 制作视频缩略图/封面
+- ✅ 将视频内容可视化（PPT 素材）
+- ✅ 大规模视频内容预筛选（先抽帧再人工审核）
+- ✅ 声音嘈杂但视觉信息丰富的演示视频
+
+---
 
 ## 避坑指南
 
-- **坑1：关键帧太少（视频压缩太狠）**
-  - 解决：降低阈值 `threshold=15` 或改用固定间隔提取
-  - 监控 `ffprobe -show_frames` 输出中 key_frame=1 的数量
+### ⚠️ 坑1：抽帧速度极慢（从视频开头开始 seek）
+- **问题**：FFmpeg 默认从头开始解码，seek 到后期时间点很慢
+- **解决**：使用 `-ss before -i input`（将 -ss 放在 -i 前面，FFmpeg 会做关键帧二分查找）：
+  ```bash
+  # ❌ 慢：从头开始解码到 5 分钟
+  ffmpeg -i input.mp4 -ss 300 -frames:v 1 out.jpg
+  
+  # ✅ 快：关键帧快速定位
+  ffmpeg -ss 300 -i input.mp4 -frames:v 1 out.jpg
+  ```
 
-- **坑2：关键帧太多（原始视频是关键帧压缩）**
-  - 解决：改用场景切换检测：`select='eq(pict_type,PICT_TYPE_I)'`
-  - 或后处理过滤：相邻关键帧间隔 < 2秒 合并
+### ⚠️ 坑2：H.264/H.265 编码视频抽帧质量下降
+- **问题**：压缩编码导致抽帧出现色块/模糊
+- **解决**：使用 `-q:v 1` 输出高质量 JPEG/PNG：
+  ```bash
+  ffmpeg -ss 60 -i input.mp4 -q:v 1 -frames:v 1 output.png
+  ```
 
-- **坑3：提取速度慢**
-  - 解决：先seek再解码：`ffmpeg -ss 10 -i video.mp4 -vframes 1 out.jpg`
-  - 注意顺序：`-ss` 必须在 `-i` 之前（快速seek）
+### ⚠️ 坑3：批量抽帧存储爆炸
+- **问题**：1小时 1080P 视频按 1fps 抽帧 = 3600 张图 ~10GB
+- **解决**：
+  - 先降分辨率：`scale=640:360`
+  - 质量控制：`-q:v 3`（JPEG quality 2-31，越小越高）
+  - 只抽关键场景：用 shot-scene-detect 代替等间隔
 
-- **坑4：输出图片太大**
-  - 解决：指定分辨率压缩：`ffmpeg -i video.mp4 -vf "scale=1280:-1" -vframes 1 out.jpg`
-  - 或质量参数：`-q:v 2`（1=最高质量，31=最低）
+### ⚠️ 坑4：OpenCV 帧差法漏检缓慢过渡镜头
+- **问题**：渐变、淡入淡出等缓慢场景变化，帧差分值低，被漏掉
+- **解决**：降低阈值 + 结合直方图相似度检测
 
-- **坑5：特定格式无法解码**
-  - 解决：检查 ffprobe 支持：`ffprobe -formats`
-  - .webm 用 `libvpx`，.mov 用 `libx264`
+---
 
 ## 参考链接
 
-- FFmpeg 官方：https://ffmpeg.org
-- FFmpeg 关键帧提取 CSDN：https://blog.csdn.net/agito_cheung/article/details/145864851
-- keyframe-scout PyPI：https://pypi.org/project/keyframe-scout/
-- OpenCV 视频处理：https://docs.opencv.org/
-- VideoPipe 视频分析框架：https://github.com/xxxspirit/video_pipe
+- FFmpeg 官方文档：https://ffmpeg.org/documentation.html
+- OpenCV 视频分析：https://docs.opencv.org/4.x/d6/d00/tutorial_py_root.html
+- scenedetect（镜头检测）：https://www.scenedetect.com/
+- MediaInfo 工具：https://mediaarea.net/en/MediaInfo

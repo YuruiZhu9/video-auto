@@ -1,5 +1,28 @@
 ## 2026-04-10
 
+## 2026-04-11
+
+### 视频 / 图像
+- 新增：**HappyHorse**（阿里）— 多模态模型，1332 Elo刷新全球视频生成纪录，超越Wan2.7（1334），带动港股阿里早盘涨近3%
+
+### AI Agent / 机器人 / 硬件
+- 新增：**HY-Embodied-0.5**（腾讯）— 具身基础模型，22项评测中16项刷新行业纪录，专用场景具身智能SOTA
+
+### 音频 / 音乐
+- 新增：**MiniMax Music 2.6**（MiniMax）— 底层引擎全维度升级，新增"音乐续写"功能，AI音乐进入"翻唱"时代
+
+### 文本 / 对话大模型
+- 新增：**Muse Spark**（Meta）— Meta AI助手核心模型，发布后Meta AI应用排名从第57位跃升至App Store第5名
+
+### AI效率工具 / Agent生态
+- 新增：**Brila**（Product Hunt）— Product Hunt April 2026冠军（1,165票），企业级AI Agent平台，多Agent协作+工作流自动化
+- 新增：**Velo**（Product Hunt）— Product Hunt April 2026亚军（630票），AI协作工具，自然语言驱动团队工作流
+- 新增：**Alexa Plus**（亚马逊）— 亚马逊新版AI助手现已向所有用户开放早期访问注册，整合电商/家居/搜索能力
+
+### 代码开发
+- 新增：**Claude Code Monitor**（Anthropic）— Claude Code新后台进程监控工具，实时监听外部进程输出并流式传入对话界面
+
+
 ### 视频 / 图像
 - 更新：**Suno × 唱片巨头版权战深水区**（重大行业事件）
   - **Suno × 华纳**：已达成和解，华纳旗下艺人音乐与肖像授权给 Suno，版权诉讼撤销

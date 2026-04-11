@@ -9,6 +9,8 @@
 
 | 框架/产品 | 核心能力 | 适用场景 | 替代方案 | 更新时间 |
 |-----------|----------|----------|----------|----------|
+| **Brila**（Product Hunt）🆕 | Product Hunt April 2026 **冠军（1,165票）**，自然语言驱动的企业AI Agent平台，支持多Agent协作+工作流自动化，中小企业AI工具首选 | 企业AI Agent、工作流自动化、多Agent协作 | Velo、OpenClaw Multi-Agent、Zapier AI | 2026-04-11 |
+| **Velo**（Product Hunt）🆕 | Product Hunt April 2026 **亚军（630票）**，AI协作工具，支持自然语言驱动团队工作流，企业AI采购爆发代表产品 | 企业AI协作、团队工作流自动化、AI Agent | Brila、OpenClaw Multi-Agent | 2026-04-11 |
 | **QBotClaw**（腾讯）🆕 | 国内首个浏览器Agent，内置于QQ浏览器，浏览器→AI Agent，免费使用；可将网页浏览行为直接转化为AI可执行任务 | 浏览器AI自动化、网页信息提取、AI辅助浏览 | Gemini Browser Extension | 2026-04-09 |
 | 即梦AI Octo（即梦）🆕 | 协作型叙事工具，首创VibeCreate氛围创作模式，从指令式转向同屏共创，用户与AI实时协作打磨创意内容 | AI故事创作、内容共创、氛围感创作 | Runway Storyboard、Midjourney Story Mode | 2026-04-09 |
 | **Moxt Agent-Native工作空间**🆕 | 将AI从工具升级为"AI员工团队"，解决信息焦虑，支持多Agent任务分配与协作 | AI团队协作、企业工作流自动化、知识管理 | OpenClaw Multi-Agent、Zapier AI | 2026-04-09 |
@@ -70,7 +72,8 @@
 
 | 模型/工具 | 核心能力 | 适用场景 | 替代方案 | 更新时间 |
 |-----------|----------|----------|----------|----------|
-| **Wispr Flow** | Product Hunt历史级爆发冠军（1,567票），Mac语音输入工具，压倒性优势登顶，远超其他所有AI赛道；支持实时语音转文字+AI辅助修改，中文版蓝海 | Mac语音输入、AI辅助写作、移动办公 | Dragon、Siri | 2026-04-05 |
+| **Wispr Flow** |
+| **Alexa Plus**（亚马逊）🆕 | 亚马逊新版AI助手，**现已向所有用户开放早期访问注册**，超越传统语音助手定位，整合电商/家居/搜索能力，Prime会员优先体验 | 智能家居、AI助手、电商购物、语音交互 | ChatGPT、Gemini、Siri | 2026-04-11 | Product Hunt历史级爆发冠军（1,567票），Mac语音输入工具，压倒性优势登顶，远超其他所有AI赛道；支持实时语音转文字+AI辅助修改，中文版蓝海 | Mac语音输入、AI辅助写作、移动办公 | Dragon、Siri | 2026-04-05 |
 
 ## 🔍 内容理解 / 知识管理
 

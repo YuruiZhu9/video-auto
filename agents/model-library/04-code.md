@@ -12,6 +12,7 @@
 | 字节Trae（国内版）| 中国首个AI原生集成开发环境，直接对标Cursor/Claude Code，**免费！** 内置AI编程、代码补全、项目级理解，国内开发者即装即用 | 国内AI编程、中文开发者、中小企业技术团队 | Claude Code、Cursor、GitHub Copilot | 2026-04-04 |
 |-----------|----------|----------|----------|----------|
 | Ollama + Apple MLX（M5芯片）| M5芯片加持，Mac本地LLM推理速度翻倍，支持MacBook本地跑大模型，适合隐私敏感场景的本地AI编程 | 本地LLM推理、AI编程（隐私场景）、移动开发 | 云端API（OpenAI/Anthropic）、Ollama（GPU版） | 2026-04-01 |
+| **Claude Code Monitor**（Anthropic）🆕 | Claude Code全新后台进程监控工具，创建后台进程实时监听外部进程输出，以流式方式传入对话界面，实现对运行中任务的实时监控与干预 | AI编程调试、后台任务监控、CI/CD集成 | Claude Code原生、Cursor调试 | 2026-04-11 |
 | Claude Code Auto Mode（Anthropic）| Claude Code全新功能，可自主判断代码操作安全性——安全操作直接执行，风险操作自动拦截并询问用户，终结每一步手动确认的繁琐体验 | AI编程自动化、代码审查、CI/CD集成 | OpenAI Codex、Cursor Composer | 2026-03-26 |
 | Claude Code | Anthropic AI编程工具，AI编程赛道领先。⚠️ **安全事件（2026-04-01~02）**：npm包携带51万行TypeScript源码意外泄露，暴露代号"KAIROS"等44个隐藏功能；一周内二次事故（CMS配置错误导致3000份内部文件泄露）；GitHub已出现逆向分析项目，请注意使用安全。⚠️ **Anthropic封禁OpenClaw（2026-04-04）**：Anthropic正式停止向OpenClaw等第三方工具提供订阅额度，大量开发者面临断粮 | AI编程助手、代码补全、代码审查 | OpenAI Codex、Cursor | 2026-04-03 |
 | **codex-plugin-cc**（OpenAI）| Claude Code用户可直接在工具流中调用OpenAI Codex处理代码审查和任务委托，Apache 2.0开源；上线半天GitHub获3200+ Stars，精准接盘Claude断供用户 | AI编程协作、跨模型代码审查、Claude→Codex工作流切换 | — | 2026-04-06 |

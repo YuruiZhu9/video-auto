@@ -1,131 +1,186 @@
-# 技术教程类 - Whisper 语音转写解析方案
+# 技术教程类 - Whisper 语音转写解析
 
 ## 核心工具/API
 
-- **OpenAI Whisper CLI（本地）**
-  - 安装：`brew install openai-whisper`
-  - 模型：`tiny / base / small / medium / large / turbo`
-  - 特点：无需 API Key，离线可用，首次下载模型
+- **OpenAI Whisper**：业界领先的语音识别模型
+  - `whisper-large-v3` / `whisper-large-v3-turbo`：最高准确率
+  - `whisper-medium` / `whisper-small`：速度优先
+  - 支持 100+ 语言，中英文识别优秀
+  - 本地运行（Python）或 API 调用
+- **GPT-4o-transcribe**（2025 新）：
+  - OpenAI 新一代语音转文本 API
+  - 相比 Whisper 在专业术语、口音适应性上更强
+  - 支持 prompt 注入（提供上下文提升准确率）
+- **summarize Skill**：整合了 Whisper + LLM 的端到端方案
+  - 一行命令完成：音频提取 → 语音转写 → 内容总结
+- **yt-dlp**：从 YouTube/视频网站提取音频/视频
+  - `yt-dlp --extract-audio --audio-format mp3 URL`
 
-- **OpenAI Whisper API（云端）**
-  - 端点：`POST https://api.openai.com/v1/audio/transcriptions`
-  - 模型：`whisper-1`
-  - 特点：速度快，质量稳定，按分钟计费
-
-- **WhisperX（增强版）**
-  - GitHub：https://github.com/m-bain/whisperX
-  - 特点：词级时间戳 + 说话人分离 + 自动标点
-  - 适合：技术教程需要精确时间对应
+---
 
 ## 步骤流程
 
-### 方案A：Whisper CLI 本地转写
+### 方案一：summarize Skill（最简路径）
+
 ```bash
-# 基础转写（输出 txt）
-whisper /path/to/video.mp4 --model medium --output_format txt --output_dir .
+# YouTube 视频 → 字幕提取 → 摘要
+summarize "https://youtu.be/dQw4w9WgXcQ" --youtube auto --length long
 
-# 带时间轴字幕（SRT）
-whisper /path/to/video.mp4 --model medium --output_format srt --output_dir .
-
-# 翻译为英文
-whisper /path/to/audio.m4a --task translate --output_format txt
-
-# 指定语言（加速）
-whisper /path/to/video.mp4 --language zh --model small
+# 仅提取字幕文本（长视频分段处理）
+summarize "https://youtu.be/xxxx" --youtube auto --extract-only > transcript.txt
 ```
 
-### 方案B：Whisper API 转写（curl）
-```bash
-# 基础调用
-curl -X POST https://api.openai.com/v1/audio/transcriptions \
-  -H "Authorization: Bearer $OPENAI_API_KEY" \
-  -F "file=@/path/to/audio.m4a" \
-  -F "model=whisper-1"
+### 方案二：Whisper Python 本地转写
 
-# 带语言和提示
-curl -X POST https://api.openai.com/v1/audio/transcriptions \
-  -H "Authorization: Bearer $OPENAI_API_KEY" \
-  -F "file=@/path/to/audio.m4a" \
-  -F "model=whisper-1" \
-  -F "language=zh" \
-  -F "prompt=这是一个Python技术教程视频"
-```
-
-### 方案C：WhisperX 精确时间戳转写
 ```python
-import whisperx
-
-# 1. 转写
-model = whisperx.load_model("medium", device="cuda")
-audio = whisperx.load_audio("video.mp4")
-result = model.transcribe(audio)
-
-# 2. 对齐（词级时间戳）
-model_a, metadata = whisperx.load_align_model(language_code="zh")
-result = whisperx.align(result["segments"], model_a, metadata, audio, device="cuda")
-
-# 3. 说话人分离（Diarization）
-diarize_model = whisperx.DiarizationPipeline(use_auth_token="HF_TOKEN")
-diarize_segments = diarize_model(audio)
-result = whisperx.assign_word_speakers(diarize_segments, result)
-```
-
-### 方案D：完整 Pipeline（视频→转写→结构化）
-```python
-import subprocess
 import whisper
+import yt_dlp
 
-# Step 1: 提取音频
-subprocess.run([
-    "ffmpeg", "-i", "video.mp4", "-vn",
-    "-acodec", "libmp3lame", "-q:a", "2",
-    "audio.mp3"
-])
+# Step 1: 下载音频（YouTube 示例）
+def download_audio(youtube_url, output_path="audio.mp3"):
+    ydl_opts = {
+        'format': 'bestaudio/best',
+        'outtmpl': output_path,
+        'postprocessors': [{
+            'key': 'FFmpegExtractAudio',
+            'preferredcodec': 'mp3',
+            'preferredquality': '192',
+        }],
+    }
+    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        ydl.download([youtube_url])
+    return output_path
 
 # Step 2: Whisper 转写
-model = whisper.load_model("medium")
-result = model.transcribe("audio.mp3")
+model = whisper.load_model("large-v3")
+result = model.transcribe(
+    "audio.mp3",
+    language="zh",        # 指定语言（中英文混排建议留空自动检测）
+    initial_prompt="这是一段技术教程视频，包含Python编程和AI相关内容。",
+    # prompt 注入：提升专业术语识别率
+    word_timestamps=True,  # 输出每个词的置信度和时间戳
+)
 
-# Step 3: 输出结构化 JSON
-import json
-with open("transcript.json", "w") as f:
-    json.dump(result, f, ensure_ascii=False, indent=2)
+# Step 3: 输出结果
+print(f"语言：{result['language']}")
+print(f"总时长：{result['duration']:.1f}秒")
+for seg in result['segments']:
+    print(f"[{seg['start']:.1f}s - {seg['end']:.1f}s] {seg['text']}")
 ```
+
+### 方案三：GPT-4o-transcribe（高精度场景）
+
+```python
+import openai
+import base64
+
+# 音频文件读取
+with open("audio.mp3", "rb") as f:
+    audio_data = base64.b64encode(f.read()).decode()
+
+client = openai.OpenAI(api_key="your-api-key")
+
+response = client.audio.transcriptions.create(
+    model="gpt-4o-transcribe",
+    file=open("audio.mp3", "rb"),
+    prompt="技术教程内容，包含机器学习、Python编程和神经网络等专业术语。"
+)
+
+print(response.text)
+```
+
+### 方案四：Whisper + GPT-4 结构化总结 Pipeline
+
+```
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│  音频提取     │ →  │  Whisper     │ →  │  GPT-4       │ →  │  结构化输出  │
+│  (yt-dlp)    │    │  转写为文字  │    │  智能总结    │    │  JSON/Markdown│
+└──────────────┘    └──────────────┘    └──────────────┘    └──────────────┘
+```
+
+```python
+# 完整 Pipeline
+def parse_video_to_structured(url, topic_hint=""):
+    # 1. 提取音频
+    audio_path = download_audio(url)
+    
+    # 2. Whisper 转写
+    model = whisper.load_model("medium")
+    result = model.transcribe(audio_path, word_timestamps=True)
+    
+    # 3. GPT-4 总结
+    prompt = f"""你是一个专业的技术教程分析助手。请分析以下视频转写文本：
+    
+    主题提示：{topic_hint}
+    
+    转写内容：
+    {result['text']}
+    
+    请提取并返回 JSON 格式：
+    {{
+        "title": "视频标题/主题",
+        "duration": "视频时长（分：秒）",
+        "key_points": ["核心知识点1", "核心知识点2"],
+        "steps": [{{"step": 1, "time": "时间点", "action": "操作描述"}}],
+        "code_snippets": ["代码片段列表"],
+        "summary": "100字以内的摘要"
+    }}"""
+    
+    response = openai.ChatCompletion.create(
+        model="gpt-4o",
+        messages=[{"role": "user", "content": prompt}]
+    )
+    
+    return json.loads(response.choices[0].message.content)
+```
+
+---
 
 ## 适用场景
 
-- ✅ 本地视频无字幕（无法联网获取字幕时）
-- ✅ 会议录音/播客内容提取
-- ✅ 现场演示视频（YouTube 无官方字幕）
-- ✅ 多语言视频翻译转写
-- ✅ 需要词级时间戳的技术教程拆解
-- ✅ 说话人识别区分的技术分享
+- ✅ 技术教程视频（编程教学、工具使用演示）
+- ✅ 会议/访谈/演讲录音整理
+- ✅ 播客（Podcast）内容提取
+- ✅ 无字幕视频的语音内容获取
+- ✅ 需要精确时间戳的视频内容定位
+- ✅ 多语言视频的翻译制作
+
+---
 
 ## 避坑指南
 
-- **坑1：模型太大，内存不足**
-  - 解决：本地用 `tiny` / `base` 快速测试，确认后再用 `medium`
-  - WhisperX 可在 CPU 上运行（慢但省显存）
+### ⚠️ 坑1：Whisper 中文识别"口音幻觉"
+- **问题**：说话带口音时，Whisper 可能产生错误汉字（谐音替代）
+- **解决**：
+  - prompt 注入专业术语：`initial_prompt="涉及 Python、TensorFlow、神经网络等专业词汇"`
+  - 事后用 `word_timestamps` 定位，人工校验关键段落
 
-- **坑2：中文识别质量差**
-  - 解决：显式指定 `--language zh`，避免模型误判语言
-  - 对于专有名词，用 `--prompt` 参数提供上下文
+### ⚠️ 坑2：YouTube 音频提取失败（版权/地区限制）
+- **问题**：`yt-dlp` 遇到某些视频无法下载音频流
+- **解决**：
+  - 尝试 `yt-dlp -f "bestaudio[ext=m4a]" URL`
+  - 使用 `summarize --youtube auto`（自动切换 Apify fallback）
+  - 备用：本地视频直接处理
 
-- **坑3：长音频超时**
-  - 解决：Whisper CLI 默认处理长音频；API 有 25MB 限制
-  - 长视频先切分：`ffmpeg -i video.mp4 -ss 0 -t 600 audio_part1.mp3`
+### ⚠️ 坑3：长音频内存溢出
+- **问题**：1小时以上音频，`whisper.load_model()` 显存不足
+- **解决**：
+  - 使用 `whisper.small` 或 `whisper.tiny`（牺牲精度换速度/内存）
+  - 分段处理：先切分音频再逐段转写
+  - GPU 推理：`whisper.load_model("large-v3", device="cuda")`
 
-- **坑4：背景音乐干扰**
-  - 解决：提取音频时先降噪：`ffmpeg -i video.mp4 -af "highpass=f=200,lowpass=f=3000" audio.wav`
-  - 或用 demucs 分离人声：`demucs --name htdemucs_mmi audio.mp3`
+### ⚠️ 坑4：多人对话视频说话人分离
+- **问题**：Whisper 只输出纯文本，无法区分说话人
+- **解决**：使用 Diarization（说话人分离）工具：
+  - `pyannote.audio`（开源，开源版需申请使用）
+  - AssemblyAI / Rev AI 等商业 API 带说话人分离
 
-- **坑5：Whisper API 费用高**
-  - 解决：本地运行 Whisper CLI 完全免费
-  - OpenAI API 按分钟计费，合理规划调用
+---
 
 ## 参考链接
 
-- Whisper 官方：https://github.com/openai/whisper
-- WhisperX：https://github.com/m-bain/whisperX
-- Whisper C++ 高性能版：https://github.com/Const-me/Whisper
-- OpenAI Transcriptions API：https://platform.openai.com/docs/guides/speech-to-text
+- Whisper GitHub：https://github.com/openai/whisper
+- yt-dlp GitHub：https://github.com/yt-dlp/yt-dlp
+- GPT-4o-transcribe 文档：https://developers.openai.com/api/docs/guides/speech-to-text
+- pyannote.audio（说话人分离）：https://github.com/pyannote/pyannote-audio
+- Whisper 中文评测报告：https://cloud.tencent.com/developer/article/2554380

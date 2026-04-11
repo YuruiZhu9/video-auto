@@ -1,5 +1,61 @@
 # 迭代日志 (Changelog)
 
+## v2.10.0 — 2026-04-11（定时任务 UI + 模板管理 + Schedule API 完整 CRUD）🆕 本次完成
+
+> 主题：**Web Admin v3 补全定时任务和模板管理 UI，FastAPI Schedule CRUD 接口全对齐**
+
+---
+
+### 核心升级
+
+**1. Schedule API 全 CRUD（`fastapi_main.py`）：**
+
+| 方法 | 端点 | 说明 |
+|------|------|------|
+| GET | `/api/v1/schedules` | 列出所有定时任务（增强：返回完整 job 信息） |
+| POST | `/api/v1/schedules` | 创建定时任务（新增） |
+| DELETE | `/api/v1/schedules/{id}` | 删除定时任务（新增） |
+| PATCH | `/api/v1/schedules/{id}/toggle` | 切换启用/暂停状态（新增） |
+| POST | `/api/v1/schedules/{id}/trigger` | 立即触发（原有，已修复用 `trigger_now`） |
+
+- 修复：`list_schedules` 不再访问不存在的 `.jobs` 属性，改用 `scheduler.list_jobs()`
+- 修复：`trigger_schedule` 改用 `scheduler.get_job()` + `scheduler.trigger_now()`
+
+**2. Templates API 修复：**
+- `GET /api/v1/templates` — 修复不存在的 `list_templates()` 方法，改为 `template_loader.list()`
+- `GET /api/v1/templates/{id}` — 新增，用 `template_loader.get(id)` 获取单条模板
+
+**3. Web Admin v3 新增两个 Tab：**
+
+#### ⏰ 定时任务 Tab（新增）
+- 定时任务列表：显示名称、cron 表达式、下次/上次运行时间、累计次数
+- 状态指示：✅ 已启用 / ⏸ 已暂停
+- 一键操作：▶ 立即执行 / ⏸/▶ 暂停或启用 / ✕ 删除
+- 新建表单：选择模板 + cron 表达式 + 通知渠道 + 完成后通知开关
+- Cron 预设快捷按钮：每天 9:00 / 每天 18:00 / 工作日 9:00 / 每周一 9:00 / 每 6 小时 / 每 30 分钟
+- Cron 表达式参考说明面板
+
+#### 📋 模板管理 Tab（新增）
+- 模板卡片网格：点击查看详情
+- 详情面板：显示模板名称、描述、action 类型标签、通知配置、完整 params JSON
+- 快捷执行：直接在详情面板点击"🚀 立即执行此模板"（NL 接口）
+- 内置模板提示：quick-report / tech-analyst / market-insight / full-scan
+
+**4. 顶部导航 + 底部 Bar 同步升级：**
+- 6 个 Tab：⚡任务 / 📊监控 / 🔀流程 / ⏰定时 / 📋模板 / 🔌插件
+
+---
+
+### Phase 2 进度总览
+
+| 功能 | 状态 | 备注 |
+|------|------|------|
+| 任务模板系统 | ✅ | `core/template_loader.py` + 📋模板Tab |
+| 定时任务调度 | ✅ | `core/scheduler.py` + ⏰定时Tab + CRUD API |
+| Web Admin 界面 | ✅ | React SPA v3，6 Tab 全覆盖 |
+
+---
+
 ## v2.9.0 — 2026-04-10（FastAPI 原生层 + Plugin 系统 + Web Admin v3）🆕 本次完成
 
 > 主题：**FastAPI 完整异步化 + 插件生态 + React SPA 控制台 — 打造可持续演进的开放平台**
