@@ -1042,3 +1042,50 @@ openclaw doctor --security
 
 ---
 *更新于 2026-04-10*
+
+
+
+## 2026-04-11 配置周刊要点（本期头条：v2026.4.8修复严重Bug，系统落后6个版本！）
+
+### 系统 v2026.3.3 严重落后！
+- npm 最新稳定：v2026.4.8（2026-04-08）
+- npm 最新测试：v2026.4.9（2026-04-09）
+- 落后 6 个大版本，立即：npm install -g openclaw@latest
+
+### v2026.4.7 新功能（04-08）
+- openclaw infer CLI：一体化推理入口（推理/图像/视频/音乐/搜索/Embedding）
+- Memory Wiki 完整回归（claim/evidence/矛盾聚类/新鲜度加权）
+- Webhook 入口插件（外部自动化接入）
+- Session 分支恢复（持久化压缩检查点）
+- 新增 Provider：Arcee AI / Google Gemma 4 / Amazon Bedrock Mantle / Ollama Vision
+- 媒体生成 V2V（视频到视频）支持
+
+### v2026.4.8 强烈推荐升级！（04-08）
+- 修复：Telegram/Slack/Matrix 启动时 dist/extensions/*/src/* 文件无法加载（严重！）
+- Host exec/env 消毒（阻止危险环境变量覆盖）
+- SSRF 重定向保护（307/308 丢弃请求体）
+- Gateway Token 变更后旧会话自动失效
+
+### v2026.4.9（04-09）
+- Memory/Dreaming 增强、结构化日记视图、字符氛围评估、iOS 版本控制改进
+
+### CVE-2026-33579（CVSS 9.9，Critical！）
+- /pair approve 权限提升，影响 < v2026.3.28
+- 修复：升级到最新版即可
+
+### Anthropic 封禁后续
+- 补偿截止日期：2026年4月17日（剩余约6天）
+- 建议切换 MiniMax / DeepSeek / GLM
+
+### 升级避坑（来自社区实战）
+- 双版本共存：which openclaw + hash -r && rehash
+- 配置文件覆盖：升级前 cp ~/.openclaw/openclaw.json ~/.openclaw/openclaw.json.bak-$(date +%Y%m%d)
+- 路由绑定失效：绑定配置直接写入 JSON 文件
+- 插件重复注册：检查 plugins.allow 配置
+
+### 本周必做
+- npm install -g openclaw@latest && openclaw gateway restart
+- chmod 700 /root/.openclaw /root/.openclaw/agents /root/.openclaw/sessions
+
+---
+*更新于 2026-04-11*
