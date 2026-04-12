@@ -1045,6 +1045,35 @@ openclaw doctor --security
 
 
 
+## 2026-04-12 配置周刊要点（本期头条：落后8个版本！v2026.4.11已发布）
+
+### 系统 v2026.3.3 严重落后！
+- npm 最新稳定：v2026.4.11（2026-04-12）
+- npm 最新测试：v2026.4.12-beta
+- 落后 8 个大版本！openclaw update 跳过（not-git-install）
+- 必须：npm install -g openclaw@latest && openclaw doctor --fix && openclaw gateway restart
+
+### v2026.4.9（04-09）重点
+- 梦境/记忆系统增强：落地式REM回填、结构化日记视图
+- 5项安全修复：浏览器校验重执行、环境变量隔离、节点命令净化
+- 多平台适配：Android/Matrix/Slack/QQBot
+
+### v2026.4.8（04-08）强烈推荐升级
+- 修复 Telegram/Slack/Matrix 启动严重Bug（dist/extensions/*/src/* 无法加载）
+- Host exec/env消毒、SSRF重定向保护
+
+### v2026.4.7（04-08）
+- openclaw infer CLI 一体化推理入口
+- Memory Wiki 完整回归、Webhook入口插件、Session分支恢复
+
+### 安全：目录权限 777 问题再次出现
+- chmod 700 /root/.openclaw /root/.openclaw/agents /root/.openclaw/sessions
+- 这是 04-08/04-09 以来第三次发现
+
+### Anthropic 补偿截止：2026年4月17日（剩余5天）
+
+---
+
 ## 2026-04-11 配置周刊要点（本期头条：v2026.4.8修复严重Bug，系统落后6个版本！）
 
 ### 系统 v2026.3.3 严重落后！
