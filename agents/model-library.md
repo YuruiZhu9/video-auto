@@ -58,6 +58,7 @@ AIGC:
 
 ## 🕐 最近更新
 
+- **2026-04-12**：`扣子2.5`（字节）/ `DeepTutor`（港大）/ `Hermes Agent`（NousResearch）/ `Rowboat` / `Archon` / `Kronos` / `Multica` / `MarkItDown`（微软）
 - **2026-04-01**：`Veo 3.1 Lite`（谷歌）/ `LongCat-AudioDiT`（美团）/ `Zonos`（Zyphra）/ `Irodori-TTS v2` / `Silma TTS`
 - **2026-03-31**：`爱奇艺纳逗 Pro` / `SkyReels V4` / `Claude Mythos` / `通通 3.0`
 - **2026-03-30**：`飞书企业级Agent` / `钉钉AI硬件` / `MiniMax M2.7`

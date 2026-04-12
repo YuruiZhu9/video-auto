@@ -292,3 +292,46 @@ def generate_dialogue(text, output_path, prefix_audio=None):
 ---
 
 *本报告由免费语音克隆方案Agent生成，基于2026年3月最新信息。*
+
+---
+
+## 🆕 Dia2-2B 专项（2026-04-12 新增）
+
+| 指标 | 数据 |
+|------|------|
+| 模型名 | `nari-labs/Dia2-2B` |
+| 参数量 | **2B**（另有 1B 变体 `Dia2-1B`）|
+| GitHub Stars | **1.1k**（独立仓库 `nari-labs/dia2`）|
+| 许可证 | **Apache 2.0**（可商用）|
+| 音频编码器 | Kyutai Mimi codec（约 12.5 Hz 帧率）|
+| CUDA 要求 | 12.8+ |
+| 最大生成时长 | 2分钟（英语）|
+| 核心功能 | 流式对话 TTS + 音频条件生成 |
+
+### 与 Dia-1.6B 对比
+
+| 对比项 | Dia-1.6B | Dia2-2B |
+|--------|---------|---------|
+| 参数量 | 1.6B | **2B** |
+| 流式支持 | 基础 | ✅ 完整流式 |
+| 音频条件生成 | - | ✅（--prefix-speaker）|
+| CUDA Graph | - | ✅ |
+| 最长生成 | 未明确 | **2分钟** |
+| GitHub Stars | 6.5k+ | 1.1k（独立仓库）|
+
+### 使用方式
+```bash
+# 基础生成
+dia2 generate "Hello, this is a test." --output output.wav
+
+# 音频条件生成（对话系统）
+dia2 generate "What do you think?" \
+  --prefix-speaker-1 ref1.wav \
+  --prefix-speaker-2 ref2.wav \
+  --output output.wav
+```
+
+### 适用场景
+- 实时语音助手（流式输出，前几个词即可开始）
+- 情感对话系统（[S1]/[S2] 双人对话标签）
+- AI 陪伴/心理咨询类应用

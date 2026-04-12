@@ -37,6 +37,7 @@
 | PrismAudio（阿里通义实验室）| 解决AI视频音画不同步问题，被ICLR 2026收录，首创视频-音频跨模态同步技术 | 影视配音、AI视频后处理、音画同步修复 | 传统音画手动对齐 | 2026-03-25 |
 | Fun-CineForge（阿里通义）| 全球首个开源影视配音大模型，支持影视级、多场景配音的多模态大模型 | 影视配音、多场景AI配音 | - | 2026-03-17 |
 | Grok语音API（xAI）| xAI上线Grok语音API，支持"开口说话" | 语音交互、AI助手 | GPT-4o Voice、ElevenLabs | 2026-03-17 |
+| **VoxCPM2**（OpenBMB）🆕 | 全球首个**无需分词器**的多语言语音生成与克隆模型，GitHub Trending上榜；无需传统tokenizer，支持多语言语音合成与声音克隆 | 多语言TTS、语音克隆、无词典语音生成 | ElevenLabs、Fish Audio、MAI-Voice-1 | 2026-04-12 |
 | ElevenLabs | 语音合成 | 配音、语音克隆 | GPT-4o Voice | - |
 | Whisper | 开源语音识别 | 语音转文本、字幕生成 | - | - |
 

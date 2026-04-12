@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-clawctl FastAPI Server — OpenClaw 跨设备控制框架 v2.9.0
+clawctl FastAPI Server — OpenClaw 跨设备控制框架 v2.11.0
 基于 FastAPI + Starlette，完全异步，WebSocket 原生支持
 
 启动方式：
@@ -668,6 +668,97 @@ async def alert_rules():
         {"id": r.id, "name": r.name, "metric": r.metric, "threshold": r.threshold}
         for r in state.monitoring.alert_rules
     ]
+
+
+# ── 工作流市场（Workflow Market）──────────────────────────────────────────────
+
+from handlers.dag_market import init_workflow_market, get_workflow_market
+
+@app.on_event("startup")
+async def init_dag_market():
+    """启动时初始化工作流市场"""
+    from core.task_dag_engine import DAGEngine
+    from handlers.notify import get_notifier
+    notifier = get_notifier() if hasattr(get_notifier, '__call__') else None
+    dag_engine = DAGEngine(task_manager=state.task_manager, notifier=notifier)
+    init_workflow_market(dag_engine)
+    logger.info(f"[FastAPI] 工作流市场已初始化，内置 {len(get_workflow_market()._workflows)} 个工作流")
+
+
+@app.get("/api/v1/workflows", response_model=list)
+async def list_workflows():
+    """列出所有工作流（含 Mermaid 图）"""
+    market = get_workflow_market()
+    return market.list_workflows()
+
+
+@app.get("/api/v1/workflows/{workflow_id}", response_model=dict)
+async def get_workflow(workflow_id: str):
+    """获取工作流详情"""
+    market = get_workflow_market()
+    wf = market.get_workflow(workflow_id)
+    if not wf:
+        raise HTTPException(404, f"工作流 '{workflow_id}' 不存在")
+    return wf
+
+
+@app.post("/api/v1/workflows/{workflow_id}/execute", response_model=dict)
+async def execute_workflow(
+    workflow_id: str,
+    channel: str = Query("dingtalk"),
+    params: Optional[dict] = None,
+):
+    """执行工作流"""
+    market = get_workflow_market()
+    try:
+        result = await market.execute_workflow(
+            workflow_id,
+            params=params or {},
+            notify_channel=channel,
+        )
+        return {"success": True, **result}
+    except ValueError as e:
+        raise HTTPException(404, str(e))
+
+
+@app.get("/api/v1/workflows/{workflow_id}/runs", response_model=list)
+async def workflow_runs(workflow_id: str, limit: int = Query(20, ge=1, le=100)):
+    """获取工作流历史执行记录"""
+    market = get_workflow_market()
+    return market.get_runs(workflow_id, limit=limit)
+
+
+@app.get("/api/v1/workflows/{workflow_id}/visualize", response_model=dict)
+async def visualize_workflow(
+    workflow_id: str,
+    format: str = Query("mermaid", regex="^(mermaid|ascii|json)$"),
+):
+    """获取工作流可视化描述"""
+    market = get_workflow_market()
+    content = market.visualize_workflow(workflow_id, format=format)
+    if content is None:
+        raise HTTPException(404, f"工作流 '{workflow_id}' 不存在")
+    return {"workflow_id": workflow_id, "format": format, "content": content}
+
+
+@app.post("/api/v1/workflows", response_model=dict)
+async def register_workflow(body: dict):
+    """注册用户自定义工作流"""
+    market = get_workflow_market()
+    try:
+        return market.register_workflow(body)
+    except ValueError as e:
+        raise HTTPException(400, str(e))
+
+
+@app.delete("/api/v1/workflows/{workflow_id}")
+async def delete_workflow(workflow_id: str):
+    """删除用户自定义工作流（内置不可删）"""
+    market = get_workflow_market()
+    ok = market.delete_workflow(workflow_id)
+    if not ok:
+        raise HTTPException(404, "工作流不存在或为内置工作流，无法删除")
+    return {"success": True, "workflow_id": workflow_id}
 
 
 # ── 快捷触发（兼容旧版）────────────────────────────────────────────────────────

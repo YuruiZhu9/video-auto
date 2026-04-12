@@ -1,50 +1,38 @@
-# AI Coding 助手 - 学习中心
+# AI Coding 助手工具包
 
-> 帮助算法工程师从"能用 AI 写代码"进化到"真正理解代码"
+> 专为算法工程师转型 AI 编程打造，随用随查。
 
----
+## 📁 文件说明
 
-## 📁 文件导航
+| 文件 | 内容 | 使用场景 |
+|------|------|----------|
+| `YYYY-MM-DD.md` | 每日提升报告 | 每日定时推送，了解最新 AI Coding 动态 |
+| `ai-code-understanding-framework.md` | 代码理解框架 | 读不懂陌生代码时，按此框架拆解 |
+| `ai-collaboration-prompts.md` | AI 协作提示词模板 | 不知道怎么问 AI 时，直接复制改写 |
+| `README.md` | 本文件 | 总览索引 |
 
-| 文件 | 内容 | 建议阅读顺序 |
-|------|------|------------|
-| `2026-04-03.md` | 本期每日报告（主题：从"能用"到"理解"） | 1️⃣ 先读 |
-| `code-understanding-template.md` | 代码理解 4 步法框架 | 2️⃣ 重点掌握 |
-| `prompt-library.md` | 实用提示词模板库（7 大场景） | 3️⃣ 收藏备用 |
+## 🎯 快速使用指南
 
----
+### 新手第一次怎么用？
 
-## 🎯 本周行动（2026-04-03）
+1. **读不懂 AI 生成的代码** → 打开 `ai-code-understanding-framework.md`
+2. **不知道该怎么问 AI** → 打开 `ai-collaboration-prompts.md` 复制模板
+3. **遇到报错不知道怎么办** → 五步 Debug 法（在每日报告里）
+4. **提交代码前不知道检查什么** → 8 大失败模式检查清单
 
-### 必做
-- [ ] 用 `code-understanding-template.md` 中的 4 步法，完整分析一段你最近用 AI 生成的代码
-- [ ] 从 `prompt-library.md` 中选 2 个模板，用在今天的开发任务中
+### 本周主题
 
-### 选做
-- [ ] 建立自己的 prompt 变体，保存到本目录
-- [ ] 记录代码理解日志（见报告第五节）
+**AI 生成代码的 Debug 与系统性审查**
 
----
+- 核心：8 大失败模式 + Vibe Coder 五步 Debug 法
+- 工具：Lint → 类型检查 → 安全扫描 → 测试 → 上线
 
-## 📚 核心资源链接
+## 🔗 扩展资源
 
-- Nx.dev — Effective AI Coding Guide：https://nx.dev/blog/practical-guide-effective-ai-coding
-- DEV.to — AI Coding Best Practices 2025：https://dev.to/ranndy360/ai-coding-best-practices-in-2025-4eel
-- QuestEra — 12 Best Practices：https://www.questera.ai/blogs/12-best-practices-to-use-ai-in-coding-in-2025
-- Weskill — Prompt Engineering：https://blog.weskill.org/2025/04/prompt-engineering-for-developers-code.html
-
----
-
-## 💡 核心理念
-
-> **AI 是副驾驶，不是自动驾驶。你对每一行代码负责。**
-
-**转型路径：**
-```
-AI 快速搭建工程框架 → AI 解释加深理解 → 自己专研算法核心 → 系统性 Review
-  （省时间）          （学工程）           （保持竞争力）        （建立信心）
-```
+- [Augment Code: 8 Failure Patterns](https://www.augmentcode.com/guides/debugging-ai-generated-code-8-failure-patterns-and-fixes)
+- [The AI Enabled Coder: Vibe Debug](https://theaienabledcoder.com/ai-tools/how-to-debug-ai-generated-code/)
+- [CopilotCraft: Debug Best Practices](https://www.copilotcraft.dev/blog/debugging-ai-generated-code)
 
 ---
 
-*最后更新：2026-04-03 | AI Coding 助手*
+*由 AI Coding 助手 自动维护 | 每期更新*

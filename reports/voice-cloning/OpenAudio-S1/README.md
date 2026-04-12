@@ -1,6 +1,23 @@
 # OpenAudio S1 / S1-mini — Fish Speech 全新一代旗舰 TTS
 
-> 🤖 免费语音克隆方案Agent | 2026-03-27 新增
+> 🤖 免费语音克隆方案Agent | 2026-03-27 新增 | 2026-04-12 品牌升级确认
+
+---
+
+## ⚠️ 品牌升级确认（2026-04-12 更新）
+
+Fish Speech 已正式更名为 **OpenAudio**，项目架构全面升级：
+
+| 指标 | 数据 |
+|------|------|
+| 新品牌名 | OpenAudio（原 Fish Speech）|
+| GitHub 仓库 | `fishaudio/fish-speech`（仓库名暂未更改）|
+| 最新版本 | **V1.5.1**（2025-05-31）|
+| 最新提交 | 2025-11-06（修复模型权重加载日志）|
+| GitHub Stars | **24.4k** |
+| 重大更新 | OpenAudio-S1 新增 **Finetune 支持**（2025-10-19，PR #1115）|
+| Docker | 全面重构，支持 **CUDA 12.6.0**（2025-09）|
+| 许可证 | 代码 Apache 2.0；模型 CC-BY-NC-SA（免费非商用）|
 
 ---
 

@@ -1,282 +1,647 @@
 # Source URL: https://github.com/nari-labs/dia2
-# Content Length: 17450 characters
-# Extracted at: 2026-03-26 19:43:46
+# Content Length: 15541 characters
+# Extracted at: 2026-04-12 03:59:50
 #============================================================
 
+
+
+
+
+
+
+
+
+
+
+
+
 GitHub - nari-labs/dia2: TTS model capable of streaming conversational audio in realtime. · GitHub
+
+
+
+
+
+
+
+
+
+
+
+
 [Skip to content](#start-of-content)
-## Navigation Menu
+
+
+
+
+
+Navigation Menu
+---------------
+
 Toggle navigation
-[Sign in](/login?return\_to=https%3A%2F%2Fgithub.com%2Fnari-labs%2Fdia2)
+
+ 
+
+
+
+
+
+
+[Sign in](/login?return_to=https%3A%2F%2Fgithub.com%2Fnari-labs%2Fdia2)
+ 
+
+
 Appearance settings
-\* Platform
-+ AI CODE CREATION
-- [GitHub CopilotWrite better code with AI](https://github.com/features/copilot)
-- [GitHub SparkBuild and deploy intelligent apps](https://github.com/features/spark)
-- [GitHub ModelsManage and compare prompts](https://github.com/features/models)
-- [MCP RegistryNewIntegrate external tools](https://github.com/mcp)
-+ DEVELOPER WORKFLOWS
-- [ActionsAutomate any workflow](https://github.com/features/actions)
-- [CodespacesInstant dev environments](https://github.com/features/codespaces)
-- [IssuesPlan and track work](https://github.com/features/issues)
-- [Code ReviewManage code changes](https://github.com/features/code-review)
-+ APPLICATION SECURITY
-- [GitHub Advanced SecurityFind and fix vulnerabilities](https://github.com/security/advanced-security)
-- [Code securitySecure your code as you build](https://github.com/security/advanced-security/code-security)
-- [Secret protectionStop leaks before they start](https://github.com/security/advanced-security/secret-protection)
-+ EXPLORE
-- [Why GitHub](https://github.com/why-github)
-- [Documentation](https://docs.github.com)
-- [Blog](https://github.blog)
-- [Changelog](https://github.blog/changelog)
-- [Marketplace](https://github.com/marketplace)
-[View all features](https://github.com/features)
-\* Solutions
-+ BY COMPANY SIZE
-- [Enterprises](https://github.com/enterprise)
-- [Small and medium teams](https://github.com/team)
-- [Startups](https://github.com/enterprise/startups)
-- [Nonprofits](https://github.com/solutions/industry/nonprofits)
-+ BY USE CASE
-- [App Modernization](https://github.com/solutions/use-case/app-modernization)
-- [DevSecOps](https://github.com/solutions/use-case/devsecops)
-- [DevOps](https://github.com/solutions/use-case/devops)
-- [CI/CD](https://github.com/solutions/use-case/ci-cd)
-- [View all use cases](https://github.com/solutions/use-case)
-+ BY INDUSTRY
-- [Healthcare](https://github.com/solutions/industry/healthcare)
-- [Financial services](https://github.com/solutions/industry/financial-services)
-- [Manufacturing](https://github.com/solutions/industry/manufacturing)
-- [Government](https://github.com/solutions/industry/government)
-- [View all industries](https://github.com/solutions/industry)
-[View all solutions](https://github.com/solutions)
-\* Resources
-+ EXPLORE BY TOPIC
-- [AI](https://github.com/resources/articles?topic=ai)
-- [Software Development](https://github.com/resources/articles?topic=software-development)
-- [DevOps](https://github.com/resources/articles?topic=devops)
-- [Security](https://github.com/resources/articles?topic=security)
-- [View all topics](https://github.com/resources/articles)
-+ EXPLORE BY TYPE
-- [Customer stories](https://github.com/customer-stories)
-- [Events & webinars](https://github.com/resources/events)
-- [Ebooks & reports](https://github.com/resources/whitepapers)
-- [Business insights](https://github.com/solutions/executive-insights)
-- [GitHub Skills](https://skills.github.com)
-+ SUPPORT & SERVICES
-- [Documentation](https://docs.github.com)
-- [Customer support](https://support.github.com)
-- [Community forum](https://github.com/orgs/community/discussions)
-- [Trust center](https://github.com/trust-center)
-- [Partners](https://github.com/partners)
-[View all resources](https://github.com/resources)
-\* Open Source
-+ COMMUNITY
-- [GitHub SponsorsFund open source developers](https://github.com/sponsors)
-+ PROGRAMS
-- [Security Lab](https://securitylab.github.com)
-- [Maintainer Community](https://maintainers.github.com)
-- [Accelerator](https://github.com/accelerator)
-- [GitHub Stars](https://stars.github.com)
-- [Archive Program](https://archiveprogram.github.com)
-+ REPOSITORIES
-- [Topics](https://github.com/topics)
-- [Trending](https://github.com/trending)
-- [Collections](https://github.com/collections)
-\* Enterprise
-+ ENTERPRISE SOLUTIONS
-- [Enterprise platformAI-powered developer platform](https://github.com/enterprise)
-+ AVAILABLE ADD-ONS
-- [GitHub Advanced SecurityEnterprise-grade security features](https://github.com/security/advanced-security)
-- [Copilot for BusinessEnterprise-grade AI features](https://github.com/features/copilot/copilot-business)
-- [Premium SupportEnterprise-grade 24/7 support](https://github.com/premium-support)
-\* [Pricing](https://github.com/pricing)
+
+
+
+
+
+
+
+
+* Platform
+  + AI CODE CREATION
+    - [GitHub CopilotWrite better code with AI](https://github.com/features/copilot)
+    - [GitHub SparkBuild and deploy intelligent apps](https://github.com/features/spark)
+    - [GitHub ModelsManage and compare prompts](https://github.com/features/models)
+    - [MCP RegistryNewIntegrate external tools](https://github.com/mcp)
+  + DEVELOPER WORKFLOWS
+    - [ActionsAutomate any workflow](https://github.com/features/actions)
+    - [CodespacesInstant dev environments](https://github.com/features/codespaces)
+    - [IssuesPlan and track work](https://github.com/features/issues)
+    - [Code ReviewManage code changes](https://github.com/features/code-review)
+  + APPLICATION SECURITY
+    - [GitHub Advanced SecurityFind and fix vulnerabilities](https://github.com/security/advanced-security)
+    - [Code securitySecure your code as you build](https://github.com/security/advanced-security/code-security)
+    - [Secret protectionStop leaks before they start](https://github.com/security/advanced-security/secret-protection)
+  + EXPLORE
+    - [Why GitHub](https://github.com/why-github)
+    - [Documentation](https://docs.github.com)
+    - [Blog](https://github.blog)
+    - [Changelog](https://github.blog/changelog)
+    - [Marketplace](https://github.com/marketplace)[View all features](https://github.com/features)
+* Solutions
+  + BY COMPANY SIZE
+    - [Enterprises](https://github.com/enterprise)
+    - [Small and medium teams](https://github.com/team)
+    - [Startups](https://github.com/enterprise/startups)
+    - [Nonprofits](https://github.com/solutions/industry/nonprofits)
+  + BY USE CASE
+    - [App Modernization](https://github.com/solutions/use-case/app-modernization)
+    - [DevSecOps](https://github.com/solutions/use-case/devsecops)
+    - [DevOps](https://github.com/solutions/use-case/devops)
+    - [CI/CD](https://github.com/solutions/use-case/ci-cd)
+    - [View all use cases](https://github.com/solutions/use-case)
+  + BY INDUSTRY
+    - [Healthcare](https://github.com/solutions/industry/healthcare)
+    - [Financial services](https://github.com/solutions/industry/financial-services)
+    - [Manufacturing](https://github.com/solutions/industry/manufacturing)
+    - [Government](https://github.com/solutions/industry/government)
+    - [View all industries](https://github.com/solutions/industry)[View all solutions](https://github.com/solutions)
+* Resources
+  + EXPLORE BY TOPIC
+    - [AI](https://github.com/resources/articles?topic=ai)
+    - [Software Development](https://github.com/resources/articles?topic=software-development)
+    - [DevOps](https://github.com/resources/articles?topic=devops)
+    - [Security](https://github.com/resources/articles?topic=security)
+    - [View all topics](https://github.com/resources/articles)
+  + EXPLORE BY TYPE
+    - [Customer stories](https://github.com/customer-stories)
+    - [Events & webinars](https://github.com/resources/events)
+    - [Ebooks & reports](https://github.com/resources/whitepapers)
+    - [Business insights](https://github.com/solutions/executive-insights)
+    - [GitHub Skills](https://skills.github.com)
+  + SUPPORT & SERVICES
+    - [Documentation](https://docs.github.com)
+    - [Customer support](https://support.github.com)
+    - [Community forum](https://github.com/orgs/community/discussions)
+    - [Trust center](https://github.com/trust-center)
+    - [Partners](https://github.com/partners)[View all resources](https://github.com/resources)
+* Open Source
+  + COMMUNITY
+    - [GitHub SponsorsFund open source developers](https://github.com/sponsors)
+  + PROGRAMS
+    - [Security Lab](https://securitylab.github.com)
+    - [Maintainer Community](https://maintainers.github.com)
+    - [Accelerator](https://github.com/accelerator)
+    - [GitHub Stars](https://stars.github.com)
+    - [Archive Program](https://archiveprogram.github.com)
+  + REPOSITORIES
+    - [Topics](https://github.com/topics)
+    - [Trending](https://github.com/trending)
+    - [Collections](https://github.com/collections)
+* Enterprise
+  + ENTERPRISE SOLUTIONS
+    - [Enterprise platformAI-powered developer platform](https://github.com/enterprise)
+  + AVAILABLE ADD-ONS
+    - [GitHub Advanced SecurityEnterprise-grade security features](https://github.com/security/advanced-security)
+    - [Copilot for BusinessEnterprise-grade AI features](https://github.com/features/copilot/copilot-business)
+    - [Premium SupportEnterprise-grade 24/7 support](https://github.com/premium-support)
+* [Pricing](https://github.com/pricing)
+
+
+
 Search or jump to...
-# Search code, repositories, users, issues, pull requests...
+
+
+
+
+Search code, repositories, users, issues, pull requests...
+==========================================================
+
+ 
 Search
+
+
+
+
 Clear
-[Search syntax tips](https://docs.github.com/search-github/github-code-search/understanding-github-code-search-syntax)
-# Provide feedback
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+[Search syntax tips](https://docs.github.com/search-github/github-code-search/understanding-github-code-search-syntax) 
+
+
+
+
+
+
+
+Provide feedback
+================
+
+
+
+
+
+ 
+
 We read every piece of feedback, and take your input very seriously.
+
+
+
 Include my email address so I can be contacted
-Cancel
-Submit feedback
-# Saved searches
-## Use saved searches to filter your results more quickly
+
+
+  Cancel
+
+ Submit feedback
+
+
+
+Saved searches
+==============
+
+Use saved searches to filter your results more quickly
+------------------------------------------------------
+
+
+
+
+
+ 
+
 Name
+
+
+
+
 Query
+
 To see all available qualifiers, see our [documentation](https://docs.github.com/search-github/github-code-search/understanding-github-code-search-syntax).
-Cancel
-Create saved search
-[Sign in](/login?return\_to=https%3A%2F%2Fgithub.com%2Fnari-labs%2Fdia2)
-[Sign up](/signup?ref\_cta=Sign+up&ref\_loc=header+logged+out&ref\_page=%2F%3Cuser-name%3E%2F%3Crepo-name%3E&source=header-repo&source\_repo=nari-labs%2Fdia2)
+
+ 
+
+
+
+
+  Cancel
+
+ Create saved search
+
+
+
+
+
+
+[Sign in](/login?return_to=https%3A%2F%2Fgithub.com%2Fnari-labs%2Fdia2)
+
+[Sign up](/signup?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F%3Cuser-name%3E%2F%3Crepo-name%3E&source=header-repo&source_repo=nari-labs%2Fdia2)
+ 
+
+
 Appearance settings
+
+
+
+
+
 Resetting focus
-You signed in with another tab or window. Reload to refresh your session.You signed out in another tab or window. Reload to refresh your session.You switched accounts on another tab or window. Reload to refresh your session.Dismiss alert
-[nari-labs](/nari-labs)/\*\*[dia2](/nari-labs/dia2)\*\*Public
-\* [Notifications](/login?return\_to=%2Fnari-labs%2Fdia2)You must be signed in to change notification settings
-\* [Fork
-93](/login?return\_to=%2Fnari-labs%2Fdia2)
-\* [Star
-1.1k](/login?return\_to=%2Fnari-labs%2Fdia2)
-\* [Code](/nari-labs/dia2)
-\* [Issues3](/nari-labs/dia2/issues)
-\* [Pull requests2](/nari-labs/dia2/pulls)
-\* [Actions](/nari-labs/dia2/actions)
-\* [Projects](/nari-labs/dia2/projects)
-\* [Security0](/nari-labs/dia2/security)
-\* [Insights](/nari-labs/dia2/pulse)
+
+
+
+
+
+You signed in with another tab or window. Reload to refresh your session.
+You signed out in another tab or window. Reload to refresh your session.
+You switched accounts on another tab or window. Reload to refresh your session.
+ 
+
+
+Dismiss alert
+
+
+
+{{ message }}
+
+
+
+
+
+[nari-labs](/nari-labs) 
+/
+**[dia2](/nari-labs/dia2)**
+Public
+
+
+* [Notifications](/login?return_to=%2Fnari-labs%2Fdia2) You must be signed in to change notification settings
+* [Fork
+  95](/login?return_to=%2Fnari-labs%2Fdia2)
+* [Star
+   1.1k](/login?return_to=%2Fnari-labs%2Fdia2)
+
+
+
+* [Code](/nari-labs/dia2)
+* [Issues
+  3](/nari-labs/dia2/issues)
+* [Pull requests
+  2](/nari-labs/dia2/pulls)
+* [Actions](/nari-labs/dia2/actions)
+* [Projects](/nari-labs/dia2/projects)
+* [Security and quality
+  0](/nari-labs/dia2/security)
+* [Insights](/nari-labs/dia2/pulse)
+
+ 
+ 
+
+
 Additional navigation options
-\* [Code](/nari-labs/dia2)
-\* [Issues](/nari-labs/dia2/issues)
-\* [Pull requests](/nari-labs/dia2/pulls)
-\* [Actions](/nari-labs/dia2/actions)
-\* [Projects](/nari-labs/dia2/projects)
-\* [Security](/nari-labs/dia2/security)
-\* [Insights](/nari-labs/dia2/pulse)
-# nari-labs/dia2
-main
-[\*\*1\*\*Branch](/nari-labs/dia2/branches)[\*\*0\*\*Tags](/nari-labs/dia2/tags)
-Go to file
-Code
-Open more actions menu
-## Folders and files
+ 
+
+* [Code](/nari-labs/dia2)
+* [Issues](/nari-labs/dia2/issues)
+* [Pull requests](/nari-labs/dia2/pulls)
+* [Actions](/nari-labs/dia2/actions)
+* [Projects](/nari-labs/dia2/projects)
+* [Security and quality](/nari-labs/dia2/security)
+* [Insights](/nari-labs/dia2/pulse)
+
+
+ 
+
+
+
+   
+
+nari-labs/dia2
+==============
+
+
+ main[Branches](/nari-labs/dia2/branches)[Tags](/nari-labs/dia2/tags)Go to fileCodeOpen more actions menu
+
+Folders and files
+-----------------
+
 | Name | Name | Last commit message | Last commit date |
 | --- | --- | --- | --- |
-| Latest commit [pevers](/nari-labs/dia2/commits?author=pevers) [chore: Improve inference speed by caching sin/cos in RotaryEmbedding (](/nari-labs/dia2/commit/8687268f4ed3ed20704638fd353b51491de3b476)[#5](https://github.com/nari-labs/dia2/pull/5) Open commit details Nov 29, 2025 [8687268](/nari-labs/dia2/commit/8687268f4ed3ed20704638fd353b51491de3b476) · Nov 29, 2025 History[19 Commits](/nari-labs/dia2/commits/main/) Open commit details 19 Commits |
-| [dia2](/nari-labs/dia2/tree/main/dia2) | [dia2](/nari-labs/dia2/tree/main/dia2) | [chore: Improve inference speed by caching sin/cos in RotaryEmbedding (](/nari-labs/dia2/commit/8687268f4ed3ed20704638fd353b51491de3b476)[#5](https://github.com/nari-labs/dia2/pull/5) | Nov 29, 2025 |
-| [.gitignore](/nari-labs/dia2/blob/main/.gitignore) | [.gitignore](/nari-labs/dia2/blob/main/.gitignore) | [Initial commit](/nari-labs/dia2/commit/f880c9f872054e53f799d9380be368bf657377f9) | Nov 18, 2025 |
-| [LICENSE](/nari-labs/dia2/blob/main/LICENSE) | [LICENSE](/nari-labs/dia2/blob/main/LICENSE) | [Initial commit](/nari-labs/dia2/commit/f880c9f872054e53f799d9380be368bf657377f9) | Nov 18, 2025 |
-| [README.md](/nari-labs/dia2/blob/main/README.md) | [README.md](/nari-labs/dia2/blob/main/README.md) | [Update README.md](/nari-labs/dia2/commit/60d4b22f7d5822ce0daf70612b0a92e52645dbf0) | Nov 19, 2025 |
-| [banner.gif](/nari-labs/dia2/blob/main/banner.gif) | [banner.gif](/nari-labs/dia2/blob/main/banner.gif) | [Add files via upload](/nari-labs/dia2/commit/771d14fb706e66019f6e1b996015a11ce2db2135) | Nov 19, 2025 |
-| [example\\_prefix1.wav](/nari-labs/dia2/blob/main/example\_prefix1.wav) | [example\\_prefix1.wav](/nari-labs/dia2/blob/main/example\_prefix1.wav) | [Add files via upload](/nari-labs/dia2/commit/b875ae8494b6bfe2dee89ebe321353d21c28a0e0) | Nov 19, 2025 |
-| [example\\_prefix2.wav](/nari-labs/dia2/blob/main/example\_prefix2.wav) | [example\\_prefix2.wav](/nari-labs/dia2/blob/main/example\_prefix2.wav) | [Add files via upload](/nari-labs/dia2/commit/b875ae8494b6bfe2dee89ebe321353d21c28a0e0) | Nov 19, 2025 |
-| [gradio\\_app.py](/nari-labs/dia2/blob/main/gradio\_app.py) | [gradio\\_app.py](/nari-labs/dia2/blob/main/gradio\_app.py) | [Add prefix in gradio examples](/nari-labs/dia2/commit/3cd298bf232a825e99fa2328d6eb7bf355172690) | Nov 19, 2025 |
-| [input.txt](/nari-labs/dia2/blob/main/input.txt) | [input.txt](/nari-labs/dia2/blob/main/input.txt) | [Initial commit](/nari-labs/dia2/commit/f880c9f872054e53f799d9380be368bf657377f9) | Nov 18, 2025 |
-| [pyproject.toml](/nari-labs/dia2/blob/main/pyproject.toml) | [pyproject.toml](/nari-labs/dia2/blob/main/pyproject.toml) | [Initial commit](/nari-labs/dia2/commit/f880c9f872054e53f799d9380be368bf657377f9) | Nov 18, 2025 |
-| [uv.lock](/nari-labs/dia2/blob/main/uv.lock) | [uv.lock](/nari-labs/dia2/blob/main/uv.lock) | [Initial commit](/nari-labs/dia2/commit/f880c9f872054e53f799d9380be368bf657377f9) | Nov 18, 2025 |
+| Latest commit History[19 Commits](/nari-labs/dia2/commits/main/)19 Commits |
+| [dia2](/nari-labs/dia2/tree/main/dia2) | [dia2](/nari-labs/dia2/tree/main/dia2) |  |  |
+| [.gitignore](/nari-labs/dia2/blob/main/.gitignore) | [.gitignore](/nari-labs/dia2/blob/main/.gitignore) |  |  |
+| [LICENSE](/nari-labs/dia2/blob/main/LICENSE) | [LICENSE](/nari-labs/dia2/blob/main/LICENSE) |  |  |
+| [README.md](/nari-labs/dia2/blob/main/README.md) | [README.md](/nari-labs/dia2/blob/main/README.md) |  |  |
+| [banner.gif](/nari-labs/dia2/blob/main/banner.gif) | [banner.gif](/nari-labs/dia2/blob/main/banner.gif) |  |  |
+| [example\_prefix1.wav](/nari-labs/dia2/blob/main/example_prefix1.wav) | [example\_prefix1.wav](/nari-labs/dia2/blob/main/example_prefix1.wav) |  |  |
+| [example\_prefix2.wav](/nari-labs/dia2/blob/main/example_prefix2.wav) | [example\_prefix2.wav](/nari-labs/dia2/blob/main/example_prefix2.wav) |  |  |
+| [gradio\_app.py](/nari-labs/dia2/blob/main/gradio_app.py) | [gradio\_app.py](/nari-labs/dia2/blob/main/gradio_app.py) |  |  |
+| [input.txt](/nari-labs/dia2/blob/main/input.txt) | [input.txt](/nari-labs/dia2/blob/main/input.txt) |  |  |
+| [pyproject.toml](/nari-labs/dia2/blob/main/pyproject.toml) | [pyproject.toml](/nari-labs/dia2/blob/main/pyproject.toml) |  |  |
+| [uv.lock](/nari-labs/dia2/blob/main/uv.lock) | [uv.lock](/nari-labs/dia2/blob/main/uv.lock) |  |  |
 | View all files |
-## Repository files navigation
-\* [README](#)
-\* [Apache-2.0 license](#)
-[![](/nari-labs/dia2/raw/main/banner.gif)](/nari-labs/dia2/blob/main/banner.gif)[![](https://github.com/nari-labs/dia2/raw/main/banner.gif)](https://github.com/nari-labs/dia2/blob/main/banner.gif)
-[![](https://camo.githubusercontent.com/30820e5f6c34b8768a1b2c8341a261d022a97e9c31702748e102e6e274c7a92c/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f48462532305265706f2d446961322d2d32422d6f72616e67653f7374796c653d666f722d7468652d6261646765)](https://huggingface.co/nari-labs/Dia2-2B)[![](https://camo.githubusercontent.com/683f8c3a0da7f8aa3f5de193ec14cdead0bb266bf1c7cdf30f2c0e25124506bc/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f446973636f72642d4a6f696e253230436861742d3732383944413f6c6f676f3d646973636f7264267374796c653d666f722d7468652d6261646765)](https://discord.gg/bJq6vjRRKv)[![](https://camo.githubusercontent.com/3ab97aac2685a6bff72d5f7a01371d3f531a086b835c03363cdd3e0cf2f43251/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f4c6963656e73652d4170616368655f322e302d626c75652e7376673f7374796c653d666f722d7468652d6261646765)](https://github.com/nari-labs/dia2/blob/main/LICENSE)
-\*\*Dia2\*\* is a \*\*streaming dialogue TTS model\*\* created by Nari Labs.
+
+Repository files navigation
+---------------------------
+
+* [README](#)
+* [Apache-2.0 license](#)
+
+[![]()](/nari-labs/dia2/blob/main/banner.gif)
+
+[![]()](https://huggingface.co/nari-labs/Dia2-2B)
+[![]()](https://discord.gg/bJq6vjRRKv)
+[![]()](https://github.com/nari-labs/dia2/blob/main/LICENSE)
+
+**Dia2** is a **streaming dialogue TTS model** created by Nari Labs.
+
 The model does not need the entire text to produce the audio, and can start generating as the first few words are given as input. You can condition the output on audio, enabling natural conversations in realtime.
+
 We provide model checkpoints (1B, 2B) and inference code to accelerate research. The model only supports up to 2 minutes of generation in English.
+
 ⚠️ Quality and voices vary per generation, as the model is not fine-tuned on a specific voice. Use with prefix or fine-tune in order to obtain stable output.
+
 Try it now on Hugging Face [Spaces](https://huggingface.co/spaces/nari-labs/Dia2-2B)
-## Upcoming
-\* Bonsai (JAX) implementation
-\* Dia2 TTS Server: Real streaming support
-\* Sori: Dia2-powered speech-to-speech engine written in Rust
-## Quickstart
-> \*\*Requirement\*\* — install [uv](https://docs.astral.sh/uv/) and use CUDA 12.8+
+
+Upcoming
+--------
+
+* Bonsai (JAX) implementation
+* Dia2 TTS Server: Real streaming support
+* Sori: Dia2-powered speech-to-speech engine written in Rust
+
+Quickstart
+----------
+
+> **Requirement** — install [uv](https://docs.astral.sh/uv/) and use CUDA 12.8+
 > drivers. All commands below run through `uv run …` as a rule.
-1. \*\*Install dependencies (one-time):\*\*
-```
-uv sync
-```
-2. \*\*Prepare a script:\*\* edit `input.txt` using `[S1]` / `[S2]` speaker tags.
-3. \*\*Generate audio:\*\*
-```
-uv run -m dia2.cli \
---hf nari-labs/Dia2-2B \
---input input.txt \
---cfg 6.0 --temperature 0.8 \
---cuda-graph --verbose \
-output.wav
-```
-The first run downloads weights/tokenizer/Mimi. The CLI auto-selects CUDA when available (otherwise CPU) and defaults to bfloat16 precision—override with `--device` / `--dtype` if needed.
-4. \*\*Conditional Generation (recommended for stable use):\*\*
-```
-uv run -m dia2.cli \
---hf nari-labs/Dia2-2B \
---input input.txt \
---prefix-speaker-1 example\_prefix1.wav \
---prefix-speaker-2 example\_prefix2.wav \
---cuda-graph --verbose \
-output\_conditioned.wav
-```
-Condition the generation on previous conversational context in order to generate natural output for your speech-to-speech system. For example, place the voice of your assistant as prefix speaker 1, place user's audio input as prefix speaker 2, and generate the response to user's input.
-Whisper is used to transcribe each prefix file, which takes additional time. We include example prefix files as `example\_prefix1.wav` and `example\_prefix2.wav` (both files are output created by the model).
-5. \*\*Gradio for Easy Usage\*\*
-```
-uv run gradio\_app.py
-```
+
+1. **Install dependencies (one-time):**
+   
+   ```
+   uv sync
+   ```
+2. **Prepare a script:** edit `input.txt` using `[S1]` / `[S2]` speaker tags.
+3. **Generate audio:**
+   
+   ```
+   uv run -m dia2.cli \
+     --hf nari-labs/Dia2-2B \
+     --input input.txt \
+     --cfg 6.0 --temperature 0.8 \
+     --cuda-graph --verbose \
+     output.wav
+   ```
+   
+   The first run downloads weights/tokenizer/Mimi. The CLI auto-selects CUDA when available (otherwise CPU) and defaults to bfloat16 precision—override with `--device` / `--dtype` if needed.
+4. **Conditional Generation (recommended for stable use):**
+   
+   ```
+   uv run -m dia2.cli \
+     --hf nari-labs/Dia2-2B \
+     --input input.txt \
+     --prefix-speaker-1 example_prefix1.wav \
+     --prefix-speaker-2 example_prefix2.wav \
+     --cuda-graph --verbose \
+     output_conditioned.wav
+   ```
+   
+   Condition the generation on previous conversational context in order to generate natural output for your speech-to-speech system. For example, place the voice of your assistant as prefix speaker 1, place user's audio input as prefix speaker 2, and generate the response to user's input.
+   
+   Whisper is used to transcribe each prefix file, which takes additional time. We include example prefix files as `example_prefix1.wav` and `example_prefix2.wav` (both files are output created by the model).
+5. **Gradio for Easy Usage**
+   
+   ```
+   uv run gradio_app.py
+   ```
+
 ### Programmatic Usage
+
+
 ```
-fromdia2importDia2, GenerationConfig, SamplingConfigdia=Dia2.from\_repo("nari-labs/Dia2-2B", device="cuda", dtype="bfloat16")
-config=GenerationConfig(
-cfg\_scale=2.0,
-audio=SamplingConfig(temperature=0.8, top\_k=50),
-use\_cuda\_graph=True,
+from dia2 import Dia2, GenerationConfig, SamplingConfig
+
+dia = Dia2.from_repo("nari-labs/Dia2-2B", device="cuda", dtype="bfloat16")
+config = GenerationConfig(
+    cfg_scale=2.0,
+    audio=SamplingConfig(temperature=0.8, top_k=50),
+    use_cuda_graph=True,
 )
-result=dia.generate("[S1] Hello Dia2!", config=config, output\_wav="hello.wav", verbose=True)
+result = dia.generate("[S1] Hello Dia2!", config=config, output_wav="hello.wav", verbose=True)
 ```
-Generation runs until the runtime config's `max\_context\_steps` (1500, 2 minutes)
+
+Generation runs until the runtime config's `max_context_steps` (1500, 2 minutes)
 or until EOS is detected. `GenerationResult` includes audio tokens, waveform tensor,
 and word timestamps relative to Mimi’s ~12.5 Hz frame rate.
-## Hugging Face
+
+Hugging Face
+------------
+
+
 | Variant | Repo |
 | --- | --- |
 | Dia2-1B | [`nari-labs/Dia2-1B`](https://huggingface.co/nari-labs/Dia2-1B) |
 | Dia2-2B | [`nari-labs/Dia2-2B`](https://huggingface.co/nari-labs/Dia2-2B) |
-## License & Attribution
+
+
+License & Attribution
+---------------------
+
 Licensed under [Apache 2.0](/nari-labs/dia2/blob/main/LICENSE). All third-party assets (Kyutai Mimi codec, etc.) retain their original licenses.
-## Disclaimer
-This project offers a high-fidelity speech generation model intended for research and educational use. The following uses are \*\*strictly forbidden\*\*:
-\* \*\*Identity Misuse\*\*: Do not produce audio resembling real individuals without permission.
-\* \*\*Deceptive Content\*\*: Do not use this model to generate misleading content (e.g. fake news)
-\* \*\*Illegal or Malicious Use\*\*: Do not use this model for activities that are illegal or intended to cause harm.
-By using this model, you agree to uphold relevant legal standards and ethical responsibilities. We \*\*are not responsible\*\* for any misuse and firmly oppose any unethical usage of this technology.
-## Acknowledgements
-\* We thank the [TPU Research Cloud](https://sites.research.google/trc/about/) program for providing compute for training.
-\* Our work was heavily inspired by [KyutaiTTS](https://kyutai.org/next/tts) and [Sesame](https://www.sesame.com/research/crossing\_the\_uncanny\_valley\_of\_voice)
+
+Disclaimer
+----------
+
+This project offers a high-fidelity speech generation model intended for research and educational use. The following uses are **strictly forbidden**:
+
+* **Identity Misuse**: Do not produce audio resembling real individuals without permission.
+* **Deceptive Content**: Do not use this model to generate misleading content (e.g. fake news)
+* **Illegal or Malicious Use**: Do not use this model for activities that are illegal or intended to cause harm.
+
+By using this model, you agree to uphold relevant legal standards and ethical responsibilities. We **are not responsible** for any misuse and firmly oppose any unethical usage of this technology.
+
+Acknowledgements
+----------------
+
+* We thank the [TPU Research Cloud](https://sites.research.google/trc/about/) program for providing compute for training.
+* Our work was heavily inspired by [KyutaiTTS](https://kyutai.org/next/tts) and [Sesame](https://www.sesame.com/research/crossing_the_uncanny_valley_of_voice)
+
+---
+
 Questions? Join our [Discord](https://discord.gg/bJq6vjRRKv) or open an issue.
-## About
+
+About
+-----
+
 TTS model capable of streaming conversational audio in realtime.
+
 ### Topics
-[text-to-speech](/topics/text-to-speech)[open-weight](/topics/open-weight)
+
+[text-to-speech](/topics/text-to-speech)
+[open-weight](/topics/open-weight)
+
 ### Resources
-[Readme](#readme-ov-file)
+
+[Readme](#readme-ov-file) 
 ### License
+
 [Apache-2.0 license](#Apache-2.0-1-ov-file)
+
 ### Uh oh!
+
+
+
 There was an error while loading. Please reload this page.
-[Activity](/nari-labs/dia2/activity)
-[Custom properties](/nari-labs/dia2/custom-properties)
+
+
+
+ 
+ 
+
+[Activity](/nari-labs/dia2/activity) 
+[Custom properties](/nari-labs/dia2/custom-properties) 
 ### Stars
-[\*\*1.1k\*\*
-stars](/nari-labs/dia2/stargazers)
+
+[**1.1k**
+stars](/nari-labs/dia2/stargazers) 
 ### Watchers
-[\*\*17\*\*
-watching](/nari-labs/dia2/watchers)
+
+[**17**
+watching](/nari-labs/dia2/watchers) 
 ### Forks
-[\*\*93\*\*
-forks](/nari-labs/dia2/forks)
-[Report repository](/contact/report-content?content\_url=https%3A%2F%2Fgithub.com%2Fnari-labs%2Fdia2&report=nari-labs+%28user%29)
-## [Releases](/nari-labs/dia2/releases)
+
+[**95**
+forks](/nari-labs/dia2/forks) 
+[Report repository](/contact/report-content?content_url=https%3A%2F%2Fgithub.com%2Fnari-labs%2Fdia2&report=nari-labs+%28user%29) 
+
+
+
+[Releases](/nari-labs/dia2/releases)
+------------------------------------
+
 No releases published
-## [Packages 0](/orgs/nari-labs/packages?repo\_name=dia2)
-No packages published
-## [Contributors 4](/nari-labs/dia2/graphs/contributors)
-\* [![](https://avatars.githubusercontent.com/u/75746908?s=64&v=4)](https://github.com/shamuiscoding)[\*\*shamuiscoding\*\*Toby Kim](https://github.com/shamuiscoding)
-\* [![](https://avatars.githubusercontent.com/u/34997549?s=64&v=4)](https://github.com/buttercrab)[\*\*buttercrab\*\*Jaeyong Sung](https://github.com/buttercrab)
-\* [![](https://avatars.githubusercontent.com/u/94069368?s=64&v=4)](https://github.com/JakubCzarlinski)[\*\*JakubCzarlinski\*\*Jakub Czarlinski](https://github.com/JakubCzarlinski)
-\* [![](https://avatars.githubusercontent.com/u/3428649?s=64&v=4)](https://github.com/pevers)[\*\*pevers\*\*Peter Evers](https://github.com/pevers)
-## Languages
-\* [Python100.0%](/nari-labs/dia2/search?l=python)
-## Footer
+
+
+[Packages
+0](/orgs/nari-labs/packages?repo_name=dia2)
+-----------------------------------------------------
+
+ 
+
+ 
+
+ 
+
+### Uh oh!
+
+
+
+There was an error while loading. Please reload this page.
+
+
+
+ 
+ 
+
+
+
+[Contributors](/nari-labs/dia2/graphs/contributors)
+---------------------------------------------------
+
+
+
+### Uh oh!
+
+
+
+There was an error while loading. Please reload this page.
+
+
+
+ 
+ 
+
+
+
+Languages
+---------
+
+* [Python
+  100.0%](/nari-labs/dia2/search?l=python)
+
+
+
+   
+
+
+
+
+
+
+Footer
+------
+
 © 2026 GitHub, Inc.
+
+
 ### Footer navigation
-\* [Terms](https://docs.github.com/site-policy/github-terms/github-terms-of-service)
-\* [Privacy](https://docs.github.com/site-policy/privacy-policies/github-privacy-statement)
-\* [Security](https://github.com/security)
-\* [Status](https://www.githubstatus.com/)
-\* [Community](https://github.community/)
-\* [Docs](https://docs.github.com/)
-\* [Contact](https://support.github.com?tags=dotcom-footer)
-\* Manage cookies
-\* Do not share my personal information
+
+* [Terms](https://docs.github.com/site-policy/github-terms/github-terms-of-service)
+* [Privacy](https://docs.github.com/site-policy/privacy-policies/github-privacy-statement)
+* [Security](https://github.com/security)
+* [Status](https://www.githubstatus.com/)
+* [Community](https://github.community/)
+* [Docs](https://docs.github.com/)
+* [Contact](https://support.github.com?tags=dotcom-footer)
+* Manage cookies
+* Do not share my personal information
+
+
+
+
 You can’t perform that action at this time.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,5 +1,98 @@
 # 迭代日志 (Changelog)
 
+## v2.11.0 — 2026-04-12（DAG 可视化执行引擎 + 工作流市场 + 移动端 Web 控制台）🆕 本次完成
+
+> 主题：**从「单任务触发」升级为「完整工作流编排」— DAG 执行引擎 + 5 个黄金工作流一键运行**
+>
+> 详见 [changelog_v2110.md](./changelog_v2110.md)
+
+---
+
+### 核心升级
+
+**1. DAG 可视化执行引擎 `core/task_dag_engine.py` 🆕（~480行）**
+
+| 能力 | 说明 |
+|------|------|
+| `DAG.topological_sort()` | 拓扑分层，每层内节点可并行执行 |
+| `DAGEngine.execute()` | 完整 DAG 异步执行，支持重试/超时 |
+| `DAGVisualizer.to_mermaid()` | 输出标准 Mermaid 图（可直接粘贴到 mermaid.live） |
+| `DAGVisualizer.to_ascii()` | ASCII 树形图（CLI 友好） |
+| `DAGSerializer` | YAML / JSON 双向序列化 |
+| `quick_dag()` | 代码式快速构建 DAG |
+
+**节点类型全覆盖：**
+```
+agent（OpenClaw Agent）← AgentNodeExecutor
+notification（钉钉/邮件通知）← NotificationNodeExecutor
+condition（条件分支）← ConditionNodeExecutor
+http（HTTP 请求）
+loop（循环节点）
+parallel（并行网关）
+```
+
+**2. 工作流模板市场 `handlers/dag_market.py` 🆕（~300行）**
+
+**5 个黄金工作流一键运行：**
+
+| ID | 名称 | 节点数 | 场景 |
+|----|------|--------|------|
+| `ai-daily-report` | AI 日报生成流水线 | 4 | 信息抓取 → 分析 → 报告 → 推送 |
+| `market-full-scan` | 市场全网扫描 | 5 | 全量扫描 → 竞品分析 → 商机发现 |
+| `job-market-weekly` | 推荐算法就业市场周报 | 5 | 招聘数据 → 薪资分析 → 技能图谱 |
+| `tech-deep-research` | 技术深度研究 | 5 | 论文 → 技术解析 → 趋势报告 |
+| `multi-agent-debate` | 多 Agent 辩论分析 | 6 | 多路 Agent 对抗 → 综合结论 |
+
+**执行 API：**
+```bash
+# 一键执行
+curl -X POST http://localhost:8081/api/v1/workflows/ai-daily-report/execute \
+  -H "Authorization: Bearer $API_KEY"
+
+# 获取 Mermaid 图
+curl http://localhost:8081/api/v1/workflows/ai-daily-report/visualize
+
+# 历史运行记录
+curl http://localhost:8081/api/v1/workflows/ai-daily-report/runs
+```
+
+**3. Web Admin v3.1 移动端优化**
+
+- 新增工作流 Tab：卡片网格 + Mermaid 图实时渲染
+- 触控优化：按钮 min-height 44px
+- 顶部状态栏：实例 + 活跃任务数 + 健康状态
+- 深色模式跟随系统
+
+---
+
+### 新增/变更文件
+
+| 文件 | 变更 |
+|------|------|
+| `core/task_dag_engine.py` | 新增 ~480 行，DAG 执行引擎 |
+| `handlers/dag_market.py` | 新增 ~300 行，工作流市场 |
+| `handlers/dag_routes.py` | 增强，新增 execute/visualize/runs 端点 |
+| `web_admin/v3/index.html` | 增强，新增工作流 Tab |
+| `迭代日志/changelog_v2110.md` | 新增，v2.11.0 详细变更 |
+| `迭代日志/changelog.md` | 更新，追加 v2.11.0 |
+
+---
+
+### Phase 3 进度
+
+| 功能 | 状态 |
+|------|------|
+| 多平台（钉钉/Telegram/微信） | ✅ |
+| 自然语言解析 | ✅ |
+| 快捷指令集成 | ✅ |
+| 语音控制 | ✅ |
+| Plugin 系统 | ✅ |
+| **DAG 工作流编排** | **✅ 本次** |
+| **工作流市场（5个模板）** | **✅ 本次** |
+| iOS App / 小程序 | 🔲 |
+
+---
+
 ## v2.10.0 — 2026-04-11（定时任务 UI + 模板管理 + Schedule API 完整 CRUD）🆕 本次完成
 
 > 主题：**Web Admin v3 补全定时任务和模板管理 UI，FastAPI Schedule CRUD 接口全对齐**

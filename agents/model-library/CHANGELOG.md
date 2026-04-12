@@ -1,3 +1,26 @@
+## 2026-04-12
+
+### 文本 / 对话大模型
+- 新增：**Kronos**（shiyu-coder）— 专为金融市场语言设计的基础模型，支持金融文本分析/情绪识别/量化因子挖掘
+
+### AI效率工具 / Agent生态
+- 新增：**扣子2.5**（字节跳动）— Agent World，每个Agent配云电脑+云手机+独立邮箱，国产Agent生态最激进方案
+- 新增：**DeepTutor**（港大 HKUDS）— 首个Agent原生个性化学习助手，GitHub Trending
+- 新增：**Hermes Agent**（NousResearch）— 与用户共同成长的开源智能体，GitHub Trending
+- 新增：**Rowboat**（rowboatlabs）— 持久记忆开源AI协作伙伴，GitHub Trending
+- 新增：**Multica**（multica-ai）— 开源托管Agent平台，GitHub Trending
+- 新增：**MarkItDown**（微软）— Python文档一键转Markdown，GitHub Trending
+
+### 代码开发
+- 新增：**Archon**（coleam00）— 首个AI编程开源测试基准构建器，GitHub Trending
+
+### 音频 / 音乐
+- 新增：**VoxCPM2**（OpenBMB）— 全球首个无需分词器的多语言语音生成与克隆模型，GitHub Trending
+
+### 重大事件更新
+- 更新：**DeepSeek V4** → 正式官宣4月下旬发布，万亿参数MoE+原生多模态+百万Token上下文，搭华为昇腾950PR，Q1营收17.44亿，净利率39.5%
+- 更新：**Anthropic 封禁 OpenClaw 创始人** → Anthropic对OpenClaw创始人Peter实施临时封禁，开发者社区热议
+
 ## 2026-04-10
 
 ## 2026-04-11

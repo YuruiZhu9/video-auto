@@ -1,210 +1,130 @@
 # Source URL: https://arxiv.org/html/2510.02597v1
-# Content Length: 28860 characters
-# Extracted at: 2026-04-09 20:46:09
+# Content Length: 30048 characters
+# Extracted at: 2026-04-12 20:49:31
 #============================================================
 
-
-
-TART: A Comprehensive Tool for Technique-Aware Audio-to-Tab Guitar Transcription
-
-
-
-
-1. [1 Introduction](https://arxiv.org/html/2510.02597v1#S1)
-2. [2 Relation To Prior Work](https://arxiv.org/html/2510.02597v1#S2)
-3. [3 Proposed Framework](https://arxiv.org/html/2510.02597v1#S3)
-   1. [3.1 Datasets](https://arxiv.org/html/2510.02597v1#S3.SS1)
-4. [4 First Stage: Audio-To-MIDI Conversion](https://arxiv.org/html/2510.02597v1#S4)
-   1. [4.1 Results](https://arxiv.org/html/2510.02597v1#S4.SS1)
-5. [5 Second Stage: Expressive Technique Classification](https://arxiv.org/html/2510.02597v1#S5)
-   1. [5.1 Classification Model Architecture](https://arxiv.org/html/2510.02597v1#S5.SS1)
-   2. [5.2 Datasets and Training Methodology](https://arxiv.org/html/2510.02597v1#S5.SS2)
-   3. [5.3 Results](https://arxiv.org/html/2510.02597v1#S5.SS3)
-6. [6 Third Stage: String and Fret Assignment](https://arxiv.org/html/2510.02597v1#S6)
-   1. [6.1 Dataset Preparation](https://arxiv.org/html/2510.02597v1#S6.SS1)
-   2. [6.2 Evaluation](https://arxiv.org/html/2510.02597v1#S6.SS2)
-7. [7 Fourth Stage: Tablature Generation](https://arxiv.org/html/2510.02597v1#S7)
-8. [8 Conclusion](https://arxiv.org/html/2510.02597v1#S8)
-
-
-TART: A Comprehensive Tool for Technique-Aware Audio-to-Tab Guitar Transcription
-================================================================================
-
+# TART: A Comprehensive Tool for Technique-Aware Audio-to-Tab Guitar Transcription
+Report issue for preceding element
 ###### Abstract
-
+Report issue for preceding element
 Automatic Music Transcription (AMT) has advanced significantly for the piano, but transcription for the guitar remains limited due to several key challenges. Existing systems fail to detect and annotate expressive techniques (e.g., slides, bends, percussive hits) and incorrectly map notes to the wrong string and fret combination in the generated tablature. Furthermore, prior models are typically trained on small, isolated datasets, limiting their generalizability to real-world guitar recordings. To overcome these limitations, we propose a four-stage end-to-end pipeline that produces detailed guitar tablature directly from audio. Our system consists of (1) Audio-to-MIDI pitch conversion through a piano transcription model adapted to guitar datasets; (2) MLP-based expressive technique classification; (3) Transformer-based string and fret assignment; and (4) LSTM-based tablature generation. To the best of our knowledge, this framework is the first to generate detailed tablature with accurate fingerings and expressive labels from guitar audio.
-
-
-Index Terms— 
+Report issue for preceding element
+Index Terms—
 Automatic music transcription, Guitar transcription, Expressive technique detection, String and fret assignment
-
-
-1 Introduction
---------------
-
-![]()
-
-Fig. 1: Visual representation of the TART framework. Raw guitar audio is first converted into MIDI note events, capturing pitch, onset, and offset information as shown in stage (1). In stage (2), an expressive technique classifier analyzes the audio to label each note with the corresponding techniques (e.g., hammer-on, tapping). In stage (3), we use a transformer model that takes MIDI note sequences as input and predicts string and fret positions. In stage (4), the gathered data is merged to generate the sample tablature shown.
-
-
-
-Automatic Music Transcription (AMT) is the process of converting an audio recording of an instrumental performance into a standard representation of music, such as sheet music, MIDI, or tablature. AMT has advanced considerably, with piano transcription models achieving impressive note-level accuracy through deep learning architectures such as convolutional and recurrent neural networks, and guitar transcription models following similar architectures [[1](https://arxiv.org/html/2510.02597v1#bib.bib1), [2](https://arxiv.org/html/2510.02597v1#bib.bib2), [3](https://arxiv.org/html/2510.02597v1#bib.bib3), [4](https://arxiv.org/html/2510.02597v1#bib.bib4), [5](https://arxiv.org/html/2510.02597v1#bib.bib5), [6](https://arxiv.org/html/2510.02597v1#bib.bib6), [7](https://arxiv.org/html/2510.02597v1#bib.bib7)].
-
-
-In contrast, transcription for expressive musical techniques is lacking. For example, guitarists have developed a wide range of expressive techniques, including percussive hits, slides, bends, and harmonics, which current AMT systems do not capture. Additionally, the guitar is pitch redundant, meaning the same pitch can be produced at multiple string and fret combinations. Current guitar transcription methods typically neglect these nuances, resulting in tablature that fails to represent the expressive and realistic aspects of guitar playing [[2](https://arxiv.org/html/2510.02597v1#bib.bib2), [8](https://arxiv.org/html/2510.02597v1#bib.bib8)]. Furthermore, many existing guitar-specific models are trained on limited datasets, which restricts their ability to generalize to real-world performances.
-
-
+Report issue for preceding element
+## 1 Introduction
+Report issue for preceding element![Refer to caption](https://arxiv.org/html/2510.02597v1/One.png)Fig. 1: Visual representation of the TART framework. Raw guitar audio is first converted into MIDI note events, capturing pitch, onset, and offset information as shown in stage (1). In stage (2), an expressive technique classifier analyzes the audio to label each note with the corresponding techniques (e.g., hammer-on, tapping). In stage (3), we use a transformer model that takes MIDI note sequences as input and predicts string and fret positions. In stage (4), the gathered data is merged to generate the sample tablature shown.Report issue for preceding element
+Automatic Music Transcription (AMT) is the process of converting an audio recording of an instrumental performance into a standard representation of music, such as sheet music, MIDI, or tablature. AMT has advanced considerably, with piano transcription models achieving impressive note-level accuracy through deep learning architectures such as convolutional and recurrent neural networks, and guitar transcription models following similar architectures \[ [1](https://arxiv.org/html/2510.02597v1#bib.bib1 ""), [2](https://arxiv.org/html/2510.02597v1#bib.bib2 ""), [3](https://arxiv.org/html/2510.02597v1#bib.bib3 ""), [4](https://arxiv.org/html/2510.02597v1#bib.bib4 ""), [5](https://arxiv.org/html/2510.02597v1#bib.bib5 ""), [6](https://arxiv.org/html/2510.02597v1#bib.bib6 ""), [7](https://arxiv.org/html/2510.02597v1#bib.bib7 "")\].
+Report issue for preceding element
+In contrast, transcription for expressive musical techniques is lacking. For example, guitarists have developed a wide range of expressive techniques, including percussive hits, slides, bends, and harmonics, which current AMT systems do not capture. Additionally, the guitar is pitch redundant, meaning the same pitch can be produced at multiple string and fret combinations. Current guitar transcription methods typically neglect these nuances, resulting in tablature that fails to represent the expressive and realistic aspects of guitar playing \[ [2](https://arxiv.org/html/2510.02597v1#bib.bib2 ""), [8](https://arxiv.org/html/2510.02597v1#bib.bib8 "")\]. Furthermore, many existing guitar-specific models are trained on limited datasets, which restricts their ability to generalize to real-world performances.
+Report issue for preceding element
 To address these challenges, we propose the Technique-Aware Audio-to-tab Representation Tool (TART), a four-stage transcription framework to generate detailed guitar tablature directly from audio. Our framework builds on a piano transcription model for audio-to-MIDI conversion and further incorporates an expressive technique classifier to capture guitar-specific techniques and a string and fret assignment model to resolve pitch redundancy confusion. Our framework represents one of the first end-to-end approaches to guitar transcription that integrates pitch estimation, expressive technique detection, and string and fret mapping into a unified pipeline.
-
-
-
-2 Relation To Prior Work
-------------------------
-
-AMT has made significant advancements in piano transcription. A foundational model, Onsets and Frames [[1](https://arxiv.org/html/2510.02597v1#bib.bib1)], focused on separately detecting onsets and frame-level pitch events and then combining them for polyphonic transcription. Building on this, Kong et al. [[2](https://arxiv.org/html/2510.02597v1#bib.bib2)] proposed a high-resolution piano transcription model that not only regresses onset and offset times but also models pedal signals, improving overall precision. Extending AMT techniques to the guitar, Riley et al. [[8](https://arxiv.org/html/2510.02597v1#bib.bib8)] introduced domain adaptation methods to transfer models trained on piano data to guitar datasets. We build on this by developing new adaptation methods and training on larger datasets.
-
-
-Expressive guitar technique classification is challenging due to the limited data available for training models. Although recent datasets such as Magcil, AGPT, and IDMT-SMT-Guitar [[9](https://arxiv.org/html/2510.02597v1#bib.bib9), [10](https://arxiv.org/html/2510.02597v1#bib.bib10), [11](https://arxiv.org/html/2510.02597v1#bib.bib11)] increase the diversity of available recordings with annotations for expressive techniques, most datasets remain small.
-When it comes to foundational models for classification, Stefani et al. [[12](https://arxiv.org/html/2510.02597v1#bib.bib12)] used multilayer feedforward neural networks to train their expressive technique detection model. Our approach further improves on this by testing cross-dataset generalization across domain shifts and addressing the label mismatch between different datasets.
-
-
-Traditional pitch estimation methods do not address the fundamental challenge of string–fret assignment on a redundant fretboard. Early approaches cast the problem as constrained optimization over feasible fingerings, such as Sayegh’s Optimum Path Paradigm and related dynamic-programming formulations that penalize large positional jumps and enforce simple playability rules [[13](https://arxiv.org/html/2510.02597v1#bib.bib13), [14](https://arxiv.org/html/2510.02597v1#bib.bib14)]. More recently, researchers have redefined tablature assignment as a translation from symbolic pitch to specific guitar actions. Hamberger et al. introduced the Fretting-Transformer, an encoder-decoder model inspired by the T5 architecture, which effectively maps MIDI tokens to string and fret tokens, achieving state-of-the-art accuracy [[15](https://arxiv.org/html/2510.02597v1#bib.bib15)].
-
-
-Recent work has highlighted the importance of incorporating expressive technique annotations into playable tablature. Current work involves developing an LSTM-based model to optimize tablature generation and minimize hand jumps while considering technique constraints, extending prior optimization approaches [[16](https://arxiv.org/html/2510.02597v1#bib.bib16)] to produce tablature that is accurate and practical to perform. Other studies have focused on note-level estimation, using sequence models or neural networks to predict onset placement more precisely [[17](https://arxiv.org/html/2510.02597v1#bib.bib17)].
-
-
-
-3 Proposed Framework
---------------------
-
+Report issue for preceding element
+## 2 Relation To Prior Work
+Report issue for preceding element
+AMT has made significant advancements in piano transcription. A foundational model, Onsets and Frames \[ [1](https://arxiv.org/html/2510.02597v1#bib.bib1 "")\], focused on separately detecting onsets and frame-level pitch events and then combining them for polyphonic transcription. Building on this, Kong et al. \[ [2](https://arxiv.org/html/2510.02597v1#bib.bib2 "")\] proposed a high-resolution piano transcription model that not only regresses onset and offset times but also models pedal signals, improving overall precision. Extending AMT techniques to the guitar, Riley et al. \[ [8](https://arxiv.org/html/2510.02597v1#bib.bib8 "")\] introduced domain adaptation methods to transfer models trained on piano data to guitar datasets. We build on this by developing new adaptation methods and training on larger datasets.
+Report issue for preceding element
+Expressive guitar technique classification is challenging due to the limited data available for training models. Although recent datasets such as Magcil, AGPT, and IDMT-SMT-Guitar \[ [9](https://arxiv.org/html/2510.02597v1#bib.bib9 ""), [10](https://arxiv.org/html/2510.02597v1#bib.bib10 ""), [11](https://arxiv.org/html/2510.02597v1#bib.bib11 "")\] increase the diversity of available recordings with annotations for expressive techniques, most datasets remain small.
+When it comes to foundational models for classification, Stefani et al. \[ [12](https://arxiv.org/html/2510.02597v1#bib.bib12 "")\] used multilayer feedforward neural networks to train their expressive technique detection model. Our approach further improves on this by testing cross-dataset generalization across domain shifts and addressing the label mismatch between different datasets.
+Report issue for preceding element
+Traditional pitch estimation methods do not address the fundamental challenge of string–fret assignment on a redundant fretboard. Early approaches cast the problem as constrained optimization over feasible fingerings, such as Sayegh’s Optimum Path Paradigm and related dynamic-programming formulations that penalize large positional jumps and enforce simple playability rules \[ [13](https://arxiv.org/html/2510.02597v1#bib.bib13 ""), [14](https://arxiv.org/html/2510.02597v1#bib.bib14 "")\]. More recently, researchers have redefined tablature assignment as a translation from symbolic pitch to specific guitar actions. Hamberger et al. introduced the Fretting-Transformer, an encoder-decoder model inspired by the T5 architecture, which effectively maps MIDI tokens to string and fret tokens, achieving state-of-the-art accuracy \[ [15](https://arxiv.org/html/2510.02597v1#bib.bib15 "")\].
+Report issue for preceding element
+Recent work has highlighted the importance of incorporating expressive technique annotations into playable tablature. Current work involves developing an LSTM-based model to optimize tablature generation and minimize hand jumps while considering technique constraints, extending prior optimization approaches \[ [16](https://arxiv.org/html/2510.02597v1#bib.bib16 "")\] to produce tablature that is accurate and practical to perform. Other studies have focused on note-level estimation, using sequence models or neural networks to predict onset placement more precisely \[ [17](https://arxiv.org/html/2510.02597v1#bib.bib17 "")\].
+Report issue for preceding element
+## 3 Proposed Framework
+Report issue for preceding element
 Our end-to-end tablature transcription framework is composed of three stages that collect data from a guitar audio sample and store them in a unified .jams annotation format and a fourth stage that combines the data to form the final tablature.
-
-
+Report issue for preceding element
 In the first stage, Audio-to-MIDI Conversion, we convert the input guitar audio into MIDI notes by predicting the pitch, onset, offset, and velocity for each note. We fine-tune a piano transcription model on guitar data to produce a sequence of notes, along with their timing and pitch attributes, which are stored in a .jams file.
-
-
+Report issue for preceding element
 Next, in the Expressive Technique Classification stage, we collect information about the expressive technique being used for each note from a classifier. Each note event in the .jams file is updated with a technique label, enabling the system to represent expressive techniques along with pitch and timing.
-
-
+Report issue for preceding element
 In the third stage, String and Fret Assignment, we address pitch redundancy confusion by predicting the most plausible string–fret combination for each note using a transformer-based architecture. These assignments are then appended to each note in the .jams.
-
-
+Report issue for preceding element
 Finally, in the Tablature Generation stage, we convert the .jams file into a structured ASCII tablature format. We integrate the note pitch, timing, expressive techniques, and string and fret assignments to produce tablature suitable for performance.
-
-
+Report issue for preceding element
 ### 3.1 Datasets
-
+Report issue for preceding element
 Throughout this work, we use the following datasets:
-
-
-* •
-  
-  GuitarSet [[8](https://arxiv.org/html/2510.02597v1#bib.bib8)]: High-quality acoustic-guitar recordings with aligned MIDI and note timings across 60 pieces.
-* •
-  
-  EGDB [[18](https://arxiv.org/html/2510.02597v1#bib.bib18)]: 240 electric guitar recordings with MIDI.
-* •
-  
-  Magcil [[9](https://arxiv.org/html/2510.02597v1#bib.bib9)]: 549 electric guitar recordings with technique labels (slides, bends, vibrato, sweep picking, etc.).
-* •
-  
-  AGPT [[10](https://arxiv.org/html/2510.02597v1#bib.bib10)]: Acoustic and electric guitar recordings with onset-level technique tags with over 10 hours of audio.
-* •
-  
-  IDMT-SMT-Chords [[11](https://arxiv.org/html/2510.02597v1#bib.bib11)]: Note-level technique labels featuring 7,398 chord segments across 4.1 hours of audio.
-* •
-  
-  SynthTab [[19](https://arxiv.org/html/2510.02597v1#bib.bib19)]: 26,181 GuitarPro transcriptions synthetically derived from GuitarPro tracks.
-* •
-  
-  DadaGP [[20](https://arxiv.org/html/2510.02597v1#bib.bib20)]: 15,211 Guitar Pro transcriptions. Able to be converted into MIDI-tab pairs for sequence-sequence tasks.
-
-
-
-4 First Stage: Audio-To-MIDI Conversion
----------------------------------------
-
-To train our guitar transcription model, we followed a similar approach of to that of Riley et al. [[8](https://arxiv.org/html/2510.02597v1#bib.bib8)], who fine-tuned a piano transcription model built by Kong et al. [[2](https://arxiv.org/html/2510.02597v1#bib.bib2)]. Kong et al.’s model architecture used a convolutional recurrent neural network (CRNN) that takes in log-mel spectrograms and passes them through convolutional layers to extract features, followed by bidirectional GRUs to model temporal structure. We used the same piano transcription model and fine-tuned it on the GuitarSet and EGDB datasets.
-
-
-Both datasets were processed into a unified HDF5 format containing both audio and MIDI. MIDI files were parsed using the pretty\_midi library to merge the notes into a single channel. We applied an 80/20 train-validation split across all experiments. A combined dataset (GuitarSet-EGDB) was also created by merging the GuitarSet and EGDB datasets.
-
-
-For all fine-tuning experiments, we split each audio into fixed-length 10-second audio segments with a 1-second hop size and a pitch shift augmentation of ±2\pm 2 semitones. We used a batch size of 4, a learning rate of 1×10−51\times 10^{-5} with a reduction by a factor of 0.90.9 every 10,000 iterations, and ended after a total of 100,000 steps.
-
-
+Report issue for preceding element
+- •
+GuitarSet\[ [8](https://arxiv.org/html/2510.02597v1#bib.bib8 "")\]: High-quality acoustic-guitar recordings with aligned MIDI and note timings across 60 pieces.
+Report issue for preceding element
+- •
+EGDB\[ [18](https://arxiv.org/html/2510.02597v1#bib.bib18 "")\]: 240 electric guitar recordings with MIDI.
+Report issue for preceding element
+- •
+Magcil\[ [9](https://arxiv.org/html/2510.02597v1#bib.bib9 "")\]: 549 electric guitar recordings with technique labels (slides, bends, vibrato, sweep picking, etc.).
+Report issue for preceding element
+- •
+AGPT\[ [10](https://arxiv.org/html/2510.02597v1#bib.bib10 "")\]: Acoustic and electric guitar recordings with onset-level technique tags with over 10 hours of audio.
+Report issue for preceding element
+- •
+IDMT-SMT-Chords\[ [11](https://arxiv.org/html/2510.02597v1#bib.bib11 "")\]: Note-level technique labels featuring 7,398 chord segments across 4.1 hours of audio.
+Report issue for preceding element
+- •
+SynthTab\[ [19](https://arxiv.org/html/2510.02597v1#bib.bib19 "")\]: 26,181 GuitarPro transcriptions synthetically derived from GuitarPro tracks.
+Report issue for preceding element
+- •
+DadaGP\[ [20](https://arxiv.org/html/2510.02597v1#bib.bib20 "")\]: 15,211 Guitar Pro transcriptions. Able to be converted into MIDI-tab pairs for sequence-sequence tasks.
+Report issue for preceding element
+## 4 First Stage: Audio-To-MIDI Conversion
+Report issue for preceding element
+To train our guitar transcription model, we followed a similar approach of to that of Riley et al. \[ [8](https://arxiv.org/html/2510.02597v1#bib.bib8 "")\], who fine-tuned a piano transcription model built by Kong et al. \[ [2](https://arxiv.org/html/2510.02597v1#bib.bib2 "")\]. Kong et al.’s model architecture used a convolutional recurrent neural network (CRNN) that takes in log-mel spectrograms and passes them through convolutional layers to extract features, followed by bidirectional GRUs to model temporal structure. We used the same piano transcription model and fine-tuned it on the GuitarSet and EGDB datasets.
+Report issue for preceding element
+Both datasets were processed into a unified HDF5 format containing both audio and MIDI. MIDI files were parsed using the pretty\\_midi library to merge the notes into a single channel. We applied an 80/20 train-validation split across all experiments. A combined dataset (GuitarSet-EGDB) was also created by merging the GuitarSet and EGDB datasets.
+Report issue for preceding element
+For all fine-tuning experiments, we split each audio into fixed-length 10-second audio segments with a 1-second hop size and a pitch shift augmentation of ±2\\pm 2 semitones. We used a batch size of 4, a learning rate of 1×10−51\\times 10^{-5} with a reduction by a factor of 0.90.9 every 10,000 iterations, and ended after a total of 100,000 steps.
+Report issue for preceding element
 ### 4.1 Results
-
-We evaluated model performance during training using four main metrics. Frame average precision (frame\_ap) was used to quantify the model’s accuracy in detecting note activations [[2](https://arxiv.org/html/2510.02597v1#bib.bib2)]. Regression onset and offset mean absolute errors (reg\_onset\_mae, reg\_offset\_mae) were used to measure the timing difference between predicted and ground-truth notes. Velocity mean absolute error (velocity\_mae) was used to assess how accurately the model predicts note intensities or loudness.
-
-
-For note-level transcription evaluation, we utilize standard measures of precision, recall, and F1 score with a tolerance of ±50\pm 50 milliseconds for ground truth versus predicted onset times, called P50, R50, and F50, respectively [[8](https://arxiv.org/html/2510.02597v1#bib.bib8)]. Here we present the performance results of our guitar transcription framework experiments.
-
-
+Report issue for preceding element
+We evaluated model performance during training using four main metrics. Frame average precision (frame\\_ap) was used to quantify the model’s accuracy in detecting note activations \[ [2](https://arxiv.org/html/2510.02597v1#bib.bib2 "")\]. Regression onset and offset mean absolute errors (reg\\_onset\\_mae, reg\\_offset\\_mae) were used to measure the timing difference between predicted and ground-truth notes. Velocity mean absolute error (velocity\\_mae) was used to assess how accurately the model predicts note intensities or loudness.
+Report issue for preceding element
+For note-level transcription evaluation, we utilize standard measures of precision, recall, and F1 score with a tolerance of ±50\\pm 50 milliseconds for ground truth versus predicted onset times, called P50, R50, and F50, respectively \[ [8](https://arxiv.org/html/2510.02597v1#bib.bib8 "")\]. Here we present the performance results of our guitar transcription framework experiments.
+Report issue for preceding element
 Table 1: Results of onset augmentation experiments
-
-| Onset Aug | Frame\_AP | Onset\_MAE | Offset\_MAE |
+| Onset Aug | Frame\\_AP | Onset\\_MAE | Offset\\_MAE |
 | --- | --- | --- | --- |
-| ±10\pm 10ms | 0.9185 | 0.0655 | 0.0887 |
-| ±50\pm 50ms | 0.9197 | 0.0660 | 0.1046 |
-| ±100\pm 100ms | 0.9169 | 0.0655 | 0.1051 |
-| ±200\pm 200ms | 0.9208 | 0.0692 | 0.1088 |
-
-
-Table 1 explores a set of experiments in which we introduced onset augmentation, where each note onset and offset times are randomly shifted by ±10\pm 10ms up to ±200\pm 200 ms. This augmentation was intended to improve onset detection but provided minimal benefit. In fact, larger shifts (±200\pm 200ms) increased error, suggesting that such augmentations introduced noise rather than meaningful variability.
-
-
+| ±10\\pm 10ms | 0.9185 | 0.0655 | 0.0887 |
+| ±50\\pm 50ms | 0.9197 | 0.0660 | 0.1046 |
+| ±100\\pm 100ms | 0.9169 | 0.0655 | 0.1051 |
+| ±200\\pm 200ms | 0.9208 | 0.0692 | 0.1088 |
+Report issue for preceding element
+Table 1 explores a set of experiments in which we introduced onset augmentation, where each note onset and offset times are randomly shifted by ±10\\pm 10ms up to ±200\\pm 200 ms. This augmentation was intended to improve onset detection but provided minimal benefit. In fact, larger shifts (±200\\pm 200ms) increased error, suggesting that such augmentations introduced noise rather than meaningful variability.
+Report issue for preceding element
 Table 2: Model evaluation on GuitarSet
-
 | Model | P50 | R50 | F50 |
 | --- | --- | --- | --- |
 | Base | 0.731 | 0.705 | 0.704 |
 | Acoustic | 0.839 | 0.841 | 0.837 |
 | Acoustic-Electric | 0.846 | 0.836 | 0.838 |
-
-
-Table 3: Model evaluation on EGDB
-
+Report issue for preceding elementTable 3: Model evaluation on EGDB
 | Model | P50 | R50 | F50 |
 | --- | --- | --- | --- |
 | Base | 0.543 | 0.710 | 0.596 |
 | Electric | 0.827 | 0.705 | 0.752 |
 | Acoustic-Electric | 0.793 | 0.773 | 0.779 |
-
-
-Table 4: Model evaluation on GuitarSet-EGDB dataset
-
+Report issue for preceding elementTable 4: Model evaluation on GuitarSet-EGDB dataset
 | Model | P50 | R50 | F50 |
 | --- | --- | --- | --- |
 | Base | 0.637 | 0.708 | 0.650 |
 | Acoustic-Electric | 0.820 | 0.804 | 0.808 |
-
-
-In Tables 2-4, we evaluated model variants across the datasets. The Acoustic-Electric model was fine-tuned on the GuitarSet-EGDB dataset, the Acoustic model was fine-tuned on GuitarSet only, the Electric model was fine-tuned on EGDB only [[8](https://arxiv.org/html/2510.02597v1#bib.bib8), [18](https://arxiv.org/html/2510.02597v1#bib.bib18)], and the Base model was not fine-tuned on any dataset. The Acoustic-Electric model outperformed the Base, Acoustic, and Electric models on every dataset, demonstrating that combining acoustic and electric audio features enhances transcription accuracy.
-
-
-
-
-5 Second Stage: Expressive Technique Classification
----------------------------------------------------
-
-In this stage, we decided to classify nine expressive techniques and a ”other” class, as detailed in Table [5](https://arxiv.org/html/2510.02597v1#S5.T5).
-
-
+Report issue for preceding element
+In Tables 2-4, we evaluated model variants across the datasets. The Acoustic-Electric model was fine-tuned on the GuitarSet-EGDB dataset, the Acoustic model was fine-tuned on GuitarSet only, the Electric model was fine-tuned on EGDB only \[ [8](https://arxiv.org/html/2510.02597v1#bib.bib8 ""), [18](https://arxiv.org/html/2510.02597v1#bib.bib18 "")\], and the Base model was not fine-tuned on any dataset. The Acoustic-Electric model outperformed the Base, Acoustic, and Electric models on every dataset, demonstrating that combining acoustic and electric audio features enhances transcription accuracy.
+Report issue for preceding element
+## 5 Second Stage: Expressive Technique Classification
+Report issue for preceding element
+In this stage, we decided to classify nine expressive techniques and a ”other” class, as detailed in Table [5](https://arxiv.org/html/2510.02597v1#S5.T5 "Table 5 ‣ 5.2 Datasets and Training Methodology ‣ 5 Second Stage: Expressive Technique Classification ‣ TART: A Comprehensive Tool for Technique-Aware Audio-to-Tab Guitar Transcription").
+Report issue for preceding element
 ### 5.1 Classification Model Architecture
-
-We employ a regularized feedforward neural network architecture inspired by Stefani et al. [[12](https://arxiv.org/html/2510.02597v1#bib.bib12)] as our baseline model. For each detected note onset, we extract a 180-dimensional feature vector (stacking Mel-Frequency Cepstral Coefficients (MFCCs), Bark-Frequency Cepstral Coefficients (BFCCs), mel-spectrogram features, and chroma features), which is processed by four layers of 800 dense units and a batch normalization layer with a softmax output for prediction. To mitigate overfitting, we applied node dropout, L2-regularization, and early stopping during training.
-
-
-
+Report issue for preceding element
+We employ a regularized feedforward neural network architecture inspired by Stefani et al. \[ [12](https://arxiv.org/html/2510.02597v1#bib.bib12 "")\] as our baseline model. For each detected note onset, we extract a 180-dimensional feature vector (stacking Mel-Frequency Cepstral Coefficients (MFCCs), Bark-Frequency Cepstral Coefficients (BFCCs), mel-spectrogram features, and chroma features), which is processed by four layers of 800 dense units and a batch normalization layer with a softmax output for prediction. To mitigate overfitting, we applied node dropout, L2-regularization, and early stopping during training.
+Report issue for preceding element
 ### 5.2 Datasets and Training Methodology
-
-The datasets used in this phase are the Magcil, AGPT, and IDMT datasets, which collectively focus on acoustic and electric guitars. Upon training on the Magcil dataset (∼\sim500) and testing on the IDMT dataset, we noticed distributional shift and overfitting, despite regularization. To promote generalization, we created a new unified dataset by pooling the three datasets. Sufficient technique-classification accuracy of IDMT after training only on a portion of the IDMT dataset demonstrates justifiability.
-
-
+Report issue for preceding element
+The datasets used in this phase are the Magcil, AGPT, and IDMT datasets, which collectively focus on acoustic and electric guitars. Upon training on the Magcil dataset (∼\\sim500) and testing on the IDMT dataset, we noticed distributional shift and overfitting, despite regularization. To promote generalization, we created a new unified dataset by pooling the three datasets. Sufficient technique-classification accuracy of IDMT after training only on a portion of the IDMT dataset demonstrates justifiability.
+Report issue for preceding element
 Table 5: Expressive Technique Labels Across Datasets
-
 | Unified Label | AGPT Label | IDMT Label | Magcil Label |
 | --- | --- | --- | --- |
 | picking | pick over soundhole, pick near bridge | picked | – |
@@ -217,246 +137,129 @@ Table 5: Expressive Technique Labels Across Datasets
 | palm mute | palm mute | palm mute | – |
 | harmonics | natural harmonics | harmonics | – |
 | other | percussive, etc. | dead note, etc. | tapping, etc. |
-
-
-
 Note: ”–” indicates that the class does not exist in the corresponding dataset. Test results are based on IDMT’s seven classes.
-
-
-
-
+Report issue for preceding element
+Report issue for preceding element
 We preprocessed the data by saving it as file-level annotations. Since AGPT only has onset-start annotations and not duration labels, we used a fixed window of 0.4 seconds as the duration (the median duration value from the IDMT dataset was 0.41s). To show sufficient generalization capabilities of our unified dataset to the IDMT dataset, we trained on 50% of the IDMT dataset. To balance class distributions, we augmented the data by adding Gaussian noise, temporal, amplitude, and pitch shifts so that each class has at least 2000 samples for training.
-
-
-
+Report issue for preceding element
 ### 5.3 Results
-
-Upon training the unified dataset, we achieved 76% accuracy on the test set. F1 scores in classes with significantly fewer data points such as bends, slides, and vibrato (each with fewer than 100 data points) were lower, while classes with more support (greater than 500 data points) performed significantly better. See Figure [2](https://arxiv.org/html/2510.02597v1#S5.F2) for a detailed breakdown.
-
-
-![]()
-
-Fig. 2: Confusion matrix for the seven test-set-filtered output classes.
-
-
-
-
-
-6 Third Stage: String and Fret Assignment
------------------------------------------
-
-The guitar exhibits pitch redundancy where the same MIDI pitch can be produced at multiple string–fret combinations, creating an optimization problem for tablature generation. To address this, we implement the Fretting-Transformer approach from Hamberger et al. [[15](https://arxiv.org/html/2510.02597v1#bib.bib15)], which treats string and fret assignment as sequence-to-sequence translation using a T5 encoder–decoder architecture with a unified vocabulary for MIDI and tablature tokens.
-
-
+Report issue for preceding element
+Upon training the unified dataset, we achieved 76% accuracy on the test set. F1 scores in classes with significantly fewer data points such as bends, slides, and vibrato (each with fewer than 100 data points) were lower, while classes with more support (greater than 500 data points) performed significantly better. See Figure [2](https://arxiv.org/html/2510.02597v1#S5.F2 "Figure 2 ‣ 5.3 Results ‣ 5 Second Stage: Expressive Technique Classification ‣ TART: A Comprehensive Tool for Technique-Aware Audio-to-Tab Guitar Transcription") for a detailed breakdown.
+Report issue for preceding element
+![Refer to caption](https://arxiv.org/html/2510.02597v1/Two.png)Fig. 2: Confusion matrix for the seven test-set-filtered output classes.Report issue for preceding element
+## 6 Third Stage: String and Fret Assignment
+Report issue for preceding element
+The guitar exhibits pitch redundancy where the same MIDI pitch can be produced at multiple string–fret combinations, creating an optimization problem for tablature generation. To address this, we implement the Fretting-Transformer approach from Hamberger et al. \[ [15](https://arxiv.org/html/2510.02597v1#bib.bib15 "")\], which treats string and fret assignment as sequence-to-sequence translation using a T5 encoder–decoder architecture with a unified vocabulary for MIDI and tablature tokens.
+Report issue for preceding element
 ### 6.1 Dataset Preparation
-
-We train on symbolic tablature datasets including SynthTab [[19](https://arxiv.org/html/2510.02597v1#bib.bib19)] and DadaGP [[20](https://arxiv.org/html/2510.02597v1#bib.bib20)]. We then train on the smaller GuitarSet for fine-tuning to adapt to real recorded guitar performances with MIDI annotations due to its higher quality audio and high-quality annotations.
-
-
+Report issue for preceding element
+We train on symbolic tablature datasets including SynthTab \[ [19](https://arxiv.org/html/2510.02597v1#bib.bib19 "")\] and DadaGP \[ [20](https://arxiv.org/html/2510.02597v1#bib.bib20 "")\]. We then train on the smaller GuitarSet for fine-tuning to adapt to real recorded guitar performances with MIDI annotations due to its higher quality audio and high-quality annotations.
+Report issue for preceding element
 To improve model robustness, we augmented the data with capo positions (0-7). These are represented as conditioning tokens added to sequences, allowing the model to adapt its predictions to different guitar configurations.
-
-
-
+Report issue for preceding element
 ### 6.2 Evaluation
-
-Following Hamberger et al. [[15](https://arxiv.org/html/2510.02597v1#bib.bib15)], we evaluate string and fret assignment using pitch accuracy, which ensures the predicted tablature reproduces the correct pitch regardless of fingering, and tab accuracy, which measures whether both the pitch and the specific string–fret assignment are predicted correctly.
-
-
-To refine predictions, we adopt the post-processing methods from the Fretting-Transformer [[15](https://arxiv.org/html/2510.02597v1#bib.bib15)]. First, overlap correction is applied to align temporally adjacent notes. Then, if any predicted string and fret assignment does not yield the correct pitch, a neighbor search is performed. This allows for exact pitch accuracy while providing a slight boost in tablature accuracy and ensuring that outputs remain musically faithful.
-
-
+Report issue for preceding element
+Following Hamberger et al. \[ [15](https://arxiv.org/html/2510.02597v1#bib.bib15 "")\], we evaluate string and fret assignment using pitch accuracy, which ensures the predicted tablature reproduces the correct pitch regardless of fingering, and tab accuracy, which measures whether both the pitch and the specific string–fret assignment are predicted correctly.
+Report issue for preceding element
+To refine predictions, we adopt the post-processing methods from the Fretting-Transformer \[ [15](https://arxiv.org/html/2510.02597v1#bib.bib15 "")\]. First, overlap correction is applied to align temporally adjacent notes. Then, if any predicted string and fret assignment does not yield the correct pitch, a neighbor search is performed. This allows for exact pitch accuracy while providing a slight boost in tablature accuracy and ensuring that outputs remain musically faithful.
+Report issue for preceding element
 Table 6: Pitch and tab accuracy across acoustic DadaGP
-
 | Dataset | Pitch Accuracy | Tab Accuracy |
-| --- | --- | --- |
 | DadaGP + Postprocessing | 94.9% | 42.1% |
-
-
+Report issue for preceding element
 On the acoustic subset of DadaGP, aligning pitch after inference yielded near-perfect pitch accuracy. With further training on SynthTab and DadaGP followed by fine-tuning on GuitarSet, we expect additional improvements in overall tab accuracy.
-
-
-
-
-7 Fourth Stage: Tablature Generation
-------------------------------------
-
+Report issue for preceding element
+## 7 Fourth Stage: Tablature Generation
+Report issue for preceding element
 After string and fret assignments are determined, we generate human-readable ASCII tablature, aligning fret numbers to strings in temporal order. Expressive techniques are encoded symbolically and appended to fret numbers.
-
-
+Report issue for preceding element
 The generator reads notes from the produced .jams file, sorts them by onset time, and fills fixed-width blocks by appending either fret symbols or placeholders to each string line. To validate, we used a synthetic MIDI example with placeholder string and fret assignments and techniques to produce a sample ASCII tablature.
-
-
+Report issue for preceding element
 While the rule-based generator helps accomplish our primary goal of providing accurate and realistic transcription, the resulting tablature for complex pieces can be difficult for beginners to play due to large hand jumps or awkward fingerings. To improve playability for beginners, we are also training a LSTM network that simplifies raw guitar pieces into more beginner-friendly versions. We are training on note sequences extracted from MIDI files, where each note is represented by pitch, string, fret, and technique encodings.
-
-
+Report issue for preceding element
 We are using a custom loss combining mean-squared error against baseline string and fret mappings with a jump penalty that discourages large changes between consecutive notes. The penalty was scaled to the fretboard distance, ensuring optimization remains physically meaningful. We are also extending the LSTM to optimize under expressive technique constraints, guiding the model to balance technique feasibility with hand comfort.
-
-
-
-8 Conclusion
-------------
-
+Report issue for preceding element
+## 8 Conclusion
+Report issue for preceding element
 In this work, we propose TART, a four-stage framework for guitar AMT with the goal of resolving the expressive technique detection and string and fret assignment problems. Although our work is still ongoing, our preliminary results are promising, and we will continue to improve our training methods, diversify our data, and gather more results. The long-term objective of this research is to develop a universal music platform for guitarists with many tools including TART.
-
-
+Report issue for preceding element
 We plan to test other methods for improving training and final results across our tasks, including evaluating different post-processing algorithms, modifying our model architectures, and training on a significantly larger dataset.
-
-
-
-
-References
-----------
-
-* [1]
-  Curtis Hawthorne, Erich Elsen, Jialin Song, Adam Roberts, Ian Simon, Colin Raffel, Jesse H. Engel, Sageev Oore, and Douglas Eck,
-  
-  
-  “Onsets and frames: Dual-objective piano transcription,”
-  
-  
-  in Proceedings of the 19th International Society for Music Information Retrieval Conference, ISMIR 2018, Paris, France, September 23-27, 2018, Emilia Gómez, Xiao Hu, Eric Humphrey, and Emmanouil Benetos, Eds., 2018, pp. 50–57.
-* [2]
-  Qiuqiang Kong, Bochen Li, Xuchen Song, Yuan Wan, and Yuxuan Wang,
-  
-  
-  “High-resolution piano transcription with pedals by regressing onset and offset times,”
-  
-  
-  IEEE/ACM Trans. Audio, Speech and Lang. Proc., vol. 29, pp. 3707–3717, Oct. 2021.
-* [3]
-  Yu-Te Wu, Berlin Chen, and Li Su,
-  
-  
-  “Multi-instrument automatic music transcription with self-attention-based instance segmentation,”
-  
-  
-  IEEE/ACM Transactions on Audio, Speech, and Language Processing, vol. 28, pp. 2796–2809, 2020.
-* [4]
-  Sehun Kim, Tomoki Hayashi, and Tomoki Toda,
-  
-  
-  “Note-level automatic guitar transcription using attention mechanism,”
-  
-  
-  in 2022 30th European Signal Processing Conference (EUSIPCO), 2022, pp. 229–233.
-* [5]
-  Rachel M. Bittner, Juan José Bosch, David Rubinstein, Gabriel Meseguer-Brocal, and Sebastian Ewert,
-  
-  
-  “A lightweight instrument-agnostic model for polyphonic note transcription and multipitch estimation,” 2022.
-* [6]
-  Hegel Pedroza, Wallace Abreu, Ryan Corey, and Iran Roman,
-  
-  
-  “Leveraging real electric guitar tones and effects to improve robustness in guitar tablature transcription modeling,” 2024.
-* [7]
-  Dichucheng Li, Yongyi Zang, and Qiuqiang Kong,
-  
-  
-  “Piano transcription by hierarchical language modeling with pretrained roll-based encoders,” 2025.
-* [8]
-  Xavier Riley, Drew Edwards, and Simon Dixon,
-  
-  
-  “High resolution guitar transcription via domain adaptation,”
-  
-  
-  in ICASSP 2024 - 2024 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP), 2024, pp. 1051–1055.
-* [9]
-  Alexandros Mitsou, Antonia Petrogianni, Eleni Amvrosia Vakalaki, Christos Nikou, Theodoros Psallidas, and Theodoros Giannakopoulos,
-  
-  
-  “A multimodal dataset for electric guitar playing technique recognition,”
-  
-  
-  Data in Brief, vol. 52, pp. 109842, 2024.
-* [10]
-  Domenico Stefani, Gregorio Andrea Giudici, and Luca Turchet,
-  
-  
-  “On the importance of temporally precise onset annotations for real-time music information retrieval: Findings from the ag-pt-set dataset,”
-  
-  
-  in Proceedings of the 19th International Audio Mostly Conference: Explorations in Sonic Cultures, New York, NY, USA, 2024, AM ’24, p. 270–284, Association for Computing Machinery.
-* [11]
-  Christon-Ragavan Nadar, Jakob Abeßer, and Sascha Grollmisch,
-  
-  
-  “Idmt-smt-chords dataset,” Zenodo, Jan. 2023,
-  
-  
-  Version 1.0.0.
-* [12]
-  Domenico Stefani, Simone Peroni, Luca Turchet, et al.,
-  
-  
-  “A comparison of deep learning inference engines for embedded real-time audio classification,”
-  
-  
-  in Proceedings of the International Conference on Digital Audio Effects, DAFx. DAFx, 2022, vol. 3, pp. 256–263.
-* [13]
-  Samir I. Sayegh,
-  
-  
-  “Fingering for string instruments with the optimum path paradigm,”
-  
-  
-  Computer Music Journal, vol. 13, no. 3, pp. 76–84, 1989.
-* [14]
-  Aleksander Radisavljevic and Peter F. Driessen,
-  
-  
-  “Path difference learning for guitar fingering problem,”
-  
-  
-  in International Conference on Mathematics and Computing, 2004.
-* [15]
-  Anna Hamberger, Sebastian Murgul, Jochen Schmidt, and Michael Heizmann,
-  
-  
-  “Fretting-transformer: Encoder-decoder model for midi to tablature transcription,”
-  
-  
-  in Proceedings of the 50th International Computer Music Conference (ICMC 2025), Boston, MA, USA, June 2025, pp. 438–445, Composers Society of Singapore.
-* [16]
-  Drew Edwards, Xavier Riley, Pedro Sarmento, and Simon Dixon,
-  
-  
-  “Midi-to-tab: Guitar tablature inference via masked language modeling,” arXiv preprint arXiv:2408.05024, 2024.
-* [17]
-  Andrew Wiggins and Youngmoo Kim,
-  
-  
-  “Guitar tablature estimation with a convolutional neural network,” International Society for Music Information Retrieval, 2019.
-* [18]
-  Yu-Hua Chen, Wen-Yi Hsiao, Tsu-Kuang Hsieh, Jyh-Shing Roger Jang, and Yi-Hsuan Yang,
-  
-  
-  “Towards automatic transcription of polyphonic electric guitar music: A new dataset and a multi-loss transformer model,”
-  
-  
-  ICASSP 2022 - 2022 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP), pp. 786–790, 2022.
-* [19]
-  Yongyi Zang, Yi Zhong, Frank Cwitkowitz, and Zhiyao Duan,
-  
-  
-  “Synthtab: Leveraging synthesized data for guitar tablature transcription,”
-  
-  
-  in ICASSP 2024 - 2024 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP). Apr. 2024, p. 1286–1290, IEEE.
-* [20]
-  P. Sarmento, A. Kumar, C. J. Carr, Z. Zukowski, M. Barthet, and Y.-H. Yang,
-  
-  
-  “Dadagp: A dataset of tokenized guitarpro songs for sequence models,”
-  
-  
-  in Proceedings of the 22nd International Society for Music Information Retrieval Conference (ISMIR), 2021, pp. 610–617.
-
-
-
-Generated on Thu Oct 2 22:07:15 2025 by [LaTeXML](http://dlmf.nist.gov/LaTeXML/)
-
-
-
-
+Report issue for preceding element
+## References
+Report issue for preceding element
+- \[1\]
+Curtis Hawthorne, Erich Elsen, Jialin Song, Adam Roberts, Ian Simon, Colin Raffel, Jesse H. Engel, Sageev Oore, and Douglas Eck,
+“Onsets and frames: Dual-objective piano transcription,”
+in Proceedings of the 19th International Society for Music Information Retrieval Conference, ISMIR 2018, Paris, France, September 23-27, 2018, Emilia Gómez, Xiao Hu, Eric Humphrey, and Emmanouil Benetos, Eds., 2018, pp. 50–57.
+- \[2\]
+Qiuqiang Kong, Bochen Li, Xuchen Song, Yuan Wan, and Yuxuan Wang,
+“High-resolution piano transcription with pedals by regressing onset and offset times,”
+IEEE/ACM Trans. Audio, Speech and Lang. Proc., vol. 29, pp. 3707–3717, Oct. 2021.
+- \[3\]
+Yu-Te Wu, Berlin Chen, and Li Su,
+“Multi-instrument automatic music transcription with self-attention-based instance segmentation,”
+IEEE/ACM Transactions on Audio, Speech, and Language Processing, vol. 28, pp. 2796–2809, 2020.
+- \[4\]
+Sehun Kim, Tomoki Hayashi, and Tomoki Toda,
+“Note-level automatic guitar transcription using attention mechanism,”
+in 2022 30th European Signal Processing Conference (EUSIPCO), 2022, pp. 229–233.
+- \[5\]
+Rachel M. Bittner, Juan José Bosch, David Rubinstein, Gabriel Meseguer-Brocal, and Sebastian Ewert,
+“A lightweight instrument-agnostic model for polyphonic note transcription and multipitch estimation,” 2022.
+- \[6\]
+Hegel Pedroza, Wallace Abreu, Ryan Corey, and Iran Roman,
+“Leveraging real electric guitar tones and effects to improve robustness in guitar tablature transcription modeling,” 2024.
+- \[7\]
+Dichucheng Li, Yongyi Zang, and Qiuqiang Kong,
+“Piano transcription by hierarchical language modeling with pretrained roll-based encoders,” 2025.
+- \[8\]
+Xavier Riley, Drew Edwards, and Simon Dixon,
+“High resolution guitar transcription via domain adaptation,”
+in ICASSP 2024 - 2024 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP), 2024, pp. 1051–1055.
+- \[9\]
+Alexandros Mitsou, Antonia Petrogianni, Eleni Amvrosia Vakalaki, Christos Nikou, Theodoros Psallidas, and Theodoros Giannakopoulos,
+“A multimodal dataset for electric guitar playing technique recognition,”
+Data in Brief, vol. 52, pp. 109842, 2024.
+- \[10\]
+Domenico Stefani, Gregorio Andrea Giudici, and Luca Turchet,
+“On the importance of temporally precise onset annotations for real-time music information retrieval: Findings from the ag-pt-set dataset,”
+in Proceedings of the 19th International Audio Mostly Conference: Explorations in Sonic Cultures, New York, NY, USA, 2024, AM ’24, p. 270–284, Association for Computing Machinery.
+- \[11\]
+Christon-Ragavan Nadar, Jakob Abeßer, and Sascha Grollmisch,
+“Idmt-smt-chords dataset,” Zenodo, Jan. 2023,
+Version 1.0.0.
+- \[12\]
+Domenico Stefani, Simone Peroni, Luca Turchet, et al.,
+“A comparison of deep learning inference engines for embedded real-time audio classification,”
+in Proceedings of the International Conference on Digital Audio Effects, DAFx. DAFx, 2022, vol. 3, pp. 256–263.
+- \[13\]
+Samir I. Sayegh,
+“Fingering for string instruments with the optimum path paradigm,”
+Computer Music Journal, vol. 13, no. 3, pp. 76–84, 1989.
+- \[14\]
+Aleksander Radisavljevic and Peter F. Driessen,
+“Path difference learning for guitar fingering problem,”
+in International Conference on Mathematics and Computing, 2004.
+- \[15\]
+Anna Hamberger, Sebastian Murgul, Jochen Schmidt, and Michael Heizmann,
+“Fretting-transformer: Encoder-decoder model for midi to tablature transcription,”
+in Proceedings of the 50th International Computer Music Conference (ICMC 2025), Boston, MA, USA, June 2025, pp. 438–445, Composers Society of Singapore.
+- \[16\]
+Drew Edwards, Xavier Riley, Pedro Sarmento, and Simon Dixon,
+“Midi-to-tab: Guitar tablature inference via masked language modeling,” arXiv preprint arXiv:2408.05024, 2024.
+- \[17\]
+Andrew Wiggins and Youngmoo Kim,
+“Guitar tablature estimation with a convolutional neural network,” International Society for Music Information Retrieval, 2019.
+- \[18\]
+Yu-Hua Chen, Wen-Yi Hsiao, Tsu-Kuang Hsieh, Jyh-Shing Roger Jang, and Yi-Hsuan Yang,
+“Towards automatic transcription of polyphonic electric guitar music: A new dataset and a multi-loss transformer model,”
+ICASSP 2022 - 2022 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP), pp. 786–790, 2022.
+- \[19\]
+Yongyi Zang, Yi Zhong, Frank Cwitkowitz, and Zhiyao Duan,
+“Synthtab: Leveraging synthesized data for guitar tablature transcription,”
+in ICASSP 2024 - 2024 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP). Apr. 2024, p. 1286–1290, IEEE.
+- \[20\]
+P. Sarmento, A. Kumar, C. J. Carr, Z. Zukowski, M. Barthet, and Y.-H. Yang,
+“Dadagp: A dataset of tokenized guitarpro songs for sequence models,”
+in Proceedings of the 22nd International Society for Music Information Retrieval Conference (ISMIR), 2021, pp. 610–617.
+Report IssueReport Issue for Selection

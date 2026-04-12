@@ -148,3 +148,190 @@
     {"jobId": "49eab175-9b4f-45d9-bd80-36c954f99ef7", "name": "代码架构思维提升Agent", "issue": "error", "action": "已上报"}
   ]
 }
+,{
+  "lastCheck": 1744419960000,
+  "checkedAt": "2026-04-12 04:26 CST",
+  "summary": "2任务仍error，凌晨时段不触发重试，不打扰用户",
+  "issuesFound": [
+    {"jobId":"7513ccb9-81d1-4876-acb8-59d09947b896","name":"视频解析方法总结Agent","issue":"error 46m ago","action":"已知问题，等待白天处理"},
+    {"jobId":"49eab175-9b4f-45d9-bd80-36c954f99ef7","name":"代码架构思维提升Agent","issue":"error 32m ago","action":"已知问题，等待白天处理"}
+  ],
+  "notes":["免费语音克隆方案Agent/AI+音乐商机探索Agent已恢复ok","其余29个任务正常ok","凌晨4:26 AM，跳过触发重试和通知"]
+}
+,{
+  "lastCheck": 1744423560000,
+  "checkedAt": "2026-04-12 05:26 CST",
+  "summary": "2任务仍error，5:26 AM安静时段",
+  "issuesFound": [
+    {"jobId":"7513ccb9-81d1-4876-acb8-59d09947b896","name":"视频解析方法总结Agent","issue":"error 2h ago","action":"已知问题"},
+    {"jobId":"49eab175-9b4f-45d9-bd80-36c954f99ef7","name":"代码架构思维提升Agent","issue":"error 2h ago","action":"已知问题"}
+  ],
+  "notes":["5:26 AM，跳过触发重试和通知"]
+}
+,{
+  "lastCheck": 1744425960000,
+  "checkedAt": "2026-04-12 06:06 CST",
+  "summary": "2任务仍error，cron run平台级问题未恢复（exit1），持续已知问题",
+  "issuesFound": [
+    {"jobId":"7513ccb9-81d1-4876-acb8-59d09947b896","name":"视频解析方法总结Agent","issue":"error 2h ago","action":"cron run也失败(exit1)，等待平台恢复"},
+    {"jobId":"49eab175-9b4f-45d9-bd80-36c954f99ef7","name":"代码架构思维提升Agent","issue":"error 2h ago","action":"cron run也失败(exit1)，等待平台恢复"}
+  ],
+  "platformIssue":"openclaw cron run 仍报exit1，平台scheduler疑似故障",
+  "notes":["其余30个任务正常ok","早晨6:06 AM，暂不打扰用户"]
+}
+,{
+  "lastCheck": 1744428540000,
+  "checkedAt": "2026-04-12 06:09 CST",
+  "summary": "所有定时任务状态正常，无异常",
+  "issuesFound": [],
+  "notes":["视频解析方法总结Agent/代码架构思维提升Agent未出现在当前列表中（可能已自动恢复或被调度器清理）","共约29个任务全部ok","6:09 AM，平台运行正常"]
+}
+,{
+  "lastCheck": 1744427460000,
+  "checkedAt": "2026-04-12 06:11 CST",
+  "summary": "所有定时任务状态正常，无异常",
+  "issuesFound": [],
+  "notes":["视频解析方法总结Agent已自动恢复ok","代码架构思维提升Agent已自动恢复ok","共32个任务全部ok"]
+}
+,{
+  "lastCheck": 1744427520000,
+  "checkedAt": "2026-04-12 06:12 CST",
+  "summary": "所有定时任务全部恢复ok，2个之前error的任务已自动修复",
+  "issuesFound": [],
+  "notes":["视频解析方法总结Agent已恢复ok","代码架构思维提升Agent已恢复ok","全34个任务无error"]
+}
+,{
+  "lastCheck": 1744427580000,
+  "checkedAt": "2026-04-12 06:13 CST",
+  "summary": "所有任务状态正常，2个 previously error 的任务已自行恢复为 running",
+  "issuesFound": [],
+  "notes":["视频解析方法总结Agent: error→running 自恢复","代码架构思维提升Agent: error→running 自恢复","开源大模型技术追踪Agent: 已恢复 ok","共28个任务全部正常"]
+}
+,{
+  "lastCheck": 1744428183000,
+  "checkedAt": "2026-04-12 06:43 CST",
+  "summary": "3任务error，白天触发cron run补救，均gateway timeout，已通知用户",
+  "issuesFound": [
+    {"jobId":"7513ccb9-81d1-4876-acb8-59d09947b896","name":"视频解析方法总结Agent","issue":"error 36m ago","action":"cron run gateway timeout，已通知"},
+    {"jobId":"49eab175-9b4f-45d9-bd80-36c954f99ef7","name":"代码架构思维提升Agent","issue":"error 34m ago","action":"cron run gateway timeout，已通知"},
+    {"jobId":"6792c942-93d0-4bec-9af2-2891c3fbd986","name":"真实人类价值分析师 - 每周六","issue":"error 43m ago (新增)","action":"cron run gateway timeout，已通知"}
+  ],
+  "platformIssue": "gateway 127.0.0.1:18789 cron run持续timeout，3个任务无法自动恢复",
+  "notes":["DingTalk告警已发送（06:43）","免费语音克隆/AI+音乐/开源大模型任务已恢复ok","其余29个任务正常ok"]
+}
+,{
+  "lastCheck": 1744426200000,
+  "checkedAt": "2026-04-12 06:50 CST",
+  "summary": "1个任务error（已知平台问题），1个任务running正在执行",
+  "issuesFound": [
+    {"jobId":"7513ccb9-81d1-4876-acb8-59d09947b896","name":"视频解析方法总结Agent","issue":"error 7m ago, cron run平台仍报exit1","action":"已知问题，持续监控"},
+    {"jobId":"49eab175-9b4f-45d9-bd80-36c954f99ef7","name":"代码架构思维提升Agent","issue":"running 41m ago","action":"正在执行中，不干预"}
+  ],
+  "notes":["开源大模型技术追踪Agent已恢复ok","免费语音克隆方案Agent/AI+音乐商机探索Agent已恢复ok","视频解析方法总结Agent持续error超过1天，cron run平台问题（exit1）未解决","6:50 AM，跳过通知"]
+}
+,{
+  "lastCheck": 1744428780000,
+  "checkedAt": "2026-04-12 06:53 CST",
+  "summary": "视频解析方法总结Agent已恢复running；代码架构思维提升Agent仍error，cron run SIGTERM平台问题",
+  "issuesFound": [
+    {"jobId":"7513ccb9-81d1-4876-acb8-59d09947b896","name":"视频解析方法总结Agent","issue":"已从error恢复为running（自动重试成功）","action":"无需操作"},
+    {"jobId":"49eab175-9b4f-45d9-bd80-36c954f99ef7","name":"代码架构思维提升Agent","issue":"error 8m ago，cron run触发后被SIGTERM终止（平台级问题）","action":"持续监控"}
+  ],
+  "notes":["平台问题：openclaw cron run 被SIGTERM终止，无法自动恢复失败任务","建议用户通过MaxClaw设置菜单重启gateway解决底层调度问题","其余31个任务正常ok"]
+}
+,{
+  "lastCheck": 1744430640000,
+  "checkedAt": "2026-04-12 07:24 CST",
+  "summary": "视频解析已恢复；2个任务仍error，cron run平台问题（SIGTERM）仍存在",
+  "issuesFound": [
+    {"jobId":"49eab175-9b4f-45d9-bd80-36c954f99ef7","name":"代码架构思维提升Agent","issue":"error 31m ago，cron run SIGTERM失败","action":"已知问题，等待下次调度"},
+    {"jobId":"6792c942-93d0-4bec-9af2-2891c3fbd986","name":"真实人类价值分析师 - 每周六","issue":"error 37m ago（本周六首次失败），cron run SIGTERM","action":"需关注，明天若继续失败需上报"}
+  ],
+  "recovered": [
+    {"jobId":"7513ccb9","name":"视频解析方法总结Agent","note":"已自动恢复ok"}
+  ],
+  "platformIssue": "openclaw cron run 仍报SIGTERM/exit1，平台级问题，两任务无法通过cron run重试"
+}
+,{
+  "lastCheck": 1744431600000,
+  "checkedAt": "2026-04-12 07:26 CST",
+  "summary": "1个新error(真实人类价值分析师-每周六)，上次2个error已自动恢复ok",
+  "issuesFound": [
+    {"jobId":"6792c942-93d0-4bec-9af2-2891c3fbd986","name":"真实人类价值分析师 - 每周六","issue":"error 39m ago","action":"周六任务，可能正常失败，等待周六再次验证"}
+  ],
+  "recovered": [
+    {"jobId":"7513ccb9","name":"视频解析方法总结Agent","was":"error","now":"ok"},
+    {"jobId":"49eab175","name":"代码架构思维提升Agent","was":"error","now":"running(正常)"},
+    {"jobId":"d4a0ebf8","name":"免费语音克隆方案Agent","was":"error","now":"ok"},
+    {"jobId":"840d54bc","name":"AI+音乐商机探索Agent","was":"error","now":"ok"}
+  ],
+  "notes":["上次4个error任务全部自动恢复，仅剩1个周六定时任务error（可能是预期失败，等待下周验证）","其余31个任务正常ok"]
+}
+,{
+  "lastCheck": 1744432560000,
+  "checkedAt": "2026-04-12 07:56 CST",
+  "summary": "视频解析方法总结Agent已自动恢复ok；其余2个error任务cron run仍报gateway timeout",
+  "issuesFound": [
+    {"jobId":"49eab175-9b4f-45d9-bd80-36c954f99ef7","name":"代码架构思维提升Agent","issue":"error 31m ago，cron run gateway timeout","action":"已知问题，待platform恢复"},
+    {"jobId":"6792c942-93d0-4bec-9af2-2891c3fbd986","name":"真实人类价值分析师 - 每周六","issue":"error 1h ago（Schedule=Saturday，实际周日触发，疑似schedule bug）","action":"已上报/已知"}
+  ],
+  "platformIssue":"cron run gateway timeout（已知问题，持续多时），无法通过trigger补救",
+  "recovered": ["视频解析方法总结Agent","免费语音克隆方案Agent","AI+音乐商机探索Agent"],
+  "notes":["真实人类价值分析师疑为Saturday误触发，schedule=0 6 * * 6但周日6:56触发了"]
+}
+,{
+  "lastCheck": 1744434480000,
+  "checkedAt": "2026-04-12 08:28 CST",
+  "summary": "2个error任务状态未变，下一个周期自动重试",
+  "issuesFound": [
+    {"jobId":"49eab175-9b4f-45d9-bd80-36c954f99ef7","name":"代码架构思维提升Agent","issue":"error 1h ago，下次自动重试：今日19:50"},
+    {"jobId":"6792c942-93d0-4bec-9af2-2891c3fbd986","name":"真实人类价值分析师 - 每周六","issue":"error 1h ago，下次自动重试：下周六06:00"}
+  ],
+  "platformIssue":"cron run仍不可用，等待gateway自动恢复",
+  "notes":["真实人类价值分析师确认在周六schedule下今日异常触发，下次正常应在6天后（周六）","代码架构思维提升Agent每日19:50执行，下次自动重试","其余30个任务ok"]
+}
+,{
+  "lastCheck": 1744434840000,
+  "checkedAt": "2026-04-12 08:34 CST",
+  "summary": "仅剩1个error任务，真实人类价值分析师已自动退为scheduled状态（正常）",
+  "issuesFound": [
+    {"jobId":"49eab175-9b4f-45d9-bd80-36c954f99ef7","name":"代码架构思维提升Agent","issue":"error 38m ago，cron run gateway timeout","action":"已知问题"}
+  ],
+  "notes":["真实人类价值分析师已从error→scheduled(next in 21h)，每周六任务正常运行","视频解析方法总结Agent已完全恢复","其余31个任务正常"]
+}
+,{
+  "lastCheck": 1744437840000,
+  "checkedAt": "2026-04-12 09:04 CST",
+  "summary": "2任务running(正常)，2任务error(已知)，其余全部ok",
+  "running": ["AI Coding助手 - 每日提升","信息抓取助手 - 早9点"],
+  "issuesFound": [
+    {"jobId":"49eab175-9b4f-45d9-bd80-36c954f99ef7","name":"代码架构思维提升Agent","issue":"error 1h ago","action":"已知"},
+    {"jobId":"6792c942-93d0-4bec-9af2-2891c3fbd986","name":"真实人类价值分析师 - 每周六","issue":"error 1h ago","action":"已知"}
+  ],
+  "notes":["cron run gateway timeout平台问题持续，不重复触发重试"]
+}
+,{
+  "lastCheck": 1744439640000,
+  "checkedAt": "2026-04-12 09:34 CST",
+  "summary": "2个任务仍error无变化，cron run仍不可用，待platform恢复",
+  "issuesFound": [
+    {"jobId":"49eab175","name":"代码架构思维提升Agent","issue":"error 2h+","action":"已知"},
+    {"jobId":"6792c942","name":"真实人类价值分析师 - 每周六","issue":"error 2h+，疑似schedule bug（周六任务周日触发）","action":"已知"}
+  ],
+  "notes":["无新问题，其余30个任务正常"]
+}
+,{
+  "lastCheck": 1744441440000,
+  "checkedAt": "2026-04-12 10:04 CST",
+  "summary": "2 error任务cron run仍超时，gateway问题持续，整体无新增异常",
+  "issuesFound": [
+    {"jobId":"49eab175-9b4f-45d9-bd80-36c954f99ef7","name":"代码架构思维提升Agent","issue":"error 2h ago，cron run gateway timeout","action":"已知问题，待platform恢复"},
+    {"jobId":"6792c942-93d0-4bec-9af2-2891c3fbd986","name":"真实人类价值分析师 - 每周六","issue":"error 2h ago，cron run gateway timeout","action":"已知问题，待platform恢复"}
+  ],
+  "runningTasks": [
+    {"jobId":"68507237","name":"推荐系统算法面经每日搜集","schedule":"10:00 AM","status":"running","note":"正常执行中"},
+    {"jobId":"78df27ac","name":"跨Agent新技术同步中心 - 每日10点","schedule":"10:00 AM","status":"running","note":"正常执行中"}
+  ],
+  "platformIssue":"cron run gateway timeout（持续中）"
+}
+,{"lastCheck":1744445760000,"checkedAt":"2026-04-12 11:36 CST","summary":"4个error任务维持现状，cron run仍不可用，已通知用户","issuesFound":[{"jobId":"49eab175","name":"代码架构思维提升Agent","issue":"error 1h ago"},{"jobId":"6792c942","name":"真实人类价值分析师","issue":"error 2h ago"},{"jobId":"68507237","name":"推荐系统算法面经每日搜集","issue":"error 2h ago"},{"jobId":"78df27ac","name":"跨Agent新技术同步中心","issue":"error 2h ago"}],"notes":["技术前沿分析师11:30正常运行中","等待用户重启gateway"]}

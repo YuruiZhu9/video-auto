@@ -317,3 +317,35 @@ A：对于生成模式，可固定随机种子；对于克隆模式，使用相�
 
 **Q：支持实时流式推理吗？**
 A：当前版本主要是非流式输出（先生成完整音频），流式正在开发中。
+
+---
+
+## 🆕 CustomVoice-oQ8 量化版（社区版，2026-04-12 新增）
+
+| 指标 | 数据 |
+|------|------|
+| 模型名 | `beaupi/Qwen3-TTS-12Hz-1.7B-CustomVoice-oQ8` |
+| 参数量 | **~0.5B**（原始 1.7B，8位量化）|
+| 上传者 | beaupi（社区）|
+| HuggingFace | [beaupi/Qwen3-TTS-12Hz-1.7B-CustomVoice-oQ8](https://huggingface.co/beaupi/Qwen3-TTS-12Hz-1.7B-CustomVoice-oQ8) |
+| 许可证 | Apache 2.0（继承官方）|
+| 适用场景 | **CPU 推理 / 低显存设备** |
+| 原版对照 | Qwen3-TTS-12Hz-1.7B-CustomVoice（1.7B → 量化后 ~0.5B）|
+
+### 特点
+- 参数量缩减约 **70%**（1.7B → 0.5B），适合 CPU 或 4GB 以下显存
+- 保留 9 种预置音色（Vivian、Serena、Uncle_Fu 等）+ 指令控制风格
+- 8-bit 量化版，推理速度更快
+
+### 下载
+```bash
+huggingface-cli download beaupi/Qwen3-TTS-12Hz-1.7B-CustomVoice-oQ8 --local-dir ./model
+```
+
+### 使用
+```python
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+model = AutoModelForCausalLM.from_pretrained("beaupi/Qwen3-TTS-12Hz-1.7B-CustomVoice-oQ8")
+tokenizer = AutoTokenizer.from_pretrained("beaupi/Qwen3-TTS-12Hz-1.7B-CustomVoice-oQ8")
+```

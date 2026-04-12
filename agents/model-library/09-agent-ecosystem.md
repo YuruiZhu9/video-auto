@@ -14,6 +14,11 @@
 | **QBotClaw**（腾讯）🆕 | 国内首个浏览器Agent，内置于QQ浏览器，浏览器→AI Agent，免费使用；可将网页浏览行为直接转化为AI可执行任务 | 浏览器AI自动化、网页信息提取、AI辅助浏览 | Gemini Browser Extension | 2026-04-09 |
 | 即梦AI Octo（即梦）🆕 | 协作型叙事工具，首创VibeCreate氛围创作模式，从指令式转向同屏共创，用户与AI实时协作打磨创意内容 | AI故事创作、内容共创、氛围感创作 | Runway Storyboard、Midjourney Story Mode | 2026-04-09 |
 | **Moxt Agent-Native工作空间**🆕 | 将AI从工具升级为"AI员工团队"，解决信息焦虑，支持多Agent任务分配与协作 | AI团队协作、企业工作流自动化、知识管理 | OpenClaw Multi-Agent、Zapier AI | 2026-04-09 |
+| **DeepTutor**（港大 HKUDS）🆕 | 首个 Agent 原生的个性化学习助手，GitHub Trending上榜；由香港大学研发，为AI教育场景原生设计 | AI教育、个性化学习 Agent、作业辅导 | Khanmigo、AI Tutor | 2026-04-12 |
+| **Hermes Agent**（NousResearch）🆕 | 开源智能体，与用户共同成长的AI伙伴；GitHub Trending上榜，支持长期记忆与自适应行为演化 | 个人AI助手、成长型Agent、记忆管理 | OpenChat、Camel | 2026-04-12 |
+| **Rowboat**（rowboatlabs）🆕 | 具有持久记忆功能的开源AI协作伙伴，支持跨会话持续上下文；GitHub Trending上榜 | 持久记忆Agent、AI协作、长程项目 | Hermes Agent、OpenClaw | 2026-04-12 |
+| **Multica**（multica-ai）🆕 | 开源托管Agent平台，让开发者轻松部署和托管AI Agent；GitHub Trending上榜 | Agent部署托管、AI服务平台、开源Agent平台 | OpenClaw、Dify | 2026-04-12 |
+| **MarkItDown**（微软）🆕 | 微软开源Python文档一键转Markdown工具，支持多种文件格式转换，GitHub Trending上榜 | 文档转换、AI辅助写作、知识管理 | — | 2026-04-12 |
 | ZooClaw（Product Hunt）| Claude Code企业协作平台，支持团队共享项目模板、审计日志、权限管理，Product Hunt April 2026 第三名（36,243票），Claude Code企业化代表产品 | 企业Claude Code管理、团队AI编程协作、审计合规 | Claude Code原生（个人版）、Cursor企业版 | 2026-04-04 |
 |-----------|----------|----------|----------|----------|
 | Pendium（Product Hunt）| 帮助企业在AI代理搜索中占据推荐位——"AI时代的SEO"，AIO（AI Optimization）新方向，Product Hunt 341票 | 企业AIO优化、AI可见性 SaaS、GEO升级 | 传统SEO工具 | 2026-03-28 |
@@ -30,6 +35,7 @@
 |-----------|----------|----------|----------|----------|
 | ClawHub 中国镜像（OpenClaw）| OpenClaw生态核心技能注册中心ClawHub上线中国镜像，为"AI Agent的npm仓库"，国内开发者访问再无延迟 | OpenClaw生态、AI技能市场、Agent开发 | GitHub（海外）| 2026-04-02 |
 | **微信支付AI接入工具箱**（微信）🆕 | 一句话快速集成支付功能，AI开发工具一键加载，帮商家降低技术门槛快速接入AI能力 | 支付AI集成、电商开发工具、SaaS支付模块 | — | 2026-04-09 |
+| **扣子2.5**（字节跳动）🆕 | 字节Agent World，**每个Agent配云电脑（Ubuntu 2核4G）+ 云手机（Android 13）+ 独立邮箱**，打造"Agent World"平行网络，国产Agent生态再升级；三家中Agent生态押注最激进的方案 | 企业Agent、Agent World、AI员工团队、云端Agent | 腾讯QClaw、MiniMax MaxClaw | 2026-04-12 |
 | MiniMax MaxClaw（全渠道）| MiniMax AI Agent，支持接入个人微信/企业微信/飞书/钉钉全主流通讯渠道，AI智能体全渠道覆盖 | 个人AI助手、多平台 Agent、企业多渠道服务 | 阶跃AI StepClaw | 2026-03-24 |
 | ClawBot（微信）| 微信官方OpenClaw插件，随时随地操控OpenClaw小龙虾插件，微信生态AI Agent生态扩张 | 微信生态AI操控、个人事务助理 | - | 2026-03-24 |
 | **腾讯QClaw V2** | 多Agent协同平台，支持最多3个Agent并行工作，开启"数字工作团队"时代；继承V1微信远程操控能力，数字形象"小龙虾"升级 | 多Agent协作、桌面AI助手、远程办公、数字团队 | 阶跃AI StepClaw | 2026-04-09 |
@@ -48,6 +54,7 @@
 | Perplexity | AI搜索平台，实时网络检索，引用来源 | AI搜索、研究助手 | Bing AI、Arc Search | 2026-03-09 |
 | **Gemini Notebooks**（谷歌）🆕 | 打通NotebookLM，构建个人知识库，支持聊天记录/文档/PDF集中管理+自定义AI指令 | 个人知识库、AI学习助手、研究笔记管理 | Notion AI、Obsidian AI | 2026-04-09 |
 | **SteamGPT**（V社/Valve）🆕 | 面向Steam客服场景的内部AI工具，含SteamGPT+Summary两大模块，秘密自研中 | Steam客服自动化、游戏平台AI | — | 2026-04-09 |
+| **Kronos**（shiyu-coder）🆕 | 专为金融市场语言设计的基础模型，GitHub Trending上榜；支持金融文本分析、市场情绪识别、量化因子挖掘 | 金融NLP、量化分析、市场情绪 | Bloomberg GPT、FinGPT | 2026-04-12 |
 | Step-DeepResearch（阶跃星辰）| 32B参数深度研究智能体，主打低成本高性价比，将传统网页搜索转化为专业深度研究工作流 | 深度研究、AI搜索、企业情报 | Perplexity、ChatGPT搜索 | 2026-03-24 |
 | NotebookLM | 电影级视频概览功能 | 学习笔记、视频摘要 | - | 2026-03-06 |
 

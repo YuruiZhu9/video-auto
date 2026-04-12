@@ -16,6 +16,8 @@ result = model.clone_and_synthesize(
 - ✅ 18种中文方言
 - ✅ 自然语言情感控制
 - ⚠️ Apache-2.0许可
+- ⚠️ **已知 Bug**：CosyVoice 3.0 部分 prompt 内容会混入输出音频（疑似分词问题）
+- ⚠️ **建议**：对中文克隆质量要求高的场景，回退使用 **CosyVoice 2.0**
 
 ---
 
@@ -65,7 +67,7 @@ audio = chat.speak("[laugh]你好啊，[uv_break]好久不见！")
 
 ---
 
-## 🆕 VoxCPM2 — 方言发烧友首选（2026-04-11 新增）
+## 🆕 VoxCPM2 — 方言发烧友首选（2026-04-12 更新：Stars 9.9k）
 ```
 pip install voxcpm
 

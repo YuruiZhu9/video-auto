@@ -1,4 +1,6 @@
-# Fish Speech 部署与使用指南
+# Fish Speech / OpenAudio 部署与使用指南
+
+> ⚠️ **品牌升级通知（2025年内）**：Fish Speech 已正式更名为 **OpenAudio**，GitHub 仓库 `fishaudio/fish-speech` 保持不变，但新模型以 OpenAudio 品牌发布。详情见 [`OpenAudio-S1/README.md`](OpenAudio-S1/README.md)。
 
 > Fish Audio 出品 | 10 秒零样本克隆 | 支持 20+ 语言
 

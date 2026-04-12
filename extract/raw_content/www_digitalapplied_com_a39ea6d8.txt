@@ -1,35 +1,47 @@
 # Source URL: https://www.digitalapplied.com/blog/open-source-ai-landscape-april-2026-gemma-qwen-llama
-# Content Length: 27314 characters
-# Extracted at: 2026-04-11 12:03:56
+# Content Length: 27924 characters
+# Extracted at: 2026-04-12 12:03:31
 #============================================================
 
-Open-Source AI Landscape April 2026: Complete Guide
-[![](/logo-black.svg?dpl=dpl\_87wR5cuvcci9LhSdivksx6fMY5jD)](/)
-[Services](/services)[AI Tools](/ai-tools)[About](/about)[Blog](/blog)[Contact](/contact)[Get Started](/get-started)
+
+Open-Source AI Landscape April 2026: Complete Guide[![]()](/)[Services](/services)[AI Tools](/ai-tools)[About](/about)[Blog](/blog)[Contact](/contact)[Get Started](/get-started)
+
 1. [Home](/)
-2. [Blog](/blog)
-3. AI Development
+3. [Blog](/blog)
+5. AI Development
 AI Development11 min read
-# Open-Source AI Landscape April 2026: Complete Guide
+
+Open-Source AI Landscape April 2026: Complete Guide
+===================================================
+
 Complete open-source AI model landscape for April 2026. Gemma 4, Qwen 3.6 Plus, Llama 4, Mistral Small 4, gpt-oss, and GLM-5 ecosystem mapped and compared.
-Digital Applied Team
-April 3, 2026
-11 min read
-6
+
+Digital Applied TeamApril 3, 202611 min read6
+
 Major Labs Shipping Open Models
+
 10M
+
 Largest Open Context (Scout)
+
 744B
+
 Largest Open Model (GLM-5)
+
 Apache 2.0
+
 Most Permissive License Tier
-## Key Takeaways
-Six major labs now ship competitive open-weight models:Google (Gemma 4), Alibaba (Qwen 3.6 Plus), Meta (Llama 4), Mistral (Small 4), OpenAI (gpt-oss-120b), and Zhipu AI (GLM-5) all have open-weight models that compete with or match proprietary alternatives on key benchmarks. The ecosystem has diversified beyond the Llama-dominated landscape of 2024.
-Licensing has split into permissive and restricted camps:Gemma 4, gpt-oss-120b, and GLM-5 use Apache 2.0 or MIT licenses with no restrictions. Llama 4 uses Meta's community license with a 700M monthly active user threshold. Qwen uses Apache 2.0. Mistral Small 4 uses Apache 2.0. The license you choose determines whether you can build derivative models, embed in products, and operate without legal review.
-MoE architectures dominate, enabling single-GPU deployment:Five of the six major open models use mixture-of-experts: Llama 4 Scout (109B/17B active), Mistral Small 4 (119B/6.5B active), gpt-oss-120b (117B/5.1B active), GLM-5 (744B/40B active), and Qwen 3.6 Plus (MoE + linear attention). This architectural shift means frontier-class models now fit on a single H100 GPU — a 4-8x reduction in self-hosting costs.
-Qwen 3.5/3.6 leads on coding benchmarks:Alibaba's Qwen family wins or ties on 5 of 8 benchmark categories including LiveCodeBench and SWE-bench, offering the widest model size range (0.8B to 397B parameters) with Apache 2.0 licensing. For coding-focused deployments, Qwen is the empirically strongest open-weight choice.
-## Table of Contents
+
+Key Takeaways
+-------------
+
+Six major labs now ship competitive open-weight models: Google (Gemma 4), Alibaba (Qwen 3.6 Plus), Meta (Llama 4), Mistral (Small 4), OpenAI (gpt-oss-120b), and Zhipu AI (GLM-5) all have open-weight models that compete with or match proprietary alternatives on key benchmarks. The ecosystem has diversified beyond the Llama-dominated landscape of 2024.Licensing has split into permissive and restricted camps: Gemma 4, gpt-oss-120b, and GLM-5 use Apache 2.0 or MIT licenses with no restrictions. Llama 4 uses Meta's community license with a 700M monthly active user threshold. Qwen uses Apache 2.0. Mistral Small 4 uses Apache 2.0. The license you choose determines whether you can build derivative models, embed in products, and operate without legal review.MoE architectures dominate, enabling single-GPU deployment: Five of the six major open models use mixture-of-experts: Llama 4 Scout (109B/17B active), Mistral Small 4 (119B/6.5B active), gpt-oss-120b (117B/5.1B active), GLM-5 (744B/40B active), and Qwen 3.6 Plus (MoE + linear attention). This architectural shift means frontier-class models now fit on a single H100 GPU — a 4-8x reduction in self-hosting costs.Qwen 3.5/3.6 leads on coding benchmarks: Alibaba's Qwen family wins or ties on 5 of 8 benchmark categories including LiveCodeBench and SWE-bench, offering the widest model size range (0.8B to 397B parameters) with Apache 2.0 licensing. For coding-focused deployments, Qwen is the empirically strongest open-weight choice.
+
+Table of Contents
+-----------------
+
 What You'll Learn
+
 1. [01The State of Open-Source AI in April 2026](#state-of-open-source-ai)
 2. [02Complete Model Comparison Table](#complete-model-comparison)
 3. [03Gemma 4: Google's Apache 2.0 Breakthrough](#gemma-4-google)
@@ -41,19 +53,35 @@ What You'll Learn
 9. [09Licensing Deep Dive: Apache 2.0 vs. Community Licenses](#licensing-comparison)
 10. [10Deployment Cost Analysis: Self-Hosted vs. API](#deployment-cost-analysis)
 11. [11Selection Framework: Choosing the Right Open Model](#selection-framework)
+
 The open-source AI landscape in April 2026 bears little resemblance to a year ago. Where 2025 was defined by Llama 3 dominance and a handful of Chinese alternatives, 2026 features six distinct model families from six different organizations, each with genuine competitive advantages in specific dimensions. Google, Alibaba, Meta, Mistral, OpenAI, and Zhipu AI are all shipping models that match or exceed proprietary alternatives on targeted benchmarks — and doing so under increasingly permissive licenses.
-This guide maps the complete open-source AI ecosystem as of April 2026: model architectures, benchmark comparisons, licensing terms, deployment costs, and a selection framework for choosing the right model for your workload. For teams evaluating how open-weight models fit into their[AI and digital transformation](/services/ai-digital-transformation)strategy, understanding this landscape is essential for making build-vs-buy decisions that hold up over the next 12 months.
-## The State of Open-Source AI in April 2026
+
+This guide maps the complete open-source AI ecosystem as of April 2026: model architectures, benchmark comparisons, licensing terms, deployment costs, and a selection framework for choosing the right model for your workload. For teams evaluating how open-weight models fit into their [AI and digital transformation](/services/ai-digital-transformation) strategy, understanding this landscape is essential for making build-vs-buy decisions that hold up over the next 12 months.
+
+The State of Open-Source AI in April 2026
+-----------------------------------------
+
 Three structural shifts define the current open-source AI moment. First, mixture-of-experts (MoE) has become the default architecture, enabling models with hundreds of billions of total parameters to run on a single GPU by activating only a fraction per token. Second, licensing has genuinely liberalized — Apache 2.0 and MIT licenses now cover the majority of leading open models, eliminating the legal ambiguity that previously made enterprise adoption risky. Third, the gap between open and proprietary models has narrowed to the point where open-weight models are the correct default for many production workloads.
+
 MoE Dominance
+
 5 of 6 major open models use mixture-of-experts. Active parameter counts range from 5.1B (gpt-oss) to 40B (GLM-5), enabling single-GPU inference for models with 100B-744B total parameters.
+
 License Liberation
+
 Apache 2.0 and MIT licenses cover Gemma 4, Qwen 3.6, Mistral Small 4, gpt-oss-120b, and GLM-5. Only Llama 4 retains a custom community license with usage thresholds.
+
 Global Competition
+
 Chinese labs (Alibaba, Zhipu) now lead on specific benchmarks. GLM-5 was trained entirely on Huawei chips with zero NVIDIA dependency — a milestone for hardware independence.
+
 The practical implication for businesses is clear: open-weight models are no longer a research curiosity or a cost-saving compromise. They are production-grade alternatives that offer control, privacy, and cost advantages that proprietary APIs cannot match. The question is no longer “should we consider open-weight?” but “which open-weight model matches our specific requirements?”
-## Complete Model Comparison Table
-The following table compares all major open-weight models available in April 2026. For context window-specific analysis including pricing at full context, see our[AI Context Window Comparison 2026](/blog/ai-context-window-comparison-2026-1m-to-10m-tokens)reference table.
+
+Complete Model Comparison Table
+-------------------------------
+
+The following table compares all major open-weight models available in April 2026. For context window-specific analysis including pricing at full context, see our [AI Context Window Comparison 2026](/blog/ai-context-window-comparison-2026-1m-to-10m-tokens) reference table.
+
 | Model | Organization | Total Params | Active Params | Context | License | Architecture |
 | --- | --- | --- | --- | --- | --- | --- |
 | GLM-5 | Zhipu AI | 744B | 40B | 200K | MIT | MoE |
@@ -61,107 +89,197 @@ The following table compares all major open-weight models available in April 202
 | Mistral Small 4 | Mistral AI | 119B | 6.5B | 256K | Apache 2.0 | 128-expert MoE |
 | gpt-oss-120b | OpenAI | 117B | 5.1B | 128K | Apache 2.0 | MoE (MXFP4 quant) |
 | Llama 4 Scout | Meta | 109B | 17B | 10M | Llama 4 Community | 16-expert MoE |
-| Qwen 3.6 Plus | Alibaba | TBD\\* | TBD\\* | 1M | Apache 2.0 | Hybrid MoE + linear attention |
+| Qwen 3.6 Plus | Alibaba | TBD\* | TBD\* | 1M | Apache 2.0 | Hybrid MoE + linear attention |
 | Gemma 4 31B | Google | 31B | 31B | 256K | Apache 2.0 | Dense |
 | Gemma 4 26B-A4B | Google | 26B | 4B | 256K | Apache 2.0 | MoE |
 | Gemma 4 E4B | Google | 4B | 4B | 128K | Apache 2.0 | Dense (edge) |
 | Gemma 4 E2B | Google | 2B | 2B | 128K | Apache 2.0 | Dense (edge) |
-\\* Qwen 3.6 Plus is in preview; full architecture details including exact parameter counts have not been officially published.
-## Gemma 4: Google's Apache 2.0 Breakthrough
+
+\* Qwen 3.6 Plus is in preview; full architecture details including exact parameter counts have not been officially published.
+
+Gemma 4: Google's Apache 2.0 Breakthrough
+-----------------------------------------
+
 Google DeepMind released Gemma 4 on April 2, 2026 — the first Gemma generation under an OSI-approved Apache 2.0 license. This is a strategic shift: previous Gemma releases used Google's custom terms, which created legal uncertainty for enterprise adopters. Apache 2.0 eliminates that friction entirely.
+
 ### Gemma 4 Model Variants
+
 Gemma 4 31B Dense
+
 Largest variant. 256K context. 89.2% AIME 2026, 84.3% GPQA Diamond. Frontier-level reasoning.
+
 Gemma 4 26B-A4B MoE
+
 26B total, 4B active. 256K context. Near-31B quality at a fraction of the compute. Efficient server deployment.
+
 Gemma 4 E4B (Edge)
+
 4B dense. 128K context. Native audio input. Designed for on-device and mobile deployment.
+
 Gemma 4 E2B (Edge)
+
 2B dense. 128K context. Native audio input. The smallest variant for resource-constrained environments.
+
 Gemma 4's differentiator is breadth: four variants covering edge (2B, 4B) to server (26B MoE, 31B Dense), all natively multimodal with vision support across all sizes and audio input on the edge models. The 31B Dense model matches or exceeds models with significantly more parameters — scoring 89.2% on AIME 2026 and 80.0% on LiveCodeBench v6. This positions Gemma 4 as the best-in-class option for teams that need a single model family spanning phone to datacenter, all under the same permissive license.
-One notable limitation: Gemma 4's largest model is 31B parameters — significantly smaller than Llama 4 Maverick (400B) or GLM-5 (744B). For tasks where raw parameter scale correlates with quality (complex multi-step reasoning, very large knowledge retrieval), Gemma 4 trades absolute peak performance for deployment efficiency. The benchmarks suggest this trade is favorable for most tasks, but teams with extreme reasoning requirements should evaluate carefully. For a detailed head-to-head, see our[Gemma 4 vs Llama 4 vs Mistral Small 4 comparison](/blog/gemma-4-vs-llama-4-vs-mistral-small-4-comparison).
-\*\*NVIDIA optimization:\*\* NVIDIA has already released optimized inference configurations for Gemma 4 on RTX hardware, enabling local agentic AI workflows on consumer GPUs. This makes Gemma 4 E4B particularly attractive for developer workstations and edge AI prototyping.
-## Qwen 3.6 Plus: 1M Context and Hybrid Architecture
+
+One notable limitation: Gemma 4's largest model is 31B parameters — significantly smaller than Llama 4 Maverick (400B) or GLM-5 (744B). For tasks where raw parameter scale correlates with quality (complex multi-step reasoning, very large knowledge retrieval), Gemma 4 trades absolute peak performance for deployment efficiency. The benchmarks suggest this trade is favorable for most tasks, but teams with extreme reasoning requirements should evaluate carefully. For a detailed head-to-head, see our [Gemma 4 vs Llama 4 vs Mistral Small 4 comparison](/blog/gemma-4-vs-llama-4-vs-mistral-small-4-comparison).
+
+**NVIDIA optimization:** NVIDIA has already released optimized inference configurations for Gemma 4 on RTX hardware, enabling local agentic AI workflows on consumer GPUs. This makes Gemma 4 E4B particularly attractive for developer workstations and edge AI prototyping.
+
+Qwen 3.6 Plus: 1M Context and Hybrid Architecture
+-------------------------------------------------
+
 Alibaba's Qwen family has quietly become the most commercially deployed open-weight model family globally, driven by Apache 2.0 licensing, competitive benchmarks, and the widest range of model sizes available from any single lab. Qwen 3.6 Plus, released on OpenRouter on March 31, 2026, extends this lead with a 1M-token context window and a novel hybrid architecture.
+
 Hybrid Architecture
+
 Qwen 3.6 Plus combines linear attention mechanisms with sparse MoE. Linear attention reduces the computational cost of processing long sequences (the quadratic bottleneck in standard attention), while sparse MoE activates only the necessary experts per token. The result is a model that handles 1M tokens with significantly less compute than a standard dense-attention model at comparable scale.
+
 Coding Leadership
+
 The broader Qwen 3.5 family leads on coding benchmarks — LiveCodeBench and SWE-bench show clear margins over Llama 4 and Gemma 4. Qwen 3.6 Plus continues this strength with always-on chain-of-thought reasoning that reaches conclusions faster and uses fewer output tokens on straightforward tasks, reducing both latency and cost.
+
 Pricing Strategy
+
 The free preview period is strategically aggressive — Alibaba is using zero-cost access to drive adoption and ecosystem lock-in before pricing kicks in. The broader Qwen family already delivers competitive performance at 10-17x lower cost than Claude or GPT for comparable tasks. Expect post-preview pricing to be highly competitive.
+
 The Qwen ecosystem's strength is range. From Qwen 3.5 0.8B for edge devices to Qwen 3.5 397B-A17B for frontier tasks to Qwen 3.6 Plus for 1M-context workloads, the family covers more deployment scenarios under a single license (Apache 2.0) than any competitor. For teams building products that need to scale from mobile to cloud, this consistency reduces the engineering cost of multi-model strategies.
-## Llama 4 Scout and Maverick: Meta's MoE Gambit
+
+Llama 4 Scout and Maverick: Meta's MoE Gambit
+---------------------------------------------
+
 Meta's Llama 4 release represents two strategic bets: Scout bets on extreme context length (10M tokens), while Maverick bets on extreme expert count (128 experts, 400B total parameters). Both use MoE with 17B active parameters per token, maintaining the inference efficiency that made Llama the default choice for self-hosted deployments.
-Llama 4 Scout
-109B total | 17B active | 10M context
+
+Llama 4 Scout109B total | 17B active | 10M context
+
 16-expert MoE trained on ~40 trillion tokens. The 10M context was achieved through length generalization from 256K pre-training. Fits on a single H100 GPU. Natively multimodal with early fusion for text and image. Best for retrieval-oriented tasks across very large document sets.
-10M contextSingle H100Multimodal
-Llama 4 Maverick
-400B total | 17B active | 1M context
+
+10M contextSingle H100MultimodalLlama 4 Maverick400B total | 17B active | 1M context
+
 128-expert MoE with the highest MMLU (85.5%) among open models. 1M context via Instruct fine-tuning from 256K pre-training. Requires 4-8 H100s for serving due to the 128-expert routing overhead. Best for general-purpose reasoning where absolute benchmark scores matter.
+
 85.5% MMLU128 experts1M context
+
 The Llama 4 Community License remains Meta's licensing approach: free for commercial use up to 700 million monthly active users. For the vast majority of businesses, this threshold is irrelevant — only a handful of companies globally operate above it. However, the non-standard license does create friction for enterprise legal teams that prefer OSI-approved licenses, and it prevents derivative model distribution without explicit permission. Teams with strict licensing requirements should consider the Apache 2.0 alternatives.
-## Mistral Small 4: The Unified 119B MoE
+
+Mistral Small 4: The Unified 119B MoE
+-------------------------------------
+
 Mistral Small 4 takes a different strategic approach: instead of specializing models for different tasks, it unifies instruction following, reasoning, multimodal understanding, and agentic coding into a single 119B-parameter MoE model. Where other labs ship separate models for instruct, reasoning, and coding, Mistral ships one model with adjustable reasoning effort at inference time.
+
 ### Mistral Small 4 Specifications
+
 Architecture
+
 119B total, 6.5B active. 128 experts, 4 active per token.
+
 Context Window
+
 256K tokens. Text and image input, text output.
+
 Reasoning Control
+
 Adjustable from “none” (fast instruct) to “high” (deliberate step-by-step reasoning).
+
 Efficiency Gains
+
 40% faster completion time. 3x more requests/second vs. Mistral Small 3.
-The unification strategy is compelling for teams that want to minimize model management overhead. Instead of maintaining separate instruct, reasoning, and coding models with different APIs, configurations, and deployment pipelines, teams deploy Mistral Small 4 once and adjust`reasoning\_effort`per request. With`reasoning\_effort="none"`it produces fast responses comparable to Mistral Small 3.2; with`reasoning\_effort="high"`it matches earlier Magistral reasoning models. For a deeper technical analysis, see our[Mistral Small 4 complete guide](/blog/mistral-small-4-119b-moe-reasoning-vision-coding-guide).
+
+The unification strategy is compelling for teams that want to minimize model management overhead. Instead of maintaining separate instruct, reasoning, and coding models with different APIs, configurations, and deployment pipelines, teams deploy Mistral Small 4 once and adjust `reasoning_effort` per request. With `reasoning_effort="none"` it produces fast responses comparable to Mistral Small 3.2; with `reasoning_effort="high"` it matches earlier Magistral reasoning models. For a deeper technical analysis, see our [Mistral Small 4 complete guide](/blog/mistral-small-4-119b-moe-reasoning-vision-coding-guide).
+
 On benchmarks, Mistral Small 4 with reasoning matches or surpasses gpt-oss-120b while generating significantly shorter outputs — on LiveCodeBench it outperforms gpt-oss while producing 20% less output. This output efficiency translates directly to lower cost in production, where output tokens are typically 2-3x more expensive than input tokens.
-## gpt-oss-120b: OpenAI Enters Open-Weight
+
+gpt-oss-120b: OpenAI Enters Open-Weight
+---------------------------------------
+
 OpenAI's first open-weight model is a strategic move that acknowledges the inevitability of open-weight competition. Released under Apache 2.0 with both a 120B and 20B variant, gpt-oss is explicitly positioned in the efficiency tier — not as a GPT-5.4 competitor, but as a production-ready model for general-purpose tasks that fits on a single GPU.
+
 Architecture Details
+
 117B total parameters with only 5.1B active per token. Uses alternating dense and locally banded sparse attention patterns, grouped multi-query attention (group size 8), and RoPE positional encoding. MoE projection weights are quantized to MXFP4 (4.25 bits per parameter), enabling the full model to fit on a single 80GB GPU (H100 or AMD MI300X).
+
 Training Approach
+
 Trained using reinforcement learning informed by OpenAI's most advanced internal models including o3 and other frontier systems. This distillation approach means gpt-oss benefits from capabilities developed for much larger models without requiring the same training compute. The dataset is mostly English, text-only, with a focus on STEM, coding, and general knowledge.
-The strategic significance of gpt-oss extends beyond the model itself. OpenAI releasing under Apache 2.0 signals that the competitive dynamics of AI have permanently shifted: even the most commercially oriented lab in the industry now considers open-weight models a necessary part of its strategy. For enterprises that have historically been OpenAI-only shops, gpt-oss provides a familiar ecosystem entry point into self-hosted deployment — using the same`o200k\_harmony`tokenizer and architectural patterns familiar from the GPT family.
-\*\*Key limitation:\*\* gpt-oss is text-only. It does not support image, audio, or video input. For multimodal open-weight needs, use Gemma 4, Llama 4, or Mistral Small 4. Also, its 128K context window is the smallest among the major open models released in 2026.
-## GLM-5: Trained Entirely on Huawei Silicon
+
+The strategic significance of gpt-oss extends beyond the model itself. OpenAI releasing under Apache 2.0 signals that the competitive dynamics of AI have permanently shifted: even the most commercially oriented lab in the industry now considers open-weight models a necessary part of its strategy. For enterprises that have historically been OpenAI-only shops, gpt-oss provides a familiar ecosystem entry point into self-hosted deployment — using the same `o200k_harmony` tokenizer and architectural patterns familiar from the GPT family.
+
+**Key limitation:** gpt-oss is text-only. It does not support image, audio, or video input. For multimodal open-weight needs, use Gemma 4, Llama 4, or Mistral Small 4. Also, its 128K context window is the smallest among the major open models released in 2026.
+
+GLM-5: Trained Entirely on Huawei Silicon
+-----------------------------------------
+
 Zhipu AI's GLM-5 is the largest open-weight model in the current landscape at 744B total parameters (40B active), and it carries a claim that extends beyond AI capability: it was trained entirely on Huawei Ascend chips using the MindSpore framework, with zero dependency on NVIDIA hardware. This makes GLM-5 the first frontier-class model to demonstrate that Chinese hardware can support production-scale AI training — a development with significant geopolitical and supply-chain implications.
+
 ### GLM-5 Key Specifications
+
 Parameters
+
 744B total, 40B active per token. 2x scale-up from GLM-4.5.
+
 Training Data
+
 28.5 trillion tokens (up from 23T in GLM-4.5).
+
 License
+
 MIT license — the most permissive available. No restrictions on use, modification, or distribution.
+
 Context / Attention
+
 200K tokens. DeepSeek Sparse Attention (DSA) for efficient long-context handling.
+
 Pricing (API)
+
 $1.00/$3.20 per MTok input/output — ~10x cheaper than Claude Opus 4.6.
+
 Benchmarks
+
 50.4% on Humanity's Last Exam (exceeding Claude Opus 4.5). Industry-leading low hallucination rate.
-GLM-5's 50.4% on Humanity's Last Exam is a notable benchmark, as is its claimed industry-lowest hallucination rate. The model uses a novel asynchronous reinforcement learning infrastructure called Slime, developed by Zhipu specifically for GLM-5 training, which improves RL throughput and enables more fine-grained post-training iterations. For a deeper analysis, see our[GLM-5 release analysis](/blog/zhipu-ai-glm-5-release-744b-moe-model-analysis).
+
+GLM-5's 50.4% on Humanity's Last Exam is a notable benchmark, as is its claimed industry-lowest hallucination rate. The model uses a novel asynchronous reinforcement learning infrastructure called Slime, developed by Zhipu specifically for GLM-5 training, which improves RL throughput and enables more fine-grained post-training iterations. For a deeper analysis, see our [GLM-5 release analysis](/blog/zhipu-ai-glm-5-release-744b-moe-model-analysis).
+
 The practical implication for Western businesses is twofold. First, GLM-5 under MIT license is a genuinely competitive frontier model with no usage restrictions. Second, the Huawei training demonstration suggests that future open models from Chinese labs will not be constrained by US export controls on NVIDIA hardware — the competitive pressure on Western open-source efforts will only intensify.
-## Licensing Deep Dive: Apache 2.0 vs. Community Licenses
+
+Licensing Deep Dive: Apache 2.0 vs. Community Licenses
+------------------------------------------------------
+
 License selection is a first-order decision for any team deploying open-weight models. The wrong license can block product launches, prevent model distribution, or create regulatory risk. The current landscape has consolidated into three tiers.
+
 | License | Models | Commercial Use | Derivative Models | Restrictions |
 | --- | --- | --- | --- | --- |
 | Apache 2.0 | Gemma 4, Qwen 3.6, Mistral Small 4, gpt-oss | Unrestricted | Permitted | None |
 | MIT | GLM-5 | Unrestricted | Permitted | None |
 | Llama 4 Community | Llama 4 Scout, Maverick | Free under 700M MAU | Requires attribution | 700M MAU threshold; separate license above |
+
 For enterprise deployment, the practical recommendation is clear: Apache 2.0 and MIT models require no legal review beyond standard open-source compliance. Llama 4's community license requires legal review of the specific terms, particularly around derivative model distribution and the 700M MAU threshold. While the threshold is irrelevant for most businesses, the non-standard nature of the license creates overhead that Apache 2.0 alternatives eliminate entirely.
+
 The licensing shift toward Apache 2.0 across five of six major model families is the most strategically significant development in this landscape. It transforms open-weight models from “available with conditions” to “available unconditionally” — which removes the last major barrier to enterprise adoption beyond technical capability.
-## Deployment Cost Analysis: Self-Hosted vs. API
+
+Deployment Cost Analysis: Self-Hosted vs. API
+---------------------------------------------
+
 The economic case for open-weight models depends on deployment volume. At low volumes, API services are cheaper (no infrastructure overhead). At high volumes, self-hosting is 3-10x cheaper per token. The crossover point varies by model and workload.
+
 | Model | Minimum Hardware | Cloud Cost/Hour | Est. $/MTok (Self-Hosted) | API $/MTok Input |
 | --- | --- | --- | --- | --- |
-| Llama 4 Scout | 1x H100 80GB | ~$2.50 | ~$0.20-0.40 | $0.15-0.35\\* |
-| gpt-oss-120b | 1x H100 80GB | ~$2.50 | ~$0.20-0.40 | $0.20-0.40\\* |
+| Llama 4 Scout | 1x H100 80GB | ~$2.50 | ~$0.20-0.40 | $0.15-0.35\* |
+| gpt-oss-120b | 1x H100 80GB | ~$2.50 | ~$0.20-0.40 | $0.20-0.40\* |
 | Mistral Small 4 | 1x H100 80GB | ~$2.50 | ~$0.15-0.30 | $0.10 |
-| Gemma 4 31B | 1x A100 40GB | ~$1.50 | ~$0.08-0.15 | Varies\\* |
-| Llama 4 Maverick | 4-8x H100 80GB | ~$10-20 | ~$0.40-0.80 | $0.35-0.60\\* |
-\\* API pricing for open-weight models varies by provider (Together, Fireworks, Groq, AWS Bedrock, etc.). Figures reflect typical ranges across major providers.
+| Gemma 4 31B | 1x A100 40GB | ~$1.50 | ~$0.08-0.15 | Varies\* |
+| Llama 4 Maverick | 4-8x H100 80GB | ~$10-20 | ~$0.40-0.80 | $0.35-0.60\* |
+
+\* API pricing for open-weight models varies by provider (Together, Fireworks, Groq, AWS Bedrock, etc.). Figures reflect typical ranges across major providers.
+
 The cost crossover for self-hosting typically occurs at approximately 50-100 million tokens per month. Below that threshold, API services are more cost-effective due to the fixed cost of GPU rental. Above it, self-hosting on reserved instances or dedicated hardware delivers significant savings. Teams processing over 1 billion tokens per month can expect 5-10x cost reductions from self-hosting, though this requires investment in deployment infrastructure, monitoring, auto-scaling, and model versioning pipelines.
-For teams evaluating the full stack of AI infrastructure decisions — from model selection to deployment strategy to cost optimization — our[AI and digital transformation consulting](/services/ai-digital-transformation)provides hands-on guidance for building production AI systems that balance capability, cost, and operational complexity.
-## Selection Framework: Choosing the Right Open Model
+
+For teams evaluating the full stack of AI infrastructure decisions — from model selection to deployment strategy to cost optimization — our [AI and digital transformation consulting](/services/ai-digital-transformation) provides hands-on guidance for building production AI systems that balance capability, cost, and operational complexity.
+
+Selection Framework: Choosing the Right Open Model
+--------------------------------------------------
+
 With six competitive model families, choosing the right open-weight model requires a structured decision process. The following framework maps common priorities to recommended models.
+
 | Priority | Best Choice | Runner-Up | Rationale |
 | --- | --- | --- | --- |
 | Coding / development | Qwen 3.5/3.6 | Mistral Small 4 | Leads LiveCodeBench and SWE-bench |
@@ -173,43 +291,60 @@ With six competitive model families, choosing the right open-weight model requir
 | Single-GPU deployment | gpt-oss-120b | Llama 4 Scout | 5.1B active; fits H100 with MXFP4 |
 | Multimodal (vision + audio) | Gemma 4 | Llama 4 (vision only) | All 4 variants support vision; edge models add audio |
 | Fine-tuning flexibility | Qwen 3.5 family | Gemma 4 | Widest size range (0.8B-397B) under Apache 2.0 |
+
 No single model dominates all dimensions. The competitive landscape is genuinely differentiated, which is healthy for the ecosystem but requires more deliberate model selection than the Llama-default era of 2024-2025. Teams that invest in structured evaluation against their specific task distributions — rather than relying on generic benchmarks — will make significantly better deployment decisions.
-## Conclusion
+
+Conclusion
+----------
+
 The open-source AI landscape in April 2026 is the most competitive and accessible it has ever been. Six model families from six organizations offer genuine alternatives to proprietary APIs across virtually every use case. The MoE revolution has made frontier-class inference possible on single GPUs. Licensing has liberalized to the point where five of six families use Apache 2.0 or MIT. And the gap between open and proprietary has narrowed to where open-weight models are the rational default for many production workloads.
-For businesses, the strategic implication is straightforward: the cost of not evaluating open-weight models is now higher than the cost of evaluating them. Teams locked into proprietary-only API strategies are paying 3-10x premiums at scale, accepting single vendor dependency, and forgoing the privacy and customization advantages of self-hosted deployment. The models covered in this guide — and the context window analysis in our companion[AI Context Window Comparison 2026](/blog/ai-context-window-comparison-2026-1m-to-10m-tokens)— provide the reference material needed to start that evaluation with confidence.
+
+For businesses, the strategic implication is straightforward: the cost of not evaluating open-weight models is now higher than the cost of evaluating them. Teams locked into proprietary-only API strategies are paying 3-10x premiums at scale, accepting single vendor dependency, and forgoing the privacy and customization advantages of self-hosted deployment. The models covered in this guide — and the context window analysis in our companion [AI Context Window Comparison 2026](/blog/ai-context-window-comparison-2026-1m-to-10m-tokens) — provide the reference material needed to start that evaluation with confidence.
+
 The pace of open-weight releases shows no sign of slowing. Expect continued convergence with proprietary frontier models, broader multimodal coverage, and longer context windows across all families through 2026. Build abstraction, benchmark rigorously, and stay ready to swap.
-## Build With Open-Source AI
+
+Build With Open-Source AI
+-------------------------
+
 Navigating six model families, three license types, and dozens of deployment options requires systematic evaluation. Our team helps businesses select, deploy, and optimize open-weight models for production workloads.
-[Get Started](/get-started)[Explore AI & Digital Transformation](/services/ai-digital-transformation)
-Free consultation
-Open-model expertise
-Self-hosting guidance
-## Frequently Asked Questions
+
+[Get Started](/get-started)[Explore AI & Digital Transformation](/services/ai-digital-transformation)Free consultationOpen-model expertiseSelf-hosting guidance
+
+Frequently Asked Questions
+--------------------------
+
 ### What is the best open-source AI model in April 2026?
+
 ### Can I use open-source AI models commercially?
+
 ### How much does it cost to self-host an open-source AI model?
+
 ### What is the difference between open-source and open-weight AI models?
+
 ### How does Gemma 4 compare to Llama 4 for production use?
+
 ### Is OpenAI's gpt-oss-120b competitive with GPT-5.4?
+
 ### Which open model should I fine-tune for a domain-specific application?
-## Related Articles
+
+Related Articles
+----------------
+
 Continue exploring with these related guides
-[AI Development
-Gemma 4 vs Llama 4 vs Mistral Small 4: Full Comparison
-Open-source AI model comparison: Gemma 4 Apache 2.0 vs Llama 4 Meta license vs Mistral Small 4. Benchmarks, licensing, context, and deployment costs.
-8 minApril 2, 2026](/blog/gemma-4-vs-llama-4-vs-mistral-small-4-comparison)[AI Development
-Google Gemma 4: Apache 2.0 Open-Source Complete Guide
-Google Gemma 4 complete guide covering all four variants from 2.3B to 31B parameters. Apache 2.0 license, 128K-256K context, multimodal, Arena #3 open model.
-10 minApril 2, 2026](/blog/google-gemma-4-apache-2-open-source-complete-guide)[AI Development
-Mistral Small 4: 119B MoE for Reasoning, Vision, Coding
-Mistral Small 4 packs 119B parameters (6B active via MoE) with 256K context under Apache 2.0. Unified model for reasoning, vision, and coding.
-14 minMarch 16, 2026](/blog/mistral-small-4-119b-moe-reasoning-vision-coding-guide)
-[![](/logo-black.svg?dpl=dpl\_87wR5cuvcci9LhSdivksx6fMY5jD)](/)
+
+[AI DevelopmentGemma 4 vs Llama 4 vs Mistral Small 4: Full ComparisonOpen-source AI model comparison: Gemma 4 Apache 2.0 vs Llama 4 Meta license vs Mistral Small 4. Benchmarks, licensing, context, and deployment costs.8 minApril 2, 2026](/blog/gemma-4-vs-llama-4-vs-mistral-small-4-comparison)[AI DevelopmentGoogle Gemma 4: Apache 2.0 Open-Source Complete GuideGoogle Gemma 4 complete guide covering all four variants from 2.3B to 31B parameters. Apache 2.0 license, 128K-256K context, multimodal, Arena #3 open model.10 minApril 2, 2026](/blog/google-gemma-4-apache-2-open-source-complete-guide)[AI DevelopmentMistral Small 4: 119B MoE for Reasoning, Vision, CodingMistral Small 4 packs 119B parameters (6B active via MoE) with 256K context under Apache 2.0. Unified model for reasoning, vision, and coding.14 minMarch 16, 2026](/blog/mistral-small-4-119b-moe-reasoning-vision-coding-guide)[![]()](/)
+
 Empowering businesses with data-driven digital marketing strategies. From SEO to social media, we deliver measurable results that drive growth and maximize your online presence.
+
 #### Quick Links
+
 [Services](/services)[About](/about)[Blog](/blog)[Contact](/contact)
 #### Company
+
 [Privacy Policy](/privacy-policy)[Terms of Service](/terms-of-service)
 #### Connect With Us
-[X (Twitter)](https://x.com/digitalapplied)[Facebook](https://www.facebook.com/digitalapplied)[Instagram](https://www.instagram.com/digital\_applied)[LinkedIn](https://www.linkedin.com/company/digitalapplied)
+
+[X (Twitter)](https://x.com/digitalapplied)[Facebook](https://www.facebook.com/digitalapplied)[Instagram](https://www.instagram.com/digital_applied)[LinkedIn](https://www.linkedin.com/company/digitalapplied)
+
 © 2026 Digital Applied, s. r. o. All rights reserved.
+

@@ -1,6 +1,6 @@
 # OmniVoice — 全语言零样本语音克隆
 
-> ⏰ **新鲜度**：2026-04-11 第12次执行更新（2026-04-01 发布，**4.3k+ GitHub Stars**，一周增长翻倍）
+> ⏰ **新鲜度**：2026-04-12 第13次执行更新（2026-04-01 发布，GitHub Stars 2.5k，**v0.1.3 于 4月7日发布**）
 
 ---
 
@@ -17,7 +17,7 @@
 | **发布机构** | k2-fsa + Xiaomi |
 | **发布时间** | 2026年4月1日 |
 | **arXiv** | [2604.00688](https://arxiv.org/abs/2604.00688) |
-| **GitHub** | [k2-fsa/OmniVoice](https://github.com/k2-fsa/OmniVoice)（**4.3k+⭐，2026-04-11更新**） |
+| **GitHub** | [k2-fsa/OmniVoice](https://github.com/k2-fsa/OmniVoice)（**2.5k⭐，v0.1.3 于 2026-04-07 发布**） |
 | **HuggingFace** | [k2-fsa/OmniVoice](https://huggingface.co/k2-fsa/OmniVoice) |
 | **在线Demo** | [HuggingFace Space](https://huggingface.co/spaces/k2-fsa/OmniVoice) |
 | **许可证** | Apache-2.0 |

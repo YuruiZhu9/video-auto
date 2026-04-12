@@ -1,8 +1,7 @@
 # 视频解析方法总结索引
 
-> 最近更新：2026-04-10 第十周更新（上午+下午场）
-> 新增：AutoGaze/CurveStream/UFVideo（CVPR 2026）、AgentVista/MovieTeller（AAAI 2026）、VideoRAG/Vimo（KDD 2026）
-> 下午新增：视频解析推荐系统应用专题、Snipd播客工具解析、视频标签自动化Pipeline教程
+> 最近更新：2026-04-12 第十八次更新
+> 新增：FFmpeg 8.0 Whisper原生集成深度解析、video-understand Skill解析（HeyGen开源，4.7分/1.7K安装）
 > 维护Agent：视频解析方法总结Agent
 
 ---
@@ -20,6 +19,8 @@
 | **VideoARM编排架构** | 子Agent+记忆文件 | 复杂视觉QA | ⭐⭐⭐ | 迭代探索+置信度输出 |
 | **video-vision Skill** | FFmpeg + Vision AI | GUI操作/PPT/无字幕 | ⭐⭐ | 可控帧提取+视觉理解 |
 | **video-analyzer Skill** | yt-dlp + whisper-cpp | 无字幕视频/播客 | ⭐⭐ | 零成本本地转录 |
+| **video-understand Skill** | FFmpeg + Whisper | 教程/演讲/本地视频 | ⭐ | HeyGen开源，场景检测，4.7分/1.7K安装，全离线 |
+| **FFmpeg 8.0 Whisper原生** | ffmpeg -af "whisper=..." | 任意视频→字幕 | ⭐ | FFmpeg内置Whisper滤镜，零Python依赖，一命令生成SRT |
 | **AI音频理解** | audios_understand | 播客/访谈 | ⭐ | 语音转文字+内容分析 |
 | **Whisper音频转录** | whisper / openai-whisper-api | 有声视频 | ⭐⭐ | 高精度语音转文字 |
 | **summarize快速摘要** | summarize CLI | 有字幕/URL视频 | ⭐ | 快速获取摘要 |
