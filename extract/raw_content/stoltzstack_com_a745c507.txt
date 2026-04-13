@@ -1,92 +1,183 @@
 # Source URL: https://stoltzstack.com/blog/prompt-engineering-coding-assistants
-# Content Length: 15724 characters
-# Extracted at: 2026-03-29 01:00:36
+# Content Length: 16085 characters
+# Extracted at: 2026-04-13 09:09:25
 #============================================================
 
+
+
+
+
 The Developer's Guide to Prompt Engineering for Coding Assistants | Stoltz Stack
-[![](/branding/logo/brand-logo.png)](/)[Home](/)[About](/about)[Blog](/blog)[Tools](/tools)
-April 16, 2025AI-Assisted Development
-# The Developer's Guide to Prompt Engineering for Coding Assistants
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[![]()](/)
+[Home](/)
+[About](/about)
+[Blog](/blog)
+[Tools](/tools)
+
+
+
+April 16, 2025
+AI-Assisted Development
+
+The Developer's Guide to Prompt Engineering for Coding Assistants
+=================================================================
+
 Practical techniques to get dramatically better results from AI coding tools
-![](/branding/images/katie-author.jpg)
-Katie StoltzSoftware Developer
-![](/branding/posts/prompt-engineering.png)
+
+![]()
+Katie Stoltz
+Software Developer
+
+
+
+![]()
+
 In my previous posts, I've explored the evolution of software engineering tools and compared different AI coding assistants. One theme has consistently emerged through my work with these tools: the developer's ability to effectively communicate with AI assistants has become a crucial skill in modern software development.
+
 The difference between a mediocre AI suggestion and an exceptional one often comes down to how you frame your request. This is where prompt engineering comes into play. The art and science of crafting inputs that yield optimal outputs from AI coding assistants.
+
 This guide distills what I've learned about prompt engineering specifically for coding assistants like GitHub Copilot, Cursor, Claude, and ChatGPT. These techniques have dramatically improved my results when working with these tools.
-## The Fundamentals of Prompting Coding Assistants
+
+The Fundamentals of Prompting Coding Assistants
+-----------------------------------------------
+
 Before diving into specific techniques, let's establish some core principles that apply across all AI coding assistants:
+
 ### 1. Be Clear and Specific
+
 AI coding assistants aren't mind readers. The more specific and clear your prompt, the better the response you'll receive. Consider these two prompts:
+
 #### ❌ Vague Prompt
+
 ```
 Write a function to sort an array of user data.
 ```
+
 #### ✅ Specific Prompt
+
 ```
 Write a JavaScript function that sorts an array of user objects by their creation date in descending order. Each user object has properties: id, name, email, and createdAt (an ISO date string).
 ```
+
 The second prompt provides crucial context about the language, data structure, and sorting criteria, dramatically increasing the likelihood of getting usable code on the first try.
+
 ### 2. Provide Context
+
 AI assistants perform better when they understand the broader context of your task. This includes:
-\* The project's purpose
-\* Relevant technologies and libraries
-\* Coding standards or patterns you're following
-\* Any constraints or requirements
+
+* The project's purpose
+* Relevant technologies and libraries
+* Coding standards or patterns you're following
+* Any constraints or requirements
+
 For example:
+
 ```
 I'm building a React site using TypeScript and Tailwind CSS. We're following a functional component pattern with hooks. I need a product card component that displays an image, title, price, and "Add to Cart" button. The component should handle loading states and display a skeleton while images are loading.
 ```
+
 This context allows the AI to align its response with your project's architecture and requirements.
+
 ### 3. Use a Consistent Mental Model
+
 Think of AI coding assistants as junior developers who are extremely eager to help but need clear guidance. They:
-\* Have extensive knowledge but limited understanding of your specific goals
-\* Can follow patterns but need examples
-\* Require feedback to improve
-\* Benefit from iterative refinement
+
+* Have extensive knowledge but limited understanding of your specific goals
+* Can follow patterns but need examples
+* Require feedback to improve
+* Benefit from iterative refinement
+
 This mental model will help you communicate more effectively with AI tools.
-## Advanced Prompting Techniques for Developers
+
+Advanced Prompting Techniques for Developers
+--------------------------------------------
+
 Now that we've covered the basics, let's explore more sophisticated techniques that can significantly enhance your results.
+
 ### 1. The "Follow the Pattern" Technique
+
 AI coding assistants excel at recognizing and extending patterns. When you need code that follows an existing pattern in your codebase, show an example first
+
 ```
 Following the same pattern as fetchUsers above and error handling approach, implement a function to fetch a list of products by category.
 ```
+
 This approach yields code that's consistent with your existing codebase, reducing the need for adjustments.
+
 ### 2. The Persona Technique
+
 Assigning a specific persona to the AI can significantly improve the quality and style of the code it generates:
+
 ```
 Act as a senior security engineer who's reviewing a Node.js authentication system. Examine the following JWT validation middleware and identify any security vulnerabilities or best practices that aren't being followed:.
 ```
+
+
 ```
 function validateJwt(req, res, next) {
-const token = req.headers.authorization?.split(' ')[1];
-if (!token) return res.status(401).send('Unauthorized');
-try {
-const decoded = jwt.verify(token, process.env.JWT\_SECRET);
-req.user = decoded;
-next();
-} catch (error) {
-return res.status(401).send('Invalid token');
-}
+  const token = req.headers.authorization?.split(' ')[1];
+  if (!token) return res.status(401).send('Unauthorized');
+  
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (error) {
+    return res.status(401).send('Invalid token');
+  }
 }
 ```
+
 By defining a specific perspective, you'll get more specialized and focused feedback than a generic code review request.
+
 ### 3. The Iterative Refinement Approach
+
 Complex coding tasks often benefit from an iterative approach:
-\* \*\*Start with a high-level request\*\* to get a basic implementation
-\* \*\*Provide specific feedback\*\* on what needs improvement
-\* \*\*Ask for targeted enhancements\*\* rather than complete rewrites
-\* \*\*Continue refining\*\* until satisfied
+
+* **Start with a high-level request** to get a basic implementation
+* **Provide specific feedback** on what needs improvement
+* **Ask for targeted enhancements** rather than complete rewrites
+* **Continue refining** until satisfied
+
 For example:
-\*\*Initial Request:\*\* "Create a React hook that manages pagination for an API that returns items in pages."
-\*[AI provides a basic pagination hook]\*
-\*\*Refinement:\*\* "Great start. Now add error handling and a loading state to the hook."
-\*[AI enhances the code with error and loading states]\*
-\*\*Further Refinement:\*\* "Add support for changing the page size and sorting parameters."
+
+**Initial Request:** "Create a React hook that manages pagination for an API that returns items in pages."
+
+*[AI provides a basic pagination hook]*
+
+**Refinement:** "Great start. Now add error handling and a loading state to the hook."
+
+*[AI enhances the code with error and loading states]*
+
+**Further Refinement:** "Add support for changing the page size and sorting parameters."
+
 This approach produces more polished and complete code than trying to get everything right in a single prompt.
+
 ### 4. The Constraint Declaration Technique
+
 Explicitly stating constraints helps prevent common issues with AI-generated code:
+
 ```
 Write a Node.js function to process CSV files with the following constraints:
 - Must handle files potentially larger than available memory
@@ -96,43 +187,62 @@ Write a Node.js function to process CSV files with the following constraints:
 - Must include proper error handling for invalid files
 - Should log progress for large files
 ```
+
 By explicitly stating what the code must and must not do, you guide the AI away from common pitfalls and toward solutions that meet your requirements.
+
 ### 5. The Unit Test Specification
+
 One of my favorite techniques is to specify the behavior you want through unit tests:
+
 ```
 Implement a JavaScript utility function that satisfies these tests:
+
 describe('formatCurrency', () => {
-test('formats USD correctly', () => {
-expect(formatCurrency(1234.56, 'USD')).toBe('$1,234.56');
-});
-test('formats EUR correctly', () => {
-expect(formatCurrency(1234.56, 'EUR')).toBe('€1,234.56');
-});
-test('handles zero values', () => {
-expect(formatCurrency(0, 'USD')).toBe('$0.00');
-});
-test('rounds to 2 decimal places', () => {
-expect(formatCurrency(1234.5678, 'USD')).toBe('$1,234.57');
-});
-test('throws error for invalid currency code', () => {
-expect(() => formatCurrency(100, 'XYZ')).toThrow('Invalid currency code');
-});
+  test('formats USD correctly', () => {
+    expect(formatCurrency(1234.56, 'USD')).toBe('$1,234.56');
+  });
+  
+  test('formats EUR correctly', () => {
+    expect(formatCurrency(1234.56, 'EUR')).toBe('€1,234.56');
+  });
+  
+  test('handles zero values', () => {
+    expect(formatCurrency(0, 'USD')).toBe('$0.00');
+  });
+  
+  test('rounds to 2 decimal places', () => {
+    expect(formatCurrency(1234.5678, 'USD')).toBe('$1,234.57');
+  });
+  
+  test('throws error for invalid currency code', () => {
+    expect(() => formatCurrency(100, 'XYZ')).toThrow('Invalid currency code');
+  });
 });
 ```
+
 This approach has several advantages:
-\* It clearly defines the expected behavior
-\* It specifies edge cases that should be handled
-\* It provides implicit documentation
-\* It aligns with test-driven development practices
-## Tool-Specific Prompting Strategies
+
+* It clearly defines the expected behavior
+* It specifies edge cases that should be handled
+* It provides implicit documentation
+* It aligns with test-driven development practices
+
+Tool-Specific Prompting Strategies
+----------------------------------
+
 Different AI coding assistants have unique strengths and characteristics. Here are specific strategies for popular tools:
+
 ### GitHub Copilot
+
 Copilot excels at inline suggestions and completing code you've started writing. To get the best results:
-\* \*\*Write detailed comments before functions\*\* to guide Copilot's understanding of what you're trying to achieve
-\* \*\*Start implementing the pattern\*\* you want Copilot to follow, then let it complete
-\* \*\*Use descriptive variable and function names\*\* to provide additional context
-\* \*\*Break complex tasks into smaller functions\*\* with clear purposes
+
+* **Write detailed comments before functions** to guide Copilot's understanding of what you're trying to achieve
+* **Start implementing the pattern** you want Copilot to follow, then let it complete
+* **Use descriptive variable and function names** to provide additional context
+* **Break complex tasks into smaller functions** with clear purposes
+
 Example comment to guide Copilot:
+
 ```
 // This function validates a user registration form
 // It checks:
@@ -143,68 +253,105 @@ Example comment to guide Copilot:
 // Uses the validateEmail and checkPasswordStrength utility functions
 function validateRegistrationForm(formData) {
 ```
+
 ### Cursor
+
 Cursor combines code editing with chat capabilities, so you can:
-\* \*\*Ask for explanations\*\* of complex code before modifying it
-\* \*\*Request multi-file changes\*\* with detailed descriptions
-\* \*\*Use the chat interface for planning\*\* before implementing
-\* \*\*Ask for step-by-step refactoring guidance\*\* rather than just the end result
+
+* **Ask for explanations** of complex code before modifying it
+* **Request multi-file changes** with detailed descriptions
+* **Use the chat interface for planning** before implementing
+* **Ask for step-by-step refactoring guidance** rather than just the end result
+
 Effective Cursor chat prompt:
+
 ```
 I need to refactor this Redux store to use Redux Toolkit. The current implementation has actions in actions.js, reducers in reducers.js, and store configuration in store.js. Please help me:
+
 1. Understand what each file is doing currently
 2. Create a plan for converting to Redux Toolkit slices
 3. Implement the changes one file at a time
 4. Explain any breaking changes I need to be aware of
 ```
+
 ### ChatGPT/Claude for Coding Tasks
+
 When using general-purpose assistants like ChatGPT or Claude for coding:
-\* \*\*Set the context explicitly\*\* at the beginning of your conversation
-\* \*\*Specify the role you want the AI to take\*\* (e.g., experienced developer in a particular language)
-\* \*\*Provide sample code from your project\*\* to establish style and patterns
-\* \*\*Ask for explanations alongside the code\*\* to ensure you understand the implementation
+
+* **Set the context explicitly** at the beginning of your conversation
+* **Specify the role you want the AI to take** (e.g., experienced developer in a particular language)
+* **Provide sample code from your project** to establish style and patterns
+* **Ask for explanations alongside the code** to ensure you understand the implementation
+
 Effective initial prompt:
+
 ```
 I'm working on a Python machine learning project using TensorFlow. I'm following a functional programming style and using type hints. I need help implementing a custom loss function for a recommendation system that incorporates both user preference and item popularity. Here's an example of how I've implemented other functions in my project:
+
 ```python
-def create\_embedding\_model(
-user\_features: int,
-item\_features: int,
-embedding\_size: int
+def create_embedding_model(
+    user_features: int, 
+    item_features: int, 
+    embedding_size: int
 ) -> tf.keras.Model:
-# Model implementation
-...
+    # Model implementation
+    ...
 ```
+
 Please maintain this style in your suggestions.
 ```
-## Debugging AI-Generated Code
+
+Debugging AI-Generated Code
+---------------------------
+
 Even with optimal prompts, AI-generated code may not work perfectly on the first try. Here are strategies for effective debugging:
+
 ### 1. Understand Before Modifying
+
 Before making changes to AI-generated code that isn't working, ask the AI to explain its implementation:
+
 ```
 The function you provided is throwing an error when processing large files. Before I modify it, please explain how the current implementation works, particularly the streaming mechanism and error handling logic.
 ```
+
 Understanding the AI's approach helps you identify where the issues might be.
+
 ### 2. Provide Error Information
+
 When giving feedback about errors, be specific:
+
 ```
 The function is failing with this error: "TypeError: Cannot read property 'map' of undefined on line 23". Here's the full stack trace and a sample of the data being processed:
 ```
+
 Detailed error information helps the AI diagnose and fix issues more effectively.
+
 ### 3. Ask for Alternatives
+
 If an approach isn't working despite fixes, ask for a completely different approach:
+
 ```
 This approach still has performance issues with large datasets. Could you suggest an alternative implementation strategy that prioritizes memory efficiency? Perhaps using a different algorithm or data structure?
 ```
-## Real-World Examples: Before and After
+
+Real-World Examples: Before and After
+-------------------------------------
+
 Let's examine some real-world examples of how improved prompts transformed the quality of AI-generated code.
+
 ### Example 1: Data Processing Function
+
 #### Before: Basic Prompt
+
 ```
 Write a function to process CSV data.
 ```
-\*Result: A simple function that loads the entire CSV into memory, with no error handling or performance considerations.\*
+
+*Result: A simple function that loads the entire CSV into memory, with no error handling or performance considerations.*
+
+
 #### After: Engineered Prompt
+
 ```
 Create a Node.js function that processes CSV files with the following requirements:
 - Must handle CSV files potentially larger than available RAM (streaming approach)
@@ -213,46 +360,102 @@ Create a Node.js function that processes CSV files with the following requiremen
 - Should handle common CSV errors (mismatched columns, quoted fields)
 - Must provide progress updates for large files
 - Should output processed rows to a new CSV file
+
 Here's an example of the input format:
 ```
 Date,Customer,Amount,Currency,Description
 01/15/2025,Acme Inc.,1234.56,USD,"Annual subscription"
 ```
+
 And the expected output format:
 ```
 date,customerId,amountUsd,description
 2025-01-15T00:00:00Z,ACME001,1234.56,"Annual subscription"
 ```
+
 The solution should use the 'csv-parser' library for reading and 'csv-writer' for writing.
 ```
-\*Result: A robust streaming solution with proper error handling, progress reporting, and memory efficiency.\*
-## Common Pitfalls to Avoid
+
+*Result: A robust streaming solution with proper error handling, progress reporting, and memory efficiency.*
+
+
+Common Pitfalls to Avoid
+------------------------
+
 Even with good prompt engineering techniques, there are common mistakes that can lead to suboptimal results:
+
 ### 1. Being Too Vague or Too Verbose
+
 Finding the right balance is key. Too vague, and the AI lacks necessary context; too verbose, and you might overwhelm it with irrelevant details.
+
 ### 2. Forgetting About Edge Cases
+
 AI assistants tend to focus on the happy path unless explicitly directed to handle edge cases. Always specify how your code should handle errors, edge cases, and unexpected inputs.
+
 ### 3. Not Providing Examples
+
 Examples of input/output or code style dramatically improve results. Without examples, the AI has to make many more assumptions.
+
 ### 4. Treating AI-Generated Code as Infallible
+
 Always review and test AI-generated code. These tools are assistants, not replacements for developer judgment and testing.
+
 ### 5. Not Iterating on Prompts
+
 If you don't get the results you want, refine your prompt rather than starting over completely. Each interaction teaches you how to better communicate with the AI.
-## Conclusion: The Future of Developer-AI Collaboration
+
+Conclusion: The Future of Developer-AI Collaboration
+----------------------------------------------------
+
 Prompt engineering for coding assistants is still an evolving discipline. As AI tools continue to advance, the ways we interact with them will also evolve. However, the fundamental principles of clear communication, providing context, and iterative refinement will remain valuable.
+
 The most effective developers will be those who view AI assistants as collaborative partners rather than simply code generators. By understanding how to effectively communicate your requirements, constraints, and preferences, you can transform these tools from interesting curiosities into powerful productivity multipliers.
+
 In my next post, I'll explore how these AI coding assistants can be integrated into larger development workflows, including code review, documentation, and team collaboration. Until then, I encourage you to experiment with these prompting techniques and start building your own library of effective prompts for your common development tasks.
-AIPrompt EngineeringCodingAI-Assisted DevelopmentDeveloper Tools
+
+AI
+Prompt Engineering
+Coding
+AI-Assisted Development
+Developer Tools
+
+
+
 ### Categories
-\* [AI-Assisted Development](/blog?category=ai-assisted-development)
-\* [AI Tools & Applications](/blog?category=ai-tools-applications)
-\* [Software Engineering Practices](/blog?category=software-engineering-practices)
-\* [AI Research](/blog?category=ai-research)
+
+* [AI-Assisted Development](/blog?category=ai-assisted-development)
+* [AI Tools & Applications](/blog?category=ai-tools-applications)
+* [Software Engineering Practices](/blog?category=software-engineering-practices)
+* [AI Research](/blog?category=ai-research)
+
 ### Latest Posts
-\* [Vibe Coding vs. Agentic AI: Two Paths to Building with AI](/blog/vibe-coding-vs-agentic)June 01, 2025
-\* [MCP Explained: The Game-Changer for AI Assistants](/blog/mcp-explained)May 21, 2025
-\* [Making the Most of Cursor: When to Use Each Mode](/blog/mastering-cursor-modes)May 01, 2025
-![](/branding/logo/brand-logo.png)
+
+* [Vibe Coding vs. Agentic AI: Two Paths to Building with AI](/blog/vibe-coding-vs-agentic)
+  June 01, 2025
+* [MCP Explained: The Game-Changer for AI Assistants](/blog/mcp-explained)
+  May 21, 2025
+* [Making the Most of Cursor: When to Use Each Mode](/blog/mastering-cursor-modes)
+  May 01, 2025
+
+
+
+
+
+![]()
+
 Where software engineering meets AI innovation
+
+
 #### Connect With Us
+
+
+
+
+
 © 2025 Stoltz Stack. All rights reserved.
+
+
+
+
+
+ 

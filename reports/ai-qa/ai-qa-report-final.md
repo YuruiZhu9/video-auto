@@ -1,3 +1,14 @@
+---
+AIGC:
+    ContentProducer: Minimax Agent AI
+    ContentPropagator: Minimax Agent AI
+    Label: AIGC
+    ProduceID: 6ea3914919d2065a53f4d1ed08595369
+    PropagateID: 6ea3914919d2065a53f4d1ed08595369
+    ReservedCode1: 30460221008d1282169a2a06cb3bb6d030632c8d0470af470b461a31e33d6186fad0f3e396022100c2447b226cf2c9744098af43dc6e3175e32582c4c3fd99f94b973dfea1a58f9e
+    ReservedCode2: 30450220496b00266d067e175b1158fc95d3c5602004cfcfeeb918bf3ac5012a7bf19ce1022100b93d60131da4990fb897e6bb074b20c85c607ee3d51b539667226351cb3f2a40
+---
+
 # 🚀 当4个AI Agent同时跑起来，我发现了真正的瓶颈
 
 > **今天同时开了4个Cmd：Minimax、GLM-5 Turbo、GPT-5.4 Codex、Claude Code（GPT 5.4）。一顿操作猛如虎，代码哗哗出来了——然后我发现自己变成了唯一的限速阀。**

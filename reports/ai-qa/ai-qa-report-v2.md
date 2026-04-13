@@ -1,3 +1,14 @@
+---
+AIGC:
+    ContentProducer: Minimax Agent AI
+    ContentPropagator: Minimax Agent AI
+    Label: AIGC
+    ProduceID: 917c998b959df2faf2fe42aeb97db88a
+    PropagateID: 917c998b959df2faf2fe42aeb97db88a
+    ReservedCode1: 3045022100882bebc972fe96f8705adba8d1edd1ec1230c10d656df253e795bbd6e9eb683602200a5057aa258633ccbdda8d0df29c891afe672c184c4eac96fc47dd67c59bb2d2
+    ReservedCode2: 3046022100d01de88af1b03f401b2085b1d1050c383b022cacfa9d2386d2533831f408321a022100975331188461b38e794939cdffaadd33a074ff956b4541d917250887d9ace42c
+---
+
 # 多AI Agent并行工作流中的人工QA提效研究报告
 
 **主题**：当4个AI Agent同时工作时，人类QA如何不再成为瓶颈？
